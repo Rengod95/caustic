@@ -41,10 +41,10 @@ export function FormLayoutSection({ title, description, className, children, ...
       className={cn('flex flex-wrap gap-x-6 gap-y-3 border-t border-border-subtle pt-5 first:border-t-0 first:pt-0', className)}
       {...props}
     >
-      <div data-slot="form-layout-section-heading" className="flex w-[calc(var(--spacing)*55)] max-w-full">
+      <div data-slot="form-layout-section-heading" className="flex w-form-heading-w max-w-full">
         <SectionHeader size="sm" headingLevel={3} title={<span id={titleId}>{title}</span>} description={description} />
       </div>
-      <div data-slot="form-layout-section-body" role="group" aria-labelledby={titleId} className="grid min-w-[calc(var(--spacing)*100)] max-w-full flex-1 gap-3">
+      <div data-slot="form-layout-section-body" role="group" aria-labelledby={titleId} className="grid min-w-form-body-min max-w-full flex-1 gap-3">
         {children}
       </div>
     </div>

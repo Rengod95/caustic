@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
+  "exports": { ".": "./src/index.ts", "./all": "./src/all.ts", "./node": "./src/node.ts" },
   "dependencies": { "zod": "4.6.5" }
 }

@@ -7,7 +7,7 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { rawSpecs } from '@caustic/spec';
+import { readSpec, specIds } from '@caustic/spec/node';
 import { Collector, writeReport, type Gate } from './report.ts';
 import { g0 } from './checks/g0-foundation.ts';
 import { g1 } from './checks/g1-spec.ts';
@@ -25,7 +25,7 @@ const args = process.argv.slice(2);
 const flag = (name: string) => args.find(a => a.startsWith(`--${name}=`))?.split('=')[1]?.split(',').map(s => s.toUpperCase()) ?? null;
 const json = args.includes('--json');
 const all = args.includes('--all');
-const ids = all ? Object.keys(rawSpecs) : args.filter(a => !a.startsWith('--'));
+const ids = all ? specIds() : args.filter(a => !a.startsWith('--'));
 const only = flag('only'), skip = flag('skip') ?? [];
 const runs = (g: Gate) => (!only || only.includes(g)) && !skip.includes(g);
 
@@ -52,9 +52,9 @@ try {
   for (const id of ids) {
     const c = new Collector(id);
     c.findings.push(...g0c.findings);
-    const input = rawSpecs[id];
     const gatesRun: Gate[] = (['G0', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6'] as Gate[]).filter(runs);
-    if (!input) { c.fail({ gate: 'G1', check: 'spec', message: `No spec "${id}" in packages/spec/src/specs/index.ts.` }); summary.push({ id, passed: false, blocking: 1, warnings: 0, attempts: writeReport(id, c, '{}', gatesRun).attempts }); continue; }
+    const input = await readSpec(id).catch((e: any) => { c.fail({ gate: 'G1', check: 'spec', message: `Spec failed to load: ${String(e.message).split('\n')[0]}` }); return undefined; });
+    if (!input) { if (!c.blocking.length) c.fail({ gate: 'G1', check: 'spec', message: `No spec packages/spec/src/specs/${id}.spec.ts.` }); summary.push({ id, passed: false, blocking: 1, warnings: 0, attempts: writeReport(id, c, '{}', gatesRun).attempts }); continue; }
     // Import only this component's fixture: other components may be mid-edit by parallel authors.
     const fixturePath = join(reactSrc, 'components', id, `${id}.fixture.tsx`);
     const fixture: Fixture | undefined = existsSync(fixturePath)

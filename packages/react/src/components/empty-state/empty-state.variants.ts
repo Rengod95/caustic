@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export const emptyStateVariants = cva(
   'grid w-full justify-items-center gap-2.5 rounded-2xl px-4 text-center outline-1 -outline-offset-1 outline-dashed outline-border-strong',
   {
-    variants: { size: { md: 'py-[calc(var(--spacing)*7)]', sm: 'py-4.5' } },
+    variants: { size: { md: 'py-7', sm: 'py-4.5' } },
     defaultVariants: { size: 'md' },
   },
 );

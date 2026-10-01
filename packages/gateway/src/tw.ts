@@ -22,6 +22,8 @@ export async function unknownClasses(candidates: string[]): Promise<string[]> {
   const c = await twCompiler();
   const unknown: string[] = [];
   for (const cand of new Set(candidates)) {
+    // Marker classes emit no CSS of their own: group, peer and their named forms (group/card).
+    if (/^(group|peer)(\/[a-z0-9-]+)?$/.test(cand)) continue;
     const out = c.build([cand]);
     const bare = cand.split(':').pop()!.replace(/^!/, '');
     if (!out.includes('.' + escapeClass(cand)) && !out.includes(escapeClass(bare))) unknown.push(cand);

@@ -97,12 +97,20 @@ export const themes = {
     'ink.on-muted': 'neutral.25/0.75',
     'ink.kbd': 'white/0.09',
     'swatch.edge': 'black/0.1',
+    'media.on': 'white/1',
+    'media.on-muted': 'white/0.82',
+    'media.scrim': 'black/0.55',
+    'chart.1': 'accent.500',
+    'chart.2': 'iris.600',
+    'chart.3': 'mint.600',
+    'chart.4': 'amber.600',
 
     'accent.solid': 'accent.600',
     'accent.hover': 'accent.700',
     'accent.on': 'neutral.0',
     'accent.text': 'accent.700',
     'accent.soft': 'accent.400/0.14',
+    'accent.tint': 'accent.400/0.084',
     'accent.border': 'accent.400/0.5',
     'accent.glow': 'accent.500/0.35',
     'accent.fill': 'accent.700/0.9',
@@ -186,12 +194,20 @@ export const themes = {
     'ink.on-muted': 'neutral.25/0.75',
     'ink.kbd': 'white/0.09',
     'swatch.edge': 'black/0.1',
+    'media.on': 'white/1',
+    'media.on-muted': 'white/0.82',
+    'media.scrim': 'black/0.55',
+    'chart.1': 'accent.500',
+    'chart.2': 'iris.400',
+    'chart.3': 'mint.400',
+    'chart.4': 'amber.400',
 
     'accent.solid': 'accent.400',
     'accent.hover': 'accent.300',
     'accent.on': 'neutral.1000',
     'accent.text': 'accent.300',
     'accent.soft': 'accent.400/0.17',
+    'accent.tint': 'accent.400/0.102',
     'accent.border': 'accent.400/0.45',
     'accent.glow': 'accent.400/0.3',
     'accent.fill': 'accent.400/0.9',
@@ -252,6 +268,8 @@ export const contrastRules = [
   ['ink.on', 'ink.hover', 4.5, 'primary button hover'],
   ['ink.on-muted', 'ink.kbd@ink.solid', 4.5, 'tooltip shortcut'],
   ['text.secondary', 'accent.soft@surface.base', 4.5, 'selected choice card text'],
+  ['text.secondary', 'accent.tint@surface.base', 4.5, 'selected action card'],
+  ['media.on', 'media.scrim@surface.base', 4.5, 'badge over media'],
   ['text.primary', 'control.raised', 7, 'secondary button, segmented thumb'],
   ['text.primary', 'control.raised-hover', 7, 'secondary button hover'],
   ['text.primary', 'surface.translucent', 7, 'translucent list, field, card'],
@@ -272,6 +290,16 @@ export const contrastRules = [
   ['info.on', 'info.solid', 3, 'status icon'],
   ['text.primary', 'diff.add@surface.base', 7, 'diff line'],
   ['text.primary', 'diff.remove@surface.base', 7, 'diff line'],
+  ['success.text', 'diff.add@surface.base', 4.5, 'diff sign / syntax'],
+  ['danger.text', 'diff.remove@surface.base', 4.5, 'diff sign'],
+  ['info.text', 'diff.add@surface.base', 4.5, 'diff syntax'],
+  ['info.text', 'diff.remove@surface.base', 4.5, 'diff syntax'],
+  ['accent.text', 'diff.add@surface.base', 4.5, 'diff syntax'],
+  ['accent.text', 'diff.remove@surface.base', 4.5, 'diff syntax'],
+  ['text.secondary', 'diff.add@surface.base', 4.5, 'diff comment'],
+  ['text.secondary', 'diff.remove@surface.base', 4.5, 'diff comment'],
+  ['chart.1', 'surface.base', 3, 'chart series'], ['chart.2', 'surface.base', 3, 'chart series'],
+  ['chart.3', 'surface.base', 3, 'chart series'], ['chart.4', 'surface.base', 3, 'chart series'],
   ['border.control', 'surface.base', 3, 'checkbox/radio boundary (1.4.11)'],
   ['control.off', 'surface.base', 3, 'switch off track (1.4.11)'],
   ['focus.ring', 'surface.base', 3, 'focus indicator (2.4.11)'],
@@ -293,14 +321,14 @@ export const contrastRules = [
 
 /* ── Dimension & effect scales ───────────────────────────────────── */
 // Quarter steps (0.25–1.75) exist for dense controls: chips, badges and segmented items sit on 5 / 7px.
-export const space = { 0: 0, 0.25: 1, 0.5: 2, 0.75: 3, 1: 4, 1.25: 5, 1.5: 6, 1.75: 7, 2: 8, 2.5: 10, 3: 12, 3.5: 14, 4: 16, 4.5: 18, 5: 20, 6: 24, 6.5: 26, 8: 32, 10: 40, 12: 48, 16: 64, 18: 72 };
+export const space = { 0: 0, 0.25: 1, 0.5: 2, 0.75: 3, 1: 4, 1.25: 5, 1.5: 6, 1.75: 7, 2: 8, 2.5: 10, 3: 12, 3.5: 14, 4: 16, 4.5: 18, 5: 20, 6: 24, 6.5: 26, 7: 28, 8: 32, 10: 40, 12: 48, 16: 64, 18: 72 };
 
 // Container insets. Compact for nested lists and inline cards; regular for cards,
 // dialogs and panels. 14 / 15 is off the 4pt grid on purpose: the block inset
 // sits optically even with the inline inset around 13/18 text.
 export const inset = { compact: [12, 12], regular: [14, 15] };
 
-export const radius = { none: 0, xs: 4, sm: 6, md: 8, lg: 10, xl: 12, '2xl': 16, '3xl': 22, '4xl': 28, '5xl': 32, full: 999 };
+export const radius = { none: 0, xs: 4, sm: 6, md: 8, lg: 10, xl: 12, '2xl': 16, '3xl': 22, '4xl': 28, '5xl': 32, 'well-inner': 18, '2xs': 2, full: 999 };
 
 export const size = {
   control: { '2xs': 20, xs: 24, sm: 28, md: 32, lg: 40, xl: 48 },
@@ -315,6 +343,11 @@ export const size = {
     'switch-sm-w': 38, 'switch-sm-h': 23, 'switch-sm-thumb': 19, 'switch-sm-travel': 15, 'switch-sm-press': 24,
     'avatar-xs': 16, 'avatar-sm': 24, 'avatar-md': 32, 'avatar-lg': 36,
     'dialog-sm': 320, 'dialog-md': 480, 'dialog-lg': 640, 'modal-sm': 380, 'sheet-md': 380, 'empty-glyph': 22,
+    'card-tile': 36, 'card-glyph': 18, 'card-add': 76, 'card-spark': 64, 'spotlight-glow': 320, 'spotlight-rim': 200,
+    'list-row': 52, 'list-tile': 30, 'list-term': 140, 'nav-indent': 36,
+    // Layout widths: form columns, header text minimum, stepper and tag-input bounds, toast height.
+    'form-heading-w': 220, 'form-body-min': 400, 'section-text-min': 160, 'stepper-max': 420, 'tag-input-min': 90, 'toast-min': 60, 'toast-w': 360,
+    'usage-ring': 22, 'orb-md': 22, 'orb-md-hole': 7, 'stop-glyph': 9,
     'chip-h': 26, 'chip-icon': 13, 'spinner-lg': 28, 'control-inline': 26, 'tab-h': 34,
     'textarea-min': 92, 'otp-w': 44, 'otp-h': 52,
     'slider-ruler-h': 30, 'slider-label-w': 52,
@@ -338,6 +371,9 @@ export const type = {
   'title-2': ['ui', 20, 26, 600, -0.016],
   'title-3': ['ui', 15, 20, 600, -0.01],
   'title-4': ['ui', 13.5, 20, 600, -0.01],
+  'title-feature': ['ui', 19, 24, 600, -0.02],
+  'title-overlay': ['ui', 18, 22, 600, -0.015],
+  stat: ['ui', 30, 34, 600, -0.035],
   body: ['ui', 14, 21, 400, -0.003],
   ui: ['ui', 13, 18, 400, -0.003],
   'ui-strong': ['ui', 13, 18, 500, -0.003],
@@ -362,7 +398,9 @@ export const type = {
   'ui-relaxed': ['ui', 13, 19, 400, -0.003],
   'ui-dense-relaxed': ['ui', 12.5, 19, 400, -0.003],
   figure: ['ui', 20, 18, 600, -0.02],
-  'mono-md': ['mono', 11.5, 16, 500, 0],
+  'mono-md': ['mono', 11.5, 18, 500, 0],
+  'mono-relaxed': ['mono', 12, 20, 400, 0],
+  'ui-md-relaxed': ['ui', 13.5, 20, 400, -0.003],
   'mono-lg': ['mono', 20, 20, 600, 0],
 };
 
@@ -378,6 +416,11 @@ export const elevation = {
     thumb: '0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)',
     'thumb-sm': '0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2)',
     'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)',
+    // Surfaces with their own depth: resting card, hover lift, inset well panel, agent glow.
+    card: 'inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22)',
+    lift: '0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)',
+    well: '0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)',
+    agent: '0 8px 30px -12px var(--cs-color-agent-glow)',
   },
   dark: {
     1: '0 1px 2px oklch(0 0 0 / 0.3)',
@@ -389,6 +432,11 @@ export const elevation = {
     thumb: '0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)',
     'thumb-sm': '0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2)',
     'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)',
+    // Surfaces with their own depth: resting card, hover lift, inset well panel, agent glow.
+    card: 'inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22)',
+    lift: '0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)',
+    well: '0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)',
+    agent: '0 8px 30px -12px var(--cs-color-agent-glow)',
   },
 };
 

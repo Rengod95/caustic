@@ -5,8 +5,20 @@ import alert from './components/alert/alert.fixture.tsx';
 import avatar from './components/avatar/avatar.fixture.tsx';
 import badge from './components/badge/badge.fixture.tsx';
 import banner from './components/banner/banner.fixture.tsx';
+import breadcrumb from './components/breadcrumb/breadcrumb.fixture.tsx';
 import button from './components/button/button.fixture.tsx';
 import calendar from './components/calendar/calendar.fixture.tsx';
+import card from './components/card/card.fixture.tsx';
+import cardAction from './components/card-action/card-action.fixture.tsx';
+import cardAgent from './components/card-agent/card-agent.fixture.tsx';
+import cardFeature from './components/card-feature/card-feature.fixture.tsx';
+import cardGlass from './components/card-glass/card-glass.fixture.tsx';
+import cardMedia from './components/card-media/card-media.fixture.tsx';
+import cardOutline from './components/card-outline/card-outline.fixture.tsx';
+import cardSpotlight from './components/card-spotlight/card-spotlight.fixture.tsx';
+import cardStat from './components/card-stat/card-stat.fixture.tsx';
+import cardSurface from './components/card-surface/card-surface.fixture.tsx';
+import cardWell from './components/card-well/card-well.fixture.tsx';
 import channelSlider from './components/channel-slider/channel-slider.fixture.tsx';
 import checkbox from './components/checkbox/checkbox.fixture.tsx';
 import chip from './components/chip/chip.fixture.tsx';
@@ -22,9 +34,18 @@ import iconButton from './components/icon-button/icon-button.fixture.tsx';
 import input from './components/input/input.fixture.tsx';
 import inputGroup from './components/input-group/input-group.fixture.tsx';
 import kbd from './components/kbd/kbd.fixture.tsx';
+import list from './components/list/list.fixture.tsx';
+import listActions from './components/list-actions/list-actions.fixture.tsx';
+import listActivity from './components/list-activity/list-activity.fixture.tsx';
+import listDescription from './components/list-description/list-description.fixture.tsx';
+import listNavigation from './components/list-navigation/list-navigation.fixture.tsx';
+import listReorder from './components/list-reorder/list-reorder.fixture.tsx';
+import listSelection from './components/list-selection/list-selection.fixture.tsx';
 import menu from './components/menu/menu.fixture.tsx';
+import modal from './components/modal/modal.fixture.tsx';
 import numberField from './components/number-field/number-field.fixture.tsx';
 import otpInput from './components/otp-input/otp-input.fixture.tsx';
+import pagination from './components/pagination/pagination.fixture.tsx';
 import pickerTrigger from './components/picker-trigger/picker-trigger.fixture.tsx';
 import popover from './components/popover/popover.fixture.tsx';
 import progress from './components/progress/progress.fixture.tsx';
@@ -33,16 +54,20 @@ import sectionHeader from './components/section-header/section-header.fixture.ts
 import segmentedControl from './components/segmented-control/segmented-control.fixture.tsx';
 import select from './components/select/select.fixture.tsx';
 import separator from './components/separator/separator.fixture.tsx';
+import sheet from './components/sheet/sheet.fixture.tsx';
 import skeleton from './components/skeleton/skeleton.fixture.tsx';
 import slider from './components/slider/slider.fixture.tsx';
 import sliderField from './components/slider-field/slider-field.fixture.tsx';
 import spinner from './components/spinner/spinner.fixture.tsx';
 import stepSlider from './components/step-slider/step-slider.fixture.tsx';
+import stepper from './components/stepper/stepper.fixture.tsx';
 import stepperInput from './components/stepper-input/stepper-input.fixture.tsx';
 import switch_ from './components/switch/switch.fixture.tsx';
+import table from './components/table/table.fixture.tsx';
 import tabs from './components/tabs/tabs.fixture.tsx';
 import tagInput from './components/tag-input/tag-input.fixture.tsx';
 import textarea from './components/textarea/textarea.fixture.tsx';
+import toast from './components/toast/toast.fixture.tsx';
 import toggleGroup from './components/toggle-group/toggle-group.fixture.tsx';
 import tokenChip from './components/token-chip/token-chip.fixture.tsx';
 import toolCall from './components/tool-call/tool-call.fixture.tsx';
@@ -54,8 +79,20 @@ export const fixtures: Record<string, Fixture> = {
   'avatar': avatar,
   'badge': badge,
   'banner': banner,
+  'breadcrumb': breadcrumb,
   'button': button,
   'calendar': calendar,
+  'card': card,
+  'card-action': cardAction,
+  'card-agent': cardAgent,
+  'card-feature': cardFeature,
+  'card-glass': cardGlass,
+  'card-media': cardMedia,
+  'card-outline': cardOutline,
+  'card-spotlight': cardSpotlight,
+  'card-stat': cardStat,
+  'card-surface': cardSurface,
+  'card-well': cardWell,
   'channel-slider': channelSlider,
   'checkbox': checkbox,
   'chip': chip,
@@ -71,9 +108,18 @@ export const fixtures: Record<string, Fixture> = {
   'input': input,
   'input-group': inputGroup,
   'kbd': kbd,
+  'list': list,
+  'list-actions': listActions,
+  'list-activity': listActivity,
+  'list-description': listDescription,
+  'list-navigation': listNavigation,
+  'list-reorder': listReorder,
+  'list-selection': listSelection,
   'menu': menu,
+  'modal': modal,
   'number-field': numberField,
   'otp-input': otpInput,
+  'pagination': pagination,
   'picker-trigger': pickerTrigger,
   'popover': popover,
   'progress': progress,
@@ -82,16 +128,20 @@ export const fixtures: Record<string, Fixture> = {
   'segmented-control': segmentedControl,
   'select': select,
   'separator': separator,
+  'sheet': sheet,
   'skeleton': skeleton,
   'slider': slider,
   'slider-field': sliderField,
   'spinner': spinner,
   'step-slider': stepSlider,
+  'stepper': stepper,
   'stepper-input': stepperInput,
   'switch': switch_,
+  'table': table,
   'tabs': tabs,
   'tag-input': tagInput,
   'textarea': textarea,
+  'toast': toast,
   'toggle-group': toggleGroup,
   'token-chip': tokenChip,
   'tool-call': toolCall,

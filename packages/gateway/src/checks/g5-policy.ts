@@ -70,6 +70,8 @@ export async function g5Runtime(c: Collector, spec: ComponentSpec, rt: Runtime) 
           const dx = a.left - b.left, dy = a.top - b.top;
           if (dx < 0 || dy < 0 || dx > rp || dy > rp) continue; // only children sitting in the parent's corner
           const inset = Math.min(dx, dy);
+          // Concentricity only reads when the child hugs the corner; deeper inside, the curves no longer relate.
+          if (inset > rp / 2) continue;
           if (rc > rp - inset + 2) out.push({ child: (el.getAttribute('data-slot') || el.tagName.toLowerCase()), parent: (p.getAttribute('data-slot') || p.tagName.toLowerCase()), rc, rp, inset });
         }
         return out;

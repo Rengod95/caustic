@@ -1,0 +1,66 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'stepper',
+  name: 'Stepper',
+  category: 'navigation',
+  status: 'ready',
+  purpose: 'Shows progress through a fixed sequence of steps. Completed steps are accent-filled with a check, the current step is ringed, upcoming steps are quiet. Horizontal for wizards and headers; vertical for onboarding lists with a description.',
+  description: 'Presentational: the step statuses are derived from a single current step. A thin connector joins consecutive indicators and is accent-colored up to and including the current step. Not interactive; use Tabs or SegmentedControl to navigate freely.',
+  role: 'list',
+  slots: [
+    { name: 'root', el: 'ol', role: 'list', description: 'The sequence. Horizontal: flex row, items start, full width. Vertical: grid, full width, max-width 420.' },
+    { name: 'item', el: 'li', parent: 'root', description: 'One step. data-status is done, current or upcoming. Horizontal: flex-1 grid, centred, 8px gap, text centred. Vertical: two columns (28px indicator, 1fr content), 12px gap, 18px bottom padding.' },
+    { name: 'connector', el: 'span', parent: 'item', required: false, description: 'The 2px line (height 2 horizontal, width 2 vertical, full radius, not probed because it is absent on one end) to the previous step (horizontal) or to the next step (vertical). Hidden on the first (horizontal) / last (vertical) item. Accent-solid when the step is done or current (horizontal) or done (vertical); border.default otherwise. aria-hidden.' },
+    { name: 'indicator', el: 'span', parent: 'item', description: '28px circle: the step number, or a 14px check (stroke 3) when done.' },
+    { name: 'label', el: 'b', parent: 'item', description: 'Step title.' },
+    { name: 'description', el: 'span', parent: 'item', required: false, description: 'Status or short text under the label (horizontal span, vertical paragraph).' },
+  ],
+  variants: {
+    orientation: { values: ['horizontal', 'vertical'], default: 'horizontal', description: 'Row of centred steps with a connector between them, or a column with the indicator at the start.' },
+  },
+  states: {
+    checked: { props: { value: 2 } },
+    selected: { props: { value: 1 } },
+    unchecked: { props: { value: 0 } },
+  },
+  props: {
+    value: { type: 'number', required: true, description: 'Current step, 1-based. Earlier steps are done, later ones upcoming. 0 = none started. State probes: checked = first item done (value 2), selected = first item current (value 1), unchecked = first item upcoming (value 0).' },
+    orientation: { type: "'horizontal' | 'vertical'", default: 'horizontal', description: 'Layout.' },
+    steps: { type: '{ label: string; description?: string }[]', required: true, description: 'The steps in order.' },
+  },
+  events: {},
+  styles: [
+    { slot: 'item', when: { orientation: 'horizontal' }, expect: { gap: 8 } },
+    { slot: 'item', when: { orientation: 'vertical' }, expect: { gap: 12 } },
+    { slot: 'indicator', when: { state: 'unchecked' }, expect: { height: 'control-sm', width: 'control-sm', radius: 'full', bg: 'surface.base', fg: 'text.secondary', edge: 'border.control', text: 'ui-sm', weight: 600 }, note: 'The rest ring is 1.5px inside the circle; edge probes the ring color.' },
+    { slot: 'indicator', when: { state: 'checked' }, expect: { bg: 'accent.solid', fg: 'accent.on' }, note: 'No ring. State checked is the first step done (value 2).' },
+    { slot: 'indicator', when: { state: 'selected' }, expect: { fg: 'accent.text', edge: 'accent.solid' }, note: 'A 2px accent ring inside plus a 4px accent.soft halo outside.' },
+    { slot: 'label', when: { orientation: 'horizontal' }, expect: { text: 'ui-dense', weight: 500, fg: 'text.primary' } },
+    { slot: 'label', when: { orientation: 'horizontal', state: 'unchecked' }, expect: { fg: 'text.tertiary' } },
+    { slot: 'label', when: { orientation: 'vertical' }, expect: { text: 'ui-strong', fg: 'text.primary' }, note: 'Specimen: 13px / 500 with 4px top padding aligning it to the indicator.' },
+    { slot: 'description', when: { orientation: 'horizontal' }, expect: { text: 'hint', fg: 'text.tertiary' } },
+    { slot: 'description', when: { orientation: 'vertical' }, expect: { text: 'ui-dense', fg: 'text.tertiary' }, note: 'Specimen 12.5px / 18 with a 2px top margin.' },
+  ],
+  behavior: {
+    keyboard: {},
+    pointer: [],
+    scenarios: [],
+  },
+  a11y: {
+    labelRequired: false,
+    minHit: 24,
+    attrs: { item: ['aria-current'] },
+    notes: ['The current item has aria-current="step".', 'Done items include visually hidden “completed” text; the check icon is aria-hidden.', 'Colour is never the only cue: done shows a check, current shows the ring.'],
+  },
+  policies: ['P5', 'P6'],
+  flags: { floating: false },
+  composition: { uses: [], radix: [] },
+  examples: [{ id: 'stepper', title: 'Horizontal and vertical', doc: 'stepper#stepper' }],
+  usage: [
+    'The example stacks two Steppers (page column gap 14px). Horizontal, value 3: Brief “Done”, Theme “Lagoon”, Screens “In progress” (current), Review “Next”. Vertical, value 2: “Connect a provider” — “Anthropic connected.” (done); “Pick a starting theme” — “Choose from 128 themes or generate one from a prompt.” (current); “Describe your first screen” — “The agent drafts it; you review every change.” (upcoming).',
+    'Vertical steps have no label dimming for upcoming items; horizontal upcoming labels are tertiary.',
+    'Vertical connector: 2px wide, left 13px, from 30px below the item top to 2px above its bottom; absent on the last item.',
+    'Fixture convention: render(props) renders the horizontal four-step example with value 3; props.orientation="vertical" renders the three-step list.',
+  ],
+});

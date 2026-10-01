@@ -1,7 +1,7 @@
 // G1 · Spec validity: schema, token references, approval lock, fixture and specimen links.
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { ComponentSpec, rawSpecs, type SpecInput } from '@caustic/spec';
+import { ComponentSpec, type SpecInput } from '@caustic/spec';
 import { readLocks, specHash } from '../../../spec/src/approve.ts';
 import { Collector } from '../report.ts';
 import { specimenRoot } from '../paths.ts';
@@ -17,7 +17,7 @@ export async function g1(c: Collector, input: SpecInput, fixture: Fixture | unde
   const spec = parsed.data;
   // Approval lock: the spec must be exactly what was approved.
   const lock = readLocks()[spec.id];
-  const hash = specHash(rawSpecs[spec.id]);
+  const hash = specHash(input);
   if (!lock) c.fail({ gate: 'G1', check: 'approval', message: 'Spec has never been approved.', fix: 'A person reviews the spec and runs `pnpm spec:approve ' + spec.id + '`. Implementers must not.' });
   else if (lock !== hash) c.fail({ gate: 'G1', check: 'approval', message: 'Spec changed since approval. Specs cannot be edited to make an implementation pass.', expected: lock, actual: hash, fix: 'Revert the spec, or get the change approved separately.' });
 

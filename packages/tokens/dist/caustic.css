@@ -109,6 +109,7 @@
   --cs-space-4: 16px;
   --cs-space-5: 20px;
   --cs-space-6: 24px;
+  --cs-space-7: 28px;
   --cs-space-8: 32px;
   --cs-space-10: 40px;
   --cs-space-12: 48px;
@@ -144,6 +145,8 @@
   --cs-radius-3xl: 22px;
   --cs-radius-4xl: 28px;
   --cs-radius-5xl: 32px;
+  --cs-radius-well-inner: 18px;
+  --cs-radius-2xs: 2px;
   --cs-radius-full: 999px;
 
   /* size */
@@ -182,6 +185,27 @@
   --cs-size-modal-sm: 380px;
   --cs-size-sheet-md: 380px;
   --cs-size-empty-glyph: 22px;
+  --cs-size-card-tile: 36px;
+  --cs-size-card-glyph: 18px;
+  --cs-size-card-add: 76px;
+  --cs-size-card-spark: 64px;
+  --cs-size-spotlight-glow: 320px;
+  --cs-size-spotlight-rim: 200px;
+  --cs-size-list-row: 52px;
+  --cs-size-list-tile: 30px;
+  --cs-size-list-term: 140px;
+  --cs-size-nav-indent: 36px;
+  --cs-size-form-heading-w: 220px;
+  --cs-size-form-body-min: 400px;
+  --cs-size-section-text-min: 160px;
+  --cs-size-stepper-max: 420px;
+  --cs-size-tag-input-min: 90px;
+  --cs-size-toast-min: 60px;
+  --cs-size-toast-w: 360px;
+  --cs-size-usage-ring: 22px;
+  --cs-size-orb-md: 22px;
+  --cs-size-orb-md-hole: 7px;
+  --cs-size-stop-glyph: 9px;
   --cs-size-chip-h: 26px;
   --cs-size-chip-icon: 13px;
   --cs-size-spinner-lg: 28px;
@@ -222,6 +246,12 @@
   --cs-text-title-3-tracking: -0.01em;
   --cs-text-title-4: 600 13.5px/20px var(--cs-font-ui);
   --cs-text-title-4-tracking: -0.01em;
+  --cs-text-title-feature: 600 19px/24px var(--cs-font-ui);
+  --cs-text-title-feature-tracking: -0.02em;
+  --cs-text-title-overlay: 600 18px/22px var(--cs-font-ui);
+  --cs-text-title-overlay-tracking: -0.015em;
+  --cs-text-stat: 600 30px/34px var(--cs-font-ui);
+  --cs-text-stat-tracking: -0.035em;
   --cs-text-body: 400 14px/21px var(--cs-font-ui);
   --cs-text-body-tracking: -0.003em;
   --cs-text-ui: 400 13px/18px var(--cs-font-ui);
@@ -266,8 +296,12 @@
   --cs-text-ui-dense-relaxed-tracking: -0.003em;
   --cs-text-figure: 600 20px/18px var(--cs-font-ui);
   --cs-text-figure-tracking: -0.02em;
-  --cs-text-mono-md: 500 11.5px/16px var(--cs-font-mono);
+  --cs-text-mono-md: 500 11.5px/18px var(--cs-font-mono);
   --cs-text-mono-md-tracking: 0em;
+  --cs-text-mono-relaxed: 400 12px/20px var(--cs-font-mono);
+  --cs-text-mono-relaxed-tracking: 0em;
+  --cs-text-ui-md-relaxed: 400 13.5px/20px var(--cs-font-ui);
+  --cs-text-ui-md-relaxed-tracking: -0.003em;
   --cs-text-mono-lg: 600 20px/20px var(--cs-font-mono);
   --cs-text-mono-lg-tracking: 0em;
 
@@ -362,11 +396,19 @@
   --cs-color-ink-on-muted: oklch(0.985 0.002 260 / 0.75);
   --cs-color-ink-kbd: oklch(1 0 0 / 0.09);
   --cs-color-swatch-edge: oklch(0 0 0 / 0.1);
+  --cs-color-media-on: oklch(1 0 0);
+  --cs-color-media-on-muted: oklch(1 0 0 / 0.82);
+  --cs-color-media-scrim: oklch(0 0 0 / 0.55);
+  --cs-color-chart-1: oklch(0.645 0.142 var(--cs-accent-hue));
+  --cs-color-chart-2: oklch(0.545 0.135 295);
+  --cs-color-chart-3: oklch(0.545 0.135 158);
+  --cs-color-chart-4: oklch(0.545 0.135 72);
   --cs-color-accent-solid: oklch(0.545 0.135 var(--cs-accent-hue));
   --cs-color-accent-hover: oklch(0.465 0.118 var(--cs-accent-hue));
   --cs-color-accent-on: oklch(0.995 0.001 260);
   --cs-color-accent-text: oklch(0.465 0.118 var(--cs-accent-hue));
   --cs-color-accent-soft: oklch(0.735 0.13 var(--cs-accent-hue) / 0.14);
+  --cs-color-accent-tint: oklch(0.735 0.13 var(--cs-accent-hue) / 0.084);
   --cs-color-accent-border: oklch(0.735 0.13 var(--cs-accent-hue) / 0.5);
   --cs-color-accent-glow: oklch(0.645 0.142 var(--cs-accent-hue) / 0.35);
   --cs-color-accent-fill: oklch(0.465 0.118 var(--cs-accent-hue) / 0.9);
@@ -417,6 +459,10 @@
   --cs-elevation-thumb: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
   --cs-elevation-thumb-sm: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2);
   --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25);
+  --cs-elevation-card: inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22);
+  --cs-elevation-lift: 0 14px 30px -14px oklch(0.2 0.02 260 / 0.3);
+  --cs-elevation-well: 0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25);
+  --cs-elevation-agent: 0 8px 30px -12px var(--cs-color-agent-glow);
   --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
   --cs-focus: 0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring);
 }
@@ -465,11 +511,19 @@
     --cs-color-ink-on-muted: oklch(0.985 0.002 260 / 0.75);
     --cs-color-ink-kbd: oklch(1 0 0 / 0.09);
     --cs-color-swatch-edge: oklch(0 0 0 / 0.1);
+    --cs-color-media-on: oklch(1 0 0);
+    --cs-color-media-on-muted: oklch(1 0 0 / 0.82);
+    --cs-color-media-scrim: oklch(0 0 0 / 0.55);
+    --cs-color-chart-1: oklch(0.645 0.142 var(--cs-accent-hue));
+    --cs-color-chart-2: oklch(0.735 0.13 295);
+    --cs-color-chart-3: oklch(0.735 0.13 158);
+    --cs-color-chart-4: oklch(0.735 0.13 72);
     --cs-color-accent-solid: oklch(0.735 0.13 var(--cs-accent-hue));
     --cs-color-accent-hover: oklch(0.815 0.105 var(--cs-accent-hue));
     --cs-color-accent-on: oklch(0.14 0.007 260);
     --cs-color-accent-text: oklch(0.815 0.105 var(--cs-accent-hue));
     --cs-color-accent-soft: oklch(0.735 0.13 var(--cs-accent-hue) / 0.17);
+    --cs-color-accent-tint: oklch(0.735 0.13 var(--cs-accent-hue) / 0.102);
     --cs-color-accent-border: oklch(0.735 0.13 var(--cs-accent-hue) / 0.45);
     --cs-color-accent-glow: oklch(0.735 0.13 var(--cs-accent-hue) / 0.3);
     --cs-color-accent-fill: oklch(0.735 0.13 var(--cs-accent-hue) / 0.9);
@@ -520,6 +574,10 @@
     --cs-elevation-thumb: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
     --cs-elevation-thumb-sm: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2);
     --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25);
+    --cs-elevation-card: inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22);
+    --cs-elevation-lift: 0 14px 30px -14px oklch(0.2 0.02 260 / 0.3);
+    --cs-elevation-well: 0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25);
+    --cs-elevation-agent: 0 8px 30px -12px var(--cs-color-agent-glow);
     --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
     --cs-focus: 0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring);
   }
@@ -568,11 +626,19 @@
   --cs-color-ink-on-muted: oklch(0.985 0.002 260 / 0.75);
   --cs-color-ink-kbd: oklch(1 0 0 / 0.09);
   --cs-color-swatch-edge: oklch(0 0 0 / 0.1);
+  --cs-color-media-on: oklch(1 0 0);
+  --cs-color-media-on-muted: oklch(1 0 0 / 0.82);
+  --cs-color-media-scrim: oklch(0 0 0 / 0.55);
+  --cs-color-chart-1: oklch(0.645 0.142 var(--cs-accent-hue));
+  --cs-color-chart-2: oklch(0.735 0.13 295);
+  --cs-color-chart-3: oklch(0.735 0.13 158);
+  --cs-color-chart-4: oklch(0.735 0.13 72);
   --cs-color-accent-solid: oklch(0.735 0.13 var(--cs-accent-hue));
   --cs-color-accent-hover: oklch(0.815 0.105 var(--cs-accent-hue));
   --cs-color-accent-on: oklch(0.14 0.007 260);
   --cs-color-accent-text: oklch(0.815 0.105 var(--cs-accent-hue));
   --cs-color-accent-soft: oklch(0.735 0.13 var(--cs-accent-hue) / 0.17);
+  --cs-color-accent-tint: oklch(0.735 0.13 var(--cs-accent-hue) / 0.102);
   --cs-color-accent-border: oklch(0.735 0.13 var(--cs-accent-hue) / 0.45);
   --cs-color-accent-glow: oklch(0.735 0.13 var(--cs-accent-hue) / 0.3);
   --cs-color-accent-fill: oklch(0.735 0.13 var(--cs-accent-hue) / 0.9);
@@ -623,6 +689,10 @@
   --cs-elevation-thumb: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
   --cs-elevation-thumb-sm: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2);
   --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25);
+  --cs-elevation-card: inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22);
+  --cs-elevation-lift: 0 14px 30px -14px oklch(0.2 0.02 260 / 0.3);
+  --cs-elevation-well: 0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25);
+  --cs-elevation-agent: 0 8px 30px -12px var(--cs-color-agent-glow);
   --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
   --cs-focus: 0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring);
 }

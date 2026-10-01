@@ -206,11 +206,19 @@ export default {
       "ink.on-muted": "neutral.25/0.75",
       "ink.kbd": "white/0.09",
       "swatch.edge": "black/0.1",
+      "media.on": "white/1",
+      "media.on-muted": "white/0.82",
+      "media.scrim": "black/0.55",
+      "chart.1": "accent.500",
+      "chart.2": "iris.600",
+      "chart.3": "mint.600",
+      "chart.4": "amber.600",
       "accent.solid": "accent.600",
       "accent.hover": "accent.700",
       "accent.on": "neutral.0",
       "accent.text": "accent.700",
       "accent.soft": "accent.400/0.14",
+      "accent.tint": "accent.400/0.084",
       "accent.border": "accent.400/0.5",
       "accent.glow": "accent.500/0.35",
       "accent.fill": "accent.700/0.9",
@@ -296,11 +304,19 @@ export default {
       "ink.on-muted": "neutral.25/0.75",
       "ink.kbd": "white/0.09",
       "swatch.edge": "black/0.1",
+      "media.on": "white/1",
+      "media.on-muted": "white/0.82",
+      "media.scrim": "black/0.55",
+      "chart.1": "accent.500",
+      "chart.2": "iris.400",
+      "chart.3": "mint.400",
+      "chart.4": "amber.400",
       "accent.solid": "accent.400",
       "accent.hover": "accent.300",
       "accent.on": "neutral.1000",
       "accent.text": "accent.300",
       "accent.soft": "accent.400/0.17",
+      "accent.tint": "accent.400/0.102",
       "accent.border": "accent.400/0.45",
       "accent.glow": "accent.400/0.3",
       "accent.fill": "accent.400/0.9",
@@ -511,6 +527,34 @@ export default {
         "hex": "#000000",
         "alpha": 0.1
       },
+      "media.on": {
+        "hex": "#ffffff",
+        "alpha": 1
+      },
+      "media.on-muted": {
+        "hex": "#ffffff",
+        "alpha": 0.82
+      },
+      "media.scrim": {
+        "hex": "#000000",
+        "alpha": 0.55
+      },
+      "chart.1": {
+        "hex": "#00a0ad",
+        "alpha": 1
+      },
+      "chart.2": {
+        "hex": "#775db5",
+        "alpha": 1
+      },
+      "chart.3": {
+        "hex": "#008652",
+        "alpha": 1
+      },
+      "chart.4": {
+        "hex": "#996300",
+        "alpha": 1
+      },
       "accent.solid": {
         "hex": "#007f8a",
         "alpha": 1
@@ -530,6 +574,10 @@ export default {
       "accent.soft": {
         "hex": "#00bfcf",
         "alpha": 0.14
+      },
+      "accent.tint": {
+        "hex": "#00bfcf",
+        "alpha": 0.084
       },
       "accent.border": {
         "hex": "#00bfcf",
@@ -865,6 +913,34 @@ export default {
         "hex": "#000000",
         "alpha": 0.1
       },
+      "media.on": {
+        "hex": "#ffffff",
+        "alpha": 1
+      },
+      "media.on-muted": {
+        "hex": "#ffffff",
+        "alpha": 0.82
+      },
+      "media.scrim": {
+        "hex": "#000000",
+        "alpha": 0.55
+      },
+      "chart.1": {
+        "hex": "#00a0ad",
+        "alpha": 1
+      },
+      "chart.2": {
+        "hex": "#af98f2",
+        "alpha": 1
+      },
+      "chart.3": {
+        "hex": "#56c289",
+        "alpha": 1
+      },
+      "chart.4": {
+        "hex": "#db9b40",
+        "alpha": 1
+      },
       "accent.solid": {
         "hex": "#00bfcf",
         "alpha": 1
@@ -884,6 +960,10 @@ export default {
       "accent.soft": {
         "hex": "#00bfcf",
         "alpha": 0.17
+      },
+      "accent.tint": {
+        "hex": "#00bfcf",
+        "alpha": 0.102
       },
       "accent.border": {
         "hex": "#00bfcf",
@@ -1153,6 +1233,7 @@ export default {
     "4": 16,
     "5": 20,
     "6": 24,
+    "7": 28,
     "8": 32,
     "10": 40,
     "12": 48,
@@ -1190,6 +1271,8 @@ export default {
     "3xl": 22,
     "4xl": 28,
     "5xl": 32,
+    "well-inner": 18,
+    "2xs": 2,
     "full": 999
   },
   "size": {
@@ -1253,6 +1336,27 @@ export default {
       "modal-sm": 380,
       "sheet-md": 380,
       "empty-glyph": 22,
+      "card-tile": 36,
+      "card-glyph": 18,
+      "card-add": 76,
+      "card-spark": 64,
+      "spotlight-glow": 320,
+      "spotlight-rim": 200,
+      "list-row": 52,
+      "list-tile": 30,
+      "list-term": 140,
+      "nav-indent": 36,
+      "form-heading-w": 220,
+      "form-body-min": 400,
+      "section-text-min": 160,
+      "stepper-max": 420,
+      "tag-input-min": 90,
+      "toast-min": 60,
+      "toast-w": 360,
+      "usage-ring": 22,
+      "orb-md": 22,
+      "orb-md-hole": 7,
+      "stop-glyph": 9,
       "chip-h": 26,
       "chip-icon": 13,
       "spinner-lg": 28,
@@ -1315,6 +1419,27 @@ export default {
       20,
       600,
       -0.01
+    ],
+    "title-feature": [
+      "ui",
+      19,
+      24,
+      600,
+      -0.02
+    ],
+    "title-overlay": [
+      "ui",
+      18,
+      22,
+      600,
+      -0.015
+    ],
+    "stat": [
+      "ui",
+      30,
+      34,
+      600,
+      -0.035
     ],
     "body": [
       "ui",
@@ -1475,9 +1600,23 @@ export default {
     "mono-md": [
       "mono",
       11.5,
-      16,
+      18,
       500,
       0
+    ],
+    "mono-relaxed": [
+      "mono",
+      12,
+      20,
+      400,
+      0
+    ],
+    "ui-md-relaxed": [
+      "ui",
+      13.5,
+      20,
+      400,
+      -0.003
     ],
     "mono-lg": [
       "mono",
@@ -1496,7 +1635,11 @@ export default {
       "5": "0 8px 16px oklch(0.2 0.02 260 / 0.06), 0 40px 80px -16px oklch(0.2 0.02 260 / 0.28)",
       "thumb": "0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
       "thumb-sm": "0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2)",
-      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)"
+      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)",
+      "card": "inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22)",
+      "lift": "0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)",
+      "well": "0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)",
+      "agent": "0 8px 30px -12px var(--cs-color-agent-glow)"
     },
     "dark": {
       "1": "0 1px 2px oklch(0 0 0 / 0.3)",
@@ -1506,7 +1649,11 @@ export default {
       "5": "0 8px 16px oklch(0 0 0 / 0.3), 0 40px 80px -16px oklch(0 0 0 / 0.65)",
       "thumb": "0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
       "thumb-sm": "0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2)",
-      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)"
+      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)",
+      "card": "inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22)",
+      "lift": "0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)",
+      "well": "0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)",
+      "agent": "0 8px 30px -12px var(--cs-color-agent-glow)"
     }
   },
   "blur": {
@@ -1713,6 +1860,18 @@ export default {
       "selected choice card text"
     ],
     [
+      "text.secondary",
+      "accent.tint@surface.base",
+      4.5,
+      "selected action card"
+    ],
+    [
+      "media.on",
+      "media.scrim@surface.base",
+      4.5,
+      "badge over media"
+    ],
+    [
       "text.primary",
       "control.raised",
       7,
@@ -1831,6 +1990,78 @@ export default {
       "diff.remove@surface.base",
       7,
       "diff line"
+    ],
+    [
+      "success.text",
+      "diff.add@surface.base",
+      4.5,
+      "diff sign / syntax"
+    ],
+    [
+      "danger.text",
+      "diff.remove@surface.base",
+      4.5,
+      "diff sign"
+    ],
+    [
+      "info.text",
+      "diff.add@surface.base",
+      4.5,
+      "diff syntax"
+    ],
+    [
+      "info.text",
+      "diff.remove@surface.base",
+      4.5,
+      "diff syntax"
+    ],
+    [
+      "accent.text",
+      "diff.add@surface.base",
+      4.5,
+      "diff syntax"
+    ],
+    [
+      "accent.text",
+      "diff.remove@surface.base",
+      4.5,
+      "diff syntax"
+    ],
+    [
+      "text.secondary",
+      "diff.add@surface.base",
+      4.5,
+      "diff comment"
+    ],
+    [
+      "text.secondary",
+      "diff.remove@surface.base",
+      4.5,
+      "diff comment"
+    ],
+    [
+      "chart.1",
+      "surface.base",
+      3,
+      "chart series"
+    ],
+    [
+      "chart.2",
+      "surface.base",
+      3,
+      "chart series"
+    ],
+    [
+      "chart.3",
+      "surface.base",
+      3,
+      "chart series"
+    ],
+    [
+      "chart.4",
+      "surface.base",
+      3,
+      "chart series"
     ],
     [
       "border.control",

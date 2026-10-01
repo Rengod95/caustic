@@ -6,7 +6,8 @@ import { createServer, type Server } from 'node:http';
 import { createReadStream, existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import { extname, join, normalize } from 'node:path';
 import { chromium } from 'playwright';
-import { ComponentSpec, rawSpecs } from '@caustic/spec';
+import { ComponentSpec } from '@caustic/spec';
+import { readSpec, specIds } from '@caustic/spec/node';
 import { baselinesDir, specimenRoot, tokensDist } from './paths.ts';
 
 const TYPES: Record<string, string> = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml' };
@@ -37,7 +38,9 @@ export const CAPTURE_CSS = `
 async function main() {
   const ids = process.argv.slice(2);
   // Parse only the requested specs so one invalid draft does not block other baselines.
-  const targets = Object.entries(rawSpecs).filter(([id]) => !ids.length || ids.includes(id)).map(([, input]) => ComponentSpec.parse(input)).filter(s => s.examples.length);
+  const targets: ComponentSpec[] = [];
+  for (const id of ids.length ? ids : specIds()) { const input = await readSpec(id); if (input) targets.push(ComponentSpec.parse(input)); }
+  targets.splice(0, targets.length, ...targets.filter(s => s.examples.length));
   const { server, url } = await serveSpecimens();
   const browser = await chromium.launch({ channel: 'chrome' });
   try {

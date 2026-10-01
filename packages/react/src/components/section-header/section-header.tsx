@@ -23,7 +23,7 @@ export function SectionHeader({ size, title, headingLevel = 2, eyebrow, descript
   const Heading = `h${headingLevel}` as 'h2';
   return (
     <div data-slot="section-header" data-size={size ?? 'md'} data-divided={divided || undefined} className={cn(sectionHeaderVariants({ divided }), className)} {...props}>
-      <div data-slot="section-header-text" className="grid min-w-[calc(var(--spacing)*40)] flex-1 gap-0.75">
+      <div data-slot="section-header-text" className="grid min-w-section-text-min flex-1 gap-0.75">
         {eyebrow != null && <span data-slot="section-header-eyebrow" className="font-ui text-caption uppercase text-accent-text">{eyebrow}</span>}
         <Heading data-slot="section-header-title" className={sectionHeaderTitle({ size })}>{title}</Heading>
         {description != null && <span data-slot="section-header-description" className={cn(sectionHeaderDescription({ size }), 'max-w-[60ch]')}>{description}</span>}

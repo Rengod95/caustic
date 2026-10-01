@@ -45,6 +45,8 @@ The registries are generated; do not edit them. Run `pnpm registry` after adding
   - Use token utilities only, for example `bg-surface-base`, `h-control-md`, `rounded-xl`, `text-ui-dense`, `shadow-1`, `duration-fast`.
   - The theme resets every Tailwind namespace, so `bg-red-500` or `p-7` does not compile. G2 flags them.
   - Arbitrary values may reference `var(--cs-*)`. The only literal lengths allowed are the hairlines 0.5px, 1px, 1.5px and 2px. Never use a literal color, `!important`, inline styles or CSS files.
+  - Box dimensions (padding, margin, gap, width, height, min/max) must be a scale step or a named size token. A `calc(var(--spacing)*N)` box dimension is rejected; positions (top/left/translate) may derive from it. If no token fits, report a token request instead of working around it.
+  - Inline `style` may only set CSS custom properties (runtime data such as a swatch color or a drag offset), read back by a utility like `bg-(--swatch)`.
   - Theming is automatic through the semantic tokens. Never use the `dark:` variant.
   - Alpha modifiers (`/50`) are not allowed; use the alpha tokens instead.
 - **Materials:** use `glass`, `glass-thin`, `glass-thick`, `frost`, `agent-rim`, `agent-glow`, `orb`, `shimmer`, `spectrum-*`, `focus-ring` and `focus-field` as utilities. Their use is constrained by the policies below.
@@ -70,6 +72,10 @@ The registries are generated; do not edit them. Run `pnpm registry` after adding
 | P8 | Motion has a job; looping motion only with `flags.motionLoop`. |
 | P9 | A field owns its focus (`focus-field` on the field box, not a ring on the inner input). |
 
+## Compound components
+
+A spec describes the whole component, including its parts. Props of a part (`ListNavigationItem`, `CardTitle`) belong on that part: G2 accepts a spec prop on the root or on any export named `<Root>*`. Never declare part props on the root to satisfy the gate.
+
 ## Fixtures
 
 `render(props)` renders one instance. The gateway renders it for every combination of variant, size and state, and for the behavior scenarios. Pass `props` through. The harness injects event handlers to record calls.
@@ -94,7 +100,9 @@ The loop:
 2. Fix the implementation.
 3. Run the gate again.
 
-The attempt counter allows **5 attempts**. After that, stop and report what remains, with the request file.
+The attempt counter allows **5 attempts** per spec version (a re-approved spec starts a fresh count). After that, stop and report what remains, with the request file.
+
+`pnpm gate:status` lists every component as gated, stale (gated against an older spec), pending or unapproved.
 
 | Gate | Checks |
 |---|---|
@@ -110,7 +118,7 @@ A full pass records the component in `packages/spec/gated.json`. Never edit that
 
 ## Spec authoring (main session only)
 
-1. Draft `<id>.spec.ts` from the specimen page, using `defineSpec`. Cover slots, variants and sizes with defaults, states, props, events, style rules (`slot` / `when` / `expect` in token names), behavior scenarios, a11y, policies, flags, composition, examples and usage.
+1. Draft `<id>.spec.ts` from the specimen page, using `defineSpec`. State names are free kebab-case; a state whose pseudo-classes belong on a part needs `target`, and a rule on a slot that only some variants render needs `when` (G1 rejects a focus ring measured away from the focused slot). Cover slots, variants and sizes with defaults, states, props, events, style rules (`slot` / `when` / `expect` in token names), behavior scenarios, a11y, policies, flags, composition, examples and usage.
 2. Run `pnpm baseline <id>` to capture the specimen sections that the examples point to.
 3. Review, then run `pnpm spec:approve <id>`. Any later edit to the spec invalidates its lock until it is re-approved.
 4. Run `pnpm registry`, then hand the id to an implementer.

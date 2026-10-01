@@ -22,6 +22,8 @@ const mutations: Mutation[] = [
   { name: 'spectrum outside agent', file: V, from: "ink: 'frost bg-ink-solid", to: "ink: 'agent-rim frost bg-ink-solid", expect: ['G5:P2 spectrum'], skip: 'G4' },
   { name: 'gradient on a button', file: V, from: "secondary: 'frost bg-control-raised", to: "secondary: 'bg-linear-to-b frost bg-control-raised", expect: ['G5:P3 flat'], skip: 'G4' },
   { name: 'dark: variant', file: V, from: 'hover:bg-control-raised-hover', to: 'hover:bg-control-raised-hover dark:bg-ink-solid', expect: ['G2:no-dark-variant'], skip: 'G4' },
+  { name: 'spacing calc loophole', file: V, from: 'h-control-md gap-1.5 px-3', to: 'h-control-md gap-1.5 px-[calc(var(--spacing)*7)]', expect: ['G2:space-scale'], skip: 'G3,G4,G5' },
+  { name: 'misspelt token variable', file: V, from: 'bg-danger-soft text-danger-text', to: 'bg-[var(--cs-color-danger-sofft)] text-danger-text', expect: ['G2:unknown-var'], skip: 'G3,G4,G5' },
   { name: 'missing data-slot', file: C, from: 'data-slot="button"\n', to: '\n', expect: ['G2:data-slot', 'G3:anatomy'], skip: 'G4' },
   { name: 'loading does not block click', file: C, from: 'onClick={inert ? undefined : onClick}', to: 'onClick={disabled ? undefined : onClick}', expect: ['G3:behavior'], skip: 'G4' },
   { name: 'component not exported', file: I, from: 'export { Button, type ButtonProps }', to: 'export { type ButtonProps }', expect: ['G6:export'], skip: 'G3,G4,G5' },

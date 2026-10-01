@@ -5,7 +5,7 @@ import './harness.css';
 import { createRoot } from 'react-dom/client';
 import { Fragment, type ReactNode } from 'react';
 import type { Fixture } from '../../react/src/lib/fixture.ts';
-import { rawSpecs, ComponentSpec } from '@caustic/spec';
+import { ComponentSpec, type SpecInput } from '@caustic/spec';
 
 declare global {
   interface Window { __CASES__?: { key: string; props: Record<string, unknown> }[]; __EVENTS__: { name: string; args: unknown[] }[]; __READY__?: boolean; __ERROR__?: string }
@@ -31,11 +31,16 @@ const fixtureId = q.get('c') ?? '';
 const loadFixture = fixtureLoaders[`../../react/src/components/${fixtureId}/${fixtureId}.fixture.tsx`];
 let loadedFixture: Fixture | undefined;
 try { loadedFixture = loadFixture ? (await loadFixture()).default : undefined; } catch (e) { window.__ERROR__ = String(e); }
+// Same for the spec: one module, not the whole registry.
+const specLoaders = import.meta.glob<{ default: SpecInput }>('../../spec/src/specs/*.spec.ts');
+const loadSpec = specLoaders[`../../spec/src/specs/${fixtureId}.spec.ts`];
+let loadedSpec: SpecInput | undefined;
+try { loadedSpec = loadSpec ? (await loadSpec()).default : undefined; } catch (e) { window.__ERROR__ = String(e); }
 
 function App(): ReactNode {
   const id = fixtureId;
   const fx = loadedFixture;
-  const raw = rawSpecs[id];
+  const raw = loadedSpec;
   if (!fx || !raw) return <pre data-error>{`No fixture or spec for "${id}"`}</pre>;
   const spec = ComponentSpec.parse(raw);
   const recorders = Object.fromEntries(Object.keys(spec.events).map(name => [name, (...args: unknown[]) => { window.__EVENTS__.push({ name, args: args.map(serialize) }); }]));

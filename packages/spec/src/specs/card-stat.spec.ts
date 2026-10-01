@@ -1,0 +1,61 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'card-stat',
+  name: 'CardStat',
+  category: 'card',
+  status: 'ready',
+  purpose: 'One KPI: label, a large tabular value, a delta pill with a note and an optional sparkline that runs to the card edges.',
+  description: 'Color in the delta says whether the change is good or bad; the arrow says its direction. A rising number can be bad (cost) and a falling one good (errors). Extra sections (a divided footer) are passed as children.',
+  role: null,
+  slots: [
+    { name: 'root', el: 'div', description: 'Card root: Card layout on an opaque surface; overflow hidden so the sparkline clips to the corners.' },
+    { name: 'label', el: 'span', parent: 'root', description: 'What is measured; may begin with a small dot or icon (6px gap).' },
+    { name: 'value', el: 'span', parent: 'root', description: 'The figure, tabular numerals, 4px under the label.' },
+    { name: 'unit', el: 'small', parent: 'value', description: 'Unit or context after the figure ("of 96").' },
+    { name: 'trend', el: 'span', parent: 'root', description: 'Row holding the delta pill and its note, 4px apart.' },
+    { name: 'delta', el: 'span', parent: 'trend', description: 'Pill with a direction arrow (12px, heavier stroke) and the change.' },
+    { name: 'delta-note', el: 'span', parent: 'trend', description: 'Comparison basis ("vs last week"), tertiary.' },
+    { name: 'spark', el: 'svg', parent: 'root', description: 'Area + line sparkline, 64px high, full card width, flush with the card bottom (role=img with a text label).' },
+  ],
+  variants: {
+    deltaTone: { values: ['good', 'bad'], default: 'good', description: 'good = success colors; bad = danger colors. Independent of direction.' },
+  },
+  props: {
+    label: { type: 'ReactNode', required: true, description: 'Metric name.' },
+    value: { type: 'ReactNode', required: true, description: 'The figure.' },
+    unit: { type: 'ReactNode', description: 'Unit after the figure.' },
+    delta: { type: 'ReactNode', description: 'Change, e.g. "12.4%" or "3 fixed".' },
+    deltaTone: { type: "'good' | 'bad'", default: 'good', description: 'Color meaning.' },
+    deltaDirection: { type: "'up' | 'down'", default: 'up', description: 'Arrow: arrow-up-right or arrow-down-right.' },
+    deltaNote: { type: 'ReactNode', description: 'Comparison basis.' },
+    trend: { type: 'number[]', description: 'Sparkline values in the range 0 to 32, higher is higher, spaced evenly across a 100 x 32 viewBox (y = 32 - value, preserveAspectRatio none); the area closes to the baseline.' },
+    trendLabel: { type: 'string', description: 'Accessible label of the sparkline ("Views trend, rising").' },
+    size: { type: "'regular' | 'compact'", default: 'regular', description: 'Passed to Card.' },
+    children: { type: 'ReactNode', description: 'Extra sections, e.g. a divided CardFooter.' },
+  },
+  styles: [
+    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', shadow: '1', radius: '3xl', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 10, fg: 'text.primary' }, note: 'When a sparkline is present it is the last section: it bleeds to the sides and bottom, so the bottom inset is 0 there.' },
+    { slot: 'label', expect: { text: 'ui-sm', weight: 400, fg: 'text.tertiary', gap: 6 } },
+    { slot: 'value', expect: { text: 'stat', fg: 'text.primary' }, note: '30 / 34 / 600, tracking -0.035em, tabular-nums. No token role exists (see token requests: stat).' },
+    { slot: 'unit', expect: { text: 'ui-lg', fg: 'text.tertiary' }, note: 'Specimen is 14px / 500 with tracking 0; ui-lg matches size and weight.' },
+    { slot: 'delta', expect: { bg: 'success.soft', fg: 'success.text', radius: 'full', height: 'control-2xs', padX: 6, gap: 3, text: 'hint', weight: 600 } },
+    { slot: 'delta', when: { deltaTone: 'bad' }, expect: { bg: 'danger.soft', fg: 'danger.text' } },
+    { slot: 'delta-note', expect: { text: 'ui-sm', weight: 400, fg: 'text.tertiary' } },
+    { slot: 'spark', expect: { height: 'size-card-spark' }, note: 'Spans the card width. Line = accent.solid, 2px, non-scaling stroke; area = vertical gradient of accent.solid from 28% to 0 opacity (SVG stops).' },
+  ],
+  a11y: {
+    notes: [
+      'The sparkline is role=img and needs trendLabel; the delta text carries the meaning, not the color.',
+      'Color means good or bad, the arrow means direction; the text states both ("3 fixed", "18% over budget pace").',
+    ],
+  },
+  policies: ['P5', 'P6'],
+  composition: { uses: ['card', 'button'] },
+  examples: [{ id: 'stat-card', title: 'Stat card', doc: 'card-stat#stat-card' }],
+  usage: [
+    'Default fixture render shows every slot marked required here, even those that product code may omit (the gateway applies default-case style rules to them).',
+    'Do not use the spectrum for the agent label dot inside the component; consumers pass it through `label` (the example does).',
+    'Example fixture: 260px-min auto-fill grid, 14px gap, three cards. 1: label "Published views", value "48,210", delta good up "12.4%", note "vs last week", spark points 26 24 25 20 21 16 18 12 13 7 5 (from a 32-high viewBox, so y = 32 - value for the component input: 6 8 7 12 11 16 14 20 19 25 27), label "Views trend, rising". 2: label "Contrast issues", value "0" + unit "of 96", delta good down "3 fixed", note "today", no sparkline. 3: label with an 8px spectrum dot (fixture markup) + "Agent rounds", value "3,912", delta bad up "18%", note "over budget pace", plus a divided CardFooter: meta "Limit 5,000", spacer, Button ghost xs "Set limit".',
+  ],
+});

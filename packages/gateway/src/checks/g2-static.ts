@@ -4,7 +4,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { slotAttr, type ComponentSpec } from '@caustic/spec';
 import { Collector } from '../report.ts';
-import { componentsDir, root } from '../paths.ts';
+import { componentsDir, root, tokensDist } from '../paths.ts';
 import { tokenIndex } from '../tokens.ts';
 import { unknownClasses } from '../tw.ts';
 
@@ -131,6 +131,14 @@ export async function g2(c: Collector, spec: ComponentSpec) {
       const badLen = lengths.filter(l => !t.allow.arbitraryPx.includes(l.replace(/^-/, '')) && !/^0(px)?$/.test(l));
       if (badLen.length) c.fail({ gate: 'G2', check: 'arbitrary-value', where, message: `"${u.cls}" hard-codes ${badLen.join(', ')}.`, fix: 'Use a token utility or var(--cs-*). Only 0.5px, 1px, 1.5px and 2px hairlines are allowed as literals.' });
       if (LITERAL_COLOR.test(v)) c.fail({ gate: 'G2', check: 'arbitrary-value', where, message: `"${u.cls}" contains a literal color.` });
+      // A misspelt token variable silently invalidates the declaration; every --cs-* must exist in the token build.
+      for (const m of v.matchAll(/--cs-[a-z0-9-]+/g)) if (!knownCssVars().has(m[0]))
+        c.fail({ gate: 'G2', check: 'unknown-var', where, message: `"${u.cls}" references ${m[0]}, which no token defines.`, fix: 'Check the name in packages/tokens/dist/caustic.css (control sizes are --cs-control-*, component sizes --cs-size-*).' });
+      // Multiples of --spacing would re-open the whole number line. Positions (top/left/translate…) may derive
+      // from it; box dimensions must be a scale step or a named size token.
+      const prefix = util.slice(0, util.indexOf('-['));
+      if (/var\(--spacing\)/.test(v) && /^-?(p[xytrblse]?|m[xytrblse]?|gap(-[xy])?|w|h|size|min-w|min-h|max-w|max-h)$/.test(prefix))
+        c.fail({ gate: 'G2', check: 'space-scale', where, message: `"${u.cls}" computes a box dimension from --spacing.`, fix: 'Use a scale step or a size token (ask for one if none fits).' });
     }
     const num = util.match(/^-?(p|px|py|pt|pr|pb|pl|ps|pe|m|mx|my|mt|mr|mb|ml|gap|gap-x|gap-y|space-x|space-y|inset|inset-x|inset-y|top|right|bottom|left|w|h|size|min-w|min-h|max-w|max-h)-(\d+(?:\.\d+)?)$/);
     if (num && !t.allow.spacingSteps.includes(Number(num[2]))) c.fail({ gate: 'G2', check: 'space-scale', where, message: `"${u.cls}" = ${Number(num[2]) * 4}px is off the space scale (${t.allow.spacingSteps.map(s => s * 4).join(', ')}).`, fix: 'Use a scale step or a named token (px-inset-regular-x, h-field-md…).' });
@@ -187,10 +195,16 @@ function checkProps(c: Collector, spec: ComponentSpec, main: string) {
   const param = sig?.getParameters()[0];
   if (!param) { c.fail({ gate: 'G2', check: 'props', message: `${exportName} takes no props.` }); return; }
   const propsType = checker.getTypeOfSymbolAtLocation(param, sf);
+  // Compound components: a spec prop may live on a part (ListNavigationItem, CardTitle…) instead of the root.
+  const partProps = checker.getExportsOfModule(sym!)
+    .filter(e => e.name !== exportName && e.name.startsWith(exportName))
+    .map(e => checker.getTypeOfSymbolAtLocation(e, sf).getCallSignatures()[0]?.getParameters()[0])
+    .filter((p): p is ts.Symbol => !!p)
+    .map(p => checker.getTypeOfSymbolAtLocation(p, sf));
   const want = { ...spec.props, ...Object.fromEntries(Object.entries(spec.events).map(([k, v]) => [k, { type: v.payload, description: v.when, required: false }])) };
   for (const [name, def] of Object.entries(want)) {
-    const p = propsType.getProperty(name);
-    if (!p) { c.fail({ gate: 'G2', check: 'props', message: `Prop "${name}" from the spec is missing on ${exportName}.`, expected: (def as any).type }); continue; }
+    const p = propsType.getProperty(name) ?? partProps.map(t => t.getProperty(name)).find(Boolean);
+    if (!p) { c.fail({ gate: 'G2', check: 'props', message: `Prop "${name}" from the spec is missing on ${exportName} and its parts (${exportName}*).`, expected: (def as any).type }); continue; }
     const propType = checker.getTypeOfSymbolAtLocation(p, sf);
     const typeText = checker.typeToString(propType);
     // Expand aliases, unions and callback parameters into the string literals they accept.
@@ -200,10 +214,21 @@ function checkProps(c: Collector, spec: ComponentSpec, main: string) {
       if (t.isStringLiteral()) accepted.add(t.value);
       if (t.isUnion() || t.isIntersection()) t.types.forEach(x => walk(x, depth + 1));
       for (const sg of t.getCallSignatures()) for (const prm of sg.getParameters()) walk(checker.getTypeOfSymbolAtLocation(prm, sf), depth + 1);
+      // Object payloads ({ key; direction: 'ascending' | 'descending' }): their property literals count too.
+      if (t.flags & ts.TypeFlags.Object && !t.getCallSignatures().length) for (const m of t.getProperties()) if (m.flags & ts.SymbolFlags.Property) walk(checker.getTypeOfSymbolAtLocation(m, sf), depth + 1);
     };
     walk(propType);
     const literals = [...String((def as any).type).matchAll(/'([^']+)'/g)].map(m => m[1]!);
     const missing = literals.filter(l => !accepted.has(l));
     if (missing.length) c.fail({ gate: 'G2', check: 'props', message: `Prop "${name}" does not accept ${missing.map(m => `"${m}"`).join(', ')}.`, expected: (def as any).type, actual: typeText });
   }
+}
+
+let cssVars: Set<string> | null = null;
+/** Every --cs-* name the token build declares or uses (root tokens, theme values, utility-scoped variables). */
+function knownCssVars(): Set<string> {
+  if (cssVars) return cssVars;
+  cssVars = new Set();
+  for (const f of ['caustic.css', 'theme.css']) for (const m of readFileSync(join(tokensDist, f), 'utf8').matchAll(/--cs-[a-z0-9-]+/g)) cssVars.add(m[0]);
+  return cssVars;
 }

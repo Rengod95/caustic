@@ -411,6 +411,62 @@
       }
     }
   },
+  "media": {
+    "on": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1,
+          0,
+          0
+        ],
+        "alpha": 1
+      }
+    },
+    "on-muted": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1,
+          0,
+          0
+        ],
+        "alpha": 0.82
+      }
+    },
+    "scrim": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 0.55
+      }
+    }
+  },
+  "chart": {
+    "1": {
+      "$type": "color",
+      "$value": "{color.accent.500}"
+    },
+    "2": {
+      "$type": "color",
+      "$value": "{color.iris.600}"
+    },
+    "3": {
+      "$type": "color",
+      "$value": "{color.mint.600}"
+    },
+    "4": {
+      "$type": "color",
+      "$value": "{color.amber.600}"
+    }
+  },
   "accent": {
     "solid": {
       "$type": "color",
@@ -438,6 +494,19 @@
           205
         ],
         "alpha": 0.14,
+        "hex": "#00bfcf"
+      }
+    },
+    "tint": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.735,
+          0.13,
+          205
+        ],
+        "alpha": 0.084,
         "hex": "#00bfcf"
       }
     },
