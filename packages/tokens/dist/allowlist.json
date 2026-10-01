@@ -12,10 +12,16 @@
     12,
     16,
     18,
+    0.25,
     0.5,
+    0.75,
+    1.25,
     1.5,
+    1.75,
     2.5,
-    3.5
+    3.5,
+    4.5,
+    6.5
   ],
   "durations": [
     0,
@@ -23,6 +29,7 @@
     200,
     320,
     480,
+    700,
     2200,
     4800
   ],
@@ -92,6 +99,9 @@
     "ink-solid",
     "ink-hover",
     "ink-on",
+    "ink-on-muted",
+    "ink-kbd",
+    "swatch-edge",
     "accent-solid",
     "accent-hover",
     "accent-on",
@@ -161,7 +171,14 @@
     "mono-strong",
     "ui-dense",
     "hint",
-    "micro"
+    "micro",
+    "ui-xs",
+    "ui-md",
+    "ui-relaxed",
+    "ui-dense-relaxed",
+    "figure",
+    "mono-md",
+    "mono-lg"
   ],
   "radii": [
     "none",

@@ -1,0 +1,62 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'tabs',
+  name: 'Tabs',
+  category: 'navigation',
+  status: 'ready',
+  purpose: 'Switches between sibling panels of content. An underlined row of text tabs; the selected tab is ink with a 2px bar on the hairline.',
+  role: null,
+  slots: [
+    { name: 'root', el: 'div', description: 'Wraps the list and the panels.' },
+    { name: 'list', el: 'div', parent: 'root', role: 'tablist', description: 'Row of triggers. 18px gap, hairline underline.' },
+    { name: 'trigger', el: 'button', parent: 'list', role: 'tab', description: 'One tab. Relative; carries the selection indicator.' },
+    { name: 'count', el: 'span', parent: 'trigger', required: false, description: 'Small tabular count after the label.' },
+    { name: 'indicator', el: 'span', parent: 'trigger', required: false, description: '2px bar on the selected trigger, overlapping the list hairline by 1px.' },
+    { name: 'panel', el: 'div', parent: 'root', required: false, role: 'tabpanel', description: 'Content of the selected tab.' },
+  ],
+  states: {
+    hover: { pseudo: ['hover'], target: 'trigger' },
+    'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'trigger' },
+    selected: { props: { defaultValue: 'tokens' } },
+    disabled: { props: { disabled: true } },
+  },
+  props: {
+    value: { type: 'string', description: 'Controlled value.' },
+    defaultValue: { type: 'string', description: 'Uncontrolled initial value.' },
+    disabled: { type: 'boolean', default: false, description: 'Disables every trigger.' },
+    children: { type: 'ReactNode', description: 'A list of triggers and optional panels.' },
+  },
+  events: { onValueChange: { payload: 'string', when: 'a tab is activated by click or arrow key' } },
+  styles: [
+    { slot: 'list', expect: { border: 'border.subtle', gap: 18 }, note: 'Bottom hairline only.' },
+    { slot: 'trigger', expect: { height: 'size-tab-h', text: 'ui-strong', fg: 'text.tertiary', gap: 4 } },
+    { slot: 'trigger', when: { state: 'hover' }, expect: { fg: 'text.primary' } },
+    { slot: 'trigger', when: { state: 'selected' }, expect: { fg: 'text.primary' } },
+    { slot: 'trigger', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
+    { slot: 'trigger', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'indicator', when: { state: 'selected' }, expect: { bg: 'text.primary', height: 2, radius: 'xs' } },
+    { slot: 'count', expect: { fg: 'text.tertiary', text: 'ui-xs' } },
+  ],
+  behavior: {
+    keyboard: { ArrowRight: 'focus and activate next tab', ArrowLeft: 'focus and activate previous tab', Home: 'first tab', End: 'last tab' },
+    pointer: ['click activates a tab', 'the color change uses duration-base'],
+    scenarios: [
+      { name: 'arrow activates next', props: { defaultValue: 'tokens' }, steps: [{ do: 'focus', slot: 'trigger' }, { do: 'press', key: 'ArrowRight' }], expect: [{ event: 'onValueChange', args: ['components'] }] },
+      { name: 'click activates', props: { defaultValue: 'tokens' }, steps: [{ do: 'click', slot: 'trigger' }], expect: [{ slot: 'trigger', attr: { 'aria-selected': 'true' } }] },
+    ],
+  },
+  a11y: {
+    labelRequired: true,
+    minHit: 24,
+    attrs: { list: ['aria-label'], trigger: ['aria-selected', 'aria-controls'] },
+    notes: ['Give the tab list an aria-label when more than one tab list is on the page.', 'Triggers are 34px tall, so the target is above the minimum.'],
+  },
+  policies: ['P6', 'P8'],
+  composition: { radix: ['@radix-ui/react-tabs'] },
+  usage: [
+    'Fixture triggers for the scenarios: Tokens (value tokens, count 128), Components (value components, count 42), Assets (value assets). The default fixture render selects "components" so the first tab is unselected at rest.',
+    'Tabs swap content under the same heading; use a SegmentedControl for a view or mode switch.',
+    'The segmented-and-tabs example in segmented-control.html shows tabs under the Segmented examples.',
+  ],
+});

@@ -1,0 +1,80 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'otp-input',
+  name: 'OtpInput',
+  category: 'form',
+  status: 'ready',
+  purpose: 'Enters a short verification code one character per cell. Focus moves to the next cell as you type; pasting fills every cell.',
+  description: 'Each cell is its own field box: the native input draws the fill, edge and focus edge itself (P9 applies per cell, so flags.field stays off; the gateway P9 probe assumes a container around the input).',
+  role: 'group',
+  slots: [
+    { name: 'root', el: 'div', role: 'group', description: 'Row of cells, 8px apart. aria-label names the code ("Verification code").' },
+    { name: 'cell', el: 'input', parent: 'root', role: 'textbox', description: 'One character: 44 × 52 box, inputMode numeric, maxLength 1, aria-label "Digit n". Repeats `length` times.' },
+    { name: 'separator', el: 'span', parent: 'root', required: false, description: 'Decorative 10 × 2 dash between groups; aria-hidden.' },
+  ],
+  states: {
+    'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'cell' },
+    invalid: { props: { invalid: true } },
+    disabled: { props: { disabled: true } },
+  },
+  props: {
+    length: { type: 'number', default: 6, description: 'Number of cells.' },
+    value: { type: 'string', description: 'Controlled code (characters, no separators).' },
+    defaultValue: { type: 'string', default: '', description: 'Uncontrolled initial code.' },
+    separatorAfter: { type: 'number', description: 'Insert the dash after this many cells (3 for a 3–3 split). No dash when omitted.' },
+    inputMode: { type: "'numeric' | 'text'", default: 'numeric', description: 'numeric accepts digits only; text accepts letters and digits.' },
+    invalid: { type: 'boolean', default: false, description: 'Danger edge on every cell; also taken from an enclosing Field with an error.' },
+    disabled: { type: 'boolean', default: false, description: 'Disables every cell; 0.42 opacity.' },
+    autoFocus: { type: 'boolean', default: false, description: 'Focuses the first empty cell on mount.' },
+  },
+  events: {
+    onValueChange: { payload: 'string', when: 'the code changes' },
+    onComplete: { payload: 'string', when: 'every cell is filled' },
+  },
+  styles: [
+    { slot: 'root', expect: { gap: 8 } },
+    { slot: 'cell', expect: { bg: 'surface.translucent', fg: 'text.primary', edge: 'border.default', shadow: '1', frost: true, radius: 'xl', width: 'size-otp-w', height: 'size-otp-h', font: 'mono', text: 'mono-lg', outline: 'none' } },
+    { slot: 'cell', when: { defaultValue: '42' }, expect: { edge: 'border.strong' }, note: 'A cell holding a character draws the stronger edge.' },
+    { slot: 'cell', when: { state: 'focus-visible' }, expect: { ring: 'focus-field' } },
+    { slot: 'cell', when: { state: 'invalid' }, expect: { edge: 'danger.solid' } },
+    { slot: 'cell', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'separator', when: { separatorAfter: 3 }, expect: { bg: 'border.strong', width: 10, height: 2 } },
+  ],
+  behavior: {
+    keyboard: {
+      '0–9': 'write the character and move to the next cell',
+      Backspace: 'clear the cell; on an empty cell move to the previous one and clear it',
+      ArrowLeft: 'previous cell',
+      ArrowRight: 'next cell',
+      Home: 'first cell',
+      End: 'last cell',
+    },
+    pointer: ['pressing a cell focuses it and selects its character', 'pasting a code fills the cells from the focused one and focuses the next empty cell'],
+    scenarios: [
+      { name: 'typing fills and advances', steps: [{ do: 'focus', slot: 'cell' }, { do: 'type', text: '42' }], expect: [{ event: 'onValueChange', args: ['42'] }] },
+      { name: 'complete code fires onComplete', props: { length: 3 }, steps: [{ do: 'focus', slot: 'cell' }, { do: 'type', text: '123' }], expect: [{ event: 'onComplete', args: ['123'] }] },
+      { name: 'Backspace on an empty cell steps back and clears', steps: [{ do: 'focus', slot: 'cell' }, { do: 'type', text: '42' }, { do: 'press', key: 'Backspace' }], expect: [{ event: 'onValueChange', args: ['4'] }] },
+      { name: 'non-digits are rejected', steps: [{ do: 'focus', slot: 'cell' }, { do: 'type', text: 'a' }], expect: [{ event: 'onValueChange', calls: 0 }] },
+    ],
+  },
+  a11y: {
+    labelRequired: true,
+    minHit: 44,
+    attrs: { root: ['aria-label'], cell: ['aria-label'] },
+    notes: [
+      'The group is labelled (aria-label or aria-labelledby); each cell is "Digit n".',
+      'The first cell has autocomplete="one-time-code" so the platform can fill the whole code.',
+      'Group a visible Field label with the group via aria-labelledby; Field currently renders a label element, which targets a single control.',
+    ],
+  },
+  policies: ['P6', 'P9'],
+  flags: {},
+  composition: { uses: ['field'] },
+  examples: [{ id: 'otp-input', title: 'OTP input · 6 digits', doc: 'otp#otp-input' }],
+  usage: [
+    'Six cells, split 3–3 with the dash, is the default verification pattern.',
+    'The hint under the group says where the code was sent and when it can be resent.',
+    'Mark every cell invalid together; one danger edge per cell, never a message inside a cell.',
+  ],
+});

@@ -1,0 +1,77 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'accordion',
+  name: 'Accordion',
+  category: 'structure',
+  status: 'ready',
+  purpose: 'Collapsible sections. Two forms: flush rows separated by hairlines, and separated cards that each lift on their own.',
+  role: null,
+  slots: [
+    { name: 'root', el: 'div', description: 'Full-width grid of items. 8px gap in the separated variant.' },
+    { name: 'item', el: 'div', parent: 'root', description: 'One section. Flush: bottom hairline. Separated: opaque card with hairline edge and shadow.' },
+    { name: 'trigger', el: 'button', parent: 'item', role: 'button', description: 'Header row (inside an h3 header), at least 48px tall, with a trailing chevron. Toggles aria-expanded.' },
+    { name: 'icon', el: 'any', parent: 'trigger', required: false, description: 'Leading 14px lucide icon, tertiary color.' },
+    { name: 'accessory', el: 'any', parent: 'trigger', required: false, description: 'Inline count or Badge after the label (6px extra leading margin, 16px total from the label).' },
+    { name: 'chevron', el: 'any', parent: 'trigger', description: 'Trailing chevron-down, pushed to the end. Rotates 180° when open.' },
+    { name: 'content', el: 'div', parent: 'item', description: 'Body text of the open section; max 64ch wide.' },
+  ],
+  variants: {
+    variant: { values: ['flush', 'separated'], default: 'flush', description: 'flush = hairline rows; separated = one card per item.' },
+  },
+  states: {
+    hover: { pseudo: ['hover'], target: 'trigger' },
+    'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'trigger' },
+    open: { props: { defaultValue: 'agent' } },
+    disabled: { props: { disabled: true } },
+  },
+  props: {
+    type: { type: "'single' | 'multiple'", default: 'single', description: 'single keeps at most one item open; multiple allows any number.' },
+    variant: { type: "'flush' | 'separated'", default: 'flush', description: 'Visual form.' },
+    value: { type: 'string | string[]', description: 'Controlled open item value(s): string for single, string[] for multiple.' },
+    defaultValue: { type: 'string | string[]', description: 'Uncontrolled initially open item value(s).' },
+    collapsible: { type: 'boolean', default: true, description: 'In single mode, lets the open item be closed again.' },
+    disabled: { type: 'boolean', default: false, description: 'Disables every item.' },
+    children: { type: 'ReactNode', description: 'Items (item value, trigger, content).' },
+  },
+  events: { onValueChange: { payload: 'string | string[]', when: 'an item is opened or closed' } },
+  styles: [
+    { slot: 'root', when: { variant: 'separated' }, expect: { gap: 8 } },
+    { slot: 'item', when: { variant: 'flush' }, expect: { border: 'border.subtle' }, note: 'Flush: bottom hairline only.' },
+    { slot: 'item', when: { variant: 'separated' }, expect: { bg: 'surface.base', edge: 'border.subtle', shadow: '1', radius: 'xl', padX: 'inset-regular-x' } },
+    { slot: 'item', when: { variant: 'separated', state: 'open' }, expect: { edge: 'border.default', shadow: '2' } },
+    { slot: 'trigger', expect: { minHeight: 'control-xl', padX: 2, padY: 1, gap: 10, text: 'ui-md', fg: 'text.primary', cursor: 'pointer' } },
+    { slot: 'trigger', when: { state: 'focus-visible' }, expect: { ring: 'focus', radius: 'md' } },
+    { slot: 'trigger', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'icon', expect: { fg: 'text.tertiary', height: 'icon-sm', width: 'icon-sm' } },
+    { slot: 'chevron', expect: { fg: 'text.tertiary', height: 'icon-md', width: 'icon-md' } },
+    { slot: 'content', expect: { fg: 'text.secondary', text: 'ui-relaxed', padX: 2 }, note: 'Bottom padding 14px.' },
+  ],
+  behavior: {
+    keyboard: { Enter: 'toggle the focused item', Space: 'toggle the focused item', ArrowDown: 'focus next trigger', ArrowUp: 'focus previous trigger', Home: 'focus first trigger', End: 'focus last trigger' },
+    pointer: ['click anywhere on the header row toggles the item', 'chevron rotates with duration-base ease-out'],
+    scenarios: [
+      { name: 'click opens an item', props: { type: 'single', collapsible: true }, steps: [{ do: 'click', slot: 'trigger' }], expect: [{ event: 'onValueChange', args: ['agent'] }, { slot: 'trigger', attr: { 'aria-expanded': 'true' } }] },
+      { name: 'Enter toggles an open item closed', props: { type: 'single', collapsible: true, defaultValue: 'agent' }, steps: [{ do: 'focus', slot: 'trigger' }, { do: 'press', key: 'Enter' }], expect: [{ event: 'onValueChange', args: [''] }, { slot: 'trigger', attr: { 'aria-expanded': 'false' } }] },
+      { name: 'disabled ignores clicks', props: { disabled: true }, steps: [{ do: 'click', slot: 'trigger' }], expect: [{ event: 'onValueChange', calls: 0 }] },
+    ],
+  },
+  a11y: {
+    labelRequired: false,
+    minHit: 24,
+    attrs: { trigger: ['aria-expanded', 'aria-controls'], content: ['aria-labelledby'] },
+    notes: ['Each trigger sits in a heading (h3) so the sections are navigable; give the heading level that fits the page.', 'Content is a region labelled by its trigger.'],
+  },
+  policies: ['P5', 'P6', 'P8'],
+  composition: { uses: ['badge'], radix: ['@radix-ui/react-accordion'] },
+  examples: [
+    { id: 'flush', title: 'Accordion · flush', doc: 'accordion#accordion-flush' },
+    { id: 'separated', title: 'Accordion · separated', doc: 'accordion#accordion-separated' },
+  ],
+  usage: [
+    'Fixture items for the scenarios: first item value "agent", then "themes" and "export".',
+    'Use type="single" for FAQ-style lists; type="multiple" for settings groups.',
+    'Header rows are 48px; the chevron sits at the trailing edge.',
+    'The separated example uses Badge as the accessory; its count follows the label with a 6px extra margin.',
+  ],
+});

@@ -1,0 +1,73 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'choice-cards',
+  name: 'ChoiceCards',
+  category: 'form',
+  status: 'ready',
+  purpose: 'Picks one or several options that need a short description (plan, export target). Each option is a whole card that behaves as a radio or a checkbox.',
+  description: 'type="single" renders radio cards in a radiogroup; type="multiple" renders checkbox cards in a group. The indicator is purely decorative and reproduces the Radio and Checkbox visuals.',
+  role: 'radiogroup',
+  slots: [
+    { name: 'root', el: 'div', role: 'radiogroup', description: 'Responsive grid, 10px gap, columns auto-fit at a 180px minimum. role=radiogroup for single, role=group for multiple.' },
+    { name: 'item', el: 'button', parent: 'root', role: 'radio', description: 'The card. role=radio (single) or role=checkbox (multiple), aria-checked. Two-column grid: content and indicator.' },
+    { name: 'title', el: 'b', parent: 'item', description: 'Option name, top-left.' },
+    { name: 'indicator', el: 'span', parent: 'item', description: '18px radio or checkbox mark, top-right (aria-hidden, no pointer events).' },
+    { name: 'description', el: 'span', parent: 'item', required: false, description: 'One short line under the title, tertiary.' },
+    { name: 'price', el: 'span', parent: 'item', required: false, description: 'Large figure on its own row, 6px below the description.' },
+    { name: 'price-unit', el: 'small', parent: 'price', required: false, description: 'Unit after the figure, e.g. " / month".' },
+  ],
+  states: {
+    hover: { pseudo: ['hover'], target: 'item' },
+    'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'item' },
+    selected: { props: { defaultValue: 'starter' } },
+    disabled: { props: { disabled: true } },
+  },
+  props: {
+    type: { type: "'single' | 'multiple'", default: 'single', description: 'single = radio cards; multiple = checkbox cards.' },
+    value: { type: 'string | string[]', description: 'Controlled value(s): string for single, string[] for multiple.' },
+    defaultValue: { type: 'string | string[]', description: 'Uncontrolled initial value(s).' },
+    disabled: { type: 'boolean', default: false, description: 'Disables every card.' },
+    children: { type: 'ReactNode', description: 'The cards (item with value, title, description, price).' },
+  },
+  events: { onValueChange: { payload: 'string | string[]', when: 'a card is selected or toggled by click, Space or arrow key (single)' } },
+  styles: [
+    { slot: 'root', expect: { gap: 10 } },
+    { slot: 'item', expect: { bg: 'surface.base', edge: 'border.default', shadow: '1', radius: 'xl', padX: 14, padY: 14, gap: 4, fg: 'text.primary' }, note: 'Padding is 14px on all sides (inset.regular is 14 block, 15 inline; the specimen uses 14 for both).' },
+    { slot: 'item', when: { state: 'hover' }, expect: { edge: 'border.strong' } },
+    { slot: 'item', when: { state: 'selected' }, expect: { bg: 'accent.soft', ring: 'focus-field', shadow: '1' }, note: '1.5px inset focus.ring replaces the hairline.' },
+    { slot: 'item', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
+    { slot: 'item', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'title', expect: { text: 'ui-md', weight: 600, fg: 'text.primary' } },
+    { slot: 'indicator', expect: { height: 'size-check', width: 'size-check' } },
+    { slot: 'description', expect: { text: 'ui-sm', weight: 400, fg: 'text.tertiary' } },
+    { slot: 'price', expect: { text: 'figure', fg: 'text.primary' } },
+    { slot: 'price-unit', expect: { text: 'ui-sm', weight: 400, fg: 'text.tertiary' } },
+  ],
+  behavior: {
+    keyboard: { ArrowDown: 'select next card (single)', ArrowUp: 'select previous card (single)', ArrowRight: 'select next card (single)', ArrowLeft: 'select previous card (single)', Space: 'select or toggle the focused card' },
+    pointer: ['click anywhere on the card selects or toggles it', 'edge and shadow change with duration-quick'],
+    scenarios: [
+      { name: 'click selects a card', props: { type: 'single', defaultValue: 'pro' }, steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onValueChange', args: ['starter'] }, { slot: 'item', attr: { 'aria-checked': 'true' } }] },
+      { name: 'arrow selects next', props: { type: 'single', defaultValue: 'starter' }, steps: [{ do: 'focus', slot: 'item' }, { do: 'press', key: 'ArrowDown' }], expect: [{ event: 'onValueChange', args: ['pro'] }] },
+      { name: 'multiple: click toggles a card off', props: { type: 'multiple', defaultValue: ['react', 'tokens'] }, steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onValueChange', args: [['tokens']] }, { slot: 'item', attr: { 'aria-checked': 'false' } }] },
+      { name: 'disabled ignores clicks', props: { disabled: true }, steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onValueChange', calls: 0 }] },
+    ],
+  },
+  a11y: {
+    labelRequired: true,
+    minHit: 24,
+    attrs: { item: ['aria-checked'] },
+    notes: ['The group needs aria-label (e.g. "Plan", "Export targets").', 'The decorative indicator is aria-hidden; the card itself is the radio or checkbox.'],
+  },
+  policies: ['P5', 'P6', 'P8'],
+  composition: { uses: ['radio-group', 'checkbox'], radix: ['@radix-ui/react-radio-group'] },
+  examples: [
+    { id: 'choice-cards', title: 'Choice cards', doc: 'choice-cards#choice-cards' },
+  ],
+  usage: [
+    'Fixture items: single = Plan cards Starter / Pro / Team (values starter, pro, team; default render selects "pro"); multiple = Export targets React / SwiftUI / Tokens (values react, swiftui, tokens; default selection react and tokens).',
+    'Use for 2 to 4 options that need a sentence of explanation; use RadioGroup for plain labels.',
+    'For type="multiple" Radix has no checkbox-group primitive for cards; implement the toggle with useControllableState and role=checkbox, keeping @radix-ui/react-radio-group for single.',
+  ],
+});

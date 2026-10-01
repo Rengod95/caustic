@@ -260,6 +260,17 @@
     },
     {
       "theme": "light",
+      "fg": "ink.on-muted",
+      "bg": "ink.kbd@ink.solid",
+      "min": 4.5,
+      "ratio": 6.1,
+      "pass": true,
+      "note": "tooltip shortcut",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
       "fg": "text.primary",
       "bg": "control.raised",
       "min": 7,
@@ -893,6 +904,17 @@
       "ratio": 7.39,
       "pass": true,
       "note": "primary button hover",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "ink.on-muted",
+      "bg": "ink.kbd@ink.solid",
+      "min": 4.5,
+      "ratio": 4.98,
+      "pass": true,
+      "note": "tooltip shortcut",
       "sweep": false,
       "worstHue": null
     },

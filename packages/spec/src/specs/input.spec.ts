@@ -11,7 +11,7 @@ export default defineSpec({
     { name: 'root', el: 'div', description: 'Field container: fill, border, focus edge, height. Clicking anywhere focuses the control.' },
     { name: 'prefix', el: 'span', parent: 'root', required: false, description: 'Leading icon or short text.' },
     { name: 'control', el: 'input', parent: 'root', role: 'textbox', description: 'The native input; no border, outline or ring of its own.' },
-    { name: 'suffix', el: 'span', parent: 'root', required: false, description: 'Trailing unit, clear button or Kbd.' },
+    { name: 'suffix', el: 'span', parent: 'root', required: false, description: 'Trailing unit, clear/reveal IconButton (xs) or Kbd. An IconButton here sits 6px closer to the edge (margin-end −6) so its hit area balances the padding.' },
   ],
   variants: {
     appearance: { values: ['default', 'sunken'], default: 'default', description: 'sunken = inspector field (32px, filled, no frost).' },
@@ -50,7 +50,10 @@ export default defineSpec({
     { slot: 'root', when: { appearance: 'sunken' }, expect: { bg: 'fill.hover', height: 'control-md', radius: 'lg', padX: 10 } },
     { slot: 'root', when: { appearance: 'sunken', state: 'focus-within' }, expect: { bg: 'surface.base', ring: 'focus-field' } },
     { slot: 'control', expect: { fg: 'text.primary', outline: 'none' } },
+    { slot: 'control', when: { state: 'readonly' }, expect: { fg: 'text.secondary' } },
     { slot: 'prefix', expect: { fg: 'text.tertiary' } },
+    { slot: 'prefix', when: { appearance: 'sunken' }, expect: { fg: 'text.tertiary', text: 'ui-xs', weight: 500, width: 12 }, note: 'Inspector axis label (X, Y, W, H).' },
+    { slot: 'suffix', expect: { fg: 'text.tertiary', text: 'ui' }, note: 'Text adornments ($, / month) are 13px tertiary, one line; icons and Kbd keep their own sizes.' },
   ],
   behavior: {
     keyboard: {},
@@ -63,7 +66,11 @@ export default defineSpec({
   a11y: { labelRequired: true, minHit: 24, notes: ['Wrap in Field for the label, hint and error wiring (htmlFor, aria-describedby).'] },
   policies: ['P6', 'P9'],
   flags: { field: true },
-  composition: { uses: ['field'] },
-  examples: [{ id: 'text-fields', title: 'Text fields', doc: 'text-field#text-fields' }],
+  composition: { uses: ['field', 'icon-button', 'kbd', 'input-group', 'stepper-input', 'textarea'] },
+  examples: [
+    { id: 'text-fields', title: 'Text fields', doc: 'text-field#text-fields' },
+    { id: 'input-variants', title: 'Input variants', doc: 'text-field#input-variants' },
+    { id: 'inspector-fields', title: 'Inspector fields', doc: 'text-field#inspector-fields' },
+  ],
   usage: ['Default height 40; 36 in dense toolbars and tables; 44 for onboarding and primary mobile input.', 'Errors say what to fix; one red border only.'],
 });

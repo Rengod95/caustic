@@ -1,0 +1,53 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'badge',
+  name: 'Badge',
+  category: 'primitive',
+  status: 'ready',
+  purpose: 'Small read-only status or count label. Soft tinted fill with matching text so contrast holds at 4.5:1; the agent tone carries the spectrum rim.',
+  description: 'Not interactive. Use Chip for removable tokens and Kbd for keys.',
+  role: null,
+  slots: [
+    { name: 'root', el: 'span', description: 'Pill (or square) label, 20px high.' },
+    { name: 'icon', el: 'any', parent: 'root', required: false, description: 'Leading lucide icon, 12px.' },
+    { name: 'dot', el: 'span', parent: 'root', required: false, description: '6px dot in the text color, for live or active status.' },
+    { name: 'orb', el: 'span', parent: 'root', required: false, description: 'Agent tone only: 8px spectrum orb, rendered automatically.' },
+  ],
+  variants: {
+    tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'solid', 'outline', 'agent'], default: 'neutral', description: 'soft tints for status; solid = ink; outline = hairline only; agent = made or done by the agent.' },
+    shape: { values: ['pill', 'square'], default: 'pill', description: 'square uses the xs radius, for type tags such as Instance.' },
+  },
+  props: {
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'solid' | 'outline' | 'agent'", default: 'neutral', description: 'Meaning and color.' },
+    shape: { type: "'pill' | 'square'", default: 'pill', description: 'Corner style.' },
+    icon: { type: 'ReactNode', description: 'Leading icon.' },
+    dot: { type: 'boolean', default: false, description: 'Leading status dot (in the text color).' },
+    children: { type: 'ReactNode', description: 'Label or count.' },
+  },
+  styles: [
+    { slot: 'root', expect: { bg: 'fill.pressed', fg: 'text.secondary', radius: 'full', height: 'control-2xs', padX: 7, gap: 4, text: 'hint', weight: 500 } },
+    { slot: 'root', when: { tone: 'accent' }, expect: { bg: 'accent.soft', fg: 'accent.text' } },
+    { slot: 'root', when: { tone: 'success' }, expect: { bg: 'success.soft', fg: 'success.text' } },
+    { slot: 'root', when: { tone: 'warning' }, expect: { bg: 'warning.soft', fg: 'warning.text' } },
+    { slot: 'root', when: { tone: 'danger' }, expect: { bg: 'danger.soft', fg: 'danger.text' } },
+    { slot: 'root', when: { tone: 'info' }, expect: { bg: 'info.soft', fg: 'info.text' } },
+    { slot: 'root', when: { tone: 'solid' }, expect: { bg: 'ink.solid', fg: 'ink.on' } },
+    { slot: 'root', when: { tone: 'outline' }, expect: { bg: 'transparent', fg: 'text.secondary', edge: 'border.default' } },
+    { slot: 'root', when: { tone: 'agent' }, expect: { bg: 'surface.base', fg: 'text.primary', agentRim: true } },
+    { slot: 'root', when: { shape: 'square' }, expect: { radius: 'xs' } },
+    { slot: 'icon', expect: { height: 'icon-xs', width: 'icon-xs' } },
+    { slot: 'dot', when: { dot: true }, expect: { height: 6, width: 6, radius: 'full' } },
+    { slot: 'orb', when: { tone: 'agent' }, expect: { height: 8, width: 8, radius: 'full' } },
+  ],
+  a11y: { notes: ['Status is carried by the text, never by color alone.', 'Soft fill + matching text token keeps 4.5:1 in both themes.'] },
+  policies: ['P2', 'P6', 'P8'],
+  flags: { agent: { tone: ['agent'] } },
+  composition: { uses: ['chip', 'kbd'] },
+  examples: [{ id: 'badges-chips-keys', title: 'Badges, chips, keys', doc: 'badge#badges-chips-keys' }],
+  usage: [
+    'Use the spectrum (tone="agent") only for things the agent made or did.',
+    'Keep labels to a word or a count.',
+    '`uses: chip, kbd` is for the example fixture only; Badge itself imports neither.',
+  ],
+});

@@ -114,10 +114,16 @@
   --cs-space-12: 48px;
   --cs-space-16: 64px;
   --cs-space-18: 72px;
+  --cs-space-0_25: 1px;
   --cs-space-0_5: 2px;
+  --cs-space-0_75: 3px;
+  --cs-space-1_25: 5px;
   --cs-space-1_5: 6px;
+  --cs-space-1_75: 7px;
   --cs-space-2_5: 10px;
   --cs-space-3_5: 14px;
+  --cs-space-4_5: 18px;
+  --cs-space-6_5: 26px;
 
   /* inset (container padding) */
   --cs-inset-compact: 12px 12px;
@@ -173,6 +179,25 @@
   --cs-size-dialog-sm: 320px;
   --cs-size-dialog-md: 480px;
   --cs-size-dialog-lg: 640px;
+  --cs-size-chip-h: 26px;
+  --cs-size-chip-icon: 13px;
+  --cs-size-spinner-lg: 28px;
+  --cs-size-control-inline: 26px;
+  --cs-size-tab-h: 34px;
+  --cs-size-textarea-min: 92px;
+  --cs-size-otp-w: 44px;
+  --cs-size-otp-h: 52px;
+  --cs-size-slider-ruler-h: 30px;
+  --cs-size-slider-label-w: 52px;
+  --cs-size-menu-item: 30px;
+  --cs-size-menu-min: 220px;
+  --cs-size-listbox-max: 220px;
+  --cs-size-popover-sm: 240px;
+  --cs-size-popover-md: 280px;
+  --cs-size-popover-arrow: 12px;
+  --cs-size-calendar: 284px;
+  --cs-size-calendar-day: 36px;
+  --cs-size-icon-send: 15px;
   --cs-icon-xs: 12px;
   --cs-icon-sm: 14px;
   --cs-icon-md: 16px;
@@ -226,6 +251,20 @@
   --cs-text-hint-tracking: 0em;
   --cs-text-micro: 600 11px/14px var(--cs-font-ui);
   --cs-text-micro-tracking: 0em;
+  --cs-text-ui-xs: 400 11px/18px var(--cs-font-ui);
+  --cs-text-ui-xs-tracking: 0em;
+  --cs-text-ui-md: 500 13.5px/18px var(--cs-font-ui);
+  --cs-text-ui-md-tracking: -0.003em;
+  --cs-text-ui-relaxed: 400 13px/19px var(--cs-font-ui);
+  --cs-text-ui-relaxed-tracking: -0.003em;
+  --cs-text-ui-dense-relaxed: 400 12.5px/19px var(--cs-font-ui);
+  --cs-text-ui-dense-relaxed-tracking: -0.003em;
+  --cs-text-figure: 600 20px/18px var(--cs-font-ui);
+  --cs-text-figure-tracking: -0.02em;
+  --cs-text-mono-md: 500 11.5px/16px var(--cs-font-mono);
+  --cs-text-mono-md-tracking: 0em;
+  --cs-text-mono-lg: 600 20px/20px var(--cs-font-mono);
+  --cs-text-mono-lg-tracking: 0em;
 
   /* blur, motion, opacity, z */
   --cs-blur-control: 12px;
@@ -239,6 +278,7 @@
   --cs-duration-base: 200ms;
   --cs-duration-gentle: 320ms;
   --cs-duration-slow: 480ms;
+  --cs-duration-spin: 700ms;
   --cs-duration-shimmer: 2200ms;
   --cs-duration-agent: 4800ms;
   --cs-ease-standard: cubic-bezier(0.2, 0, 0, 1);
@@ -313,6 +353,9 @@
   --cs-color-ink-solid: oklch(0.225 0.009 260 / 0.9);
   --cs-color-ink-hover: oklch(0.32 0.011 260 / 0.9);
   --cs-color-ink-on: oklch(0.985 0.002 260);
+  --cs-color-ink-on-muted: oklch(0.985 0.002 260 / 0.75);
+  --cs-color-ink-kbd: oklch(1 0 0 / 0.09);
+  --cs-color-swatch-edge: oklch(0 0 0 / 0.1);
   --cs-color-accent-solid: oklch(0.545 0.135 var(--cs-accent-hue));
   --cs-color-accent-hover: oklch(0.465 0.118 var(--cs-accent-hue));
   --cs-color-accent-on: oklch(0.995 0.001 260);
@@ -365,6 +408,9 @@
   --cs-elevation-3: 0 2px 4px oklch(0.2 0.02 260 / 0.04), 0 12px 28px -6px oklch(0.2 0.02 260 / 0.12);
   --cs-elevation-4: 0 4px 8px oklch(0.2 0.02 260 / 0.05), 0 24px 48px -12px oklch(0.2 0.02 260 / 0.18);
   --cs-elevation-5: 0 8px 16px oklch(0.2 0.02 260 / 0.06), 0 40px 80px -16px oklch(0.2 0.02 260 / 0.28);
+  --cs-elevation-thumb: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
+  --cs-elevation-thumb-sm: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2);
+  --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25);
   --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
   --cs-focus: 0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring);
 }
@@ -409,6 +455,9 @@
     --cs-color-ink-solid: oklch(0.41 0.012 260 / 0.86);
     --cs-color-ink-hover: oklch(0.48 0.012 260 / 0.86);
     --cs-color-ink-on: oklch(0.985 0.002 260);
+    --cs-color-ink-on-muted: oklch(0.985 0.002 260 / 0.75);
+    --cs-color-ink-kbd: oklch(1 0 0 / 0.09);
+    --cs-color-swatch-edge: oklch(0 0 0 / 0.1);
     --cs-color-accent-solid: oklch(0.735 0.13 var(--cs-accent-hue));
     --cs-color-accent-hover: oklch(0.815 0.105 var(--cs-accent-hue));
     --cs-color-accent-on: oklch(0.14 0.007 260);
@@ -461,6 +510,9 @@
     --cs-elevation-3: 0 2px 4px oklch(0 0 0 / 0.25), 0 12px 28px -6px oklch(0 0 0 / 0.45);
     --cs-elevation-4: 0 4px 8px oklch(0 0 0 / 0.25), 0 24px 48px -12px oklch(0 0 0 / 0.55);
     --cs-elevation-5: 0 8px 16px oklch(0 0 0 / 0.3), 0 40px 80px -16px oklch(0 0 0 / 0.65);
+    --cs-elevation-thumb: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
+    --cs-elevation-thumb-sm: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2);
+    --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25);
     --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
     --cs-focus: 0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring);
   }
@@ -505,6 +557,9 @@
   --cs-color-ink-solid: oklch(0.41 0.012 260 / 0.86);
   --cs-color-ink-hover: oklch(0.48 0.012 260 / 0.86);
   --cs-color-ink-on: oklch(0.985 0.002 260);
+  --cs-color-ink-on-muted: oklch(0.985 0.002 260 / 0.75);
+  --cs-color-ink-kbd: oklch(1 0 0 / 0.09);
+  --cs-color-swatch-edge: oklch(0 0 0 / 0.1);
   --cs-color-accent-solid: oklch(0.735 0.13 var(--cs-accent-hue));
   --cs-color-accent-hover: oklch(0.815 0.105 var(--cs-accent-hue));
   --cs-color-accent-on: oklch(0.14 0.007 260);
@@ -557,6 +612,9 @@
   --cs-elevation-3: 0 2px 4px oklch(0 0 0 / 0.25), 0 12px 28px -6px oklch(0 0 0 / 0.45);
   --cs-elevation-4: 0 4px 8px oklch(0 0 0 / 0.25), 0 24px 48px -12px oklch(0 0 0 / 0.55);
   --cs-elevation-5: 0 8px 16px oklch(0 0 0 / 0.3), 0 40px 80px -16px oklch(0 0 0 / 0.65);
+  --cs-elevation-thumb: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
+  --cs-elevation-thumb-sm: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2);
+  --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25);
   --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
   --cs-focus: 0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring);
 }

@@ -33,6 +33,7 @@ export const StyleExpect = z.object({
   padY: z.union([z.string(), z.number()]).optional(),
   gap: z.number().optional(),
   text: z.string().optional().describe('type role: font-size, line-height, weight, tracking'),
+  weight: z.union([z.literal(400), z.literal(500), z.literal(600)]).optional().describe('overrides the role weight (font-normal / font-medium / font-semibold); size and line-height stay the role'),
   font: z.enum(['ui', 'voice', 'mono']).optional(),
   material: z.enum(['ultrathin', 'thin', 'regular', 'thick']).optional().describe('glass material: background + backdrop blur'),
   frost: z.boolean().optional().describe('light control frost (blur-control) behind the fill'),

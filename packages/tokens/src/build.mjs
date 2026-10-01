@@ -297,7 +297,7 @@ function tailwindTheme() {
   add('animate-agent', `cs-spin var(--${P}-duration-agent) linear infinite`);
   add('animate-orb', 'cs-spin 1.6s linear infinite');
   add('animate-shimmer', `cs-shimmer var(--${P}-duration-shimmer) linear infinite`);
-  add('animate-spinner', 'cs-rot 0.7s linear infinite');
+  add('animate-spinner', `cs-rot var(--${P}-duration-spin) linear infinite`);
   add('animate-indeterminate', `cs-indet 1.4s var(--${P}-ease-out) infinite`);
   add('animate-slide', 'cs-slide 2.4s linear infinite');
   L.push('  @keyframes cs-rot { to { transform: rotate(360deg); } }');

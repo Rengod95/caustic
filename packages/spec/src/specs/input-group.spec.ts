@@ -1,0 +1,55 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'input-group',
+  name: 'InputGroup',
+  category: 'form',
+  status: 'ready',
+  purpose: 'Single-line text entry with attached add-ons (https:// … .co) that sit flush inside the field, set off by hairline dividers.',
+  description: 'Same box as Input (frosted fill, edge, short shadow, focus-field), but the add-ons are full-height raised segments, not inline adornments. The container clips them to its radius.',
+  role: null,
+  slots: [
+    { name: 'root', el: 'div', description: 'Field container; flex, items stretch, overflow hidden. Owns the edge and the focus edge.' },
+    { name: 'start', el: 'span', parent: 'root', required: false, description: 'Leading add-on: raised fill, tertiary 13px text, 12px side padding, hairline divider on its end side.' },
+    { name: 'control', el: 'input', parent: 'root', role: 'textbox', description: 'Bare native input, 12px side padding; no border, outline or ring.' },
+    { name: 'end', el: 'span', parent: 'root', required: false, description: 'Trailing add-on: as start, divider on its start side.' },
+  ],
+  sizes: { values: ['sm', 'md', 'lg'], default: 'md' },
+  states: {
+    'focus-within': { pseudo: ['focus-within'] },
+    invalid: { props: { invalid: true } },
+    disabled: { props: { disabled: true } },
+  },
+  props: {
+    size: { type: "'sm' | 'md' | 'lg'", default: 'md', description: 'Height 36 · 40 · 44, as Input.' },
+    start: { type: 'ReactNode', description: 'Leading add-on content.' },
+    end: { type: 'ReactNode', description: 'Trailing add-on content.' },
+    invalid: { type: 'boolean', default: false, description: 'Danger edge; also taken from an enclosing Field with an error.' },
+    disabled: { type: 'boolean', default: false, description: 'Disables the control.' },
+    value: { type: 'string', description: 'Controlled value.' },
+    defaultValue: { type: 'string', description: 'Uncontrolled initial value.' },
+  },
+  events: { onValueChange: { payload: 'string', when: 'the text changes' } },
+  styles: [
+    { slot: 'root', expect: { bg: 'surface.translucent', edge: 'border.default', shadow: '1', frost: true, radius: 'xl', height: 'field-md', text: 'ui' } },
+    { slot: 'root', when: { size: 'sm' }, expect: { height: 'field-sm', radius: 'lg' } },
+    { slot: 'root', when: { size: 'lg' }, expect: { height: 'field-lg', radius: '2xl' } },
+    { slot: 'root', when: { state: 'focus-within' }, expect: { ring: 'focus-field' } },
+    { slot: 'root', when: { state: 'invalid' }, expect: { edge: 'danger.solid' } },
+    { slot: 'root', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'start', expect: { bg: 'surface.raised', fg: 'text.tertiary', padX: 12, text: 'ui' }, note: 'A 1px border.subtle divider on the inline-end side.' },
+    { slot: 'end', expect: { bg: 'surface.raised', fg: 'text.tertiary', padX: 12, text: 'ui' }, note: 'A 1px border.subtle divider on the inline-start side.' },
+    { slot: 'control', expect: { fg: 'text.primary', padX: 12, outline: 'none' } },
+  ],
+  behavior: {
+    pointer: ['pressing the control focuses it; add-ons are static text'],
+    scenarios: [
+      { name: 'typing reports the value', steps: [{ do: 'click', slot: 'control' }, { do: 'type', text: 'orbit' }], expect: [{ event: 'onValueChange', args: ['orbit'] }, { focused: 'control' }] },
+    ],
+  },
+  a11y: { labelRequired: true, notes: ['Add-ons are decorative context for the label; repeat their meaning in the Field label or hint when it matters (“Custom domain”).'] },
+  policies: ['P6', 'P9'],
+  flags: { field: true },
+  composition: { uses: ['field'] },
+  usage: ['Use for values with a fixed scheme, host or unit that the user must not retype; use Input prefix/suffix for light inline adornments.'],
+});

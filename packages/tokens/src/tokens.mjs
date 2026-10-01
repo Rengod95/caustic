@@ -93,6 +93,9 @@ export const themes = {
     'ink.solid': 'neutral.900/0.9',
     'ink.hover': 'neutral.800/0.9',
     'ink.on': 'neutral.25',
+    'ink.on-muted': 'neutral.25/0.75',
+    'ink.kbd': 'white/0.09',
+    'swatch.edge': 'black/0.1',
 
     'accent.solid': 'accent.600',
     'accent.hover': 'accent.700',
@@ -178,6 +181,9 @@ export const themes = {
     'ink.solid': 'neutral.700/0.86',
     'ink.hover': 'neutral.600/0.86',
     'ink.on': 'neutral.25',
+    'ink.on-muted': 'neutral.25/0.75',
+    'ink.kbd': 'white/0.09',
+    'swatch.edge': 'black/0.1',
 
     'accent.solid': 'accent.400',
     'accent.hover': 'accent.300',
@@ -242,6 +248,7 @@ export const contrastRules = [
   ['text.primary', 'fill.selected@surface.base', 7, 'selected row'],
   ['ink.on', 'ink.solid', 7, 'primary button'],
   ['ink.on', 'ink.hover', 4.5, 'primary button hover'],
+  ['ink.on-muted', 'ink.kbd@ink.solid', 4.5, 'tooltip shortcut'],
   ['text.primary', 'control.raised', 7, 'secondary button, segmented thumb'],
   ['text.primary', 'control.raised-hover', 7, 'secondary button hover'],
   ['text.primary', 'surface.translucent', 7, 'translucent list, field, card'],
@@ -282,7 +289,8 @@ export const contrastRules = [
 ];
 
 /* ── Dimension & effect scales ───────────────────────────────────── */
-export const space = { 0: 0, 0.5: 2, 1: 4, 1.5: 6, 2: 8, 2.5: 10, 3: 12, 3.5: 14, 4: 16, 5: 20, 6: 24, 8: 32, 10: 40, 12: 48, 16: 64, 18: 72 };
+// Quarter steps (0.25–1.75) exist for dense controls: chips, badges and segmented items sit on 5 / 7px.
+export const space = { 0: 0, 0.25: 1, 0.5: 2, 0.75: 3, 1: 4, 1.25: 5, 1.5: 6, 1.75: 7, 2: 8, 2.5: 10, 3: 12, 3.5: 14, 4: 16, 4.5: 18, 5: 20, 6: 24, 6.5: 26, 8: 32, 10: 40, 12: 48, 16: 64, 18: 72 };
 
 // Container insets. Compact for nested lists and inline cards; regular for cards,
 // dialogs and panels. 14 / 15 is off the 4pt grid on purpose: the block inset
@@ -304,6 +312,12 @@ export const size = {
     'switch-sm-w': 38, 'switch-sm-h': 23, 'switch-sm-thumb': 19, 'switch-sm-travel': 15, 'switch-sm-press': 24,
     'avatar-xs': 16, 'avatar-sm': 24, 'avatar-md': 32, 'avatar-lg': 36,
     'dialog-sm': 320, 'dialog-md': 480, 'dialog-lg': 640,
+    'chip-h': 26, 'chip-icon': 13, 'spinner-lg': 28, 'control-inline': 26, 'tab-h': 34,
+    'textarea-min': 92, 'otp-w': 44, 'otp-h': 52,
+    'slider-ruler-h': 30, 'slider-label-w': 52,
+    'menu-item': 30, 'menu-min': 220, 'listbox-max': 220,
+    'popover-sm': 240, 'popover-md': 280, 'popover-arrow': 12,
+    'calendar': 284, 'calendar-day': 36, 'icon-send': 15,
   },
   'hit-min': 24,
 };
@@ -337,6 +351,15 @@ export const type = {
   'ui-dense': ['ui', 12.5, 18, 400, -0.003],
   hint: ['ui', 11.5, 18, 400, 0],
   micro: ['ui', 11, 14, 600, 0],
+  // Weight variants of a role use the weight override (font-normal / font-medium / font-semibold),
+  // so roles below only add new size / line-height pairs.
+  'ui-xs': ['ui', 11, 18, 400, 0],
+  'ui-md': ['ui', 13.5, 18, 500, -0.003],
+  'ui-relaxed': ['ui', 13, 19, 400, -0.003],
+  'ui-dense-relaxed': ['ui', 12.5, 19, 400, -0.003],
+  figure: ['ui', 20, 18, 600, -0.02],
+  'mono-md': ['mono', 11.5, 16, 500, 0],
+  'mono-lg': ['mono', 20, 20, 600, 0],
 };
 
 // Elevation: a short contact shadow + a long diffuse one. Values per theme.
@@ -347,6 +370,10 @@ export const elevation = {
     3: '0 2px 4px oklch(0.2 0.02 260 / 0.04), 0 12px 28px -6px oklch(0.2 0.02 260 / 0.12)',
     4: '0 4px 8px oklch(0.2 0.02 260 / 0.05), 0 24px 48px -12px oklch(0.2 0.02 260 / 0.18)',
     5: '0 8px 16px oklch(0.2 0.02 260 / 0.06), 0 40px 80px -16px oklch(0.2 0.02 260 / 0.28)',
+    // Control thumbs (sliders, steppers): a hairline, a contact shadow and a short lift. Same in both themes.
+    thumb: '0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)',
+    'thumb-sm': '0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2)',
+    'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)',
   },
   dark: {
     1: '0 1px 2px oklch(0 0 0 / 0.3)',
@@ -354,6 +381,10 @@ export const elevation = {
     3: '0 2px 4px oklch(0 0 0 / 0.25), 0 12px 28px -6px oklch(0 0 0 / 0.45)',
     4: '0 4px 8px oklch(0 0 0 / 0.25), 0 24px 48px -12px oklch(0 0 0 / 0.55)',
     5: '0 8px 16px oklch(0 0 0 / 0.3), 0 40px 80px -16px oklch(0 0 0 / 0.65)',
+    // Control thumbs (sliders, steppers): a hairline, a contact shadow and a short lift. Same in both themes.
+    thumb: '0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)',
+    'thumb-sm': '0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2)',
+    'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)',
   },
 };
 
@@ -361,7 +392,7 @@ export const elevation = {
 export const blur = { control: 12, ultrathin: 14, thin: 20, regular: 24, thick: 36, overlay: 40 };
 
 export const motion = {
-  duration: { instant: 0, quick: 120, base: 200, gentle: 320, slow: 480, shimmer: 2200, agent: 4800 },
+  duration: { instant: 0, quick: 120, base: 200, gentle: 320, slow: 480, spin: 700, shimmer: 2200, agent: 4800 },
   easing: {
     standard: 'cubic-bezier(0.2, 0, 0, 1)',
     out: 'cubic-bezier(0.2, 0.8, 0.2, 1)',

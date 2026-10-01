@@ -17,8 +17,11 @@ export async function startRuntime(): Promise<Runtime> {
     configFile: false, root: join(root, 'packages/gateway/harness'), logLevel: 'error',
     // Per-process dependency cache: parallel gate runs must not race on one optimizer cache.
     cacheDir: join(tmpdir(), `caustic-vite-${process.pid}`),
-    plugins: [react(), tailwindcss()], server: { port: 0, strictPort: false, fs: { allow: [root] } },
-    optimizeDeps: { include: ['react', 'react-dom/client', 'zod', 'class-variance-authority', 'tailwind-merge', 'lucide-react', '@radix-ui/react-slot'] },
+    plugins: [react(), tailwindcss()], // No HMR or watching: other agents edit files while a gate runs; a run must see one stable snapshot.
+    server: { port: 0, strictPort: false, hmr: false, watch: null, fs: { allow: [root] } },
+    optimizeDeps: { include: ['react', 'react-dom/client', 'zod', 'class-variance-authority', 'tailwind-merge', 'lucide-react', '@radix-ui/react-slot', '@radix-ui/react-dialog',
+      '@radix-ui/react-accordion', '@radix-ui/react-dropdown-menu', '@radix-ui/react-hover-card', '@radix-ui/react-popover', '@radix-ui/react-radio-group',
+      '@radix-ui/react-select', '@radix-ui/react-slider', '@radix-ui/react-tabs', '@radix-ui/react-toggle-group', '@radix-ui/react-tooltip'] },
   });
   await server.listen();
   const url = server.resolvedUrls!.local[0]!.replace(/\/$/, '');
@@ -74,7 +77,7 @@ export function expectPayload(t: TokenIndex, e: StyleExpect) {
   const out: Record<string, unknown> = { ...e };
   for (const key of ['height', 'minHeight', 'width'] as const) if (e[key] !== undefined) out[key] = dimPx(t, e[key]!);
   for (const key of ['padX', 'padY'] as const) if (e[key] !== undefined) out[key] = typeof e[key] === 'number' ? e[key] : dimPx(t, e[key] as string);
-  if (e.text) { const r = t.type[e.text]!; out.text = { name: e.text, size: r[1], lh: r[2], weight: r[3], tracking: r[4] }; }
+  if (e.text) { const r = t.type[e.text]!; out.text = { name: e.text + (e.weight ? ` @${e.weight}` : ''), size: r[1], lh: r[2], weight: e.weight ?? r[3], tracking: r[4] }; }
   if (e.radius) out.radiusVar = ['window', 'panel', 'toolbar', 'toolbar-item', 'toast'].includes(e.radius) ? `--cs-studio-${e.radius}-radius`.replace('-toolbar-item-radius', '-toolbar-item-radius') : `--cs-radius-${e.radius}`;
   return out;
 }
@@ -111,6 +114,7 @@ window.__gate = {
     if (e.padX != null && (!near(px(cs.paddingLeft), e.padX) || !near(px(cs.paddingRight), e.padX))) push('padX', e.padX + 'px', cs.paddingLeft + ' / ' + cs.paddingRight);
     if (e.padY != null && (!near(px(cs.paddingTop), e.padY) || !near(px(cs.paddingBottom), e.padY))) push('padY', e.padY + 'px', cs.paddingTop + ' / ' + cs.paddingBottom);
     if (e.gap != null && !near(px(cs.columnGap) || px(cs.rowGap) || 0, e.gap)) push('gap', e.gap + 'px', cs.columnGap);
+    if (e.weight && !e.text && Number(cs.fontWeight) !== e.weight) push('weight', e.weight, cs.fontWeight);
     if (e.text) {
       const t = e.text;
       if (!near(px(cs.fontSize), t.size, 0.05)) push('text ' + t.name + ' size', t.size + 'px', cs.fontSize);

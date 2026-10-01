@@ -40,6 +40,8 @@ export function dimPx(t: TokenIndex, key: string | number): number | null {
   if (typeof key === 'number') return key;
   if (/^\d+(\.\d+)?$/.test(key)) return Number(key);
   const [ns, ...rest] = key.split('-'); const k = rest.join('-');
+  if (key.startsWith('control-compact-')) return t.raw.size['control-compact']?.[key.slice(16)] ?? null;
+  if (key.startsWith('field-compact-')) return t.raw.size['field-compact']?.[key.slice(14)] ?? null;
   if (ns === 'control') return t.control[k] ?? null;
   if (ns === 'field') return t.field[k] ?? null;
   if (ns === 'icon') return t.icon[k] ?? null;

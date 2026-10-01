@@ -1,0 +1,72 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'toggle-group',
+  name: 'ToggleGroup',
+  category: 'form',
+  status: 'ready',
+  purpose: 'A row of icon toggles: several can be on (formatting) or exactly one (alignment). The on item rises as a raised chip in the inset track.',
+  description: 'Fixture contract: type multiple renders items bold, italic, underline, strikethrough; type single renders left, center, right. defaultValue ["bold"] (multiple) or "left" (single) turns the first item on.',
+  role: 'group',
+  slots: [
+    { name: 'root', el: 'div', role: 'group', description: 'Inset track holding the items; 4px padding, 2px gap.' },
+    { name: 'item', el: 'button', parent: 'root', description: '32px square icon toggle. Needs aria-label.' },
+    { name: 'icon', el: 'any', parent: 'item', description: 'lucide icon, 14px.' },
+  ],
+  variants: {
+    appearance: { values: ['filled', 'outline'], default: 'filled', description: 'filled = inset fill track; outline = transparent track with a hairline.' },
+  },
+  states: {
+    hover: { pseudo: ['hover'], target: 'item' },
+    pressed: { props: { type: 'multiple', defaultValue: ['bold'] } },
+    'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'item' },
+    disabled: { props: { disabled: true } },
+  },
+  props: {
+    type: { type: "'single' | 'multiple'", default: 'multiple', description: 'single keeps exactly one item on (never deselects); multiple lets any combination be on.' },
+    appearance: { type: "'filled' | 'outline'", default: 'filled', description: 'Track style.' },
+    value: { type: 'string | string[]', description: 'Controlled value: the on item (single) or items (multiple).' },
+    defaultValue: { type: 'string | string[]', description: 'Uncontrolled initial value.' },
+    disabled: { type: 'boolean', default: false, description: 'Disables every item.' },
+    orientation: { type: "'horizontal' | 'vertical'", default: 'horizontal', description: 'Arrow-key axis and layout.' },
+    children: { type: 'ReactNode', required: true, description: 'ToggleGroupItem elements, each with a value and aria-label.' },
+  },
+  events: { onValueChange: { payload: 'string | string[]', when: 'an item is toggled (single: only when the selection changes to another item)' } },
+  styles: [
+    { slot: 'root', expect: { bg: 'bg.inset', edge: 'border.subtle', radius: 'xl', padX: 4, padY: 4, gap: 2 } },
+    { slot: 'root', when: { appearance: 'outline' }, expect: { bg: 'transparent', edge: 'border.default' } },
+    { slot: 'item', expect: { bg: 'transparent', fg: 'text.secondary', radius: 'md', height: 'control-md', width: 'control-md' } },
+    { slot: 'item', when: { state: 'hover' }, expect: { fg: 'text.primary' } },
+    { slot: 'item', when: { state: 'pressed' }, expect: { bg: 'control.raised', fg: 'text.primary', edge: 'control.edge', shadow: '1', frost: true } },
+    { slot: 'item', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
+    { slot: 'item', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'icon', expect: { height: 'icon-sm', width: 'icon-sm' } },
+  ],
+  behavior: {
+    keyboard: { ArrowRight: 'move focus to the next item', ArrowLeft: 'move focus to the previous item', Space: 'toggle the focused item', Enter: 'toggle the focused item', Tab: 'enter / leave the group (roving focus)' },
+    pointer: ['click toggles an item', 'in single mode, clicking the on item keeps it on'],
+    scenarios: [
+      { name: 'multiple: click turns an item on', props: { type: 'multiple', defaultValue: [] }, steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onValueChange', calls: 1 }, { slot: 'item', attr: { 'data-state': 'on', 'aria-pressed': 'true' } }] },
+      { name: 'multiple: click turns it off again', props: { type: 'multiple', defaultValue: ['bold'] }, steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onValueChange', args: [[]] }, { slot: 'item', attr: { 'data-state': 'off', 'aria-pressed': 'false' } }] },
+      { name: 'single: clicking the on item keeps it on', props: { type: 'single', defaultValue: 'left' }, steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onValueChange', calls: 0 }, { slot: 'item', attr: { 'data-state': 'on' } }] },
+      { name: 'disabled ignores clicks', props: { disabled: true }, steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onValueChange', calls: 0 }] },
+    ],
+  },
+  a11y: {
+    labelRequired: true,
+    minHit: 24,
+    notes: [
+      'Root needs aria-label (e.g. "Text style"); every icon item needs aria-label.',
+      'multiple: items are buttons with aria-pressed. single: Radix gives items role="radio" with aria-checked; the specimen uses a radiogroup root, the Radix root stays role="group".',
+      'Roving tabindex: one tab stop for the whole group.',
+    ],
+  },
+  policies: ['P5', 'P6'],
+  composition: { radix: ['@radix-ui/react-toggle-group'] },
+  examples: [{ id: 'toggle-group', title: 'Multi and single', doc: 'toggle-group#toggle-group' }],
+  usage: [
+    'Use single for one choice among alternatives (alignment); multiple for independent switches (bold, italic).',
+    'Inner item radius is the track radius minus its padding (12 - 4 = 8).',
+    'Show the on state with the raised chip, not with an accent color.',
+  ],
+});
