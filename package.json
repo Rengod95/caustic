@@ -9,6 +9,7 @@
     "gate": "tsx packages/gateway/src/cli.ts",
     "baseline": "tsx packages/gateway/src/baseline.ts",
     "spec:approve": "tsx packages/spec/src/approve.ts",
+    "registry": "tsx packages/gateway/src/registry.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "docs": "vite --config apps/docs/vite.config.ts",
     "docs:build": "vite build --config apps/docs/vite.config.ts",

@@ -3,18 +3,24 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "sideEffects": ["*.css"],
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
     ".": "./src/index.ts",
     "./styles.css": "./src/styles.css",
     "./fixtures": "./src/fixtures.ts"
   },
-  "peerDependencies": { "react": "^19", "react-dom": "^19" },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
   "dependencies": {
     "@caustic/tokens": "workspace:*",
+    "@radix-ui/react-dialog": "1.1.23",
     "@radix-ui/react-slot": "1.3.3",
     "class-variance-authority": "0.7.1",
-    "tailwind-merge": "3.7.0",
-    "lucide-react": "0.468.0"
+    "lucide-react": "0.468.0",
+    "tailwind-merge": "3.7.0"
   }
 }

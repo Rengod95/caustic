@@ -1153,6 +1153,13 @@
         "value": 10,
         "unit": "px"
       }
+    },
+    "3.5": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      }
     }
   },
   "inset": {
@@ -1507,7 +1514,7 @@
           "value": 12,
           "unit": "px"
         },
-        "lineHeight": 1.3333333333333333,
+        "lineHeight": 1.5,
         "fontWeight": 500,
         "letterSpacing": {
           "value": 0,
@@ -1653,6 +1660,70 @@
         },
         "lineHeight": 1.4545454545454546,
         "fontWeight": 500,
+        "letterSpacing": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "mono-strong": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontSize": {
+          "value": 12,
+          "unit": "px"
+        },
+        "lineHeight": 1.5,
+        "fontWeight": 500,
+        "letterSpacing": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "ui-dense": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.ui}",
+        "fontSize": {
+          "value": 12.5,
+          "unit": "px"
+        },
+        "lineHeight": 1.44,
+        "fontWeight": 400,
+        "letterSpacing": {
+          "value": -0.003,
+          "unit": "em"
+        }
+      }
+    },
+    "hint": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.ui}",
+        "fontSize": {
+          "value": 11.5,
+          "unit": "px"
+        },
+        "lineHeight": 1.565217391304348,
+        "fontWeight": 400,
+        "letterSpacing": {
+          "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "micro": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.ui}",
+        "fontSize": {
+          "value": 11,
+          "unit": "px"
+        },
+        "lineHeight": 1.2727272727272727,
+        "fontWeight": 600,
         "letterSpacing": {
           "value": 0,
           "unit": "em"

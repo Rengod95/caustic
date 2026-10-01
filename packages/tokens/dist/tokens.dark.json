@@ -664,5 +664,31 @@
         "hex": "#00bfcf"
       }
     }
+  },
+  "identity": {
+    "coral": {
+      "$type": "color",
+      "$value": "{color.coral.600}"
+    },
+    "iris": {
+      "$type": "color",
+      "$value": "{color.iris.600}"
+    },
+    "mint": {
+      "$type": "color",
+      "$value": "{color.mint.700}"
+    },
+    "amber": {
+      "$type": "color",
+      "$value": "{color.amber.700}"
+    },
+    "slate": {
+      "$type": "color",
+      "$value": "{color.neutral.600}"
+    },
+    "on": {
+      "$type": "color",
+      "$value": "{color.neutral.0}"
+    }
   }
 }

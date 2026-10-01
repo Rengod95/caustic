@@ -14,8 +14,13 @@ export async function g6(c: Collector, spec: ComponentSpec) {
   for (const dep of Object.keys(pkg.dependencies ?? {})) if (!ALLOWED_DEPS.test(dep)) c.fail({ gate: 'G6', check: 'dependencies', message: `Runtime dependency "${dep}" is not on the allowlist.` });
   for (const r of spec.composition.radix) if (!pkg.dependencies?.[r]) c.fail({ gate: 'G6', check: 'dependencies', message: `${r} is used by the spec but not declared in packages/react/package.json.` });
 
+  // The public entry is generated (`pnpm registry`); check what it actually exports at runtime.
   const index = readFileSync(join(reactSrc, 'index.ts'), 'utf8');
-  if (!new RegExp(`\\b${pascal(spec.id)}\\b`).test(index)) c.fail({ gate: 'G6', check: 'export', message: `${pascal(spec.id)} is not exported from src/index.ts.` });
+  if (!index.includes(`./components/${spec.id}/index.ts`)) c.fail({ gate: 'G6', check: 'export', message: `components/${spec.id}/index.ts is not re-exported from src/index.ts.`, fix: 'Create components/<id>/index.ts with the public exports, then run `pnpm registry`.' });
+  else {
+    const pub = await import(pathToFileURL(join(reactSrc, 'index.ts')).href).catch((e: any) => { c.fail({ gate: 'G6', check: 'export', message: `src/index.ts failed to load: ${String(e.message).split('\n')[0]}` }); return null; });
+    if (pub && !['function', 'object'].includes(typeof pub[pascal(spec.id)])) c.fail({ gate: 'G6', check: 'export', message: `${pascal(spec.id)} is not exported from the package entry.`, fix: `Export ${pascal(spec.id)} from components/${spec.id}/index.ts.` });
+  }
   const fixtures = readFileSync(join(reactSrc, 'fixtures.ts'), 'utf8');
   if (!fixtures.includes(`components/${spec.id}/${spec.id}.fixture`)) c.fail({ gate: 'G6', check: 'fixture', message: 'Fixture is not registered in src/fixtures.ts.' });
 

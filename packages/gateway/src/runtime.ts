@@ -4,6 +4,8 @@ import { createServer, type ViteDevServer } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { rmSync } from 'node:fs';
 import type { ComponentSpec, StyleExpect } from '@caustic/spec';
 import { root } from './paths.ts';
 import { dimPx, type TokenIndex } from './tokens.ts';
@@ -13,13 +15,15 @@ export interface Runtime { server: ViteDevServer; url: string; browser: Browser;
 export async function startRuntime(): Promise<Runtime> {
   const server = await createServer({
     configFile: false, root: join(root, 'packages/gateway/harness'), logLevel: 'error',
+    // Per-process dependency cache: parallel gate runs must not race on one optimizer cache.
+    cacheDir: join(tmpdir(), `caustic-vite-${process.pid}`),
     plugins: [react(), tailwindcss()], server: { port: 0, strictPort: false, fs: { allow: [root] } },
     optimizeDeps: { include: ['react', 'react-dom/client', 'zod', 'class-variance-authority', 'tailwind-merge', 'lucide-react', '@radix-ui/react-slot'] },
   });
   await server.listen();
   const url = server.resolvedUrls!.local[0]!.replace(/\/$/, '');
   const browser = await chromium.launch({ channel: 'chrome' });
-  return { server, url, browser, async close() { await browser.close(); await server.close(); } };
+  return { server, url, browser, async close() { await browser.close(); await server.close(); rmSync(server.config.cacheDir, { recursive: true, force: true }); } };
 }
 
 export interface CaseDef { key: string; props: Record<string, unknown> }
@@ -90,7 +94,7 @@ window.__gate = {
     if (e.bg !== undefined) { const x = this.color(e.bg); if (cs.backgroundColor !== x) push('bg ' + e.bg, x, cs.backgroundColor); }
     if (e.fg !== undefined) { const x = this.color(e.fg); if (cs.color !== x) push('fg ' + e.fg, x, cs.color); }
     if (e.border !== undefined) { const x = this.color(e.border); if (cs.borderTopColor !== x) push('border ' + e.border, x, cs.borderTopColor); }
-    if (e.edge !== undefined) { const x = this.color(e.edge) + ' 0px 0px 0px 1px'; if (!cs.boxShadow.includes(x)) push('edge ' + e.edge, x, cs.boxShadow); }
+    if (e.edge !== undefined) { const x = this.color(e.edge) + ' 0px 0px 0px '; if (!cs.boxShadow.includes(x)) push('edge ' + e.edge, x, cs.boxShadow); }
     if (e.shadow !== undefined) { const x = this.resolve('box-shadow', 'var(--cs-elevation-' + e.shadow + ')'); if (!cs.boxShadow.includes(x)) push('shadow elevation-' + e.shadow, x, cs.boxShadow); }
     if (e.ring !== undefined) {
       const focus = this.resolve('box-shadow', 'var(--cs-focus)'), field = this.resolve('box-shadow', 'var(--cs-focus-field)');

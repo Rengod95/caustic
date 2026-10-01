@@ -9,7 +9,7 @@ import { join } from 'node:path';
 import { root } from './paths.ts';
 
 const comp = join(root, 'packages/react/src/components/button');
-const V = join(comp, 'button.variants.ts'), C = join(comp, 'button.tsx'), S = join(root, 'packages/spec/src/specs/button.spec.ts');
+const V = join(comp, 'button.variants.ts'), C = join(comp, 'button.tsx'), I = join(comp, 'index.ts'), S = join(root, 'packages/spec/src/specs/button.spec.ts');
 
 interface Mutation { name: string; file: string; from: string; to: string; expect: string[]; skip?: string }
 const mutations: Mutation[] = [
@@ -24,6 +24,7 @@ const mutations: Mutation[] = [
   { name: 'dark: variant', file: V, from: 'hover:bg-control-raised-hover', to: 'hover:bg-control-raised-hover dark:bg-ink-solid', expect: ['G2:no-dark-variant'], skip: 'G4' },
   { name: 'missing data-slot', file: C, from: 'data-slot="button"\n', to: '\n', expect: ['G2:data-slot', 'G3:anatomy'], skip: 'G4' },
   { name: 'loading does not block click', file: C, from: 'onClick={inert ? undefined : onClick}', to: 'onClick={disabled ? undefined : onClick}', expect: ['G3:behavior'], skip: 'G4' },
+  { name: 'component not exported', file: I, from: 'export { Button, type ButtonProps }', to: 'export { type ButtonProps }', expect: ['G6:export'], skip: 'G3,G4,G5' },
   { name: 'spec edited without approval', file: S, from: "purpose: 'Runs one action.", to: "purpose: 'Runs an action.", expect: ['G1:approval'], skip: 'G3,G4,G5' },
 ];
 

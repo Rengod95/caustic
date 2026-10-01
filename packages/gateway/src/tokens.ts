@@ -44,6 +44,7 @@ export function dimPx(t: TokenIndex, key: string | number): number | null {
   if (ns === 'field') return t.field[k] ?? null;
   if (ns === 'icon') return t.icon[k] ?? null;
   if (key === 'hit') return t.raw.size['hit-min'];
+  if (ns === 'size') return t.raw.size.component[k] ?? null;
   if (ns === 'inset') { const [kind, axis] = [rest.slice(0, -1).join('-'), rest.at(-1)]; const v = t.inset[kind]; return v ? (axis === 'x' ? v[1] : v[0]) : null; }
   return null;
 }

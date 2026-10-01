@@ -31,7 +31,10 @@ const runs = (g: Gate) => (!only || only.includes(g)) && !skip.includes(g);
 if (!ids.length) { console.error('usage: pnpm gate <id…> | --all  [--only=G2,G3] [--skip=G4] [--json]'); process.exit(2); }
 
 const gatedPath = join(root, 'packages/spec/gated.json');
-const gated: Record<string, { specHash: string; at: string }> = existsSync(gatedPath) ? JSON.parse(readFileSync(gatedPath, 'utf8')) : {};
+type Gated = Record<string, { specHash: string; at: string }>;
+const readGated = (): Gated => existsSync(gatedPath) ? JSON.parse(readFileSync(gatedPath, 'utf8')) : {};
+/** Only this run's results; merged into the file at the end so parallel gate runs do not overwrite each other. */
+const changes: Record<string, Gated[string] | null> = {};
 
 const summary: { id: string; passed: boolean; blocking: number; warnings: number; attempts: number }[] = [];
 const g0c = new Collector('foundation');
@@ -66,14 +69,18 @@ try {
     }
     const { passed, attempts } = writeReport(id, c, JSON.stringify(input, null, 2), gatesRun);
     const fullRun = gatesRun.length === 7;
-    if (passed && fullRun) gated[id] = { specHash: specHash(input), at: new Date().toISOString() };
-    else if (!passed) delete gated[id];
+    if (passed && fullRun) changes[id] = { specHash: specHash(input), at: new Date().toISOString() };
+    else if (!passed) changes[id] = null;
     summary.push({ id, passed, blocking: c.blocking.length, warnings: c.findings.length - c.blocking.length, attempts });
   }
 } finally {
   if (rt) await rt.close();
 }
-if (!selftest) writeFileSync(gatedPath, JSON.stringify(Object.fromEntries(Object.entries(gated).sort()), null, 2) + '\n');
+if (!selftest && Object.keys(changes).length) {
+  const gated = readGated();
+  for (const [id, v] of Object.entries(changes)) if (v) gated[id] = v; else delete gated[id];
+  writeFileSync(gatedPath, JSON.stringify(Object.fromEntries(Object.entries(gated).sort()), null, 2) + '\n');
+}
 
 if (json) console.log(JSON.stringify(summary, null, 2));
 else {

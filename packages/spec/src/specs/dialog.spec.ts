@@ -1,0 +1,50 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'dialog',
+  name: 'Dialog',
+  category: 'overlay',
+  status: 'ready',
+  purpose: 'Asks for a decision or a short input on top of the page. Thick glass, panel radius, focus trapped while modal.',
+  role: 'dialog',
+  slots: [
+    { name: 'root', el: 'div', role: 'dialog', description: 'The dialog surface (Radix Content).' },
+    { name: 'header', el: 'div', parent: 'root', required: false, description: 'Title and description stack.' },
+    { name: 'title', el: 'h2', parent: 'root', description: 'Accessible name.' },
+    { name: 'description', el: 'p', parent: 'root', required: false, description: 'Accessible description.' },
+    { name: 'footer', el: 'div', parent: 'root', required: false, description: 'Actions, right-aligned.' },
+    { name: 'close', el: 'button', parent: 'root', required: false, description: 'Close control.' },
+    { name: 'overlay', el: 'div', required: false, description: 'Scrim behind a modal dialog (portal mode).' },
+  ],
+  sizes: { values: ['sm', 'md', 'lg'], default: 'md' },
+  props: {
+    open: { type: 'boolean', description: 'Controlled open state.' },
+    defaultOpen: { type: 'boolean', description: 'Uncontrolled initial state.' },
+    modal: { type: 'boolean', default: true, description: 'Trap focus and hide the page from assistive tech.' },
+    trigger: { type: 'ReactNode', description: 'Element that opens the dialog.' },
+    size: { type: "'sm' | 'md' | 'lg'", default: 'md', description: 'Max width 320 · 480 · 640.' },
+    inline: { type: 'boolean', default: false, description: 'Render in place without portal or overlay.' },
+    showClose: { type: 'boolean', default: false, description: 'Top-right close button.' },
+  },
+  events: { onOpenChange: { payload: 'boolean', when: 'Escape, a close control or an outside press closes it' } },
+  styles: [
+    { slot: 'root', expect: { material: 'thick', radius: 'panel', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 12, shadow: '5' } },
+    { slot: 'root', when: { size: 'sm' }, expect: { radius: 'panel' } },
+    { slot: 'title', expect: { text: 'title-3', fg: 'text.primary' } },
+    { slot: 'description', expect: { text: 'ui-dense', fg: 'text.secondary' } },
+    { slot: 'footer', expect: { gap: 8 } },
+  ],
+  behavior: {
+    keyboard: { Escape: 'close', Tab: 'cycles inside while modal' },
+    scenarios: [
+      { name: 'Escape closes', steps: [{ do: 'focus', slot: 'root' }, { do: 'press', key: 'Escape' }], expect: [{ event: 'onOpenChange', args: [false] }] },
+      { name: 'close control closes', props: { showClose: true }, steps: [{ do: 'click', slot: 'close' }], expect: [{ event: 'onOpenChange', args: [false] }] },
+    ],
+  },
+  a11y: { notes: ['Always render DialogTitle; DialogDescription when there is supporting text.', 'Buttons name the outcome (Detach, Delete theme), not OK/Cancel pairs.'] },
+  policies: ['P1', 'P5', 'P6'],
+  flags: { floating: true },
+  composition: { uses: [], radix: ['@radix-ui/react-dialog'] },
+  examples: [{ id: 'compact', title: 'Compact dialog', doc: 'modal#compact-dialog' }],
+  usage: ['Destructive confirmations say how to undo in the description.'],
+});

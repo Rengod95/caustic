@@ -182,8 +182,8 @@ export default {
       "material.sheen": "white/0.5",
       "text.primary": "neutral.950",
       "text.secondary": "neutral.700",
-      "text.tertiary": "neutral.500",
-      "text.placeholder": "neutral.500",
+      "text.tertiary": "neutral.600",
+      "text.placeholder": "neutral.600",
       "text.disabled": "neutral.400",
       "text.inverse": "neutral.0",
       "text.link": "accent.700",
@@ -242,7 +242,13 @@ export default {
       "canvas.checker-a": "neutral.0",
       "canvas.checker-b": "neutral.200",
       "canvas.artboard": "neutral.0",
-      "agent.glow": "accent.300/0.45"
+      "agent.glow": "accent.300/0.45",
+      "identity.coral": "coral.600",
+      "identity.iris": "iris.600",
+      "identity.mint": "mint.700",
+      "identity.amber": "amber.700",
+      "identity.slate": "neutral.600",
+      "identity.on": "neutral.0"
     },
     "dark": {
       "bg.app": "neutral.950",
@@ -322,7 +328,13 @@ export default {
       "canvas.checker-a": "neutral.800",
       "canvas.checker-b": "neutral.700",
       "canvas.artboard": "neutral.0",
-      "agent.glow": "accent.400/0.35"
+      "agent.glow": "accent.400/0.35",
+      "identity.coral": "coral.600",
+      "identity.iris": "iris.600",
+      "identity.mint": "mint.700",
+      "identity.amber": "amber.700",
+      "identity.slate": "neutral.600",
+      "identity.on": "neutral.0"
     }
   },
   "resolved": {
@@ -396,11 +408,11 @@ export default {
         "alpha": 1
       },
       "text.tertiary": {
-        "hex": "#6b6f76",
+        "hex": "#5a5e65",
         "alpha": 1
       },
       "text.placeholder": {
-        "hex": "#6b6f76",
+        "hex": "#5a5e65",
         "alpha": 1
       },
       "text.disabled": {
@@ -638,6 +650,30 @@ export default {
       "agent.glow": {
         "hex": "#63d6e3",
         "alpha": 0.45
+      },
+      "identity.coral": {
+        "hex": "#b14b46",
+        "alpha": 1
+      },
+      "identity.iris": {
+        "hex": "#775db5",
+        "alpha": 1
+      },
+      "identity.mint": {
+        "hex": "#006b41",
+        "alpha": 1
+      },
+      "identity.amber": {
+        "hex": "#7b4f00",
+        "alpha": 1
+      },
+      "identity.slate": {
+        "hex": "#5a5e65",
+        "alpha": 1
+      },
+      "identity.on": {
+        "hex": "#fdfdfe",
+        "alpha": 1
       }
     },
     "dark": {
@@ -952,6 +988,30 @@ export default {
       "agent.glow": {
         "hex": "#00bfcf",
         "alpha": 0.35
+      },
+      "identity.coral": {
+        "hex": "#b14b46",
+        "alpha": 1
+      },
+      "identity.iris": {
+        "hex": "#775db5",
+        "alpha": 1
+      },
+      "identity.mint": {
+        "hex": "#006b41",
+        "alpha": 1
+      },
+      "identity.amber": {
+        "hex": "#7b4f00",
+        "alpha": 1
+      },
+      "identity.slate": {
+        "hex": "#5a5e65",
+        "alpha": 1
+      },
+      "identity.on": {
+        "hex": "#fdfdfe",
+        "alpha": 1
       }
     }
   },
@@ -1060,7 +1120,8 @@ export default {
     "18": 72,
     "0.5": 2,
     "1.5": 6,
-    "2.5": 10
+    "2.5": 10,
+    "3.5": 14
   },
   "inset": {
     "compact": [
@@ -1118,6 +1179,31 @@ export default {
       "md": 16,
       "lg": 20,
       "xl": 24
+    },
+    "component": {
+      "check": 18,
+      "radio-dot": 7,
+      "kbd-h": 18,
+      "progress-h": 6,
+      "tool-icon": 24,
+      "presence": 8,
+      "switch-md-w": 46,
+      "switch-md-h": 28,
+      "switch-md-thumb": 24,
+      "switch-md-travel": 18,
+      "switch-md-press": 30,
+      "switch-sm-w": 38,
+      "switch-sm-h": 23,
+      "switch-sm-thumb": 19,
+      "switch-sm-travel": 15,
+      "switch-sm-press": 24,
+      "avatar-xs": 16,
+      "avatar-sm": 24,
+      "avatar-md": 32,
+      "avatar-lg": 36,
+      "dialog-sm": 320,
+      "dialog-md": 480,
+      "dialog-lg": 640
     },
     "hit-min": 24
   },
@@ -1179,7 +1265,7 @@ export default {
     "ui-sm": [
       "ui",
       12,
-      16,
+      18,
       500,
       0
     ],
@@ -1246,6 +1332,34 @@ export default {
       11,
       16,
       500,
+      0
+    ],
+    "mono-strong": [
+      "mono",
+      12,
+      18,
+      500,
+      0
+    ],
+    "ui-dense": [
+      "ui",
+      12.5,
+      18,
+      400,
+      -0.003
+    ],
+    "hint": [
+      "ui",
+      11.5,
+      18,
+      400,
+      0
+    ],
+    "micro": [
+      "ui",
+      11,
+      14,
+      600,
       0
     ]
   },
@@ -1388,6 +1502,24 @@ export default {
       "surface.base",
       4.5,
       "placeholder carries meaning"
+    ],
+    [
+      "text.tertiary",
+      "fill.hover@bg.app",
+      4.5,
+      "meta text on a hover/sunken fill (inspector fields, kbd)"
+    ],
+    [
+      "text.tertiary",
+      "fill.pressed@bg.app",
+      4.5,
+      "meta text on a pressed fill"
+    ],
+    [
+      "text.placeholder",
+      "fill.hover@bg.app",
+      4.5,
+      "placeholder in a sunken field"
     ],
     [
       "text.disabled",
@@ -1628,6 +1760,36 @@ export default {
       "bg.canvas",
       4.5,
       "frame label"
+    ],
+    [
+      "identity.on",
+      "identity.coral",
+      4.5,
+      "avatar initials"
+    ],
+    [
+      "identity.on",
+      "identity.iris",
+      4.5,
+      "avatar initials"
+    ],
+    [
+      "identity.on",
+      "identity.mint",
+      4.5,
+      "avatar initials"
+    ],
+    [
+      "identity.on",
+      "identity.amber",
+      4.5,
+      "avatar initials"
+    ],
+    [
+      "identity.on",
+      "identity.slate",
+      4.5,
+      "avatar initials"
     ]
   ]
 };

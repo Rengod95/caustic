@@ -97,6 +97,12 @@
   --color-canvas-checker-b: var(--cs-color-canvas-checker-b);
   --color-canvas-artboard: var(--cs-color-canvas-artboard);
   --color-agent-glow: var(--cs-color-agent-glow);
+  --color-identity-coral: var(--cs-color-identity-coral);
+  --color-identity-iris: var(--cs-color-identity-iris);
+  --color-identity-mint: var(--cs-color-identity-mint);
+  --color-identity-amber: var(--cs-color-identity-amber);
+  --color-identity-slate: var(--cs-color-identity-slate);
+  --color-identity-on: var(--cs-color-identity-on);
 
   /* radius */
   --radius-none: var(--cs-radius-none);
@@ -136,6 +142,29 @@
   --spacing-icon-md: var(--cs-icon-md);
   --spacing-icon-lg: var(--cs-icon-lg);
   --spacing-icon-xl: var(--cs-icon-xl);
+  --spacing-check: var(--cs-size-check);
+  --spacing-radio-dot: var(--cs-size-radio-dot);
+  --spacing-kbd-h: var(--cs-size-kbd-h);
+  --spacing-progress-h: var(--cs-size-progress-h);
+  --spacing-tool-icon: var(--cs-size-tool-icon);
+  --spacing-presence: var(--cs-size-presence);
+  --spacing-switch-md-w: var(--cs-size-switch-md-w);
+  --spacing-switch-md-h: var(--cs-size-switch-md-h);
+  --spacing-switch-md-thumb: var(--cs-size-switch-md-thumb);
+  --spacing-switch-md-travel: var(--cs-size-switch-md-travel);
+  --spacing-switch-md-press: var(--cs-size-switch-md-press);
+  --spacing-switch-sm-w: var(--cs-size-switch-sm-w);
+  --spacing-switch-sm-h: var(--cs-size-switch-sm-h);
+  --spacing-switch-sm-thumb: var(--cs-size-switch-sm-thumb);
+  --spacing-switch-sm-travel: var(--cs-size-switch-sm-travel);
+  --spacing-switch-sm-press: var(--cs-size-switch-sm-press);
+  --spacing-avatar-xs: var(--cs-size-avatar-xs);
+  --spacing-avatar-sm: var(--cs-size-avatar-sm);
+  --spacing-avatar-md: var(--cs-size-avatar-md);
+  --spacing-avatar-lg: var(--cs-size-avatar-lg);
+  --spacing-dialog-sm: var(--cs-size-dialog-sm);
+  --spacing-dialog-md: var(--cs-size-dialog-md);
+  --spacing-dialog-lg: var(--cs-size-dialog-lg);
   --spacing-hit: var(--cs-hit-min);
   --spacing-studio-window-inset: var(--cs-studio-window-inset);
   --spacing-studio-titlebar-h: var(--cs-studio-titlebar-h);
@@ -181,7 +210,7 @@
   --text-ui-strong--letter-spacing: -0.003em;
   --text-ui-strong--font-weight: 500;
   --text-ui-sm: 12px;
-  --text-ui-sm--line-height: 16px;
+  --text-ui-sm--line-height: 18px;
   --text-ui-sm--letter-spacing: 0em;
   --text-ui-sm--font-weight: 500;
   --text-ui-lg: 14px;
@@ -220,6 +249,22 @@
   --text-mono-sm--line-height: 16px;
   --text-mono-sm--letter-spacing: 0em;
   --text-mono-sm--font-weight: 500;
+  --text-mono-strong: 12px;
+  --text-mono-strong--line-height: 18px;
+  --text-mono-strong--letter-spacing: 0em;
+  --text-mono-strong--font-weight: 500;
+  --text-ui-dense: 12.5px;
+  --text-ui-dense--line-height: 18px;
+  --text-ui-dense--letter-spacing: -0.003em;
+  --text-ui-dense--font-weight: 400;
+  --text-hint: 11.5px;
+  --text-hint--line-height: 18px;
+  --text-hint--letter-spacing: 0em;
+  --text-hint--font-weight: 400;
+  --text-micro: 11px;
+  --text-micro--line-height: 14px;
+  --text-micro--letter-spacing: 0em;
+  --text-micro--font-weight: 600;
 
   /* depth, blur, motion */
   --shadow-1: var(--cs-elevation-1);
@@ -247,7 +292,11 @@
   --animate-orb: cs-spin 1.6s linear infinite;
   --animate-shimmer: cs-shimmer var(--cs-duration-shimmer) linear infinite;
   --animate-spinner: cs-rot 0.7s linear infinite;
+  --animate-indeterminate: cs-indet 1.4s var(--cs-ease-out) infinite;
+  --animate-slide: cs-slide 2.4s linear infinite;
   @keyframes cs-rot { to { transform: rotate(360deg); } }
+  @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+  @keyframes cs-slide { to { background-position: -200% 0; } }
 }
 
 /* Caustic utilities: materials, agent signature, focus policy */

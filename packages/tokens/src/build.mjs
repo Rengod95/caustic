@@ -133,6 +133,7 @@ for (const [k, px] of Object.entries(T.radius)) root.push(v(`radius-${k}`, `${px
 root.push('', '  /* size */');
 for (const [k, px] of Object.entries(T.size.control)) root.push(v(`control-${k}`, `${px}px`));
 for (const [k, px] of Object.entries(T.size.field)) root.push(v(`field-${k}`, `${px}px`));
+for (const [k, px] of Object.entries(T.size.component)) root.push(v(`size-${k}`, `${px}px`));
 for (const [k, px] of Object.entries(T.size.icon)) root.push(v(`icon-${k}`, `${px}px`));
 root.push(v('hit-min', `${T.size['hit-min']}px`));
 root.push('', '  /* typography */');
@@ -251,6 +252,7 @@ if (!checkOnly) {
   writeFileSync(join(dist, 'tokens.mjs'), `export default ${JSON.stringify({ ...source, contrastRules: T.contrastRules }, null, 2)};\n`);
   writeFileSync(join(dist, 'theme.css'), tailwindTheme());
   writeFileSync(join(dist, 'allowlist.json'), JSON.stringify(allowlist(), null, 2));
+  writeFileSync(join(dist, 'tw-merge.json'), JSON.stringify(twMergeScales(), null, 2));
   console.log('wrote dist/caustic.css, caustic.tokens.css, theme.css, allowlist.json, tokens.{core,light,dark}.json, tokens.{js,mjs}, contrast.{json,js}');
 }
 
@@ -278,6 +280,7 @@ function tailwindTheme() {
   for (const k of Object.keys(T.size.control)) add(`spacing-control-${k}`, `var(--${P}-control-${k})`);
   for (const k of Object.keys(T.size.field)) add(`spacing-field-${k}`, `var(--${P}-field-${k})`);
   for (const k of Object.keys(T.size.icon)) add(`spacing-icon-${k}`, `var(--${P}-icon-${k})`);
+  for (const k of Object.keys(T.size.component)) add(`spacing-${k}`, `var(--${P}-size-${k})`);
   add('spacing-hit', `var(--${P}-hit-min)`);
   for (const k of Object.keys(T.studio)) if (!k.includes('radius')) add(`spacing-studio-${k}`, `var(--${P}-studio-${k})`);
   L.push('', '  /* typography */');
@@ -295,7 +298,11 @@ function tailwindTheme() {
   add('animate-orb', 'cs-spin 1.6s linear infinite');
   add('animate-shimmer', `cs-shimmer var(--${P}-duration-shimmer) linear infinite`);
   add('animate-spinner', 'cs-rot 0.7s linear infinite');
+  add('animate-indeterminate', `cs-indet 1.4s var(--${P}-ease-out) infinite`);
+  add('animate-slide', 'cs-slide 2.4s linear infinite');
   L.push('  @keyframes cs-rot { to { transform: rotate(360deg); } }');
+  L.push('  @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }');
+  L.push('  @keyframes cs-slide { to { background-position: -200% 0; } }');
   L.push('}', '');
   L.push(`/* Caustic utilities: materials, agent signature, focus policy */
 @utility glass {
@@ -354,6 +361,13 @@ function tailwindTheme() {
 @utility scrollbar-none { scrollbar-width: none; &::-webkit-scrollbar { display: none; } }
 `);
   return L.join('\n');
+}
+
+// Named theme scales for tailwind-merge, so conflicting Caustic utilities resolve (last wins).
+function twMergeScales() {
+  const theme = tailwindTheme();
+  const names = ns => [...theme.matchAll(new RegExp(`--${ns}-([a-z0-9-]+):`, 'g'))].map(m => m[1]).filter(n => !n.includes('--'));
+  return { spacing: names('spacing'), text: names('text'), radius: names('radius'), shadow: names('shadow'), blur: names('blur'), color: names('color') };
 }
 
 // Numeric scales the gateway accepts for numeric utilities (p-3, duration-200, z-40, opacity-42).

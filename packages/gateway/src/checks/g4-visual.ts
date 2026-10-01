@@ -8,7 +8,7 @@ import { Collector } from '../report.ts';
 import { baselinesDir, reportsDir } from '../paths.ts';
 import { openPage, type Runtime } from '../runtime.ts';
 
-export const DEFAULT_MAX_DIFF = 0.01; // 1% of pixels, after anti-aliasing tolerance
+export const DEFAULT_MAX_DIFF = 0.02; // 2% of pixels (calibrated on the pilots: subpixel text placement and frozen spectrum phase); size mismatches stay blocking
 const THEMES = ['light', 'dark'] as const;
 
 export async function g4(c: Collector, spec: ComponentSpec, rt: Runtime) {

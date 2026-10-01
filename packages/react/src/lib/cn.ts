@@ -1,14 +1,18 @@
 import { extendTailwindMerge } from 'tailwind-merge';
+import scales from '@caustic/tokens/tw-merge.json';
 
-// tailwind-merge must know Caustic's custom scales so conflicting classes resolve correctly
-// (e.g. text-ui vs text-text-primary are different groups: font-size vs color).
+// tailwind-merge must know Caustic's named scales so conflicting utilities resolve correctly:
+// h-field-md vs h-control-md (same group, last wins), text-ui (size) vs text-text-primary (color).
+// The names are generated from the token build, so they never drift from the theme.
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
-      text: ['display', 'title-1', 'title-2', 'title-3', 'body', 'ui', 'ui-strong', 'ui-sm', 'ui-lg', 'footnote', 'caption', 'label', 'voice', 'voice-sm', 'thought', 'mono', 'mono-sm'],
-      radius: ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', 'full', 'window', 'panel', 'toolbar', 'toolbar-item', 'toast'],
-      shadow: ['1', '2', '3', '4', '5', 'focus', 'focus-field'],
-      blur: ['control', 'ultrathin', 'thin', 'regular', 'thick', 'overlay'],
+      spacing: scales.spacing,
+      text: scales.text,
+      radius: scales.radius,
+      shadow: scales.shadow,
+      blur: scales.blur,
+      color: scales.color,
     },
   },
 });

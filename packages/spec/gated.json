@@ -1,6 +1,50 @@
 {
+  "avatar": {
+    "specHash": "29780dcdff7d6cdf",
+    "at": "2026-10-01T13:23:44.047Z"
+  },
   "button": {
     "specHash": "7a0ee5a0d1bab79f",
-    "at": "2026-10-01T12:47:13.848Z"
+    "at": "2026-10-01T13:24:13.264Z"
+  },
+  "checkbox": {
+    "specHash": "21a1ba4822936a04",
+    "at": "2026-10-01T13:24:27.308Z"
+  },
+  "dialog": {
+    "specHash": "2270f990fbbe3fa0",
+    "at": "2026-10-01T13:24:45.549Z"
+  },
+  "field": {
+    "specHash": "e7aa7b0e6eccb888",
+    "at": "2026-10-01T13:24:57.052Z"
+  },
+  "input": {
+    "specHash": "b99a9c154a907b27",
+    "at": "2026-10-01T13:25:16.629Z"
+  },
+  "kbd": {
+    "specHash": "74b19c9b37745827",
+    "at": "2026-10-01T13:25:24.197Z"
+  },
+  "number-field": {
+    "specHash": "5d0e0cb8e4205dca",
+    "at": "2026-10-01T13:25:48.373Z"
+  },
+  "progress": {
+    "specHash": "d62a1daf5ca290eb",
+    "at": "2026-10-01T13:25:57.421Z"
+  },
+  "radio-group": {
+    "specHash": "61c336795d17af96",
+    "at": "2026-10-01T13:26:06.189Z"
+  },
+  "switch": {
+    "specHash": "36df30f6042a8b2c",
+    "at": "2026-10-01T13:26:23.770Z"
+  },
+  "tool-call": {
+    "specHash": "781cb86493ad1d5a",
+    "at": "2026-10-01T13:26:37.631Z"
   }
 }

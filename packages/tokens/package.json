@@ -8,6 +8,7 @@
     "./theme.css": "./dist/theme.css",
     "./tokens.css": "./dist/caustic.tokens.css",
     "./tokens": "./dist/tokens.mjs",
-    "./source": "./src/tokens.mjs"
+    "./source": "./src/tokens.mjs",
+    "./tw-merge.json": "./dist/tw-merge.json"
   }
 }

@@ -70,8 +70,8 @@ export const themes = {
 
     'text.primary': 'neutral.950',
     'text.secondary': 'neutral.700',
-    'text.tertiary': 'neutral.500',
-    'text.placeholder': 'neutral.500',
+    'text.tertiary': 'neutral.600',
+    'text.placeholder': 'neutral.600',
     'text.disabled': 'neutral.400',
     'text.inverse': 'neutral.0',
     'text.link': 'accent.700',
@@ -127,6 +127,12 @@ export const themes = {
     'canvas.artboard': 'neutral.0',
 
     'agent.glow': 'accent.300/0.45',
+    'identity.coral': 'coral.600',
+    'identity.iris': 'iris.600',
+    'identity.mint': 'mint.700',
+    'identity.amber': 'amber.700',
+    'identity.slate': 'neutral.600',
+    'identity.on': 'neutral.0',
   },
   dark: {
     'bg.app': 'neutral.950',
@@ -206,6 +212,12 @@ export const themes = {
     'canvas.artboard': 'neutral.0',
 
     'agent.glow': 'accent.400/0.35',
+    'identity.coral': 'coral.600',
+    'identity.iris': 'iris.600',
+    'identity.mint': 'mint.700',
+    'identity.amber': 'amber.700',
+    'identity.slate': 'neutral.600',
+    'identity.on': 'neutral.0',
   },
 };
 
@@ -219,6 +231,9 @@ export const contrastRules = [
   ...surfaces.map(bg => ['text.secondary', bg, 4.5, 'AA body']),
   ...surfaces.map(bg => ['text.tertiary', bg, 4.5, 'AA meta text']),
   ['text.placeholder', 'surface.base', 4.5, 'placeholder carries meaning'],
+  ['text.tertiary', 'fill.hover@bg.app', 4.5, 'meta text on a hover/sunken fill (inspector fields, kbd)'],
+  ['text.tertiary', 'fill.pressed@bg.app', 4.5, 'meta text on a pressed fill'],
+  ['text.placeholder', 'fill.hover@bg.app', 4.5, 'placeholder in a sunken field'],
   ['text.disabled', 'surface.base', 3, 'disabled, non-essential'],
   ['text.link', 'surface.base', 4.5, 'AA link'],
   ['text.secondary', 'material.regular@bg.canvas', 4.5, 'panel text over canvas'],
@@ -259,10 +274,15 @@ export const contrastRules = [
   ['canvas.guide-on', 'canvas.guide', 4.5, 'measurement label'],
   ['canvas.selection-on', 'canvas.selection', 4.5, 'selection size label'],
   ['canvas.label', 'bg.canvas', 4.5, 'frame label'],
+  ['identity.on', 'identity.coral', 4.5, 'avatar initials'],
+  ['identity.on', 'identity.iris', 4.5, 'avatar initials'],
+  ['identity.on', 'identity.mint', 4.5, 'avatar initials'],
+  ['identity.on', 'identity.amber', 4.5, 'avatar initials'],
+  ['identity.on', 'identity.slate', 4.5, 'avatar initials'],
 ];
 
 /* ── Dimension & effect scales ───────────────────────────────────── */
-export const space = { 0: 0, 0.5: 2, 1: 4, 1.5: 6, 2: 8, 2.5: 10, 3: 12, 4: 16, 5: 20, 6: 24, 8: 32, 10: 40, 12: 48, 16: 64, 18: 72 };
+export const space = { 0: 0, 0.5: 2, 1: 4, 1.5: 6, 2: 8, 2.5: 10, 3: 12, 3.5: 14, 4: 16, 5: 20, 6: 24, 8: 32, 10: 40, 12: 48, 16: 64, 18: 72 };
 
 // Container insets. Compact for nested lists and inline cards; regular for cards,
 // dialogs and panels. 14 / 15 is off the 4pt grid on purpose: the block inset
@@ -277,6 +297,14 @@ export const size = {
   field: { sm: 36, md: 40, lg: 44 },
   'field-compact': { sm: 32, md: 36, lg: 40 },
   icon: { xs: 12, sm: 14, md: 16, lg: 20, xl: 24 },
+  // Fixed component geometry. Every dimension a component uses is a token.
+  component: {
+    check: 18, 'radio-dot': 7, 'kbd-h': 18, 'progress-h': 6, 'tool-icon': 24, presence: 8,
+    'switch-md-w': 46, 'switch-md-h': 28, 'switch-md-thumb': 24, 'switch-md-travel': 18, 'switch-md-press': 30,
+    'switch-sm-w': 38, 'switch-sm-h': 23, 'switch-sm-thumb': 19, 'switch-sm-travel': 15, 'switch-sm-press': 24,
+    'avatar-xs': 16, 'avatar-sm': 24, 'avatar-md': 32, 'avatar-lg': 36,
+    'dialog-sm': 320, 'dialog-md': 480, 'dialog-lg': 640,
+  },
   'hit-min': 24,
 };
 
@@ -295,7 +323,7 @@ export const type = {
   body: ['ui', 14, 21, 400, -0.003],
   ui: ['ui', 13, 18, 400, -0.003],
   'ui-strong': ['ui', 13, 18, 500, -0.003],
-  'ui-sm': ['ui', 12, 16, 500, 0],
+  'ui-sm': ['ui', 12, 18, 500, 0],
   'ui-lg': ['ui', 14, 20, 500, -0.003],
   footnote: ['ui', 12, 16, 400, 0],
   caption: ['ui', 11, 14, 500, 0.06, 'uppercase'],
@@ -305,6 +333,10 @@ export const type = {
   thought: ['voice', 14, 22, 400, 0, 'italic'],
   mono: ['mono', 12, 18, 400, 0],
   'mono-sm': ['mono', 11, 16, 500, 0],
+  'mono-strong': ['mono', 12, 18, 500, 0],
+  'ui-dense': ['ui', 12.5, 18, 400, -0.003],
+  hint: ['ui', 11.5, 18, 400, 0],
+  micro: ['ui', 11, 14, 600, 0],
 };
 
 // Elevation: a short contact shadow + a long diffuse one. Values per theme.

@@ -173,11 +173,11 @@
     },
     "tertiary": {
       "$type": "color",
-      "$value": "{color.neutral.500}"
+      "$value": "{color.neutral.600}"
     },
     "placeholder": {
       "$type": "color",
-      "$value": "{color.neutral.500}"
+      "$value": "{color.neutral.600}"
     },
     "disabled": {
       "$type": "color",
@@ -674,6 +674,32 @@
         "alpha": 0.45,
         "hex": "#63d6e3"
       }
+    }
+  },
+  "identity": {
+    "coral": {
+      "$type": "color",
+      "$value": "{color.coral.600}"
+    },
+    "iris": {
+      "$type": "color",
+      "$value": "{color.iris.600}"
+    },
+    "mint": {
+      "$type": "color",
+      "$value": "{color.mint.700}"
+    },
+    "amber": {
+      "$type": "color",
+      "$value": "{color.amber.700}"
+    },
+    "slate": {
+      "$type": "color",
+      "$value": "{color.neutral.600}"
+    },
+    "on": {
+      "$type": "color",
+      "$value": "{color.neutral.0}"
     }
   }
 }

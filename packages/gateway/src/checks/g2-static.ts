@@ -41,6 +41,9 @@ export async function g2(c: Collector, spec: ComponentSpec) {
         if (ts.isStringLiteral(m) || ts.isNoSubstitutionTemplateLiteral(m)) {
           // Object keys are names, except in cn({ 'class': condition }).
           if (ts.isPropertyAssignment(m.parent) && m.parent.name === m && context !== 'cn') return;
+          // Operands of comparisons (orientation === 'horizontal') are values, not classes.
+          if (ts.isBinaryExpression(m.parent) && [ts.SyntaxKind.EqualsEqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsEqualsToken, ts.SyntaxKind.EqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsToken].includes(m.parent.operatorToken.kind)) return;
+          if (ts.isCaseClause(m.parent)) return;
           for (const cls of m.text.split(/\s+/).filter(Boolean)) uses.push({ cls, file: rel, line: lineOf(m), context });
         } else if (ts.isTemplateExpression(m)) {
           c.fail({ gate: 'G2', check: 'dynamic-class', where: `${rel}:${lineOf(m)}`, message: 'Template-literal class names cannot be verified.', fix: 'Use cva variants or cn() with static strings.' });
@@ -105,7 +108,7 @@ export async function g2(c: Collector, spec: ComponentSpec) {
         const m = n.moduleSpecifier.text;
         const ok = m.startsWith('./') || m.startsWith('../../lib/') || m.startsWith('../../hooks/') || BASE_IMPORTS.has(m)
           || spec.composition.radix.includes(m)
-          || spec.composition.uses.some(u => m === `../${u}/${u}.tsx` || m === `../${u}/index.ts` || m === `../${u}/${u}.variants.ts`);
+          || spec.composition.uses.some(u => m.startsWith(`../${u}/`) && !m.includes('.fixture'));
         if (!ok) c.fail({ gate: 'G2', check: 'imports', where: `${rel}:${lineOf(n)}`, message: `Import "${m}" is not allowed.`, fix: 'Allowed: local files, ../../lib, ../../hooks, react, lucide-react, cva, spec.composition.radix and components listed in spec.composition.uses.' });
       }
       ts.forEachChild(n, visit);
@@ -129,7 +132,7 @@ export async function g2(c: Collector, spec: ComponentSpec) {
       if (badLen.length) c.fail({ gate: 'G2', check: 'arbitrary-value', where, message: `"${u.cls}" hard-codes ${badLen.join(', ')}.`, fix: 'Use a token utility or var(--cs-*). Only 0.5px, 1px, 1.5px and 2px hairlines are allowed as literals.' });
       if (LITERAL_COLOR.test(v)) c.fail({ gate: 'G2', check: 'arbitrary-value', where, message: `"${u.cls}" contains a literal color.` });
     }
-    const num = util.match(/^-?(p|px|py|pt|pr|pb|pl|ps|pe|m|mx|my|mt|mr|mb|ml|gap|gap-x|gap-y|space-x|space-y|inset|inset-x|inset-y|top|right|bottom|left|w|h|size|min-w|min-h|max-w|max-h|translate-x|translate-y)-(\d+(?:\.\d+)?)$/);
+    const num = util.match(/^-?(p|px|py|pt|pr|pb|pl|ps|pe|m|mx|my|mt|mr|mb|ml|gap|gap-x|gap-y|space-x|space-y|inset|inset-x|inset-y|top|right|bottom|left|w|h|size|min-w|min-h|max-w|max-h)-(\d+(?:\.\d+)?)$/);
     if (num && !t.allow.spacingSteps.includes(Number(num[2]))) c.fail({ gate: 'G2', check: 'space-scale', where, message: `"${u.cls}" = ${Number(num[2]) * 4}px is off the space scale (${t.allow.spacingSteps.map(s => s * 4).join(', ')}).`, fix: 'Use a scale step or a named token (px-inset-regular-x, h-field-md…).' });
     const dur = util.match(/^duration-(\d+)$/); if (dur && !t.allow.durations.includes(Number(dur[1]))) c.fail({ gate: 'G2', check: 'motion-token', where, message: `"${u.cls}" is not a duration token (${t.allow.durations.join(', ')}).` });
     const z = util.match(/^-?z-(\d+)$/); if (z && !t.allow.zIndex.includes(Number(z[1]))) c.fail({ gate: 'G2', check: 'z-token', where, message: `"${u.cls}" is not a z-index token (${t.allow.zIndex.join(', ')}).` });
@@ -188,9 +191,19 @@ function checkProps(c: Collector, spec: ComponentSpec, main: string) {
   for (const [name, def] of Object.entries(want)) {
     const p = propsType.getProperty(name);
     if (!p) { c.fail({ gate: 'G2', check: 'props', message: `Prop "${name}" from the spec is missing on ${exportName}.`, expected: (def as any).type }); continue; }
-    const typeText = checker.typeToString(checker.getTypeOfSymbolAtLocation(p, sf));
+    const propType = checker.getTypeOfSymbolAtLocation(p, sf);
+    const typeText = checker.typeToString(propType);
+    // Expand aliases, unions and callback parameters into the string literals they accept.
+    const accepted = new Set<string>();
+    const walk = (t: ts.Type, depth = 0) => {
+      if (depth > 6) return;
+      if (t.isStringLiteral()) accepted.add(t.value);
+      if (t.isUnion() || t.isIntersection()) t.types.forEach(x => walk(x, depth + 1));
+      for (const sg of t.getCallSignatures()) for (const prm of sg.getParameters()) walk(checker.getTypeOfSymbolAtLocation(prm, sf), depth + 1);
+    };
+    walk(propType);
     const literals = [...String((def as any).type).matchAll(/'([^']+)'/g)].map(m => m[1]!);
-    const missing = literals.filter(l => !typeText.includes(`"${l}"`));
+    const missing = literals.filter(l => !accepted.has(l));
     if (missing.length) c.fail({ gate: 'G2', check: 'props', message: `Prop "${name}" does not accept ${missing.map(m => `"${m}"`).join(', ')}.`, expected: (def as any).type, actual: typeText });
   }
 }

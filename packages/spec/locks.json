@@ -1,3 +1,14 @@
 {
-  "button": "7a0ee5a0d1bab79f"
+  "avatar": "29780dcdff7d6cdf",
+  "button": "7a0ee5a0d1bab79f",
+  "checkbox": "21a1ba4822936a04",
+  "dialog": "2270f990fbbe3fa0",
+  "field": "e7aa7b0e6eccb888",
+  "input": "b99a9c154a907b27",
+  "kbd": "74b19c9b37745827",
+  "number-field": "5d0e0cb8e4205dca",
+  "progress": "d62a1daf5ca290eb",
+  "radio-group": "61c336795d17af96",
+  "switch": "36df30f6042a8b2c",
+  "tool-call": "781cb86493ad1d5a"
 }

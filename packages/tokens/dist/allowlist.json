@@ -14,7 +14,8 @@
     18,
     0.5,
     1.5,
-    2.5
+    2.5,
+    3.5
   ],
   "durations": [
     0,
@@ -131,7 +132,13 @@
     "canvas-checker-a",
     "canvas-checker-b",
     "canvas-artboard",
-    "agent-glow"
+    "agent-glow",
+    "identity-coral",
+    "identity-iris",
+    "identity-mint",
+    "identity-amber",
+    "identity-slate",
+    "identity-on"
   ],
   "textRoles": [
     "display",
@@ -150,7 +157,11 @@
     "voice-sm",
     "thought",
     "mono",
-    "mono-sm"
+    "mono-sm",
+    "mono-strong",
+    "ui-dense",
+    "hint",
+    "micro"
   ],
   "radii": [
     "none",
