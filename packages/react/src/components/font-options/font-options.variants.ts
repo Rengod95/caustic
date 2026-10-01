@@ -12,7 +12,7 @@ export const fontOptionsSampleVariants = cva(
 export const fontOptionsAxesVariants = cva('flex flex-col gap-2');
 
 // 44px tag column (otp-w), the ruler, the 56px field.
-export const fontOptionsAxisVariants = cva('grid h-control-md grid-cols-[var(--cs-size-otp-w)_1fr_var(--cs-size-axis-field-w)] items-center gap-2');
+export const fontOptionsAxisVariants = cva('grid h-control-md grid-cols-[var(--cs-control-compact-xl)_1fr_var(--cs-size-axis-field-w)] items-center gap-2');
 
 export const fontOptionsAxisTagVariants = cva('font-mono text-mono-sm text-text-secondary');
 

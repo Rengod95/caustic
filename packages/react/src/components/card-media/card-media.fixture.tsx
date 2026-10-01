@@ -17,7 +17,7 @@ const vars = (v: Record<string, string>) => v as CSSProperties;
 
 function Overlay() {
   return (
-    <CardMedia layout="overlay" href="#">
+    <CardMedia layout="overlay">
       <CardMediaCover>
         <CardMediaImage className="scale-120 [background:var(--art)] [filter:var(--art-filter)]" style={vars({ '--art': artC, '--art-filter': 'blur(10px) saturate(1.1)' })} />
         <CardMediaOverlay>

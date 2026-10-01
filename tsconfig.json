@@ -15,7 +15,14 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "types": ["node"],
-    "lib": ["ES2023", "DOM", "DOM.Iterable"]
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@caustic/react": ["./packages/react/src/index.ts"],
+      "@caustic/react/styles.css": ["./packages/react/src/styles.css"],
+      "@caustic/spec": ["./packages/spec/src/index.ts"],
+      "@caustic/spec/all": ["./packages/spec/src/all.ts"],
+      "lucide-react": ["./packages/react/node_modules/lucide-react"]
+    }
   },
   "include": ["packages/*/src/**/*", "packages/gateway/harness/**/*", "apps/*/src/**/*"]
 }

@@ -39,6 +39,6 @@ export type PlanStepVariantProps = VariantProps<typeof planStepVariants>;
 
 /** The 12px spectrum orb; rendered only for the now step. */
 export const planOrbVariants = cva('', {
-  variants: { status: { done: '', now: 'orb orb-sm [&[data-slot]]:rounded-full', todo: '' } },
+  variants: { status: { done: '', now: 'orb orb-sm', todo: '' } },
   defaultVariants: { status: 'todo' },
 });

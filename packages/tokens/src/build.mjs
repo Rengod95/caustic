@@ -140,6 +140,9 @@ for (const [k, px] of Object.entries(T.radius)) root.push(v(`radius-${k}`, `${px
 root.push('', '  /* size */');
 for (const [k, px] of Object.entries(T.size.control)) root.push(v(`control-${k}`, `${px}px`));
 for (const [k, px] of Object.entries(T.size.field)) root.push(v(`field-${k}`, `${px}px`));
+// The compact steps also exist as fixed sizes (they do not follow density): a 22px badge is 22px everywhere.
+for (const [k, px] of Object.entries(T.size['control-compact'])) root.push(v(`control-compact-${k}`, `${px}px`));
+for (const [k, px] of Object.entries(T.size['field-compact'])) root.push(v(`field-compact-${k}`, `${px}px`));
 for (const [k, px] of Object.entries(T.size.component)) root.push(v(`size-${k}`, `${px}px`));
 for (const [k, px] of Object.entries(T.size.icon)) root.push(v(`icon-${k}`, `${px}px`));
 root.push(v('hit-min', `${T.size['hit-min']}px`));
@@ -286,6 +289,8 @@ function tailwindTheme() {
   for (const [k] of Object.entries(T.inset)) { add(`spacing-inset-${k}-x`, `var(--${P}-inset-${k}-x)`); add(`spacing-inset-${k}-y`, `var(--${P}-inset-${k}-y)`); }
   for (const k of Object.keys(T.size.control)) add(`spacing-control-${k}`, `var(--${P}-control-${k})`);
   for (const k of Object.keys(T.size.field)) add(`spacing-field-${k}`, `var(--${P}-field-${k})`);
+  for (const k of Object.keys(T.size['control-compact'])) add(`spacing-control-compact-${k}`, `var(--${P}-control-compact-${k})`);
+  for (const k of Object.keys(T.size['field-compact'])) add(`spacing-field-compact-${k}`, `var(--${P}-field-compact-${k})`);
   for (const k of Object.keys(T.size.icon)) add(`spacing-icon-${k}`, `var(--${P}-icon-${k})`);
   for (const k of Object.keys(T.size.component)) add(`spacing-${k}`, `var(--${P}-size-${k})`);
   add('spacing-hit', `var(--${P}-hit-min)`);

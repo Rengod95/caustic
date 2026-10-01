@@ -19,7 +19,7 @@ export const easingCurveHandleVariants = cva(
 
 export const easingCurvePresetsVariants = cva('flex flex-wrap gap-1.5');
 
-export const easingCurveStageVariants = cva('relative h-thumb-md overflow-hidden rounded-lg bg-bg-inset');
+export const easingCurveStageVariants = cva('relative h-motion-stage-h overflow-hidden rounded-lg bg-bg-inset');
 
 /** The ball travels with the edited curve and duration (runtime variables --p, --s, --o, --ease, --dur). */
 export const easingCurveBallVariants = cva(

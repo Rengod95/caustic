@@ -31,7 +31,7 @@ export function ZoomControl({
       </button>
       {readout === 'menu' ? (
         <button type="button" data-slot="zoom-control-readout" aria-haspopup="menu" className={zoomReadoutVariants({ readout, size })} onClick={onReadoutClick}>
-          <span className="pl-1">{value}</span>
+          {value}
           <ChevronDown data-slot="zoom-control-chevron" aria-hidden className="size-icon-xs text-text-tertiary" />
         </button>
       ) : (

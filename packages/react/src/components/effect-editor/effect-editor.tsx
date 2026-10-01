@@ -56,8 +56,8 @@ export function EffectEditor({ value, defaultValue = DEFAULT_SHADOW, preview = f
           <NumberField label="Spread" aria-label="Spread" locked={disabled} value={shadow.spread} onValueChange={spread => patch({ spread })} />
         </span>
       </div>
-      <div data-slot="effect-editor-color" role="group" aria-label="Shadow color">
-        <PaintWell disabled={disabled} value={shadow.color} onValueChange={color => patch({ color })} />
+      <div data-slot="effect-editor-color">
+        <PaintWell label="Shadow" disabled={disabled} value={shadow.color} onValueChange={color => patch({ color })} />
       </div>
     </div>
   );

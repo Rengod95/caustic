@@ -33,7 +33,7 @@ export function AgentCursor({ name = 'Caustic', rect, className, style, ...props
       </svg>
       <span
         data-slot="agent-cursor-tag"
-        className="glass glass-thick agent-rim mt-3.5 inline-flex h-index-badge items-center gap-1.5 rounded-full px-2 text-label whitespace-nowrap text-text-primary"
+        className="glass glass-thick agent-rim mt-3.5 inline-flex h-control-compact-xs items-center gap-1.5 rounded-full px-2 text-label whitespace-nowrap text-text-primary"
       >
         <span data-slot="agent-cursor-orb" className="orb orb-sm" />
         <span data-slot="agent-cursor-label">{name}</span>

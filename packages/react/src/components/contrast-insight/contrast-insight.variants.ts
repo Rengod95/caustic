@@ -17,7 +17,7 @@ export const contrastInsightLevelsVariants = cva('mt-2 flex flex-wrap gap-1.5');
 
 /** One level badge: soft status tint, a check or a cross so the result is not only color. */
 export const contrastInsightLevelVariants = cva(
-  'inline-flex h-index-badge items-center gap-1 rounded-sm px-2 text-micro [&_svg]:size-icon-xs [&_svg]:flex-none [&_svg]:stroke-[3]',
+  'inline-flex h-control-compact-xs items-center gap-1 rounded-sm px-2 text-micro [&_svg]:size-icon-xs [&_svg]:flex-none [&_svg]:stroke-[3]',
   {
     variants: {
       result: {

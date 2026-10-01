@@ -1,0 +1,6 @@
+@import "@caustic/react/styles.css";
+@source "./";
+
+html, body { margin: 0; background: var(--cs-color-bg-app); color: var(--cs-color-text-primary); }
+html { scroll-padding-top: 88px; }
+body { overflow-x: hidden; }

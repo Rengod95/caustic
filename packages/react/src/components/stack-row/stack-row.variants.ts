@@ -2,7 +2,7 @@ import { cn } from '../../lib/cn.ts';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 export const stackRowVariants = cva(
-  'group/stack-row grid h-field-sm grid-cols-[auto_1fr_auto_auto] items-center gap-1.5 rounded-md px-0.5 font-ui hover:bg-fill-hover',
+  'group/stack-row grid h-field-compact-md grid-cols-[auto_1fr_auto_auto] items-center gap-1.5 rounded-md pl-1 pr-0.5 font-ui hover:bg-fill-hover',
   {
     variants: {
       hidden: { true: 'opacity-64', false: '' },
@@ -11,8 +11,7 @@ export const stackRowVariants = cva(
   },
 );
 
-// The 4px start inset of the specimen is the root's 2px plus this 2px margin (the spec asserts a symmetric 2px root padding).
-export const stackRowLeadVariants = cva('ml-0.5 inline-flex shrink-0', {
+export const stackRowLeadVariants = cva('inline-flex shrink-0', {
   variants: {
     lead: {
       swatch: '',

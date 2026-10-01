@@ -25,7 +25,7 @@ export const listNavigationLabel = cva('min-w-0 truncate');
 
 export const listNavigationCount = cva('ms-auto font-ui text-hint tabular-nums', {
   variants: {
-    hot: { true: 'grid h-4.5 min-w-4.5 place-items-center rounded-full bg-accent-solid px-1.25 font-semibold text-accent-on', false: 'text-text-tertiary' },
+    hot: { true: 'grid h-control-compact-2xs min-w-control-compact-2xs place-items-center rounded-full bg-accent-solid px-1.25 font-semibold text-accent-on', false: 'text-text-tertiary' },
   },
   defaultVariants: { hot: false },
 });

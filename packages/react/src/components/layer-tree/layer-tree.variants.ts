@@ -28,7 +28,7 @@ export const layerTreeIconVariants = cva([
 export const layerTreeLabelVariants = cva('min-w-0 flex-1 truncate group-data-[component]:text-info-text group-data-[hidden]:text-text-disabled');
 
 /** Type tag after the name: 18px, info tint. */
-export const layerTreeTagVariants = cva('inline-flex h-4.5 flex-none items-center rounded-xs bg-info-soft px-1.25 text-micro text-info-text');
+export const layerTreeTagVariants = cva('inline-flex h-control-compact-2xs flex-none items-center rounded-xs bg-info-soft px-1.25 text-micro text-info-text');
 
 /** Trailing cluster. Any svg a consumer puts here is 14px and tertiary (accent on the primary row, disabled on a hidden row). */
 export const layerTreeEndVariants = cva([

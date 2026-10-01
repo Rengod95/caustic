@@ -28,7 +28,7 @@ export const badgeOrbVariants = cva('', {
   variants: {
     tone: {
       neutral: '', accent: '', success: '', warning: '', danger: '', info: '', solid: '', outline: '',
-      agent: 'orb orb-dot [&[data-slot]]:rounded-full',
+      agent: 'orb orb-dot',
     },
   },
   defaultVariants: { tone: 'neutral' },

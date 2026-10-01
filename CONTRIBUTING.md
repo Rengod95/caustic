@@ -123,4 +123,10 @@ A full pass records the component in `packages/spec/gated.json`. Never edit that
 3. Review, then run `pnpm spec:approve <id>`. Any later edit to the spec invalidates its lock until it is re-approved.
 4. Run `pnpm registry`, then hand the id to an implementer.
 
+## Baselines, full runs and docs
+
+Baselines are now recorded from the React render (`source: "react"` in each `baselines/<id>/<example>.json`); the HTML specimens were the reference until every component matched them. To change a component's look on purpose: change the spec, get it approved, then re-record with `pnpm baseline:react <id>` (main session only). `pnpm baseline <id>` still captures from a specimen page for new components.
+
+`pnpm gate:all` runs the whole gate in parallel shards. `pnpm docs:dev` serves the docs app (apps/docs, port 5180); `pnpm docs:build` builds it.
+
 After changing the gateway, run `pnpm gate:selftest`. It applies known-bad mutations to Button and fails if any one slips through.

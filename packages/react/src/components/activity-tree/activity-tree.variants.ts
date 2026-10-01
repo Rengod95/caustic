@@ -10,6 +10,6 @@ export const activityUnassignedVariants = cva('mt-1.5 grid min-h-7 grid-cols-[va
 export const activityStepGlyphVariants = cva('grid size-icon-md place-items-center text-success-text [&_svg]:size-icon-sm');
 export const activityCallGlyphVariants = cva('grid size-icon-md place-items-center text-text-secondary [&_svg]:size-icon-sm');
 
-export const activityOrbVariants = cva('mx-0.5 orb orb-sm [&[data-slot]]:rounded-full');
+export const activityOrbVariants = cva('mx-0.5 orb orb-sm');
 export const activityShimmerVariants = cva('shimmer');
-export const activityWorkerOrbVariants = cva('orb orb-dot [&[data-slot]]:rounded-full');
+export const activityWorkerOrbVariants = cva('orb orb-dot');

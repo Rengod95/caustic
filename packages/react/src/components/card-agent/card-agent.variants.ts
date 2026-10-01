@@ -4,4 +4,4 @@ import { cva } from 'class-variance-authority';
 export const cardAgentVariants = cva('agent-rim bg-surface-base shadow-agent');
 
 /** 14px spectrum orb that stands in for a tile in the header. */
-export const cardAgentOrbVariants = cva('orb [&[data-slot]]:rounded-full');
+export const cardAgentOrbVariants = cva('orb');

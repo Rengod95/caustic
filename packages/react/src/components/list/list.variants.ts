@@ -102,7 +102,7 @@ export const listEndVariants = cva('relative flex flex-none items-center gap-1.5
 
 /** The spectrum orb exists only while the agent works on the row (status working, P2). */
 export const listOrbVariants = cva('', {
-  variants: { status: { idle: '', working: 'orb orb-sm [&[data-slot]]:rounded-full' } },
+  variants: { status: { idle: '', working: 'orb orb-sm' } },
   defaultVariants: { status: 'idle' },
 });
 

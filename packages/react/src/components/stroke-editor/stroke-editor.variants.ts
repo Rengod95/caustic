@@ -16,7 +16,7 @@ export const strokeEditorPreviewLineVariants = cva(
 export const strokeEditorIndependentVariants = cva('flex items-center justify-between gap-2 text-footnote text-text-primary');
 
 // 3 x 3: 36px middle column and row (the box).
-export const strokeEditorSidesVariants = cva('grid grid-cols-[1fr_var(--cs-field-sm)_1fr] grid-rows-[auto_var(--cs-field-sm)_auto] items-center justify-items-center gap-1');
+export const strokeEditorSidesVariants = cva('grid grid-cols-[1fr_var(--cs-field-compact-md)_1fr] grid-rows-[auto_var(--cs-field-compact-md)_auto] items-center justify-items-center gap-1');
 
 export const strokeEditorSideVariants = cva('flex w-16', {
   variants: {

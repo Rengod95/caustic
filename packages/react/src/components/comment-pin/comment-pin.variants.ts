@@ -21,7 +21,7 @@ export const commentPinVariants = cva(
 
 /** 10px spectrum orb of the agent pin. */
 export const commentPinOrbVariants = cva('', {
-  variants: { author: { human: '', agent: 'orb [--orb:var(--cs-size-orb-xs)] [&[data-slot]]:rounded-full' } },
+  variants: { author: { human: '', agent: 'orb [--orb:var(--cs-size-orb-xs)]' } },
   defaultVariants: { author: 'human' },
 });
 

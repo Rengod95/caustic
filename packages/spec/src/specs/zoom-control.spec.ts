@@ -43,7 +43,7 @@ export default defineSpec({
     { slot: 'zoom-in', expect: { fg: 'text.secondary', radius: 'toolbar-item', height: 'control-sm', width: 'control-sm' } },
     { slot: 'zoom-out', when: { size: 'sm' }, expect: { height: 'size-control-inline', width: 'size-control-inline' } },
     { slot: 'zoom-in', when: { size: 'sm' }, expect: { height: 'size-control-inline', width: 'size-control-inline' } },
-    { slot: 'readout', expect: { font: 'mono', text: 'mono-strong', fg: 'text.primary', height: 'control-sm', padX: 6, gap: 4, radius: 'toolbar-item' }, note: 'Specimen padding is 0 6px 0 10px (10 start, 6 end); padX records the end.' },
+    { slot: 'readout', expect: { font: 'mono', text: 'mono-strong', fg: 'text.primary', height: 'control-sm', padStart: 10, padEnd: 6, gap: 4, radius: 'toolbar-item' } },
     { slot: 'readout', when: { readout: 'static' }, expect: { text: 'mono-md', padX: 4, height: 'size-control-inline' }, note: 'Static readout: span with 0 4px padding, mono 11.5 / 500.' },
     { slot: 'readout', when: { state: 'hover' }, expect: { bg: 'fill.pressed' } },
     { slot: 'chevron', expect: { fg: 'text.tertiary', height: 'icon-xs', width: 'icon-xs' } },

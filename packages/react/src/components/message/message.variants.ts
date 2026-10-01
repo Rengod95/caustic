@@ -14,6 +14,6 @@ export type MessageVariantProps = VariantProps<typeof messageVariants>;
 
 /** The agent spectrum orb dot; rendered only for the agent author. */
 export const messageOrbVariants = cva('', {
-  variants: { author: { user: '', agent: 'orb orb-dot [&[data-slot]]:rounded-full' } },
+  variants: { author: { user: '', agent: 'orb orb-dot' } },
   defaultVariants: { author: 'agent' },
 });

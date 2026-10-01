@@ -25,7 +25,7 @@ export const sessionListStatus = cva('grid size-icon-md place-items-center', {
 });
 
 /** The spectrum orb exists only while the agent works on the row (status running, P2). */
-export const sessionListOrb = cva('', { variants: { status: { running: 'orb orb-sm rounded-full motion-reduce:animate-none', review: '', failed: '', done: '' } } });
+export const sessionListOrb = cva('', { variants: { status: { running: 'orb orb-sm motion-reduce:animate-none', review: '', failed: '', done: '' } } });
 
 export const sessionListDot = cva('size-radio-dot rounded-full bg-current');
 

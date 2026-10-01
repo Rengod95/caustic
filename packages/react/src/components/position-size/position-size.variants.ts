@@ -9,7 +9,7 @@ export const positionSizeRow = cva('grid items-center gap-1.5', {
 
 // The sizing-mode pill sits in the field's unit slot; the negative end margin lands it 4px from the field edge.
 export const positionSizeMode = cva(
-  '-mr-1 inline-flex h-4.5 cursor-pointer items-center gap-0.5 rounded-xs px-1.25 text-ui-xs font-semibold outline-none focus-visible:shadow-focus disabled:pointer-events-none',
+  '-mr-1 inline-flex h-control-compact-2xs cursor-pointer items-center gap-0.5 rounded-xs px-1.25 text-ui-xs font-semibold outline-none focus-visible:shadow-focus disabled:pointer-events-none',
   {
     variants: {
       mode: {

@@ -4,7 +4,7 @@ export const changeDetailVariants = cva('m-0 grid list-none p-0');
 
 export const changeDetailItemVariants = cva('grid grid-cols-[auto_1fr] gap-1 border-t border-border-subtle py-2 first:border-t-0');
 
-export const changeDetailKindVariants = cva('mr-1 inline-grid h-4.5 place-items-center self-start rounded-xs px-1.5 text-micro', {
+export const changeDetailKindVariants = cva('mr-1 inline-grid h-control-compact-2xs place-items-center self-start rounded-xs px-1.5 text-micro', {
   variants: {
     kind: {
       mod: 'bg-info-soft text-info-text',

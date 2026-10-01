@@ -3,9 +3,8 @@ import { EasingCurve } from './easing-curve.tsx';
 
 export default defineFixture({
   id: 'easing-curve',
-  render: props => <EasingCurve progress={1} {...props} />,
+  render: props => <EasingCurve progress={0} {...props} />,
   examples: {
-    // The specimen ball sits at the start in the baseline; the loop is off so the capture is deterministic.
-    'easing-curve': () => <EasingCurve defaultBezier={[0.2, 0.8, 0.2, 1]} progress={0} />,
+    'easing-curve': () => <EasingCurve defaultBezier={[0.2, 0.8, 0.2, 1]} progress={1} />,
   },
 });

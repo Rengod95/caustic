@@ -160,6 +160,15 @@
   --cs-field-sm: 36px;
   --cs-field-md: 40px;
   --cs-field-lg: 44px;
+  --cs-control-compact-2xs: 18px;
+  --cs-control-compact-xs: 22px;
+  --cs-control-compact-sm: 24px;
+  --cs-control-compact-md: 28px;
+  --cs-control-compact-lg: 36px;
+  --cs-control-compact-xl: 44px;
+  --cs-field-compact-sm: 32px;
+  --cs-field-compact-md: 36px;
+  --cs-field-compact-lg: 40px;
   --cs-size-check: 18px;
   --cs-size-radio-dot: 7px;
   --cs-size-kbd-h: 18px;
@@ -247,6 +256,7 @@
   --cs-size-image-preview-h: 110px;
   --cs-size-effect-stage-h: 120px;
   --cs-size-axis-field-w: 56px;
+  --cs-size-motion-stage-h: 56px;
   --cs-size-curve-w: 280px;
   --cs-size-duration-field-w: 84px;
   --cs-size-timeline-label-w: 110px;

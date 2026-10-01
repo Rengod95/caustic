@@ -32,7 +32,7 @@ export const segmentedItemVariants = cva(
       appearance: { raised: '', outline: '', subtle: '' },
       shape: { rounded: '', pill: 'rounded-full' },
       size: {
-        xs: 'h-[calc(var(--cs-control-xs)-2px)] px-2 text-ui-sm',
+        xs: 'h-control-compact-xs px-2 text-ui-sm',
         md: 'h-control-inline px-2.5 text-ui-dense',
       },
       content: { label: '', icon: 'px-1.75' },

@@ -154,6 +154,15 @@
   --spacing-field-sm: var(--cs-field-sm);
   --spacing-field-md: var(--cs-field-md);
   --spacing-field-lg: var(--cs-field-lg);
+  --spacing-control-compact-2xs: var(--cs-control-compact-2xs);
+  --spacing-control-compact-xs: var(--cs-control-compact-xs);
+  --spacing-control-compact-sm: var(--cs-control-compact-sm);
+  --spacing-control-compact-md: var(--cs-control-compact-md);
+  --spacing-control-compact-lg: var(--cs-control-compact-lg);
+  --spacing-control-compact-xl: var(--cs-control-compact-xl);
+  --spacing-field-compact-sm: var(--cs-field-compact-sm);
+  --spacing-field-compact-md: var(--cs-field-compact-md);
+  --spacing-field-compact-lg: var(--cs-field-compact-lg);
   --spacing-icon-xs: var(--cs-icon-xs);
   --spacing-icon-sm: var(--cs-icon-sm);
   --spacing-icon-md: var(--cs-icon-md);
@@ -246,6 +255,7 @@
   --spacing-image-preview-h: var(--cs-size-image-preview-h);
   --spacing-effect-stage-h: var(--cs-size-effect-stage-h);
   --spacing-axis-field-w: var(--cs-size-axis-field-w);
+  --spacing-motion-stage-h: var(--cs-size-motion-stage-h);
   --spacing-curve-w: var(--cs-size-curve-w);
   --spacing-duration-field-w: var(--cs-size-duration-field-w);
   --spacing-timeline-label-w: var(--cs-size-timeline-label-w);

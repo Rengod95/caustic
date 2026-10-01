@@ -44,7 +44,7 @@ export default defineSpec({
     onRemove: { payload: 'void', when: 'the remove action is pressed' },
   },
   styles: [
-    { slot: 'root', expect: { radius: 'md', height: 36, gap: 6, padX: 2 }, note: 'Padding is 0 2px 0 4px.' },
+    { slot: 'root', expect: { radius: 'md', height: 'field-compact-md', gap: 6, padStart: 4, padEnd: 2 } },
     { slot: 'root', when: { state: 'hover' }, expect: { bg: 'fill.hover' } },
     { slot: 'root', when: { state: 'hidden' }, expect: { opacity: 0.64 } },
     { slot: 'icon', when: { lead: 'icon' }, expect: { bg: 'fill.pressed', fg: 'text.secondary', radius: 'xs', height: 'control-2xs', width: 'control-2xs' } },

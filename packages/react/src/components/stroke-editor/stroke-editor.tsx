@@ -55,8 +55,8 @@ export function StrokeEditor({ value, defaultValue = DEFAULT_STROKE, disabled = 
 
   return (
     <div data-slot="stroke-editor" className={cn(strokeEditorVariants(), className)} {...props}>
-      <div data-slot="stroke-editor-paint" role="group" aria-label="Stroke color">
-        <PaintWell disabled={disabled} value={stroke.color} onValueChange={color => patch({ color })} />
+      <div data-slot="stroke-editor-paint">
+        <PaintWell label="Stroke" disabled={disabled} value={stroke.color} onValueChange={color => patch({ color })} />
       </div>
       <div data-slot="stroke-editor-weight-row" className={strokeEditorWeightRowVariants()}>
         <span data-slot="stroke-editor-weight" className="contents">

@@ -23,6 +23,7 @@ export default defineSpec({
     invalid: { props: { invalid: true } },
   },
   props: {
+    label: { type: 'string', default: 'Fill', description: 'Names the paint for assistive tech: the well is "<label> color", the fields "<label> hex" and "<label> opacity" (e.g. Shadow, Stroke).' },
     value: { type: '{ hex: string; alpha: number }', description: 'Controlled paint: hex digits without # and alpha 0–100.' },
     defaultValue: { type: '{ hex: string; alpha: number }', default: { hex: 'E2763F', alpha: 100 }, description: 'Uncontrolled initial paint.' },
     token: { type: 'string', description: 'Token path the paint is bound to; shows the bound chip and Detach.' },

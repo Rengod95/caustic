@@ -22,7 +22,7 @@ export const codeRealizationOrbVariants = cva('', {
   variants: {
     phase: {
       done: '',
-      now: 'orb orb-sm [&[data-slot]]:rounded-full',
+      now: 'orb orb-sm',
       todo: '',
     },
   },

@@ -1428,6 +1428,7 @@ export default {
       "image-preview-h": 110,
       "effect-stage-h": 120,
       "axis-field-w": 56,
+      "motion-stage-h": 56,
       "curve-w": 280,
       "duration-field-w": 84,
       "timeline-label-w": 110,

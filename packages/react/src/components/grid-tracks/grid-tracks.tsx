@@ -10,7 +10,7 @@ import { gridTracksAdd, gridTracksHeading, gridTracksIndex, gridTracksRow, gridT
 export type TrackUnit = 'fr' | 'px' | 'auto';
 export interface Track { size: number | null; unit: TrackUnit }
 /** An array of tracks. The optional `unit` marker only exposes the literal union to the spec prop check; arrays never carry it. */
-export type TrackList = Track[] & { readonly unit?: 'fr' | 'px' | 'auto' };
+export type TrackList = Track[];
 
 const UNITS: { unit: TrackUnit; label: string }[] = [{ unit: 'fr', label: 'fr' }, { unit: 'px', label: 'px' }, { unit: 'auto', label: 'Auto' }];
 const DEFAULT_TRACKS: Track[] = [{ size: 1, unit: 'fr' }, { size: 240, unit: 'px' }, { size: null, unit: 'auto' }];

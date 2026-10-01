@@ -19,6 +19,8 @@ export interface PaintWellProps extends Omit<ComponentProps<'div'>, 'defaultValu
   token?: string;
   /** CSS color of the bound token, painted in the well while bound. */
   tokenColor?: string;
+  /** Names the paint for assistive tech: "<label> color", "<label> hex", "<label> opacity". */
+  label?: string;
   /** Differing paints in the selection. */
   mixed?: boolean;
   /** The typed hex is not 3, 4, 6 or 8 digits. */
@@ -35,7 +37,7 @@ const fallback: PaintValue = { hex: 'E2763F', alpha: 100 };
 const validHex = (v: string) => /^[0-9a-fA-F]+$/.test(v) && [3, 4, 6, 8].includes(v.length);
 
 /** One solid paint in a row: color well, hex digits and alpha. Bound to a token it shows the token and Detach instead. */
-export function PaintWell({ value, defaultValue = fallback, token, tokenColor, mixed = false, invalid = false, message = 'Use 3, 4, 6 or 8 hex digits.', disabled = false, onValueChange, onWellClick, onDetach, className, ...props }: PaintWellProps) {
+export function PaintWell({ value, defaultValue = fallback, label = 'Fill', token, tokenColor, mixed = false, invalid = false, message = 'Use 3, 4, 6 or 8 hex digits.', disabled = false, onValueChange, onWellClick, onDetach, className, ...props }: PaintWellProps) {
   const [paint, setPaint] = useControllableState<PaintValue>({ value, defaultValue, onChange: v => onValueChange?.(v) });
   const messageId = useId();
   const lastValid = useRef(fallback.hex);
@@ -50,7 +52,7 @@ export function PaintWell({ value, defaultValue = fallback, token, tokenColor, m
       <div data-slot="paint-well-row" className="grid h-control-md grid-cols-[auto_1fr_var(--cs-size-field-alpha-w)] items-center gap-1.5">
         <div data-slot="paint-well-well" className="flex">
           <ColorWell
-            aria-label={bound ? `Fill color ${token}` : mixed ? 'Fill color mixed' : `Fill color ${lastValid.current.toUpperCase()}`}
+            aria-label={bound ? `${label} color ${token}` : mixed ? `${label} color mixed` : `${label} color ${lastValid.current.toUpperCase()}`}
             appearance={bound || mixed ? 'flat' : 'checker'}
             color={mixed ? undefined : wellColor}
             solidColor={translucent ? solid : undefined}
@@ -61,7 +63,7 @@ export function PaintWell({ value, defaultValue = fallback, token, tokenColor, m
         </div>
         <div data-slot="paint-well-hex" className="min-w-0">
           <HexInput
-            aria-label="Hex" value={paint.hex} token={token} mixed={mixed} invalid={invalid} disabled={disabled}
+            aria-label={`${label} hex`} value={paint.hex} token={token} mixed={mixed} invalid={invalid} disabled={disabled}
             aria-describedby={hasMessage ? messageId : undefined}
             onValueChange={hex => setPaint({ ...paint, hex })}
           />
@@ -72,7 +74,7 @@ export function PaintWell({ value, defaultValue = fallback, token, tokenColor, m
           </div>
         ) : (
           <div data-slot="paint-well-alpha" className="w-field-alpha-w">
-            <NumberField aria-label="Alpha" unit="%" min={0} max={100} mixed={mixed} locked={disabled} value={paint.alpha} onValueChange={alpha => setPaint({ ...paint, alpha })} />
+            <NumberField aria-label={`${label} opacity`} unit="%" min={0} max={100} mixed={mixed} locked={disabled} value={paint.alpha} onValueChange={alpha => setPaint({ ...paint, alpha })} />
           </div>
         )}
       </div>

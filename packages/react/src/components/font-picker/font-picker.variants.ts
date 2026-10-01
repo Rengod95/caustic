@@ -12,7 +12,7 @@ export const fontPickerTriggerVariants = cva([
 ]);
 
 /** "Aa" in the current face (the face is the runtime --face variable). */
-export const fontPickerSampleVariants = cva('w-index-badge shrink-0 text-center text-title-3 font-normal [font-family:var(--face)] data-[italic]:italic');
+export const fontPickerSampleVariants = cva('w-control-compact-xs shrink-0 text-center text-title-3 font-normal [font-family:var(--face)] data-[italic]:italic');
 
 export const fontPickerListVariants = cva(
   'glass glass-thick glass-shadow-4 z-40 grid w-popover-md max-w-full justify-self-center gap-px rounded-2xl p-1.5 text-ui text-text-primary outline-none',

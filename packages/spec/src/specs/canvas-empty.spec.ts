@@ -24,7 +24,7 @@ export default defineSpec({
     { slot: 'root', expect: { bg: 'bg.canvas', radius: 'xl', padX: 16, padY: 28, gap: 10 }, note: 'Background is the cs-canvas-grid dot pattern (canvas.dot dots on bg.canvas).' },
     { slot: 'orb', expect: { height: 28, width: 28, radius: 'full' } },
     { slot: 'title', expect: { font: 'voice', text: 'voice-lg', fg: 'text.primary' }, note: 'Specimen: voice 19px / 26px, regular. Token request voice-lg.' },
-    { slot: 'description', expect: { fg: 'text.tertiary', text: 'footnote' }, note: 'max-width 34ch.' },
+    { slot: 'description', expect: { fg: 'text.tertiary', text: 'ui-sm', weight: 400 }, note: 'max-width 34ch.' },
     { slot: 'actions', expect: { gap: 8 } },
   ],
   a11y: { notes: ['The orb is decorative (aria-hidden); the prompt is text.', 'The agent Button is the primary path; the second action is secondary, so there is no accent button here.'] },

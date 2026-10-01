@@ -364,7 +364,7 @@ export const size = {
     // Inspector: alignment pad, previews, field columns, color picker, gradient, effects, motion.
     'pad-box': 96, 'layout-preview': 96, 'add-row': 38, 'radius-preview-w': 120, 'radius-preview-h': 84, 'field-alpha-w': 58,
     'color-plane-h': 150, 'color-picker-w': 268, 'color-preview': 30, 'picker-format-w': 78, 'picker-alpha-w': 52,
-    'gradient-preview-h': 188, 'gradient-angle-w': 66, 'image-preview-h': 110, 'effect-stage-h': 120, 'axis-field-w': 56,
+    'gradient-preview-h': 188, 'gradient-angle-w': 66, 'image-preview-h': 110, 'effect-stage-h': 120, 'axis-field-w': 56, 'motion-stage-h': 56,
     'curve-w': 280, 'duration-field-w': 84, 'timeline-label-w': 110, 'chevron-xs': 10,
     // Sheet grabber and table geometry.
     'grabber-w': 36, 'table-head-h': 38, 'table-select-w': 36, 'table-min-w': 560,

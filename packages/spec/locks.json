@@ -17,7 +17,7 @@
   "button": "4f714041264a1d1d",
   "calendar": "0d14b969f86f46a6",
   "canvas-artboard": "c31d011e4da4db69",
-  "canvas-empty": "4cceeeb56f1f4169",
+  "canvas-empty": "8584aa892a9c78bd",
   "canvas-guide": "2e2023390d0e9a7d",
   "canvas-hint": "8181f459b3486161",
   "canvas-marquee": "5e02f03df861fe4b",
@@ -105,7 +105,7 @@
   "page-list": "f2649d41e3dfcc7a",
   "pagination": "15ba8a9e2200c033",
   "paint-stack": "6281ea729451aec2",
-  "paint-well": "61228683300fe83f",
+  "paint-well": "e4e038a43b1940f3",
   "permission-request": "7e6c7640a27d9c0f",
   "picker-trigger": "33a2142743dc7f9f",
   "plan": "bfaf8e559b770577",
@@ -128,7 +128,7 @@
   "slider": "1d41c79d52a9b56f",
   "slider-field": "9c32b58df29428db",
   "spinner": "1351b67d2ec6f528",
-  "stack-row": "995d1fbcaa2be696",
+  "stack-row": "23af00b0a62dc4e6",
   "step-slider": "0effc32ca5d2a9e0",
   "stepper": "fbd8f5bbd392bf1d",
   "stepper-input": "914e0db9dbc76163",
@@ -150,5 +150,5 @@
   "token-graph": "f1773e38157085a8",
   "tool-call": "781cb86493ad1d5a",
   "tooltip": "39d815a4eeb7acb5",
-  "zoom-control": "8f598fde5ba20eba"
+  "zoom-control": "fc75d1b5f2cd5ec2"
 }

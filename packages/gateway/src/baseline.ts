@@ -66,7 +66,7 @@ async function main() {
           writeFileSync(join(dir, `${ex.id}-${theme}.png`), await el.screenshot({ animations: 'disabled' }));
           await page.close();
         }
-        writeFileSync(join(dir, `${ex.id}.json`), JSON.stringify({ doc: ex.doc, width, capturedAt: new Date().toISOString() }, null, 2));
+        writeFileSync(join(dir, `${ex.id}.json`), JSON.stringify({ doc: ex.doc, width, source: 'specimen', capturedAt: new Date().toISOString() }, null, 2));
         console.log(`✓ ${spec.id}/${ex.id} (${width}px)`);
       }
     }
