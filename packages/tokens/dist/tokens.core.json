@@ -1500,6 +1500,22 @@
         }
       }
     },
+    "title-4": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.ui}",
+        "fontSize": {
+          "value": 13.5,
+          "unit": "px"
+        },
+        "lineHeight": 1.4814814814814814,
+        "fontWeight": 600,
+        "letterSpacing": {
+          "value": -0.01,
+          "unit": "em"
+        }
+      }
+    },
     "body": {
       "$type": "typography",
       "$value": {

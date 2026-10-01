@@ -13,7 +13,7 @@ export default defineSpec({
     { name: 'spinner', el: 'span', parent: 'root', required: false, description: 'Shown while loading; replaces the leading icon.' },
   ],
   variants: {
-    tone: { values: ['ink', 'accent', 'secondary', 'ghost', 'danger', 'agent'], default: 'ink', description: 'ink = primary action; accent = the one confirming action per view; agent = invokes the agent.' },
+    tone: { values: ['ink', 'accent', 'secondary', 'ghost', 'danger', 'destructive', 'agent'], default: 'ink', description: 'ink = primary action; accent = the one confirming action per view; danger = a quiet destructive option; destructive = the confirming action of a destructive decision (alert dialogs); agent = invokes the agent.' },
     shape: { values: ['rounded', 'pill'], default: 'rounded' },
   },
   sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
@@ -24,7 +24,7 @@ export default defineSpec({
     loading: { props: { loading: true } },
   },
   props: {
-    tone: { type: "'ink' | 'accent' | 'secondary' | 'ghost' | 'danger' | 'agent'", default: 'ink', description: 'Visual weight and meaning.' },
+    tone: { type: "'ink' | 'accent' | 'secondary' | 'ghost' | 'danger' | 'destructive' | 'agent'", default: 'ink', description: 'Visual weight and meaning.' },
     shape: { type: "'rounded' | 'pill'", default: 'rounded', description: 'Corner style.' },
     size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Control height 24 · 28 · 32 · 40.' },
     loading: { type: 'boolean', default: false, description: 'Shows a spinner, sets aria-busy and blocks activation.' },
@@ -46,6 +46,7 @@ export default defineSpec({
     { slot: 'root', when: { tone: 'ghost', state: 'hover' }, expect: { bg: 'fill.pressed', fg: 'text.primary' } },
     { slot: 'root', when: { tone: 'danger' }, expect: { bg: 'danger.soft', fg: 'danger.text' } },
     { slot: 'root', when: { tone: 'danger', state: 'hover' }, expect: { bg: 'danger.solid', fg: 'danger.on' } },
+    { slot: 'root', when: { tone: 'destructive' }, expect: { bg: 'danger.solid', fg: 'danger.on', shadow: '1' } },
     { slot: 'root', when: { tone: 'agent' }, expect: { bg: 'surface.base', fg: 'text.primary', shadow: '2', agentRim: true } },
     { slot: 'root', when: { size: 'xs' }, expect: { height: 'control-xs', padX: 8, radius: 'sm', text: 'ui-sm', gap: 4 } },
     { slot: 'root', when: { size: 'sm' }, expect: { height: 'control-sm', padX: 10, radius: 'md', text: 'ui-strong', gap: 6 } },

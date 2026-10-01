@@ -2,7 +2,7 @@
 import { useRef, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useFieldContext } from '../field/field-context.ts';
-import { inputVariants, type InputVariantProps } from './input.variants.ts';
+import { inputPrefixVariants, inputSuffixClass, inputVariants, type InputVariantProps } from './input.variants.ts';
 
 export interface InputProps extends Omit<ComponentProps<'input'>, 'size' | 'prefix'>, InputVariantProps {
   /** Leading content: an icon or a short text such as "$". */
@@ -28,10 +28,11 @@ export function Input({ size, appearance, prefix, suffix, invalid, disabled, rea
       data-invalid={isInvalid || undefined}
       data-disabled={isDisabled || undefined}
       data-readonly={readOnly || undefined}
+      aria-disabled={isDisabled || undefined}
       className={cn(inputVariants({ size, appearance }), containerClassName)}
       onMouseDown={e => { if (e.target !== ref.current) { e.preventDefault(); ref.current?.focus(); } }}
     >
-      {prefix != null && <span data-slot="input-prefix" className="inline-flex shrink-0 items-center text-text-tertiary [&_svg]:size-icon-md">{prefix}</span>}
+      {prefix != null && <span data-slot="input-prefix" className={inputPrefixVariants({ appearance })}>{prefix}</span>}
       <input
         ref={ref}
         data-slot="input-control"
@@ -41,11 +42,11 @@ export function Input({ size, appearance, prefix, suffix, invalid, disabled, rea
         aria-required={field?.required || undefined}
         disabled={isDisabled}
         readOnly={readOnly}
-        className={cn('h-full w-full min-w-0 flex-1 border-0 bg-transparent text-text-primary outline-none placeholder:text-text-placeholder read-only:text-text-secondary', className)}
+        className={cn('h-full w-full min-w-0 flex-1 border-0 bg-transparent px-0.5 text-text-primary outline-none placeholder:text-text-placeholder in-data-[readonly]:text-text-secondary', className)}
         onChange={e => { onChange?.(e); onValueChange?.(e.target.value); }}
         {...props}
       />
-      {suffix != null && <span data-slot="input-suffix" className="inline-flex shrink-0 items-center gap-1.5 text-text-tertiary [&_svg]:size-icon-md">{suffix}</span>}
+      {suffix != null && <span data-slot="input-suffix" className={inputSuffixClass}>{suffix}</span>}
     </div>
   );
 }

@@ -56,7 +56,7 @@ export default defineSpec({
     { slot: 'thumb', when: { appearance: 'gradient' }, expect: { height: 18, width: 18, radius: 'full', shadow: 'thumb-swatch' }, note: 'Fill is thumbColor; 3px ring in control.thumb, 0.5px dark outline, soft shadow.' },
     { slot: 'thumb', when: { appearance: 'alpha' }, expect: { height: 18, width: 18, radius: 'full', shadow: 'thumb-swatch' } },
     { slot: 'thumb', when: { appearance: 'ruler' }, expect: { bg: 'accent.solid', width: 2, height: 'size-slider-ruler-h', radius: 'xs' }, note: 'Line thumb, no shadow, spans the track.' },
-    { slot: 'knob', expect: { bg: 'accent.solid', height: 8, width: 8, radius: 'full' }, note: 'Positioned 3px above the line, ringed 2px in surface.base.' },
+    { slot: 'knob', when: { appearance: 'ruler' }, expect: { bg: 'accent.solid', height: 8, width: 8, radius: 'full' }, note: 'Positioned 3px above the line, ringed 2px in surface.base.' },
     { slot: 'thumb', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'root', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
   ],

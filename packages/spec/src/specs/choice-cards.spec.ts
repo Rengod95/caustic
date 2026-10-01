@@ -43,6 +43,8 @@ export default defineSpec({
     { slot: 'description', expect: { text: 'ui-sm', weight: 400, fg: 'text.tertiary' } },
     { slot: 'price', expect: { text: 'figure', fg: 'text.primary' } },
     { slot: 'price-unit', expect: { text: 'ui-sm', weight: 400, fg: 'text.tertiary' } },
+    { slot: 'description', when: { state: 'selected' }, expect: { fg: 'text.secondary' }, note: 'On accent.soft, tertiary text falls below 4.5:1 in dark; selected cards step up to secondary.' },
+    { slot: 'price-unit', when: { state: 'selected' }, expect: { fg: 'text.secondary' } },
   ],
   behavior: {
     keyboard: { ArrowDown: 'select next card (single)', ArrowUp: 'select previous card (single)', ArrowRight: 'select next card (single)', ArrowLeft: 'select previous card (single)', Space: 'select or toggle the focused card' },

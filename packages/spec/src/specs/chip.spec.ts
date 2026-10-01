@@ -26,6 +26,7 @@ export default defineSpec({
     hover: { pseudo: ['hover'], target: 'remove', props: { onRemove: true } },
     pressed: { props: { pressed: true } },
     'focus-visible': { pseudo: ['focus', 'focus-visible'], props: { defaultPressed: false } },
+    'remove-focus': { pseudo: ['focus', 'focus-visible'], target: 'remove', props: { onRemove: true, shape: 'rounded', appearance: 'surface' } },
   },
   props: {
     appearance: { type: "'soft' | 'outline' | 'solid' | 'dashed' | 'surface'", default: 'soft', description: 'Fill and edge style.' },
@@ -67,7 +68,7 @@ export default defineSpec({
     { slot: 'count', when: { count: 14 }, expect: { opacity: 0.64 } },
     { slot: 'remove', expect: { fg: 'text.tertiary', radius: 'xs', height: 'icon-md', width: 'icon-md' } },
     { slot: 'remove', when: { state: 'hover' }, expect: { bg: 'fill.pressed', fg: 'text.primary' } },
-    { slot: 'remove', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
+    { slot: 'remove', when: { state: 'remove-focus' }, expect: { ring: 'focus' } },
   ],
   behavior: {
     keyboard: { Enter: 'activate an interactive chip, or the × button when it has focus', Space: 'activate an interactive chip, or the × button when it has focus' },
@@ -92,6 +93,7 @@ export default defineSpec({
   composition: { uses: ['segmented-control'] },
   examples: [{ id: 'chips-and-segmented', title: 'Chips & segmented', doc: 'segmented-control#chips-and-segmented' }],
   usage: [
+    'A chip is either a toggle (pressed) or removable (onRemove), never both: a remove control inside a pressable chip is nested interaction. Fixtures render the remove control only for non-toggle chips.',
     'Pill form: filters, quick options (date shortcuts: size sm, soft) and toggles (outline, aria-pressed). Rounded surface form: removable references (tag-input values, referenced frames and files).',
     'Pass onRemove only when removal is possible.',
     'Inner × radius is the rounded chip radius minus its inset (8 - 4 = 4).',

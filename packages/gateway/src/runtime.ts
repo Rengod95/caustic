@@ -21,7 +21,7 @@ export async function startRuntime(): Promise<Runtime> {
     server: { port: 0, strictPort: false, hmr: false, watch: null, fs: { allow: [root] } },
     optimizeDeps: { include: ['react', 'react-dom/client', 'zod', 'class-variance-authority', 'tailwind-merge', 'lucide-react', '@radix-ui/react-slot', '@radix-ui/react-dialog',
       '@radix-ui/react-accordion', '@radix-ui/react-dropdown-menu', '@radix-ui/react-hover-card', '@radix-ui/react-popover', '@radix-ui/react-radio-group',
-      '@radix-ui/react-select', '@radix-ui/react-slider', '@radix-ui/react-tabs', '@radix-ui/react-toggle-group', '@radix-ui/react-tooltip'] },
+      '@radix-ui/react-select', '@radix-ui/react-slider', '@radix-ui/react-alert-dialog', '@radix-ui/react-tabs', '@radix-ui/react-toggle-group', '@radix-ui/react-tooltip'] },
   });
   await server.listen();
   const url = server.resolvedUrls!.local[0]!.replace(/\/$/, '');

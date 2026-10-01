@@ -57,6 +57,7 @@ export const themes = {
 
     'surface.base': 'neutral.0',
     'surface.raised': 'neutral.25',
+    'surface.raised-translucent': 'neutral.25/0.7',
     'surface.translucent': 'neutral.0/0.78',
 
     'material.ultrathin': 'neutral.0/0.3',
@@ -145,6 +146,7 @@ export const themes = {
 
     'surface.base': 'neutral.900',
     'surface.raised': 'neutral.850',
+    'surface.raised-translucent': 'neutral.850/0.7',
     'surface.translucent': 'neutral.900/0.72',
 
     'material.ultrathin': 'neutral.850/0.28',
@@ -249,6 +251,7 @@ export const contrastRules = [
   ['ink.on', 'ink.solid', 7, 'primary button'],
   ['ink.on', 'ink.hover', 4.5, 'primary button hover'],
   ['ink.on-muted', 'ink.kbd@ink.solid', 4.5, 'tooltip shortcut'],
+  ['text.secondary', 'accent.soft@surface.base', 4.5, 'selected choice card text'],
   ['text.primary', 'control.raised', 7, 'secondary button, segmented thumb'],
   ['text.primary', 'control.raised-hover', 7, 'secondary button hover'],
   ['text.primary', 'surface.translucent', 7, 'translucent list, field, card'],
@@ -311,7 +314,7 @@ export const size = {
     'switch-md-w': 46, 'switch-md-h': 28, 'switch-md-thumb': 24, 'switch-md-travel': 18, 'switch-md-press': 30,
     'switch-sm-w': 38, 'switch-sm-h': 23, 'switch-sm-thumb': 19, 'switch-sm-travel': 15, 'switch-sm-press': 24,
     'avatar-xs': 16, 'avatar-sm': 24, 'avatar-md': 32, 'avatar-lg': 36,
-    'dialog-sm': 320, 'dialog-md': 480, 'dialog-lg': 640,
+    'dialog-sm': 320, 'dialog-md': 480, 'dialog-lg': 640, 'modal-sm': 380, 'sheet-md': 380, 'empty-glyph': 22,
     'chip-h': 26, 'chip-icon': 13, 'spinner-lg': 28, 'control-inline': 26, 'tab-h': 34,
     'textarea-min': 92, 'otp-w': 44, 'otp-h': 52,
     'slider-ruler-h': 30, 'slider-label-w': 52,
@@ -334,6 +337,7 @@ export const type = {
   'title-1': ['ui', 26, 32, 600, -0.022],
   'title-2': ['ui', 20, 26, 600, -0.016],
   'title-3': ['ui', 15, 20, 600, -0.01],
+  'title-4': ['ui', 13.5, 20, 600, -0.01],
   body: ['ui', 14, 21, 400, -0.003],
   ui: ['ui', 13, 18, 400, -0.003],
   'ui-strong': ['ui', 13, 18, 500, -0.003],

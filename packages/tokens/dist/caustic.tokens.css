@@ -179,6 +179,9 @@
   --cs-size-dialog-sm: 320px;
   --cs-size-dialog-md: 480px;
   --cs-size-dialog-lg: 640px;
+  --cs-size-modal-sm: 380px;
+  --cs-size-sheet-md: 380px;
+  --cs-size-empty-glyph: 22px;
   --cs-size-chip-h: 26px;
   --cs-size-chip-icon: 13px;
   --cs-size-spinner-lg: 28px;
@@ -217,6 +220,8 @@
   --cs-text-title-2-tracking: -0.016em;
   --cs-text-title-3: 600 15px/20px var(--cs-font-ui);
   --cs-text-title-3-tracking: -0.01em;
+  --cs-text-title-4: 600 13.5px/20px var(--cs-font-ui);
+  --cs-text-title-4-tracking: -0.01em;
   --cs-text-body: 400 14px/21px var(--cs-font-ui);
   --cs-text-body-tracking: -0.003em;
   --cs-text-ui: 400 13px/18px var(--cs-font-ui);
@@ -322,6 +327,7 @@
   --cs-color-bg-scrim: oklch(0.18 0.008 260 / 0.24);
   --cs-color-surface-base: oklch(0.995 0.001 260);
   --cs-color-surface-raised: oklch(0.985 0.002 260);
+  --cs-color-surface-raised-translucent: oklch(0.985 0.002 260 / 0.7);
   --cs-color-surface-translucent: oklch(0.995 0.001 260 / 0.78);
   --cs-color-material-ultrathin: oklch(0.995 0.001 260 / 0.3);
   --cs-color-material-thin: oklch(0.995 0.001 260 / 0.48);
@@ -424,6 +430,7 @@
     --cs-color-bg-scrim: oklch(0 0 0 / 0.5);
     --cs-color-surface-base: oklch(0.225 0.009 260);
     --cs-color-surface-raised: oklch(0.265 0.01 260);
+    --cs-color-surface-raised-translucent: oklch(0.265 0.01 260 / 0.7);
     --cs-color-surface-translucent: oklch(0.225 0.009 260 / 0.72);
     --cs-color-material-ultrathin: oklch(0.265 0.01 260 / 0.28);
     --cs-color-material-thin: oklch(0.265 0.01 260 / 0.44);
@@ -526,6 +533,7 @@
   --cs-color-bg-scrim: oklch(0 0 0 / 0.5);
   --cs-color-surface-base: oklch(0.225 0.009 260);
   --cs-color-surface-raised: oklch(0.265 0.01 260);
+  --cs-color-surface-raised-translucent: oklch(0.265 0.01 260 / 0.7);
   --cs-color-surface-translucent: oklch(0.225 0.009 260 / 0.72);
   --cs-color-material-ultrathin: oklch(0.265 0.01 260 / 0.28);
   --cs-color-material-thin: oklch(0.265 0.01 260 / 0.44);

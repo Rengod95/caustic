@@ -25,6 +25,7 @@
   --color-bg-scrim: var(--cs-color-bg-scrim);
   --color-surface-base: var(--cs-color-surface-base);
   --color-surface-raised: var(--cs-color-surface-raised);
+  --color-surface-raised-translucent: var(--cs-color-surface-raised-translucent);
   --color-surface-translucent: var(--cs-color-surface-translucent);
   --color-material-ultrathin: var(--cs-color-material-ultrathin);
   --color-material-thin: var(--cs-color-material-thin);
@@ -168,6 +169,9 @@
   --spacing-dialog-sm: var(--cs-size-dialog-sm);
   --spacing-dialog-md: var(--cs-size-dialog-md);
   --spacing-dialog-lg: var(--cs-size-dialog-lg);
+  --spacing-modal-sm: var(--cs-size-modal-sm);
+  --spacing-sheet-md: var(--cs-size-sheet-md);
+  --spacing-empty-glyph: var(--cs-size-empty-glyph);
   --spacing-chip-h: var(--cs-size-chip-h);
   --spacing-chip-icon: var(--cs-size-chip-icon);
   --spacing-spinner-lg: var(--cs-size-spinner-lg);
@@ -219,6 +223,10 @@
   --text-title-3--line-height: 20px;
   --text-title-3--letter-spacing: -0.01em;
   --text-title-3--font-weight: 600;
+  --text-title-4: 13.5px;
+  --text-title-4--line-height: 20px;
+  --text-title-4--letter-spacing: -0.01em;
+  --text-title-4--font-weight: 600;
   --text-body: 14px;
   --text-body--line-height: 21px;
   --text-body--letter-spacing: -0.003em;

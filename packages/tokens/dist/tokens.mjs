@@ -171,6 +171,7 @@ export default {
       "bg.scrim": "neutral.950/0.24",
       "surface.base": "neutral.0",
       "surface.raised": "neutral.25",
+      "surface.raised-translucent": "neutral.25/0.7",
       "surface.translucent": "neutral.0/0.78",
       "material.ultrathin": "neutral.0/0.3",
       "material.thin": "neutral.0/0.48",
@@ -260,6 +261,7 @@ export default {
       "bg.scrim": "black/0.5",
       "surface.base": "neutral.900",
       "surface.raised": "neutral.850",
+      "surface.raised-translucent": "neutral.850/0.7",
       "surface.translucent": "neutral.900/0.72",
       "material.ultrathin": "neutral.850/0.28",
       "material.thin": "neutral.850/0.44",
@@ -368,6 +370,10 @@ export default {
       "surface.raised": {
         "hex": "#f9fafb",
         "alpha": 1
+      },
+      "surface.raised-translucent": {
+        "hex": "#f9fafb",
+        "alpha": 0.7
       },
       "surface.translucent": {
         "hex": "#fdfdfe",
@@ -718,6 +724,10 @@ export default {
       "surface.raised": {
         "hex": "#22252a",
         "alpha": 1
+      },
+      "surface.raised-translucent": {
+        "hex": "#22252a",
+        "alpha": 0.7
       },
       "surface.translucent": {
         "hex": "#191c20",
@@ -1240,6 +1250,9 @@ export default {
       "dialog-sm": 320,
       "dialog-md": 480,
       "dialog-lg": 640,
+      "modal-sm": 380,
+      "sheet-md": 380,
+      "empty-glyph": 22,
       "chip-h": 26,
       "chip-icon": 13,
       "spinner-lg": 28,
@@ -1292,6 +1305,13 @@ export default {
     "title-3": [
       "ui",
       15,
+      20,
+      600,
+      -0.01
+    ],
+    "title-4": [
+      "ui",
+      13.5,
       20,
       600,
       -0.01
@@ -1685,6 +1705,12 @@ export default {
       "ink.kbd@ink.solid",
       4.5,
       "tooltip shortcut"
+    ],
+    [
+      "text.secondary",
+      "accent.soft@surface.base",
+      4.5,
+      "selected choice card text"
     ],
     [
       "text.primary",

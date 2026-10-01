@@ -45,7 +45,11 @@ export async function g1(c: Collector, input: SpecInput, fixture: Fixture | unde
     if (e.radius && !(e.radius in t.radius)) c.fail({ gate: 'G1', check: 'token-ref', where, message: `radius: "${e.radius}" is not a radius token.` });
     for (const key of ['height', 'minHeight', 'width'] as const) { const v = e[key]; if (v && dimPx(t, v) === null) c.fail({ gate: 'G1', check: 'token-ref', where, message: `${key}: "${v}" is not a size token or number.` }); }
     for (const key of ['padX', 'padY'] as const) { const v = e[key]; if (typeof v === 'string' && dimPx(t, v) === null) c.fail({ gate: 'G1', check: 'token-ref', where, message: `${key}: "${v}" is not an inset token.` }); }
-    if (typeof e.padX === 'number' && !t.allow.spacingSteps.map(s => s * 4).includes(e.padX)) c.warn({ gate: 'G1', check: 'token-ref', where, message: `padX ${e.padX}px is off the space scale.` });
+    for (const key of ['padX', 'padY', 'gap'] as const) { const v = e[key]; if (typeof v === 'number' && !t.allow.spacingSteps.map(s => s * 4).includes(v)) c.warn({ gate: 'G1', check: 'token-ref', where, message: `${key} ${v}px is off the space scale.` }); }
+    // Forced focus lands on the state's target (root by default); a ring measured on another slot can never appear.
+    const state = typeof rule.when?.state === 'string' ? spec.states[rule.when.state] : undefined;
+    if (state?.pseudo?.some(p => p.startsWith('focus')) && e.ring && e.ring !== 'none' && rule.slot !== (state.target ?? 'root'))
+      c.fail({ gate: 'G1', check: 'state-target', where, message: `State "${rule.when!.state}" forces focus on "${state.target ?? 'root'}" but the ring is measured on "${rule.slot}".`, fix: `Give the state target: '${rule.slot}' (or a separate state for it).` });
     if (e.text && !(e.text in t.type)) c.fail({ gate: 'G1', check: 'token-ref', where, message: `text: "${e.text}" is not a type role.` });
     if (e.shadow && !t.elevation.includes(e.shadow)) c.fail({ gate: 'G1', check: 'token-ref', where, message: `shadow: "${e.shadow}" is not an elevation level.` });
   });

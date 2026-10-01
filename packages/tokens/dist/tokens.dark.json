@@ -43,6 +43,19 @@
       "$type": "color",
       "$value": "{color.neutral.850}"
     },
+    "raised-translucent": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.265,
+          0.01,
+          260
+        ],
+        "alpha": 0.7,
+        "hex": "#22252a"
+      }
+    },
     "translucent": {
       "$type": "color",
       "$value": {

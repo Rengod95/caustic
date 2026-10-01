@@ -6,8 +6,8 @@
 //   flags: --skip=G4,G5   --only=G2   --json
 import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { rawSpecs } from '@caustic/spec';
-import { fixtures } from '../../react/src/fixtures.ts';
 import { Collector, writeReport, type Gate } from './report.ts';
 import { g0 } from './checks/g0-foundation.ts';
 import { g1 } from './checks/g1-spec.ts';
@@ -18,7 +18,8 @@ import { g5Runtime, g5Static } from './checks/g5-policy.ts';
 import { g6 } from './checks/g6-package.ts';
 import { startRuntime, type Runtime } from './runtime.ts';
 import { specHash } from '../../spec/src/approve.ts';
-import { root, selftest } from './paths.ts';
+import { reactSrc, root, selftest } from './paths.ts';
+import type { Fixture } from '../../react/src/lib/fixture.ts';
 
 const args = process.argv.slice(2);
 const flag = (name: string) => args.find(a => a.startsWith(`--${name}=`))?.split('=')[1]?.split(',').map(s => s.toUpperCase()) ?? null;
@@ -54,13 +55,18 @@ try {
     const input = rawSpecs[id];
     const gatesRun: Gate[] = (['G0', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6'] as Gate[]).filter(runs);
     if (!input) { c.fail({ gate: 'G1', check: 'spec', message: `No spec "${id}" in packages/spec/src/specs/index.ts.` }); summary.push({ id, passed: false, blocking: 1, warnings: 0, attempts: writeReport(id, c, '{}', gatesRun).attempts }); continue; }
-    const spec = runs('G1') ? await g1(c, input, fixtures[id]) : null;
+    // Import only this component's fixture: other components may be mid-edit by parallel authors.
+    const fixturePath = join(reactSrc, 'components', id, `${id}.fixture.tsx`);
+    const fixture: Fixture | undefined = existsSync(fixturePath)
+      ? await import(pathToFileURL(fixturePath).href).then(m => m.default, (e: any) => { c.fail({ gate: 'G1', check: 'fixture', message: `Fixture failed to load: ${String(e.message).split('\n')[0]}` }); return undefined; })
+      : undefined;
+    const spec = runs('G1') ? await g1(c, input, fixture) : null;
     if (spec) {
       if (runs('G2')) await g2(c, spec).catch(e => c.fail({ gate: 'G2', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
       if (runs('G5')) await g5Static(c, spec).catch(e => c.fail({ gate: 'G5', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
       if (runs('G6')) await g6(c, spec).catch(e => c.fail({ gate: 'G6', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
       const staticBlocking = c.blocking.some(f => f.gate === 'G2' && ['files', 'export'].includes(f.check));
-      if (needRuntime && fixtures[id] && !staticBlocking) {
+      if (needRuntime && fixture && !staticBlocking) {
         rt ??= await startRuntime();
         if (runs('G3')) await g3(c, spec, rt).catch(e => c.fail({ gate: 'G3', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
         if (runs('G4')) await g4(c, spec, rt).catch(e => c.fail({ gate: 'G4', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));

@@ -13,7 +13,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "docs": "vite --config apps/docs/vite.config.ts",
     "docs:build": "vite build --config apps/docs/vite.config.ts",
-    "gate:selftest": "tsx packages/gateway/src/selftest.ts"
+    "gate:selftest": "tsx packages/gateway/src/selftest.ts",
+    "gate:status": "tsx packages/gateway/src/status.ts"
   },
   "devDependencies": {
     "@tailwindcss/node": "4.3.3",

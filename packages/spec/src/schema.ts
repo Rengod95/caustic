@@ -107,7 +107,8 @@ export const ComponentSpec = z.object({
   slots: z.array(Slot).min(1),
   variants: z.record(z.string(), z.object({ values: z.array(z.string()).min(1), default: z.string(), description: z.string().optional() })).default({}),
   sizes: z.object({ values: z.array(z.string()).min(1), default: z.string() }).optional(),
-  states: z.partialRecord(z.enum(states), StateDef).default({}),
+  // Common names: see `states`. Components may add their own (e.g. 'remove-focus'); rules must reference a defined one (G1).
+  states: z.record(z.string().regex(/^[a-z][a-z0-9-]*$/), StateDef).default({}),
   props: z.record(z.string(), Prop).default({}),
   events: z.record(z.string(), EventDef).default({}),
   styles: z.array(StyleRule).default([]),

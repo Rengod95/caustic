@@ -41,7 +41,7 @@ export default defineSpec({
   },
   a11y: { labelRequired: true, minHit: 24, notes: ['The label names both the slider (aria-label) and the field, so each is announced with its purpose.'] },
   policies: ['P6'],
-  flags: { field: true },
+  flags: { field: false },
   composition: { uses: ['slider', 'number-field'] },
   examples: [
     { id: 'variants', title: 'Slider · variants', doc: 'slider#slider-variants' },

@@ -1,6 +1,7 @@
 // Gateway findings, the JSON report and the rewrite request an author (human or agent) works from.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { createHash } from 'node:crypto';
 import { reportsDir, root } from './paths.ts';
 
 export type Gate = 'G0' | 'G1' | 'G2' | 'G3' | 'G4' | 'G5' | 'G6';
@@ -30,10 +31,13 @@ export function writeReport(id: string, c: Collector, specExcerpt: string, gates
   const dir = join(reportsDir, id);
   mkdirSync(dir, { recursive: true });
   const attemptsPath = join(dir, 'attempts.json');
-  const prev = existsSync(attemptsPath) ? JSON.parse(readFileSync(attemptsPath, 'utf8')) : { attempts: 0 };
+  // The budget belongs to a spec version: a re-approved (changed) spec starts a fresh count.
+  const specKey = createHash('sha256').update(specExcerpt).digest('hex').slice(0, 16);
+  const stored = existsSync(attemptsPath) ? JSON.parse(readFileSync(attemptsPath, 'utf8')) : null;
+  const prev = stored && stored.specKey === specKey ? stored : { attempts: 0 };
   const passed = c.blocking.length === 0;
   const attempts = passed ? prev.attempts : prev.attempts + 1;
-  writeFileSync(attemptsPath, JSON.stringify({ attempts, lastRun: new Date().toISOString(), passed }, null, 2));
+  writeFileSync(attemptsPath, JSON.stringify({ attempts, specKey, lastRun: new Date().toISOString(), passed }, null, 2));
   writeFileSync(join(dir, 'report.json'), JSON.stringify({ id, passed, attempts, gatesRun, findings: c.findings }, null, 2));
 
   const byGate = (g: Gate) => c.findings.filter(f => f.gate === g);

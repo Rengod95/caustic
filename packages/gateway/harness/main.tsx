@@ -1,9 +1,10 @@
+/// <reference types="vite/client" />
 // Gate harness: renders a component's cases, one example, or one scenario instance.
 // Driven by Playwright through the URL and window.__CASES__.
 import './harness.css';
 import { createRoot } from 'react-dom/client';
 import { Fragment, type ReactNode } from 'react';
-import { fixtures } from '@caustic/react/fixtures';
+import type { Fixture } from '../../react/src/lib/fixture.ts';
 import { rawSpecs, ComponentSpec } from '@caustic/spec';
 
 declare global {
@@ -24,9 +25,16 @@ const serialize = (v: unknown): unknown => {
   try { return JSON.parse(JSON.stringify(v)); } catch { return String(v); }
 };
 
+// Load only the fixture under test: other components may be mid-edit by parallel authors.
+const fixtureLoaders = import.meta.glob<{ default: Fixture }>('../../react/src/components/*/*.fixture.tsx');
+const fixtureId = q.get('c') ?? '';
+const loadFixture = fixtureLoaders[`../../react/src/components/${fixtureId}/${fixtureId}.fixture.tsx`];
+let loadedFixture: Fixture | undefined;
+try { loadedFixture = loadFixture ? (await loadFixture()).default : undefined; } catch (e) { window.__ERROR__ = String(e); }
+
 function App(): ReactNode {
-  const id = q.get('c') ?? '';
-  const fx = fixtures[id];
+  const id = fixtureId;
+  const fx = loadedFixture;
   const raw = rawSpecs[id];
   if (!fx || !raw) return <pre data-error>{`No fixture or spec for "${id}"`}</pre>;
   const spec = ComponentSpec.parse(raw);

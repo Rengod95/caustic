@@ -271,6 +271,17 @@
     },
     {
       "theme": "light",
+      "fg": "text.secondary",
+      "bg": "accent.soft@surface.base",
+      "min": 4.5,
+      "ratio": 7.7,
+      "pass": true,
+      "note": "selected choice card text",
+      "sweep": true,
+      "worstHue": 210
+    },
+    {
+      "theme": "light",
       "fg": "text.primary",
       "bg": "control.raised",
       "min": 7,
@@ -917,6 +928,17 @@
       "note": "tooltip shortcut",
       "sweep": false,
       "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "text.secondary",
+      "bg": "accent.soft@surface.base",
+      "min": 4.5,
+      "ratio": 7.74,
+      "pass": true,
+      "note": "selected choice card text",
+      "sweep": true,
+      "worstHue": 150
     },
     {
       "theme": "dark",

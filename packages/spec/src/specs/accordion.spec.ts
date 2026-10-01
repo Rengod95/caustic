@@ -40,7 +40,7 @@ export default defineSpec({
     { slot: 'item', when: { variant: 'flush' }, expect: { border: 'border.subtle' }, note: 'Flush: bottom hairline only.' },
     { slot: 'item', when: { variant: 'separated' }, expect: { bg: 'surface.base', edge: 'border.subtle', shadow: '1', radius: 'xl', padX: 'inset-regular-x' } },
     { slot: 'item', when: { variant: 'separated', state: 'open' }, expect: { edge: 'border.default', shadow: '2' } },
-    { slot: 'trigger', expect: { minHeight: 'control-xl', padX: 2, padY: 1, gap: 10, text: 'ui-md', fg: 'text.primary', cursor: 'pointer' } },
+    { slot: 'trigger', expect: { minHeight: 'control-xl', padX: 2, padY: 4, gap: 10, text: 'ui-md', fg: 'text.primary', cursor: 'pointer' } },
     { slot: 'trigger', when: { state: 'focus-visible' }, expect: { ring: 'focus', radius: 'md' } },
     { slot: 'trigger', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
     { slot: 'icon', expect: { fg: 'text.tertiary', height: 'icon-sm', width: 'icon-sm' } },
