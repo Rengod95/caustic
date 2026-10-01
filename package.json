@@ -1,0 +1,36 @@
+{
+  "name": "caustic",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "tokens": "node packages/tokens/src/build.mjs",
+    "tokens:check": "node packages/tokens/src/build.mjs --check",
+    "gate": "tsx packages/gateway/src/cli.ts",
+    "baseline": "tsx packages/gateway/src/baseline.ts",
+    "spec:approve": "tsx packages/spec/src/approve.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "docs": "vite --config apps/docs/vite.config.ts",
+    "docs:build": "vite build --config apps/docs/vite.config.ts",
+    "gate:selftest": "tsx packages/gateway/src/selftest.ts"
+  },
+  "devDependencies": {
+    "@tailwindcss/node": "4.3.3",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/node": "26.6.3",
+    "@types/pngjs": "6.0.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "axe-core": "4.13.0",
+    "pixelmatch": "7.2.0",
+    "playwright": "1.63.0",
+    "pngjs": "7.0.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwindcss": "4.3.3",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vite": "8.3.2"
+  }
+}

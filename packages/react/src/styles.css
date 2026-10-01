@@ -1,0 +1,6 @@
+/* Caustic React — stylesheet entry. Apps import this once.
+   The foundation goes into Tailwind's base layer so utilities always win over its resets. */
+@import "tailwindcss";
+@import "@caustic/tokens/caustic.css" layer(base);
+@import "@caustic/tokens/theme.css";
+@source "./components";

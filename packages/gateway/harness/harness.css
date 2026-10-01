@@ -1,0 +1,10 @@
+@import "@caustic/react/styles.css";
+@source "./";
+
+/* Harness frames. .frame mirrors the docs specimen preview pane so screenshots line up:
+   28px block and 24px inline padding, a 14px grid gap, plain app background. */
+html, body { margin: 0; background: var(--cs-color-bg-app); }
+.frame { box-sizing: border-box; width: var(--frame-w, 800px); padding: 28px 24px; display: grid; gap: 14px; align-content: start; min-height: 120px; background: var(--cs-color-bg-app); min-width: 0; }
+.cases { display: flex; flex-wrap: wrap; gap: 16px; padding: 24px; align-items: flex-start; }
+.case { padding: 8px; min-width: 0; }
+.freeze *, .freeze *::before, .freeze *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }

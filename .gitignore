@@ -1,0 +1,5 @@
+node_modules/
+dist-docs/
+packages/gateway/reports/
+packages/gateway/.harness-cache/
+*.log

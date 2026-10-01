@@ -1,0 +1,11 @@
+{
+  "name": "@caustic/gateway",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@caustic/spec": "workspace:*",
+    "@caustic/react": "workspace:*",
+    "@caustic/tokens": "workspace:*"
+  }
+}

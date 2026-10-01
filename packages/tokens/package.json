@@ -1,0 +1,13 @@
+{
+  "name": "@caustic/tokens",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./caustic.css": "./dist/caustic.css",
+    "./theme.css": "./dist/theme.css",
+    "./tokens.css": "./dist/caustic.tokens.css",
+    "./tokens": "./dist/tokens.mjs",
+    "./source": "./src/tokens.mjs"
+  }
+}

@@ -1,0 +1,142 @@
+/* ── Caustic foundation — base layer ──────────────────────────────
+   Reset, type roles, materials and the agent signature. Everything here
+   reads semantic tokens only; no literal colors except pure white/black
+   used as light physics (specular, thumbs). */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--cs-color-bg-app);
+  color: var(--cs-color-text-primary);
+  font: var(--cs-text-ui);
+  letter-spacing: var(--cs-text-ui-tracking);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv11", "ss01";
+}
+[hidden] { display: none !important; }
+button, input, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+:where(button, [role="button"], a, input, textarea, select, [tabindex]):focus-visible { outline: none; box-shadow: var(--cs-focus); }
+/* Field focus policy: a text field owns its focus. The field container swaps its
+   own border for --cs-focus-field (1.5px, focus.ring); the inner control draws
+   nothing, and no outer ring or halo is added. One edge, never three. */
+:where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="button"], [type="submit"]), textarea, select):focus-visible { box-shadow: none; outline: none; }
+::selection { background: var(--cs-color-accent-soft); }
+::placeholder { color: var(--cs-color-text-placeholder); opacity: 1; }
+:where(:lang(ko)) { word-break: keep-all; overflow-wrap: anywhere; }
+
+/* Scrollbars: thin, quiet, theme-aware */
+* { scrollbar-width: thin; scrollbar-color: var(--cs-color-border-strong) transparent; }
+
+/* ── Type roles ── */
+.cs-display   { font: var(--cs-text-display);  letter-spacing: var(--cs-text-display-tracking); text-wrap: balance; }
+.cs-title-1   { font: var(--cs-text-title-1);  letter-spacing: var(--cs-text-title-1-tracking); text-wrap: balance; }
+.cs-title-2   { font: var(--cs-text-title-2);  letter-spacing: var(--cs-text-title-2-tracking); text-wrap: balance; }
+.cs-title-3   { font: var(--cs-text-title-3);  letter-spacing: var(--cs-text-title-3-tracking); }
+.cs-body      { font: var(--cs-text-body);     letter-spacing: var(--cs-text-body-tracking); text-wrap: pretty; }
+.cs-ui        { font: var(--cs-text-ui);       letter-spacing: var(--cs-text-ui-tracking); }
+.cs-ui-strong { font: var(--cs-text-ui-strong); letter-spacing: var(--cs-text-ui-strong-tracking); }
+.cs-footnote  { font: var(--cs-text-footnote); letter-spacing: var(--cs-text-footnote-tracking); }
+.cs-label     { font: var(--cs-text-label);    letter-spacing: var(--cs-text-label-tracking); }
+.cs-caption   { font: var(--cs-text-caption);  letter-spacing: var(--cs-text-caption-tracking); text-transform: uppercase; }
+.cs-voice     { font: var(--cs-text-voice);    letter-spacing: var(--cs-text-voice-tracking); font-optical-sizing: auto; text-wrap: pretty; }
+.cs-voice-sm  { font: var(--cs-text-voice-sm); letter-spacing: var(--cs-text-voice-sm-tracking); font-optical-sizing: auto; }
+.cs-thought   { font: var(--cs-text-thought);  font-style: italic; color: var(--cs-color-text-secondary); }
+.cs-mono      { font: var(--cs-text-mono); font-variant-numeric: tabular-nums; }
+.cs-mono-sm   { font: var(--cs-text-mono-sm); font-variant-numeric: tabular-nums; }
+.cs-num       { font-variant-numeric: tabular-nums; }
+/* Hangul does not take negative tracking */
+:lang(ko) :is(.cs-display, .cs-title-1, .cs-title-2, .cs-title-3) { letter-spacing: -0.01em; }
+:lang(ko) .cs-caption { letter-spacing: 0.02em; }
+
+/* ── Materials ──────────────────────────────────────────────────────
+   Glass is for layers that float above content. Thin/regular for chrome,
+   thick for anything carrying menu or form text. */
+.cs-glass {
+  --cs-material: var(--cs-color-material-regular);
+  --cs-material-blur: var(--cs-blur-regular);
+  position: relative;
+  background: var(--cs-material);
+  -webkit-backdrop-filter: blur(var(--cs-material-blur)) saturate(1.8);
+  backdrop-filter: blur(var(--cs-material-blur)) saturate(1.8);
+  box-shadow:
+    inset 0 1px 0 var(--cs-color-material-specular),
+    inset 0 0 0 1px var(--cs-color-material-rim),
+    0 0 0 0.5px var(--cs-color-material-edge),
+    var(--cs-shadow, var(--cs-elevation-3));
+}
+.cs-glass::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(155deg, var(--cs-color-material-specular), transparent 28%, transparent 66%, var(--cs-color-material-sheen));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.cs-glass.cs-ultrathin { --cs-material: var(--cs-color-material-ultrathin); --cs-material-blur: var(--cs-blur-ultrathin); }
+.cs-glass.cs-thin      { --cs-material: var(--cs-color-material-thin);      --cs-material-blur: var(--cs-blur-thin); }
+.cs-glass.cs-thick     { --cs-material: var(--cs-color-material-thick);     --cs-material-blur: var(--cs-blur-thick); }
+.cs-solid { background: var(--cs-color-surface-base); box-shadow: 0 0 0 1px var(--cs-color-border-subtle), var(--cs-shadow, var(--cs-elevation-1)); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cs-glass { background: var(--cs-color-material-thick); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .cs-glass { background: var(--cs-color-surface-base); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* ── Agent signature ────────────────────────────────────────────────
+   Spectrum light marks agent presence, work or provenance. Never decoration. */
+.cs-agent { position: relative; }
+.cs-agent::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: var(--cs-spectrum-conic);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: cs-spin var(--cs-duration-agent) linear infinite;
+}
+.cs-agent.cs-glow { box-shadow: 0 8px 30px -6px var(--cs-color-agent-glow); }
+@keyframes cs-spin { to { --cs-spin: 360deg; } }
+
+.cs-orb {
+  --cs-orb: 14px; --cs-orb-hole: 3.4px;
+  width: var(--cs-orb); height: var(--cs-orb); border-radius: 50%; flex: none;
+  background: var(--cs-spectrum-conic); animation: cs-spin 1.6s linear infinite;
+  -webkit-mask: radial-gradient(circle, transparent var(--cs-orb-hole), #000 calc(var(--cs-orb-hole) + .5px));
+  mask: radial-gradient(circle, transparent var(--cs-orb-hole), #000 calc(var(--cs-orb-hole) + .5px));
+}
+.cs-orb.cs-sm { --cs-orb: 12px; --cs-orb-hole: 2.8px; }
+.cs-orb.cs-lg { --cs-orb: 28px; --cs-orb-hole: 9px; }
+.cs-orb.cs-dot { --cs-orb: 8px; -webkit-mask: none; mask: none; animation-duration: var(--cs-duration-agent); }
+
+/* In-progress label: solid tertiary text that a band of light passes over. */
+.cs-shimmer { color: var(--cs-color-text-tertiary); }
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .cs-shimmer {
+    background: linear-gradient(90deg, var(--cs-color-text-tertiary) 0 35%, var(--cs-color-text-primary) 50%, var(--cs-color-text-tertiary) 65% 100%);
+    background-size: 260% 100%;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    animation: cs-shimmer var(--cs-duration-shimmer) linear infinite;
+  }
+}
+@keyframes cs-shimmer { from { background-position: 130% 0; } to { background-position: -130% 0; } }
+
+/* ── Container insets ── */
+.cs-inset-compact { padding: var(--cs-inset-compact); }
+.cs-inset-regular { padding: var(--cs-inset-regular); }
+
+/* ── Domain utilities ── */
+.cs-checker {
+  background-color: var(--cs-color-canvas-checker-a);
+  background-image: conic-gradient(var(--cs-color-canvas-checker-b) 25%, transparent 0 50%, var(--cs-color-canvas-checker-b) 0 75%, transparent 0);
+  background-size: 8px 8px;
+}
+.cs-canvas-grid {
+  background-color: var(--cs-color-bg-canvas);
+  background-image: radial-gradient(var(--cs-color-canvas-dot) 1px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0s !important; animation-iteration-count: 1 !important; transition-duration: 0s !important; }
+}
