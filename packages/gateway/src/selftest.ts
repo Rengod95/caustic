@@ -16,7 +16,7 @@ const mutations: Mutation[] = [
   { name: 'literal color', file: V, from: 'bg-ink-solid text-ink-on', to: 'bg-[#111318] text-ink-on', expect: ['G2:arbitrary-value', 'G3:tokens'], skip: 'G4' },
   { name: 'non-token color', file: V, from: 'bg-danger-soft text-danger-text', to: 'bg-red-500 text-danger-text', expect: ['G2:non-token-class'], skip: 'G4' },
   { name: 'wrong hover token', file: V, from: 'hover:bg-ink-hover', to: 'hover:bg-ink-solid', expect: ['G3:tokens'], skip: 'G4' },
-  { name: 'off-scale padding', file: V, from: 'h-control-md gap-1.5 px-3', to: 'h-control-md gap-1.5 px-7', expect: ['G2:space-scale', 'G3:tokens'] },
+  { name: 'off-scale padding', file: V, from: 'h-control-md gap-1.5 px-3', to: 'h-control-md gap-1.5 px-9', expect: ['G2:space-scale', 'G3:tokens'] }, // 36px: between scale steps 8 and 10
   { name: 'wrong radius', file: V, from: 'h-control-md gap-1.5 px-3 text-ui-strong rounded-md', to: 'h-control-md gap-1.5 px-3 text-ui-strong rounded-xl', expect: ['G3:tokens'], skip: 'G4' },
   { name: 'missing variant value', file: V, from: "        ghost: 'bg-transparent", to: "        quiet: 'bg-transparent", expect: ['G2:variants'], skip: 'G4' },
   { name: 'spectrum outside agent', file: V, from: "ink: 'frost bg-ink-solid", to: "ink: 'agent-rim frost bg-ink-solid", expect: ['G5:P2 spectrum'], skip: 'G4' },

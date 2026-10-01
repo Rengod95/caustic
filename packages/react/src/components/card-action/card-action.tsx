@@ -42,7 +42,7 @@ export function CardActionArrow({ className, ...props }: ComponentProps<'span'>)
 export function CardActionIndicator({ className, ...props }: ComponentProps<'span'>) {
   return (
     <span aria-hidden data-slot="card-action-indicator" className={cn(cardActionIndicatorVariants(), className)} {...props}>
-      <span className="size-radio-dot rounded-full bg-accent-on opacity-0 group-data-[state=checked]:opacity-100" />
+      <span className="size-radio-dot rounded-full bg-accent-on opacity-0 group-data-[state=checked]/card:opacity-100" />
     </span>
   );
 }

@@ -1,0 +1,29 @@
+import { defineFixture } from '../../lib/fixture.ts';
+import { CodeDiff, CodeDiffLine, CodeDiffToken as T, type CodeDiffKind, type CodeDiffSyntax } from './code-diff.tsx';
+
+const lines = (kind?: CodeDiffKind, syntax?: CodeDiffSyntax) => (
+  <>
+    <CodeDiffLine number={12} kind={kind}><T syntax={syntax}>export function</T> PricingCard({'{ plan }'}) {'{'}</CodeDiffLine>
+    <CodeDiffLine number={13} kind="remove">{'  '}<T syntax="keyword">return</T> &lt;Card <T syntax="property">radius</T>=<T syntax="string">"lg"</T> <T syntax="property">padding</T>=<T syntax="string">"6"</T>&gt;</CodeDiffLine>
+    <CodeDiffLine number={14} kind="remove">{'    '}&lt;Price <T syntax="property">size</T>=<T syntax="string">"md"</T> /&gt;</CodeDiffLine>
+    <CodeDiffLine number={13} kind="add">{'  '}<T syntax="keyword">return</T> &lt;Card <T syntax="property">radius</T>=<T syntax="string">"card"</T> <T syntax="property">padding</T>=<T syntax="string">"card"</T>&gt;</CodeDiffLine>
+    <CodeDiffLine number={14} kind="add">{'    '}&lt;Price <T syntax="property">size</T>=<T syntax="string">"lg"</T> <T syntax="property">tone</T>={'{plan.tone}'} /&gt;</CodeDiffLine>
+    <CodeDiffLine number={15} kind="add">{'    '}<T syntax="comment">{'{/* agent: tokens bound, no literals */}'}</T></CodeDiffLine>
+    <CodeDiffLine number={16}>{'    '}&lt;Features <T syntax="property">items</T>={'{plan.features}'} /&gt;</CodeDiffLine>
+  </>
+);
+
+export default defineFixture({
+  id: 'code-diff',
+  // Line and token props (kind, syntax) apply to the first line / token.
+  render: ({ kind, syntax, number: _n, ...props }) => (
+    <CodeDiff aria-label="Changes to PricingCard.tsx" filename="PricingCard.tsx" added={3} removed={2} {...props}>
+      {lines(kind as CodeDiffKind | undefined, syntax as CodeDiffSyntax | undefined)}
+    </CodeDiff>
+  ),
+  examples: {
+    'realization-review': () => (
+      <CodeDiff aria-label="Changes to PricingCard.tsx" filename="PricingCard.tsx">{lines()}</CodeDiff>
+    ),
+  },
+});

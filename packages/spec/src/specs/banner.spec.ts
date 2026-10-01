@@ -27,7 +27,8 @@ export default defineSpec({
   },
   events: { onDismiss: { payload: 'void', when: 'the dismiss button is activated' } },
   styles: [
-    { slot: 'root', expect: { bg: 'info.soft', fg: 'text.primary', radius: 'xl', minHeight: 'control-xl', padX: 14, padY: 8, gap: 12, text: 'ui' }, note: 'Padding-inline-end is 8px so the trailing xs button sits concentric with the 12px corner. Width 100%.' },
+    { slot: 'root', expect: { bg: 'info.soft', fg: 'text.primary', radius: 'xl', minHeight: 'control-xl', padX: 14, padY: 8, gap: 12, text: 'ui' }, note: 'Width 100%.' },
+    { slot: 'root', when: { dismissible: true }, expect: { padStart: 14, padEnd: 8 }, note: 'With a trailing xs control the end padding is 8px so it sits concentric with the 12px corner.' },
     { slot: 'root', when: { tone: 'success' }, expect: { bg: 'success.soft' } },
     { slot: 'root', when: { tone: 'warning' }, expect: { bg: 'warning.soft' } },
     { slot: 'root', when: { tone: 'danger' }, expect: { bg: 'danger.soft' } },

@@ -1,13 +1,13 @@
 import { defineFixture } from '../../lib/fixture.ts';
 import { TokenChip } from '../token-chip/token-chip.tsx';
-import { ListDescription, ListDescriptionRow, type ListDescriptionProps } from './list-description.tsx';
+import { ListDescription, ListDescriptionRow, type ListDescriptionProps, type ListDescriptionRowProps } from './list-description.tsx';
 
 const theme = <TokenChip swatch="var(--cs-accent-500)">Lagoon</TokenChip>;
 
 export default defineFixture({
   id: 'list-description',
   render: raw => {
-    const { mono, copyValue, onCopy, term: _term, ...rest } = raw as ListDescriptionProps;
+    const { mono, copyValue, onCopy, term: _term, ...rest } = raw as ListDescriptionProps & Partial<Pick<ListDescriptionRowProps, 'mono' | 'copyValue' | 'onCopy' | 'term'>>;
     return (
       <ListDescription {...rest}>
         <ListDescriptionRow term="Workspace ID" mono={mono} copyValue={copyValue ?? 'ws_8f2a91c4'} onCopy={onCopy}>ws_8f2a91c4</ListDescriptionRow>

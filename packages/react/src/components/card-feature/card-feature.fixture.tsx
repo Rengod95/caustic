@@ -23,7 +23,7 @@ export default defineFixture({
   frame: children => <div className="w-80 bg-bg-canvas p-4">{children}</div>,
   render: props => (
     <CardFeature {...(props as Partial<CardFeatureProps>)}>
-      <CardHeader><CardIcon iconTone="accent" className="rounded-md"><WandSparkles /></CardIcon></CardHeader>
+      <CardHeader><CardIcon iconTone="accent"><WandSparkles /></CardIcon></CardHeader>
       <CardBody>
         <CardFeatureHeadline>Describe a screen. Review every change.</CardFeatureHeadline>
         <p>The agent drafts frames from your theme and asks before it touches anything shared.</p>
@@ -35,7 +35,7 @@ export default defineFixture({
     'feature-card': () => (
       <div className={bento}>
         <CardFeature fill="fill" className="col-span-2 row-span-2 max-[460px]:col-auto max-[460px]:row-auto">
-          <CardHeader><CardIcon iconTone="accent" className="rounded-md"><WandSparkles /></CardIcon></CardHeader>
+          <CardHeader><CardIcon iconTone="accent"><WandSparkles /></CardIcon></CardHeader>
           <CardBody>
             <CardFeatureHeadline>Describe a screen. Review every change.</CardFeatureHeadline>
             <p>The agent drafts frames from your theme and asks before it touches anything shared.</p>
@@ -46,7 +46,7 @@ export default defineFixture({
         </CardFeature>
         <CardFeature className="col-span-2 max-[460px]:col-auto">
           <CardHeader headerAlign="center">
-            <CardIcon className="rounded-md"><Contrast /></CardIcon>
+            <CardIcon><Contrast /></CardIcon>
             <CardHeading>
               <CardTitle>Contrast is a build gate</CardTitle>
               <CardDescription>96 rules · 24 hues</CardDescription>
@@ -54,11 +54,11 @@ export default defineFixture({
           </CardHeader>
         </CardFeature>
         <CardFeature>
-          <CardHeader><CardIcon className="rounded-md"><GitBranch /></CardIcon></CardHeader>
+          <CardHeader><CardIcon><GitBranch /></CardIcon></CardHeader>
           <CardBody><CardTitle titleSize="sm">Theme inheritance</CardTitle><p>Override only what differs.</p></CardBody>
         </CardFeature>
         <CardFeature>
-          <CardHeader><CardIcon className="rounded-md"><FileCode /></CardIcon></CardHeader>
+          <CardHeader><CardIcon><FileCode /></CardIcon></CardHeader>
           <CardBody><CardTitle titleSize="sm">Code you review</CardTitle><p>React, SwiftUI, tokens.</p></CardBody>
         </CardFeature>
       </div>

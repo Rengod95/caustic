@@ -75,7 +75,7 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
       onMouseDown={e => { if (e.target !== control.current && !(e.target as HTMLElement).closest('button')) { e.preventDefault(); control.current?.focus(); } }}
     >
       {tags.map((tag, i) => (
-        <Chip key={`${tag}-${i}`} shape="rounded" appearance="surface" className="rounded-sm" inert={isDisabled || undefined} onRemove={() => { remove(i); control.current?.focus(); }}>{tag}</Chip>
+        <Chip key={`${tag}-${i}`} shape="rounded" appearance="surface" inert={isDisabled || undefined} onRemove={() => { remove(i); control.current?.focus(); }}>{tag}</Chip>
       ))}
       <input
         ref={control}

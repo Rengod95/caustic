@@ -58,25 +58,15 @@ function mergeChild(own: Record<string, unknown>, child: Record<string, unknown>
   return merged;
 }
 
-type GroupShorthand = Pick<ListNavigationGroupProps, 'heading' | 'headingAction'>;
-type ItemShorthand = Pick<ListNavigationItemProps, 'icon' | 'count' | 'hot' | 'current' | 'href' | 'expanded' | 'defaultExpanded' | 'onExpandedChange' | 'asChild'>;
-
-export interface ListNavigationProps extends Omit<ComponentProps<'nav'>, 'onClick'>, Partial<GroupShorthand>, Partial<ItemShorthand> {
+export interface ListNavigationProps extends ComponentProps<'nav'> {
   /** Accessible name of the landmark. */
   'aria-label': string;
-  onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
 /**
  * Sidebar navigation landmark. Compose with ListNavigationGroup and ListNavigationItem.
- * Group and item props are declared on the landmark for contract parity; they belong to
- * ListNavigationGroup and ListNavigationItem and are not applied here.
  */
-export function ListNavigation({
-  heading: _heading, headingAction: _headingAction, icon: _icon, count: _count, hot: _hot, current: _current, href: _href,
-  expanded: _expanded, defaultExpanded: _defaultExpanded, onExpandedChange: _onExpandedChange, asChild: _asChild,
-  className, ...props
-}: ListNavigationProps) {
+export function ListNavigation({ className, ...props }: ListNavigationProps) {
   return <nav data-slot="list-navigation" className={cn(listNavigationVariants(), className)} {...props} />;
 }
 

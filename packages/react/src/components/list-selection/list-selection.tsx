@@ -29,7 +29,7 @@ export interface ListSelectionItemProps extends Omit<ComponentProps<'button'>, '
   itemValue: string;
 }
 
-export interface ListSelectionProps extends Omit<ComponentProps<'div'>, 'title' | 'defaultValue' | 'onChange'>, Partial<Pick<ListSelectionItemProps, 'title' | 'description' | 'itemValue'>> {
+export interface ListSelectionProps extends Omit<ComponentProps<'div'>, 'title' | 'defaultValue' | 'onChange'> {
   /** single = one choice with a tick; multiple = any number with a checkbox box. */
   mode?: Mode;
   /** Controlled selection: a string (or null) in single mode, string[] in multiple mode. */
@@ -48,11 +48,10 @@ export interface ListSelectionProps extends Omit<ComponentProps<'div'>, 'title' 
 
 /**
  * A grouped list of choices: radio rows with a tick (single) or checkbox rows (multiple).
- * Shorthand: without children, `title` and `itemValue` render a one-choice group.
  */
 export function ListSelection({
   mode = 'single', value, defaultValue, onValueChange, heading, 'aria-label': ariaLabel, disabled = false,
-  title, description, itemValue, className, children, onKeyDown, ...props
+  className, children, onKeyDown, ...props
 }: ListSelectionProps) {
   const headingId = useId();
   const root = useRef<HTMLDivElement>(null);
@@ -89,7 +88,6 @@ export function ListSelection({
     select(rows[to]!.dataset.value!);
   };
 
-  const single = children == null && title != null && itemValue != null;
   return (
     <SelectionContext.Provider value={{ mode, selected, select, disabled }}>
       <div
@@ -99,9 +97,7 @@ export function ListSelection({
         className={cn(listVariants(), className)} onKeyDown={onKey} {...props}
       >
         {heading != null && <div data-slot="list-selection-heading" id={headingId} className={listHeadingVariants()}>{heading}</div>}
-        {single
-          ? <ListSelectionItem title={title} description={description} itemValue={itemValue} />
-          : Children.toArray(children).map((child, i) => <IndexContext.Provider key={i} value={i}>{child}</IndexContext.Provider>)}
+        {Children.toArray(children).map((child, i) => <IndexContext.Provider key={i} value={i}>{child}</IndexContext.Provider>)}
       </div>
     </SelectionContext.Provider>
   );

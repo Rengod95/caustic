@@ -14,7 +14,7 @@ export default defineFixture({
       return (
         <CardAction {...p}>
           <CardHeader headerAlign="center">
-            <CardIcon className="rounded-md"><Monitor /></CardIcon>
+            <CardIcon><Monitor /></CardIcon>
             <CardHeading><CardTitle>Desktop</CardTitle><CardDescription>1440 × 900</CardDescription></CardHeading>
             <CardActionIndicator />
           </CardHeader>
@@ -23,7 +23,7 @@ export default defineFixture({
     }
     return (
       <CardAction href="#" {...p}>
-        <CardHeader><CardIcon iconTone="accent" className="rounded-md"><Plus /></CardIcon><CardSpacer /><CardActionArrow /></CardHeader>
+        <CardHeader><CardIcon iconTone="accent"><Plus /></CardIcon><CardSpacer /><CardActionArrow /></CardHeader>
         <CardBody><CardTitle titleSize="sm" className="leading-[inherit]">New project</CardTitle><p>Start blank or from a theme.</p></CardBody>
       </CardAction>
     );
@@ -33,25 +33,25 @@ export default defineFixture({
       <div className="grid gap-3.5">
         <div className={grid}>
           <CardAction href="#">
-            <CardHeader><CardIcon iconTone="accent" className="rounded-md"><Plus /></CardIcon><CardSpacer /><CardActionArrow /></CardHeader>
+            <CardHeader><CardIcon iconTone="accent"><Plus /></CardIcon><CardSpacer /><CardActionArrow /></CardHeader>
             <CardBody><CardTitle titleSize="sm" className="leading-[inherit]">New project</CardTitle><p>Start blank or from a theme.</p></CardBody>
           </CardAction>
           <CardAction href="#">
-            <CardHeader><CardIcon className="rounded-md"><FileUp /></CardIcon><CardSpacer /><CardActionArrow /></CardHeader>
+            <CardHeader><CardIcon><FileUp /></CardIcon><CardSpacer /><CardActionArrow /></CardHeader>
             <CardBody><CardTitle titleSize="sm" className="leading-[inherit]">Import</CardTitle><p>URL, HTML, JSX or Figma.</p></CardBody>
           </CardAction>
         </div>
         <div className={grid} role="radiogroup" aria-label="Starting point">
           <CardAction kind="radio" checked>
             <CardHeader headerAlign="center">
-              <CardIcon className="rounded-md"><Monitor /></CardIcon>
+              <CardIcon><Monitor /></CardIcon>
               <CardHeading><CardTitle>Desktop</CardTitle><CardDescription>1440 × 900</CardDescription></CardHeading>
               <CardActionIndicator />
             </CardHeader>
           </CardAction>
           <CardAction kind="radio" checked={false}>
             <CardHeader headerAlign="center">
-              <CardIcon className="rounded-md"><Smartphone /></CardIcon>
+              <CardIcon><Smartphone /></CardIcon>
               <CardHeading><CardTitle>Phone</CardTitle><CardDescription>390 × 844</CardDescription></CardHeading>
               <CardActionIndicator />
             </CardHeader>

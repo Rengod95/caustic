@@ -3,7 +3,7 @@ import { useId, type ReactNode } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import {
-  ListNavigation, ListNavigationGroup, ListNavigationItem, ListNavigationSubItem, type ListNavigationProps,
+  ListNavigation, ListNavigationGroup, ListNavigationItem, ListNavigationSubItem, type ListNavigationItemProps, type ListNavigationProps,
 } from './list-navigation.tsx';
 
 const frame = (children: ReactNode) => <div className="w-full max-w-[calc(var(--spacing)*65)]">{children}</div>;
@@ -16,7 +16,7 @@ const projectsSub = (
 );
 
 /** One landmark per case; the harness shows many cases on one page, so each gets a unique name. */
-function Cases(raw: Partial<ListNavigationProps>) {
+function Cases(raw: Partial<ListNavigationProps> & Partial<Pick<ListNavigationItemProps, 'current' | 'hot' | 'expanded' | 'defaultExpanded' | 'onExpandedChange'>> & { onClick?: ListNavigationItemProps['onClick'] }) {
   const label = `Workspace ${useId()}`;
   {
     const { current, hot, expanded, defaultExpanded, onClick, onExpandedChange, ...rest } = raw;
@@ -42,7 +42,7 @@ function Cases(raw: Partial<ListNavigationProps>) {
 export default defineFixture({
   id: 'list-navigation',
   frame,
-  render: raw => <Cases {...(raw as Partial<ListNavigationProps>)} />,
+  render: raw => <Cases {...(raw as Parameters<typeof Cases>[0])} />,
   examples: {
     'navigation-list': () => (
       <div className="mx-auto w-full max-w-[calc(var(--spacing)*65)]">

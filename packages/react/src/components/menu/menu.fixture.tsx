@@ -24,7 +24,7 @@ export default defineFixture({
   examples: {
     'select-and-menu': () => (
       <>
-        <PickerTrigger open aria-haspopup="menu" leading={<TokenChip size="sm" className="rounded-full" swatch="var(--cs-accent-500)">lagoon</TokenChip>}>Theme</PickerTrigger>
+        <PickerTrigger open aria-haspopup="menu" leading={<TokenChip size="sm" swatch="var(--cs-accent-500)">lagoon</TokenChip>}>Theme</PickerTrigger>
         <Menu aria-label="Themes" inline defaultOpen>
           <MenuGroup>
             <MenuHeading>Themes</MenuHeading>

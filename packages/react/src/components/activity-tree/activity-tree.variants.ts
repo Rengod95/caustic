@@ -1,0 +1,15 @@
+import { cva } from 'class-variance-authority';
+
+export const activityTreeVariants = cva('grid gap-3.5');
+
+/** List rows: glyph column, text, auto meta column. */
+export const activityStepVariants = cva('grid min-h-7 grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 text-ui-dense text-text-primary');
+export const activityCallVariants = cva('grid min-h-7 grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 pl-check text-ui-dense text-text-secondary');
+export const activityUnassignedVariants = cva('mt-1.5 grid min-h-7 grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 border-t border-dashed border-border-strong pt-1.5 text-ui-dense text-text-secondary');
+
+export const activityStepGlyphVariants = cva('grid size-icon-md place-items-center text-success-text [&_svg]:size-icon-sm');
+export const activityCallGlyphVariants = cva('grid size-icon-md place-items-center text-text-secondary [&_svg]:size-icon-sm');
+
+export const activityOrbVariants = cva('mx-0.5 orb orb-sm [&[data-slot]]:rounded-full');
+export const activityShimmerVariants = cva('shimmer');
+export const activityWorkerOrbVariants = cva('orb orb-dot [&[data-slot]]:rounded-full');

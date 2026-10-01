@@ -16,7 +16,7 @@ export default defineSpec({
     { name: 'size', el: 'div', parent: 'root', description: 'Row 2: two equal columns plus an auto column for the lock, 6px gap, items centered.' },
     { name: 'width', el: 'any', parent: 'size', description: 'NumberField, label "W", aria-label "Width", with the sizing-mode pill as its trailing content.' },
     { name: 'height', el: 'any', parent: 'size', description: 'NumberField, label "H", aria-label "Height", with its own sizing-mode pill.' },
-    { name: 'mode', el: 'button', parent: 'size', role: 'button', description: 'Sizing-mode pill inside the W / H field (trailing slot): the mode name and a chevron-down. Opens the sizing menu. Fill is accent-tinted, Hug is info-tinted, Fixed shows no pill (a fixed value needs no label). 4px from the field edge.' },
+    { name: 'mode', el: 'button', parent: 'size', required: false, role: 'button', description: 'Sizing-mode pill inside the W / H field (trailing slot): the mode name and a chevron-down. Opens the sizing menu. Fill is accent-tinted, Hug is info-tinted, Fixed shows no pill (a fixed value needs no label), so the slot is only rendered for fill and hug. 4px from the field edge.' },
     { name: 'lock', el: 'any', parent: 'size', description: 'IconToggle xs (link icon), aria-label "Lock aspect ratio", on by default in the specimen.' },
     { name: 'turn', el: 'div', parent: 'root', description: 'Row 3: two equal columns plus an auto column, 6px gap, items centered.' },
     { name: 'rotation', el: 'any', parent: 'turn', description: 'NumberField, rotate-cw icon as scrub label, unit "°", aria-label "Rotation".' },
@@ -25,9 +25,6 @@ export default defineSpec({
     { name: 'flip-y', el: 'any', parent: 'flip', description: 'Chip outline sm, pressed toggles vertical flip.' },
     { name: 'constraints', el: 'any', parent: 'turn', description: 'IconButton xs (sliders-horizontal), aria-label "Constraints"; opens the constraints popover.' },
   ],
-  states: {
-    'lock-off': { props: { lockRatio: false } },
-  },
   props: {
     value: { type: '{ x: number | null; y: number | null; width: number | null; height: number | null; rotation: number | null }', description: 'Controlled geometry. null shows Mixed in that field (multi-selection with differing values).' },
     defaultValue: { type: '{ x: number | null; y: number | null; width: number | null; height: number | null; rotation: number | null }', description: 'Uncontrolled initial geometry.' },
@@ -52,9 +49,8 @@ export default defineSpec({
     { slot: 'size', expect: { gap: 6 } },
     { slot: 'turn', expect: { gap: 6 } },
     { slot: 'flip', expect: { gap: 4 } },
-    { slot: 'mode', expect: { bg: 'fill.selected', fg: 'text.secondary', radius: 'xs', height: 'control-compact-2xs', padX: 5, gap: 2, text: 'ui-xs', weight: 600 }, note: 'Specimen pill is 18px tall, 11px / 600, padding-inline 5px, chevron 10px (no icon token; icon-xs is 12px). Margin-inline-end 4px inside the field.' },
-    { slot: 'mode', when: { widthMode: 'fill' }, expect: { bg: 'accent.soft', fg: 'accent.text' } },
-    { slot: 'mode', when: { widthMode: 'hug' }, expect: { bg: 'info.soft', fg: 'info.text' } },
+    { slot: 'mode', when: { widthMode: 'fill' }, expect: { bg: 'accent.soft', fg: 'accent.text', radius: 'xs', height: 'control-compact-2xs', padX: 5, gap: 2, text: 'ui-xs', weight: 600 }, note: 'Specimen pill is 18px tall, 11px / 600, padding-inline 5px, chevron size-chevron-xs (10px). Margin-inline-end 4px inside the field.' },
+    { slot: 'mode', when: { widthMode: 'hug' }, expect: { bg: 'info.soft', fg: 'info.text', radius: 'xs', height: 'control-compact-2xs' } },
   ],
   behavior: {
     keyboard: { Tab: 'moves through X, Y, W, mode, H, mode, lock, rotation, flips, constraints in reading order', 'ArrowUp / ArrowDown': 'step the focused field (Shift ×10), as NumberField' },
@@ -86,10 +82,10 @@ export default defineSpec({
   ],
   usage: [
     'Example reproduces one InspectorPanel (full column width) with two sections. Section 1: header "Frame" with a tight AlignBar on the right (Align left, Align center, Align right) above the PositionSize rows with X 360, Y 96, W 640 (mode Fill), H 420 (mode Hug), lock on, rotation 0 (unit °), flips H and V off, constraints button. Section 2: an inline Menu (thick glass, in the normal flow of the section, min-width 0, elevation 3) with items Fixed width (move-horizontal, end text "640" in mono), Hug contents (minimize-2), Fill container (check icon, selected), a separator and Add min width… (plus).',
-    'The fixture renders widthMode "fill", heightMode "hug" and lockRatio true so that the default render shows both pills and the pressed lock; the value is { x: 360, y: 96, width: 640, height: 420, rotation: 0 }.',
+    'Fixture contract: the plain render uses the spec defaults (fixed sizing, lock off, no pills) with value { x: 360, y: 96, width: 640, height: 420, rotation: 0 }; style probes pass widthMode "fill" or "hug" to see the pill. The example passes widthMode "fill", heightMode "hug" and lockRatio true. The "fixed" pill look (fill.selected, text.secondary) is not specified: the specimen never shows it.',
     'A hug or fill field still shows a number but is read-only: the value is derived from the layout.',
     'Specimen: the sizing menu sets --cs-shadow to elevation 3 where the Menu spec says 4; the menu is inline in the panel here, so use the Menu inline mode.',
-    'Specimen: the fixed mode shows no pill at all (see the menu entry "Fixed width 640" for how to leave Fill or Hug).',
+    'Specimen: the fixed mode shows no pill at all (the menu entry "Fixed width 640" is how to leave Fill or Hug).',
     'Missing: no component yet for the pill-in-field; it is a slot of this component (it is not reused on another page).',
   ],
 });

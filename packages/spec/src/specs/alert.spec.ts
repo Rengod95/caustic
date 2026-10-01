@@ -23,7 +23,8 @@ export default defineSpec({
     action: { type: 'ReactNode', description: 'Action button.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'info.soft', fg: 'text.primary', radius: 'xl', minHeight: 44, padX: 12, padY: 10, gap: 10, text: 'ui-dense' }, note: 'Padding-inline-end is 10px (xs button sits concentric with the 12px corner). 44px has no control token; field-lg is also 44 and may be used.' },
+    { slot: 'root', expect: { bg: 'info.soft', fg: 'text.primary', radius: 'xl', minHeight: 44, padX: 12, padY: 10, gap: 10, text: 'ui-dense' }, note: '44px has no control token; field-lg is also 44 and may be used.' },
+    { slot: 'root', when: { action: true }, expect: { padStart: 12, padEnd: 10 }, note: 'With an action the end padding is 10px so the xs button sits concentric with the 12px corner.' },
     { slot: 'root', when: { tone: 'warning' }, expect: { bg: 'warning.soft' } },
     { slot: 'root', when: { tone: 'danger' }, expect: { bg: 'danger.soft' } },
     { slot: 'icon', expect: { fg: 'info.text', height: 'icon-md', width: 'icon-md' } },

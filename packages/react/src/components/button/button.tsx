@@ -1,5 +1,5 @@
 'use client';
-import { Slot } from '@radix-ui/react-slot';
+import { Slot, Slottable } from '@radix-ui/react-slot';
 import { LoaderCircle } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
@@ -35,7 +35,7 @@ export function Button({ tone, shape, size, loading = false, disabled = false, a
       ) : iconStart ? (
         <span data-slot="button-icon" className="inline-flex">{iconStart}</span>
       ) : null}
-      {children}
+      <Slottable>{children}</Slottable>
       {iconEnd ? <span data-slot="button-icon" className="inline-flex">{iconEnd}</span> : null}
     </Comp>
   );

@@ -44,7 +44,7 @@ export function ListActionsAction({ tone, icon, label, actionId, onSelect, class
   );
 }
 
-export interface ListActionsProps extends Omit<ComponentProps<'div'>, 'title' | 'children'>, Partial<Pick<ListActionsActionProps, 'tone' | 'icon' | 'label'>> {
+export interface ListActionsProps extends Omit<ComponentProps<'div'>, 'title' | 'children'> {
   /** hover = icon buttons on row hover or focus (desktop); swipe = labelled tray under a row that slides (touch). */
   reveal?: 'hover' | 'swipe';
   /** Swipe mode. Controlled open state of the row. */
@@ -70,10 +70,9 @@ export interface ListActionsProps extends Omit<ComponentProps<'div'>, 'title' | 
 
 /**
  * One row of a List that carries actions: a swipe tray (touch) or hover tools (desktop). Renders a listitem, so put it inside a List.
- * Shorthand: without `actions`, `label` (with `icon` and `tone`) renders a single tray action.
  */
 export function ListActions({
-  reveal = 'hover', open, defaultOpen = false, onOpenChange, onAction, actions, tone, icon, label,
+  reveal = 'hover', open, defaultOpen = false, onOpenChange, onAction, actions,
   title, description, leading, end, className, children, onKeyDown, ...props
 }: ListActionsProps) {
   const swipe = reveal === 'swipe';
@@ -88,7 +87,7 @@ export function ListActions({
 
   useLayoutEffect(() => {
     if (swipe && tray.current) setTrayWidth(tray.current.offsetWidth);
-  }, [swipe, actions, label]);
+  }, [swipe, actions]);
 
   // One open row per list, and a press outside closes this one.
   useEffect(() => {
@@ -145,7 +144,6 @@ export function ListActions({
       {end != null && <div data-slot="list-end" className={listEndVariants()}>{end}</div>}
     </>
   );
-  const trayActions = actions ?? (label != null ? <ListActionsAction tone={tone} icon={icon} label={label} /> : null);
 
   return (
     <ActionsContext.Provider value={{ close: () => setOpen(false), onAction }}>
@@ -159,7 +157,7 @@ export function ListActions({
             ref={tray} data-slot="list-actions-tray" className={listActionsTrayVariants()}
             onFocus={() => { if (!isOpen) openRow(); }}
           >
-            {trayActions}
+            {actions}
           </div>
         )}
         <div

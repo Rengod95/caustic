@@ -13,7 +13,7 @@ export const meta = {
    same contrast behaviour in every hue. Only the hue angle differs.     */
 export const hueSteps = [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 export const hueProfile = {
-  L: { 25: .985, 50: .965, 100: .93, 200: .88, 300: .815, 400: .735, 500: .645, 600: .545, 700: .465, 800: .385, 900: .30, 950: .23 },
+  L: { 25: .985, 50: .965, 100: .93, 200: .88, 300: .815, 400: .735, 500: .635, 600: .525, 700: .465, 800: .385, 900: .30, 950: .23 },
   C: { 25: .012, 50: .024, 100: .045, 200: .075, 300: .105, 400: .13, 500: .142, 600: .135, 700: .118, 800: .095, 900: .07, 950: .05 },
 };
 
@@ -100,6 +100,8 @@ export const themes = {
     'media.on': 'white/1',
     'media.on-muted': 'white/0.82',
     'media.scrim': 'black/0.55',
+    'media.scrim-strong': 'black/0.78',
+    'media.shade': 'black/1',
     'chart.1': 'accent.500',
     'chart.2': 'iris.600',
     'chart.3': 'mint.600',
@@ -131,6 +133,7 @@ export const themes = {
     'canvas.selection-on': 'neutral.0',
     'canvas.guide': 'coral.600',
     'canvas.guide-on': 'neutral.0',
+    'canvas.guide-user': 'iris.600',
     'canvas.hover': 'accent.500/0.6',
     'canvas.marquee': 'accent.400/0.12',
     'canvas.label': 'neutral.600',
@@ -197,6 +200,8 @@ export const themes = {
     'media.on': 'white/1',
     'media.on-muted': 'white/0.82',
     'media.scrim': 'black/0.55',
+    'media.scrim-strong': 'black/0.78',
+    'media.shade': 'black/1',
     'chart.1': 'accent.500',
     'chart.2': 'iris.400',
     'chart.3': 'mint.400',
@@ -228,6 +233,7 @@ export const themes = {
     'canvas.selection-on': 'neutral.1000',
     'canvas.guide': 'coral.500',
     'canvas.guide-on': 'neutral.1000',
+    'canvas.guide-user': 'iris.400/0.8',
     'canvas.hover': 'accent.500/0.6',
     'canvas.marquee': 'accent.400/0.14',
     'canvas.label': 'neutral.400',
@@ -298,6 +304,7 @@ export const contrastRules = [
   ['accent.text', 'diff.remove@surface.base', 4.5, 'diff syntax'],
   ['text.secondary', 'diff.add@surface.base', 4.5, 'diff comment'],
   ['text.secondary', 'diff.remove@surface.base', 4.5, 'diff comment'],
+  ['canvas.guide-user', 'bg.canvas', 3, 'user guide on canvas'],
   ['chart.1', 'surface.base', 3, 'chart series'], ['chart.2', 'surface.base', 3, 'chart series'],
   ['chart.3', 'surface.base', 3, 'chart series'], ['chart.4', 'surface.base', 3, 'chart series'],
   ['border.control', 'surface.base', 3, 'checkbox/radio boundary (1.4.11)'],
@@ -321,7 +328,7 @@ export const contrastRules = [
 
 /* ── Dimension & effect scales ───────────────────────────────────── */
 // Quarter steps (0.25–1.75) exist for dense controls: chips, badges and segmented items sit on 5 / 7px.
-export const space = { 0: 0, 0.25: 1, 0.5: 2, 0.75: 3, 1: 4, 1.25: 5, 1.5: 6, 1.75: 7, 2: 8, 2.5: 10, 3: 12, 3.5: 14, 4: 16, 4.5: 18, 5: 20, 6: 24, 6.5: 26, 7: 28, 8: 32, 10: 40, 12: 48, 16: 64, 18: 72 };
+export const space = { 0: 0, 0.25: 1, 0.5: 2, 0.75: 3, 1: 4, 1.25: 5, 1.5: 6, 1.75: 7, 2: 8, 2.25: 9, 2.5: 10, 3: 12, 3.5: 14, 4: 16, 4.5: 18, 5: 20, 6: 24, 6.5: 26, 7: 28, 8: 32, 10: 40, 12: 48, 16: 64, 18: 72 };
 
 // Container insets. Compact for nested lists and inline cards; regular for cards,
 // dialogs and panels. 14 / 15 is off the 4pt grid on purpose: the block inset
@@ -348,6 +355,19 @@ export const size = {
     // Layout widths: form columns, header text minimum, stepper and tag-input bounds, toast height.
     'form-heading-w': 220, 'form-body-min': 400, 'section-text-min': 160, 'stepper-max': 420, 'tag-input-min': 90, 'toast-min': 60, 'toast-w': 360,
     'usage-ring': 22, 'orb-md': 22, 'orb-md-hole': 7, 'stop-glyph': 9,
+    'toolbar-item': 34, 'toolbar-item-md': 30, cursor: 18, 'orb-xs': 10, 'comment-max': 160,
+    // Fixed geometry found during implementation: feature visual, analytics columns, model menu, thumbnails, badges.
+    'feature-visual-min': 80, 'rounds-h': 80, 'model-menu-w': 300, 'thumb-md': 56, 'thumb-h': 44, 'suggestion-min': 150, 'index-badge': 22,
+    // Structure & tokens views: tree indent, graph, tiles, gallery, contrast sample, compare stage, option tiles.
+    'tree-indent': 14, 'graph-h': 330, 'graph-node-w': 150, 'tile-swatch-h': 74, 'theme-card-min': 170, 'theme-preview-h': 120,
+    'contrast-sample-w': 92, 'contrast-sample-h': 64, 'compare-h': 210, 'option-tile-h': 54, 'option-tile-icon-h': 62, 'target-w': 150,
+    // Inspector: alignment pad, previews, field columns, color picker, gradient, effects, motion.
+    'pad-box': 96, 'layout-preview': 96, 'add-row': 38, 'radius-preview-w': 120, 'radius-preview-h': 84, 'field-alpha-w': 58,
+    'color-plane-h': 150, 'color-picker-w': 268, 'color-preview': 30, 'picker-format-w': 78, 'picker-alpha-w': 52,
+    'gradient-preview-h': 188, 'gradient-angle-w': 66, 'image-preview-h': 110, 'effect-stage-h': 120, 'axis-field-w': 56,
+    'curve-w': 280, 'duration-field-w': 84, 'timeline-label-w': 110, 'chevron-xs': 10,
+    // Sheet grabber and table geometry.
+    'grabber-w': 36, 'table-head-h': 38, 'table-select-w': 36, 'table-min-w': 560,
     'chip-h': 26, 'chip-icon': 13, 'spinner-lg': 28, 'control-inline': 26, 'tab-h': 34,
     'textarea-min': 92, 'otp-w': 44, 'otp-h': 52,
     'slider-ruler-h': 30, 'slider-label-w': 52,
@@ -374,6 +394,8 @@ export const type = {
   'title-feature': ['ui', 19, 24, 600, -0.02],
   'title-overlay': ['ui', 18, 22, 600, -0.015],
   stat: ['ui', 30, 34, 600, -0.035],
+  'stat-lg': ['ui', 34, 34, 600, -0.03],
+  sample: ['ui', 22, 26, 600, -0.02],
   body: ['ui', 14, 21, 400, -0.003],
   ui: ['ui', 13, 18, 400, -0.003],
   'ui-strong': ['ui', 13, 18, 500, -0.003],
@@ -402,6 +424,10 @@ export const type = {
   'mono-relaxed': ['mono', 12, 20, 400, 0],
   'ui-md-relaxed': ['ui', 13.5, 20, 400, -0.003],
   'mono-lg': ['mono', 20, 20, 600, 0],
+  // Canvas chrome: ruler numerals and toolbar shortcut hints.
+  'mono-ruler': ['mono', 9.5, 12, 500, 0],
+  'mono-micro': ['mono', 8, 10, 600, 0],
+  'voice-lg': ['voice', 19, 26, 400, 0],
 };
 
 // Elevation: a short contact shadow + a long diffuse one. Values per theme.
@@ -421,6 +447,7 @@ export const elevation = {
     lift: '0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)',
     well: '0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)',
     agent: '0 8px 30px -12px var(--cs-color-agent-glow)',
+    artboard: '0 0 0 1px oklch(0 0 0 / 0.06), 0 6px 20px -8px oklch(0 0 0 / 0.2)',
   },
   dark: {
     1: '0 1px 2px oklch(0 0 0 / 0.3)',
@@ -437,6 +464,7 @@ export const elevation = {
     lift: '0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)',
     well: '0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)',
     agent: '0 8px 30px -12px var(--cs-color-agent-glow)',
+    artboard: '0 0 0 1px oklch(0 0 0 / 0.06), 0 6px 20px -8px oklch(0 0 0 / 0.2)',
   },
 };
 
@@ -444,7 +472,7 @@ export const elevation = {
 export const blur = { control: 12, ultrathin: 14, thin: 20, regular: 24, thick: 36, overlay: 40 };
 
 export const motion = {
-  duration: { instant: 0, quick: 120, base: 200, gentle: 320, slow: 480, spin: 700, shimmer: 2200, agent: 4800 },
+  duration: { instant: 0, quick: 120, base: 200, gentle: 320, slow: 480, spin: 700, indeterminate: 1400, orb: 1600, shimmer: 2200, slide: 2400, scan: 2600, agent: 4800 },
   easing: {
     standard: 'cubic-bezier(0.2, 0, 0, 1)',
     out: 'cubic-bezier(0.2, 0.8, 0.2, 1)',

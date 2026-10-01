@@ -79,7 +79,7 @@ export const listTileVariants = cva(
 );
 
 export const listThumbVariants = cva(
-  'relative block aspect-[16/11] w-16 flex-none overflow-hidden rounded-md shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)] [&>img]:size-full [&>img]:object-cover',
+  'relative block h-thumb-h w-16 flex-none overflow-hidden rounded-md shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)] [&>img]:size-full [&>img]:object-cover',
 );
 
 export const listDurationVariants = cva(

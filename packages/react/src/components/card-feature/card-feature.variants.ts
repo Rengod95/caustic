@@ -17,6 +17,6 @@ export const cardFeatureVariants = cva(
 
 export const cardFeatureHeadlineVariants = cva('block font-ui text-title-feature text-balance text-text-primary');
 
-export const cardFeatureVisualVariants = cva('mt-auto grid min-h-[calc(var(--cs-control-lg)*2)] flex-1 place-items-center rounded-xl bg-bg-inset');
+export const cardFeatureVisualVariants = cva('mt-auto grid min-h-feature-visual-min flex-1 place-items-center rounded-xl bg-bg-inset');
 
 export type CardFeatureVariantProps = VariantProps<typeof cardFeatureVariants>;

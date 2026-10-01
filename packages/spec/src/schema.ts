@@ -31,6 +31,11 @@ export const StyleExpect = z.object({
   width: z.union([z.string(), z.number()]).optional(),
   padX: z.union([z.string(), z.number()]).optional().describe('padding-inline: px number or inset token'),
   padY: z.union([z.string(), z.number()]).optional(),
+  // One side, for asymmetric insets (start/end follow the writing direction; LTR in the gate).
+  padStart: z.union([z.string(), z.number()]).optional(),
+  padEnd: z.union([z.string(), z.number()]).optional(),
+  padTop: z.union([z.string(), z.number()]).optional(),
+  padBottom: z.union([z.string(), z.number()]).optional(),
   gap: z.number().optional(),
   text: z.string().optional().describe('type role: font-size, line-height, weight, tracking'),
   weight: z.union([z.literal(400), z.literal(500), z.literal(600)]).optional().describe('overrides the role weight (font-normal / font-medium / font-semibold); size and line-height stay the role'),
@@ -75,6 +80,8 @@ const EventDef = z.object({
 const Step = z.object({
   do: z.enum(['click', 'press', 'type', 'focus', 'hover', 'drag', 'blur']),
   slot: z.string().optional(),
+  /** Which occurrence of the slot (0-based; negative counts from the end). Default 0. */
+  nth: z.number().int().optional(),
   key: z.string().optional(),
   text: z.string().optional(),
   by: z.object({ x: z.number(), y: z.number() }).optional(),

@@ -118,7 +118,7 @@ A full pass records the component in `packages/spec/gated.json`. Never edit that
 
 ## Spec authoring (main session only)
 
-1. Draft `<id>.spec.ts` from the specimen page, using `defineSpec`. State names are free kebab-case; a state whose pseudo-classes belong on a part needs `target`, and a rule on a slot that only some variants render needs `when` (G1 rejects a focus ring measured away from the focused slot). Cover slots, variants and sizes with defaults, states, props, events, style rules (`slot` / `when` / `expect` in token names), behavior scenarios, a11y, policies, flags, composition, examples and usage.
+1. Draft `<id>.spec.ts` from the specimen page, using `defineSpec`. Scenario steps act on the first matching slot unless `nth` picks another (0-based; -1 is the last). Asymmetric insets use padStart / padEnd / padTop / padBottom (padX / padY assert both sides). State names are free kebab-case; a state whose pseudo-classes belong on a part needs `target`, and a rule on a slot that only some variants render needs `when` (G1 rejects a focus ring measured away from the focused slot). Cover slots, variants and sizes with defaults, states, props, events, style rules (`slot` / `when` / `expect` in token names), behavior scenarios, a11y, policies, flags, composition, examples and usage.
 2. Run `pnpm baseline <id>` to capture the specimen sections that the examples point to.
 3. Review, then run `pnpm spec:approve <id>`. Any later edit to the spec invalidates its lock until it is re-approved.
 4. Run `pnpm registry`, then hand the id to an implementer.

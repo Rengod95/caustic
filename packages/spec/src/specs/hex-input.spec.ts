@@ -1,0 +1,65 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'hex-input',
+  name: 'HexInput',
+  category: 'inspector',
+  status: 'ready',
+  purpose: 'Edits a color as hex digits (3, 4, 6 or 8) in an uppercase mono field. It also shows the three non-typing states of a paint value: bound to a token, mixed across a selection, and invalid.',
+  description: 'A sunken 32px field like NumberField (same fill, radius and focus edge) with mono text. When a token is bound the field becomes a read-only accent chip that names the token (link icon + path); the paired Detach button belongs to PaintWell. It never shows a leading #.',
+  role: null,
+  slots: [
+    { name: 'root', el: 'label', description: '32px container: fill.hover, lg radius, 8px inline padding, 6px gap. Owns the focus edge.' },
+    { name: 'icon', el: 'any', parent: 'root', required: false, description: 'Bound only: link-2 icon, 14px, in the accent text color.' },
+    { name: 'control', el: 'input', parent: 'root', required: false, role: 'textbox', description: 'Bare input, mono, uppercase, no border or outline. Not rendered while a token is bound (the token name is text).' },
+    { name: 'token', el: 'span', parent: 'root', required: false, description: 'Bound only: the token path ("accent/solid"), mono, accent text.' },
+  ],
+  states: {
+    'focus-within': { pseudo: ['focus-within'] },
+    invalid: { props: { invalid: true } },
+    bound: { props: { token: 'accent/solid' } },
+    mixed: { props: { mixed: true } },
+  },
+  props: {
+    value: { type: 'string', description: 'Controlled hex digits without #, uppercase ("E2763F").' },
+    defaultValue: { type: 'string', description: 'Uncontrolled initial value.' },
+    token: { type: 'string', description: 'Token path the paint is bound to. Replaces the input by the bound chip.' },
+    mixed: { type: 'boolean', default: false, description: 'Differing values in a multi-selection: empty field with the placeholder "Mixed".' },
+    invalid: { type: 'boolean', default: false, description: 'Danger fill and ring; set aria-invalid on the input.' },
+    disabled: { type: 'boolean', default: false, description: 'Disables the input.' },
+  },
+  events: { onValueChange: { payload: 'string', when: 'a valid value (3, 4, 6 or 8 hex digits) is committed with Enter or blur; the payload is uppercase' } },
+  styles: [
+    { slot: 'root', expect: { bg: 'fill.hover', radius: 'lg', height: 'control-md', padX: 8, gap: 6, font: 'mono', text: 'mono-md', weight: 400 }, note: 'Specimen text is the mono role at 11.5px; mono-md is 11.5px / 18px at weight 500, so weight 400 is applied.' },
+    { slot: 'root', when: { state: 'focus-within' }, expect: { bg: 'surface.base', ring: 'focus-field' } },
+    { slot: 'root', when: { state: 'invalid' }, expect: { bg: 'danger.soft', edge: 'danger.solid' } },
+    { slot: 'root', when: { state: 'bound' }, expect: { bg: 'accent.soft', fg: 'accent.text', edge: 'accent.border' } },
+    { slot: 'control', expect: { fg: 'text.primary', outline: 'none', font: 'mono' } },
+    { slot: 'icon', when: { state: 'bound' }, expect: { fg: 'accent.text', height: 'icon-sm', width: 'icon-sm' } },
+    { slot: 'token', when: { state: 'bound' }, expect: { fg: 'accent.text', text: 'mono-md', weight: 400 } },
+  ],
+  behavior: {
+    keyboard: { Enter: 'commit', Escape: 'revert to the last valid value', Tab: 'commit and move on' },
+    pointer: ['pressing anywhere in the container focuses the input'],
+    scenarios: [
+      { name: 'Enter commits a typed value', props: { defaultValue: 'E2763F' }, steps: [{ do: 'click', slot: 'control' }, { do: 'press', key: 'Control+A' }, { do: 'type', text: '5f4994' }, { do: 'press', key: 'Enter' }], expect: [{ event: 'onValueChange', args: ['5F4994'] }] },
+      { name: 'invalid is announced', props: { invalid: true, defaultValue: 'E2763' }, steps: [], expect: [{ slot: 'control', attr: { 'aria-invalid': 'true' } }] },
+    ],
+  },
+  a11y: {
+    labelRequired: true,
+    minHit: 24,
+    attrs: { control: ['aria-label'] },
+    notes: ['aria-label "Hex" (or "Stroke color", "Shadow color"). Errors are not color-only: the owner shows a message under the row ("Use 3, 4, 6 or 8 hex digits.", hint role, danger.text).', 'The bound chip is not focusable; the Detach button next to it is.'],
+  },
+  policies: ['P4', 'P6', 'P9'],
+  flags: { field: true },
+  composition: { uses: [] },
+  usage: [
+    'No example of its own: paint-well shows the default, bound, mixed and invalid fields.',
+    'Fixture contract: render(props) renders value "E2763F" with aria-label "Hex"; the bound state passes token "accent/solid"; mixed passes mixed.',
+    'Accepts 3, 4, 6 and 8 digits; commits uppercase. The specimen only commits 6-digit values and styles the rest as invalid; the spec allows all four lengths (the specimen message says so).',
+    'The specimen has no hover state for this field (NumberField has one); none is specified.',
+    'Specimen: the input has text-transform uppercase, so the mixed placeholder renders as "MIXED" (upright), while the alpha NumberField beside it shows "Mixed" in italics. The spec keeps the uppercase transform on the input, placeholder included.',
+  ],
+});

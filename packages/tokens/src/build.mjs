@@ -26,9 +26,12 @@ function oklchToLinear(L, C, h) {
 const inGamut = rgb => rgb.every(v => v >= -1e-4 && v <= 1 + 1e-4);
 const enc = v => { v = Math.min(1, Math.max(0, v)); return v <= 0.0031308 ? 12.92 * v : 1.055 * v ** (1 / 2.4) - 0.055; };
 const dec = v => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+// Browsers differ on out-of-gamut OKLCH: CSS Color 4 reduces chroma, Chromium clips each channel.
+// Contrast is checked under both, so a pair passes however it is rendered.
+let GAMUT = 'map';
 function toSrgb(L, C, h) {
   let rgb = oklchToLinear(L, C, h);
-  if (!inGamut(rgb)) {
+  if (GAMUT === 'map' && !inGamut(rgb)) {
     let lo = 0, hi = C;
     for (let i = 0; i < 24; i++) { const mid = (lo + hi) / 2; if (inGamut(oklchToLinear(L, mid, h))) lo = mid; else hi = mid; }
     rgb = oklchToLinear(L, lo, h);
@@ -85,13 +88,17 @@ for (const theme of Object.keys(T.themes)) {
   for (const [fg, bg, min, note] of T.contrastRules) {
     const live = [fg, ...bg.split('@')].some(n => (T.themes[theme][n] ?? n).startsWith('accent.'));
     let worst = Infinity, worstHue = null;
-    for (const h of live ? HUE_SWEEP : [T.hues.accent.hue]) {
-      const bgRgb = layer(theme, bg, h);
-      const f = resolveRgb(theme, fg, h);
-      const fgRgb = f.alpha < 1 ? over(f.rgb, f.alpha, bgRgb) : f.rgb;
-      const r = ratio(fgRgb, bgRgb);
-      if (r < worst) { worst = r; worstHue = h; }
+    for (const mode of ['map', 'clip']) {
+      GAMUT = mode;
+      for (const h of live ? HUE_SWEEP : [T.hues.accent.hue]) {
+        const bgRgb = layer(theme, bg, h);
+        const f = resolveRgb(theme, fg, h);
+        const fgRgb = f.alpha < 1 ? over(f.rgb, f.alpha, bgRgb) : f.rgb;
+        const r = ratio(fgRgb, bgRgb);
+        if (r < worst) { worst = r; worstHue = h; }
+      }
     }
+    GAMUT = 'map';
     const pass = worst >= min;
     if (!pass) failures++;
     results.push({ theme, fg, bg, min, ratio: +worst.toFixed(2), pass, note, sweep: live, worstHue: live ? worstHue : null });
@@ -295,12 +302,15 @@ function tailwindTheme() {
   for (const k of Object.keys(T.motion.easing)) add(`ease-${k}`, `var(--${P}-ease-${k})`);
   for (const [k, px] of Object.entries(T.breakpoint)) add(`breakpoint-${k}`, `${px}px`);
   add('animate-agent', `cs-spin var(--${P}-duration-agent) linear infinite`);
-  add('animate-orb', 'cs-spin 1.6s linear infinite');
+  add('animate-orb', `cs-spin var(--${P}-duration-orb) linear infinite`);
   add('animate-shimmer', `cs-shimmer var(--${P}-duration-shimmer) linear infinite`);
   add('animate-spinner', `cs-rot var(--${P}-duration-spin) linear infinite`);
-  add('animate-indeterminate', `cs-indet 1.4s var(--${P}-ease-out) infinite`);
-  add('animate-slide', 'cs-slide 2.4s linear infinite');
+  add('animate-indeterminate', `cs-indet var(--${P}-duration-indeterminate) var(--${P}-ease-out) infinite`);
+  add('animate-slide', `cs-slide var(--${P}-duration-slide) linear infinite`);
+  // Agent scanning a region: a glow band sweeping down a 200%-tall gradient.
+  add('animate-scan', `cs-scan var(--${P}-duration-scan) var(--${P}-ease-out) infinite`);
   L.push('  @keyframes cs-rot { to { transform: rotate(360deg); } }');
+  L.push('  @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }');
   L.push('  @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }');
   L.push('  @keyframes cs-slide { to { background-position: -200% 0; } }');
   L.push('}', '');
@@ -332,7 +342,7 @@ function tailwindTheme() {
 @utility agent-glow { box-shadow: 0 8px 30px -6px var(--${P}-color-agent-glow); }
 @utility orb {
   --orb: 14px; --orb-hole: 3.4px;
-  width: var(--orb); height: var(--orb); border-radius: 9999px; flex: none; background: var(--${P}-spectrum-conic); animation: cs-spin 1.6s linear infinite;
+  width: var(--orb); height: var(--orb); border-radius: var(--${P}-radius-full); flex: none; background: var(--${P}-spectrum-conic); animation: cs-spin var(--${P}-duration-orb) linear infinite;
   -webkit-mask: radial-gradient(circle, transparent var(--orb-hole), #000 calc(var(--orb-hole) + .5px));
   mask: radial-gradient(circle, transparent var(--orb-hole), #000 calc(var(--orb-hole) + .5px));
 }

@@ -20,19 +20,18 @@ export interface ListDescriptionRowProps extends Omit<ComponentProps<'div'>, 'ch
   onCopy?: (value: string) => void;
 }
 
-export interface ListDescriptionProps extends Omit<ComponentProps<'dl'>, 'onCopy'>, Partial<Pick<ListDescriptionRowProps, 'term' | 'mono' | 'copyValue' | 'onCopy'>> {
+export interface ListDescriptionProps extends ComponentProps<'dl'> {
   /** Accessible name of the list when it needs one. */
   'aria-label'?: string;
 }
 
 /**
- * Label and value pairs on the grouped surface. Compose with ListDescriptionRow;
- * or pass `term` (with mono, copyValue, onCopy) to render a single row from children.
+ * Label and value pairs on the grouped surface. Compose with ListDescriptionRow.
  */
-export function ListDescription({ term, mono, copyValue, onCopy, className, children, ...props }: ListDescriptionProps) {
+export function ListDescription({ className, children, ...props }: ListDescriptionProps) {
   return (
     <dl data-slot="list-description" className={cn(listDescriptionVariants(), className)} {...props}>
-      {term != null ? <ListDescriptionRow term={term} mono={mono} copyValue={copyValue} onCopy={onCopy}>{children}</ListDescriptionRow> : children}
+      {children}
     </dl>
   );
 }

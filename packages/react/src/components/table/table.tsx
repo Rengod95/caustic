@@ -62,7 +62,7 @@ export function Table({
   const pager = page != null && pageCount != null;
   const footerSummary = summary ?? (selectable ? `${rows.filter(r => selected.includes(r.id)).length} of ${rows.length} selected` : null);
   const hasFooter = footerSummary != null || pager;
-  const colWidth = (w?: number): CSSProperties | undefined => (w == null ? undefined : { '--cs-col-w': `${w}px` } as CSSProperties);
+  const colWidth = (w?: number): CSSProperties | undefined => (w == null ? undefined : { '--col-w': `${w}px` } as CSSProperties);
 
   return (
     <div
@@ -72,11 +72,11 @@ export function Table({
     >
       {toolbar != null && <div data-slot="table-toolbar" className="flex flex-wrap items-center gap-2 border-b border-border-subtle px-3 py-2.5">{toolbar}</div>}
       <div data-slot="table-scroll" className="overflow-x-auto">
-        <table data-slot="table-grid" className="w-full min-w-[calc(var(--cs-size-dialog-md)+var(--cs-space-10)*2)] border-collapse text-ui">
+        <table data-slot="table-grid" className="w-full min-w-table-min-w border-collapse text-ui">
           <thead data-slot="table-head">
             <tr>
               {selectable && (
-                <th data-slot="table-heading" scope="col" className="h-[calc(var(--cs-space-10)-2px)] w-[calc(var(--cs-space-8)+var(--cs-space-1))] whitespace-nowrap border-b border-border-subtle bg-surface-raised-translucent px-3 text-start text-ui-sm text-text-tertiary">
+                <th data-slot="table-heading" scope="col" className="h-table-head-h w-table-select-w whitespace-nowrap border-b border-border-subtle bg-surface-raised-translucent px-3 text-start text-ui-sm text-text-tertiary">
                   <Checkbox
                     data-slot="table-head-check" aria-label="Select all"
                     checked={allOn ? true : someOn ? 'indeterminate' : false}
@@ -91,7 +91,7 @@ export function Table({
                   <th
                     key={col.key} data-slot="table-heading" scope="col" aria-sort={active}
                     style={colWidth(col.width)}
-                    className={cn('h-[calc(var(--cs-space-10)-2px)] whitespace-nowrap border-b border-border-subtle bg-surface-raised-translucent px-3 text-ui-sm text-text-tertiary', col.align === 'end' ? 'text-end' : 'text-start', col.width != null && 'w-[var(--cs-col-w)]')}
+                    className={cn('h-table-head-h whitespace-nowrap border-b border-border-subtle bg-surface-raised-translucent px-3 text-ui-sm text-text-tertiary', col.align === 'end' ? 'text-end' : 'text-start', col.width != null && 'w-[var(--col-w)]')}
                   >
                     {col.sortable ? (
                       <button
@@ -105,7 +105,7 @@ export function Table({
                   </th>
                 );
               })}
-              {rowActions && <th data-slot="table-heading" scope="col" className="h-[calc(var(--cs-space-10)-2px)] w-10 border-b border-border-subtle bg-surface-raised-translucent px-3"><span className="sr-only">Actions</span></th>}
+              {rowActions && <th data-slot="table-heading" scope="col" className="h-table-head-h w-10 border-b border-border-subtle bg-surface-raised-translucent px-3"><span className="sr-only">Actions</span></th>}
             </tr>
           </thead>
           <tbody data-slot="table-body">

@@ -47,7 +47,7 @@ export interface ListReorderItemProps extends Omit<ComponentProps<'li'>, 'title'
   dragging?: boolean;
 }
 
-export interface ListReorderProps extends Omit<ComponentProps<'div'>, 'title' | 'defaultValue'>, Partial<Pick<ListReorderItemProps, 'itemId' | 'title' | 'description' | 'end' | 'disabled' | 'dragging'>> {
+export interface ListReorderProps extends Omit<ComponentProps<'div'>, 'title' | 'defaultValue'> {
   /** Controlled order: the item ids from first to last. */
   order?: string[];
   /** Uncontrolled initial order. Defaults to the order of the children. */
@@ -66,18 +66,16 @@ const text = (title: ReactNode, id: string) => (typeof title === 'string' ? titl
 
 /**
  * A grouped list whose items can be reordered by pointer drag or from a keyboard handle.
- * Shorthand: without children, `itemId` and `title` render a one-item list.
  */
 export function ListReorder({
   order, defaultOrder, onReorder, heading, 'aria-label': ariaLabel, numbered = false,
-  itemId, title, description, end, disabled, dragging, className, children, ...props
+  className, children, ...props
 }: ListReorderProps) {
   const headingId = useId();
   const instructionId = useId();
   const root = useRef<HTMLDivElement>(null);
 
-  const single = children == null && itemId != null && title != null;
-  const nodes = (single ? [<ListReorderItem key={itemId} itemId={itemId} title={title} description={description} end={end} disabled={disabled} dragging={dragging} />] : Children.toArray(children))
+  const nodes = Children.toArray(children)
     .filter((c): c is ReactElement<ListReorderItemProps> => isValidElement(c));
   const ids = nodes.map(n => n.props.itemId);
   const [stored, setOrder] = useControllableState<string[]>({ value: order, defaultValue: defaultOrder ?? ids });

@@ -1,0 +1,72 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'page-list',
+  name: 'PageList',
+  category: 'navigation',
+  status: 'ready',
+  purpose: 'The pages of a project: a small "Pages" heading with an add button, then one row per page (file icon, name, frame count). The current page is filled.',
+  description: 'A compact switcher for the canvas pages, shown beside the zoom menu in the viewport tools. Rows are 30px buttons; the current one is marked with aria-current="page" and the pressed fill.',
+  role: 'navigation',
+  slots: [
+    { name: 'root', el: 'nav', role: 'navigation', description: 'Grid with a 1px gap. Needs aria-label ("Pages").' },
+    { name: 'header', el: 'div', parent: 'root', description: 'Row with the title at the start and the add button at the end (8px gap, space-between).' },
+    { name: 'title', el: 'span', parent: 'header', description: 'The heading text "Pages": 11px, 600, tertiary.' },
+    { name: 'add', el: 'button', parent: 'header', description: 'IconButton xs with a plus icon, aria-label "Add page".' },
+    { name: 'row', el: 'button', parent: 'root', description: 'One page: 30px, 8px inline padding, 8px gap, md radius, 12.5px text. aria-current="page" on the current one.' },
+    { name: 'icon', el: 'any', parent: 'row', description: '14px file icon, tertiary.' },
+    { name: 'label', el: 'span', parent: 'row', description: 'Page name; truncates.' },
+    { name: 'count', el: 'span', parent: 'row', required: false, description: 'Frame count ("4 frames"), pushed to the end, 11px, tertiary.' },
+  ],
+  variants: {},
+  states: {
+    hover: { pseudo: ['hover'], target: 'row' },
+    selected: { props: { current: true } },
+    'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'row' },
+  },
+  props: {
+    current: { type: 'boolean', default: false, description: 'PageListRow prop. Marks the current page: aria-current="page", pressed fill, 500 weight.' },
+    label: { type: 'string', default: 'Pages', description: 'aria-label of the landmark and the title text.' },
+    count: { type: 'ReactNode', description: 'PageListRow prop. Trailing frame count.' },
+    children: { type: 'ReactNode', required: true, description: 'PageListRow elements.' },
+  },
+  events: {
+    onSelect: { payload: 'React.MouseEvent<HTMLButtonElement>', when: 'PageListRow prop: a row is activated by pointer, Enter or Space' },
+    onAdd: { payload: 'React.MouseEvent<HTMLButtonElement>', when: 'the add button is activated' },
+  },
+  styles: [
+    { slot: 'root', expect: { gap: 1 } },
+    { slot: 'header', expect: { gap: 8 } },
+    { slot: 'title', expect: { fg: 'text.tertiary', text: 'micro' }, note: 'Specimen .sub-h: 11px / 600 / +0.02em tracking; micro has no tracking (0.22px).' },
+    { slot: 'add', expect: { height: 'control-xs', width: 'control-xs', radius: 'sm', fg: 'text.secondary' } },
+    { slot: 'row', expect: { height: 'size-menu-item', padX: 8, gap: 8, radius: 'md', text: 'ui-dense', fg: 'text.primary' } },
+    { slot: 'row', when: { state: 'hover' }, expect: { bg: 'fill.hover' } },
+    { slot: 'row', when: { state: 'selected' }, expect: { bg: 'fill.pressed', weight: 500 } },
+    { slot: 'row', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
+    { slot: 'icon', expect: { fg: 'text.tertiary', height: 'icon-sm', width: 'icon-sm' } },
+    { slot: 'count', expect: { fg: 'text.tertiary', text: 'ui-xs' } },
+  ],
+  behavior: {
+    keyboard: { Tab: 'moves through the add button and the rows', Enter: 'activate the focused row or the add button', Space: 'activate the focused row or the add button' },
+    pointer: ['hover fills the row with fill.hover; click makes it the current page'],
+    scenarios: [
+      { name: 'click selects a row', steps: [{ do: 'click', slot: 'row' }], expect: [{ event: 'onSelect', calls: 1 }] },
+      { name: 'click adds a page', steps: [{ do: 'click', slot: 'add' }], expect: [{ event: 'onAdd', calls: 1 }] },
+    ],
+  },
+  a11y: {
+    labelRequired: true,
+    minHit: 24,
+    attrs: { root: ['aria-label'], add: ['aria-label'] },
+    notes: ['The current row has aria-current="page"; the fill is not the only signal.', 'The file icon is decorative (aria-hidden).'],
+  },
+  policies: ['P5', 'P6'],
+  composition: { uses: ['icon-button', 'menu', 'kbd'] },
+  examples: [{ id: 'zoom-menu-and-pages', title: 'Zoom menu & pages', doc: 'zoom-pages#zoom-menu-and-pages' }],
+  usage: [
+    'Example zoom-menu-and-pages stacks two blocks (grid, 14px gap, hidden caption above): (1) a Menu rendered inline (thick glass, min-width 0 in the specimen) with five items, each a leading icon, a label and a Kbd chord at the end: zoom-in “Zoom in” (⌘ +), zoom-out “Zoom out” (⌘ −, U+2212), maximize “Fit all” (⇧ 1, highlighted), scan “Fit selection” (⇧ 2), square-dashed “100%” (⇧ 0). (2) the PageList: title “Pages”, add button, rows file “Pricing” “4 frames” (current), file “Checkout” “7 frames”, file “Explorations” “12 frames”.',
+    'The Menu fills the preview width in the specimen (no 220px minimum); the approved menu spec lists min-width 220 as a token request. If the surface cannot go narrower than the container the example still matches.',
+    '`uses: icon-button` is the add button; `menu` and `kbd` are for the example fixture only (PageList itself imports icon-button).',
+    'Row height reuses size-menu-item (30). The specimen rows are div elements; the component renders buttons so they are keyboard reachable.',
+  ],
+});

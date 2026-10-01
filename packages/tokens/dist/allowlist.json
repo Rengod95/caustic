@@ -19,6 +19,7 @@
     1.25,
     1.5,
     1.75,
+    2.25,
     2.5,
     3.5,
     4.5,
@@ -31,7 +32,11 @@
     320,
     480,
     700,
+    1400,
+    1600,
     2200,
+    2400,
+    2600,
     4800
   ],
   "zIndex": [
@@ -107,6 +112,8 @@
     "media-on",
     "media-on-muted",
     "media-scrim",
+    "media-scrim-strong",
+    "media-shade",
     "chart-1",
     "chart-2",
     "chart-3",
@@ -146,6 +153,7 @@
     "canvas-selection-on",
     "canvas-guide",
     "canvas-guide-on",
+    "canvas-guide-user",
     "canvas-hover",
     "canvas-marquee",
     "canvas-label",
@@ -169,6 +177,8 @@
     "title-feature",
     "title-overlay",
     "stat",
+    "stat-lg",
+    "sample",
     "body",
     "ui",
     "ui-strong",
@@ -194,7 +204,10 @@
     "mono-md",
     "mono-relaxed",
     "ui-md-relaxed",
-    "mono-lg"
+    "mono-lg",
+    "mono-ruler",
+    "mono-micro",
+    "voice-lg"
   ],
   "radii": [
     "none",

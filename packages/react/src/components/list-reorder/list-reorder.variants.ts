@@ -32,5 +32,5 @@ export const listReorderHandleVariants = cva(
 
 /** Position badge: 22px square, mono 11px. */
 export const listReorderIndexVariants = cva(
-  'grid size-[calc(var(--cs-control-2xs)+2px)] flex-none place-items-center rounded-sm bg-fill-pressed font-mono text-mono-sm font-semibold text-text-secondary',
+  'grid size-index-badge flex-none place-items-center rounded-sm bg-fill-pressed font-mono text-mono-sm font-semibold text-text-secondary',
 );

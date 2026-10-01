@@ -25,7 +25,7 @@ const Tools = () => (
 export default defineFixture({
   id: 'list-actions',
   render: props => {
-    const { tone, ...p } = props as Partial<ListActionsProps>;
+    const { tone, ...p } = props as Partial<ListActionsProps> & { tone?: ListActionsTone };
     return (
       <List aria-label="Files">
         {p.reveal === 'swipe' ? (

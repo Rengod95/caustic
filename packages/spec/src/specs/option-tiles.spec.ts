@@ -1,0 +1,85 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'option-tiles',
+  name: 'OptionTiles',
+  category: 'form',
+  status: 'ready',
+  purpose: 'Picks one option from a small grid of equal tiles: an export format (a name over a short caption) or an import source (a glyph over a name). The chosen tile gets an accent edge and a soft accent fill.',
+  description: 'A single-choice radio group laid out as a grid of 3, 4 or 5 columns. Tiles are bordered, flat and equal in size. Use it when the options are few, short and worth showing at once; for many options use Select, for lengthy descriptions ChoiceCards.',
+  role: 'radiogroup',
+  slots: [
+    { name: 'root', el: 'div', role: 'radiogroup', description: 'The grid. Grid, 6px gap, equal columns (3, 4 or 5). Needs an accessible name (aria-label, for example "Export format").' },
+    { name: 'item', el: 'button', parent: 'root', role: 'radio', description: 'One option. Grid, content centered, lg radius, 1px default border drawn inside. aria-checked, roving tabindex. Hover fills.' },
+    { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Glyph above the label (icon layout): 18px, primary text. Decorative.' },
+    { name: 'label', el: 'span', parent: 'item', description: 'Option name ("PNG", "URL").' },
+    { name: 'caption', el: 'span', parent: 'item', required: false, description: 'Short qualifier under the name (caption layout): "vector", "2×", "quality", "print", "selection", "React", "DTCG". 11px regular, tertiary; accent text when the tile is chosen.' },
+  ],
+  variants: {
+    layout: { values: ['caption', 'icon'], default: 'caption', description: 'caption = name over a caption (54px tiles); icon = glyph over a name (62px tiles).' },
+    columns: { values: ['3', '4', '5'], default: '4', description: 'Number of equal columns.' },
+  },
+  states: {
+    hover: { pseudo: ['hover'], target: 'item' },
+    'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'item' },
+    checked: { props: { checked: true } },
+  },
+  props: {
+    value: { type: 'string', description: 'Controlled id of the chosen option.' },
+    defaultValue: { type: 'string', description: 'Uncontrolled initial choice.' },
+    layout: { type: "'caption' | 'icon'", default: 'caption', description: 'Tile layout.' },
+    columns: { type: "'3' | '4' | '5'", default: '4', description: 'Number of columns.' },
+    'aria-label': { type: 'string', required: true, description: 'Accessible name of the group.' },
+    itemId: { type: 'string', required: true, description: 'OptionTilesItem prop. Identity of the option (the radio value).' },
+    label: { type: 'ReactNode', required: true, description: 'OptionTilesItem prop. Option name.' },
+    caption: { type: 'ReactNode', description: 'OptionTilesItem prop. Short qualifier (caption layout).' },
+    icon: { type: 'ReactNode', description: 'OptionTilesItem prop. Glyph (icon layout).' },
+    checked: { type: 'boolean', default: false, description: 'OptionTilesItem prop. State hook for fixtures; normally derived from value.' },
+  },
+  events: {
+    onValueChange: { payload: 'string', when: 'a different option is chosen (click, Space, Enter or an arrow key)' },
+  },
+  styles: [
+    { slot: 'root', expect: { gap: 6 } },
+    { slot: 'item', expect: { edge: 'border.default', radius: 'lg', height: 'size-option-tile-h', gap: 2, fg: 'text.primary', text: 'ui-sm', weight: 600 }, },
+    { slot: 'item', when: { layout: 'icon' }, expect: { height: 'size-option-tile-icon-h', gap: 4, fg: 'text.secondary', text: 'hint', weight: 400 }, note: 'Specimen text is 11.5px regular.' },
+    { slot: 'item', when: { state: 'hover' }, expect: { bg: 'fill.hover' } },
+    { slot: 'item', when: { state: 'checked' }, expect: { edge: 'focus.ring', bg: 'accent.soft' }, note: 'The chosen edge is 1.5px (specimen); icon layout also turns the text primary.' },
+    { slot: 'item', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
+    { slot: 'icon', expect: { fg: 'text.primary', height: 18, width: 18 }, note: '18px is the check size (size-check).' },
+    { slot: 'caption', expect: { fg: 'text.tertiary', text: 'ui-xs', weight: 400 } },
+    { slot: 'caption', when: { state: 'checked' }, expect: { fg: 'accent.text' } },
+  ],
+  behavior: {
+    keyboard: {
+      Tab: 'enters the group on the chosen tile (or the first) and leaves it; the group is one tab stop',
+      'ArrowRight / ArrowDown': 'choose the next tile (wraps) and move focus to it',
+      'ArrowLeft / ArrowUp': 'choose the previous tile (wraps) and move focus to it',
+      'Space / Enter': 'choose the focused tile',
+    },
+    pointer: ['pressing a tile chooses it'],
+    scenarios: [
+      { name: 'click chooses the tile', steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onValueChange', calls: 1, args: ['svg'] }] },
+      { name: 'chosen tile is checked', steps: [], expect: [{ slot: 'item', attr: { role: 'radio' } }] },
+    ],
+  },
+  a11y: {
+    labelRequired: true,
+    minHit: 24,
+    attrs: { root: ['aria-label'], item: ['aria-checked'] },
+    notes: [
+      'Radio group of buttons with roving tabindex. The name of a tile is its label plus caption ("PNG 2×"); the glyph is decorative.',
+      'The chosen tile differs by aria-checked, an accent edge and a soft fill, not color alone.',
+      'The caption is tertiary text on the base surface (4.5:1); on the accent soft fill it uses accent text, which also meets 4.5:1.',
+    ],
+  },
+  policies: ['P6'],
+  composition: {},
+  examples: [],
+  usage: [
+    'Fixture render(props): aria-label "Export format", defaultValue "png", layout caption, columns 4, eight tiles (itemId, label, caption): svg "SVG" "vector"; png "PNG" "2×"; jpg "JPG" "quality"; webp "WebP" "quality"; pdf "PDF" "print"; fig "FIG" "selection"; jsx "JSX" "React"; tokens "Tokens" "DTCG". Item-level props (checked) apply to the FIRST tile in probes.',
+    'Icon layout fixture-in-docs (used by ImportPanel): columns 5, tiles "URL" (link), "File" (file-up), "HTML" (code-xml), "JSX" (file-code), "Workspace" (braces); default "url".',
+    'No example of its own: it appears inside the export and import sections (import-export#export, import-export#import), which are ExportControls and ImportPanel.',
+    'On narrow screens (480px and below) the specimen collapses both grids to 3 columns; pass columns accordingly or use a container query.',
+  ],
+});

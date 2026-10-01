@@ -5,7 +5,7 @@ import { ListReorder, ListReorderItem, type ListReorderProps } from './list-reor
 export default defineFixture({
   id: 'list-reorder',
   render: props => {
-    const { dragging, ...rest } = props as Partial<ListReorderProps>;
+    const { dragging, ...rest } = props as Partial<ListReorderProps> & { dragging?: boolean };
     return (
       <ListReorder heading="Theme priority" numbered {...rest}>
         <ListReorderItem itemId="lagoon" title="Lagoon" description="Default" dragging={dragging} />

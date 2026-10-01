@@ -137,8 +137,9 @@ export async function g2(c: Collector, spec: ComponentSpec) {
       // Multiples of --spacing would re-open the whole number line. Positions (top/left/translate…) may derive
       // from it; box dimensions must be a scale step or a named size token.
       const prefix = util.slice(0, util.indexOf('-['));
-      if (/var\(--spacing\)/.test(v) && /^-?(p[xytrblse]?|m[xytrblse]?|gap(-[xy])?|w|h|size|min-w|min-h|max-w|max-h)$/.test(prefix))
-        c.fail({ gate: 'G2', check: 'space-scale', where, message: `"${u.cls}" computes a box dimension from --spacing.`, fix: 'Use a scale step or a size token (ask for one if none fits).' });
+      // A percentage fit (calc(100% - var(--cs-space-5))) is a layout constraint, not a new size.
+      if (/var\(--(spacing|cs-space-[a-z0-9-]+)\)/.test(v) && !v.includes('%') && /^-?(p[xytrblse]?|m[xytrblse]?|gap(-[xy])?|w|h|size|min-w|min-h|max-w|max-h)$/.test(prefix))
+        c.fail({ gate: 'G2', check: 'space-scale', where, message: `"${u.cls}" computes a box dimension from the space scale.`, fix: 'Use the scale step as a utility (p-10) or a size token (ask for one if none fits).' });
     }
     const num = util.match(/^-?(p|px|py|pt|pr|pb|pl|ps|pe|m|mx|my|mt|mr|mb|ml|gap|gap-x|gap-y|space-x|space-y|inset|inset-x|inset-y|top|right|bottom|left|w|h|size|min-w|min-h|max-w|max-h)-(\d+(?:\.\d+)?)$/);
     if (num && !t.allow.spacingSteps.includes(Number(num[2]))) c.fail({ gate: 'G2', check: 'space-scale', where, message: `"${u.cls}" = ${Number(num[2]) * 4}px is off the space scale (${t.allow.spacingSteps.map(s => s * 4).join(', ')}).`, fix: 'Use a scale step or a named token (px-inset-regular-x, h-field-md…).' });
@@ -216,6 +217,8 @@ function checkProps(c: Collector, spec: ComponentSpec, main: string) {
       for (const sg of t.getCallSignatures()) for (const prm of sg.getParameters()) walk(checker.getTypeOfSymbolAtLocation(prm, sf), depth + 1);
       // Object payloads ({ key; direction: 'ascending' | 'descending' }): their property literals count too.
       if (t.flags & ts.TypeFlags.Object && !t.getCallSignatures().length) for (const m of t.getProperties()) if (m.flags & ts.SymbolFlags.Property) walk(checker.getTypeOfSymbolAtLocation(m, sf), depth + 1);
+      // Arrays and tuples (Track[]): their element types count too.
+      if (checker.isArrayType(t) || checker.isTupleType(t)) for (const a of checker.getTypeArguments(t as ts.TypeReference)) walk(a, depth + 1);
     };
     walk(propType);
     const literals = [...String((def as any).type).matchAll(/'([^']+)'/g)].map(m => m[1]!);

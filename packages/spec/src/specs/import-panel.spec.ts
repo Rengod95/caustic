@@ -1,0 +1,71 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'import-panel',
+  name: 'ImportPanel',
+  category: 'inspector',
+  status: 'ready',
+  purpose: 'Brings external design into the canvas: pick a source (URL, file, HTML, JSX, workspace), enter where it comes from, choose how much to capture and at what device size, then Preview. Nothing is added until the import is confirmed.',
+  description: 'The body of the import dialog. A vertical stack with a 14px gap: the source tiles (OptionTiles icon layout), the input for the chosen source (a URL field here), the capture options row, and a footer with a note and the Preview button. The component does not import; Preview asks the consumer to convert and show the result for confirmation.',
+  role: null,
+  slots: [
+    { name: 'root', el: 'div', description: 'The stack. Grid, 14px gap.' },
+    { name: 'sources', el: 'div', parent: 'root', description: 'The source grid: an OptionTiles (icon layout, 5 columns, aria-label "Import source") with URL, File, HTML, JSX, Workspace.' },
+    { name: 'field', el: 'div', parent: 'root', description: 'The input for the chosen source: an Input (default appearance) with a leading glyph (globe for URL) and aria-label ("URL").' },
+    { name: 'options', el: 'div', parent: 'root', required: false, description: 'Capture options: grid of two equal columns, 6px gap, centered. Shown for URL sources.' },
+    { name: 'scope', el: 'div', parent: 'options', description: 'A SegmentedControl xs, "Full page" / "Selector" (aria-label "Capture").' },
+    { name: 'device', el: 'div', parent: 'options', description: 'A SegmentedControl xs in the icon form with Desktop (monitor), Wide (tv), Mobile (smartphone), each with an aria-label; aligned to the end of its column.' },
+    { name: 'footer', el: 'div', parent: 'root', description: 'Note and action: flex, space between, centered, 8px gap.' },
+    { name: 'note', el: 'span', parent: 'footer', description: '"Previews the conversion. Nothing is added until Import." Hint size, tertiary.' },
+    { name: 'preview', el: 'button', parent: 'footer', role: 'button', description: 'Button primary sm "Preview".' },
+  ],
+  props: {
+    source: { type: 'string', description: 'Controlled id of the chosen source.' },
+    defaultSource: { type: 'string', default: 'url', description: 'Uncontrolled initial source.' },
+    url: { type: 'string', description: 'Controlled value of the field.' },
+    defaultUrl: { type: 'string', description: 'Uncontrolled initial value of the field.' },
+    scope: { type: "'full' | 'selector'", default: 'full', description: 'Capture scope.' },
+    device: { type: "'desktop' | 'wide' | 'mobile'", default: 'desktop', description: 'Capture device size.' },
+    note: { type: 'ReactNode', description: 'Footer note.' },
+    previewLabel: { type: 'ReactNode', default: 'Preview', description: 'Label of the preview button.' },
+  },
+  events: {
+    onSourceChange: { payload: 'string', when: 'a different source tile is chosen' },
+    onUrlChange: { payload: 'string', when: 'the field value changes' },
+    onScopeChange: { payload: "'full' | 'selector'", when: 'the capture scope changes' },
+    onDeviceChange: { payload: "'desktop' | 'wide' | 'mobile'", when: 'the device size changes' },
+    onPreview: { payload: 'React.MouseEvent<HTMLButtonElement>', when: 'Preview is activated' },
+  },
+  styles: [
+    { slot: 'root', expect: { gap: 14 } },
+    { slot: 'options', expect: { gap: 6 } },
+    { slot: 'footer', expect: { gap: 8 } },
+    { slot: 'note', expect: { fg: 'text.tertiary', text: 'hint' }, note: 'Specimen line-height is 17px; hint is 18.' },
+  ],
+  behavior: {
+    keyboard: { Tab: 'moves through the source tiles (one stop), the field, the capture controls and Preview', 'Enter (field)': 'does nothing by itself; Preview is the explicit action' },
+    pointer: ['Preview converts the chosen source and shows the result for review; nothing is added until the caller confirms the import'],
+    scenarios: [
+      { name: 'Preview reports', steps: [{ do: 'click', slot: 'preview' }], expect: [{ event: 'onPreview', calls: 1 }] },
+    ],
+  },
+  a11y: {
+    labelRequired: false,
+    minHit: 24,
+    attrs: {},
+    notes: [
+      'Each group is named: "Import source", "Capture" and, for the device control, an aria-label on every icon-only segment ("Desktop", "Wide", "Mobile").',
+      'The field has an aria-label naming the source ("URL").',
+      'The note states what Preview does; it is not a placeholder.',
+    ],
+  },
+  policies: ['P3', 'P6'],
+  composition: { uses: ['option-tiles', 'input', 'segmented-control', 'button'] },
+  examples: [{ id: 'import', title: 'Import', doc: 'import-export#import' }],
+  usage: [
+    'Fixture render(props): sources URL (link glyph, chosen), File (file-up), HTML (code-xml), JSX (file-code), Workspace (braces); the field shows "https://orbit-pay.com/pricing" with a globe glyph and aria-label "URL"; scope "Full page" chosen; device Desktop chosen; footer note "Previews the conversion. Nothing is added until Import." and Button primary sm "Preview".',
+    'Example reproduces the whole section at its natural width; the "CanvasImportDialog" caption is hidden in the frame.',
+    'The options row is only for URL sources; other sources show their own field (file drop, code editor) in the same place: pass them as children of the field slot.',
+    '`uses: option-tiles, input, segmented-control, button` are rendered inside by ImportPanel.',
+  ],
+});

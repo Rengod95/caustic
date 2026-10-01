@@ -1,0 +1,63 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'color-tile',
+  name: 'ColorTile',
+  category: 'data',
+  status: 'ready',
+  purpose: 'A color token as a tile with its contrast audit: a swatch with a sample glyph and the value, and below it the token name with the contrast against white and against black, each marked as passing (4.5 : 1) or failing.',
+  description: 'The atlas tile of a color ramp. The swatch fill and the text color on it are data (the token\'s value and whichever of white or black contrasts more); the audit is data too. Read-only; the tile does not choose colors.',
+  role: 'group',
+  slots: [
+    { name: 'root', el: 'div', role: 'group', description: 'The tile: xl radius, overflow hidden, base surface with a hairline edge and elevation 1, grid. aria-label = the token name.' },
+    { name: 'swatch', el: 'div', parent: 'root', description: 'The color area, 74px tall, 8px padding, flex with space between, aligned to the start. Full-bleed: flush with the tile top and sides, corners clipped by the tile radius. Fill from --tile-bg and text from --tile-fg (custom properties set from the color and onColor props).' },
+    { name: 'sample', el: 'span', parent: 'swatch', description: 'The "Aa" sample: 18px semibold, in the on-color.' },
+    { name: 'value', el: 'span', parent: 'swatch', description: 'The color value as written ("#B4532A"): mono small, in the on-color.' },
+    { name: 'body', el: 'div', parent: 'root', description: 'Name and audit: grid, 2px gap, 10px inline and 8px block padding.' },
+    { name: 'name', el: 'b', parent: 'body', description: 'Token name ("brand/600"): mono small.' },
+    { name: 'audit', el: 'div', parent: 'body', description: 'The two contrast results on one line: flex, 8px gap, 11px, tertiary.' },
+    { name: 'audit-item', el: 'span', parent: 'audit', description: 'One result: the background name ("White", "Black") and the mark.' },
+    { name: 'mark', el: 'span', parent: 'audit-item', description: 'Check or cross and the ratio to one decimal ("✓ 5.0", "✗ 4.2"). Success text when the ratio is at least 4.5, danger text otherwise. data-result="pass|fail". A visually hidden word ("passes" / "fails") follows the glyph.' },
+  ],
+  variants: {
+    result: { values: ['pass', 'fail'], default: 'pass', description: 'Result of one audit entry (the mark slot).' },
+  },
+  props: {
+    name: { type: 'string', required: true, description: 'Token name.' },
+    color: { type: 'string', required: true, description: 'CSS color of the swatch (a hex or a token var); set as --tile-bg.' },
+    onColor: { type: 'string', required: true, description: 'Text color on the swatch: white or black, whichever contrasts more with color; set as --tile-fg.' },
+    value: { type: 'string', required: true, description: 'Value text shown on the swatch ("#B4532A").' },
+    audit: { type: '{ against: string; ratio: number; pass: boolean }[]', required: true, description: 'Contrast results: against = label ("White"), ratio, pass = ratio >= 4.5.' },
+  },
+  styles: [
+    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', shadow: '1', radius: 'xl' } },
+    { slot: 'swatch', expect: { height: 'size-tile-swatch-h', padX: 8, padY: 8 }, note: 'No radius of its own: it is flush with the tile edges and the tile radius (overflow hidden) rounds its top corners. Fill and text color come from --tile-bg / --tile-fg.' },
+    { slot: 'sample', expect: { text: 'title-overlay' }, note: 'Specimen is 18px semibold with the inherited 18px line-height; title-overlay is 18 / 22 / 600 with -0.015em tracking.' },
+    { slot: 'value', expect: { font: 'mono', text: 'mono-sm' }, note: 'Specimen sets opacity .8; no opacity token matches (muted is .64 and would drop below the contrast of the on-color), so none is applied.' },
+    { slot: 'body', expect: { padX: 10, padY: 8, gap: 2 } },
+    { slot: 'name', expect: { fg: 'text.primary', font: 'mono', text: 'mono-sm' } },
+    { slot: 'audit', expect: { fg: 'text.tertiary', gap: 8, text: 'ui-xs', weight: 400 } },
+    { slot: 'mark', expect: { fg: 'success.text' } },
+    { slot: 'mark', when: { result: 'fail' }, expect: { fg: 'danger.text' } },
+  ],
+  behavior: { pointer: ['read-only'] },
+  a11y: {
+    labelRequired: true,
+    minHit: 24,
+    attrs: { root: ['aria-label'] },
+    notes: [
+      'The audit is text: "White ✓ 5.0 passes", "Black ✗ 4.2 fails"; the pass / fail color is redundant and the hidden word makes the result explicit.',
+      'The consumer picks the on-color that contrasts more, so the sample and value on the swatch are always the readable pair; if neither reaches 4.5 the tile still shows both results.',
+      'The text on the body meets AA on the base surface (tertiary 4.5:1, success and danger text on surface).',
+    ],
+  },
+  policies: ['P6'],
+  composition: {},
+  examples: [{ id: 'color-tiles', title: 'Color token tiles', doc: 'token-graph#color-token-tiles' }],
+  usage: [
+    'Fixture render(props): name "brand/600", color "#B4532A", onColor "#fff", value "#B4532A", audit White 4.99 (pass) and Black 4.21 (fail), rendered as "White ✓ 5.0" and "Black ✗ 4.2" (toFixed(1)).',
+    'Example frame: a two-column grid (1fr 1fr, 6px gap) of four tiles: brand/600 #B4532A (on #fff; White 5.0 pass, Black 4.2 fail); brand/200 #F7D0A1 (on #000; White 1.4 fail, Black 14.5 pass); ink/900 #191C20 (on #fff; White 17.1 pass, Black 1.2 fail); sky/400 #56A6D9 (on #000; White 2.7 fail, Black 7.9 pass). Compute the ratios with the WCAG relative-luminance formula in the fixture (as the specimen script does) and format with one decimal; the on-color is white when its ratio is at least black\'s.',
+    'The "TokenAtlas · contrast audit" caption is hidden in the frame.',
+    'The swatch colors and hex values are runtime data (the one place a literal color enters the page); pass them through custom properties, never class names.',
+  ],
+});

@@ -6,17 +6,15 @@ import {
   listActivityStrong, listActivityTime, listActivityVariants,
 } from './list-activity.variants.ts';
 
-export interface ListActivityProps extends ComponentProps<'ol'>, Partial<Pick<ListActivityItemProps, 'avatar' | 'icon' | 'quote' | 'time' | 'dateTime'>> {
+export interface ListActivityProps extends ComponentProps<'ol'> {
   'aria-label'?: string;
 }
 
-/** An activity feed: who did what and when, newest first, joined by a thin vertical line. Compose with ListActivityItem; or pass `time` (and avatar/icon/quote) to render a single entry from children. */
-export function ListActivity({ 'aria-label': ariaLabel = 'Activity', avatar, icon, quote, time, dateTime, className, children, ...props }: ListActivityProps) {
+/** An activity feed: who did what and when, newest first, joined by a thin vertical line. Compose with ListActivityItem. */
+export function ListActivity({ 'aria-label': ariaLabel = 'Activity', className, children, ...props }: ListActivityProps) {
   return (
     <ol data-slot="list-activity" aria-label={ariaLabel} className={cn(listActivityVariants(), className)} {...props}>
-      {time != null
-        ? <ListActivityItem avatar={avatar} icon={icon} quote={quote} time={time} dateTime={dateTime}>{children}</ListActivityItem>
-        : children}
+      {children}
     </ol>
   );
 }

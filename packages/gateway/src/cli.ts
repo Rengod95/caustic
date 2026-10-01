@@ -8,6 +8,7 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readSpec, specIds } from '@caustic/spec/node';
+import { ComponentSpec } from '@caustic/spec';
 import { Collector, writeReport, type Gate } from './report.ts';
 import { g0 } from './checks/g0-foundation.ts';
 import { g1 } from './checks/g1-spec.ts';
@@ -60,7 +61,8 @@ try {
     const fixture: Fixture | undefined = existsSync(fixturePath)
       ? await import(pathToFileURL(fixturePath).href).then(m => m.default, (e: any) => { c.fail({ gate: 'G1', check: 'fixture', message: `Fixture failed to load: ${String(e.message).split('\n')[0]}` }); return undefined; })
       : undefined;
-    const spec = runs('G1') ? await g1(c, input, fixture) : null;
+    // Without G1 the spec is still parsed (silently) so --only=G2 etc. actually run their gate.
+    const spec = runs('G1') ? await g1(c, input, fixture) : (() => { const p = ComponentSpec.safeParse(input); if (!p.success) c.fail({ gate: 'G1', check: 'schema', message: 'Spec does not parse; run with G1 for details.' }); return p.success ? p.data : null; })();
     if (spec) {
       if (runs('G2')) await g2(c, spec).catch(e => c.fail({ gate: 'G2', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
       if (runs('G5')) await g5Static(c, spec).catch(e => c.fail({ gate: 'G5', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));

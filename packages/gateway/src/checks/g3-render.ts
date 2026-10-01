@@ -72,7 +72,8 @@ async function anatomy(c: Collector, spec: ComponentSpec, page: any, base: CaseD
   }
   if (spec.role) {
     const snap: string = await page.locator(`${scope} ${slotSelector(spec, 'root')}`).first().ariaSnapshot().catch(() => '');
-    const role = snap.trim().replace(/^- /, '').split(/[\s":]/)[0];
+    // YAML quotes the whole line when the accessible name contains a colon ('button "A: B"').
+    const role = snap.trim().replace(/^- /, '').replace(/^['"]/, '').split(/[\s":']/)[0];
     if (role !== spec.role) c.fail({ gate: 'G3', check: 'role', message: 'Root has the wrong accessible role.', expected: spec.role, actual: role || '(none)' });
   }
 }
@@ -82,16 +83,17 @@ async function scenarios(c: Collector, spec: ComponentSpec, rt: Runtime) {
     const k = caseFor(spec); Object.assign(k.props, sc.props ?? {}); k.key = 'scenario';
     const page = await openPage(rt, { c: spec.id, mode: 'cases', theme: 'light' }, [k]);
     const scope = caseSelector('scenario');
-    const loc = (slot = 'root') => page.locator(`${scope} ${slotSelector(spec, slot)}`).first();
+    const loc = (slot = 'root', nth = 0) => page.locator(`${scope} ${slotSelector(spec, slot)}`).nth(nth);
     try {
       for (const st of sc.steps) {
-        if (st.do === 'click') await loc(st.slot).click({ force: true, timeout: 2000 });
-        else if (st.do === 'focus') await loc(st.slot).focus();
-        else if (st.do === 'blur') await loc(st.slot).blur();
-        else if (st.do === 'hover') await loc(st.slot).hover({ force: true });
+        const n = st.nth ?? 0;
+        if (st.do === 'click') await loc(st.slot, n).click({ force: true, timeout: 2000 });
+        else if (st.do === 'focus') await loc(st.slot, n).focus();
+        else if (st.do === 'blur') await loc(st.slot, n).blur();
+        else if (st.do === 'hover') await loc(st.slot, n).hover({ force: true });
         else if (st.do === 'press') await page.keyboard.press(st.key!);
         else if (st.do === 'type') await page.keyboard.type(st.text ?? '');
-        else if (st.do === 'drag') { const b = (await loc(st.slot).boundingBox())!; await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2); await page.mouse.down(); await page.mouse.move(b.x + b.width / 2 + (st.by?.x ?? 0), b.y + b.height / 2 + (st.by?.y ?? 0), { steps: 8 }); await page.mouse.up(); }
+        else if (st.do === 'drag') { const b = (await loc(st.slot, n).boundingBox())!; await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2); await page.mouse.down(); await page.mouse.move(b.x + b.width / 2 + (st.by?.x ?? 0), b.y + b.height / 2 + (st.by?.y ?? 0), { steps: 8 }); await page.mouse.up(); }
       }
       await page.waitForTimeout(50);
       const events: { name: string; args: unknown[] }[] = await page.evaluate(() => (window as any).__EVENTS__);

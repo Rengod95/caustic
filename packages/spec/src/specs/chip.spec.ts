@@ -59,7 +59,7 @@ export default defineSpec({
     { slot: 'root', when: { tone: 'success' }, expect: { bg: 'success.soft', fg: 'success.text' } },
     { slot: 'root', when: { tone: 'warning' }, expect: { bg: 'warning.soft', fg: 'warning.text' } },
     { slot: 'root', when: { tone: 'danger' }, expect: { bg: 'danger.soft', fg: 'danger.text' } },
-    { slot: 'root', when: { shape: 'rounded' }, expect: { radius: 'md', height: 'size-chip-h', gap: 6, text: 'ui-sm' }, note: 'Rounded form is specified at size md only; padding-inline 8px start / 6px end cannot be expressed by padX.' },
+    { slot: 'root', when: { shape: 'rounded' }, expect: { radius: 'md', height: 'size-chip-h', padStart: 8, padEnd: 6, gap: 6, text: 'ui-sm' }, note: 'Rounded form is specified at size md only.' },
     { slot: 'root', when: { state: 'pressed' }, expect: { bg: 'ink.solid', fg: 'ink.on' }, note: 'Any appearance: an on toggle is an ink fill (the outline edge, if any, stays).' },
     { slot: 'root', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'icon', expect: { height: 'icon-xs', width: 'icon-xs' } },

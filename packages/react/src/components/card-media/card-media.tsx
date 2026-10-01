@@ -25,7 +25,7 @@ export function CardMediaCover({ className, children, ...props }: ComponentProps
   return (
     <div data-slot="card-media-cover" className={cn(cardMediaCoverVariants(), className)} {...props}>
       {children}
-      <span aria-hidden className="pointer-events-none absolute inset-0 hidden group-data-[layout=overlay]:block [background:linear-gradient(180deg,transparent_40%,var(--cs-color-media-scrim)),linear-gradient(180deg,transparent_40%,var(--cs-color-media-scrim))]" />
+      <span aria-hidden className="pointer-events-none absolute inset-0 hidden group-data-[layout=overlay]/card:block [background:linear-gradient(180deg,transparent_40%,var(--cs-color-media-scrim-strong))]" />
     </div>
   );
 }
@@ -34,7 +34,7 @@ export interface CardMediaImageProps extends ComponentProps<'img'> {}
 
 /** The picture. Renders an img when src is set, otherwise a decorative element you can fill with a background. Scales on card hover. */
 export function CardMediaImage({ className, alt = '', ...props }: CardMediaImageProps) {
-  const cls = cn('absolute inset-0 size-full object-cover transition-transform duration-480 ease-out group-hover:scale-104 group-focus-visible:scale-104', className);
+  const cls = cn('absolute inset-0 size-full object-cover transition-transform duration-480 ease-out group-hover/card:scale-104 group-focus-visible/card:scale-104', className);
   if (props.src != null) return <img data-slot="card-media-image" alt={alt} className={cls} {...props} />;
   return <div data-slot="card-media-image" aria-hidden className={cls} {...(props as ComponentProps<'div'>)} />;
 }

@@ -1,0 +1,66 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'plan',
+  name: 'Plan',
+  category: 'agent',
+  status: 'ready',
+  purpose: 'The live checklist of what the agent will do. Finished steps are struck through with a check, the current step carries the orb and a shimmering label, upcoming steps have a dashed circle.',
+  description: 'A framed card with a title row (title and "N of M" count) and an ordered list of steps. Steps are data: each has a label, a status (done, now, todo) and an optional end note. The count is derived (done steps of all steps). Not interactive: the agent advances the plan; people read it.',
+  role: 'group',
+  slots: [
+    { name: 'root', el: 'div', role: 'group', description: 'The card: surface.base fill, 1px inset edge (border.subtle), xl radius, 6px padding, 1px gap. No shadow.' },
+    { name: 'header', el: 'div', parent: 'root', description: 'Title row, space-between; padding 4px 6px 6px. Names the group (aria-labelledby on root points at the title).' },
+    { name: 'title', el: 'span', parent: 'header', description: 'Plan name, semibold.' },
+    { name: 'count', el: 'span', parent: 'header', description: '"3 of 6": done steps over total, tertiary, normal weight, tabular numerals.' },
+    { name: 'steps', el: 'ol', parent: 'root', description: 'The list: grid, 1px gap, no list style. aria-live polite so status changes are announced.' },
+    { name: 'step', el: 'li', parent: 'steps', description: 'One step: flex, 8px gap (specimen 9), 28px minimum height, 6px inline padding, radius sm. data-status done | now | todo; aria-current="step" on the now step.' },
+    { name: 'indicator', el: 'span', parent: 'step', description: '16px box that holds the mark: a check (done), the orb (now) or a dashed circle (todo). aria-hidden.' },
+    { name: 'orb', el: 'span', parent: 'indicator', required: false, description: 'Now only: 12px spectrum orb.' },
+    { name: 'label', el: 'span', parent: 'step', description: 'The step text. Done: struck through. Now: shimmer.' },
+    { name: 'detail', el: 'span', parent: 'step', required: false, description: 'End note ("Card form"), pushed to the end, small tertiary text.' },
+  ],
+  variants: {
+    status: { values: ['done', 'now', 'todo'], default: 'todo', description: 'Step status. Applied to the FIRST step by the fixture (see usage).' },
+  },
+  props: {
+    title: { type: 'ReactNode', required: true, description: 'Plan name.' },
+    steps: { type: 'PlanStep[]', required: true, description: 'Steps in order: { id: string; label: ReactNode; status: "done" | "now" | "todo"; detail?: ReactNode }.' },
+  },
+  styles: [
+    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', radius: 'xl', padX: 6, padY: 6, gap: 1 } },
+    { slot: 'header', expect: { padX: 6, text: 'ui-sm', weight: 600, fg: 'text.primary' }, note: 'Padding is 4px 6px 6px (padY cannot express the asymmetry). Specimen 12 / semibold; ui-sm 12 / 18 with the weight overridden to 600.' },
+    { slot: 'count', expect: { fg: 'text.tertiary', weight: 400 } },
+    { slot: 'steps', expect: { gap: 1 } },
+    { slot: 'step', expect: { minHeight: 28, padX: 6, gap: 8, radius: 'sm', text: 'ui-dense', fg: 'text.primary' }, note: 'Specimen gap is 9px (between the 8 and 10 spacing steps; 8 used). Specimen radius 7; sm (6) = root radius 12 - inset 6, concentric (P5).' },
+    { slot: 'step', when: { status: 'done' }, expect: { fg: 'text.tertiary' } },
+    { slot: 'step', when: { status: 'now' }, expect: { bg: 'fill.hover', weight: 500 } },
+    { slot: 'indicator', expect: { height: 'icon-md', width: 'icon-md' } },
+    { slot: 'indicator', when: { status: 'done' }, expect: { bg: 'success.soft', fg: 'success.text', radius: 'full' }, note: 'Check glyph 11px (icon-xs 12 used), stroke 3.' },
+    { slot: 'orb', expect: { height: 12, width: 12, radius: 'full' } },
+    { slot: 'label', when: { status: 'done' }, expect: { fg: 'text.tertiary' }, note: 'text-decoration line-through in border.strong.' },
+    { slot: 'detail', expect: { fg: 'text.tertiary', text: 'ui-xs', weight: 400 } },
+  ],
+  behavior: {
+    pointer: ['not interactive'],
+    scenarios: [
+      { name: 'the now step is the current step', props: { status: 'now' }, steps: [], expect: [{ slot: 'step', attr: { 'aria-current': 'step', 'data-status': 'now' } }] },
+    ],
+  },
+  a11y: {
+    notes: [
+      'Status is not color alone: done has a check glyph and a strike-through, now has the orb and medium weight, todo has a dashed circle. Each step also gets a visually hidden status word ("Done", "In progress", "To do").',
+      'The now step has aria-current="step"; the list is aria-live="polite" so a step changing state is announced.',
+      'The count text is the visible progress statement; there is no progressbar.',
+    ],
+  },
+  policies: ['P2', 'P5', 'P6', 'P8'],
+  flags: { agent: { status: ['now'] }, motionLoop: true },
+  composition: {},
+  examples: [{ id: 'plan', title: 'Plan', doc: 'plan#plan' }],
+  usage: [
+    'Fixture requirements for render(props): the default render is the specimen steps below. When props.status is passed it replaces the status of the FIRST step only (so probes for status=now land on the first step with the orb); the other steps keep their specimen status. At least one step has a detail so the slot exists.',
+    'Example "plan": title "Build checkout flow"; steps: done "Map screens from brief", done "Pick components from library", done "Lay out Review order", now "Lay out Payment" with detail "Card form", todo "Add error and loading states", todo "Check contrast and tap targets". Count reads "3 of 6". Icon: check.',
+    'The spectrum appears only on the now step (orb + shimmer); a plan with no running step has no light.',
+  ],
+});

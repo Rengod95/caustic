@@ -25,12 +25,12 @@ export type CardActionVariantProps = VariantProps<typeof cardActionVariants>;
 export const cardActionArrowVariants = cva([
   'inline-flex size-icon-sm flex-none text-text-tertiary hover:text-text-primary [&_svg]:size-full',
   'transition-[transform,color] duration-base ease-spring',
-  'group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-text-primary',
-  'motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:translate-y-0',
+  'group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 group-hover/card:text-text-primary',
+  'motion-reduce:group-hover/card:translate-x-0 motion-reduce:group-hover/card:translate-y-0',
 ]);
 
 export const cardActionIndicatorVariants = cva([
   'pointer-events-none inline-grid size-check flex-none place-items-center rounded-full bg-surface-base',
   'shadow-[inset_0_0_0_1.5px_var(--cs-color-border-control)]',
-  'group-data-[state=checked]:bg-accent-solid group-data-[state=checked]:shadow-none',
+  'group-data-[state=checked]/card:bg-accent-solid group-data-[state=checked]/card:shadow-none',
 ]);

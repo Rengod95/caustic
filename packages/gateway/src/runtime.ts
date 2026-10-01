@@ -76,7 +76,7 @@ export async function forcePseudo(page: Page, selector: string, pseudo: string[]
 export function expectPayload(t: TokenIndex, e: StyleExpect) {
   const out: Record<string, unknown> = { ...e };
   for (const key of ['height', 'minHeight', 'width'] as const) if (e[key] !== undefined) out[key] = dimPx(t, e[key]!);
-  for (const key of ['padX', 'padY'] as const) if (e[key] !== undefined) out[key] = typeof e[key] === 'number' ? e[key] : dimPx(t, e[key] as string);
+  for (const key of ['padX', 'padY', 'padStart', 'padEnd', 'padTop', 'padBottom'] as const) if (e[key] !== undefined) out[key] = typeof e[key] === 'number' ? e[key] : dimPx(t, e[key] as string);
   if (e.text) { const r = t.type[e.text]!; out.text = { name: e.text + (e.weight ? ` @${e.weight}` : ''), size: r[1], lh: r[2], weight: e.weight ?? r[3], tracking: r[4] }; }
   if (e.radius) out.radiusVar = ['window', 'panel', 'toolbar', 'toolbar-item', 'toast'].includes(e.radius) ? `--cs-studio-${e.radius}-radius`.replace('-toolbar-item-radius', '-toolbar-item-radius') : `--cs-radius-${e.radius}`;
   return out;
@@ -107,12 +107,15 @@ window.__gate = {
       if (e.ring === 'none' && (cs.boxShadow.includes(this.color('focus.ring')) || (cs.outlineStyle !== 'none' && px(cs.outlineWidth) > 0))) push('ring none', 'no focus ring or outline', cs.boxShadow + ' / outline ' + cs.outline);
     }
     if (e.radius !== undefined) { const x = this.resolve('border-top-left-radius', 'var(' + e.radiusVar + ')'); if (cs.borderTopLeftRadius !== x) push('radius ' + e.radius, x, cs.borderTopLeftRadius); }
-    const r = el.getBoundingClientRect();
+    // Layout size, not the transformed box: a 14px square rotated 45° is still 14px wide by spec.
+    const box = el.getBoundingClientRect();
+    const r = el instanceof HTMLElement ? { width: el.offsetWidth || box.width, height: el.offsetHeight || box.height } : box;
     if (e.height != null && !near(r.height, e.height)) push('height', e.height + 'px', r.height + 'px');
     if (e.minHeight != null && r.height + 0.6 < e.minHeight) push('minHeight', '>= ' + e.minHeight + 'px', r.height + 'px');
     if (e.width != null && !near(r.width, e.width)) push('width', e.width + 'px', r.width + 'px');
     if (e.padX != null && (!near(px(cs.paddingLeft), e.padX) || !near(px(cs.paddingRight), e.padX))) push('padX', e.padX + 'px', cs.paddingLeft + ' / ' + cs.paddingRight);
     if (e.padY != null && (!near(px(cs.paddingTop), e.padY) || !near(px(cs.paddingBottom), e.padY))) push('padY', e.padY + 'px', cs.paddingTop + ' / ' + cs.paddingBottom);
+    for (const [key, side] of [['padStart', 'paddingLeft'], ['padEnd', 'paddingRight'], ['padTop', 'paddingTop'], ['padBottom', 'paddingBottom']]) if (e[key] != null && !near(px(cs[side]), e[key])) push(key, e[key] + 'px', cs[side]);
     if (e.gap != null && !near(px(cs.columnGap) || px(cs.rowGap) || 0, e.gap)) push('gap', e.gap + 'px', cs.columnGap);
     if (e.weight && !e.text && Number(cs.fontWeight) !== e.weight) push('weight', e.weight, cs.fontWeight);
     if (e.text) {

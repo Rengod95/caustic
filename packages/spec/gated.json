@@ -5,11 +5,43 @@
   },
   "activity-tree": {
     "specHash": "f5ca6d191568e774",
-    "at": "2026-10-01T14:34:13.737Z"
+    "at": "2026-10-01T14:43:20.778Z"
+  },
+  "agent-cursor": {
+    "specHash": "53b95ab9ed1203e3",
+    "at": "2026-10-01T15:18:32.994Z"
+  },
+  "agent-work-area": {
+    "specHash": "8cf0cd496e153764",
+    "at": "2026-10-01T15:17:40.311Z"
   },
   "alert": {
-    "specHash": "051c293b54e93b91",
-    "at": "2026-10-01T14:10:04.723Z"
+    "specHash": "e9925c7d66f901db",
+    "at": "2026-10-01T15:01:09.893Z"
+  },
+  "alias-chain": {
+    "specHash": "65fad1f858c848cf",
+    "at": "2026-10-01T15:09:55.019Z"
+  },
+  "align-bar": {
+    "specHash": "071018ae48aa307d",
+    "at": "2026-10-01T15:27:34.109Z"
+  },
+  "alignment-pad": {
+    "specHash": "20a9608c7945a370",
+    "at": "2026-10-01T15:27:54.407Z"
+  },
+  "angle-dial": {
+    "specHash": "98e48cc56da012bc",
+    "at": "2026-10-01T15:27:24.214Z"
+  },
+  "append-list": {
+    "specHash": "699bca78afaff5dd",
+    "at": "2026-10-01T15:08:43.793Z"
+  },
+  "auto-layout": {
+    "specHash": "3645cd8a56de2635",
+    "at": "2026-10-01T15:29:22.479Z"
   },
   "avatar": {
     "specHash": "29780dcdff7d6cdf",
@@ -20,8 +52,8 @@
     "at": "2026-10-01T13:59:37.476Z"
   },
   "banner": {
-    "specHash": "5b96757f23a21d83",
-    "at": "2026-10-01T14:10:41.560Z"
+    "specHash": "5d69baf4b1046fbe",
+    "at": "2026-10-01T15:01:24.272Z"
   },
   "breadcrumb": {
     "specHash": "989d5f318b3a7461",
@@ -29,27 +61,59 @@
   },
   "button": {
     "specHash": "4f714041264a1d1d",
-    "at": "2026-10-01T13:57:09.468Z"
+    "at": "2026-10-01T14:56:44.442Z"
   },
   "calendar": {
     "specHash": "0d14b969f86f46a6",
     "at": "2026-10-01T14:09:07.603Z"
   },
+  "canvas-artboard": {
+    "specHash": "c31d011e4da4db69",
+    "at": "2026-10-01T15:08:19.063Z"
+  },
+  "canvas-empty": {
+    "specHash": "4cceeeb56f1f4169",
+    "at": "2026-10-01T15:05:18.264Z"
+  },
+  "canvas-guide": {
+    "specHash": "2e2023390d0e9a7d",
+    "at": "2026-10-01T14:55:49.857Z"
+  },
+  "canvas-hint": {
+    "specHash": "8181f459b3486161",
+    "at": "2026-10-01T15:00:18.031Z"
+  },
+  "canvas-marquee": {
+    "specHash": "5e02f03df861fe4b",
+    "at": "2026-10-01T15:14:32.963Z"
+  },
+  "canvas-ruler": {
+    "specHash": "5f0fd0d6f76d6d16",
+    "at": "2026-10-01T14:54:07.073Z"
+  },
+  "canvas-selection": {
+    "specHash": "b14b507b0f856774",
+    "at": "2026-10-01T15:19:13.807Z"
+  },
+  "canvas-size-label": {
+    "specHash": "c6741c870d1fd9df",
+    "at": "2026-10-01T15:13:52.150Z"
+  },
   "card": {
     "specHash": "70fd58a0b732180c",
-    "at": "2026-10-01T14:32:58.593Z"
+    "at": "2026-10-01T14:50:59.543Z"
   },
   "card-action": {
     "specHash": "751372b5969a9a2c",
-    "at": "2026-10-01T14:30:06.621Z"
+    "at": "2026-10-01T14:52:04.132Z"
   },
   "card-agent": {
     "specHash": "7f0e5682020299c0",
-    "at": "2026-10-01T14:30:28.975Z"
+    "at": "2026-10-01T14:52:26.581Z"
   },
   "card-feature": {
     "specHash": "49a8b91f849be5fd",
-    "at": "2026-10-01T14:29:27.777Z"
+    "at": "2026-10-01T14:51:19.321Z"
   },
   "card-glass": {
     "specHash": "708f294b65a01064",
@@ -57,7 +121,7 @@
   },
   "card-media": {
     "specHash": "bfd5021ed792f301",
-    "at": "2026-10-01T14:32:19.122Z"
+    "at": "2026-10-01T14:56:04.679Z"
   },
   "card-outline": {
     "specHash": "e348bb20d1b0323c",
@@ -65,7 +129,7 @@
   },
   "card-spotlight": {
     "specHash": "d64bec0029d928c2",
-    "at": "2026-10-01T14:29:43.757Z"
+    "at": "2026-10-01T14:51:39.898Z"
   },
   "card-stat": {
     "specHash": "a1faa4b351fc6399",
@@ -78,6 +142,10 @@
   "card-well": {
     "specHash": "d5f6afc8365d736d",
     "at": "2026-10-01T14:28:57.389Z"
+  },
+  "change-detail": {
+    "specHash": "35167576b1915b25",
+    "at": "2026-10-01T15:13:42.005Z"
   },
   "channel-slider": {
     "specHash": "fa39b08ae40b65e8",
@@ -92,8 +160,8 @@
     "at": "2026-10-01T14:33:58.398Z"
   },
   "chip": {
-    "specHash": "a6ea510c1e0a9f09",
-    "at": "2026-10-01T14:08:08.826Z"
+    "specHash": "884f8731f468c676",
+    "at": "2026-10-01T15:01:52.246Z"
   },
   "choice-cards": {
     "specHash": "bd3f1c84c744b833",
@@ -101,15 +169,71 @@
   },
   "clarification": {
     "specHash": "7dd5f19a939b2960",
-    "at": "2026-10-01T14:37:05.324Z"
+    "at": "2026-10-01T14:44:22.942Z"
+  },
+  "code-diff": {
+    "specHash": "e36a83e2315cd6b3",
+    "at": "2026-10-01T15:06:22.143Z"
+  },
+  "code-realization": {
+    "specHash": "ea8b79dc080c3795",
+    "at": "2026-10-01T15:24:24.620Z"
+  },
+  "color-picker": {
+    "specHash": "f5d7d64871283c5a",
+    "at": "2026-10-01T15:29:49.030Z"
+  },
+  "color-plane": {
+    "specHash": "14fd4b78e0fb8eb8",
+    "at": "2026-10-01T15:27:11.674Z"
+  },
+  "color-tile": {
+    "specHash": "2a1f7d9faa1dcca3",
+    "at": "2026-10-01T14:56:16.100Z"
+  },
+  "color-well": {
+    "specHash": "62d8da5282c5d99b",
+    "at": "2026-10-01T15:26:40.021Z"
   },
   "combobox": {
     "specHash": "0a21eec902383f45",
-    "at": "2026-10-01T14:09:42.210Z"
+    "at": "2026-10-01T14:55:40.207Z"
+  },
+  "comment-bubble": {
+    "specHash": "35481e81e7360b73",
+    "at": "2026-10-01T15:04:37.710Z"
+  },
+  "comment-pin": {
+    "specHash": "958727b0a9a2756c",
+    "at": "2026-10-01T15:05:00.506Z"
+  },
+  "compare-view": {
+    "specHash": "59a109da1d954a90",
+    "at": "2026-10-01T15:18:11.405Z"
   },
   "composer": {
-    "specHash": "32e7ef11fd1a86fb",
-    "at": "2026-10-01T14:38:27.936Z"
+    "specHash": "36db83ed67ceb071",
+    "at": "2026-10-01T15:00:56.949Z"
+  },
+  "constraints-control": {
+    "specHash": "ff5b38f18978ce3e",
+    "at": "2026-10-01T15:28:16.469Z"
+  },
+  "context-analytics": {
+    "specHash": "be8a7a6cb9c6f1c8",
+    "at": "2026-10-01T14:53:29.253Z"
+  },
+  "contrast-chip": {
+    "specHash": "1217793824ae8ecc",
+    "at": "2026-10-01T15:09:24.446Z"
+  },
+  "contrast-insight": {
+    "specHash": "921890a254011abe",
+    "at": "2026-10-01T15:16:22.148Z"
+  },
+  "corner-radius": {
+    "specHash": "b0f151b4c0e91b7c",
+    "at": "2026-10-01T15:29:42.044Z"
   },
   "date-picker": {
     "specHash": "9be06bf680510ee7",
@@ -119,9 +243,25 @@
     "specHash": "2270f990fbbe3fa0",
     "at": "2026-10-01T13:49:43.575Z"
   },
+  "easing-curve": {
+    "specHash": "5ee71b5eac94fe27",
+    "at": "2026-10-01T15:23:23.559Z"
+  },
+  "effect-editor": {
+    "specHash": "331a7757837f2867",
+    "at": "2026-10-01T15:28:05.075Z"
+  },
+  "effects-stack": {
+    "specHash": "6938bf7896686ae4",
+    "at": "2026-10-01T15:33:11.775Z"
+  },
   "empty-state": {
     "specHash": "eb5b42089fc07ae8",
     "at": "2026-10-01T14:17:58.199Z"
+  },
+  "export-controls": {
+    "specHash": "8f9400bc2fca5603",
+    "at": "2026-10-01T15:26:05.485Z"
   },
   "field": {
     "specHash": "51c04f4a5bd0dcfc",
@@ -131,13 +271,57 @@
     "specHash": "fbc01af391e47d84",
     "at": "2026-10-01T14:09:03.578Z"
   },
+  "floating-bar": {
+    "specHash": "36e5a24520e431ab",
+    "at": "2026-10-01T15:03:35.495Z"
+  },
+  "font-options": {
+    "specHash": "cd2e56fae48ee655",
+    "at": "2026-10-01T15:18:15.983Z"
+  },
+  "font-picker": {
+    "specHash": "e0a5ea5659d87b8e",
+    "at": "2026-10-01T15:34:26.108Z"
+  },
   "form-layout": {
     "specHash": "fa08a487de67435b",
     "at": "2026-10-01T14:18:11.298Z"
   },
+  "frame-label": {
+    "specHash": "5aba0a06db38307e",
+    "at": "2026-10-01T15:16:34.840Z"
+  },
+  "gradient-editor": {
+    "specHash": "8bb589d5c6ea072a",
+    "at": "2026-10-01T15:30:10.308Z"
+  },
+  "gradient-strip": {
+    "specHash": "835b075401045b47",
+    "at": "2026-10-01T15:27:34.324Z"
+  },
+  "grid-tracks": {
+    "specHash": "ed7c33dbefb8c130",
+    "at": "2026-10-01T15:28:59.481Z"
+  },
+  "hex-input": {
+    "specHash": "9d6cdb99d63b92df",
+    "at": "2026-10-01T15:26:54.147Z"
+  },
   "icon-button": {
     "specHash": "433f96c4a5114216",
     "at": "2026-10-01T13:58:10.950Z"
+  },
+  "icon-toggle": {
+    "specHash": "985548c8e8265ad0",
+    "at": "2026-10-01T15:27:16.414Z"
+  },
+  "image-fill": {
+    "specHash": "56396ccf5cf1d4d6",
+    "at": "2026-10-01T15:20:38.301Z"
+  },
+  "import-panel": {
+    "specHash": "a103b2130206860b",
+    "at": "2026-10-01T15:22:16.868Z"
   },
   "input": {
     "specHash": "c914bb50ae194a89",
@@ -147,41 +331,57 @@
     "specHash": "d3759cc2c1eb51a1",
     "at": "2026-10-01T14:07:00.194Z"
   },
+  "inspector-bindings": {
+    "specHash": "f07bf1dfa83e117f",
+    "at": "2026-10-01T15:19:34.854Z"
+  },
+  "inspector-panel": {
+    "specHash": "c76a2bdb465bc535",
+    "at": "2026-10-01T15:26:29.747Z"
+  },
+  "inspector-select": {
+    "specHash": "9ce21edd5d5b4e0e",
+    "at": "2026-10-01T15:26:51.942Z"
+  },
   "kbd": {
     "specHash": "74b19c9b37745827",
     "at": "2026-10-01T14:39:52.360Z"
   },
+  "layer-tree": {
+    "specHash": "c650970bb83849bd",
+    "at": "2026-10-01T15:21:45.259Z"
+  },
   "list": {
     "specHash": "fe180a8faf08b059",
-    "at": "2026-10-01T14:35:00.366Z"
+    "at": "2026-10-01T14:53:51.903Z"
   },
   "list-actions": {
     "specHash": "cb20f1728db527d0",
-    "at": "2026-10-01T14:37:37.290Z"
+    "at": "2026-10-01T14:54:34.199Z"
   },
   "list-activity": {
     "specHash": "750879ea10b91b1d",
-    "at": "2026-10-01T14:24:13.643Z"
+    "at": "2026-10-01T14:54:48.530Z"
   },
   "list-description": {
     "specHash": "442e7c6a32d56071",
-    "at": "2026-10-01T14:25:01.207Z"
+    "at": "2026-10-01T14:55:13.877Z"
   },
   "list-navigation": {
     "specHash": "75f2f090b3b03638",
-    "at": "2026-10-01T14:24:38.721Z"
+    "at": "2026-10-01T14:55:03.846Z"
   },
   "list-reorder": {
     "specHash": "1a48c687db37551b",
-    "at": "2026-10-01T14:35:30.756Z"
+    "at": "2026-10-01T14:54:14.641Z"
   },
   "list-selection": {
     "specHash": "c7d19ff4e51247c9",
-    "at": "2026-10-01T14:36:27.159Z"
+    "at": "2026-10-01T14:54:10.729Z"
   },
   "menu": {
     "specHash": "5fd31028c46db61d",
-    "at": "2026-10-01T14:08:36.974Z"
+    "at": "2026-10-01T14:53:56.850Z"
   },
   "message": {
     "specHash": "7f673897efc7041e",
@@ -191,21 +391,45 @@
     "specHash": "ba55d830a41219b9",
     "at": "2026-10-01T14:27:01.206Z"
   },
+  "model-menu": {
+    "specHash": "ceaee361b349d0a5",
+    "at": "2026-10-01T14:53:36.631Z"
+  },
+  "motion-timeline": {
+    "specHash": "af69b11b71624384",
+    "at": "2026-10-01T15:34:41.678Z"
+  },
   "number-field": {
     "specHash": "5d0e0cb8e4205dca",
     "at": "2026-10-01T13:25:48.373Z"
+  },
+  "option-tiles": {
+    "specHash": "086d982b3476a1b5",
+    "at": "2026-10-01T15:20:09.578Z"
   },
   "otp-input": {
     "specHash": "c713427cb758637e",
     "at": "2026-10-01T14:07:57.581Z"
   },
+  "page-list": {
+    "specHash": "f2649d41e3dfcc7a",
+    "at": "2026-10-01T15:04:20.998Z"
+  },
   "pagination": {
     "specHash": "15ba8a9e2200c033",
     "at": "2026-10-01T14:20:06.575Z"
   },
+  "paint-stack": {
+    "specHash": "6281ea729451aec2",
+    "at": "2026-10-01T15:30:02.671Z"
+  },
+  "paint-well": {
+    "specHash": "61228683300fe83f",
+    "at": "2026-10-01T15:27:50.182Z"
+  },
   "permission-request": {
     "specHash": "7e6c7640a27d9c0f",
-    "at": "2026-10-01T14:32:40.313Z"
+    "at": "2026-10-01T14:43:05.193Z"
   },
   "picker-trigger": {
     "specHash": "33a2142743dc7f9f",
@@ -213,19 +437,43 @@
   },
   "plan": {
     "specHash": "bfaf8e559b770577",
-    "at": "2026-10-01T14:31:50.137Z"
+    "at": "2026-10-01T14:42:43.421Z"
+  },
+  "policy-findings": {
+    "specHash": "cbbba440f92d6dc0",
+    "at": "2026-10-01T15:35:16.720Z"
   },
   "popover": {
     "specHash": "e276725005ac78da",
     "at": "2026-10-01T14:06:16.528Z"
   },
+  "position-size": {
+    "specHash": "dced822390a14301",
+    "at": "2026-10-01T15:28:41.632Z"
+  },
   "progress": {
     "specHash": "d62a1daf5ca290eb",
     "at": "2026-10-01T13:25:57.421Z"
   },
+  "proposal": {
+    "specHash": "aad458d48067287f",
+    "at": "2026-10-01T14:44:43.441Z"
+  },
   "radio-group": {
     "specHash": "61c336795d17af96",
     "at": "2026-10-01T13:26:06.189Z"
+  },
+  "reading-order": {
+    "specHash": "591f69365527e1b7",
+    "at": "2026-10-01T15:07:47.249Z"
+  },
+  "review-request": {
+    "specHash": "731cc224bfab7370",
+    "at": "2026-10-01T14:45:01.959Z"
+  },
+  "revision-history": {
+    "specHash": "6a07b0c41d525bd9",
+    "at": "2026-10-01T15:10:27.333Z"
   },
   "section-header": {
     "specHash": "6675005dbee45b5b",
@@ -243,9 +491,13 @@
     "specHash": "f012ae84c58a7a28",
     "at": "2026-10-01T13:51:58.825Z"
   },
+  "session-list": {
+    "specHash": "d6b3aad32c85b8d1",
+    "at": "2026-10-01T14:56:04.919Z"
+  },
   "sheet": {
     "specHash": "980180f19aabbbf7",
-    "at": "2026-10-01T14:27:21.520Z"
+    "at": "2026-10-01T15:04:44.391Z"
   },
   "skeleton": {
     "specHash": "2335606d458176bc",
@@ -263,6 +515,10 @@
     "specHash": "1351b67d2ec6f528",
     "at": "2026-10-01T13:49:47.896Z"
   },
+  "stack-row": {
+    "specHash": "995d1fbcaa2be696",
+    "at": "2026-10-01T15:30:13.093Z"
+  },
   "step-slider": {
     "specHash": "0effc32ca5d2a9e0",
     "at": "2026-10-01T14:09:09.682Z"
@@ -275,9 +531,17 @@
     "specHash": "914e0db9dbc76163",
     "at": "2026-10-01T14:07:16.152Z"
   },
+  "stroke-editor": {
+    "specHash": "f09a8cb2948a0f0a",
+    "at": "2026-10-01T15:31:54.366Z"
+  },
   "suggestions": {
     "specHash": "67bc787995c72ce1",
-    "at": "2026-10-01T14:35:21.280Z"
+    "at": "2026-10-01T14:55:17.111Z"
+  },
+  "swatch-strip": {
+    "specHash": "82ed046fe525f85c",
+    "at": "2026-10-01T15:27:02.335Z"
   },
   "switch": {
     "specHash": "36df30f6042a8b2c",
@@ -285,7 +549,7 @@
   },
   "table": {
     "specHash": "6cc12e74c1772264",
-    "at": "2026-10-01T14:27:40.924Z"
+    "at": "2026-10-01T15:05:04.814Z"
   },
   "tabs": {
     "specHash": "c43144f58d6a0e5b",
@@ -293,11 +557,23 @@
   },
   "tag-input": {
     "specHash": "0f112781493e709e",
-    "at": "2026-10-01T14:18:50.751Z"
+    "at": "2026-10-01T14:53:15.604Z"
+  },
+  "text-properties": {
+    "specHash": "3770542ecff9028f",
+    "at": "2026-10-01T15:32:48.577Z"
   },
   "textarea": {
     "specHash": "a402702d6f3e019d",
     "at": "2026-10-01T14:08:20.715Z"
+  },
+  "theme-gallery": {
+    "specHash": "b24986e97f79882d",
+    "at": "2026-10-01T15:27:25.717Z"
+  },
+  "thinking": {
+    "specHash": "7838dfa9e201c90d",
+    "at": "2026-10-01T15:00:32.092Z"
   },
   "toast": {
     "specHash": "af2ff8f43bb0503a",
@@ -311,6 +587,14 @@
     "specHash": "1643554e073fd271",
     "at": "2026-10-01T14:03:06.716Z"
   },
+  "token-diff": {
+    "specHash": "029f0fb42fea510e",
+    "at": "2026-10-01T14:43:45.660Z"
+  },
+  "token-graph": {
+    "specHash": "f1773e38157085a8",
+    "at": "2026-10-01T15:03:17.808Z"
+  },
   "tool-call": {
     "specHash": "781cb86493ad1d5a",
     "at": "2026-10-01T13:26:37.631Z"
@@ -318,5 +602,9 @@
   "tooltip": {
     "specHash": "39d815a4eeb7acb5",
     "at": "2026-10-01T13:54:11.388Z"
+  },
+  "zoom-control": {
+    "specHash": "8f598fde5ba20eba",
+    "at": "2026-10-01T15:03:58.361Z"
   }
 }

@@ -23,7 +23,7 @@ const Result = (props: Partial<CardAgentProps>) => (
         {thumbs.map(t => (
           <span
             key={t} aria-hidden
-            className="h-[calc(var(--cs-control-md)+var(--cs-control-xs))] flex-1 rounded-md shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] [background:var(--thumb)]"
+            className="h-thumb-md flex-1 rounded-md shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] [background:var(--thumb)]"
             style={{ ['--thumb' as string]: t }}
           />
         ))}

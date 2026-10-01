@@ -63,6 +63,8 @@
   --color-media-on: var(--cs-color-media-on);
   --color-media-on-muted: var(--cs-color-media-on-muted);
   --color-media-scrim: var(--cs-color-media-scrim);
+  --color-media-scrim-strong: var(--cs-color-media-scrim-strong);
+  --color-media-shade: var(--cs-color-media-shade);
   --color-chart-1: var(--cs-color-chart-1);
   --color-chart-2: var(--cs-color-chart-2);
   --color-chart-3: var(--cs-color-chart-3);
@@ -102,6 +104,7 @@
   --color-canvas-selection-on: var(--cs-color-canvas-selection-on);
   --color-canvas-guide: var(--cs-color-canvas-guide);
   --color-canvas-guide-on: var(--cs-color-canvas-guide-on);
+  --color-canvas-guide-user: var(--cs-color-canvas-guide-user);
   --color-canvas-hover: var(--cs-color-canvas-hover);
   --color-canvas-marquee: var(--cs-color-canvas-marquee);
   --color-canvas-label: var(--cs-color-canvas-label);
@@ -203,6 +206,54 @@
   --spacing-orb-md: var(--cs-size-orb-md);
   --spacing-orb-md-hole: var(--cs-size-orb-md-hole);
   --spacing-stop-glyph: var(--cs-size-stop-glyph);
+  --spacing-toolbar-item: var(--cs-size-toolbar-item);
+  --spacing-toolbar-item-md: var(--cs-size-toolbar-item-md);
+  --spacing-cursor: var(--cs-size-cursor);
+  --spacing-orb-xs: var(--cs-size-orb-xs);
+  --spacing-comment-max: var(--cs-size-comment-max);
+  --spacing-feature-visual-min: var(--cs-size-feature-visual-min);
+  --spacing-rounds-h: var(--cs-size-rounds-h);
+  --spacing-model-menu-w: var(--cs-size-model-menu-w);
+  --spacing-thumb-md: var(--cs-size-thumb-md);
+  --spacing-thumb-h: var(--cs-size-thumb-h);
+  --spacing-suggestion-min: var(--cs-size-suggestion-min);
+  --spacing-index-badge: var(--cs-size-index-badge);
+  --spacing-tree-indent: var(--cs-size-tree-indent);
+  --spacing-graph-h: var(--cs-size-graph-h);
+  --spacing-graph-node-w: var(--cs-size-graph-node-w);
+  --spacing-tile-swatch-h: var(--cs-size-tile-swatch-h);
+  --spacing-theme-card-min: var(--cs-size-theme-card-min);
+  --spacing-theme-preview-h: var(--cs-size-theme-preview-h);
+  --spacing-contrast-sample-w: var(--cs-size-contrast-sample-w);
+  --spacing-contrast-sample-h: var(--cs-size-contrast-sample-h);
+  --spacing-compare-h: var(--cs-size-compare-h);
+  --spacing-option-tile-h: var(--cs-size-option-tile-h);
+  --spacing-option-tile-icon-h: var(--cs-size-option-tile-icon-h);
+  --spacing-target-w: var(--cs-size-target-w);
+  --spacing-pad-box: var(--cs-size-pad-box);
+  --spacing-layout-preview: var(--cs-size-layout-preview);
+  --spacing-add-row: var(--cs-size-add-row);
+  --spacing-radius-preview-w: var(--cs-size-radius-preview-w);
+  --spacing-radius-preview-h: var(--cs-size-radius-preview-h);
+  --spacing-field-alpha-w: var(--cs-size-field-alpha-w);
+  --spacing-color-plane-h: var(--cs-size-color-plane-h);
+  --spacing-color-picker-w: var(--cs-size-color-picker-w);
+  --spacing-color-preview: var(--cs-size-color-preview);
+  --spacing-picker-format-w: var(--cs-size-picker-format-w);
+  --spacing-picker-alpha-w: var(--cs-size-picker-alpha-w);
+  --spacing-gradient-preview-h: var(--cs-size-gradient-preview-h);
+  --spacing-gradient-angle-w: var(--cs-size-gradient-angle-w);
+  --spacing-image-preview-h: var(--cs-size-image-preview-h);
+  --spacing-effect-stage-h: var(--cs-size-effect-stage-h);
+  --spacing-axis-field-w: var(--cs-size-axis-field-w);
+  --spacing-curve-w: var(--cs-size-curve-w);
+  --spacing-duration-field-w: var(--cs-size-duration-field-w);
+  --spacing-timeline-label-w: var(--cs-size-timeline-label-w);
+  --spacing-chevron-xs: var(--cs-size-chevron-xs);
+  --spacing-grabber-w: var(--cs-size-grabber-w);
+  --spacing-table-head-h: var(--cs-size-table-head-h);
+  --spacing-table-select-w: var(--cs-size-table-select-w);
+  --spacing-table-min-w: var(--cs-size-table-min-w);
   --spacing-chip-h: var(--cs-size-chip-h);
   --spacing-chip-icon: var(--cs-size-chip-icon);
   --spacing-spinner-lg: var(--cs-size-spinner-lg);
@@ -270,6 +321,14 @@
   --text-stat--line-height: 34px;
   --text-stat--letter-spacing: -0.035em;
   --text-stat--font-weight: 600;
+  --text-stat-lg: 34px;
+  --text-stat-lg--line-height: 34px;
+  --text-stat-lg--letter-spacing: -0.03em;
+  --text-stat-lg--font-weight: 600;
+  --text-sample: 22px;
+  --text-sample--line-height: 26px;
+  --text-sample--letter-spacing: -0.02em;
+  --text-sample--font-weight: 600;
   --text-body: 14px;
   --text-body--line-height: 21px;
   --text-body--letter-spacing: -0.003em;
@@ -374,6 +433,18 @@
   --text-mono-lg--line-height: 20px;
   --text-mono-lg--letter-spacing: 0em;
   --text-mono-lg--font-weight: 600;
+  --text-mono-ruler: 9.5px;
+  --text-mono-ruler--line-height: 12px;
+  --text-mono-ruler--letter-spacing: 0em;
+  --text-mono-ruler--font-weight: 500;
+  --text-mono-micro: 8px;
+  --text-mono-micro--line-height: 10px;
+  --text-mono-micro--letter-spacing: 0em;
+  --text-mono-micro--font-weight: 600;
+  --text-voice-lg: 19px;
+  --text-voice-lg--line-height: 26px;
+  --text-voice-lg--letter-spacing: 0em;
+  --text-voice-lg--font-weight: 400;
 
   /* depth, blur, motion */
   --shadow-1: var(--cs-elevation-1);
@@ -388,6 +459,7 @@
   --shadow-lift: var(--cs-elevation-lift);
   --shadow-well: var(--cs-elevation-well);
   --shadow-agent: var(--cs-elevation-agent);
+  --shadow-artboard: var(--cs-elevation-artboard);
   --shadow-focus: var(--cs-focus);
   --shadow-focus-field: var(--cs-focus-field);
   --blur-control: var(--cs-blur-control);
@@ -405,12 +477,14 @@
   --breakpoint-medium: 1100px;
   --breakpoint-wide: 1440px;
   --animate-agent: cs-spin var(--cs-duration-agent) linear infinite;
-  --animate-orb: cs-spin 1.6s linear infinite;
+  --animate-orb: cs-spin var(--cs-duration-orb) linear infinite;
   --animate-shimmer: cs-shimmer var(--cs-duration-shimmer) linear infinite;
   --animate-spinner: cs-rot var(--cs-duration-spin) linear infinite;
-  --animate-indeterminate: cs-indet 1.4s var(--cs-ease-out) infinite;
-  --animate-slide: cs-slide 2.4s linear infinite;
+  --animate-indeterminate: cs-indet var(--cs-duration-indeterminate) var(--cs-ease-out) infinite;
+  --animate-slide: cs-slide var(--cs-duration-slide) linear infinite;
+  --animate-scan: cs-scan var(--cs-duration-scan) var(--cs-ease-out) infinite;
   @keyframes cs-rot { to { transform: rotate(360deg); } }
+  @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }
   @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
   @keyframes cs-slide { to { background-position: -200% 0; } }
 }
@@ -443,7 +517,7 @@
 @utility agent-glow { box-shadow: 0 8px 30px -6px var(--cs-color-agent-glow); }
 @utility orb {
   --orb: 14px; --orb-hole: 3.4px;
-  width: var(--orb); height: var(--orb); border-radius: 9999px; flex: none; background: var(--cs-spectrum-conic); animation: cs-spin 1.6s linear infinite;
+  width: var(--orb); height: var(--orb); border-radius: var(--cs-radius-full); flex: none; background: var(--cs-spectrum-conic); animation: cs-spin var(--cs-duration-orb) linear infinite;
   -webkit-mask: radial-gradient(circle, transparent var(--orb-hole), #000 calc(var(--orb-hole) + .5px));
   mask: radial-gradient(circle, transparent var(--orb-hole), #000 calc(var(--orb-hole) + .5px));
 }

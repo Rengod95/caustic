@@ -3,8 +3,7 @@ import type { CSSProperties } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Avatar } from '../avatar/avatar.tsx';
 import { Badge } from '../badge/badge.tsx';
-import { buttonVariants } from '../button/button.variants.ts';
-import { cn } from '../../lib/cn.ts';
+import { Button } from '../button/button.tsx';
 import { CardDescription, CardFooter, CardHeader, CardHeading, CardMeta, CardSpacer, CardTitle, CardTrailing } from '../card/card.tsx';
 import {
   CardMedia, CardMediaCover, CardMediaImage, CardMediaOverlay, CardMediaOverlayDescription, CardMediaOverlayTitle, CardMediaTag, type CardMediaProps,
@@ -26,7 +25,7 @@ function Overlay() {
           <CardMediaOverlayTitle>Checkout flow for subscription apps</CardMediaOverlayTitle>
           <CardMediaOverlayDescription>6 screens · light and dark</CardMediaOverlayDescription>
           <div className="mt-2 flex">
-            <span className={cn(buttonVariants({ tone: 'secondary', size: 'xs' }), 'bg-(--btn) text-(color:--btn-on)')} style={vars({ '--btn': 'oklch(1 0 0 / .9)', '--btn-on': 'oklch(.2 .01 260)' })}>Use template</span>
+            <Button asChild tone="secondary" size="xs" className="bg-(--btn) text-(color:--btn-on)" style={vars({ '--btn': 'oklch(1 0 0 / .9)', '--btn-on': 'oklch(.2 .01 260)' })}><a href="#template">Use template</a></Button>
           </div>
         </CardMediaOverlay>
       </CardMediaCover>

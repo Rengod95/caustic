@@ -27,9 +27,7 @@ export function ListGroupFooter({ className, ...props }: ComponentProps<'div'>) 
   return <div data-slot="list-group-footer" className={cn(listGroupFooterVariants(), className)} {...props} />;
 }
 
-type RowShorthand = 'tone' | 'status' | 'title' | 'description' | 'icon' | 'tint' | 'leading' | 'thumb' | 'duration' | 'value' | 'end' | 'navigates' | 'href' | 'asChild' | 'onClick';
-
-export interface ListProps extends Omit<ComponentProps<'div'>, 'title' | 'onClick'>, Partial<Pick<ListRowProps, RowShorthand>> {
+export interface ListProps extends ComponentProps<'div'> {
   /** Row minimum height 48 · 52 · 64. A row may override it. */
   size?: ListSize;
   /** Caption inside the surface above the rows; also the accessible name. */
@@ -42,14 +40,11 @@ export interface ListProps extends Omit<ComponentProps<'div'>, 'title' | 'onClic
 
 /**
  * The grouped list surface: frosted rows that read like an inset-grouped list.
- * Shorthand: a List without children that has a `title` renders one ListRow from the row props (a lone destructive row).
  */
 export function List({
-  size = 'md', heading, headingEnd, 'aria-label': ariaLabel, className, children,
-  tone, status, title, description, icon, tint, leading, thumb, duration, value, end, navigates, href, asChild, onClick, ...props
+  size = 'md', heading, headingEnd, 'aria-label': ariaLabel, className, children, ...props
 }: ListProps) {
   const headingId = useId();
-  const single = children == null && title != null;
   return (
     <SizeContext.Provider value={size}>
       <div data-slot="list" data-size={size} className={cn(listVariants(), className)} {...props}>
@@ -60,12 +55,7 @@ export function List({
           </div>
         )}
         <ul data-slot="list-items" role="list" aria-labelledby={heading != null ? headingId : undefined} aria-label={heading != null ? undefined : ariaLabel} className={listItemsVariants()}>
-          {single ? (
-            <ListRow
-              tone={tone} status={status} title={title} description={description} icon={icon} tint={tint} leading={leading} thumb={thumb}
-              duration={duration} value={value} end={end} navigates={navigates} href={href} asChild={asChild} onClick={onClick}
-            />
-          ) : children}
+          {children}
         </ul>
       </div>
     </SizeContext.Provider>

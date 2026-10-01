@@ -447,6 +447,30 @@
         ],
         "alpha": 0.55
       }
+    },
+    "scrim-strong": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 0.78
+      }
+    },
+    "shade": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 1
+      }
     }
   },
   "chart": {
@@ -528,12 +552,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.645,
+          0.635,
           0.142,
           205
         ],
         "alpha": 0.35,
-        "hex": "#00a0ad"
+        "hex": "#009daa"
       }
     },
     "fill": {
@@ -739,17 +763,21 @@
       "$type": "color",
       "$value": "{color.neutral.0}"
     },
+    "guide-user": {
+      "$type": "color",
+      "$value": "{color.iris.600}"
+    },
     "hover": {
       "$type": "color",
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.645,
+          0.635,
           0.142,
           205
         ],
         "alpha": 0.6,
-        "hex": "#00a0ad"
+        "hex": "#009daa"
       }
     },
     "marquee": {
