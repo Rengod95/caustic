@@ -1,0 +1,82 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'app-shell',
+  name: 'AppShell',
+  category: 'structure',
+  status: 'draft',
+  purpose: 'The window frame of the studio: a titlebar band, a start region, a centre stage and an end region, plus a floating overlay layer over the stage. It lays regions out, names the landmarks and adapts to the compact and medium breakpoints. Slots only; it holds no business logic and renders no panel chrome itself.',
+  description: 'A compound component: AppShell with AppShellTitlebar, AppShellStart, AppShellStage, AppShellEnd and AppShellOverlay. The shell is a flex column that fills its parent (the parent sets the bounded height, normally 100dvh): the titlebar on top, then a row of start, stage and end. The shell is inset 10px from the window edge and its regions are separated by 10px, so a floating SidePanel (radius 22) is concentric with the 32px window corner. The stage takes the remaining width and never shrinks below 0. Responsive: at the medium container width (1100 and below) the end region stops docking and overlays the stage as a sheet; at the compact container width (720 and below) the start region also overlays, full width, and only one region is visible at a time.',
+  role: null,
+  slots: [
+    { name: 'root', el: 'div', description: 'The frame: flex column, fills the parent (min-height 0, min-width 0), bg.app, text.primary, padding 10 on every side (the window inset), 10px gap between titlebar and body, overflow hidden, isolation. Container for the layout query. Carries data-layout="wide|medium|compact".' },
+    { name: 'skip', el: 'a', parent: 'root', required: false, description: 'Skip link to the stage: visually hidden until focused, then shown top-left above everything (z-index chrome) as a control-raised chip. Text from skipLabel. Moves focus to the stage.' },
+    { name: 'titlebar', el: 'header', parent: 'root', description: 'AppShellTitlebar: banner landmark band, flex row, items centred, 10px gap, height studio titlebar (44), flex none. Holds toolbars, project name, undo / redo, status; the shell does not lay these out further.' },
+    { name: 'body', el: 'div', parent: 'root', description: 'Flex row, 10px gap, flex-1, min-height 0, min-width 0, relative (positioning context for overlaying regions). Holds start, stage and end in DOM order.' },
+    { name: 'start', el: 'div', parent: 'body', required: false, description: 'AppShellStart: region wrapper for the start side (normally a SidePanel with side="start" plus its resize handle). Flex none, min-height 0, display contents when it holds nothing. Medium: unchanged. Compact: absolute inset 0 over the body, z-index chrome, width 100%, so the open panel is a full-screen sheet.' },
+    { name: 'stage', el: 'main', parent: 'body', role: 'main', description: 'AppShellStage: the work surface (canvas, a foundation board). main landmark with aria-label from stageLabel; flex-1, min-width 0, min-height 0, relative, overflow hidden, tabIndex -1 so the skip link can focus it. Contains the canvas and the overlay.' },
+    { name: 'overlay', el: 'div', parent: 'stage', required: false, description: 'AppShellOverlay: absolute inset 0 over the stage, z-index chrome (20, above canvas-overlay 10, below popovers 40), pointer-events none; its direct children get pointer-events auto, so floating toolbars, zoom controls and hints are clickable while the canvas below stays interactive. Children position themselves (for example anchored to edges).' },
+    { name: 'end', el: 'div', parent: 'body', required: false, description: 'AppShellEnd: region wrapper for the end side (normally a SidePanel side="end"). Flex none, min-height 0. Medium and compact: absolute top 0 / bottom 0 / end 0 over the body, z-index chrome, elevation 3 on the panel it holds (the sheet), width the panel\'s own width capped at 76% of the body; compact: width 100%.' },
+  ],
+  states: {
+    medium: { props: { layout: 'medium' } },
+    compact: { props: { layout: 'compact' } },
+    'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'skip' },
+  },
+  props: {
+    layout: { type: "'wide' | 'medium' | 'compact'", description: 'Force the layout. When omitted the shell measures its own width (container query against the breakpoint tokens: medium at 1100, compact at 720) and sets data-layout; during server render and before the first measure it is wide. Used by tests and to pin a layout.' },
+    skipLabel: { type: 'string', description: 'Text of the skip link ("Skip to canvas"). When omitted the link is not rendered. Supplied by the app so it can be translated.' },
+    stageLabel: { type: 'string', description: 'aria-label of the main landmark. A prop of AppShellStage (part props live on the part, per CONTRIBUTING); the fixture forwards it. Supplied by the app so it can be translated, for example "Design canvas".' },
+    children: { type: 'ReactNode', description: 'Titlebar and body parts in order.' },
+  },
+  events: {},
+  styles: [
+    { slot: 'root', expect: { bg: 'bg.app', fg: 'text.primary', padX: 10, padY: 10, gap: 10 }, note: '10 is the window inset (studio.window-inset, space step 2.5).' },
+    { slot: 'titlebar', expect: { height: 44, gap: 10 }, note: '44 is studio.titlebar-h; see the token proposals for a nameable size.' },
+    { slot: 'body', expect: { gap: 10 } },
+    { slot: 'stage', expect: { cursor: 'default' } },
+    { slot: 'skip', expect: { bg: 'control.raised', fg: 'text.primary', text: 'ui-strong', radius: 'lg' } },
+    { slot: 'skip', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
+  ],
+  behavior: {
+    keyboard: {
+      Tab: 'the skip link is the first tab stop when present, then the titlebar, start region, stage, end region in DOM order (the DOM order is the visual order, so no tabindex is used)',
+      Enter: 'on the skip link: focus the stage',
+    },
+    pointer: [
+      'the overlay lets pointer events through except on its direct children',
+      'the stage region does not scroll; scrolling belongs to the canvas or to a ScrollArea inside it',
+      'region width changes (a panel collapsing or resizing) reflow the stage immediately; there is no animation on the shell itself, the panel animates its own width',
+    ],
+    scenarios: [
+      { name: 'skip link focuses the stage', props: { skipLabel: 'Skip to canvas' }, steps: [{ do: 'focus', slot: 'skip' }, { do: 'press', key: 'Enter' }], expect: [{ focused: 'stage' }] },
+      { name: 'layout prop is reflected', props: { layout: 'compact' }, steps: [], expect: [{ slot: 'root', attr: { 'data-layout': 'compact' } }] },
+      { name: 'medium layout is reflected', props: { layout: 'medium' }, steps: [], expect: [{ slot: 'root', attr: { 'data-layout': 'medium' } }] },
+      { name: 'wide layout is the default', steps: [], expect: [{ slot: 'root', attr: { 'data-layout': 'wide' } }] },
+      { name: 'landmarks', props: { stageLabel: 'Design canvas' }, steps: [], expect: [{ slot: 'titlebar', attr: { role: null } }, { slot: 'stage', attr: { 'aria-label': 'Design canvas' } }] },
+    ],
+  },
+  a11y: {
+    labelRequired: false,
+    minHit: 24,
+    attrs: { stage: ['aria-label'] },
+    notes: [
+      'Landmarks: header (banner) for the titlebar, main for the stage, complementary (SidePanel asides) for the regions. The stage aria-label comes from AppShellStage stageLabel, supplied by the app.',
+      'The shell does not trap focus or manage modal state. Dialogs and popovers render in portals above it (z-index dialog 60 and popover 40).',
+      'In the medium and compact layouts an overlaying region is still ordinary content: it stays in the tab order and reading order. The app collapses it (SidePanel collapsed) when it should not be reachable, which makes it inert.',
+      'The root is not a landmark itself; it must not duplicate banner or main.',
+    ],
+  },
+  policies: ['P1', 'P5', 'P6'],
+  flags: { floating: false },
+  composition: { uses: ['side-panel', 'resize-handle', 'scroll-area'], radix: [] },
+  examples: [],
+  usage: [
+    'Baselines: no HTML specimen exists. The orchestrator records baselines from the React render with `pnpm baseline:react app-shell` after implementation; there are no examples[] entries until then.',
+    'Fixture convention: render(props) renders the shell in a 480px-tall, 1200px-wide frame with: a titlebar holding a text "Axiom" and two IconButtons (a ghost "undo" and "redo"); AppShellStart with a floating SidePanel "Layers" (size pane); AppShellStage labelled "Design canvas" with a bg.canvas dot-grid fill and an AppShellOverlay holding one small floating Toolbar at the bottom centre; AppShellEnd with a floating SidePanel "Inspector" (size inspector, side end). `uses` lists these only for the fixture and the shell\'s documented composition; AppShell itself imports none of them.',
+    'The shell does not set background materials on regions: panels bring their own surface. Only the root carries bg.app (the colour showing in the gaps).',
+    'P1: the shell is opaque and owns no glass; the glass belongs to the floating panels it hosts.',
+    'Studio sources: apps/studio/src/authoring/workbench.tsx (the .authoring-shell root, header at ~607, .authoring-main row, sidebar aside ~818, main region at ~975 with the canvas and floating drawing tools nav and zoom controls, inspector aside ~1086), apps/studio/src/app.tsx (the legacy .app root with topbar, mobile panel tabs at ~613 and data-sidebar-collapsed / data-inspector-collapsed), apps/studio/src/authoring/authoring.css (.authoring-shell flex column at 100dvh and min-width 360, .authoring-main flex row, header 54px, medium and small overlays at ~1466–1520). The 54px header is replaced by the Foundation titlebar 44.',
+    'Mobile panel tabs (apps/studio/src/app.tsx ~613) are an app-level navigation pattern for the compact layout; they are not part of this spec.',
+  ],
+});
