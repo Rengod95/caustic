@@ -14,9 +14,9 @@ export interface SliderProps extends Omit<ComponentProps<typeof S.Root>, 'value'
   max?: number;
   step?: number;
   /** CSS gradient painted on the track for the gradient and alpha appearances. */
-  gradient?: string;
+  gradient?: string | undefined;
   /** CSS color shown inside the thumb for gradient and alpha: the color at the current value. */
-  thumbColor?: string;
+  thumbColor?: string | undefined;
   disabled?: boolean;
 }
 

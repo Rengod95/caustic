@@ -14,7 +14,7 @@ export interface PickerTriggerProps extends Omit<ComponentProps<'button'>, 'plac
   placeholder?: ReactNode;
   /** Mirrors the popup state: aria-expanded and data-state="open". */
   open?: boolean;
-  invalid?: boolean;
+  invalid?: boolean | undefined;
   /** Render the child element (a Radix Trigger) with trigger styling. */
   asChild?: boolean;
 }

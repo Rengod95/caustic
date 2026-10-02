@@ -2,6 +2,7 @@
 import * as RS from '@radix-ui/react-select';
 import { Children, createContext, isValidElement, useContext, useId, useRef, useState, type ComponentProps, type ReactElement, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useRovingItems } from '../../hooks/use-roving-items.ts';
 import { menuHeadingVariants, menuItemVariants, menuSeparatorVariants, menuSurfaceVariants } from '../menu/menu.variants.ts';
@@ -69,7 +70,7 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
   if (!inline) {
     return (
       <SelectContext.Provider value={{ inline: false, value: val, choose: () => {} }}>
-        <RS.Root value={value} defaultValue={defaultValue} onValueChange={onValueChange} open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange} disabled={disabled} name={name}>
+        <RS.Root {...defined({ value, defaultValue, onValueChange, open, defaultOpen, onOpenChange, disabled, name })}>
           <RS.Trigger asChild>
             <PickerTrigger
               data-slot="select-trigger" indicator="select" invalid={invalid} disabled={disabled}

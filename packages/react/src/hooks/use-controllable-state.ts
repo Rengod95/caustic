@@ -5,7 +5,7 @@ import { useCallback, useRef, useState } from 'react';
  * - controlled when `value` is not undefined; `onChange` reports every requested change
  * - uncontrolled otherwise, starting from `defaultValue`
  */
-export function useControllableState<T>({ value, defaultValue, onChange }: { value?: T; defaultValue: T; onChange?: (next: T) => void }) {
+export function useControllableState<T>({ value, defaultValue, onChange }: { value?: T | undefined; defaultValue: T; onChange?: ((next: T) => void) | undefined }) {
   const [inner, setInner] = useState<T>(defaultValue);
   const controlled = value !== undefined;
   const current = controlled ? (value as T) : inner;

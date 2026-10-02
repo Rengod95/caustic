@@ -8,7 +8,7 @@ import {
   listActionsTrayVariants, listActionsVariants, type ListActionsTone,
 } from './list-actions.variants.ts';
 
-interface Ctx { close: () => void; onAction?: (e: { id: string }) => void }
+interface Ctx { close: () => void; onAction?: ((e: { id: string }) => void) | undefined }
 const ActionsContext = createContext<Ctx>({ close: () => {} });
 
 /** Only one row is open at a time: a row that opens tells the others to close. */

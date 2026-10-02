@@ -2,6 +2,7 @@
 import * as DM from '@radix-ui/react-dropdown-menu';
 import { createContext, useCallback, useContext, useId, useState, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { useRovingItems } from '../../hooks/use-roving-items.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { menuEndVariants, menuHeadingVariants, menuIconVariants, menuItemVariants, menuSeparatorVariants, menuSurfaceVariants } from './menu.variants.ts';
@@ -48,7 +49,7 @@ export function Menu({ open, defaultOpen, onOpenChange, trigger, side = 'bottom'
   if (!inline) {
     return (
       <MenuContext.Provider value={{ inline: false, close: () => {} }}>
-        <DM.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+        <DM.Root {...defined({ open, defaultOpen, onOpenChange })}>
           {trigger != null && <DM.Trigger asChild>{trigger}</DM.Trigger>}
           <DM.Portal>
             <DM.Content data-slot="menu" side={side} align={align} sideOffset={6} className={cn(menuSurfaceVariants(), 'z-60', className)} {...props}>{children}</DM.Content>
@@ -94,7 +95,7 @@ export function MenuItem({ selected = false, tone = 'default', disabled = false,
 
   if (!ctx.inline) {
     return (
-      <DM.Item asChild disabled={disabled} onSelect={onSelect}>
+      <DM.Item asChild {...defined({ disabled, onSelect })}>
         <button type="button" role={role} data-slot="menu-item" onClick={onClick} {...shared} {...props}>{body}</button>
       </DM.Item>
     );

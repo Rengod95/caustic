@@ -3,6 +3,7 @@ import * as D from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { dialogVariants, type DialogVariantProps } from './dialog.variants.ts';
 
 export interface DialogProps extends Omit<ComponentProps<typeof D.Content>, 'children'>, DialogVariantProps {
@@ -27,9 +28,11 @@ export function Dialog({ open, defaultOpen, onOpenChange, modal = true, trigger,
   const keep = (e: Event) => e.preventDefault();
   const surface = (
     <D.Content
-      onOpenAutoFocus={onOpenAutoFocus ?? (inline ? keep : undefined)}
-      onFocusOutside={onFocusOutside ?? (inline ? keep : undefined)}
-      onInteractOutside={onInteractOutside ?? (inline ? keep : undefined)}
+      {...defined({
+        onOpenAutoFocus: onOpenAutoFocus ?? (inline ? keep : undefined),
+        onFocusOutside: onFocusOutside ?? (inline ? keep : undefined),
+        onInteractOutside: onInteractOutside ?? (inline ? keep : undefined),
+      })}
       data-slot="dialog" data-size={size ?? 'md'}
       className={cn(dialogVariants({ size }), inline ? 'relative' : 'fixed left-1/2 top-1/2 z-60 -translate-x-1/2 -translate-y-1/2', className)}
       {...props}
@@ -43,7 +46,7 @@ export function Dialog({ open, defaultOpen, onOpenChange, modal = true, trigger,
     </D.Content>
   );
   return (
-    <D.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange} modal={inline ? false : modal}>
+    <D.Root {...defined({ open, defaultOpen, onOpenChange })} modal={inline ? false : modal}>
       {trigger != null && <D.Trigger asChild>{trigger}</D.Trigger>}
       {inline ? surface : (
         <D.Portal>

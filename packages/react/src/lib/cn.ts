@@ -1,5 +1,6 @@
+import './react-svg-compat.ts';
 import { extendTailwindMerge } from 'tailwind-merge';
-import scales from '@caustic/tokens/tw-merge.json';
+import scales from '../../../tokens/dist/tw-merge.json' with { type: 'json' };
 
 // tailwind-merge must know Caustic's named scales so conflicting utilities resolve correctly:
 // h-field-md vs h-control-md (same group, last wins), text-ui (size) vs text-text-primary (color).

@@ -4,6 +4,7 @@ import * as D from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { createContext, use, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { Button } from '../button/button.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { modalOverlayClass, modalVariants, type ModalVariantProps } from './modal.variants.ts';
@@ -79,7 +80,7 @@ export function Modal({ open, defaultOpen, onOpenChange, kind = 'dialog', trigge
 
   if (inline) {
     return (
-      <D.Root open={open} defaultOpen={defaultOpen ?? (open === undefined ? true : undefined)} onOpenChange={onOpenChange} modal={false}>
+      <D.Root {...defined({ open, defaultOpen: defaultOpen ?? (open === undefined ? true : undefined), onOpenChange })} modal={false}>
         {trigger != null && <D.Trigger asChild>{trigger}</D.Trigger>}
         <D.Content {...(alert ? { role: 'alertdialog' } : {})} onOpenAutoFocus={keep} onFocusOutside={keep} onInteractOutside={keep} data-slot="modal" {...surface}>{content}</D.Content>
       </D.Root>
@@ -89,7 +90,7 @@ export function Modal({ open, defaultOpen, onOpenChange, kind = 'dialog', trigge
   if (alert) {
     return (
       <AlertPortal value>
-        <AD.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+        <AD.Root {...defined({ open, defaultOpen, onOpenChange })}>
           {trigger != null && <AD.Trigger asChild>{trigger}</AD.Trigger>}
           <AD.Portal>
             <AD.Overlay data-slot="modal-overlay" className={overlay}>
@@ -101,7 +102,7 @@ export function Modal({ open, defaultOpen, onOpenChange, kind = 'dialog', trigge
     );
   }
   return (
-    <D.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+    <D.Root {...defined({ open, defaultOpen, onOpenChange })}>
       {trigger != null && <D.Trigger asChild>{trigger}</D.Trigger>}
       <D.Portal>
         <D.Overlay data-slot="modal-overlay" className={overlay}>

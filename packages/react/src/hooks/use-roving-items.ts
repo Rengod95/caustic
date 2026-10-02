@@ -5,7 +5,7 @@ interface RovingOptions {
   selector: string;
   onEscape?: () => void;
   onTab?: () => void;
-  onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
+  onKeyDown?: ((event: KeyboardEvent<HTMLDivElement>) => void) | undefined;
 }
 
 /**

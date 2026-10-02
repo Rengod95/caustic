@@ -3,6 +3,7 @@ import * as P from '@radix-ui/react-popover';
 import { ChevronDown, Image as ImageIcon, Pipette, Plus, X } from 'lucide-react';
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { cssColor, hsvToHex, parseHex, rgbToHsv } from '../../lib/color-math.ts';
 import { resolveCssColor } from '../../lib/color-resolve.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
@@ -190,7 +191,7 @@ export interface ColorPickerPopoverProps extends ColorPickerProps {
 /** ColorPicker anchored to an element: opens on press, closes on Escape or outside press. */
 export function ColorPickerPopover({ anchor, open, defaultOpen, onOpenChange, side = 'bottom', align = 'start', onClose, ...props }: ColorPickerPopoverProps) {
   return (
-    <P.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+    <P.Root {...defined({ open, defaultOpen, onOpenChange })}>
       <P.Trigger asChild>{anchor}</P.Trigger>
       <P.Portal>
         <P.Content asChild side={side} align={align} sideOffset={10}>

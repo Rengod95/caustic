@@ -5,7 +5,7 @@ import { progressIndicator, progressVariants, type ProgressVariantProps } from '
 
 export interface ProgressProps extends Omit<ComponentProps<'div'>, 'children'>, ProgressVariantProps {
   /** 0–100. Omit (or set indeterminate) when progress is unknown; never invent a number. */
-  value?: number;
+  value?: number | undefined;
   indeterminate?: boolean;
 }
 

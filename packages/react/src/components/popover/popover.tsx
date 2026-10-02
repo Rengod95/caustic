@@ -3,6 +3,7 @@ import * as HC from '@radix-ui/react-hover-card';
 import * as P from '@radix-ui/react-popover';
 import { createContext, useContext, useEffect, useId, useState, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { popoverArrow, popoverVariants, type PopoverVariantProps } from './popover.variants.ts';
 
@@ -62,7 +63,7 @@ export function Popover({ trigger = 'click', size, open, defaultOpen, onOpenChan
 
   if (trigger === 'hover') {
     return (
-      <HC.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange} openDelay={openDelay} closeDelay={closeDelay}>
+      <HC.Root {...defined({ open, defaultOpen, onOpenChange })} openDelay={openDelay} closeDelay={closeDelay}>
         {anchor != null && <HC.Trigger asChild>{anchor}</HC.Trigger>}
         <HC.Portal>
           <HC.Content data-slot="popover" side={side} align={align} sideOffset={GAP} onKeyDown={onKeyDown} {...common}>{content}</HC.Content>
@@ -71,7 +72,7 @@ export function Popover({ trigger = 'click', size, open, defaultOpen, onOpenChan
     );
   }
   return (
-    <P.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+    <P.Root {...defined({ open, defaultOpen, onOpenChange })}>
       {anchor != null && <P.Trigger asChild>{anchor}</P.Trigger>}
       <P.Portal>
         <P.Content data-slot="popover" side={side} align={align} sideOffset={GAP} onKeyDown={onKeyDown} {...common}>{content}</P.Content>

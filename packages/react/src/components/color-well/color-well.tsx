@@ -5,11 +5,11 @@ import { colorWellPaintVariants, colorWellVariants, type ColorWellVariantProps }
 
 export interface ColorWellProps extends Omit<ComponentProps<'span'>, 'color'>, Omit<ColorWellVariantProps, 'interactive'> {
   /** CSS color or gradient to paint. Runtime data, set as a custom property. */
-  color?: string;
+  color?: string | undefined;
   /** With split: the opaque color of the top-left triangle. */
-  solidColor?: string;
+  solidColor?: string | undefined;
   /** Diagonal split: opaque top-left, translucent bottom-right. Use for colors with alpha below 100%. */
-  split?: boolean;
+  split?: boolean | undefined;
   /** Multi-selection with differing paints: a hatch instead of a color. */
   mixed?: boolean;
   /** This swatch is the active one. */

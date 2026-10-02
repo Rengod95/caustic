@@ -3,6 +3,7 @@ import * as D from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { sheetVariants, type SheetVariantProps } from './sheet.variants.ts';
 
@@ -56,7 +57,7 @@ export function Sheet({ open, defaultOpen, onOpenChange, trigger, side, title, d
     </D.Content>
   );
   return (
-    <D.Root open={open} defaultOpen={defaultOpen ?? (inline && open === undefined ? true : undefined)} onOpenChange={onOpenChange} modal={inline ? false : true}>
+    <D.Root {...defined({ open, defaultOpen: defaultOpen ?? (inline && open === undefined ? true : undefined), onOpenChange })} modal={inline ? false : true}>
       {trigger != null && <D.Trigger asChild>{trigger}</D.Trigger>}
       {inline ? surface : (
         <D.Portal>

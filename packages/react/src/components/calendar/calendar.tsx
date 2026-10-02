@@ -19,16 +19,16 @@ export interface CalendarProps extends Omit<ComponentProps<'div'>, 'defaultValue
   /** One date or a start–end range. */
   mode?: 'single' | 'range';
   /** Controlled selection: an ISO date in single mode, { from, to } in range mode. */
-  value?: DateValue;
+  value?: DateValue | undefined;
   defaultValue?: DateValue;
   /** Controlled shown month, YYYY-MM. */
   month?: string;
   /** Initial shown month; defaults to the month of the selection, else of today. */
   defaultMonth?: string;
   /** Override of “today” (ISO date). Defaults to the current date. */
-  today?: string;
+  today?: string | undefined;
   /** true = Today, Next 7 days, This month. false hides the footer. In single mode `true` shows Today only. */
-  shortcuts?: boolean | CalendarShortcut[];
+  shortcuts?: boolean | CalendarShortcut[] | undefined;
   /** Render in place; the calendar is itself the panel, so this only matters inside DatePicker. */
   inline?: boolean;
   onValueChange?: (value: DateValue) => void;

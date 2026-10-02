@@ -11,7 +11,7 @@ export interface InputProps extends Omit<ComponentProps<'input'>, 'size' | 'pref
   suffix?: ReactNode;
   invalid?: boolean;
   /** Called with the new string value on every edit. */
-  onValueChange?: (value: string) => void;
+  onValueChange?: ((value: string) => void) | undefined;
   /** Class names for the outer field container. */
   containerClassName?: string;
 }

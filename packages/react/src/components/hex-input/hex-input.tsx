@@ -7,12 +7,12 @@ import { hexInputVariants } from './hex-input.variants.ts';
 
 export interface HexInputProps extends Omit<ComponentProps<'label'>, 'defaultValue' | 'onChange'> {
   /** Hex digits without #, uppercase ("E2763F"). */
-  value?: string;
+  value?: string | undefined;
   defaultValue?: string;
   /** Committed with Enter or blur when the value is 3, 4, 6 or 8 hex digits (uppercase). */
   onValueChange?: (value: string) => void;
   /** Token path the paint is bound to; replaces the input by the bound chip. */
-  token?: string;
+  token?: string | undefined;
   /** Differing values in a multi-selection. */
   mixed?: boolean;
   invalid?: boolean;
@@ -20,7 +20,7 @@ export interface HexInputProps extends Omit<ComponentProps<'label'>, 'defaultVal
   /** Names the input ("Hex", "Stroke color"). */
   'aria-label'?: string;
   /** Ids describing the input, e.g. an error message. */
-  'aria-describedby'?: string;
+  'aria-describedby'?: string | undefined;
 }
 
 const validHex = (v: string) => /^[0-9a-fA-F]+$/.test(v) && [3, 4, 6, 8].includes(v.length);

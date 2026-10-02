@@ -3,6 +3,7 @@ import * as A from '@radix-ui/react-accordion';
 import { ChevronDown } from 'lucide-react';
 import { createContext, useContext, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { accordionItemVariants, accordionVariants, type AccordionVariantProps } from './accordion.variants.ts';
 
 const VariantCtx = createContext<NonNullable<AccordionVariantProps['variant']>>('flush');
@@ -30,17 +31,21 @@ export function Accordion({ type = 'single', variant, value, defaultValue, onVal
       {type === 'multiple' ? (
         <A.Root
           type="multiple" data-slot="accordion" data-variant={v} className={root} disabled={disabled}
-          value={value === undefined ? undefined : ([] as string[]).concat(value)}
-          defaultValue={defaultValue === undefined ? undefined : ([] as string[]).concat(defaultValue)}
-          onValueChange={onValueChange}
+          {...defined({
+            value: value === undefined ? undefined : ([] as string[]).concat(value),
+            defaultValue: defaultValue === undefined ? undefined : ([] as string[]).concat(defaultValue),
+            onValueChange,
+          })}
           {...props}
         >{children}</A.Root>
       ) : (
         <A.Root
           type="single" data-slot="accordion" data-variant={v} className={root} disabled={disabled} collapsible={collapsible}
-          value={Array.isArray(value) ? value[0] : value}
-          defaultValue={Array.isArray(defaultValue) ? defaultValue[0] : defaultValue}
-          onValueChange={onValueChange}
+          {...defined({
+            value: Array.isArray(value) ? value[0] : value,
+            defaultValue: Array.isArray(defaultValue) ? defaultValue[0] : defaultValue,
+            onValueChange,
+          })}
           {...props}
         >{children}</A.Root>
       )}

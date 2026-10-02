@@ -17,15 +17,15 @@ export interface StackRowProps extends Omit<ComponentProps<'div'>, 'title' | 'hi
   /** Row name. */
   title: ReactNode;
   /** Draw the title in mono (token paths and hex). */
-  mono?: boolean;
+  mono?: boolean | undefined;
   /** Quiet detail after the title. */
   meta?: ReactNode;
   /** Compact field in the third column. */
   control?: ReactNode;
   /** The layer is hidden: dimmed, and the visibility action shows eye-off. */
-  hidden?: boolean;
+  hidden?: boolean | undefined;
   /** Accessible-name suffix for the actions ("Hide" + suffix), e.g. the row name as text. */
-  actionLabel?: string;
+  actionLabel?: string | undefined;
   disabled?: boolean;
   onHiddenChange?: (hidden: boolean) => void;
   onRemove?: () => void;

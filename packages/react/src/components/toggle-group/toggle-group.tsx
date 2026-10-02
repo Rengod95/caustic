@@ -2,6 +2,7 @@
 import * as G from '@radix-ui/react-toggle-group';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { toggleGroupItem, toggleGroupVariants, type ToggleGroupVariantProps } from './toggle-group.variants.ts';
 
@@ -24,7 +25,7 @@ export function ToggleGroup({ type = 'multiple', value, defaultValue, onValueCha
     value, defaultValue: defaultValue ?? (type === 'single' ? '' : []), onChange: onValueChange,
   });
   const root = cn(toggleGroupVariants({ appearance, orientation }), className);
-  const common = { 'data-appearance': appearance ?? 'filled', orientation, disabled, className: root, ...props };
+  const common = { 'data-appearance': appearance ?? 'filled', orientation, ...defined({ disabled }), className: root, ...props };
   if (type === 'single') {
     // Radix lets the on item turn off (value ''); a single group keeps one item on.
     return <G.Root data-slot="toggle-group" role="group" type="single" value={current as string} onValueChange={(v: string) => { if (v !== '') setCurrent(v); }} {...common}>{children}</G.Root>;

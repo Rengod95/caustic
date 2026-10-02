@@ -2,6 +2,7 @@
 import * as T from '@radix-ui/react-tooltip';
 import type { ComponentProps, ReactElement, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { defined } from '../../lib/defined.ts';
 import { Kbd } from '../kbd/kbd.tsx';
 import { tooltipArrow, tooltipVariants } from './tooltip.variants.ts';
 
@@ -46,7 +47,7 @@ export function Tooltip({
   );
   return (
     <T.Provider delayDuration={delayDuration}>
-      <T.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange} delayDuration={delayDuration}>
+      <T.Root {...defined({ open, defaultOpen, onOpenChange })} delayDuration={delayDuration}>
         <T.Trigger asChild data-slot="tooltip-trigger">{children}</T.Trigger>
         {inline ? bubble : <T.Portal>{bubble}</T.Portal>}
       </T.Root>
