@@ -85,7 +85,7 @@ Naming:
 ## Typography
 
 **Families**
-- Geist (Korean fallback: Pretendard) for the interface and human input.
+- Geist (Korean fallback: SUIT, then Pretendard; owner decision O3 of the Axiom port) for the interface and human input.
 - Newsreader (Korean fallback: Noto Serif KR) for agent prose; its italic for agent reasoning.
 - Geist Mono for tool names, token names, numbers and diffs.
 

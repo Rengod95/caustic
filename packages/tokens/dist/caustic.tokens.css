@@ -292,7 +292,7 @@
   --cs-hit-min: 24px;
 
   /* typography */
-  --cs-font-ui: "Geist", "Pretendard Variable", "Pretendard", "Noto Sans KR", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --cs-font-ui: "Geist", "SUIT", "Pretendard Variable", "Pretendard", "Noto Sans KR", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --cs-font-voice: "Newsreader", "Noto Serif KR", ui-serif, Georgia, serif;
   --cs-font-mono: "Geist Mono", ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
   --cs-text-display: 600 40px/44px var(--cs-font-ui);

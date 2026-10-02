@@ -1460,7 +1460,7 @@ export default {
     "hit-min": 24
   },
   "font": {
-    "ui": "\"Geist\", \"Pretendard Variable\", \"Pretendard\", \"Noto Sans KR\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "ui": "\"Geist\", \"SUIT\", \"Pretendard Variable\", \"Pretendard\", \"Noto Sans KR\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
     "voice": "\"Newsreader\", \"Noto Serif KR\", ui-serif, Georgia, serif",
     "mono": "\"Geist Mono\", ui-monospace, \"SF Mono\", \"Cascadia Code\", Consolas, monospace"
   },
