@@ -9,6 +9,7 @@ import aliasChain from './alias-chain.spec.ts';
 import alignBar from './align-bar.spec.ts';
 import alignmentPad from './alignment-pad.spec.ts';
 import angleDial from './angle-dial.spec.ts';
+import appShell from './app-shell.spec.ts';
 import appendList from './append-list.spec.ts';
 import autoLayout from './auto-layout.spec.ts';
 import avatar from './avatar.spec.ts';
@@ -117,14 +118,17 @@ import progress from './progress.spec.ts';
 import proposal from './proposal.spec.ts';
 import radioGroup from './radio-group.spec.ts';
 import readingOrder from './reading-order.spec.ts';
+import resizeHandle from './resize-handle.spec.ts';
 import reviewRequest from './review-request.spec.ts';
 import revisionHistory from './revision-history.spec.ts';
+import scrollArea from './scroll-area.spec.ts';
 import sectionHeader from './section-header.spec.ts';
 import segmentedControl from './segmented-control.spec.ts';
 import select from './select.spec.ts';
 import separator from './separator.spec.ts';
 import sessionList from './session-list.spec.ts';
 import sheet from './sheet.spec.ts';
+import sidePanel from './side-panel.spec.ts';
 import skeleton from './skeleton.spec.ts';
 import slider from './slider.spec.ts';
 import sliderField from './slider-field.spec.ts';
@@ -163,6 +167,7 @@ export const registry: Record<string, SpecInput> = {
   'align-bar': alignBar,
   'alignment-pad': alignmentPad,
   'angle-dial': angleDial,
+  'app-shell': appShell,
   'append-list': appendList,
   'auto-layout': autoLayout,
   'avatar': avatar,
@@ -271,14 +276,17 @@ export const registry: Record<string, SpecInput> = {
   'proposal': proposal,
   'radio-group': radioGroup,
   'reading-order': readingOrder,
+  'resize-handle': resizeHandle,
   'review-request': reviewRequest,
   'revision-history': revisionHistory,
+  'scroll-area': scrollArea,
   'section-header': sectionHeader,
   'segmented-control': segmentedControl,
   'select': select,
   'separator': separator,
   'session-list': sessionList,
   'sheet': sheet,
+  'side-panel': sidePanel,
   'skeleton': skeleton,
   'slider': slider,
   'slider-field': sliderField,
