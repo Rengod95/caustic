@@ -4,7 +4,7 @@ export default defineSpec({
   id: 'app-shell',
   name: 'AppShell',
   category: 'structure',
-  status: 'draft',
+  status: 'ready',
   purpose: 'The window frame of the studio: a titlebar band, a start region, a centre stage and an end region, plus a floating overlay layer over the stage. It lays regions out, names the landmarks and adapts to the compact and medium breakpoints. Slots only; it holds no business logic and renders no panel chrome itself.',
   description: 'A compound component: AppShell with AppShellTitlebar, AppShellStart, AppShellStage, AppShellEnd and AppShellOverlay. The shell is a flex column that fills its parent (the parent sets the bounded height, normally 100dvh): the titlebar on top, then a row of start, stage and end. The shell is inset 10px from the window edge and its regions are separated by 10px, so a floating SidePanel (radius 22) is concentric with the 32px window corner. The stage takes the remaining width and never shrinks below 0. Responsive: at the medium container width (1100 and below) the end region stops docking and overlays the stage as a sheet; at the compact container width (720 and below) the start region also overlays, full width, and only one region is visible at a time.',
   role: null,
@@ -70,9 +70,12 @@ export default defineSpec({
   policies: ['P1', 'P5', 'P6'],
   flags: { floating: false },
   composition: { uses: ['side-panel', 'resize-handle', 'scroll-area'], radix: [] },
-  examples: [],
+  examples: [
+    { id: 'wide', title: 'App shell · wide', doc: 'react#app-shell-wide' },
+    { id: 'compact', title: 'App shell · compact', doc: 'react#app-shell-compact' },
+  ],
   usage: [
-    'Baselines: no HTML specimen exists. The orchestrator records baselines from the React render with `pnpm baseline:react app-shell` after implementation; there are no examples[] entries until then.',
+    'Baselines: no HTML specimen exists. Example `doc` values use the pseudo page `react#<id>-<example>`; baselines are recorded from the React render with `pnpm baseline:react app-shell`. Example "wide": the fixture described below with layout="wide" (both panels docked beside the stage). Example "compact": the same content with layout="compact" (the start panel open as a full-width sheet over the stage, the end panel collapsed).',
     'Fixture convention: render(props) renders the shell in a 480px-tall, 1200px-wide frame with: a titlebar holding a text "Axiom" and two IconButtons (a ghost "undo" and "redo"); AppShellStart with a floating SidePanel "Layers" (size pane); AppShellStage labelled "Design canvas" with a bg.canvas dot-grid fill and an AppShellOverlay holding one small floating Toolbar at the bottom centre; AppShellEnd with a floating SidePanel "Inspector" (size inspector, side end). `uses` lists these only for the fixture and the shell\'s documented composition; AppShell itself imports none of them.',
     'The shell does not set background materials on regions: panels bring their own surface. Only the root carries bg.app (the colour showing in the gaps).',
     'P1: the shell is opaque and owns no glass; the glass belongs to the floating panels it hosts.',

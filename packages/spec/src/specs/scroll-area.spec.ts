@@ -4,7 +4,7 @@ export default defineSpec({
   id: 'scroll-area',
   name: 'ScrollArea',
   category: 'structure',
-  status: 'draft',
+  status: 'ready',
   purpose: 'A scroll container with a token-styled thin scrollbar, optional edge fade and overflow state attributes. It keeps native scrolling (wheel, touch, keyboard, find-in-page) and replaces the Studio overlay that tracked arbitrary scroll containers.',
   description: 'One wrapper plus one native scrolling viewport; no Radix and no custom scrollbar thumb. The scrollbar is the browser\'s thin scrollbar coloured with border.strong (the same rule as the global base layer), shown on hover and focus or always. The viewport reports whether more content lies before or after the visible window through data attributes, which the edge fade and the consumer (for example a sticky shadow) read. The viewport is a keyboard-focusable region only while it actually overflows.',
   role: null,
@@ -73,9 +73,11 @@ export default defineSpec({
   },
   policies: ['P6', 'P8'],
   composition: { uses: [], radix: [] },
-  examples: [],
+  examples: [
+    { id: 'vertical', title: 'Scroll area · vertical', doc: 'react#scroll-area-vertical' },
+  ],
   usage: [
-    'Baselines: no HTML specimen exists. The orchestrator records baselines from the React render with `pnpm baseline:react scroll-area` after implementation; there are no examples[] entries until then.',
+    'Baselines: no HTML specimen exists. Example `doc` values use the pseudo page `react#<id>-<example>`; baselines are recorded from the React render with `pnpm baseline:react scroll-area`. Example "vertical": the 160px fixture frame at scroll position 0 with scrollbar="always" and fade on, so the thumb and the bottom fade are visible.',
     'Fixture convention: render(props) renders the area in a frame 160px tall (240px wide for orientation horizontal) containing 20 rows of text (30 labelled tokens in a nowrap row for horizontal), so every scenario overflows. Row height and content are the fixture\'s concern.',
     'Replaces `StudioScrollAreas` in apps/studio/src/studio-overlays.tsx (an overlay that scanned the DOM and drew fixed-position tracks for any overflow container) and the .studio-scrollbar rules in studio-chrome.css (7px track, 2px inset thumb, 24% ink, 42% on hover, persistent variant in foundation-renewal.css). Studio containers that scroll adopt ScrollArea explicitly; the global base layer already thin-styles any remaining native scroller with border.strong.',
     'Studio places it in SidePanel bodies (layers, library, chat, inspector), tables and code blocks. Chat auto-scroll uses viewportRef; the component itself never scrolls programmatically.',
