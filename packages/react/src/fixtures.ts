@@ -9,6 +9,7 @@ import aliasChain from './components/alias-chain/alias-chain.fixture.tsx';
 import alignBar from './components/align-bar/align-bar.fixture.tsx';
 import alignmentPad from './components/alignment-pad/alignment-pad.fixture.tsx';
 import angleDial from './components/angle-dial/angle-dial.fixture.tsx';
+import appShell from './components/app-shell/app-shell.fixture.tsx';
 import appendList from './components/append-list/append-list.fixture.tsx';
 import autoLayout from './components/auto-layout/auto-layout.fixture.tsx';
 import avatar from './components/avatar/avatar.fixture.tsx';
@@ -117,14 +118,17 @@ import progress from './components/progress/progress.fixture.tsx';
 import proposal from './components/proposal/proposal.fixture.tsx';
 import radioGroup from './components/radio-group/radio-group.fixture.tsx';
 import readingOrder from './components/reading-order/reading-order.fixture.tsx';
+import resizeHandle from './components/resize-handle/resize-handle.fixture.tsx';
 import reviewRequest from './components/review-request/review-request.fixture.tsx';
 import revisionHistory from './components/revision-history/revision-history.fixture.tsx';
+import scrollArea from './components/scroll-area/scroll-area.fixture.tsx';
 import sectionHeader from './components/section-header/section-header.fixture.tsx';
 import segmentedControl from './components/segmented-control/segmented-control.fixture.tsx';
 import select from './components/select/select.fixture.tsx';
 import separator from './components/separator/separator.fixture.tsx';
 import sessionList from './components/session-list/session-list.fixture.tsx';
 import sheet from './components/sheet/sheet.fixture.tsx';
+import sidePanel from './components/side-panel/side-panel.fixture.tsx';
 import skeleton from './components/skeleton/skeleton.fixture.tsx';
 import slider from './components/slider/slider.fixture.tsx';
 import sliderField from './components/slider-field/slider-field.fixture.tsx';
@@ -163,6 +167,7 @@ export const fixtures: Record<string, Fixture> = {
   'align-bar': alignBar,
   'alignment-pad': alignmentPad,
   'angle-dial': angleDial,
+  'app-shell': appShell,
   'append-list': appendList,
   'auto-layout': autoLayout,
   'avatar': avatar,
@@ -271,14 +276,17 @@ export const fixtures: Record<string, Fixture> = {
   'proposal': proposal,
   'radio-group': radioGroup,
   'reading-order': readingOrder,
+  'resize-handle': resizeHandle,
   'review-request': reviewRequest,
   'revision-history': revisionHistory,
+  'scroll-area': scrollArea,
   'section-header': sectionHeader,
   'segmented-control': segmentedControl,
   'select': select,
   'separator': separator,
   'session-list': sessionList,
   'sheet': sheet,
+  'side-panel': sidePanel,
   'skeleton': skeleton,
   'slider': slider,
   'slider-field': sliderField,
