@@ -35,6 +35,10 @@
     "specHash": "98e48cc56da012bc",
     "at": "2026-10-01T16:19:28.927Z"
   },
+  "app-shell": {
+    "specHash": "64ae144c7accbe77",
+    "at": "2026-10-03T00:16:09.143Z"
+  },
   "append-list": {
     "specHash": "699bca78afaff5dd",
     "at": "2026-10-01T16:19:15.792Z"
@@ -467,6 +471,10 @@
     "specHash": "591f69365527e1b7",
     "at": "2026-10-01T16:25:36.492Z"
   },
+  "resize-handle": {
+    "specHash": "86f7a16fbf316cce",
+    "at": "2026-10-03T00:14:38.175Z"
+  },
   "review-request": {
     "specHash": "731cc224bfab7370",
     "at": "2026-10-01T16:26:08.807Z"
@@ -474,6 +482,10 @@
   "revision-history": {
     "specHash": "6a07b0c41d525bd9",
     "at": "2026-10-01T16:24:46.838Z"
+  },
+  "scroll-area": {
+    "specHash": "4b053a8fdd21d219",
+    "at": "2026-10-03T00:15:03.509Z"
   },
   "section-header": {
     "specHash": "6675005dbee45b5b",
@@ -498,6 +510,10 @@
   "sheet": {
     "specHash": "980180f19aabbbf7",
     "at": "2026-10-01T16:26:12.122Z"
+  },
+  "side-panel": {
+    "specHash": "77767e786adca5b5",
+    "at": "2026-10-03T00:15:40.342Z"
   },
   "skeleton": {
     "specHash": "2335606d458176bc",

@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { ComponentSpec, type SpecInput } from '@caustic/spec';
 import { readLocks, specHash } from '../../../spec/src/approve.ts';
 import { Collector } from '../report.ts';
-import { specimenRoot } from '../paths.ts';
+import { baselinesDir, specimenRoot } from '../paths.ts';
 import { dimPx, tokenIndex } from '../tokens.ts';
 import type { Fixture } from '../../../react/src/lib/fixture.ts';
 
@@ -59,6 +59,14 @@ export async function g1(c: Collector, input: SpecInput, fixture: Fixture | unde
   for (const ex of spec.examples) {
     if (fixture && !fixture.examples[ex.id]) c.fail({ gate: 'G1', check: 'fixture', message: `Fixture has no example "${ex.id}".`, fix: `Implement examples.${ex.id} reproducing ${ex.doc}.` });
     const [page, heading] = ex.doc.split('#');
+    // A part approved without an HTML specimen points its examples at the pseudo page "react"; its visual
+    // truth is the React-recorded baseline, which must exist before the part can pass.
+    if (page === 'react') {
+      const meta = join(baselinesDir, spec.id, `${ex.id}.json`);
+      const source = existsSync(meta) ? (JSON.parse(readFileSync(meta, 'utf8')) as { source?: string }).source : undefined;
+      if (source !== 'react') c.fail({ gate: 'G1', check: 'specimen', message: `Example "${ex.id}" has no specimen and no React baseline.`, fix: `Record it with pnpm baseline:react ${spec.id} (main session).` });
+      continue;
+    }
     const file = join(specimenRoot, 'docs', `${page}.html`);
     if (!existsSync(file)) c.fail({ gate: 'G1', check: 'specimen', message: `Specimen page docs/${page}.html not found.` });
     else if (heading && !readFileSync(file, 'utf8').includes(`id="${heading}"`)) c.fail({ gate: 'G1', check: 'specimen', message: `Specimen heading #${heading} not found in docs/${page}.html.` });
