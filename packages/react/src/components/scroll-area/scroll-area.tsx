@@ -11,7 +11,7 @@ export interface ScrollAreaProps extends Omit<ComponentProps<'div'>, 'onScroll' 
   /** Fade the content out at the edges where more content continues. With orientation "both" the fade follows the vertical axis. */
   fade?: boolean;
   /** Accessible name of the scrolling region. Applied (as role="region") only while the content overflows. Supplied by the app so it can be translated. */
-  label?: string;
+  label?: string | undefined;
   /** Ref to the scrolling element, for scroll-to-bottom and measuring. */
   viewportRef?: Ref<HTMLDivElement>;
   /** The viewport scrolled (native event, unthrottled). */

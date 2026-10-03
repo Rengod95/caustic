@@ -26,7 +26,7 @@ export interface ResizeHandleProps
   /** Accessible name, supplied by the app so it can be translated. */
   label: string;
   /** Builds aria-valuetext from the size. Without it no aria-valuetext is emitted. */
-  formatValueText?: (value: number) => string;
+  formatValueText?: ((value: number) => string) | undefined;
   /** id of the panel being resized (aria-controls). */
   controls?: string;
   disabled?: boolean;
