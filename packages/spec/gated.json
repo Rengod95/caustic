@@ -56,12 +56,12 @@
     "at": "2026-10-01T16:19:40.559Z"
   },
   "banner": {
-    "specHash": "5d69baf4b1046fbe",
-    "at": "2026-10-01T16:19:28.842Z"
+    "specHash": "36b9964f4b43a198",
+    "at": "2026-10-04T15:29:32.654Z"
   },
   "breadcrumb": {
-    "specHash": "989d5f318b3a7461",
-    "at": "2026-10-01T16:19:22.295Z"
+    "specHash": "4141e7912f00b576",
+    "at": "2026-10-04T15:30:25.536Z"
   },
   "button": {
     "specHash": "4f714041264a1d1d",
@@ -97,7 +97,7 @@
   },
   "canvas-selection": {
     "specHash": "b14b507b0f856774",
-    "at": "2026-10-01T16:19:54.303Z"
+    "at": "2026-10-04T15:30:42.273Z"
   },
   "canvas-size-label": {
     "specHash": "c6741c870d1fd9df",
@@ -244,8 +244,8 @@
     "at": "2026-10-01T16:21:52.595Z"
   },
   "dialog": {
-    "specHash": "2270f990fbbe3fa0",
-    "at": "2026-10-01T16:22:01.919Z"
+    "specHash": "591bd5aed13aa416",
+    "at": "2026-10-04T15:29:51.758Z"
   },
   "easing-curve": {
     "specHash": "5ee71b5eac94fe27",
@@ -276,8 +276,8 @@
     "at": "2026-10-01T16:22:23.514Z"
   },
   "floating-bar": {
-    "specHash": "36e5a24520e431ab",
-    "at": "2026-10-01T16:22:34.565Z"
+    "specHash": "b6ddd70b0dec174b",
+    "at": "2026-10-04T15:28:52.204Z"
   },
   "font-options": {
     "specHash": "cd2e56fae48ee655",
@@ -592,8 +592,8 @@
     "at": "2026-10-01T16:26:49.039Z"
   },
   "toast": {
-    "specHash": "af2ff8f43bb0503a",
-    "at": "2026-10-01T16:27:12.439Z"
+    "specHash": "08ebf7146381ea73",
+    "at": "2026-10-04T15:30:11.554Z"
   },
   "toggle-group": {
     "specHash": "7643290a5db155e5",
@@ -620,7 +620,7 @@
     "at": "2026-10-01T16:26:25.101Z"
   },
   "zoom-control": {
-    "specHash": "fc75d1b5f2cd5ec2",
-    "at": "2026-10-01T16:27:10.857Z"
+    "specHash": "3d34db17815214eb",
+    "at": "2026-10-04T15:29:13.809Z"
   }
 }
