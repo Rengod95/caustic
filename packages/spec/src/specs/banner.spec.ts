@@ -13,7 +13,7 @@ export default defineSpec({
     { name: 'icon', el: 'any', parent: 'root', description: '16px lucide icon in the tone text color (info, circle-check, triangle-alert, circle-alert).' },
     { name: 'message', el: 'span', parent: 'root', description: 'Takes the free width; bold lead-ins use weight 600.' },
     { name: 'action', el: 'any', parent: 'root', required: false, description: 'A Button xs (ghost or secondary).' },
-    { name: 'dismiss', el: 'button', parent: 'root', required: false, description: 'IconButton xs with an x icon and aria-label "Dismiss".' },
+    { name: 'dismiss', el: 'button', parent: 'root', required: false, description: 'IconButton xs with an x icon; aria-label from the dismissLabel prop.' },
   ],
   variants: {
     tone: { values: ['info', 'success', 'warning', 'danger'], default: 'info', description: 'Soft tint plus a matching icon color.' },
@@ -24,6 +24,7 @@ export default defineSpec({
     children: { type: 'ReactNode', description: 'The message.' },
     action: { type: 'ReactNode', description: 'Action button.' },
     dismissible: { type: 'boolean', default: false, description: 'Shows the dismiss button. The banner does not hide itself; the owner removes it in onDismiss.' },
+    dismissLabel: { type: 'string', description: 'aria-label of the dismiss button (e.g. "Dismiss"). Required whenever dismissible is true; no built-in default. Optional in the type only because it is unused when dismissible is false.' },
   },
   events: { onDismiss: { payload: 'void', when: 'the dismiss button is activated' } },
   styles: [
@@ -42,7 +43,7 @@ export default defineSpec({
     keyboard: { Enter: 'activates a focused action or dismiss button', Space: 'activates a focused action or dismiss button' },
     pointer: ['clicking dismiss calls onDismiss'],
     scenarios: [
-      { name: 'dismiss', props: { dismissible: true }, steps: [{ do: 'click', slot: 'dismiss' }], expect: [{ event: 'onDismiss', calls: 1 }] },
+      { name: 'dismiss', props: { dismissible: true, dismissLabel: 'Dismiss' }, steps: [{ do: 'click', slot: 'dismiss' }], expect: [{ event: 'onDismiss', calls: 1 }] },
     ],
   },
   a11y: {
@@ -59,6 +60,7 @@ export default defineSpec({
   usage: [
     'Page-level only; at most one banner per tone per view.',
     'Example fixture (stacked, 14px gap): info with `<b>New:</b> themes can now inherit from another theme.`, Button ghost xs "Learn more", dismissible; warning with "Your trial ends in 3 days. Projects stay read-only after that." and Button secondary xs "Upgrade"; danger with "Anthropic is not responding. Agent runs are paused." and Button ghost xs "Retry"; success with "Published v2.4 to orbit-pay.caustic.app." dismissible.',
+    'The fixture passes dismissLabel "Dismiss" to every dismissible banner. With dismissible and no dismissLabel the button has no accessible name; the implementation does not invent an English one (the a11y attrs gate sees the missing aria-label).',
     'Banner itself imports IconButton (dismiss); Button in `uses` is for the example fixture.',
     'The specimen CSS also has a neutral surface tone that the page does not show; it is not specified.',
   ],

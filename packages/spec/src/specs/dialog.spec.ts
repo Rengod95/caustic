@@ -13,7 +13,7 @@ export default defineSpec({
     { name: 'title', el: 'h2', parent: 'root', description: 'Accessible name.' },
     { name: 'description', el: 'p', parent: 'root', required: false, description: 'Accessible description.' },
     { name: 'footer', el: 'div', parent: 'root', required: false, description: 'Actions, right-aligned.' },
-    { name: 'close', el: 'button', parent: 'root', required: false, description: 'Close control.' },
+    { name: 'close', el: 'button', parent: 'root', required: false, description: 'Close control; aria-label from the closeLabel prop.' },
     { name: 'overlay', el: 'div', required: false, description: 'Scrim behind a modal dialog (portal mode).' },
   ],
   sizes: { values: ['sm', 'md', 'lg'], default: 'md' },
@@ -25,6 +25,7 @@ export default defineSpec({
     size: { type: "'sm' | 'md' | 'lg'", default: 'md', description: 'Max width 320 · 480 · 640.' },
     inline: { type: 'boolean', default: false, description: 'Render in place without portal or overlay.' },
     showClose: { type: 'boolean', default: false, description: 'Top-right close button.' },
+    closeLabel: { type: 'string', description: 'aria-label of the close button (e.g. "Close"). Required whenever showClose is true; no built-in default. Optional in the type only because it is unused when showClose is false.' },
   },
   events: { onOpenChange: { payload: 'boolean', when: 'Escape, a close control or an outside press closes it' } },
   styles: [
@@ -38,13 +39,13 @@ export default defineSpec({
     keyboard: { Escape: 'close', Tab: 'cycles inside while modal' },
     scenarios: [
       { name: 'Escape closes', steps: [{ do: 'focus', slot: 'root' }, { do: 'press', key: 'Escape' }], expect: [{ event: 'onOpenChange', args: [false] }] },
-      { name: 'close control closes', props: { showClose: true }, steps: [{ do: 'click', slot: 'close' }], expect: [{ event: 'onOpenChange', args: [false] }] },
+      { name: 'close control closes', props: { showClose: true, closeLabel: 'Close' }, steps: [{ do: 'click', slot: 'close' }], expect: [{ event: 'onOpenChange', args: [false] }] },
     ],
   },
-  a11y: { notes: ['Always render DialogTitle; DialogDescription when there is supporting text.', 'Buttons name the outcome (Detach, Delete theme), not OK/Cancel pairs.'] },
+  a11y: { attrs: { close: ['aria-label'] }, notes: ['The close button has no built-in English name: the consumer supplies closeLabel whenever showClose is true.','Always render DialogTitle; DialogDescription when there is supporting text.', 'Buttons name the outcome (Detach, Delete theme), not OK/Cancel pairs.'] },
   policies: ['P1', 'P5', 'P6'],
   flags: { floating: true },
   composition: { uses: [], radix: ['@radix-ui/react-dialog'] },
   examples: [{ id: 'compact', title: 'Compact dialog', doc: 'modal#compact-dialog' }],
-  usage: ['Destructive confirmations say how to undo in the description.'],
+  usage: ['Destructive confirmations say how to undo in the description.', 'The fixture passes closeLabel "Close" whenever it shows the close button.'],
 });

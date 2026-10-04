@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'Toast is the item; Toaster is the fixed region that stacks items (bottom end, 16px inset, 8px gap, width min(360px, 100% - 32px)) and an imperative toast() helper feeds it. Set `inline` to render an item in place, without the region, for docs and tests.',
   role: 'status',
   slots: [
-    { name: 'viewport', el: 'div', required: false, description: 'Toaster region: position fixed, bottom-end, grid with 8px gap, z toast; role="region" aria-label="Notifications" aria-live="polite". Not rendered in inline mode.' },
+    { name: 'viewport', el: 'div', required: false, description: 'Toaster region: position fixed, bottom-end, grid with 8px gap, z toast; role="region", aria-live="polite" and aria-label from the label prop (ToastViewport / Toaster part). Not rendered in inline mode.' },
     { name: 'root', el: 'div', description: 'The glass item (role="status").' },
     { name: 'icon', el: 'span', parent: 'root', required: false, description: 'Success mark: 28px circle filled success.solid with a check glyph. Present when tone="success".' },
     { name: 'orb', el: 'span', parent: 'root', required: false, description: 'Agent mark: 14px spectrum orb. Present when tone="agent".' },
@@ -28,6 +28,7 @@ export default defineSpec({
     actionLabel: { type: 'string', description: 'Label of the action button; omit for none.' },
     duration: { type: 'number', default: 3600, description: 'Milliseconds before auto-dismiss; 0 keeps it until dismissed. Paused while hovered or focused.' },
     inline: { type: 'boolean', default: false, description: 'Render in place (no Toaster, no fixed positioning, no auto-dismiss).' },
+    label: { type: 'string', required: true, description: 'ToastViewport / Toaster prop: aria-label of the region (e.g. "Notifications"). No built-in default.' },
   },
   events: {
     onAction: { payload: 'void', when: 'the action button is activated' },
@@ -53,7 +54,7 @@ export default defineSpec({
   a11y: {
     attrs: { root: ['role'], viewport: ['aria-live', 'aria-label'] },
     notes: [
-      'The Toaster region is a polite live region labelled "Notifications"; each toast is role="status". Never move focus to a toast.',
+      'The Toaster region is a polite live region named by its label prop (examples: "Notifications"); each toast is role="status". Never move focus to a toast.',
       'Auto-dismiss pauses on hover and focus-within; a toast with an action should use a longer duration or 0.',
       'Text is text.primary and text.tertiary over regular glass; contrast is checked against the glass fill.',
       'Under prefers-reduced-transparency the glass falls back to an opaque surface (provided by the glass utility).',

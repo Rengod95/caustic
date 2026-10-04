@@ -9,7 +9,7 @@ export default defineSpec({
   role: null,
   description: 'A navigation landmark wrapping an ordered list. The consumer composes the trail from BreadcrumbItem, BreadcrumbEllipsis and BreadcrumbCurrent children; separators are inserted between them by the component.',
   slots: [
-    { name: 'root', el: 'nav', role: 'navigation', description: 'The landmark. Flex row, centred, 4px gap, wraps. aria-label "Breadcrumb".' },
+    { name: 'root', el: 'nav', role: 'navigation', description: 'The landmark. Flex row, centred, 4px gap, wraps. aria-label supplied by the consumer.' },
     { name: 'list', el: 'ol', parent: 'root', description: 'Flex row that holds the entries (display contents is acceptable: the root owns the gap and wrapping).' },
     { name: 'item', el: 'a', parent: 'list', required: false, description: 'An ancestor link: tertiary text, inline-flex, 6px gap, 3px 6px padding, sm radius. Hover lifts to primary text on fill.hover.' },
     { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Optional leading lucide icon, 14px (the home icon on the first item).' },
@@ -22,7 +22,7 @@ export default defineSpec({
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'item' },
   },
   props: {
-    'aria-label': { type: 'string', default: 'Breadcrumb', description: 'Landmark label.' },
+    'aria-label': { type: 'string', required: true, description: 'Landmark label (e.g. "Breadcrumb"). Required; no built-in English default.' },
     children: { type: 'ReactNode', description: 'The trail: BreadcrumbItem, BreadcrumbEllipsis and one BreadcrumbCurrent.' },
   },
   events: {},
