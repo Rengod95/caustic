@@ -57,13 +57,18 @@ export function Toast({
   );
 }
 
-/** The fixed region that stacks toasts at the bottom end: a polite live region labelled "Notifications". */
-export function ToastViewport({ className, ...props }: ComponentProps<'div'>) {
-  return <div role="region" aria-label="Notifications" aria-live="polite" data-slot="toast-viewport" className={cn(toastViewport(), className)} {...props} />;
+export interface ToastViewportProps extends Omit<ComponentProps<'div'>, 'aria-label'> {
+  /** aria-label of the region; supplied by the consumer (no built-in text). */
+  label: string;
+}
+
+/** The fixed region that stacks toasts at the bottom end: a polite live region named by `label`. */
+export function ToastViewport({ label, className, ...props }: ToastViewportProps) {
+  return <div role="region" aria-label={label} aria-live="polite" data-slot="toast-viewport" className={cn(toastViewport(), className)} {...props} />;
 }
 
 /** Mount once near the app root; toast() feeds it. */
-export function Toaster(props: ComponentProps<'div'>) {
+export function Toaster(props: ToastViewportProps) {
   const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   return (
     <ToastViewport {...props}>

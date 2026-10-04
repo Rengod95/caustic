@@ -47,7 +47,29 @@ export default defineFixture({
           <FloatingBarItem aria-label="Show grid" icon={<Grid3x3 />} pressed />
           <FloatingBarItem aria-label="Snap to grid" icon={<Magnet />} pressed={false} />
           <FloatingBarSeparator />
-          <ZoomControl value="64%" appearance="bare" />
+          <ZoomControl value="64%" appearance="bare" label="Zoom" zoomOutLabel="Zoom out" zoomInLabel="Zoom in" />
+        </FloatingBar>
+      </div>
+    ),
+    'vertical-dock': () => (
+      <div className={stage}>
+        <FloatingBar label="Canvas tools" orientation="vertical">
+          <FloatingBarGroup>
+            <FloatingBarItem aria-label="Move V" icon={<MousePointer2 />} shortcut="V" active />
+            <FloatingBarItem aria-label="Hand H" icon={<Hand />} shortcut="H" />
+          </FloatingBarGroup>
+          <FloatingBarSeparator />
+          <FloatingBarGroup>
+            <FloatingBarItem aria-label="Frame F" icon={<Frame />} shortcut="F" />
+            <FloatingBarItem aria-label="Rectangle R" icon={<Square />} shortcut="R" />
+            <FloatingBarItem aria-label="Text T" icon={<Type />} shortcut="T" />
+            <FloatingBarItem aria-label="Pen P" icon={<PenTool />} shortcut="P" />
+          </FloatingBarGroup>
+          <FloatingBarSeparator />
+          <FloatingBarGroup>
+            <FloatingBarItem aria-label="Comment C" icon={<MessageCircle />} />
+            <FloatingBarItem aria-label="Ask agent" icon={<WandSparkles />} agent />
+          </FloatingBarGroup>
         </FloatingBar>
       </div>
     ),

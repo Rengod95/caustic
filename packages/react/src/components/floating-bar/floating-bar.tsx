@@ -2,10 +2,11 @@
 import { createContext, useContext, useEffect, useRef, type ComponentProps, type FocusEvent, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
-import { floatingBarIconVariants, floatingBarItemVariants, floatingBarVariants } from './floating-bar.variants.ts';
+import { floatingBarGroupVariants, floatingBarIconVariants, floatingBarItemVariants, floatingBarSeparatorVariants, floatingBarVariants } from './floating-bar.variants.ts';
 
 type Size = 'lg' | 'md' | 'sm';
 const SizeContext = createContext<Size>('lg');
+const OrientationContext = createContext<'horizontal' | 'vertical'>('horizontal');
 
 const FOCUSABLE = 'button:not(:disabled)';
 
@@ -13,9 +14,9 @@ export interface FloatingBarProps extends Omit<ComponentProps<'div'>, 'aria-labe
   /** Accessible name of the toolbar. */
   label: string;
   /** Item size 34, 30, 28; capsule padding 4, 4, 3. */
-  size?: Size;
-  /** Arrow-key axis. */
-  orientation?: 'horizontal' | 'vertical';
+  size?: Size | undefined;
+  /** Layout axis, arrow-key axis and aria-orientation. */
+  orientation?: 'horizontal' | 'vertical' | undefined;
   children: ReactNode;
 }
 
@@ -53,6 +54,7 @@ export function FloatingBar({ label, size = 'lg', orientation = 'horizontal', cl
 
   return (
     <SizeContext.Provider value={size}>
+      <OrientationContext.Provider value={orientation}>
       <div
         ref={ref}
         data-slot="floating-bar"
@@ -60,13 +62,14 @@ export function FloatingBar({ label, size = 'lg', orientation = 'horizontal', cl
         role="toolbar"
         aria-label={label}
         aria-orientation={orientation}
-        className={cn(floatingBarVariants({ size }), className)}
+        className={cn(floatingBarVariants({ size, orientation }), className)}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         {...props}
       >
         {children}
       </div>
+      </OrientationContext.Provider>
     </SizeContext.Provider>
   );
 }
@@ -75,23 +78,24 @@ export interface FloatingBarGroupProps extends ComponentProps<'span'> {}
 
 /** A run of items. */
 export function FloatingBarGroup({ className, ...props }: FloatingBarGroupProps) {
-  return <span data-slot="floating-bar-group" role="group" className={cn('inline-flex items-center gap-0.5', className)} {...props} />;
+  const orientation = useContext(OrientationContext);
+  return <span data-slot="floating-bar-group" role="group" className={cn(floatingBarGroupVariants({ orientation }), className)} {...props} />;
 }
 
 export interface FloatingBarItemProps extends Omit<ComponentProps<'button'>, 'children'> {
   /** lucide icon. */
-  icon?: ReactNode;
+  icon?: ReactNode | undefined;
   /** One-letter shortcut hint. */
-  shortcut?: string;
+  shortcut?: string | undefined;
   /** The current tool: ink fill. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** A toggle that is on (controlled). */
-  pressed?: boolean;
-  defaultPressed?: boolean;
-  onPressedChange?: (pressed: boolean) => void;
+  pressed?: boolean | undefined;
+  defaultPressed?: boolean | undefined;
+  onPressedChange?: ((pressed: boolean) => void) | undefined;
   /** The agent tool: spectrum rim. */
-  agent?: boolean;
-  disabled?: boolean;
+  agent?: boolean | undefined;
+  disabled?: boolean | undefined;
 }
 
 /** One tool or toggle. aria-label is required by the toolbar contract. */
@@ -123,7 +127,8 @@ export function FloatingBarItem({
 
 export interface FloatingBarSeparatorProps extends ComponentProps<'span'> {}
 
-/** The 1px vertical divider. */
+/** The hairline divider, perpendicular to the bar. */
 export function FloatingBarSeparator({ className, ...props }: FloatingBarSeparatorProps) {
-  return <span data-slot="floating-bar-separator" role="separator" aria-orientation="vertical" className={cn('mx-1 h-control-2xs w-px shrink-0 bg-border-default', className)} {...props} />;
+  const orientation = useContext(OrientationContext);
+  return <span data-slot="floating-bar-separator" role="separator" aria-orientation={orientation === 'vertical' ? 'horizontal' : 'vertical'} className={cn(floatingBarSeparatorVariants({ orientation }), className)} {...props} />;
 }

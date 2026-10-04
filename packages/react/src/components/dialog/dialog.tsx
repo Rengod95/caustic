@@ -18,11 +18,13 @@ export interface DialogProps extends Omit<ComponentProps<typeof D.Content>, 'chi
   inline?: boolean;
   /** Show the top-right close button. */
   showClose?: boolean;
+  /** aria-label of the close button; supply it whenever showClose (no built-in text). */
+  closeLabel?: string | undefined;
   children?: ReactNode;
 }
 
 /** Thick-glass dialog: owns its open state and its surface. Compose with DialogHeader/Title/Description/Footer. */
-export function Dialog({ open, defaultOpen, onOpenChange, modal = true, trigger, size, inline = false, showClose = false, className, children, onOpenAutoFocus, onFocusOutside, onInteractOutside, ...props }: DialogProps) {
+export function Dialog({ open, defaultOpen, onOpenChange, modal = true, trigger, size, inline = false, showClose = false, closeLabel, className, children, onOpenAutoFocus, onFocusOutside, onInteractOutside, ...props }: DialogProps) {
   // An inline dialog is part of the page: it does not steal focus on mount and does not close
   // when focus or pointer moves elsewhere. Escape and close controls still close it.
   const keep = (e: Event) => e.preventDefault();
@@ -39,7 +41,7 @@ export function Dialog({ open, defaultOpen, onOpenChange, modal = true, trigger,
     >
       {children}
       {showClose && (
-        <D.Close data-slot="dialog-close" aria-label="Close" className="absolute right-2.5 top-2.5 inline-grid size-control-sm place-items-center rounded-md text-text-secondary outline-none hover:bg-fill-pressed hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-md">
+        <D.Close data-slot="dialog-close" {...(closeLabel !== undefined ? { 'aria-label': closeLabel } : {})} className="absolute right-2.5 top-2.5 inline-grid size-control-sm place-items-center rounded-md text-text-secondary outline-none hover:bg-fill-pressed hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-md">
           <X />
         </D.Close>
       )}

@@ -5,7 +5,7 @@ import { Dialog, DialogClose, DialogDescription, DialogFooter, DialogHeader, Dia
 export default defineFixture({
   id: 'dialog',
   render: props => (
-    <Dialog inline defaultOpen {...props}>
+    <Dialog inline defaultOpen closeLabel="Close" {...props}>
       <DialogHeader><DialogTitle>Detach from component?</DialogTitle><DialogDescription>This layer stops receiving updates from Button / Primary.</DialogDescription></DialogHeader>
       <DialogFooter><DialogClose asChild><Button tone="ghost" size="sm">Cancel</Button></DialogClose><Button size="sm">Detach</Button></DialogFooter>
     </Dialog>

@@ -5,13 +5,15 @@ import { cn } from '../../lib/cn.ts';
 import { IconButton, type IconButtonProps } from '../icon-button/icon-button.tsx';
 import { breadcrumbCurrent, breadcrumbIcon, breadcrumbItem, breadcrumbSeparator, breadcrumbVariants } from './breadcrumb.variants.ts';
 
-export interface BreadcrumbProps extends ComponentProps<'nav'> {
+export interface BreadcrumbProps extends Omit<ComponentProps<'nav'>, 'aria-label'> {
+  /** Landmark label; supplied by the consumer (no built-in text). */
+  'aria-label': string;
   /** The trail: BreadcrumbItem, BreadcrumbEllipsis and one BreadcrumbCurrent. */
   children?: ReactNode;
 }
 
 /** Where the current page sits in a hierarchy. Separators are inserted between entries. */
-export function Breadcrumb({ 'aria-label': ariaLabel = 'Breadcrumb', className, children, ...props }: BreadcrumbProps) {
+export function Breadcrumb({ 'aria-label': ariaLabel, className, children, ...props }: BreadcrumbProps) {
   const entries = Children.toArray(children);
   return (
     <nav data-slot="breadcrumb" aria-label={ariaLabel} className={cn(breadcrumbVariants(), className)} {...props}>

@@ -7,18 +7,20 @@ import { bannerIcon, bannerVariants, type BannerVariantProps } from './banner.va
 
 export interface BannerProps extends ComponentProps<'div'>, BannerVariantProps {
   /** Replaces the default tone icon. */
-  icon?: ReactNode;
+  icon?: ReactNode | undefined;
   /** Action button (a Button xs, ghost or secondary). */
-  action?: ReactNode;
+  action?: ReactNode | undefined;
   /** Shows the dismiss button. The banner does not hide itself; remove it in onDismiss. */
-  dismissible?: boolean;
-  onDismiss?: () => void;
+  dismissible?: boolean | undefined;
+  /** aria-label of the dismiss button; supply it whenever dismissible (no built-in text). */
+  dismissLabel?: string | undefined;
+  onDismiss?: (() => void) | undefined;
 }
 
 const defaultIcon = { info: <Info />, success: <CircleCheck />, warning: <TriangleAlert />, danger: <CircleAlert /> } as const;
 
 /** Page-level notice spanning the whole region. Danger announces as an alert, the other tones as status. */
-export function Banner({ tone, icon, action, dismissible = false, onDismiss, className, children, ...props }: BannerProps) {
+export function Banner({ tone, icon, action, dismissible = false, dismissLabel, onDismiss, className, children, ...props }: BannerProps) {
   const t = tone ?? 'info';
   const trailing = action != null || dismissible;
   return (
@@ -29,7 +31,8 @@ export function Banner({ tone, icon, action, dismissible = false, onDismiss, cla
       <span data-slot="banner-icon" aria-hidden="true" className={bannerIcon({ tone: t })}>{icon ?? defaultIcon[t]}</span>
       <span data-slot="banner-message" className="min-w-0 flex-1 [&_b]:font-semibold">{children}</span>
       {action != null && <span data-slot="banner-action" className="inline-flex flex-none items-center">{action}</span>}
-      {dismissible && <IconButton data-slot="banner-dismiss" size="xs" label="Dismiss" onClick={() => onDismiss?.()}><X /></IconButton>}
+      {/* label is required by IconButton's type; when the consumer omits it the aria-label attribute is simply absent (no English fallback). */}
+      {dismissible && <IconButton data-slot="banner-dismiss" size="xs" label={dismissLabel as string} onClick={() => onDismiss?.()}><X /></IconButton>}
     </div>
   );
 }

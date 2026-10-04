@@ -9,10 +9,21 @@ export const floatingBarVariants = cva(
         md: 'glass-shadow-3 p-1',
         sm: 'glass-shadow-4 p-0.75',
       },
+      orientation: { horizontal: '', vertical: 'flex-col' },
     },
-    defaultVariants: { size: 'lg' },
+    defaultVariants: { size: 'lg', orientation: 'horizontal' },
   },
 );
+
+export const floatingBarGroupVariants = cva('inline-flex items-center gap-0.5', {
+  variants: { orientation: { horizontal: '', vertical: 'flex-col' } },
+  defaultVariants: { orientation: 'horizontal' },
+});
+
+export const floatingBarSeparatorVariants = cva('shrink-0 bg-border-default', {
+  variants: { orientation: { horizontal: 'mx-1 h-control-2xs w-px', vertical: 'my-1 h-px w-control-2xs' } },
+  defaultVariants: { orientation: 'horizontal' },
+});
 
 export const floatingBarItemVariants = cva(
   [

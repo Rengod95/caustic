@@ -8,7 +8,7 @@ import { Toast, ToastViewport, type ToastProps } from './toast.tsx';
 function CaseRegion(props: Partial<ToastProps>) {
   const id = useId();
   return (
-    <ToastViewport aria-label={`Notifications ${id}`} className="static w-80">
+    <ToastViewport label={`Notifications ${id}`} className="static w-80">
       <Toast title="Published v2.4" description="orbit-pay.caustic.app" {...props} />
     </ToastViewport>
   );

@@ -54,7 +54,7 @@ export default defineFixture({
         <CanvasMarquee kind="marquee" rect={{ left: 700, top: 250, width: 120, height: 90 }} />
         <CanvasMarquee kind="draw" label="150 × 96" rect={{ left: 720, top: 84, width: 150, height: 96 }} />
         <div className="absolute top-8.5 right-3.5 z-20">
-          <ZoomControl value="100%" appearance="glass" />
+          <ZoomControl value="100%" appearance="glass" label="Zoom" zoomOutLabel="Zoom out" zoomInLabel="Zoom in" />
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-3.5 z-20 flex justify-center">
           <CanvasHint>

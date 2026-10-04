@@ -6,7 +6,7 @@ import { ZoomControl, type ZoomControlProps } from './zoom-control.tsx';
 
 export default defineFixture({
   id: 'zoom-control',
-  render: props => <ZoomControl value="100%" {...(props as Partial<ZoomControlProps>)} />,
+  render: props => <ZoomControl value="100%" label="Zoom" zoomOutLabel="Zoom out" zoomInLabel="Zoom in" {...(props as Partial<ZoomControlProps>)} />,
   examples: {
     'breakpoints-and-zoom': () => (
       <>
@@ -19,7 +19,7 @@ export default defineFixture({
           </SegmentedControl>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <ZoomControl value="64%" appearance="glass" readout="static" size="sm" />
+          <ZoomControl value="64%" appearance="glass" readout="static" size="sm" label="Zoom" zoomOutLabel="Zoom out" zoomInLabel="Zoom in" />
           <Button tone="secondary" size="sm" shape="pill" iconStart={<Play />}>Preview</Button>
         </div>
       </>
