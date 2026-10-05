@@ -13,7 +13,7 @@ export default defineSpec({
     { name: 'header', el: 'div', parent: 'root', description: 'Heading row of the section: title left, actions right, 24px high.' },
     { name: 'title', el: 'span', parent: 'header', description: 'Section name ("Fill", "Fill · 3 selected"), 11.5px semibold, secondary.' },
     { name: 'actions', el: 'span', parent: 'header', description: 'Flex row, 2px gap: the styles button and the add button.' },
-    { name: 'styles', el: 'any', parent: 'actions', required: false, description: 'IconButton xs (grid-2x2), aria-label "Styles": opens the shared paint styles.' },
+    { name: 'styles', el: 'any', parent: 'actions', required: false, description: 'K2e rule: rendered only when onStylesClick is passed. IconButton xs (grid-2x2), aria-label "Styles": opens the shared paint styles.' },
     { name: 'add', el: 'any', parent: 'actions', description: 'IconButton xs (plus), aria-label "Add fill".' },
     { name: 'row', el: 'any', parent: 'root', required: false, description: 'One StackRow per layer (rows are 36px, 8px apart).' },
     { name: 'summary', el: 'div', parent: 'root', required: false, description: 'Mixed state: a row, space between, 8px gap, items centered, 6px 8px padding, md radius, bg.inset, 12px text. Replaces the rows when the selection has differing paints.' },
