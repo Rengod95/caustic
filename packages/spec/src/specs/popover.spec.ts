@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'One surface, two triggers. trigger="click" is a Radix Popover with interactive content; trigger="hover" is a Radix HoverCard with a short preview (avatar, name, status, quick actions). Both share the same glass surface and arrow.',
   role: 'dialog',
   slots: [
-    { name: 'root', el: 'div', role: 'dialog', description: 'The anchored surface (Radix Content): thick glass, 2xl radius, 14px padding, 10px gap, elevation 4.' },
+    { name: 'root', el: 'div', role: 'dialog', description: 'The anchored surface (Radix Content): thick glass, 2xl radius, 14px padding, 10px gap, elevation 4. Its height is bounded by the available viewport height (max-height var(--radix-popover-content-available-height), var(--radix-hover-card-content-available-height) for hover) and the content scrolls inside it (overflow-y auto); inline is not bounded.' },
     { name: 'arrow', el: 'span', parent: 'root', required: false, description: 'A 12px rotated square on the anchor side, material.thick fill with a rim on its two outer edges. Offset 24px from the start edge for align="start".' },
     { name: 'title', el: 'b', parent: 'root', required: false, description: 'Semibold heading (13px / 600). In the hover card, the person’s name.' },
     { name: 'description', el: 'p', parent: 'root', required: false, description: 'Secondary text, 12.5px / 18, tertiary. Not the aria description of a hover card.' },
@@ -71,6 +71,7 @@ export default defineSpec({
   composition: { uses: ['button', 'number-field', 'avatar'], radix: ['@radix-ui/react-popover', '@radix-ui/react-hover-card'] },
   examples: [{ id: 'anchored', title: 'Popover & hover card', doc: 'popover#popover-and-hover-card' }],
   usage: [
+    'K2d: max-height is the Radix available height of the content with overflow-y auto, so tall content (a color picker, a long form) scrolls instead of being cut off by the viewport. The arrow stays outside the scrolling box. The viewport bound has no StyleExpect key yet (open question: add maxHeight to the schema and the runtime probe); the G2 class check and a G3 scenario cover it meanwhile.',
     'The example reproduces two anchored panels side by side (row, gap 24, align start), each in a stack with a 10px gap: (1) a secondary sm Button “Spacing” with a sliders-horizontal icon, whose md popover holds the title “Spacing”, two NumberFields (Gap 12, Pad 16) in a two-column grid with a 6px gap, and a footer row with the muted “Bound to space/3” and a ghost xs Button “Detach”; (2) a md Avatar “MK” with presence, whose sm hover card (240) holds a md Avatar and the name “Mina Kang” + “Product designer · Seoul”, the muted “Editing Pricing / Desktop now”, and a row with a secondary xs “Follow” and a ghost xs “Message” Button. trigger="hover" is used for the second.',
     'Content layout (grids, rows) is the consumer’s; the component supplies the surface, gap and the title/description roles.',
     'Radix Popover for click and Radix HoverCard for hover are both allowed; inline renders the same parts without Popper or portal.',

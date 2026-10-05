@@ -23,6 +23,8 @@ export default defineSpec({
     disabled: { props: { disabled: true } },
   },
   props: {
+    label: { type: 'string', required: true, description: 'aria-label of the group (e.g. "Alignment"). Required; no built-in default.' },
+    cellLabels: { type: "Record<'top-left' | 'top-center' | 'top-right' | 'middle-left' | 'middle-center' | 'middle-right' | 'bottom-left' | 'bottom-center' | 'bottom-right', string>", required: true, description: 'aria-label of each cell (e.g. "Top left"). Required; no built-in default.' },
     value: { type: "'top-left' | 'top-center' | 'top-right' | 'middle-left' | 'middle-center' | 'middle-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'", description: 'Controlled position.' },
     defaultValue: { type: "'top-left' | 'top-center' | 'top-right' | 'middle-left' | 'middle-center' | 'middle-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'", default: 'middle-left', description: 'Uncontrolled initial position. Specimen: middle-left (cell 4 of 9).' },
     orientation: { type: "'row' | 'column'", default: 'row', description: 'Glyph direction.' },
@@ -57,6 +59,7 @@ export default defineSpec({
   policies: ['P5', 'P6'],
   composition: { uses: [] },
   usage: [
+    'K2d: the group and cell names are props (label, cellLabels); the fixture passes "Alignment" and "Top left" ... "Bottom right", so the specimen is unchanged.',
     'No example of its own: it appears in the auto-layout example.',
     'Fixture contract: the plain render shows middle-left selected (the default) with orientation row.',
     'The glyph shows the bars of the selected position only; unselected cells show the dot. The bars are an illustration of items aligned along the main axis, not a data series.',

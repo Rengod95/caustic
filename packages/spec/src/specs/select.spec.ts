@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'The trigger is a PickerTrigger (chevrons-up-down indicator, placeholder in the placeholder color). The popup is the Menu surface with role="listbox" and role="option" items; the chosen option takes the accent.soft fill. More than 7 options: use Combobox.',
   role: 'listbox',
   slots: [
-    { name: 'root', el: 'div', role: 'listbox', description: 'The floating listbox surface (Radix Select Content in popper mode). Rendered only while open, or in place with inline.' },
+    { name: 'root', el: 'div', role: 'listbox', description: 'The floating listbox surface (Radix Select Content in popper mode). Rendered only while open, or in place with inline. Its height is bounded by the available viewport height (max-height var(--radix-select-content-available-height)) and the options scroll inside it (overflow-y auto); inline is not bounded.' },
     { name: 'trigger', el: 'button', required: false, role: 'combobox', description: 'The PickerTrigger, rendered with data-slot="select-trigger". Its styles are those of picker-trigger and are not repeated here.' },
     { name: 'group', el: 'div', parent: 'root', required: false, role: 'group', description: 'Optional option group.' },
     { name: 'heading', el: 'div', parent: 'group', required: false, description: 'Group heading (menu heading style).' },
@@ -78,6 +78,7 @@ export default defineSpec({
   flags: { floating: true },
   composition: { uses: ['picker-trigger', 'menu'], radix: ['@radix-ui/react-select'] },
   usage: [
+    'K2d: the listbox max-height is the Radix available height (var(--radix-select-content-available-height)) with overflow-y auto, so a long list (a property or blend-mode chooser) scrolls instead of running off the screen. The rule lives in the shared menu surface style so Menu, Combobox and the font list can reuse it; the inline mode keeps its natural height. The viewport-bound has no StyleExpect key yet (open question: add maxHeight); until then the gate checks the class in G2 and the scenario below measures it.',
     'Radix Select is the behavior base (typeahead, form integration, aria). Use position="popper" so the listbox sits under the trigger like Menu; item-aligned positioning is not part of the design. If Radix Select cannot render the surface in place for inline, the implementer renders the same option parts in a static container and says so.',
     'No open-list specimen exists for a Select by itself: the listbox styling is the Menu surface and item (select-menu#select-and-menu). Do not invent a separate listbox look.',
     'The closed trigger appears in the Select & combobox section (Role = Editor, Country = placeholder) and is gated through the Combobox example.',

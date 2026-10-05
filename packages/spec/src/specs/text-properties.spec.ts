@@ -31,9 +31,15 @@ export default defineSpec({
     value: { type: "{ weight: string; size: number; lineHeight: number; letterSpacing: number; align: 'left' | 'center' | 'right' | 'justify'; valign: 'top' | 'middle' | 'bottom'; resize: 'fixed' | 'auto-h' | 'auto-w' | 'truncate'; case: 'none' | 'upper' | 'lower' | 'title' }", description: 'Controlled text properties. lineHeight and letterSpacing are percentages.' },
     defaultValue: { type: "{ weight: string; size: number; lineHeight: number; letterSpacing: number; align: 'left' | 'center' | 'right' | 'justify'; valign: 'top' | 'middle' | 'bottom'; resize: 'fixed' | 'auto-h' | 'auto-w' | 'truncate'; case: 'none' | 'upper' | 'lower' | 'title' }", default: { weight: 'Semibold', size: 28, lineHeight: 120, letterSpacing: -2, align: 'left', valign: 'middle', resize: 'fixed', case: 'none' }, description: 'Uncontrolled initial properties (the specimen).' },
     styleRuns: { type: 'number', default: 1, description: 'Number of style runs in the layer; the notice is shown when it is greater than 1.' },
-    disabled: { type: 'boolean', default: false, description: 'Disables every control.' },
+    disabled: { type: "boolean | Partial<Record<'weight' | 'size' | 'lineHeight' | 'letterSpacing' | 'align' | 'valign' | 'resize' | 'case', boolean>>", default: false, description: 'true disables every control; a record disables the named fields (the Details button follows true only).' },
+    commitMode: { type: "'live' | 'release'", default: 'live', description: 'live (default): the behavior before K2d. release: the NumberField value model for every numeric field of this part, and one commit per continuous gesture.' },
+    mixed: { type: "Partial<Record<'weight' | 'size' | 'lineHeight' | 'letterSpacing' | 'align' | 'valign' | 'resize' | 'case', boolean>>", description: 'Fields whose selection values differ; each shows labels.mixed in place of a value (text fields as placeholder, toggles with aria-pressed "mixed", selects as the select value) and never a substituted first value. A mixed weight shows the mixed text in the weight select; a mixed segment group has none selected (aria-checked false on every item).' },
+    reserved: { type: "Partial<Record<'weight' | 'size' | 'lineHeight' | 'letterSpacing' | 'align' | 'valign' | 'resize' | 'case', boolean>>", description: 'Fields that are being written or held by another window: read-only, aria-busy="true", data-reserved, focus and draft kept, no event while reserved.' },
+    labels: { type: "{ weight: string; size: string; lineHeight: string; letterSpacing: string; align: Record<'left' | 'center' | 'right' | 'justify', string>; alignGroup: string; valign: Record<'top' | 'middle' | 'bottom', string>; valignGroup: string; resize: Record<'fixed' | 'auto-h' | 'auto-w' | 'truncate', string>; resizeGroup: string; case: Record<'none' | 'upper' | 'lower' | 'title', string>; caseSamples: Record<'none' | 'upper' | 'lower' | 'title', string>; caseGroup: string; details: string; notice: (styleRuns: number) => string; mixed: string }", required: true, description: 'Every text and accessible name; no English default. The specimen values: "Font weight", Size, "Line height", "Letter spacing", Align left, Align center, Align right, Justify, Top, Middle, Bottom, Fixed, Auto H, Auto W, Truncate, As typed, Uppercase, Lowercase, Title case with the samples Aa, AA, aa, Ab, Details, the notice "This text has N style runs. Changes apply to the whole layer." and Mixed.' },
   },
   events: {
+    onDraftChange: { payload: "{ field: 'size' | 'lineHeight' | 'letterSpacing'; text: string; value: number | null; error: 'empty' | 'syntax' | 'range' | null; dirty: boolean }", when: 'a numeric field text changes (NumberField contract: error empty, syntax or range, dirty while it differs from the committed value). field names the field.' },
+    onPreviewChange: { payload: 'TextPropertiesValue | null', when: 'commitMode release only: a scrub or drag gesture is in progress, with the value being previewed (not a commit); null when it ends or Escape cancels it. onValueChange follows once on release. Only size, line height and letter spacing scrub.' },
     onValueChange: { payload: 'TextPropertiesValue', when: 'any control commits' },
     onWeightClick: { payload: 'void', when: 'the weight select is pressed; the owner opens the weight menu' },
     onDetailsClick: { payload: 'void', when: 'Details is pressed; the owner opens the full typography details (FontOptions)' },
@@ -51,6 +57,7 @@ export default defineSpec({
     keyboard: { Tab: 'weight, size, line height, letter spacing, alignment groups, resize, case, Details in reading order' },
     pointer: ['scrub a field label to change its value', 'the segmented groups behave as radio groups: one active item each'],
     scenarios: [
+      { name: 'reserved size is busy', props: { reserved: { size: true } }, steps: [], expect: [{ slot: 'size', attr: { 'aria-busy': 'true' } }] },
       { name: 'details click', steps: [{ do: 'click', slot: 'details' }], expect: [{ event: 'onDetailsClick', calls: 1 }] },
     ],
   },
@@ -66,6 +73,8 @@ export default defineSpec({
     { id: 'text-properties', title: 'Text properties', doc: 'typography-controls#text-properties' },
   ],
   usage: [
+    'K2d inspector value model (defined on NumberField): onValueChange is the commit; commitMode "release" turns every continuous gesture into onPreviewChange while it runs and one onValueChange when it ends, and keeps typed text as a draft (onDraftChange, aria-invalid, never clamped or dropped) until a valid Enter or blur; discrete choices (toggle, segment, select option, arrow key, preset, swatch) commit at once; mixed fields show the mixed label with no invented value; a reserved field is read-only with aria-busy and data-reserved and keeps focus and its draft; disabled may be a boolean or a per-field record. Fields: \'weight\' | \'size\' | \'lineHeight\' | \'letterSpacing\' | \'align\' | \'valign\' | \'resize\' | \'case\'. The weight select still only shows the name; onWeightClick opens the owner menu, and while weight is reserved it is not raised.',
+    'K2d labels: every string is labels.*, including the notice text builder; the fixture and the example pass the specimen strings, so the baseline stays identical.',
     'Example reproduces the section as an 8px stack on the page, with the specimen values (Semibold, 28, 120 %, −2 %, align left, middle, Fixed, Aa) and styleRuns 3 (the notice is visible).',
     'Fixture contract: render(props) renders the defaults (styleRuns 1: no notice). Notice probes pass styleRuns 3.',
     'The weight select shows only the current name; its menu is a Select listbox opened by the owner.',

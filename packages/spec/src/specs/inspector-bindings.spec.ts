@@ -10,7 +10,7 @@ export default defineSpec({
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'The stack of binding rows and the add row. Grid, 8px gap.' },
-    { name: 'row', el: 'div', parent: 'root', role: 'group', description: 'One bound property. Grid of 1fr / auto with 4px row and 6px column gap, 8px padding, lg radius, solid base surface with a subtle hairline edge. aria-label = the property name.' },
+    { name: 'row', el: 'div', parent: 'root', role: 'group', description: 'One bound property. Grid of 1fr / auto with 4px row and 6px column gap, 8px padding, lg radius, solid base surface with a subtle hairline edge. aria-label = the property name (a string property, or the selectorLabel stem).' },
     { name: 'property', el: 'span', parent: 'row', description: 'Property label with its glyph: flex, 6px gap, hint text medium, secondary. The glyph is 14px.' },
     { name: 'action', el: 'any', parent: 'row', description: 'End of the first line: an IconButton xs "Unbind" (unlink glyph) on a normal row; a Badge warning "3 / 5" on a mixed row.' },
     { name: 'selector', el: 'button', parent: 'row', description: 'The bound token as a button across the full row: 32px, 4px / 6px inline padding, md radius, accent soft fill with an accent border, mono text. Holds the link glyph (12px, accent text), an optional swatch, the token name, and the chevron at the end. aria-haspopup, opens the token picker.' },
@@ -29,6 +29,12 @@ export default defineSpec({
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'selector' },
   },
   props: {
+    selectorLabel: { type: 'string', required: true, description: 'InspectorBindingsRow prop. aria-label of the selector, replacing the built-in "property, token" pattern (e.g. "Fill, color/accent/solid"). Required; no built-in pattern.' },
+    selectorAsChild: { type: 'boolean', default: false, description: 'InspectorBindingsRow prop. Render the single child (for example a Select trigger with role combobox) with the selector styling instead of the built-in button, like InspectorSelect asChild. Then onPick is not used: the child owns opening. This lets a consumer offer one combobox per property.' },
+    disabled: { type: 'boolean', default: false, description: 'InspectorBindingsRow prop. Disables the selector and Unbind of the row.' },
+    reserved: { type: 'boolean', default: false, description: 'InspectorBindingsRow prop. The property is being written or held by another window: the selector and Unbind are inert with aria-busy="true" and data-reserved on the row; the row stays readable.' },
+    addDisabled: { type: 'boolean', default: false, description: 'Disables the add row.' },
+    mixedLabel: { type: 'string', description: 'InspectorBindingsRow prop. Text of the Mixed tokens name and the mixed badge aria-label on a mixed row. Required whenever binding can be mixed; no built-in default.' },
     binding: { type: "'bound' | 'mixed'", default: 'bound', description: 'InspectorBindingsRow prop. Binding state.' },
     property: { type: 'ReactNode', required: true, description: 'InspectorBindingsRow prop. Property label ("Fill").' },
     icon: { type: 'ReactNode', description: 'InspectorBindingsRow prop. Glyph of the property.' },
@@ -36,8 +42,8 @@ export default defineSpec({
     swatch: { type: 'ReactNode', description: 'InspectorBindingsRow prop. Swatch for color tokens.' },
     context: { type: 'ReactNode[]', description: 'InspectorBindingsRow prop. One entry per context fact.' },
     count: { type: 'ReactNode', description: 'InspectorBindingsRow prop. Mixed rows: the "3 / 5" badge text.' },
-    unbindLabel: { type: 'string', default: 'Unbind', description: 'InspectorBindingsRow prop. aria-label of the Unbind button.' },
-    addLabel: { type: 'ReactNode', default: 'Bind a property', description: 'Label of the add row.' },
+    unbindLabel: { type: 'string', required: true, description: 'InspectorBindingsRow prop. aria-label of the Unbind button (e.g. "Unbind Fill"). Required; no built-in default (K2d).' },
+    addLabel: { type: 'ReactNode', required: true, description: 'Label of the add row (e.g. "Bind a property"). Required; no built-in default (K2d).' },
   },
   events: {
     onUnbind: { payload: 'React.MouseEvent<HTMLButtonElement>', when: 'Unbind is activated (InspectorBindingsRow prop)' },
@@ -67,6 +73,8 @@ export default defineSpec({
     },
     pointer: ['the selector opens the token picker; Unbind removes the binding; the add row opens the property chooser'],
     scenarios: [
+      { name: 'reserved row is busy', props: { reserved: true }, steps: [], expect: [{ slot: 'row', attr: { 'aria-busy': 'true' } }] },
+      { name: 'disabled add row', props: { addDisabled: true }, steps: [{ do: 'click', slot: 'add' }], expect: [{ event: 'onAdd', calls: 0 }] },
       { name: 'selector opens the picker', steps: [{ do: 'click', slot: 'selector' }], expect: [{ event: 'onPick', calls: 1 }] },
       { name: 'add row reports', steps: [{ do: 'click', slot: 'add' }], expect: [{ event: 'onAdd', calls: 1 }] },
     ],
@@ -85,6 +93,9 @@ export default defineSpec({
   composition: { uses: ['icon-button', 'badge'] },
   examples: [{ id: 'foundation-bindings', title: 'Foundation bindings', doc: 'token-binding#foundation-bindings' }],
   usage: [
+    'K2d value model: this part has no typed field, so only disabled and reserved apply; unbinding, picking and adding are discrete commits raised by onUnbind, onPick and onAdd. Mixed is the existing mixed binding.',
+    'K2d labels: unbindLabel, addLabel, selectorLabel and mixedLabel are required props with no English default; the fixture passes "Unbind", "Bind a property", the "property, token" strings and "Mixed tokens", so the baseline stays identical. The context entries, the "3 / 5" badge text and the token text were already consumer content.',
+    'Open question: W-d reports that the shipped InspectorBindingsRow opens a dialog from the row; this spec says the selector raises onPick and the owner opens its picker. selectorAsChild is the way for a consumer to own the opening (a combobox per property), and the implementer must remove any built-in dialog.',
     'Fixture render(props): three rows then the add row. (1) "Fill" (paint-bucket glyph), Unbind, selector with link glyph, a swatch (accent solid fill) and "color/accent/solid", context "color", "· alias depth 2", "· light, dark". (2) "Corner radius" (scan glyph), Unbind, selector "radius/card · 20", context "dimension", "· direct". (3) binding mixed: "Text style" (type glyph), Badge warning "3 / 5", selector "Mixed tokens" with a warning link glyph, context "3 of 5 layers use label/md · 2 use literals". Add row "Bind a property" (plus glyph). Row-level props (binding) apply to the FIRST row in probes.',
     'Strings: the separator in "radius/card · 20" and "· alias depth 2" is a middle dot with spaces.',
     'The example reproduces the whole section at its natural width; the "InspectorBindings" caption is hidden in the frame.',

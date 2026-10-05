@@ -21,14 +21,19 @@ export default defineSpec({
     mixed: { props: { mixed: true } },
   },
   props: {
+    commitMode: { type: "'live' | 'release'", default: 'live', description: 'live (default): as before, an invalid value is reverted silently on Enter or blur. release: an invalid draft (not 3, 4, 6 or 8 hex digits) stays in the field, marks it invalid (aria-invalid true, the invalid style) and is reported; only a valid value commits, on Enter or blur.' },
+    mixedLabel: { type: 'string', description: 'Placeholder while mixed is true (e.g. "Mixed"; the input still uppercases it by style). Required whenever mixed can be true; no built-in default.' },
+    reserved: { type: 'boolean', default: false, description: 'A write is in flight or another window holds the paint: read-only, focusable, aria-busy="true", data-reserved; the text and any draft are kept; no event while true.' },
     value: { type: 'string', description: 'Controlled hex digits without #, uppercase ("E2763F").' },
     defaultValue: { type: 'string', description: 'Uncontrolled initial value.' },
     token: { type: 'string', description: 'Token path the paint is bound to. Replaces the input by the bound chip.' },
-    mixed: { type: 'boolean', default: false, description: 'Differing values in a multi-selection: empty field with the placeholder "Mixed".' },
+    mixed: { type: 'boolean', default: false, description: 'Differing values in a multi-selection: empty field with the placeholder from mixedLabel.' },
     invalid: { type: 'boolean', default: false, description: 'Danger fill and ring; set aria-invalid on the input.' },
     disabled: { type: 'boolean', default: false, description: 'Disables the input.' },
   },
-  events: { onValueChange: { payload: 'string', when: 'a valid value (3, 4, 6 or 8 hex digits) is committed with Enter or blur; the payload is uppercase' } },
+  events: {
+    onDraftChange: { payload: "{ text: string; value: string | null; error: 'empty' | 'syntax' | null; dirty: boolean }", when: 'the text changes by typing, paste or Escape, and when a commit clears it. value is the normalized uppercase digits or null; error is syntax for an invalid length or character, empty for blank; dirty is true while the text differs from the committed value.' },
+    onValueChange: { payload: 'string', when: 'a valid value (3, 4, 6 or 8 hex digits) is committed with Enter or blur; the payload is uppercase' } },
   styles: [
     { slot: 'root', expect: { bg: 'fill.hover', radius: 'lg', height: 'control-md', padX: 8, gap: 6, font: 'mono', text: 'mono-md', weight: 400 }, note: 'Specimen text is the mono role at 11.5px; mono-md is 11.5px / 18px at weight 500, so weight 400 is applied.' },
     { slot: 'root', when: { state: 'focus-within' }, expect: { bg: 'surface.base', ring: 'focus-field' } },
@@ -42,6 +47,8 @@ export default defineSpec({
     keyboard: { Enter: 'commit', Escape: 'revert to the last valid value', Tab: 'commit and move on' },
     pointer: ['pressing anywhere in the container focuses the input'],
     scenarios: [
+      { name: 'release: an invalid draft stays and is reported', props: { commitMode: 'release', defaultValue: 'E2763F' }, steps: [{ do: 'click', slot: 'control' }, { do: 'press', key: 'Control+A' }, { do: 'type', text: 'zz' }, { do: 'press', key: 'Enter' }], expect: [{ event: 'onValueChange', calls: 0 }, { slot: 'control', attr: { 'aria-invalid': 'true' } }] },
+      { name: 'reserved is read-only and busy', props: { reserved: true, defaultValue: 'E2763F' }, steps: [], expect: [{ slot: 'root', attr: { 'aria-busy': 'true' } }] },
       { name: 'Enter commits a typed value', props: { defaultValue: 'E2763F' }, steps: [{ do: 'click', slot: 'control' }, { do: 'press', key: 'Control+A' }, { do: 'type', text: '5f4994' }, { do: 'press', key: 'Enter' }], expect: [{ event: 'onValueChange', args: ['5F4994'] }] },
       { name: 'invalid is announced', props: { invalid: true, defaultValue: 'E2763' }, steps: [], expect: [{ slot: 'control', attr: { 'aria-invalid': 'true' } }] },
     ],
@@ -56,6 +63,7 @@ export default defineSpec({
   flags: { field: true },
   composition: { uses: [] },
   usage: [
+    'K2d: data-dirty on the root while the text differs from the committed value (Axiom reads it to guard selection changes); aria-invalid is always written ("true" or "false"). The mixed placeholder is mixedLabel; the fixture passes "Mixed" so the specimen is unchanged. The invalid message text stays the owner (PaintWell message), the component only reports the draft.',
     'No example of its own: paint-well shows the default, bound, mixed and invalid fields.',
     'Fixture contract: render(props) renders value "E2763F" with aria-label "Hex"; the bound state passes token "accent/solid"; mixed passes mixed.',
     'Accepts 3, 4, 6 and 8 digits; commits uppercase. The specimen only commits 6-digit values and styles the rest as invalid; the spec allows all four lengths (the specimen message says so).',

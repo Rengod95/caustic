@@ -17,6 +17,8 @@ export default defineSpec({
     disabled: { props: { disabled: true } },
   },
   props: {
+    label: { type: 'string', required: true, description: 'aria-label of the thumb (e.g. "Saturation and brightness"). Required; no built-in default.' },
+    valueText: { type: '(saturation: number, brightness: number) => string', description: 'aria-valuetext from the rounded percentages (e.g. (s, v) => "Saturation " + s + " %, brightness " + v + " %"). Without it the thumb has no aria-valuetext.' },
     value: { type: '{ s: number; v: number }', description: 'Controlled saturation and brightness, both 0–1.' },
     defaultValue: { type: '{ s: number; v: number }', description: 'Uncontrolled initial value.' },
     hue: { type: 'number', default: 0, description: 'Hue in degrees (0–360); the plane shows hsl(hue 100% 50%) on its right edge. Set as the --cs-plane-hue custom property.' },
@@ -50,6 +52,7 @@ export default defineSpec({
   policies: ['P6'],
   composition: { uses: [] },
   usage: [
+    'K2d: the thumb name and value text are props; the fixture passes the specimen strings.',
     'No example of its own: it is inside the color-picker examples.',
     'Fixture contract: render(props) renders hue 22 with value { s: 0.72, v: 0.89 } and pickedColor "#E2763F" (the specimen picker).',
     'Specimen: plane 248 × 150 in the 268px picker; the thumb of the specimen sits at (72 %, 11 %).',

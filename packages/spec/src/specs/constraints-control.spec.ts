@@ -24,10 +24,13 @@ export default defineSpec({
     'pin-on': { props: { defaultValue: { horizontal: 'left', vertical: 'top' } } },
   },
   props: {
-    value: { type: "{ horizontal: 'left' | 'right' | 'left-right' | 'center' | 'scale'; vertical: 'top' | 'bottom' | 'top-bottom' | 'center' | 'scale' }", description: 'Controlled constraints.' },
+    value: { type: "{ horizontal: 'left' | 'right' | 'left-right' | 'center' | 'scale' | null; vertical: 'top' | 'bottom' | 'top-bottom' | 'center' | 'scale' | null }", description: 'Controlled constraints.' },
     defaultValue: { type: "{ horizontal: 'left' | 'right' | 'left-right' | 'center' | 'scale'; vertical: 'top' | 'bottom' | 'top-bottom' | 'center' | 'scale' }", default: { horizontal: 'scale', vertical: 'scale' }, description: 'Uncontrolled initial constraints. The default is Scale on both axes (no pin on), so the plain render shows every pin off.' },
     note: { type: 'ReactNode', description: 'Footnote under the selects.' },
-    disabled: { type: 'boolean', default: false, description: 'Disables pins and selects (a frame with no parent).' },
+    disabled: { type: "boolean | Partial<Record<'horizontal' | 'vertical', boolean>>", default: false, description: 'true disables pins and selects (a frame with no parent); a record disables one axis (its pins and its select).' },
+    mixed: { type: "Partial<Record<'horizontal' | 'vertical', boolean>>", description: 'Fields whose selection values differ; each shows labels.mixed in place of a value (text fields as placeholder, toggles with aria-pressed "mixed", selects as the select value) and never a substituted first value. A mixed axis shows its pins with aria-pressed "mixed" and its select with the mixed label; value may also hold null for that axis.' },
+    reserved: { type: "Partial<Record<'horizontal' | 'vertical', boolean>>", description: 'Fields that are being written or held by another window: read-only, aria-busy="true", data-reserved, focus and draft kept, no event while reserved.' },
+    labels: { type: "{ group: string; pins: Record<'top' | 'bottom' | 'left' | 'right' | 'centerX' | 'centerY', string>; horizontal: string; vertical: string; horizontalOptions: Record<'left' | 'right' | 'left-right' | 'center' | 'scale', string>; verticalOptions: Record<'top' | 'bottom' | 'top-bottom' | 'center' | 'scale', string>; mixed: string }", required: true, description: 'Every text and accessible name; no English default. group is the aria-label of the group, pins the six pin names, horizontal and vertical the aria-labels of the two selects, the options the select texts (Left, Right, Left & right, Center, Scale and Top, Bottom, Top & bottom, Center, Scale), mixed the mixed select text.' },
   },
   events: {
     onValueChange: { payload: "{ horizontal: string; vertical: string }", when: 'a pin is toggled or a select picks a constraint' },
@@ -51,6 +54,8 @@ export default defineSpec({
       'choosing a constraint in a select updates the pins',
     ],
     scenarios: [
+      { name: 'mixed vertical exposes mixed pins', props: { mixed: { vertical: true } }, steps: [], expect: [{ slot: 'pin', attr: { 'aria-pressed': 'mixed' } }] },
+      { name: 'reserved axis is busy', props: { reserved: { horizontal: true } }, steps: [], expect: [{ slot: 'horizontal', attr: { 'aria-busy': 'true' } }] },
       { name: 'pin click', props: { defaultValue: { horizontal: 'scale', vertical: 'scale' } }, steps: [{ do: 'click', slot: 'pin' }], expect: [{ event: 'onValueChange', calls: 1 }] },
     ],
   },
@@ -70,6 +75,8 @@ export default defineSpec({
     { id: 'alignment-and-constraints', title: 'Alignment & constraints', doc: 'position-size#alignment-and-constraints' },
   ],
   usage: [
+    'K2d inspector value model (defined on NumberField): onValueChange is the commit; commitMode "release" turns every continuous gesture into onPreviewChange while it runs and one onValueChange when it ends, and keeps typed text as a draft (onDraftChange, aria-invalid, never clamped or dropped) until a valid Enter or blur; discrete choices (toggle, segment, select option, arrow key, preset, swatch) commit at once; mixed fields show the mixed label with no invented value; a reserved field is read-only with aria-busy and data-reserved and keeps focus and its draft; disabled may be a boolean or a per-field record. This part has no typed or continuous input, so there is no commitMode, onDraftChange or onPreviewChange; fields: \'horizontal\' | \'vertical\'.',
+    'K2d labels: every string is labels.*; the fixture passes Constraints, Top, Bottom, Left, Right, Center X, Center Y, the two select names and the option texts of the specimen, so the baseline stays identical. The pin hit-area note still applies.',
     'Example reproduces the whole section (a 14px gap stack): (1) row, space between: an AlignBar with six items and a separator (Align left, Align horizontal centers, Align right | Align top, Align vertical centers, Align bottom) on the left and a neutral Badge "3 frames" on the right; (2) row with an 8px gap of three xs Buttons: secondary "Distribute H" (align-horizontal-distribute-center), secondary "Distribute V" (align-vertical-distribute-center), ghost "Fit to selection" (scan); (3) this component with value { horizontal: "left-right", vertical: "center" } and the note "Resizing the parent stretches width and keeps the frame centered vertically."',
     'In the specimen the on pins are left, right and the 2px-wide center-y bar (the vertical line). Geometry per specimen: center-x is the 20×2 horizontal bar and center-y the 2×20 vertical bar.',
     'Specimen oddity: the pin named "Center Y" draws a vertical line (it is on for the vertical constraint Center). A vertical constraint would more naturally draw the horizontal bar; the spec follows the specimen.',

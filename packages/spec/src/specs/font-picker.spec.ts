@@ -24,12 +24,19 @@ export default defineSpec({
     { name: 'badge', el: 'any', parent: 'option', required: false, description: 'Badge in the end column, 18px high, 11px: projectLabel ("Project", square, neutral) or missingLabel ("Missing", warning, with a triangle-alert icon).' },
   ],
   states: {
+    mixed: { props: { mixed: true, mixedLabel: 'Mixed' } },
+    disabled: { props: { disabled: true } },
+    reserved: { props: { reserved: true } },
     'option-hover': { pseudo: ['hover'], target: 'option' },
     'option-selected': { props: { defaultValue: 'Newsreader' } },
     open: { props: { open: true } },
     empty: { props: { options: [] } },
   },
   props: {
+    mixed: { type: 'boolean', default: false, description: 'The selection uses several families: the trigger shows mixedLabel instead of a family name (the sample stays in the default face), no option is selected and no check is drawn. Choosing an option commits that family for the whole selection.' },
+    mixedLabel: { type: 'string', description: 'Text of the name while mixed (e.g. "Mixed"). Also the family passed to triggerLabel, so the accessible name reads "Font: Mixed". Required whenever mixed can be true; no built-in default.' },
+    disabled: { type: 'boolean', default: false, description: 'Disables the trigger: native disabled, opacity 0.42, the list cannot open (it closes if open) and onOpenChange is not raised.' },
+    reserved: { type: 'boolean', default: false, description: 'A write to the family is in flight, or another window holds it: the trigger stays focusable but the list does not open; aria-busy="true", data-reserved, the name is unchanged. No event is raised.' },
     value: { type: 'string', description: 'Controlled family name.' },
     defaultValue: { type: 'string', description: 'Uncontrolled initial family.' },
     options: { type: '{ family: string; label?: string; meta: ReactNode; cssFamily: string; project?: boolean; missing?: boolean; italic?: boolean }[]', required: true, description: 'Families. cssFamily is the font-family used to preview the name (including the fallback for a missing one); label is the shown name when it differs from family (프리텐다드).' },
@@ -52,6 +59,8 @@ export default defineSpec({
     onSearchChange: { payload: 'string', when: 'the search text changes; the owner filters options' },
   },
   styles: [
+    { slot: 'trigger', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'name', when: { state: 'mixed' }, expect: { fg: 'text.secondary', text: 'ui-strong' }, note: 'Mixed text is secondary (the specimen mixed style of NumberField); italic is applied by the class, not probed.' },
     { slot: 'trigger', expect: { bg: 'fill.hover', fg: 'text.primary', radius: 'md', height: 'control-md', padX: 8, gap: 8 } },
     { slot: 'sample', expect: { text: 'title-3', weight: 400, width: 'control-compact-xs' }, note: 'Specimen 15px / 18px; title-3 is 15px / 20px. Font family is the current face (data).' },
     { slot: 'name', expect: { text: 'ui-strong' } },
@@ -69,6 +78,9 @@ export default defineSpec({
     keyboard: { Enter: 'trigger: open; option: choose', ArrowDown: 'trigger: open; list: next option', ArrowUp: 'previous option', Escape: 'close and return focus to the trigger', Tab: 'search, then the options in order' },
     pointer: ['pressing the trigger toggles the list', 'hovering highlights an option; pressing chooses it and closes the list', 'typing in the search filters the options'],
     scenarios: [
+      { name: 'disabled does not open', props: { disabled: true }, steps: [{ do: 'click', slot: 'trigger' }], expect: [{ event: 'onOpenChange', calls: 0 }, { slot: 'trigger', attr: { disabled: '' } }] },
+      { name: 'reserved does not open and is busy', props: { reserved: true }, steps: [{ do: 'click', slot: 'trigger' }], expect: [{ event: 'onOpenChange', calls: 0 }, { slot: 'trigger', attr: { 'aria-busy': 'true' } }] },
+      { name: 'mixed names the trigger', props: { mixed: true, mixedLabel: 'Mixed' }, steps: [], expect: [{ slot: 'trigger', attr: { 'aria-label': 'Font: Mixed' } }] },
       { name: 'click chooses', props: { inline: true, defaultOpen: true, defaultValue: 'Geist' }, steps: [{ do: 'click', slot: 'option' }], expect: [{ event: 'onValueChange', calls: 1 }] },
       { name: 'Escape closes', props: { inline: true, defaultOpen: true }, steps: [{ do: 'focus', slot: 'trigger' }, { do: 'press', key: 'Escape' }], expect: [{ event: 'onOpenChange', args: [false] }] },
     ],
@@ -87,6 +99,7 @@ export default defineSpec({
     { id: 'font-picker-open', title: 'Font picker', doc: 'typography-controls#font-picker' },
   ],
   usage: [
+    'K2d: mixed, disabled and reserved are per-control states of the whole picker; the names mixedLabel is supplied by the consumer like the other labels (no English default). The fixture mixed state passes mixedLabel "Mixed". The list popover also takes the available-height bound of Popover (K2d), so a long family list scrolls.',
     'Example reproduces the section (14px stack, trigger full width, then the open list centered): trigger with "Aa" and "Newsreader" in Newsreader, then the list (280px) with search and four options: (1) Newsreader (selected, check), meta "Variable · opsz wght"; (2) Geist, meta "Variable · wght", Badge square "Project"; (3) 프리텐다드 in "Pretendard Variable", meta "Pretendard · 9 weights"; (4) Tiempos Text in italic Georgia, meta "Previewing with Georgia", Badge warning "Missing" with the triangle-alert icon.',
     'Fixture contract: render(props) renders the trigger and the inline open list with the four options; the plain render selects "Geist" (so the first option is unselected); the option-selected state and the example select "Newsreader".',
     'The fonts in the specimen are data (Newsreader, Geist, Pretendard Variable, Georgia): they are font-family values passed through the cssFamily option, not tokens.',

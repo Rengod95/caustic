@@ -21,6 +21,7 @@ export default defineSpec({
     dragging: { pseudo: ['active'], target: 'stop' },
   },
   props: {
+    stopLabel: { type: '(index: number) => string', required: true, description: 'aria-label of the stop handle index (1-based), e.g. n => "Stop " + n. Required; no built-in default.' },
     stops: { type: '{ position: number; color: string }[]', required: true, description: 'Color stops: position 0–100 (whole percent) and a CSS color (hex or var()). At least two; the strip never removes below two.' },
     selected: { type: 'number', description: 'Index of the selected stop; draws the focus-colored ring on its swatch.' },
     disabled: { type: 'boolean', default: false, description: 'Disables adding and moving.' },
@@ -60,6 +61,7 @@ export default defineSpec({
   policies: ['P6'],
   composition: { uses: [] },
   usage: [
+    'K2d: stop names are a prop; the aria-valuetext "52 %, #F4C26B" stays position and color only (no words).',
     'No example of its own: it is inside the gradient-editor example.',
     'Fixture contract: render(props) renders stops [{ position: 0, color: "#E2763F" }, { position: 52, color: "#F4C26B" }, { position: 100, color: "#5F4994" }] with selected 1 (the specimen).',
     'The ramp and the colors are runtime data (custom properties); the hex values above are specimen data, not tokens.',

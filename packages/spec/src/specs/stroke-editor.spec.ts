@@ -29,9 +29,15 @@ export default defineSpec({
   props: {
     value: { type: "{ color: { hex: string; alpha: number }; weight: number; position: 'inside' | 'center' | 'outside'; dash: number; gap: number; cap: 'butt' | 'round' | 'arrow'; independent: boolean; sides: { top: number; right: number; bottom: number; left: number } }", description: 'Controlled stroke.' },
     defaultValue: { type: "{ color: { hex: string; alpha: number }; weight: number; position: 'inside' | 'center' | 'outside'; dash: number; gap: number; cap: 'butt' | 'round' | 'arrow'; independent: boolean; sides: { top: number; right: number; bottom: number; left: number } }", default: { color: { hex: '2B1D14', alpha: 100 }, weight: 1.5, position: 'center', dash: 8, gap: 4, cap: 'round', independent: true, sides: { top: 2, right: 1, bottom: 4, left: 2 } }, description: 'Uncontrolled initial stroke (the specimen).' },
-    disabled: { type: 'boolean', default: false, description: 'Disables every control.' },
+    disabled: { type: "boolean | Partial<Record<'color' | 'weight' | 'position' | 'dash' | 'gap' | 'cap' | 'independent' | 'top' | 'right' | 'bottom' | 'left', boolean>>", default: false, description: 'true disables every control; a record disables the named fields.' },
+    commitMode: { type: "'live' | 'release'", default: 'live', description: 'live (default): the behavior before K2d. release: the NumberField value model for every numeric field of this part, and one commit per continuous gesture. The weight, dash, gap and side fields and the color paint well follow the release contract.' },
+    mixed: { type: "Partial<Record<'color' | 'weight' | 'position' | 'dash' | 'gap' | 'cap' | 'independent' | 'top' | 'right' | 'bottom' | 'left', boolean>>", description: 'Fields whose selection values differ; each shows labels.mixed in place of a value (text fields as placeholder, toggles with aria-pressed "mixed", selects as the select value) and never a substituted first value.' },
+    reserved: { type: "Partial<Record<'color' | 'weight' | 'position' | 'dash' | 'gap' | 'cap' | 'independent' | 'top' | 'right' | 'bottom' | 'left', boolean>>", description: 'Fields that are being written or held by another window: read-only, aria-busy="true", data-reserved, focus and draft kept, no event while reserved.' },
+    labels: { type: "{ color: { well: string; hex: string; alpha: string; detach: string; mixed: string }; weight: string; positionGroup: string; position: Record<'inside' | 'center' | 'outside', string>; details: string; dash: string; gap: string; capsGroup: string; caps: Record<'butt' | 'round' | 'arrow', string>; independent: string; independentSwitch: string; sidesGroup: string; sides: Record<'top' | 'right' | 'bottom' | 'left', string>; sidesShort: Record<'top' | 'right' | 'bottom' | 'left', string>; mixed: string }", required: true, description: 'Every text and accessible name of the part and of the PaintWell it composes (color); no English default. The specimen values: "Stroke color", "Stroke hex", "Opacity", Weight, In, Center, Out, "Stroke details", Dash, Gap, Butt cap, Round cap, Arrow cap, "Independent stroke widths", "Independent widths", Top, Left, Right, Bottom and the letters T, L, R, B.' },
   },
   events: {
+    onDraftChange: { payload: "{ field: 'weight' | 'dash' | 'gap' | 'top' | 'right' | 'bottom' | 'left'; text: string; value: number | null; error: 'empty' | 'syntax' | 'range' | null; dirty: boolean }", when: 'a numeric field text changes (NumberField contract: error empty, syntax or range, dirty while it differs from the committed value). field names the field. The color paint well drafts are forwarded with field color and the PaintWell payload under draft.' },
+    onPreviewChange: { payload: 'StrokeValue | null', when: 'commitMode release only: a scrub or drag gesture is in progress, with the value being previewed (not a commit); null when it ends or Escape cancels it. onValueChange follows once on release.' },
     onValueChange: { payload: 'StrokeValue', when: 'any control commits; with independent off, weight is the single width' },
     onDetailsClick: { payload: 'void', when: 'the details button is pressed' },
   },
@@ -50,6 +56,7 @@ export default defineSpec({
     keyboard: { Tab: 'color, hex, opacity, weight, position, details, dash, gap, caps, independent, side fields' },
     pointer: ['the dash and gap fields redraw the preview line live', 'turning independent widths on shows the four side fields (values start from the weight); turning it off hides them'],
     scenarios: [
+      { name: 'reserved weight is busy', props: { reserved: { weight: true } }, steps: [], expect: [{ slot: 'weight', attr: { 'aria-busy': 'true' } }] },
       { name: 'details click', steps: [{ do: 'click', slot: 'details' }], expect: [{ event: 'onDetailsClick', calls: 1 }] },
     ],
   },
@@ -65,6 +72,8 @@ export default defineSpec({
     { id: 'stroke', title: 'Stroke', doc: 'paint-stack#stroke' },
   ],
   usage: [
+    'K2d inspector value model (defined on NumberField): onValueChange is the commit; commitMode "release" turns every continuous gesture into onPreviewChange while it runs and one onValueChange when it ends, and keeps typed text as a draft (onDraftChange, aria-invalid, never clamped or dropped) until a valid Enter or blur; discrete choices (toggle, segment, select option, arrow key, preset, swatch) commit at once; mixed fields show the mixed label with no invented value; a reserved field is read-only with aria-busy and data-reserved and keeps focus and its draft; disabled may be a boolean or a per-field record. Fields: \'color\' | \'weight\' | \'position\' | \'dash\' | \'gap\' | \'cap\' | \'independent\' | \'top\' | \'right\' | \'bottom\' | \'left\'. With independent off, weight is the single width; a mixed weight with independent widths shows the four side fields.',
+    'K2d labels: every string is labels.*; the fixture and the example pass the specimen strings, so the baseline stays identical.',
     'Example reproduces the section with no panel (8px stack on the page): paint row (2B1D14, 100 %), weight 1.5 px with the position control (Center) and the details button, Dash 8 / Gap 4 / round cap, the dash preview, the independent widths row (on), the sides grid with T 2, L 2, R 1, B 4 around the box.',
     'Fixture contract: render(props) renders the defaults (the specimen state).',
     'Specimen: the SegmentedControl in the weight row stretches to the full cell, with its items left-aligned; the caps control sits at the end of its cell (justify-self end).',

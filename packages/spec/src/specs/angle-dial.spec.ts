@@ -19,6 +19,8 @@ export default defineSpec({
     disabled: { props: { disabled: true } },
   },
   props: {
+    label: { type: 'string', required: true, description: 'aria-label of the slider (e.g. "Angle"). Required; no built-in default.' },
+    valueText: { type: '(degrees: number) => string', description: 'aria-valuetext (e.g. d => d + " degrees"). Without it the dial has no aria-valuetext.' },
     value: { type: 'number', description: 'Controlled angle in degrees, 0–359.' },
     defaultValue: { type: 'number', default: 0, description: 'Uncontrolled initial angle.' },
     step: { type: 'number', default: 1, description: 'Arrow step in degrees; Shift and PageUp / PageDown use 15 steps.' },
@@ -55,6 +57,7 @@ export default defineSpec({
   policies: ['P6', 'P8'],
   composition: { uses: [] },
   usage: [
+    'K2d: the dial name and value text are props; the fixture passes "Angle" and the specimen text.',
     'No example of its own: it is part of the gradient-editor example (value 90).',
     'Fixture contract: render(props) renders the dial with defaultValue 90 unless a scenario passes another value.',
     'Specimen has no keyboard handling for the dial (it has tabindex 0 and role slider but only reacts to pointer); the keyboard rules above are part of this spec.',

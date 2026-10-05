@@ -28,7 +28,11 @@ export default defineSpec({
   props: {
     tracks: { type: "{ size: number | null; unit: 'fr' | 'px' | 'auto' }[]", default: [{ size: 1, unit: 'fr' }, { size: 240, unit: 'px' }, { size: null, unit: 'auto' }], description: 'Controlled tracks. size is null for auto. Default is the specimen list: 1fr, 240px, Auto.' },
     heading: { type: 'ReactNode', description: 'Optional heading above the list.' },
-    addLabel: { type: 'ReactNode', default: 'Add column', description: 'Label of the add button ("Add row" for rows).' },
+    addLabel: { type: 'ReactNode', required: true, description: 'Label of the add button ("Add column", "Add row"). Required; no built-in default.' },
+    trackLabel: { type: '(index: number) => string', required: true, description: 'aria-label of the size field of track index (1-based), e.g. n => "Track " + n. Required; no built-in default.' },
+    unitLabel: { type: '(index: number) => string', required: true, description: 'aria-label of the unit switch of track index (1-based), e.g. "Track 1 unit". Required; no built-in default.' },
+    removeLabel: { type: '(index: number) => string', required: true, description: 'aria-label of the remove button of track index (1-based), e.g. "Remove track 1". Required; no built-in default.' },
+    autoLabel: { type: 'string', required: true, description: 'Text of the Auto unit item and the placeholder of an auto track (e.g. "Auto"). Required; no built-in default.' },
     disabled: { type: 'boolean', default: false, description: 'Disables the list (the frame is not a grid).' },
   },
   events: {
@@ -64,6 +68,7 @@ export default defineSpec({
   policies: ['P5', 'P6'],
   composition: { uses: ['number-field', 'icon-button'] },
   usage: [
+    'K2d: every English string is a prop; the fixture passes addLabel "Add column", the three index functions and autoLabel "Auto". fr and px are CSS units, not words.',
     'No example of its own: it is the right column of the auto-layout example (under the layout preview).',
     'Fixture contract: the plain render uses the default tracks (1fr, 240px, Auto). The first unit item (fr of track 1) is active, so the unit-item base rule probes an inactive style only through the second item; probes should use the active state rule.',
     'Specimen: the Auto track field has the placeholder "Auto" and the number-field mixed styling (placeholder text.secondary, italic).',
