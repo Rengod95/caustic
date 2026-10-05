@@ -38,6 +38,10 @@ export default defineSpec({
   },
   props: {
     'aria-label': { type: 'string', required: true, description: 'Accessible name of the tree.' },
+    announce: { type: '(event: LayerTreeAnnouncement) => string', required: true, description: 'Builds the text of the polite live region from a structured event, so it can be translated and pluralized. LayerTreeAnnouncement = { type: "selected" | "expanded" | "collapsed" | "hid" | "showed" | "locked" | "unlocked"; names: string[] } | { type: "moved"; names: string[]; position: "before" | "after" | "inside"; target: string } | { type: "cancelled" }. names are the layer names (the id when a label is not a string) in tree order; names.length is the count, so the consumer chooses between "Selected Cards" and "3 layers selected". No built-in default.' },
+    visibilityLabel: { type: '(name: string, hidden: boolean) => string', description: 'Builds the aria-label of the visibility toggle from the layer name and its current state (hidden = the layer is hidden now, so the action is "Show"). Required whenever onVisibilityChange is given; no built-in default.' },
+    lockLabel: { type: '(name: string, locked: boolean) => string', description: 'Builds the aria-label of the lock toggle from the layer name and its current state (locked = the layer is locked now, so the action is "Unlock"). Required whenever onLockChange is given; no built-in default.' },
+    stateLabels: { type: '{ hidden: string; locked: string; agent: string }', description: 'Words of the visually hidden description that follows the layer name, joined with ", " (e.g. "hidden", "locked", "edited by the agent"). Required whenever a row can be invisible, locked or agent-marked; no built-in default.' },
     value: { type: 'string[]', description: 'Controlled selection: the ids of the selected layers. The last id is the primary (accent) selection.' },
     defaultValue: { type: 'string[]', default: [], description: 'Uncontrolled initial selection.' },
     expanded: { type: 'string[]', description: 'Controlled set of expanded row ids.' },
@@ -135,6 +139,7 @@ export default defineSpec({
     minHit: 24,
     attrs: { root: ['aria-label', 'aria-multiselectable'], row: ['aria-level', 'aria-selected', 'aria-setsize', 'aria-posinset'], visibility: ['aria-label', 'aria-pressed'], lock: ['aria-label', 'aria-pressed'] },
     notes: [
+      'No built-in English: the live-region text (announce), the toggle names (visibilityLabel, lockLabel) and the row description words (stateLabels) are supplied by the consumer. The fixture and the examples pass an announce that reproduces the old sentences ("Selected Cards", "3 layers selected", "Expanded Cards", "Hid Cards", "Locked Cards", "Moved Cards into Frame", "Moved 2 layers before Frame", "Move cancelled"), visibilityLabel (n, h) => `${h ? "Show" : "Hide"} ${n}`, lockLabel (n, l) => `${l ? "Unlock" : "Lock"} ${n}` and stateLabels { hidden: "hidden", locked: "locked", agent: "edited by the agent" }, so the rendered output and the baselines stay identical.',
       'WAI-ARIA tree pattern with a flat row structure: role="tree" > role="treeitem" with aria-level, aria-setsize and aria-posinset instead of nested groups. aria-expanded is present only on expandable rows; leaves have none.',
       'Multi-select tree: aria-multiselectable="true" and aria-selected on every row (true or false). Selection is never only a color: aria-selected carries it and the primary row also differs by fill.',
       'Hidden and locked are conveyed in the row accessible name or description ("Background photo, hidden, locked"), not only by the disabled color and the glyphs; the toggles have aria-label "Hide <name>" / "Show <name>" and "Lock <name>" / "Unlock <name>" with aria-pressed.',

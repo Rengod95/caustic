@@ -16,7 +16,7 @@ export default defineSpec({
     { name: 'heading', el: 'div', parent: 'header', description: 'Flex-1 grid, 4px gap; holds title and description.' },
     { name: 'title', el: 'h2', parent: 'heading', description: 'Accessible name. 20px / 26 semibold.' },
     { name: 'description', el: 'p', parent: 'heading', required: false, description: 'Supporting text, 13px / 19, secondary.' },
-    { name: 'close', el: 'button', parent: 'header', required: false, description: 'Icon-only close (sm IconButton, x icon, aria-label "Close").' },
+    { name: 'close', el: 'button', parent: 'header', required: false, description: 'Icon-only close (sm IconButton, x icon; aria-label from the closeLabel prop).' },
     { name: 'body', el: 'div', parent: 'root', required: false, description: 'Grid with 14px gap, padding 16px 18px, scrolls vertically when the surface hits its max height.' },
     { name: 'footer', el: 'div', parent: 'root', description: 'Flex row, 8px gap, end-aligned, padding 12px 18px 16px. A flex-1 empty element pushes following buttons to the end so one secondary action can stay on the start edge.' },
     { name: 'action', el: 'button', parent: 'footer', required: false, description: 'The destructive confirm of kind="alert": Button tone="destructive" size="sm".' },
@@ -38,6 +38,7 @@ export default defineSpec({
     description: { type: 'ReactNode', description: 'Header supporting text.' },
     icon: { type: 'ReactNode', description: 'Icon shown in the danger-tinted tile before the title.' },
     showClose: { type: 'boolean', default: false, description: 'Close IconButton at the end of the header.' },
+    closeLabel: { type: 'string', description: 'aria-label of the close button (e.g. "Close"). Required whenever showClose is true; no built-in default. Optional in the type only because it is unused when showClose is false.' },
     footer: { type: 'ReactNode', description: 'Footer content (buttons, optional flex-1 spacer).' },
     children: { type: 'ReactNode', description: 'Body content.' },
     inline: { type: 'boolean', default: false, description: 'Render the surface in place, open, without portal, overlay or animation. For docs and specimens; the surface keeps its width and shadow.' },
@@ -65,7 +66,7 @@ export default defineSpec({
     ],
     scenarios: [
       { name: 'Escape closes', props: { inline: true, defaultOpen: true, title: 'Rename project' }, steps: [{ do: 'focus', slot: 'root' }, { do: 'press', key: 'Escape' }], expect: [{ event: 'onOpenChange', args: [false] }] },
-      { name: 'close control closes', props: { inline: true, defaultOpen: true, showClose: true, title: 'Rename project' }, steps: [{ do: 'click', slot: 'close' }], expect: [{ event: 'onOpenChange', args: [false] }] },
+      { name: 'close control closes', props: { inline: true, defaultOpen: true, showClose: true, closeLabel: 'Close', title: 'Rename project' }, steps: [{ do: 'click', slot: 'close' }], expect: [{ event: 'onOpenChange', args: [false] }] },
     ],
   },
   a11y: {
@@ -73,6 +74,7 @@ export default defineSpec({
     minHit: 24,
     attrs: { root: ['aria-labelledby'], close: ['aria-label'] },
     notes: [
+      'The close button has no built-in English name: the consumer supplies closeLabel whenever showClose is true; the fixture and the example pass "Close".',
       'Title always rendered; description is the aria description. kind="alert" uses role="alertdialog" and focuses the least destructive action first.',
       'Buttons name the outcome (Delete theme, Keep theme), not OK / Cancel.',
       'The icon tile is aria-hidden.',
@@ -92,5 +94,6 @@ export default defineSpec({
     'Fixture convention: render(props) renders an inline surface with a title, a description, a one-line body and a footer with Cancel and a primary button; scenarios use inline + defaultOpen.',
     'Use Dialog for a two-line decision or a single short input; Modal for forms with a header, a body and several footer actions.',
     'Destructive confirms say how to undo in the description.',
+    'kind="alert" in portal mode (inline false) is a Radix AlertDialog, so its title, description and close control must be the AlertDialog parts (AlertDialog.Title, .Description, .Cancel for the close button); the Dialog parts need a Dialog context and throw "DialogTitle must be used within Dialog" outside one. The spec structure is correct as written (role alertdialog, kind alert = Radix AlertDialog); this is an implementation fix, not a spec change. The inline alert (the specimen and the fixture) uses Dialog parts on purpose and is unaffected. The scenario runner scopes slot lookups to the fixture and cannot reach portal content, so the portal alert is checked by a plain render test in the implementation card, not by a spec scenario.',
   ],
 });

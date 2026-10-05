@@ -33,6 +33,8 @@ export default defineSpec({
     options: { type: 'Array<{ value: string; label: string; meta?: string; leading?: ReactNode }>', description: 'Data-driven options; or pass ComboboxOption children.' },
     filter: { type: '(label: string, query: string) => boolean', description: 'Defaults to case-insensitive substring match.' },
     emptyMessage: { type: 'ReactNode', description: 'Shown when nothing matches.' },
+    listLabel: { type: 'string', description: 'aria-label of the listbox (e.g. "Search results"). Defaults to the aria-label prop (the field name); there is no built-in English fallback.' },
+    resultsLabel: { type: '(count: number) => string', description: 'Builds the polite announcement while the list is open (e.g. n => `${n} results`). Required for a screen reader to hear the count; when omitted the region stays empty. No built-in default.' },
     inline: { type: 'boolean', default: false, description: 'Render the listbox in place under the input (in flow), without portal or positioning. For docs and specimens.' },
     selected: { type: 'boolean', default: false, description: 'Fixtures: the first option is the chosen one.' },
   },
@@ -76,7 +78,7 @@ export default defineSpec({
     notes: [
       'The input carries role="combobox", aria-expanded, aria-controls (listbox id), aria-autocomplete="list" and aria-activedescendant; options need stable ids.',
       'Wrap in Field for the visible label; the listbox is labelled by it.',
-      'Announce the number of results in a visually hidden polite region (“4 results”).',
+      'Announce the number of results in a visually hidden polite region (“4 results”) built by resultsLabel. The listbox name is listLabel, else the aria-label prop; the implementation no longer falls back to "Results".',
       'The <mark> highlight is decorative; do not rely on it alone to show the match (the text is also in the input).',
     ],
   },
@@ -91,5 +93,6 @@ export default defineSpec({
     'Options sit directly in the glass listbox; the list is hidden (not just empty) when nothing matches and no emptyMessage is set.',
     'Fixture convention: render(props) renders the Input and an inline listbox with the default “acc” text and four options; item-level props apply to the first option.',
     'Use Select for 7 or fewer options; the combobox for more, or when the user knows part of the name.',
+    'K2c: the fixture and the example pass aria-label "Search tokens" (already the case) and resultsLabel n => `${n} results`; the visible output and the baseline do not change.',
   ],
 });

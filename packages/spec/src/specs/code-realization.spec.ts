@@ -24,8 +24,8 @@ export default defineSpec({
     { name: 'removed', el: 'span', parent: 'stats', required: false, description: 'Removed lines "−6" (a real minus sign): danger text.' },
     { name: 'badge', el: 'span', parent: 'file', required: false, description: 'A Badge warning at the end of a warning row: "2 limits".' },
     { name: 'footer', el: 'div', parent: 'root', description: 'Target and action: flex, space between, centered, 8px gap.' },
-    { name: 'target', el: 'button', parent: 'footer', role: 'combobox', description: 'The target chooser: a sunken select trigger, 150px wide, 32px tall, 10px inline padding, md radius, ui-sm regular text ("web-react"), chevron-down glyph (14px, tertiary) at the end. aria-haspopup listbox; the popup is the consumer\'s Select/Menu.' },
-    { name: 'download', el: 'button', parent: 'footer', role: 'button', description: 'Button primary sm with a package glyph: "Download zip".' },
+    { name: 'target', el: 'any', parent: 'footer', role: 'combobox', description: 'The target chooser: a sunken select trigger (a button), 150px wide, 32px tall, 10px inline padding, md radius, ui-sm regular text ("web-react"), chevron-down glyph (14px, tertiary) at the end. aria-haspopup listbox; aria-label from targetLabel(target); the popup is the consumer\'s Select/Menu. With targetReadOnly it is a static span with the same box and text, no chevron, no role combobox and no hover or focus treatment (the value is only shown).' },
+    { name: 'download', el: 'button', parent: 'footer', role: 'button', description: 'Button primary sm with a package glyph; the text is the downloadLabel prop ("Download zip"). downloadDisabled makes it natively disabled.' },
   ],
   variants: {
     phase: { values: ['done', 'now', 'todo'], default: 'todo', description: 'State of a phase pill: done = success tint with a check; now = raised pill with the agent orb; todo = quiet.' },
@@ -34,6 +34,8 @@ export default defineSpec({
   states: {
     hover: { pseudo: ['hover'], target: 'file' },
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'target' },
+    readonly: { props: { targetReadOnly: true } },
+    disabled: { props: { downloadDisabled: true } },
   },
   props: {
     phase: { type: "'done' | 'now' | 'todo'", default: 'todo', description: 'CodeRealizationPhase prop. State of the phase.' },
@@ -44,8 +46,16 @@ export default defineSpec({
     added: { type: 'number', description: 'CodeRealizationFile prop. Added line count.' },
     removed: { type: 'number', description: 'CodeRealizationFile prop. Removed line count.' },
     note: { type: 'ReactNode', description: 'CodeRealizationFile prop. Trailing badge text on a warning row ("2 limits").' },
-    target: { type: 'string', description: 'Chosen realization target ("web-react").' },
-    downloadLabel: { type: 'ReactNode', default: 'Download zip', description: 'Label of the download button.' },
+    target: { type: 'string', description: 'Chosen realization target value ("web-react"). Data, not translated text; no built-in default (the target chooser shows the value it is given).' },
+    targetReadOnly: { type: 'boolean', default: false, description: 'The target is fixed: it renders as static text in the same box, without the chevron, the combobox role or onTargetClick.' },
+    targetLabel: { type: '(target: string) => string', required: true, description: 'Builds the accessible name of the target control from the value (e.g. t => `Realization target: ${t}`). No built-in default.' },
+    downloadLabel: { type: 'ReactNode', required: true, description: 'Label of the download button (e.g. "Download zip"). No built-in default.' },
+    downloadDisabled: { type: 'boolean', default: false, description: 'Disables the download button (for example until a review is confirmed); onDownload is not called.' },
+    phasesLabel: { type: 'string', required: true, description: 'Accessible name of the phase list (e.g. "Progress"). No built-in default.' },
+    filesLabel: { type: 'string', required: true, description: 'Accessible name of the file list (e.g. "Files"). No built-in default.' },
+    phaseStatusLabels: { type: '{ done: string; now: string }', required: true, description: 'Visually hidden state words appended to a done and a current phase (e.g. ", done" and ", current"; the separator is part of the string). A todo phase has none. No built-in default.' },
+    addedLabel: { type: 'string', description: 'CodeRealizationFile prop. Visually hidden word after the added count (e.g. " added"). Required whenever added is given; no built-in default.' },
+    removedLabel: { type: 'string', description: 'CodeRealizationFile prop. Visually hidden word after the removed count (e.g. " removed"). Required whenever removed is given; no built-in default.' },
   },
   events: {
     onDownload: { payload: 'React.MouseEvent<HTMLButtonElement>', when: 'Download is activated' },
@@ -72,6 +82,8 @@ export default defineSpec({
     { slot: 'footer', expect: { gap: 8 } },
     { slot: 'target', expect: { bg: 'fill.hover', fg: 'text.primary', radius: 'md', height: 'control-md', width: 'size-target-w', padX: 10, gap: 8, text: 'ui-sm', weight: 400, cursor: 'pointer' }, note: 'Same sunken look as Input appearance sunken (hover fill pressed, focus on surface base with the field focus ring).' },
     { slot: 'target', when: { state: 'focus-visible' }, expect: { bg: 'surface.base', ring: 'focus-field' } },
+    { slot: 'target', when: { state: 'readonly' }, expect: { bg: 'fill.hover', fg: 'text.primary', radius: 'md', height: 'control-md', width: 'size-target-w', padX: 10, text: 'ui-sm', weight: 400 }, note: 'Same box and text as the chooser; the chevron and the pointer cursor are gone (cursor is not asserted).' },
+    { slot: 'download', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
   ],
   behavior: {
     keyboard: {
@@ -83,6 +95,8 @@ export default defineSpec({
     scenarios: [
       { name: 'Download reports', steps: [{ do: 'click', slot: 'download' }], expect: [{ event: 'onDownload', calls: 1 }] },
       { name: 'target opens the chooser', steps: [{ do: 'click', slot: 'target' }], expect: [{ event: 'onTargetClick', calls: 1 }] },
+      { name: 'downloadDisabled blocks Download', props: { downloadDisabled: true }, steps: [{ do: 'click', slot: 'download' }], expect: [{ event: 'onDownload', calls: 0 }, { slot: 'download', attr: { disabled: '' } }] },
+      { name: 'read-only target is not a control', props: { targetReadOnly: true }, steps: [{ do: 'click', slot: 'target' }], expect: [{ event: 'onTargetClick', calls: 0 }, { slot: 'target', attr: { role: null, 'aria-haspopup': null } }] },
     ],
   },
   a11y: {
@@ -90,11 +104,12 @@ export default defineSpec({
     minHit: 24,
     attrs: { phases: ['aria-label'], files: ['aria-label'], target: ['aria-haspopup', 'aria-label'] },
     notes: [
+      'No built-in English: phasesLabel, filesLabel, targetLabel, downloadLabel, phaseStatusLabels and the file addedLabel / removedLabel are supplied by the consumer. The fixture and the example pass "Progress", "Files", t => `Realization target: ${t}`, "Download zip", { done: ", done", now: ", current" }, " added" and " removed", so the baseline stays identical.',
       'The phases are an ordered list; the current one has aria-current="step", and each pill\'s state is also in text for assistive technology ("Requested, done", "Reviewing, current"). Color and the check glyph are redundant.',
       'File rows read as "PricingCard.tsx, 48 added, 6 removed"; the colors of the counts are redundant with the signs and the words.',
       'The warning row is a Badge with text ("2 limits") plus the warning glyph.',
       'The agent orb is the agent\'s light (P2) on the current phase only; it is decorative and stops under reduced motion (P8).',
-      'Target chooser: aria-label "Realization target" with its value in the name ("Realization target: web-react").',
+      'Target chooser: its name comes from targetLabel and carries the value ("Realization target: web-react" in the fixture). A read-only target drops the combobox semantics and is plain text with the same name.',
     ],
   },
   policies: ['P2', 'P3', 'P6', 'P8'],

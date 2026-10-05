@@ -12,7 +12,7 @@ export default defineSpec({
     { name: 'root', el: 'div', role: 'group', description: 'The card: surface.base fill, 1px inset edge (border.subtle), xl radius, 6px padding, 1px gap. No shadow.' },
     { name: 'header', el: 'div', parent: 'root', description: 'Title row, space-between; padding 4px 6px 6px. Names the group (aria-labelledby on root points at the title).' },
     { name: 'title', el: 'span', parent: 'header', description: 'Plan name, semibold.' },
-    { name: 'count', el: 'span', parent: 'header', description: '"3 of 6": done steps over total, tertiary, normal weight, tabular numerals.' },
+    { name: 'count', el: 'span', parent: 'header', description: '"3 of 6": done steps over total, text from the countLabel prop, tertiary, normal weight, tabular numerals.' },
     { name: 'steps', el: 'ol', parent: 'root', description: 'The list: grid, 1px gap, no list style. aria-live polite so status changes are announced.' },
     { name: 'step', el: 'li', parent: 'steps', description: 'One step: flex, 8px gap (specimen 9), 28px minimum height, 6px inline padding, radius sm. data-status done | now | todo; aria-current="step" on the now step.' },
     { name: 'indicator', el: 'span', parent: 'step', description: '16px box that holds the mark: a check (done), the orb (now) or a dashed circle (todo). aria-hidden.' },
@@ -26,6 +26,8 @@ export default defineSpec({
   props: {
     title: { type: 'ReactNode', required: true, description: 'Plan name.' },
     steps: { type: 'PlanStep[]', required: true, description: 'Steps in order: { id: string; label: ReactNode; status: "done" | "now" | "todo"; detail?: ReactNode }.' },
+    countLabel: { type: '(done: number, total: number) => string', required: true, description: 'Text of the count (e.g. (d, t) => `${d} of ${t}`). Supplied by the consumer so it can be translated and pluralized; no built-in default.' },
+    statusLabels: { type: "{ done: string; now: string; todo: string }", required: true, description: 'Visually hidden status word read before each step (e.g. "Done", "In progress", "To do"). No built-in default.' },
   },
   styles: [
     { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', radius: 'xl', padX: 6, padY: 6, gap: 1 } },
@@ -49,7 +51,8 @@ export default defineSpec({
   },
   a11y: {
     notes: [
-      'Status is not color alone: done has a check glyph and a strike-through, now has the orb and medium weight, todo has a dashed circle. Each step also gets a visually hidden status word ("Done", "In progress", "To do").',
+      'Status is not color alone: done has a check glyph and a strike-through, now has the orb and medium weight, todo has a dashed circle. Each step also gets a visually hidden status word from the statusLabels prop ("Done", "In progress", "To do" in the fixture).',
+      'No built-in English: countLabel and statusLabels are required props; the fixture and the example pass d, t => `${d} of ${t}` and { done: "Done", now: "In progress", todo: "To do" }, so the baseline stays identical.',
       'The now step has aria-current="step"; the list is aria-live="polite" so a step changing state is announced.',
       'The count text is the visible progress statement; there is no progressbar.',
     ],
@@ -62,5 +65,6 @@ export default defineSpec({
     'Fixture requirements for render(props): the default render is the specimen steps below. When props.status is passed it replaces the status of the FIRST step only (so probes for status=now land on the first step with the orb); the other steps keep their specimen status. At least one step has a detail so the slot exists.',
     'Example "plan": title "Build checkout flow"; steps: done "Map screens from brief", done "Pick components from library", done "Lay out Review order", now "Lay out Payment" with detail "Card form", todo "Add error and loading states", todo "Check contrast and tap targets". Count reads "3 of 6". Icon: check.',
     'The spectrum appears only on the now step (orb + shimmer); a plan with no running step has no light.',
+    'Open question (W-b gap, not specified here): the studio chat needs a failed step status. It would be a fourth status value (danger glyph, danger text, a statusLabels.failed word); confirm before it is added.',
   ],
 });

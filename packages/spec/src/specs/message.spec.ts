@@ -16,8 +16,8 @@ export default defineSpec({
     { name: 'orb', el: 'span', parent: 'meta', required: false, description: '8px spectrum dot (the dot form of the orb), aria-hidden.' },
     { name: 'summary', el: 'span', parent: 'meta', required: false, description: 'Who and how much: "Caustic · 3 tool calls · 12s".' },
     { name: 'actions', el: 'span', parent: 'meta', required: false, description: 'End cluster, 8px gap, margin-inline-start auto.' },
-    { name: 'copy', el: 'button', parent: 'actions', required: false, role: 'button', description: 'IconButton xs, copy icon, aria-label "Copy". Rendered when onCopy is given.' },
-    { name: 'retry', el: 'button', parent: 'actions', required: false, role: 'button', description: 'IconButton xs, rotate-ccw icon, aria-label "Retry". Rendered when onRetry is given.' },
+    { name: 'copy', el: 'button', parent: 'actions', required: false, role: 'button', description: 'IconButton xs, copy icon; aria-label from the copyLabel prop. Rendered when onCopy is given.' },
+    { name: 'retry', el: 'button', parent: 'actions', required: false, role: 'button', description: 'IconButton xs, rotate-ccw icon; aria-label from the retryLabel prop. Rendered when onRetry is given.' },
   ],
   variants: {
     author: { values: ['user', 'agent'], default: 'agent', description: 'user = grey bubble in the UI voice; agent = serif prose with a meta row.' },
@@ -31,6 +31,8 @@ export default defineSpec({
     meta: { type: 'ReactNode', description: 'Agent only. Summary text of the meta row; the row (and its orb) renders when this or an action handler is given.' },
     onCopy: { type: '() => void', description: 'Agent only. Shows the copy IconButton.' },
     onRetry: { type: '() => void', description: 'Agent only. Shows the retry IconButton.' },
+    copyLabel: { type: 'string', description: 'Agent only. aria-label of the copy button (e.g. "Copy"). Required whenever onCopy is given; no built-in default.' },
+    retryLabel: { type: 'string', description: 'Agent only. aria-label of the retry button (e.g. "Retry"). Required whenever onRetry is given; no built-in default.' },
     children: { type: 'ReactNode', required: true, description: 'The text. User: inline text. Agent: paragraphs (<p>) and <code>.' },
   },
   events: {
@@ -49,14 +51,15 @@ export default defineSpec({
   behavior: {
     pointer: ['copy and retry are plain IconButtons; copy does not toggle a checkmark in the specimen'],
     scenarios: [
-      { name: 'copy', steps: [{ do: 'click', slot: 'copy' }], expect: [{ event: 'onCopy', calls: 1 }] },
-      { name: 'retry', steps: [{ do: 'click', slot: 'retry' }], expect: [{ event: 'onRetry', calls: 1 }] },
+      { name: 'copy', props: { copyLabel: 'Copy' }, steps: [{ do: 'click', slot: 'copy' }], expect: [{ event: 'onCopy', calls: 1 }] },
+      { name: 'retry', props: { retryLabel: 'Retry' }, steps: [{ do: 'click', slot: 'retry' }], expect: [{ event: 'onRetry', calls: 1 }] },
       { name: 'streaming is busy', props: { streaming: true }, steps: [], expect: [{ slot: 'root', attr: { 'aria-busy': 'true' } }] },
     ],
   },
   a11y: {
     attrs: { copy: ['aria-label'], retry: ['aria-label'] },
     notes: [
+      'The copy and retry buttons are named by the copyLabel and retryLabel props; there is no built-in English name. The fixture and the example pass "Copy" and "Retry".',
       'The transcript container is the live region (role="log"); a streaming message sets aria-busy so only the finished text is announced, not every token.',
       'The orb is aria-hidden; the summary text states the author and the work done.',
       'The user bubble is plain text; no role.',
