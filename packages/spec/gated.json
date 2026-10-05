@@ -267,6 +267,10 @@
     "specHash": "8f9400bc2fca5603",
     "at": "2026-10-01T16:22:39.765Z"
   },
+  "expression-editor": {
+    "specHash": "3b5d5b3cf7a7dd92",
+    "at": "2026-10-05T01:39:03.956Z"
+  },
   "field": {
     "specHash": "1bb358323054f4fa",
     "at": "2026-10-05T01:27:18.045Z"
@@ -290,6 +294,10 @@
   "form-layout": {
     "specHash": "fa08a487de67435b",
     "at": "2026-10-01T16:22:35.560Z"
+  },
+  "foundation-toolbar": {
+    "specHash": "f422253cbbb9ecc8",
+    "at": "2026-10-05T01:37:39.228Z"
   },
   "frame-label": {
     "specHash": "5aba0a06db38307e",

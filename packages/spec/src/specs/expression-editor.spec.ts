@@ -87,8 +87,9 @@ export default defineSpec({
       'An invalid expression is exposed three ways: aria-invalid on the textarea, the error row (role="alert", from Field) and the danger text with the alert icon; the text is also the textarea\'s aria-describedby.',
     ],
   },
-  policies: ['P4', 'P6', 'P9'],
-  flags: { field: true },
+  // Not a field itself: the composed Textarea and Selects own their focus edge (P9 is checked on those parts).
+  policies: ['P4', 'P6'],
+  flags: { field: false },
   composition: { uses: ['field', 'select', 'textarea'] },
   examples: [
     { id: 'bindings', title: 'Expression editor · bindings', doc: 'react#expression-editor-bindings' },

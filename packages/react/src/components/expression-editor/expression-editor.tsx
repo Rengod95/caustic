@@ -55,6 +55,11 @@ export interface ExpressionEditorProps extends Omit<ComponentProps<'div'>, 'chil
   onRawOpenChange?: ((open: boolean) => void) | undefined;
 }
 
+// The whole-value choice is the property "", which Radix Select cannot use as an item value; map it internally.
+const WHOLE_VALUE_ITEM = '\u0000whole';
+const toItemValue = (property: string) => (property === '' ? WHOLE_VALUE_ITEM : property);
+const fromItemValue = (item: string) => (item === WHOLE_VALUE_ITEM ? '' : item);
+
 /** Edits a token value made of references: a source and a property per reference, and an optional raw expression. */
 export function ExpressionEditor({
   bindings, sources, raw, defaultRaw, rawOpen, defaultRawOpen, error, maxLength, disabled = false, hint,
@@ -84,10 +89,10 @@ export function ExpressionEditor({
           <div data-slot="expression-editor-property">
             <Field label={propertyLabel} disabled={disabled}>
               <Select
-                aria-label={propertyName(index)} value={b.property} disabled={disabled}
-                onValueChange={property => onBindingChange?.({ index, source: b.source, property })}
+                aria-label={propertyName(index)} value={toItemValue(b.property)} disabled={disabled}
+                onValueChange={item => onBindingChange?.({ index, source: b.source, property: fromItemValue(item) })}
               >
-                {b.properties.map(o => <SelectOption key={o.value} value={o.value}>{o.label}</SelectOption>)}
+                {b.properties.map(o => <SelectOption key={o.value} value={toItemValue(o.value)}>{o.label}</SelectOption>)}
               </Select>
             </Field>
           </div>
