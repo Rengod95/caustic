@@ -32,7 +32,7 @@ export default defineSpec({
     disabled: { type: 'boolean', default: false, description: 'Disables the input.' },
   },
   events: {
-    onDraftChange: { payload: "{ text: string; value: string | null; error: 'empty' | 'syntax' | null; dirty: boolean }", when: 'the text changes by typing, paste or Escape, and when a commit clears it. value is the normalized uppercase digits or null; error is syntax for an invalid length or character, empty for blank; dirty is true while the text differs from the committed value.' },
+    onDraftChange: { payload: "{ text: string; value: string | null; error: 'empty' | 'syntax' | null; dirty: boolean }", when: 'the text changes by typing, paste or Escape, and when a commit clears it. value is the normalized uppercase digits or null; error is syntax for an invalid length or character, empty for blank text on a field that is not mixed (on a mixed field blank keeps the mixed value, commits nothing and reports error null, dirty false); dirty is true while the text differs from the committed value.' },
     onValueChange: { payload: 'string', when: 'a valid value (3, 4, 6 or 8 hex digits) is committed with Enter or blur; the payload is uppercase' } },
   styles: [
     { slot: 'root', expect: { bg: 'fill.hover', radius: 'lg', height: 'control-md', padX: 8, gap: 6, font: 'mono', text: 'mono-md', weight: 400 }, note: 'Specimen text is the mono role at 11.5px; mono-md is 11.5px / 18px at weight 500, so weight 400 is applied.' },
