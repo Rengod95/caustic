@@ -20,8 +20,8 @@ export default defineFixture({
   id: 'inspector-bindings',
   render: props => {
     // Row-level props (binding, disabled, reserved, onUnbind, onPick) apply to the first row; the rest go to the stack.
-    const { binding, onUnbind, onPick, disabled, reserved, ...rest } = props as Partial<InspectorBindingsProps> & Pick<InspectorBindingsRowProps, 'binding' | 'onUnbind' | 'onPick' | 'disabled' | 'reserved'>;
-    return <InspectorBindings addLabel="Bind a property" {...rest}>{rows({ binding, onUnbind, onPick, disabled, reserved })}</InspectorBindings>;
+    const { binding, onUnbind, onPick, disabled, reserved, options, value, placeholder, onValueChange, unbindDisabled, ...rest } = props as Partial<InspectorBindingsProps> & Pick<InspectorBindingsRowProps, 'binding' | 'onUnbind' | 'onPick' | 'disabled' | 'reserved' | 'options' | 'value' | 'placeholder' | 'onValueChange' | 'unbindDisabled'>;
+    return <InspectorBindings addLabel="Bind a property" {...rest}>{rows({ binding, onUnbind, onPick, disabled, reserved, options, value, placeholder, onValueChange, unbindDisabled })}</InspectorBindings>;
   },
   frame: children => <div className="w-90">{children}</div>,
   examples: {

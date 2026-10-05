@@ -17,7 +17,8 @@ export const easingCurveHandleVariants = cva(
   'cursor-grab fill-control-thumb stroke-accent-solid outline-none focus-visible:stroke-focus-ring focus-visible:shadow-focus active:cursor-grabbing aria-disabled:cursor-default',
 );
 
-export const easingCurvePresetsVariants = cva('flex flex-wrap gap-1.5');
+// The row wraps and never clips: chips keep their natural width and a long label takes another row (K2e).
+export const easingCurvePresetsVariants = cva('flex min-w-0 flex-wrap gap-1.5 [&>*]:shrink-0');
 
 export const easingCurveStageVariants = cva('relative h-motion-stage-h overflow-hidden rounded-lg bg-bg-inset');
 

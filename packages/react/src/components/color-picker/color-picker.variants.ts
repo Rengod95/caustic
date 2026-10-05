@@ -1,8 +1,14 @@
 import { cva } from 'class-variance-authority';
 
-export const colorPickerVariants = cva(
-  'glass glass-thick glass-shadow-4 relative z-40 grid w-color-picker-w max-w-full overflow-hidden rounded-2xl text-ui text-text-primary outline-none',
-);
+export const colorPickerVariants = cva('relative grid max-w-full text-ui text-text-primary outline-none', {
+  variants: {
+    embedded: {
+      false: 'glass glass-thick glass-shadow-4 z-40 w-color-picker-w overflow-hidden rounded-2xl',
+      true: 'w-full',
+    },
+  },
+  defaultVariants: { embedded: false },
+});
 
 export const colorPickerHeaderVariants = cva('flex items-center gap-1 px-2 pt-2');
 
@@ -31,9 +37,15 @@ export const colorPickerGlyphVariants = cva('block size-icon-sm rounded-xs shado
   defaultVariants: { kind: 'solid' },
 });
 
-export const colorPickerBodyVariants = cva('grid gap-2.5 p-2.5');
+export const colorPickerBodyVariants = cva('grid gap-2.5', {
+  variants: { embedded: { false: 'p-2.5', true: '' } },
+  defaultVariants: { embedded: false },
+});
 
-export const colorPickerSlidersVariants = cva('grid grid-cols-[auto_1fr_auto] items-center gap-2');
+export const colorPickerSlidersVariants = cva('grid items-center gap-2', {
+  variants: { picker: { true: 'grid-cols-[auto_1fr_auto]', false: 'grid-cols-[1fr_auto]' } },
+  defaultVariants: { picker: true },
+});
 
 export const colorPickerTracksVariants = cva('grid min-w-0 gap-2.5');
 

@@ -9,7 +9,7 @@ import { SegmentedControl, SegmentedControlItem } from '../segmented-control/seg
 import {
   motionTimelineBarVariants, motionTimelineBodyVariants, motionTimelineKeyframeVariants, motionTimelineLaneLabelVariants, motionTimelineLaneVariants,
   motionTimelinePlayerVariants, motionTimelinePlayheadVariants, motionTimelineRulerLabelVariants, motionTimelineRulerVariants,
-  motionTimelineTimeVariants, motionTimelineTrackVariants, motionTimelineVariants,
+  motionTimelineSeekVariants, motionTimelineTimeVariants, motionTimelineTrackVariants, motionTimelineVariants,
 } from './motion-timeline.variants.ts';
 
 export interface TimelineLane {
@@ -28,7 +28,7 @@ export interface TimelineLane {
 export interface KeyframeRef { lane: number; index: number }
 export interface KeyframeMove extends KeyframeRef { position: number }
 export type MotionMode = 'easing' | 'spring';
-export type MotionTimelineField = 'play' | 'time' | 'keyframes' | 'mode' | 'apply';
+export type MotionTimelineField = 'play' | 'pause' | 'resume' | 'reset' | 'seek' | 'time' | 'keyframes' | 'mode' | 'apply';
 export type MotionTimelineFieldFlags = Partial<Record<MotionTimelineField, boolean>>;
 export interface MotionTimelineLabels {
   play: string;
@@ -40,6 +40,12 @@ export interface MotionTimelineLabels {
   modeGroup: string;
   mode: Record<MotionMode, string>;
   apply: string;
+  /** K2e: text of the Resume button (transport buttons). */
+  resume?: string | undefined;
+  /** K2e: text of the Reset button (transport buttons). */
+  reset?: string | undefined;
+  /** K2e: name of the seek slider on the playhead; without it the playhead stays decorative. */
+  seek?: ((milliseconds: number, total: number) => string) | undefined;
 }
 
 export interface MotionTimelineProps extends Omit<ComponentProps<'div'>, 'children' | 'onChange'> {
@@ -73,6 +79,22 @@ export interface MotionTimelineProps extends Omit<ComponentProps<'div'>, 'childr
   onPreviewChange?: ((move: KeyframeMove | null) => void) | undefined;
   onModeChange?: ((mode: MotionMode) => void) | undefined;
   onApply?: (() => void) | undefined;
+  /** K2e: toggle (default) is one play and pause icon button; buttons shows Play, Pause, Resume and Reset. */
+  transport?: 'toggle' | 'buttons' | undefined;
+  /** K2e: milliseconds one arrow key moves the seek slider; default one hundredth of the duration. */
+  seekStep?: number | undefined;
+  /** K2e: controlled index of the selected lane. */
+  selectedLane?: number | null | undefined;
+  /** K2e: false hides the Easing / Spring switch. */
+  showMode?: boolean | undefined;
+  /** K2e: false hides Apply. */
+  showApply?: boolean | undefined;
+  onPlay?: (() => void) | undefined;
+  onPause?: (() => void) | undefined;
+  onResume?: (() => void) | undefined;
+  onReset?: (() => void) | undefined;
+  /** K2e: a lane label was pressed; the label is then a button. */
+  onLaneSelect?: ((lane: number) => void) | undefined;
 }
 
 const RULER_MARKS = [0, 25, 50, 75, 99];
@@ -86,7 +108,8 @@ const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true }
 /** A keyframe timeline: ruler, lanes with bars and keyframes, a playhead and a player bar. */
 export function MotionTimeline({
   lanes, duration = 800, time, defaultTime = 0.32, playing, selectedKeyframe, mode, disabled = false, reserved, loop = true, autoAdvance = true, commitMode = 'live', labels,
-  onPlayingChange, onTimeChange, onKeyframeSelect, onKeyframeMove, onPreviewChange, onModeChange, onApply, className, ...props
+  onPlayingChange, onTimeChange, onKeyframeSelect, onKeyframeMove, onPreviewChange, onModeChange, onApply,
+  transport = 'toggle', seekStep, selectedLane, showMode = true, showApply = true, onPlay, onPause, onResume, onReset, onLaneSelect, className, ...props
 }: MotionTimelineProps) {
   const [t, setT] = useControllableState<number>({ value: time, defaultValue: defaultTime, onChange: onTimeChange });
   const [isPlaying, setPlaying] = useControllableState<boolean>({ value: playing, defaultValue: false, onChange: onPlayingChange });
@@ -181,6 +204,26 @@ export function MotionTimeline({
   };
 
   const ms = Math.round(t * duration);
+  const seekInert = flagged(disabled, 'seek') || flagged(reserved, 'seek');
+  const seekKeys = (e: KeyboardEvent<HTMLElement>) => {
+    if (seekInert) return;
+    const unit = seekStep ?? duration / 100;
+    const big = e.shiftKey ? 10 : 1;
+    let next: number | null = null;
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next = ms - unit * big;
+    else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next = ms + unit * big;
+    else if (e.key === 'PageDown') next = ms - unit * 10;
+    else if (e.key === 'PageUp') next = ms + unit * 10;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = duration;
+    if (next === null) return;
+    e.preventDefault();
+    setT(clamp01(next / duration));
+  };
+  const buttons = transport === 'buttons';
+  const pauseReserved = flagged(reserved, 'pause');
+  const resumeReserved = flagged(reserved, 'resume');
+  const resetReserved = flagged(reserved, 'reset');
   const at = (pct: number) => Math.round((pct / 100) * duration);
   const playReserved = flagged(reserved, 'play');
   const modeReserved = flagged(reserved, 'mode');
@@ -198,7 +241,10 @@ export function MotionTimeline({
         </div>
         {lanes.map((lane, li) => (
           <div key={lane.id} data-slot="motion-timeline-lane" className={motionTimelineLaneVariants()}>
-            <span data-slot="motion-timeline-lane-label" className={motionTimelineLaneLabelVariants()}>{lane.icon}<span className="truncate">{lane.label}</span></span>
+            <span
+              data-slot="motion-timeline-lane-label" className={motionTimelineLaneLabelVariants()}
+              {...(onLaneSelect ? { role: 'button', tabIndex: 0, 'aria-pressed': selectedLane === li, onClick: () => onLaneSelect(li), onKeyDown: (e: KeyboardEvent<HTMLElement>) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onLaneSelect(li); } } } : {})}
+            >{lane.icon}<span className="truncate">{lane.label}</span></span>
             <span data-slot="motion-timeline-track" className={motionTimelineTrackVariants()} {...scrub}>
               <span data-slot="motion-timeline-bar" aria-hidden className={motionTimelineBarVariants()} style={vars({ '--l': `${lane.start}%`, '--w': `${lane.end - lane.start}%` })} />
               {lane.keyframes.map((stored, ki) => {
@@ -220,15 +266,53 @@ export function MotionTimeline({
             </span>
           </div>
         ))}
-        <div data-slot="motion-timeline-playhead" aria-hidden className={motionTimelinePlayheadVariants()} />
+        <div data-slot="motion-timeline-playhead" {...(labels.seek ? {} : { 'aria-hidden': true })} className={motionTimelinePlayheadVariants()}>
+          {labels.seek && (
+            <span
+              data-slot="motion-timeline-seek" role="slider" tabIndex={seekInert ? -1 : 0}
+              aria-label={labels.seek(ms, duration)} aria-valuemin={0} aria-valuemax={duration} aria-valuenow={ms} aria-valuetext={labels.time(ms, duration)}
+              aria-disabled={flagged(disabled, 'seek') || undefined} className={motionTimelineSeekVariants()} onKeyDown={seekKeys}
+              {...(flagged(reserved, 'seek') ? busy : {})}
+            />
+          )}
+        </div>
       </div>
       <div data-slot="motion-timeline-player" className={motionTimelinePlayerVariants()}>
-        <IconButton
-          data-slot="motion-timeline-play" size="sm" label={isPlaying ? labels.pause : labels.play} disabled={flagged(disabled, 'play')}
-          onClick={() => { if (!playReserved) setPlaying(!isPlaying); }} {...(playReserved ? busy : {})}
-        >
-          {isPlaying ? <Pause /> : <Play />}
-        </IconButton>
+        {buttons ? (
+          <>
+            <Button
+              data-slot="motion-timeline-play" tone="secondary" size="sm" disabled={flagged(disabled, 'play')}
+              onClick={() => { if (!playReserved) { onPlay?.(); setT(0); setPlaying(true); } }} {...(playReserved ? busy : {})}
+            >
+              {labels.play}
+            </Button>
+            <Button
+              data-slot="motion-timeline-pause" tone="secondary" size="sm" disabled={flagged(disabled, 'pause') || !isPlaying}
+              onClick={() => { if (!pauseReserved) { onPause?.(); setPlaying(false); } }} {...(pauseReserved ? busy : {})}
+            >
+              {labels.pause}
+            </Button>
+            <Button
+              data-slot="motion-timeline-resume" tone="secondary" size="sm" disabled={flagged(disabled, 'resume') || isPlaying || t <= 0}
+              onClick={() => { if (!resumeReserved) { onResume?.(); setPlaying(true); } }} {...(resumeReserved ? busy : {})}
+            >
+              {labels.resume}
+            </Button>
+            <Button
+              data-slot="motion-timeline-reset" tone="secondary" size="sm" disabled={flagged(disabled, 'reset') || (!isPlaying && t <= 0)}
+              onClick={() => { if (!resetReserved) { onReset?.(); setPlaying(false); setT(0); } }} {...(resetReserved ? busy : {})}
+            >
+              {labels.reset}
+            </Button>
+          </>
+        ) : (
+          <IconButton
+            data-slot="motion-timeline-play" size="sm" label={isPlaying ? labels.pause : labels.play} disabled={flagged(disabled, 'play')}
+            onClick={() => { if (!playReserved) setPlaying(!isPlaying); }} {...(playReserved ? busy : {})}
+          >
+            {isPlaying ? <Pause /> : <Play />}
+          </IconButton>
+        )}
         <span
           data-slot="motion-timeline-time" aria-live={isPlaying ? 'off' : 'polite'} className={motionTimelineTimeVariants()}
           {...(flagged(reserved, 'time') ? { 'aria-busy': true as const, 'data-reserved': true as const } : {})}
@@ -236,19 +320,23 @@ export function MotionTimeline({
           {labels.time(ms, duration)}
         </span>
         <span className="flex-1" />
-        <SegmentedControl
-          data-slot="motion-timeline-mode" size="xs" aria-label={labels.modeGroup} value={motion} disabled={flagged(disabled, 'mode')}
-          onValueChange={v => { if (!modeReserved) setMotion(v as MotionMode); }} {...(modeReserved ? busy : {})}
-        >
-          <SegmentedControlItem value="easing">{labels.mode.easing}</SegmentedControlItem>
-          <SegmentedControlItem value="spring">{labels.mode.spring}</SegmentedControlItem>
-        </SegmentedControl>
-        <Button
-          data-slot="motion-timeline-apply" tone="ink" size="xs" disabled={flagged(disabled, 'apply')}
-          onClick={() => { if (!applyReserved) onApply?.(); }} {...(applyReserved ? busy : {})}
-        >
-          {labels.apply}
-        </Button>
+        {showMode && (
+          <SegmentedControl
+            data-slot="motion-timeline-mode" size="xs" aria-label={labels.modeGroup} value={motion} disabled={flagged(disabled, 'mode')}
+            onValueChange={v => { if (!modeReserved) setMotion(v as MotionMode); }} {...(modeReserved ? busy : {})}
+          >
+            <SegmentedControlItem value="easing">{labels.mode.easing}</SegmentedControlItem>
+            <SegmentedControlItem value="spring">{labels.mode.spring}</SegmentedControlItem>
+          </SegmentedControl>
+        )}
+        {showApply && (
+          <Button
+            data-slot="motion-timeline-apply" tone="ink" size="xs" disabled={flagged(disabled, 'apply')}
+            onClick={() => { if (!applyReserved) onApply?.(); }} {...(applyReserved ? busy : {})}
+          >
+            {labels.apply}
+          </Button>
+        )}
       </div>
     </div>
   );

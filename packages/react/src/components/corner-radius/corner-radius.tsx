@@ -3,6 +3,7 @@ import { Scan, Spline } from 'lucide-react';
 import { useState, type ComponentProps, type CSSProperties } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { IconToggle } from '../icon-toggle/icon-toggle.tsx';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
 import { cornerRadiusCorners, cornerRadiusFields, cornerRadiusGlyph, cornerRadiusShape, cornerRadiusStage, cornerRadiusVariants } from './corner-radius.variants.ts';
@@ -13,6 +14,8 @@ export type CornerRadiusField = 'radius' | 'smoothing' | 'independent' | 'tl' | 
 export type CornerRadiusFieldFlags = Partial<Record<CornerRadiusField, boolean>>;
 export type CornerRadiusDraftField = 'radius' | 'smoothing' | 'tl' | 'tr' | 'bl' | 'br';
 export interface CornerRadiusDraft extends NumberFieldDraft { field: CornerRadiusDraftField }
+export type CornerRadiusChange = { field: CornerRadiusDraftField; value: number } | { field: 'independent'; value: boolean };
+export interface CornerRadiusLimit { min?: number | undefined; max?: number | undefined; step?: number | undefined }
 export interface CornerRadiusLabels {
   radius: string;
   smoothing: string;
@@ -26,7 +29,7 @@ export interface CornerRadiusLabels {
 
 const DEFAULT_VALUE: CornerRadiusValue = { radius: 16, smoothing: 60, corners: { tl: 16, tr: 16, bl: 4, br: 16 } };
 
-export interface CornerRadiusProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'children'> {
+export interface CornerRadiusProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
   /** Controlled value. radius is the all-corners value; corners holds the four individual values. */
   value?: CornerRadiusValue | undefined;
   /** Uncontrolled initial value: the specimen state. */
@@ -53,6 +56,16 @@ export interface CornerRadiusProps extends Omit<ComponentProps<'div'>, 'defaultV
   onDraftChange?: ((draft: CornerRadiusDraft) => void) | undefined;
   /** release mode: a scrub is in progress with the value being previewed; null when it ends or is cancelled. */
   onPreviewChange?: ((value: CornerRadiusValue | null) => void) | undefined;
+  /** K2e: fields the owner marks invalid. */
+  invalid?: CornerRadiusFieldFlags | undefined;
+  /** K2e: id of the owner error text per field. */
+  describedBy?: Partial<Record<CornerRadiusField, string>> | undefined;
+  /** K2e: per-field range and step. */
+  limits?: Partial<Record<CornerRadiusDraftField, CornerRadiusLimit>> | undefined;
+  onFieldFocus?: ((event: { field: CornerRadiusField }) => void) | undefined;
+  onFieldBlur?: ((event: { field: CornerRadiusField; dirty: boolean }) => void) | undefined;
+  /** K2e: one field commits; return false to reject. */
+  onFieldCommit?: ((change: CornerRadiusChange) => boolean | void) | undefined;
 }
 
 const flagged = (flags: boolean | CornerRadiusFieldFlags | undefined, field: CornerRadiusField) => flags === true || (typeof flags === 'object' && flags[field] === true);
@@ -60,8 +73,9 @@ const flagged = (flags: boolean | CornerRadiusFieldFlags | undefined, field: Cor
 /** Corner radius of a shape: one value, smoothing and four independent corners. */
 export function CornerRadius({
   value, defaultValue = DEFAULT_VALUE, onValueChange, independent, defaultIndependent = false, onIndependentChange, preview = false, disabled = false,
-  commitMode = 'live', mixed, reserved, labels, onDraftChange, onPreviewChange, className, ...props
+  commitMode = 'live', mixed, reserved, labels, onDraftChange, onPreviewChange, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
 }: CornerRadiusProps) {
+  const contract = useFieldContract<CornerRadiusChange, CornerRadiusField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const [v, setV] = useControllableState<CornerRadiusValue>({ value, defaultValue, onChange: onValueChange });
   const [ind, setInd] = useControllableState<boolean>({ value: independent, defaultValue: defaultIndependent, onChange: onIndependentChange });
   const [previewing, setPreviewing] = useState<CornerRadiusValue | null>(null);
@@ -75,12 +89,14 @@ export function CornerRadius({
     mixed: flagged(mixed, name),
     mixedLabel: labels.mixed,
     commitMode,
-    onDraftChange: (d: NumberFieldDraft) => onDraftChange?.({ ...d, field: name }),
+    ...limits?.[name],
+    ...contract.inputProps(name, flagged(reserved, name) || flagged(disabled, name)),
+    onDraftChange: (d: NumberFieldDraft) => { contract.draft(name, d); onDraftChange?.({ ...d, field: name }); },
     onPreviewChange: (n: number | null) => { const next = n === null ? null : build(n); setPreviewing(next); onPreviewChange?.(next); },
-    onValueChange: (n: number) => setV(build(n)),
+    onValueChange: (n: number) => { contract.commit(name, { field: name, value: n }, () => setV(build(n))); },
   });
   /** The slot wrapper of a field being written elsewhere carries the busy state as well. */
-  const wrap = (name: CornerRadiusDraftField) => (flagged(reserved, name) ? { 'aria-busy': true as const, 'data-reserved': true as const } : {});
+  const wrap = (name: CornerRadiusDraftField) => ({ ...contract.wrapAttrs(name), ...(flagged(reserved, name) ? { 'aria-busy': true as const, 'data-reserved': true as const } : {}) });
   const corners: { key: keyof CornerValues; label: string }[] = [
     { key: 'tl', label: labels.topLeft }, { key: 'tr', label: labels.topRight }, { key: 'bl', label: labels.bottomLeft }, { key: 'br', label: labels.bottomRight },
   ];
@@ -118,8 +134,11 @@ export function CornerRadius({
           data-slot="corner-radius-independent"
           aria-label={labels.independent}
           pressed={ind}
-          onPressedChange={p => { if (!indReserved) setInd(p); }}
+          onPressedChange={p => { if (!indReserved) contract.commit('independent', { field: 'independent', value: p }, () => setInd(p)); }}
           disabled={flagged(disabled, 'independent')}
+          {...contract.attrs('independent')}
+          onFocus={() => { if (!indReserved && !flagged(disabled, 'independent')) contract.focus('independent'); }}
+          onBlur={() => { if (!indReserved && !flagged(disabled, 'independent')) contract.blur('independent'); }}
           {...(indMixed ? { 'aria-pressed': 'mixed' as const } : {})}
           {...(indReserved ? { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true } : {})}
         >
@@ -141,6 +160,7 @@ export function CornerRadius({
           ))}
         </div>
       )}
+      {children}
     </div>
   );
 }

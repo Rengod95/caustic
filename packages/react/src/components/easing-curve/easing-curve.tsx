@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { Chip } from '../chip/chip.tsx';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
 import {
@@ -16,6 +17,7 @@ export interface EasingPreset { id: string; label: string; bezier: Bezier }
 export type EasingCurveField = 'bezier' | 'preset' | 'duration';
 export type EasingCurveFieldFlags = Partial<Record<EasingCurveField, boolean>>;
 export interface EasingCurveDraft extends NumberFieldDraft { field: 'duration' }
+export type EasingCurveChange = { field: 'bezier'; value: Bezier } | { field: 'preset'; value: string } | { field: 'duration'; value: number };
 export interface EasingCurveLabels {
   graph: string;
   handle1: string;
@@ -53,6 +55,18 @@ export interface EasingCurveProps extends Omit<ComponentProps<'div'>, 'defaultVa
   onDraftChange?: ((draft: EasingCurveDraft) => void) | undefined;
   /** release mode: a drag or scrub is in progress with the value being previewed; null when it ends or is cancelled. */
   onPreviewChange?: ((value: EasingValue | null) => void) | undefined;
+  /** K2e: false removes the motion preview stage. */
+  preview?: boolean | undefined;
+  /** K2e: fields the owner marks invalid. */
+  invalid?: EasingCurveFieldFlags | undefined;
+  /** K2e: id of the owner error text per field. */
+  describedBy?: Partial<Record<EasingCurveField, string>> | undefined;
+  /** K2e: range and step of the duration field. */
+  limits?: { duration?: { min?: number | undefined; max?: number | undefined; step?: number | undefined } | undefined } | undefined;
+  onFieldFocus?: ((event: { field: EasingCurveField }) => void) | undefined;
+  onFieldBlur?: ((event: { field: EasingCurveField; dirty: boolean }) => void) | undefined;
+  /** K2e: one field commits; return false to reject. */
+  onFieldCommit?: ((change: EasingCurveChange) => boolean | void) | undefined;
 }
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -67,8 +81,9 @@ const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true }
 /** A cubic-bezier easing edited by dragging two handles, with presets, a live preview and the duration. */
 export function EasingCurve({
   value, defaultValue, defaultBezier, presets, progress, autoplay = false, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onValueChange, onPresetChange, onDraftChange, onPreviewChange, className, ...props
+  onValueChange, onPresetChange, onDraftChange, onPreviewChange, preview: showStage = true, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit, className, ...props
 }: EasingCurveProps) {
+  const contract = useFieldContract<EasingCurveChange, EasingCurveField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const initial: EasingValue = { bezier: defaultBezier ?? defaultValue?.bezier ?? [0.4, 0, 1, 1], duration: defaultValue?.duration ?? 320 };
   const [current, setCurrent] = useControllableState<EasingValue>({ value, defaultValue: initial, onChange: onValueChange });
   const release = commitMode === 'release';
@@ -105,8 +120,10 @@ export function EasingCurve({
   const at = progress ?? p;
 
   const commitBezier = (next: Bezier) => {
-    if (active && !same(active.bezier, next)) onPresetChange?.(null);
-    setCurrent({ ...current, bezier: next });
+    contract.commit('bezier', { field: 'bezier', value: next }, () => {
+      if (active && !same(active.bezier, next)) onPresetChange?.(null);
+      setCurrent({ ...current, bezier: next });
+    });
   };
   const nextBezier = (i: number, x: number, y: number, base: Bezier): Bezier => {
     const next = [...base] as Bezier;
@@ -162,6 +179,9 @@ export function EasingCurve({
       cx={X(b[i * 2]!)} cy={Y(b[i * 2 + 1]!)} r={5} strokeWidth={2}
       className={easingCurveHandleVariants()}
       onKeyDown={onKey(i)}
+      data-field="bezier" data-invalid={contract.isInvalid('bezier') || undefined} aria-describedby={contract.describedBy('bezier')}
+      onFocus={() => { if (!bezierInert) contract.focus('bezier'); }}
+      onBlur={() => { if (!bezierInert) contract.blur('bezier'); }}
       onPointerDown={e => { if (bezierInert) return; e.preventDefault(); drag.current = i; svgRef.current?.setPointerCapture(e.pointerId); (e.currentTarget as SVGCircleElement).focus(); }}
       {...(bezierReserved ? busy : {})}
     />
@@ -169,7 +189,7 @@ export function EasingCurve({
 
   return (
     <div data-slot="easing-curve" className={cn(easingCurveVariants(), className)} {...props}>
-      <div data-slot="easing-curve-graph" className={easingCurveGraphVariants()}>
+      <div data-slot="easing-curve-graph" data-field="bezier" data-invalid={contract.isInvalid('bezier') || undefined} className={easingCurveGraphVariants()}>
         <svg
           ref={svgRef} viewBox="-10 -40 120 180" role="group" aria-label={labels.graph} className={easingCurveSvgVariants()}
           onPointerDown={e => {
@@ -199,7 +219,8 @@ export function EasingCurve({
             <Chip
               key={pr.id} data-slot="easing-curve-preset" appearance="outline" size="sm" disabled={flagged(disabled, 'preset')}
               pressed={active?.id === pr.id}
-              onClick={() => { if (presetReserved) return; setCurrent({ ...current, bezier: [...pr.bezier] as Bezier }); onPresetChange?.(pr.id); }}
+              onClick={() => { if (presetReserved) return; contract.commit('preset', { field: 'preset', value: pr.id }, () => { setCurrent({ ...current, bezier: [...pr.bezier] as Bezier }); onPresetChange?.(pr.id); }); }}
+              data-field="preset"
               {...(presetMixed ? { 'aria-pressed': 'mixed' as const } : {})}
               {...(presetReserved ? busy : {})}
             >
@@ -208,17 +229,21 @@ export function EasingCurve({
           ))}
         </div>
       )}
-      <div data-slot="easing-curve-stage" aria-hidden className={easingCurveStageVariants()}>
-        <span data-slot="easing-curve-ball" className={easingCurveBallVariants()} style={ballVars} />
-      </div>
+      {showStage && (
+        <div data-slot="easing-curve-stage" aria-hidden className={easingCurveStageVariants()}>
+          <span data-slot="easing-curve-ball" className={easingCurveBallVariants()} style={ballVars} />
+        </div>
+      )}
       <div data-slot="easing-curve-footer" className={easingCurveFooterVariants()}>
         <span data-slot="easing-curve-css" className="font-mono text-mono text-text-tertiary">{bezierMixed ? labels.mixed : css}</span>
-        <span data-slot="easing-curve-duration" className="flex w-duration-field-w" {...(durationReserved ? { 'aria-busy': true as const, 'data-reserved': true as const } : {})}>
+        <span data-slot="easing-curve-duration" className="flex w-duration-field-w" {...contract.wrapAttrs('duration')} {...(durationReserved ? { 'aria-busy': true as const, 'data-reserved': true as const } : {})}>
           <NumberField
             aria-label={labels.duration} unit="ms" min={0} containerClassName="w-full" value={current.duration}
             disabled={flagged(disabled, 'duration')} reserved={durationReserved} mixed={flagged(mixed, 'duration')} mixedLabel={labels.mixed} commitMode={commitMode}
-            onValueChange={v => setCurrent({ ...current, duration: v })}
-            onDraftChange={d => onDraftChange?.({ ...d, field: 'duration' })}
+            {...limits?.duration}
+            {...contract.inputProps('duration', durationReserved || flagged(disabled, 'duration'))}
+            onValueChange={v => { contract.commit('duration', { field: 'duration', value: v }, () => setCurrent({ ...current, duration: v })); }}
+            onDraftChange={d => { contract.draft('duration', d); onDraftChange?.({ ...d, field: 'duration' }); }}
             onPreviewChange={n => showPreview(n === null ? null : { ...current, duration: n })}
           />
         </span>

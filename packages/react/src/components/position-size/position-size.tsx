@@ -3,11 +3,13 @@ import { Check, ChevronDown, FlipHorizontal2, FlipVertical2, Link, Minimize2, Mo
 import { useState, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { Chip } from '../chip/chip.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { IconToggle } from '../icon-toggle/icon-toggle.tsx';
 import { Menu, MenuItem } from '../menu/menu.tsx';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
+import { Select, SelectOption } from '../select/select.tsx';
 import { positionSizeMode, positionSizeRow, positionSizeVariants } from './position-size.variants.ts';
 
 export interface Geometry {
@@ -23,6 +25,11 @@ export type PositionSizeField = 'x' | 'y' | 'width' | 'height' | 'rotation' | 'w
 export type PositionSizeFieldFlags = Partial<Record<PositionSizeField, boolean>>;
 export type PositionSizeDraftField = 'x' | 'y' | 'width' | 'height' | 'rotation';
 export interface PositionSizeDraft extends NumberFieldDraft { field: PositionSizeDraftField }
+export type PositionSizeChange =
+  | { field: PositionSizeDraftField; value: number }
+  | { field: 'widthMode' | 'heightMode'; value: SizingMode }
+  | { field: 'lockRatio' | 'flipX' | 'flipY'; value: boolean };
+export interface PositionSizeLimit { min?: number | undefined; max?: number | undefined; step?: number | undefined }
 export interface PositionSizeLabels {
   x: string;
   y: string;
@@ -45,7 +52,7 @@ export interface PositionSizeLabels {
   mixed: string;
 }
 
-export interface PositionSizeProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'children'> {
+export interface PositionSizeProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
   /** Controlled geometry. null shows the mixed label in that field. */
   value?: Geometry | undefined;
   /** Uncontrolled initial geometry. */
@@ -79,6 +86,22 @@ export interface PositionSizeProps extends Omit<ComponentProps<'div'>, 'defaultV
   onDraftChange?: ((draft: PositionSizeDraft) => void) | undefined;
   /** release mode: a scrub is in progress with the value being previewed; null when it ends or is cancelled. */
   onPreviewChange?: ((value: Geometry | null) => void) | undefined;
+  /** K2e: fields the owner marks invalid. */
+  invalid?: PositionSizeFieldFlags | undefined;
+  /** K2e: id of the owner error text per field. */
+  describedBy?: Partial<Record<PositionSizeField, string>> | undefined;
+  /** K2e: per-field range and step. */
+  limits?: Partial<Record<PositionSizeDraftField, PositionSizeLimit>> | undefined;
+  /** K2e: the sizing modes offered per axis (the current mode is always listed). */
+  sizingModes?: Partial<Record<SizeAxis, SizingMode[]>> | undefined;
+  /** K2e: pill (default) or a Select under the field. */
+  modeControl?: 'pill' | 'select' | undefined;
+  /** K2e: hug and fill make the number read-only (default). */
+  derivedReadOnly?: boolean | undefined;
+  onFieldFocus?: ((event: { field: PositionSizeField }) => void) | undefined;
+  onFieldBlur?: ((event: { field: PositionSizeField; dirty: boolean }) => void) | undefined;
+  /** K2e: one field commits; return false to reject. */
+  onFieldCommit?: ((change: PositionSizeChange) => boolean | void) | undefined;
 }
 
 const EMPTY: Geometry = { x: null, y: null, width: null, height: null, rotation: null };
@@ -91,8 +114,9 @@ const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true }
 export function PositionSize({
   value, defaultValue = EMPTY, onValueChange, widthMode = 'fixed', heightMode = 'fixed', onModeChange, onModeOpen,
   lockRatio, onLockChange, flipX, flipY, onFlipChange, onConstraintsClick, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onDraftChange, onPreviewChange, className, ...props
+  onDraftChange, onPreviewChange, invalid, describedBy, limits, sizingModes, modeControl = 'pill', derivedReadOnly = true, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
 }: PositionSizeProps) {
+  const contract = useFieldContract<PositionSizeChange, PositionSizeField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const [geo, setGeo] = useControllableState<Geometry>({ value, defaultValue, onChange: onValueChange });
   const [lock, setLock] = useControllableState<boolean | null>({ value: lockRatio, defaultValue: false, onChange: on => { if (on !== null) onLockChange?.(on); } });
   const [fx, setFx] = useControllableState<boolean | null>({ value: flipX, defaultValue: false, onChange: on => { if (on !== null) onFlipChange?.({ axis: 'x', on }); } });
@@ -117,17 +141,21 @@ export function PositionSize({
     reserved: flagged(reserved, key),
     readOnly,
     commitMode,
-    onValueChange: (n: number) => setGeo(build(key, n)),
-    onDraftChange: (d: NumberFieldDraft) => onDraftChange?.({ ...d, field: key }),
+    ...limits?.[key],
+    ...contract.inputProps(key, flagged(reserved, key) || flagged(disabled, key)),
+    onValueChange: (n: number) => { contract.commit(key, { field: key, value: n }, () => setGeo(build(key, n))); },
+    onDraftChange: (d: NumberFieldDraft) => { contract.draft(key, d); onDraftChange?.({ ...d, field: key }); },
     onPreviewChange: (n: number | null) => { const next = n === null ? null : build(key, n); setPreviewing(next); onPreviewChange?.(next); },
   });
 
   const mode = (axis: SizeAxis, m: SizingMode | null): ReactNode => {
     const key = axis === 'width' ? 'widthMode' : 'heightMode';
     const isMixed = m === null || flagged(mixed, key);
+    const offers = (x: SizingMode) => x === m || (sizingModes?.[axis] ?? ['fixed', 'hug', 'fill']).includes(x);
+    if (modeControl === 'select') return undefined;
     if (m === 'fixed' && !isMixed) return undefined;
     const fixedIcon = axis === 'width' ? <MoveHorizontal /> : <MoveVertical />;
-    const pick = (next: SizingMode) => () => onModeChange?.({ axis, mode: next });
+    const pick = (next: SizingMode) => () => { contract.commit(key, { field: key, value: next }, () => onModeChange?.({ axis, mode: next })); };
     const sizing = axis === 'width' ? labels.widthSizing : labels.heightSizing;
     const isReserved = flagged(reserved, key);
     const shownMode = isMixed ? 'mixed' : m === 'fill' ? 'fill' : 'hug';
@@ -150,22 +178,51 @@ export function PositionSize({
     if (isReserved) return pill;
     return (
       <Menu trigger={pill} aria-label={labels[axis]} align="end">
-        <MenuItem icon={fixedIcon} end={<span className="font-mono">{geo[axis]}</span>} onSelect={pick('fixed')}>{labels.mode.fixed}</MenuItem>
-        <MenuItem icon={<Minimize2 />} onSelect={pick('hug')}>{labels.mode.hug}</MenuItem>
-        <MenuItem icon={<Check />} onSelect={pick('fill')}>{labels.mode.fill}</MenuItem>
+        {offers('fixed') && <MenuItem icon={fixedIcon} end={<span className="font-mono">{geo[axis]}</span>} onSelect={pick('fixed')}>{labels.mode.fixed}</MenuItem>}
+        {offers('hug') && <MenuItem icon={<Minimize2 />} onSelect={pick('hug')}>{labels.mode.hug}</MenuItem>}
+        {offers('fill') && <MenuItem icon={<Check />} onSelect={pick('fill')}>{labels.mode.fill}</MenuItem>}
       </Menu>
     );
   };
 
+  /** K2e: the sizing mode as a Select under the field (role combobox), always rendered. */
+  const modeSelect = (axis: SizeAxis, m: SizingMode | null): ReactNode => {
+    if (modeControl !== 'select') return null;
+    const key = axis === 'width' ? 'widthMode' : 'heightMode';
+    const isMixed = m === null || flagged(mixed, key);
+    const sizing = axis === 'width' ? labels.widthSizing : labels.heightSizing;
+    const allowed = sizingModes?.[axis] ?? ['fixed', 'hug', 'fill'];
+    const options = (['fixed', 'hug', 'fill'] as SizingMode[]).filter(x => x === m || allowed.includes(x));
+    const isReserved = flagged(reserved, key);
+    return (
+      <Select
+        data-slot="position-size-mode"
+        data-mode={isMixed ? 'mixed' : m}
+        aria-label={sizing(m ?? 'fixed')}
+        value={isMixed || m === null ? '' : m}
+        placeholder={labels.mixed}
+        disabled={flagged(disabled, key) || options.length < 2}
+        onValueChange={next => { if (!isReserved) contract.commit(key, { field: key, value: next as SizingMode }, () => onModeChange?.({ axis, mode: next as SizingMode })); }}
+        {...contract.attrs(key)}
+        {...(isReserved ? busy : {})}
+      >
+        {options.map(option => <SelectOption key={option} value={option}>{labels.mode[option]}</SelectOption>)}
+      </Select>
+    );
+  };
+
   const toggle = (name: 'lockRatio' | 'flipX' | 'flipY', state: boolean | null) => ({
+    ...contract.attrs(name),
+    onFocus: () => { if (!flagged(reserved, name) && !flagged(disabled, name)) contract.focus(name); },
+    onBlur: () => { if (!flagged(reserved, name) && !flagged(disabled, name)) contract.blur(name); },
     pressed: state === true,
     disabled: flagged(disabled, name),
     ...(flagged(mixed, name) || state === null ? { 'aria-pressed': 'mixed' as const } : {}),
     ...(flagged(reserved, name) ? busy : {}),
   });
   /** The slot wrapper of a field being written elsewhere carries the busy state as well. */
-  const wrap = (name: PositionSizeDraftField) => (flagged(reserved, name) ? { 'aria-busy': true as const, 'data-reserved': true as const } : {});
-  const guard = (name: PositionSizeField, set: (on: boolean) => void) => (on: boolean) => { if (!flagged(reserved, name)) set(on); };
+  const wrap = (name: PositionSizeDraftField) => ({ ...contract.wrapAttrs(name), ...(flagged(reserved, name) ? { 'aria-busy': true as const, 'data-reserved': true as const } : {}) });
+  const guard = (name: 'lockRatio' | 'flipX' | 'flipY', set: (on: boolean) => void) => (on: boolean) => { if (!flagged(reserved, name)) contract.commit(name, { field: name, value: on }, () => set(on)); };
 
   return (
     <div data-slot="position-size" aria-disabled={disabled === true || undefined} className={cn(positionSizeVariants(), className)} {...props}>
@@ -174,8 +231,8 @@ export function PositionSize({
         <div data-slot="position-size-y" className="min-w-0" {...wrap('y')}><NumberField aria-label={labels.y} label={labels.yShort} {...field('y')} /></div>
       </div>
       <div data-slot="position-size-size" className={positionSizeRow({ row: 'size' })}>
-        <div data-slot="position-size-width" className="min-w-0" {...wrap('width')}><NumberField aria-label={labels.width} label={labels.widthShort} unit={mode('width', widthMode)} {...field('width', widthMode === 'hug' || widthMode === 'fill')} /></div>
-        <div data-slot="position-size-height" className="min-w-0" {...wrap('height')}><NumberField aria-label={labels.height} label={labels.heightShort} unit={mode('height', heightMode)} {...field('height', heightMode === 'hug' || heightMode === 'fill')} /></div>
+        <div data-slot="position-size-width" className={modeControl === 'select' ? 'grid min-w-0 gap-1' : 'min-w-0'} {...wrap('width')}><NumberField aria-label={labels.width} label={labels.widthShort} unit={mode('width', widthMode)} {...field('width', derivedReadOnly && (widthMode === 'hug' || widthMode === 'fill'))} />{modeSelect('width', widthMode)}</div>
+        <div data-slot="position-size-height" className={modeControl === 'select' ? 'grid min-w-0 gap-1' : 'min-w-0'} {...wrap('height')}><NumberField aria-label={labels.height} label={labels.heightShort} unit={mode('height', heightMode)} {...field('height', derivedReadOnly && (heightMode === 'hug' || heightMode === 'fill'))} />{modeSelect('height', heightMode)}</div>
         <IconToggle data-slot="position-size-lock" aria-label={labels.lockRatio} onPressedChange={guard('lockRatio', setLock)} {...toggle('lockRatio', lock)}><Link /></IconToggle>
       </div>
       <div data-slot="position-size-turn" className={positionSizeRow({ row: 'size' })}>
@@ -196,6 +253,7 @@ export function PositionSize({
           <SlidersHorizontal />
         </IconButton>
       </div>
+      {children}
     </div>
   );
 }

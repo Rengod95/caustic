@@ -32,6 +32,9 @@ export const motionTimelinePlayheadVariants = cva([
   'before:absolute before:top-0 before:left-1/2 before:size-2.5 before:-translate-x-1/2 before:rounded-t-2xs before:rounded-b-xs before:bg-canvas-guide before:content-[""]',
 ]);
 
+/** The slider on the playhead head: an invisible 24px target over the 10px head. */
+export const motionTimelineSeekVariants = cva('absolute top-0 left-1/2 size-6 -translate-x-1/2 -translate-y-1.75 rounded-full outline-none focus-visible:shadow-focus');
+
 export const motionTimelinePlayerVariants = cva('flex items-center gap-2 border-t border-border-subtle px-2 py-1.5');
 
 export const motionTimelineTimeVariants = cva('font-mono text-mono-sm text-text-secondary');

@@ -1,15 +1,17 @@
 'use client';
 import { ChevronDown, Link2, Plus, Unlink } from 'lucide-react';
-import { cloneElement, isValidElement, type ComponentProps, type CSSProperties, type MouseEvent, type ReactElement, type ReactNode } from 'react';
+import { cloneElement, Fragment, isValidElement, type ComponentProps, type CSSProperties, type MouseEvent, type ReactElement, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { Badge } from '../badge/badge.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
+import { Select, SelectHeading, SelectOption } from '../select/select.tsx';
 import {
   inspectorBindingsActionVariants, inspectorBindingsAddVariants, inspectorBindingsChevronVariants, inspectorBindingsContextVariants, inspectorBindingsLinkVariants,
   inspectorBindingsNameVariants, inspectorBindingsPropertyIconVariants, inspectorBindingsPropertyVariants, inspectorBindingsRowVariants, inspectorBindingsSelectorVariants,
   inspectorBindingsSwatchVariants, inspectorBindingsVariants, type InspectorBindingsVariantProps,
 } from './inspector-bindings.variants.ts';
 
+export interface BindingOption { value: string; label: ReactNode; disabled?: boolean | undefined; group?: string | undefined }
 export interface InspectorBindingsRowProps extends Omit<ComponentProps<'div'>, 'property'>, InspectorBindingsVariantProps {
   /** Property label ("Fill"). */
   property: ReactNode;
@@ -37,6 +39,16 @@ export interface InspectorBindingsRowProps extends Omit<ComponentProps<'div'>, '
   count?: ReactNode;
   /** aria-label of the Unbind button ("Unbind Fill"). Required; no built-in default. */
   unbindLabel: string;
+  /** K2e: the selector is a Select over these options (role combobox); onPick is not used. */
+  options?: BindingOption[] | undefined;
+  /** K2e: the chosen option value; omit it (or use binding mixed) for no choice. */
+  value?: string | undefined;
+  /** K2e: shown while no option is chosen and the row is not mixed. */
+  placeholder?: ReactNode;
+  /** K2e: an option was chosen. */
+  onValueChange?: ((value: string) => void) | undefined;
+  /** K2e: disables Unbind only. */
+  unbindDisabled?: boolean | undefined;
   /** Unbind is activated. */
   onUnbind?: (event: MouseEvent<HTMLButtonElement>) => void;
   /** The selector is activated, to open the token picker. */
@@ -67,7 +79,8 @@ export function InspectorBindings({ addLabel, addDisabled = false, onAdd, classN
 
 /** One bound property: its token in an accent selector, a context line, and Unbind (or a count when the selection is mixed). */
 export function InspectorBindingsRow({
-  binding, property, icon, token, selectorLabel, selectorAsChild = false, disabled = false, reserved = false, mixedLabel, swatch, context, count, unbindLabel, onUnbind, onPick, className, children, ...props
+  binding, property, icon, token, selectorLabel, selectorAsChild = false, disabled = false, reserved = false, mixedLabel, swatch, context, count, unbindLabel, onUnbind, onPick,
+  options, value, placeholder, onValueChange, unbindDisabled = false, className, children, ...props
 }: InspectorBindingsRowProps) {
   const mixed = binding === 'mixed';
   const color = typeof swatch === 'string' ? swatch : undefined;
@@ -109,9 +122,31 @@ export function InspectorBindingsRow({
       <span data-slot="inspector-bindings-action" className={inspectorBindingsActionVariants()}>
         {mixed
           ? <Badge tone="warning" role={mixedLabel ? 'img' : undefined} aria-label={mixedLabel}>{count}</Badge>
-          : <IconButton size="xs" label={unbindLabel} disabled={disabled} onClick={reserved ? undefined : onUnbind}><Unlink /></IconButton>}
+          : <IconButton size="xs" label={unbindLabel} disabled={disabled || unbindDisabled} onClick={reserved ? undefined : onUnbind}><Unlink /></IconButton>}
       </span>
-      {selectorAsChild && isValidElement(children)
+      {options !== undefined ? (
+        <Select
+          {...selectorProps} aria-disabled={undefined} aria-busy={undefined}
+          value={mixed || value === undefined ? '' : value} placeholder={mixed && mixedLabel ? mixedLabel : placeholder}
+          disabled={disabled || reserved}
+          onValueChange={next => { if (!inert) onValueChange?.(next); }}
+          {...({ leading: (
+            <>
+              <Link2 data-slot="inspector-bindings-link" aria-hidden className={inspectorBindingsLinkVariants({ binding })} />
+              {swatch != null && (
+                <span data-slot="inspector-bindings-swatch" aria-hidden className={inspectorBindingsSwatchVariants()} style={color ? ({ '--swatch': color } as CSSProperties) : undefined}>{color ? null : swatch}</span>
+              )}
+            </>
+          ) } as object)}
+        >
+          {options.map((option, i) => (
+            <Fragment key={option.value}>
+              {option.group !== undefined && option.group !== options[i - 1]?.group && <SelectHeading>{option.group}</SelectHeading>}
+              <SelectOption value={option.value} disabled={option.disabled}>{option.label}</SelectOption>
+            </Fragment>
+          ))}
+        </Select>
+      ) : selectorAsChild && isValidElement(children)
         ? cloneElement(children as ReactElement<ComponentProps<'button'>>, selectorProps, selectorBody((children as ReactElement<{ children?: ReactNode }>).props.children ?? token))
         : (
           <button type="button" aria-haspopup="dialog" {...selectorProps} data-slot="inspector-bindings-selector" onClick={inert ? undefined : onPick}>

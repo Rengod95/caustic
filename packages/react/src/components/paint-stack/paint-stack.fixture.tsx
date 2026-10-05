@@ -19,7 +19,7 @@ export default defineFixture({
   examples: {
     'fill-stack': () => (
       <InspectorPanel aria-label="Inspector">
-        <PaintStack title="Fill" labels={labels} items={items} />
+        <PaintStack title="Fill" labels={labels} items={items} onStylesClick={() => {}} />
         <PaintStack title="Fill · 3 selected" labels={labels} mixed />
       </InspectorPanel>
     ),

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ComponentProps, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useScrub } from '../../hooks/use-scrub.ts';
@@ -45,6 +45,8 @@ export interface NumberFieldProps extends Omit<ComponentProps<'input'>, 'value' 
   onDraftChange?: ((draft: NumberFieldDraft) => void) | undefined;
   /** release mode: a scrub is moving the value (not a commit); null when it ends or is cancelled. */
   onPreviewChange?: ((value: number | null) => void) | undefined;
+  /** K2e: a pointer press on the scrub label starts (before any movement). */
+  onScrubStart?: (() => void) | undefined;
   /** Class names for the outer container. */
   containerClassName?: string | undefined;
 }
@@ -55,7 +57,7 @@ const show = (v: number | null) => (v === null ? '' : String(v));
 /** Inspector number field: drag the label to scrub, arrows step, Enter commits, Escape reverts. */
 export function NumberField({
   value, defaultValue = null, onValueChange, label, unit, trailing, step = 1, min, max, commitMode = 'live', mixed = false, mixedLabel, locked = false, reserved = false, disabled = false, invalid = false,
-  onDraftChange, onPreviewChange, className, containerClassName, onKeyDown, onBlur, ...props
+  onDraftChange, onPreviewChange, onScrubStart, className, containerClassName, onKeyDown, onBlur, ...props
 }: NumberFieldProps) {
   const release = commitMode === 'release';
   const [current, setCurrent] = useControllableState<number | null>({ value, defaultValue, onChange: v => { if (v !== null) onValueChange?.(v); } });
@@ -126,7 +128,7 @@ export function NumberField({
       )}
     >
       {label != null && (
-        <span data-slot="number-field-label" aria-hidden {...(locked || inert ? {} : handlers)}
+        <span data-slot="number-field-label" aria-hidden {...(locked || inert ? {} : { ...handlers, onPointerDown: (e: PointerEvent<HTMLElement>) => { onScrubStart?.(); handlers.onPointerDown(e); } })}
           className="grid h-full min-w-6 shrink-0 cursor-ew-resize select-none place-items-center pl-1.5 pr-0.5 text-label text-text-tertiary hover:text-text-primary [&_svg]:size-icon-sm in-data-[scrubbing]:text-accent-text">
           {label}
         </span>

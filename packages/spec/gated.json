@@ -44,8 +44,8 @@
     "at": "2026-10-01T16:19:15.792Z"
   },
   "auto-layout": {
-    "specHash": "6c23e2dfafe0f718",
-    "at": "2026-10-05T04:54:00.984Z"
+    "specHash": "c9cd2a9956bad6b2",
+    "at": "2026-10-05T14:46:01.749Z"
   },
   "avatar": {
     "specHash": "29780dcdff7d6cdf",
@@ -184,8 +184,8 @@
     "at": "2026-10-05T01:24:31.939Z"
   },
   "color-picker": {
-    "specHash": "b56a5e112d884fb0",
-    "at": "2026-10-05T04:49:02.890Z"
+    "specHash": "39afa90ad638ce9a",
+    "at": "2026-10-05T14:44:19.584Z"
   },
   "color-plane": {
     "specHash": "513f9cfeddd57e19",
@@ -236,8 +236,8 @@
     "at": "2026-10-01T16:22:08.202Z"
   },
   "corner-radius": {
-    "specHash": "f1a634be20a7df85",
-    "at": "2026-10-05T04:38:57.348Z"
+    "specHash": "d36e487e5cc8208c",
+    "at": "2026-10-05T14:40:25.750Z"
   },
   "date-picker": {
     "specHash": "9be06bf680510ee7",
@@ -248,12 +248,8 @@
     "at": "2026-10-04T15:29:51.758Z"
   },
   "easing-curve": {
-    "specHash": "9061da426c7fa997",
-    "at": "2026-10-05T04:39:20.664Z"
-  },
-  "effect-editor": {
-    "specHash": "e54f3d43888e70b5",
-    "at": "2026-10-05T04:45:44.727Z"
+    "specHash": "00162d4834827af6",
+    "at": "2026-10-05T14:44:44.886Z"
   },
   "effects-stack": {
     "specHash": "3e3e60b76992fd18",
@@ -304,8 +300,8 @@
     "at": "2026-10-01T16:22:40.981Z"
   },
   "gradient-editor": {
-    "specHash": "9769742fddcb148d",
-    "at": "2026-10-05T04:54:32.624Z"
+    "specHash": "58ada2da04b9bbd9",
+    "at": "2026-10-05T14:42:52.550Z"
   },
   "gradient-strip": {
     "specHash": "974a5b8e6c1fd791",
@@ -342,10 +338,6 @@
   "input-group": {
     "specHash": "d3759cc2c1eb51a1",
     "at": "2026-10-01T16:22:36.433Z"
-  },
-  "inspector-bindings": {
-    "specHash": "176367156d1d97a6",
-    "at": "2026-10-05T04:26:04.756Z"
   },
   "inspector-panel": {
     "specHash": "c76a2bdb465bc535",
@@ -408,12 +400,12 @@
     "at": "2026-10-05T01:23:46.057Z"
   },
   "motion-timeline": {
-    "specHash": "6c886c7b18b00aa9",
-    "at": "2026-10-05T04:39:47.887Z"
+    "specHash": "c55781cf26c67f68",
+    "at": "2026-10-05T14:29:50.089Z"
   },
   "number-field": {
-    "specHash": "496e7110f6d45912",
-    "at": "2026-10-05T03:39:55.113Z"
+    "specHash": "54e1b02b5fd90f99",
+    "at": "2026-10-05T14:32:04.321Z"
   },
   "option-tiles": {
     "specHash": "086d982b3476a1b5",
@@ -431,13 +423,9 @@
     "specHash": "15ba8a9e2200c033",
     "at": "2026-10-01T16:24:51.591Z"
   },
-  "paint-stack": {
-    "specHash": "142dc13b07eb8adf",
-    "at": "2026-10-05T04:44:32.800Z"
-  },
   "paint-well": {
-    "specHash": "2477ec2f5d001fd0",
-    "at": "2026-10-05T04:38:37.409Z"
+    "specHash": "783776cd60c3d388",
+    "at": "2026-10-05T14:40:49.182Z"
   },
   "permission-request": {
     "specHash": "7e6c7640a27d9c0f",
@@ -458,10 +446,6 @@
   "popover": {
     "specHash": "07047058ad6ec37e",
     "at": "2026-10-05T03:44:29.386Z"
-  },
-  "position-size": {
-    "specHash": "0996d0820a96cdef",
-    "at": "2026-10-05T04:40:38.796Z"
   },
   "progress": {
     "specHash": "d62a1daf5ca290eb",
@@ -555,10 +539,6 @@
     "specHash": "914e0db9dbc76163",
     "at": "2026-10-01T16:26:30.873Z"
   },
-  "stroke-editor": {
-    "specHash": "713f1462dbc09728",
-    "at": "2026-10-05T04:46:16.837Z"
-  },
   "suggestions": {
     "specHash": "67bc787995c72ce1",
     "at": "2026-10-01T16:25:42.717Z"
@@ -582,10 +562,6 @@
   "tag-input": {
     "specHash": "0f112781493e709e",
     "at": "2026-10-01T16:26:38.164Z"
-  },
-  "text-properties": {
-    "specHash": "e74976c5e4a2e901",
-    "at": "2026-10-05T04:53:27.900Z"
   },
   "textarea": {
     "specHash": "a402702d6f3e019d",

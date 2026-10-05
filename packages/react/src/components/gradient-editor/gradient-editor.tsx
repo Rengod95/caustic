@@ -8,6 +8,7 @@ import {
   type BoxSize, type GradientPoint, type GradientStopData, type GradientType, type GradientValue,
 } from '../../lib/gradient-math.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { AngleDial } from '../angle-dial/angle-dial.tsx';
 import { ColorWell } from '../color-well/color-well.tsx';
 import { GradientStrip } from '../gradient-strip/gradient-strip.tsx';
@@ -21,6 +22,17 @@ import {
 } from './gradient-editor.variants.ts';
 
 export type { GradientValue, GradientType, GradientPoint, GradientStopData };
+/** K2e: diamond is painted like radial in the preview. */
+export type GradientEditorType = GradientType | 'diamond';
+export interface GradientEditorValue extends Omit<GradientValue, 'type'> { type: GradientEditorType }
+export type GradientChange =
+  | { field: 'angle' | 'startX' | 'startY' | 'endX' | 'endY'; value: number }
+  | { field: 'stopPosition'; index: number; value: number }
+  | { field: 'stopColor'; index: number; value: string }
+  | { field: 'type'; value: GradientEditorType }
+  | { field: 'start' | 'end'; value: GradientPoint }
+  | { field: 'stops'; value: GradientStopData[] };
+export interface GradientEditorLimit { min?: number | undefined; max?: number | undefined; step?: number | undefined }
 
 export type GradientEditorField = 'type' | 'start' | 'end' | 'angle' | 'stopPosition' | 'stopColor' | 'stops' | 'startX' | 'startY' | 'endX' | 'endY';
 export type GradientEditorFieldFlags = Partial<Record<GradientEditorField, boolean>>;
@@ -40,7 +52,7 @@ export interface GradientEditorLabels {
   handleEnd: string;
   handleValueText: (x: number, y: number) => string;
   typesGroup: string;
-  types: Record<GradientType, string>;
+  types: Record<GradientType, string> & { diamond?: string | undefined };
   dial: string;
   dialValueText: (degrees: number) => string;
   angle: string;
@@ -67,8 +79,8 @@ export interface GradientEditorLabels {
 
 export interface GradientEditorProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
   /** Controlled gradient. start and end are percentages of the preview box; stops are position 0-100 and a CSS color. */
-  value?: GradientValue | undefined;
-  defaultValue?: GradientValue | undefined;
+  value?: GradientEditorValue | undefined;
+  defaultValue?: GradientEditorValue | undefined;
   /** Controlled index of the selected stop. */
   selected?: number | undefined;
   /** Uncontrolled selected stop. */
@@ -83,12 +95,26 @@ export interface GradientEditorProps extends Omit<ComponentProps<'div'>, 'defaul
   reserved?: Partial<Record<'type' | 'start' | 'end' | 'angle' | 'stopPosition' | 'stopColor' | 'stops' | 'startX' | 'startY' | 'endX' | 'endY', boolean>> | undefined;
   /** Every text and accessible name; no English default. */
   labels: GradientEditorLabels;
-  onValueChange?: ((value: GradientValue) => void) | undefined;
+  onValueChange?: ((value: GradientEditorValue) => void) | undefined;
   onSelectedChange?: ((index: number) => void) | undefined;
   /** A numeric field text, or the hex text of a stop, changed. */
   onDraftChange?: ((draft: GradientEditorDraft) => void) | undefined;
   /** release mode: a gesture is in progress with the value being previewed; null when it ends. */
-  onPreviewChange?: ((value: GradientValue | null) => void) | undefined;
+  onPreviewChange?: ((value: GradientEditorValue | null) => void) | undefined;
+  /** K2e: fields the owner marks invalid; indexed fields accept "stopPosition:<index>" and "stopColor:<index>". */
+  invalid?: Partial<Record<GradientEditorField | `stopPosition:${number}` | `stopColor:${number}`, boolean>> | undefined;
+  /** K2e: id of the owner error text per field. */
+  describedBy?: Partial<Record<GradientEditorField | `stopPosition:${number}` | `stopColor:${number}`, string>> | undefined;
+  /** K2e: per-field range and step. */
+  limits?: Partial<Record<'angle' | 'stopPosition' | 'startX' | 'startY' | 'endX' | 'endY', GradientEditorLimit>> | undefined;
+  /** K2e: false hides the type switch. */
+  showTypeSwitch?: boolean | undefined;
+  /** K2e: true keeps the specimen behavior (stops are painted sorted); false clamps a stop position between its neighbors. */
+  reorderStops?: boolean | undefined;
+  onFieldFocus?: ((event: { field: GradientEditorField; index?: number }) => void) | undefined;
+  onFieldBlur?: ((event: { field: GradientEditorField; index?: number; dirty: boolean }) => void) | undefined;
+  /** K2e: one field commits; return false to reject. */
+  onFieldCommit?: ((change: GradientChange) => boolean | void) | undefined;
 }
 
 const wrapAngle = (n: number) => ((Math.round(n) % 360) + 360) % 360;
@@ -96,6 +122,8 @@ const isHexColor = (c: string) => /^#[0-9a-fA-F]{3,8}$/.test(c);
 const handleKeys: Record<string, [number, number]> = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
 const gestureKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown'];
 const types: GradientType[] = ['linear', 'radial', 'angular'];
+const radialLike = (t: GradientEditorType) => t === 'radial' || t === 'diamond';
+const paintable = (v: GradientEditorValue): GradientValue => ({ ...v, type: v.type === 'diamond' ? 'radial' : v.type });
 const hatch = 'repeating-linear-gradient(135deg, var(--cs-color-fill-selected) 0 6px, transparent 6px 12px)';
 
 const flagged = (flags: boolean | GradientEditorFieldFlags | undefined, field: GradientEditorField) => flags === true || (typeof flags === 'object' && flags[field] === true);
@@ -105,12 +133,14 @@ const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true }
 /** Edits a gradient the way a design tool does: handles and stops on the preview, a strip, type, angle and a stop list. */
 export function GradientEditor({
   value, defaultValue = defaultGradient, selected, defaultSelected = 1, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onValueChange, onSelectedChange, onDraftChange, onPreviewChange, className, ...props
+  onValueChange, onSelectedChange, onDraftChange, onPreviewChange, invalid, describedBy, limits, showTypeSwitch = true, reorderStops = true, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
 }: GradientEditorProps) {
-  const [grad, setGrad] = useControllableState<GradientValue>({ value, defaultValue, onChange: v => onValueChange?.(v) });
+  const contract = useFieldContract<GradientChange, GradientEditorField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
+  const [grad, setGrad] = useControllableState<GradientEditorValue>({ value, defaultValue, onChange: v => onValueChange?.(v) });
   const [sel, setSel] = useControllableState<number>({ value: selected, defaultValue: defaultSelected, onChange: i => onSelectedChange?.(i) });
-  const [previewing, setPreviewing] = useState<GradientValue | null>(null);
-  const gesture = useRef<GradientValue | null>(null);
+  const [previewing, setPreviewing] = useState<GradientEditorValue | null>(null);
+  const gesture = useRef<GradientEditorValue | null>(null);
+  const gestureChange = useRef<{ key: string; change: GradientChange } | null>(null);
   const stripDown = useRef(false);
   const previewRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState<BoxSize>({ w: 0, h: 0 });
@@ -132,6 +162,10 @@ export function GradientEditor({
   const isDisabled = (f: GradientEditorField) => flagged(disabled, f);
   /** The slot wrapper of a field being written elsewhere carries the busy state as well. */
   const wrap = (f: GradientEditorField) => (isReserved(f) ? { 'aria-busy': true as const, 'data-reserved': true as const } : {});
+  /** The wrapper of a typed or chosen field: the reserved state plus the field contract attributes. */
+  const fwrap = (f: GradientEditorField, key: string = f) => ({ ...wrap(f), ...contract.wrapAttrs(key) });
+  const fkey = (name: string, index?: number) => (index === undefined ? name : `${name}:${index}`);
+  const neighbors = (i: number) => (reorderStops ? {} : { min: stops[i - 1]?.position ?? 0, max: stops[i + 1]?.position ?? 100 });
   /** A reserved gesture control never receives the pointer or the keys that move it. */
   const block = (f: GradientEditorField) => (isReserved(f)
     ? {
@@ -144,26 +178,29 @@ export function GradientEditor({
   const angle = axisAngle(start, end, box);
   const angleInt = wrapAngle(angle);
   const length = axisLength(start, end, box);
-  const css = isMixed('stops') ? hatch : gradientCss(shown, box);
+  const css = isMixed('stops') ? hatch : gradientCss(paintable(shown), box);
+  const radial = radialLike(type);
   const startMixed = isMixed('start');
   const endMixed = isMixed('end');
   const angleMixed = isMixed('angle');
   const stopsMixed = isMixed('stops');
 
-  /** A discrete change: one commit. */
-  const commit = (next: GradientValue) => setGrad(next);
-  const update = (patch: Partial<GradientValue>) => commit({ ...shown, ...patch });
+  /** A discrete change of one field: onFieldCommit first, the value only when it is accepted. */
+  const commit = (next: GradientEditorValue, key: string, change: GradientChange) => { contract.commit(key, change, () => setGrad(next)); };
   /** A gesture step: previewed in release mode, committed at once in live mode. */
-  const step = (next: GradientValue) => {
-    if (release) { gesture.current = next; setPreviewing(next); onPreviewChange?.(next); } else setGrad(next);
+  const step = (next: GradientEditorValue, key: string, change: GradientChange) => {
+    gestureChange.current = { key, change };
+    if (release) { gesture.current = next; setPreviewing(next); onPreviewChange?.(next); } else commit(next, key, change);
   };
   /** The end of a gesture: one commit in release mode. */
   const finish = () => {
     const next = gesture.current;
+    const info = gestureChange.current;
     gesture.current = null;
+    gestureChange.current = null;
     if (!release || next === null) return;
     setPreviewing(null);
-    setGrad(next);
+    if (info) commit(next, info.key, info.change); else setGrad(next);
     onPreviewChange?.(null);
   };
   const cancel = () => {
@@ -173,10 +210,9 @@ export function GradientEditor({
     onPreviewChange?.(null);
   };
   /** The preview reported by a NumberField scrub (the field commits itself). */
-  const preview = (next: GradientValue | null) => { setPreviewing(next); onPreviewChange?.(next); };
+  const preview = (next: GradientEditorValue | null) => { setPreviewing(next); onPreviewChange?.(next); };
 
-  const setStops = (next: GradientStopData[]) => update({ stops: next });
-  const stepStops = (next: GradientStopData[]) => step({ ...shown, stops: next });
+  const setStops = (next: GradientStopData[]) => commit({ ...shown, stops: next }, 'stops', { field: 'stops', value: next });
   const select = (i: number) => { if (i !== sel) setSel(i); };
 
   const pointAt = (e: PointerEvent<HTMLElement>): GradientPoint => {
@@ -185,7 +221,7 @@ export function GradientEditor({
     return { x: clamp(((e.clientX - r.left) / r.width) * 100, 0, 100), y: clamp(((e.clientY - r.top) / r.height) * 100, 0, 100) };
   };
   const handleField = (which: 'start' | 'end'): GradientEditorField => which;
-  const moveHandle = (which: 'start' | 'end', p: GradientPoint) => step({ ...shown, [which]: p });
+  const moveHandle = (which: 'start' | 'end', p: GradientPoint) => step({ ...shown, [which]: p }, which, { field: which, value: p });
   const handleDown = (which: 'start' | 'end') => (e: PointerEvent<HTMLButtonElement>) => {
     if (inert(handleField(which))) return;
     e.preventDefault();
@@ -212,7 +248,8 @@ export function GradientEditor({
     e.preventDefault();
     const m = e.shiftKey ? 10 : 1;
     const p = which === 'start' ? start : end;
-    commit({ ...shown, [which]: { x: clamp(p.x + d[0] * m, 0, 100), y: clamp(p.y + d[1] * m, 0, 100) } });
+    const moved = { x: clamp(p.x + d[0] * m, 0, 100), y: clamp(p.y + d[1] * m, 0, 100) };
+    commit({ ...shown, [which]: moved }, which, { field: which, value: moved });
   };
   const dotDown = (i: number) => (e: PointerEvent<HTMLSpanElement>) => {
     if (inert('stopPosition')) return;
@@ -224,8 +261,10 @@ export function GradientEditor({
     if (inert('stopPosition') || !e.currentTarget.hasPointerCapture(e.pointerId)) return;
     const r = previewRef.current?.getBoundingClientRect();
     if (!r) return;
-    const position = positionOnAxis({ x: e.clientX - r.left, y: e.clientY - r.top }, start, end, box);
-    if (position !== stops[i]?.position) stepStops(stops.map((s, k) => (k === i ? { ...s, position } : s)));
+    const raw = positionOnAxis({ x: e.clientX - r.left, y: e.clientY - r.top }, start, end, box);
+    const bounds = neighbors(i);
+    const position = clamp(raw, bounds.min ?? 0, bounds.max ?? 100);
+    if (position !== stops[i]?.position) step({ ...shown, stops: stops.map((s, k) => (k === i ? { ...s, position } : s)) }, fkey('stopPosition', i), { field: 'stopPosition', index: i, value: position });
   };
   const dotUp = (e: PointerEvent<HTMLSpanElement>) => {
     if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
@@ -236,24 +275,34 @@ export function GradientEditor({
     cancel();
   };
 
-  const rotated = (deg: number): GradientValue => ({ ...shown, ...rotateAxis(start, end, deg, box) });
+  const rotated = (deg: number): GradientEditorValue => ({ ...shown, ...rotateAxis(start, end, deg, box) });
   const addStop = () => {
     if (inert('stops')) return;
-    commit({ ...shown, stops: [...stops, { position: 75, color: newStopColor }] });
+    const next = [...stops, { position: 75, color: newStopColor }];
+    commit({ ...shown, stops: next }, 'stops', { field: 'stops', value: next });
     setSel(stops.length);
   };
   const removeStop = (i: number) => {
     if (inert('stops') || stops.length <= 2) return;
-    commit({ ...shown, stops: stops.filter((_, k) => k !== i) });
+    const next = stops.filter((_, k) => k !== i);
+    commit({ ...shown, stops: next }, 'stops', { field: 'stops', value: next });
     setSel(0);
   };
-  const patchStop = (i: number, patch: Partial<GradientStopData>) => setStops(stops.map((s, k) => (k === i ? { ...s, ...patch } : s)));
-  const pointWith = (key: 'start' | 'end', axis: 'x' | 'y', v: number): GradientValue => ({ ...shown, [key]: { ...(key === 'start' ? start : end), [axis]: clamp(v, 0, 100) } });
+  const patchStop = (i: number, patch: Partial<GradientStopData>) => {
+    const next = stops.map((s, k) => (k === i ? { ...s, ...patch } : s));
+    if (patch.position !== undefined) commit({ ...shown, stops: next }, fkey('stopPosition', i), { field: 'stopPosition', index: i, value: patch.position });
+    else if (patch.color !== undefined) commit({ ...shown, stops: next }, fkey('stopColor', i), { field: 'stopColor', index: i, value: patch.color });
+    else setStops(next);
+  };
+  const pointWith = (key: 'start' | 'end', axis: 'x' | 'y', v: number): GradientEditorValue => ({ ...shown, [key]: { ...(key === 'start' ? start : end), [axis]: clamp(v, 0, 100) } });
 
   /** The props every numeric field shares: value model, mixed, reserved and the draft report. */
   const numeric = (name: GradientEditorField, draft: GradientEditorDraft['field'], index?: number) => ({
     mixed: isMixed(name), mixedLabel: labels.mixed, disabled: isDisabled(name), reserved: isReserved(name), commitMode,
-    onDraftChange: (d: NumberFieldDraft) => onDraftChange?.({ ...d, field: draft, ...(index === undefined ? {} : { index }) }),
+    ...(draft === 'stopPosition' && index !== undefined ? neighbors(index) : {}),
+    ...(draft in { angle: 1, stopPosition: 1, startX: 1, startY: 1, endX: 1, endY: 1 } ? limits?.[draft as 'angle'] : {}),
+    ...contract.inputProps(fkey(name, index), isReserved(name) || isDisabled(name)),
+    onDraftChange: (d: NumberFieldDraft) => { contract.draft(fkey(name, index), d); onDraftChange?.({ ...d, field: draft, ...(index === undefined ? {} : { index }) }); },
   });
 
   // Strip: a press on the bar adds a stop, a handle drag moves one. GradientStrip has no release callback, so the wrapper sees the pointer up.
@@ -266,7 +315,7 @@ export function GradientEditor({
   const stripStops = (next: GradientStopData[]) => {
     if (next.length !== stops.length) { if (!inert('stops')) setStops(next); return; }
     if (inert('stopPosition')) return;
-    if (stripDown.current) stepStops(next); else setStops(next);
+    if (stripDown.current) step({ ...shown, stops: next }, 'stops', { field: 'stops', value: next }); else setStops(next);
   };
 
   const vars = (p: GradientPoint) => ({ '--hx': `${p.x}%`, '--hy': `${p.y}%` }) as CSSProperties;
@@ -279,7 +328,7 @@ export function GradientEditor({
         <div ref={previewRef} data-slot="gradient-editor-preview" data-type={type} data-mixed={stopsMixed || undefined} className={gradientPreviewVariants()} style={{ '--gradient': css } as CSSProperties}>
           <svg data-slot="gradient-editor-guide" aria-hidden className={gradientGuideVariants()}>
             <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
-            {type === 'radial' ? <circle cx={a.x} cy={a.y} r={length} /> : null}
+            {radial ? <circle cx={a.x} cy={a.y} r={length} /> : null}
           </svg>
           {stopsMixed ? null : stops.map((s, i) => (
             <span
@@ -309,7 +358,7 @@ export function GradientEditor({
             data-slot="gradient-editor-readout" aria-hidden className={gradientReadoutVariants()}
             style={{ '--rx': `${(start.x + end.x) / 2}%`, '--ry': `${(start.y + end.y) / 2}%` } as CSSProperties}
           >
-            {angleMixed ? labels.mixed : type === 'radial' ? labels.radiusReadout(Math.round(length)) : `${angleInt}°`}
+            {angleMixed ? labels.mixed : radial ? labels.radiusReadout(Math.round(length)) : `${angleInt}°`}
           </span>
         </div>
         <div
@@ -323,27 +372,32 @@ export function GradientEditor({
           />
         </div>
         <div data-slot="gradient-editor-controls" className={gradientControlsVariants()}>
-          <div data-slot="gradient-editor-type" className="inline-flex" {...wrap('type')}>
-            <SegmentedControl
-              aria-label={labels.typesGroup} size="xs" value={isMixed('type') ? '' : type} disabled={isDisabled('type')}
-              onValueChange={t => { if (!isReserved('type')) update({ type: t as GradientType }); }}
-              {...(isReserved('type') ? busy : {})}
-            >
-              {types.map(t => <SegmentedControlItem key={t} value={t}>{labels.types[t]}</SegmentedControlItem>)}
-            </SegmentedControl>
-          </div>
+          {showTypeSwitch ? (
+            <div data-slot="gradient-editor-type" className="inline-flex" {...fwrap('type')}>
+              <SegmentedControl
+                aria-label={labels.typesGroup} size="xs" value={isMixed('type') ? '' : type} disabled={isDisabled('type')}
+                onValueChange={t => { if (!isReserved('type')) commit({ ...shown, type: t as GradientEditorType }, 'type', { field: 'type', value: t as GradientEditorType }); }}
+                onFocus={() => { if (!inert('type')) contract.focus('type'); }}
+                onBlur={() => { if (!inert('type')) contract.blur('type'); }}
+                {...(isReserved('type') ? busy : {})}
+              >
+                {types.map(t => <SegmentedControlItem key={t} value={t}>{labels.types[t]}</SegmentedControlItem>)}
+                {labels.types.diamond !== undefined && type === 'diamond' ? <SegmentedControlItem value="diamond">{labels.types.diamond}</SegmentedControlItem> : null}
+              </SegmentedControl>
+            </div>
+          ) : <span />}
           <div data-slot="gradient-editor-angle" className="flex items-center gap-1">
             <div data-slot="gradient-editor-dial" className="inline-flex" data-mixed={angleMixed || undefined} {...wrap('angle')} {...block('angle')}>
               <AngleDial
                 label={labels.dial} valueText={angleMixed ? () => labels.mixed : labels.dialValueText} value={angleInt} disabled={isDisabled('angle')}
-                onValueChange={deg => step(rotated(deg))}
+                onValueChange={deg => step(rotated(deg), 'angle', { field: 'angle', value: wrapAngle(deg) })}
                 onValueCommit={() => finish()}
               />
             </div>
-            <div data-slot="gradient-editor-angle-field" className="w-gradient-angle-w" {...wrap('angle')}>
+            <div data-slot="gradient-editor-angle-field" className="w-gradient-angle-w" {...fwrap('angle')}>
               <NumberField
                 aria-label={labels.angle} unit="°" value={angleInt}
-                onValueChange={v => commit(rotated(wrapAngle(v)))}
+                onValueChange={v => commit(rotated(wrapAngle(v)), 'angle', { field: 'angle', value: wrapAngle(v) })}
                 onPreviewChange={n => preview(n === null ? null : rotated(wrapAngle(n)))}
                 {...numeric('angle', 'angle')}
               />
@@ -351,7 +405,7 @@ export function GradientEditor({
             <div data-slot="gradient-editor-rotate" className="inline-flex" {...wrap('angle')}>
               <IconButton
                 label={labels.rotate} size="xs" disabled={isDisabled('angle')}
-                onClick={() => { if (!isReserved('angle')) commit(rotated(angleInt + 90)); }} {...(isReserved('angle') ? busy : {})}
+                onClick={() => { if (!isReserved('angle')) commit(rotated(angleInt + 90), 'angle', { field: 'angle', value: wrapAngle(angleInt + 90) }); }} {...(isReserved('angle') ? busy : {})}
               >
                 <RotateCw />
               </IconButton>
@@ -359,7 +413,7 @@ export function GradientEditor({
             <div data-slot="gradient-editor-flip" className="inline-flex" {...wrap('start')}>
               <IconButton
                 label={labels.flip} size="xs" disabled={isDisabled('start') || isDisabled('end')}
-                onClick={() => { if (!isReserved('start') && !isReserved('end')) update({ start: end, end: start }); }} {...(isReserved('start') || isReserved('end') ? busy : {})}
+                onClick={() => { if (!isReserved('start') && !isReserved('end')) commit({ ...shown, start: end, end: start }, 'start', { field: 'start', value: end }); }} {...(isReserved('start') || isReserved('end') ? busy : {})}
               >
                 <FlipHorizontal2 />
               </IconButton>
@@ -384,25 +438,28 @@ export function GradientEditor({
             </div>
           ) : stops.map((s, i) => (
             <div key={i} data-slot="gradient-editor-row" data-selected={sel === i || undefined} onClick={() => select(i)} className={gradientRowVariants()}>
-              <div data-slot="gradient-editor-row-position" className="w-16" {...wrap('stopPosition')}>
+              <div data-slot="gradient-editor-row-position" className="w-16" {...fwrap('stopPosition', fkey('stopPosition', i))}>
                 <NumberField
                   aria-label={labels.position} containerClassName="rounded-sm" unit="%" min={0} max={100} value={s.position}
-                  onFocus={() => select(i)}
                   onValueChange={position => patchStop(i, { position })}
                   onPreviewChange={n => preview(n === null ? null : { ...shown, stops: stops.map((t, k) => (k === i ? { ...t, position: n } : t)) })}
                   {...numeric('stopPosition', 'stopPosition', i)}
+                  onFocus={() => { select(i); if (!inert('stopPosition')) contract.focus(fkey('stopPosition', i)); }}
                 />
               </div>
               <div data-slot="gradient-editor-row-well" className="inline-flex" {...wrap('stopColor')}>
                 <ColorWell size="sm" appearance="checker" color={s.color} mixed={isMixed('stopColor')} aria-hidden />
               </div>
-              <div data-slot="gradient-editor-row-hex" className="min-w-0" {...wrap('stopColor')}>
+              <div data-slot="gradient-editor-row-hex" className="min-w-0" {...fwrap('stopColor', fkey('stopColor', i))}>
                 <HexInput
                   aria-label={labels.color} disabled={isDisabled('stopColor')} reserved={isReserved('stopColor')} commitMode={commitMode}
-                  mixed={isMixed('stopColor')} mixedLabel={labels.mixed} onFocus={() => select(i)}
+                  mixed={isMixed('stopColor')} mixedLabel={labels.mixed} invalid={contract.isInvalid(fkey('stopColor', i))} aria-describedby={contract.describedBy(fkey('stopColor', i))}
+                  data-field="stopColor" data-dirty={contract.isDirty(fkey('stopColor', i)) || undefined}
+                  onFocus={() => { select(i); if (!inert('stopColor')) contract.focus(fkey('stopColor', i)); }}
+                  onBlur={() => { if (!inert('stopColor')) contract.blur(fkey('stopColor', i)); }}
                   value={isHexColor(s.color) ? s.color.slice(1).toUpperCase() : undefined} token={isHexColor(s.color) ? undefined : s.color}
                   onValueChange={hex => patchStop(i, { color: `#${hex}` })}
-                  onDraftChange={d => onDraftChange?.({ field: 'stopColor', index: i, text: d.text, value: d.value, error: d.error, dirty: d.dirty })}
+                  onDraftChange={d => { contract.draft(fkey('stopColor', i), d); onDraftChange?.({ field: 'stopColor', index: i, text: d.text, value: d.value, error: d.error, dirty: d.dirty }); }}
                 />
               </div>
               <div data-slot="gradient-editor-row-remove" className="inline-flex" {...wrap('stops')}>
@@ -422,36 +479,37 @@ export function GradientEditor({
             {labels.details}
           </summary>
           <div data-slot="gradient-editor-details-body" className="mt-1.5 grid grid-cols-2 gap-1.5">
-            <div data-slot="gradient-editor-coord" {...wrap('startX')}>
+            <div data-slot="gradient-editor-coord" {...fwrap('startX')}>
               <NumberField
                 label={labels.startXShort} unit="%" aria-label={labels.startX} min={0} max={100} value={Math.round(start.x)}
-                onValueChange={v => commit(pointWith('start', 'x', v))} onPreviewChange={n => preview(n === null ? null : pointWith('start', 'x', n))}
+                onValueChange={v => commit(pointWith('start', 'x', v), 'startX', { field: 'startX', value: v })} onPreviewChange={n => preview(n === null ? null : pointWith('start', 'x', n))}
                 {...numeric('startX', 'startX')}
               />
             </div>
-            <div data-slot="gradient-editor-coord" {...wrap('startY')}>
+            <div data-slot="gradient-editor-coord" {...fwrap('startY')}>
               <NumberField
                 label={labels.startYShort} unit="%" aria-label={labels.startY} min={0} max={100} value={Math.round(start.y)}
-                onValueChange={v => commit(pointWith('start', 'y', v))} onPreviewChange={n => preview(n === null ? null : pointWith('start', 'y', n))}
+                onValueChange={v => commit(pointWith('start', 'y', v), 'startY', { field: 'startY', value: v })} onPreviewChange={n => preview(n === null ? null : pointWith('start', 'y', n))}
                 {...numeric('startY', 'startY')}
               />
             </div>
-            <div data-slot="gradient-editor-coord" {...wrap('endX')}>
+            <div data-slot="gradient-editor-coord" {...fwrap('endX')}>
               <NumberField
                 label={labels.endXShort} unit="%" aria-label={labels.endX} min={0} max={100} value={Math.round(end.x)}
-                onValueChange={v => commit(pointWith('end', 'x', v))} onPreviewChange={n => preview(n === null ? null : pointWith('end', 'x', n))}
+                onValueChange={v => commit(pointWith('end', 'x', v), 'endX', { field: 'endX', value: v })} onPreviewChange={n => preview(n === null ? null : pointWith('end', 'x', n))}
                 {...numeric('endX', 'endX')}
               />
             </div>
-            <div data-slot="gradient-editor-coord" {...wrap('endY')}>
+            <div data-slot="gradient-editor-coord" {...fwrap('endY')}>
               <NumberField
                 label={labels.endYShort} unit="%" aria-label={labels.endY} min={0} max={100} value={Math.round(end.y)}
-                onValueChange={v => commit(pointWith('end', 'y', v))} onPreviewChange={n => preview(n === null ? null : pointWith('end', 'y', n))}
+                onValueChange={v => commit(pointWith('end', 'y', v), 'endY', { field: 'endY', value: v })} onPreviewChange={n => preview(n === null ? null : pointWith('end', 'y', n))}
                 {...numeric('endY', 'endY')}
               />
             </div>
           </div>
         </details>
+        {children}
       </div>
     </div>
   );

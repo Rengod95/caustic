@@ -7,6 +7,7 @@ import { defined } from '../../lib/defined.ts';
 import { cssColor, hsvToHex, parseHex, rgbToHsv } from '../../lib/color-math.ts';
 import { resolveCssColor } from '../../lib/color-resolve.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { ColorPlane } from '../color-plane/color-plane.tsx';
 import { HexInput } from '../hex-input/hex-input.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
@@ -23,11 +24,19 @@ import {
 export interface ColorValue { h: number; s: number; v: number; a: number }
 export type PaintType = 'solid' | 'linear' | 'radial' | 'angular' | 'diamond' | 'image';
 export type PickerMode = 'custom' | 'tokens';
-export type ColorPickerField = 'plane' | 'hue' | 'alpha' | 'hex' | 'paintType' | 'mode' | 'eyedropper' | 'swatches';
+export type ColorPickerField = 'plane' | 'hue' | 'alpha' | 'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV' | 'paintType' | 'mode' | 'eyedropper' | 'swatches';
+export type ColorPickerSection = 'types' | 'plane' | 'hue' | 'alpha' | 'eyedropper' | 'fields' | 'hsv' | 'swatches';
+export type ColorPickerChange =
+  | { field: 'plane'; value: { s: number; v: number } }
+  | { field: 'hue' | 'alpha'; value: number }
+  | { field: 'hex'; value: string }
+  | { field: 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV'; value: number }
+  | { field: 'paintType'; value: string }
+  | { field: 'swatches'; value: string };
 export type ColorPickerFieldFlags = Partial<Record<ColorPickerField, boolean>>;
 /** What the owner is told about the text of the hex or alpha field. */
 export interface ColorPickerDraft {
-  field: 'hex' | 'alphaField';
+  field: 'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV';
   text: string;
   /** Uppercase digits for hex, the number for the alpha field, or null when the text is not usable. */
   value: string | number | null;
@@ -54,6 +63,8 @@ export interface ColorPickerLabels {
   alphaField: string;
   swatchesTitle: string;
   addSwatch: string;
+  /** K2e: names of the H, S and V fields (aria-label and visible letter); required with the hsv section. */
+  hsv?: { h: string; s: string; v: string; hShort: string; sShort: string; vShort: string } | undefined;
   mixed: string;
 }
 
@@ -68,13 +79,13 @@ export interface ColorPickerProps extends Omit<ComponentProps<'div'>, 'defaultVa
   /** Header tab. */
   mode?: PickerMode | undefined;
   /** true disables every control; a record disables the named parts. */
-  disabled?: boolean | Partial<Record<'plane' | 'hue' | 'alpha' | 'hex' | 'paintType' | 'mode' | 'eyedropper' | 'swatches', boolean>> | undefined;
+  disabled?: boolean | Partial<Record<'plane' | 'hue' | 'alpha' | 'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV' | 'paintType' | 'mode' | 'eyedropper' | 'swatches', boolean>> | undefined;
   /** live (default): the behavior before K2d. release: the NumberField value model and one commit per gesture. */
   commitMode?: 'live' | 'release' | undefined;
   /** Parts whose selection values differ; each shows labels.mixed instead of a value. */
-  mixed?: Partial<Record<'plane' | 'hue' | 'alpha' | 'hex' | 'paintType' | 'mode' | 'eyedropper' | 'swatches', boolean>> | undefined;
+  mixed?: Partial<Record<'plane' | 'hue' | 'alpha' | 'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV' | 'paintType' | 'mode' | 'eyedropper' | 'swatches', boolean>> | undefined;
   /** Parts being written or held by another window. */
-  reserved?: Partial<Record<'plane' | 'hue' | 'alpha' | 'hex' | 'paintType' | 'mode' | 'eyedropper' | 'swatches', boolean>> | undefined;
+  reserved?: Partial<Record<'plane' | 'hue' | 'alpha' | 'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV' | 'paintType' | 'mode' | 'eyedropper' | 'swatches', boolean>> | undefined;
   /** Every text and accessible name; no English default. */
   labels: ColorPickerLabels;
   onValueChange?: ((value: ColorValue) => void) | undefined;
@@ -86,12 +97,26 @@ export interface ColorPickerProps extends Omit<ComponentProps<'div'>, 'defaultVa
   onPreviewChange?: ((value: ColorValue | null) => void) | undefined;
   /** The close button is pressed, or Escape. */
   onClose?: (() => void) | undefined;
+  /** K2e: render in the flow of an owner surface instead of as a floating dialog. */
+  embedded?: boolean | undefined;
+  /** K2e: which blocks render. */
+  sections?: ColorPickerSection[] | undefined;
+  /** K2e: fields the owner marks invalid. */
+  invalid?: Partial<Record<'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV', boolean>> | undefined;
+  /** K2e: id of the owner error text per field. */
+  describedBy?: Partial<Record<'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV', string>> | undefined;
+  onFieldFocus?: ((event: { field: 'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV' }) => void) | undefined;
+  onFieldBlur?: ((event: { field: 'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV'; dirty: boolean }) => void) | undefined;
+  /** K2e: one field commits; return false to reject. */
+  onFieldCommit?: ((change: ColorPickerChange) => boolean | void) | undefined;
 }
 
 const fallback: ColorValue = { h: 22, s: 0.72, v: 0.89, a: 1 };
 const paintTypes: PaintType[] = ['solid', 'linear', 'radial', 'angular', 'diamond', 'image'];
 const hueStops = [0, 60, 120, 180, 240, 300, 360];
 const hueRamp = `linear-gradient(90deg, ${hueStops.map(h => `hsl(${h} 100% 50%)`).join(', ')})`;
+const DIALOG_SECTIONS: ColorPickerSection[] = ['types', 'plane', 'hue', 'alpha', 'eyedropper', 'fields', 'swatches'];
+const EMBEDDED_SECTIONS: ColorPickerSection[] = ['plane', 'hue', 'alpha', 'fields'];
 const gestureKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown'];
 
 const flagged = (flags: boolean | ColorPickerFieldFlags | undefined, field: ColorPickerField) => flags === true || (typeof flags === 'object' && flags[field] === true);
@@ -112,8 +137,10 @@ function useMixedValueText(ref: RefObject<HTMLElement | null>, mixed: boolean, t
 /** The popover that edits one paint: type row, plane, hue and alpha, hex and alpha fields and page swatches. */
 export function ColorPicker({
   value, defaultValue = fallback, paintType, swatches = [], mode, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onValueChange, onPaintTypeChange, onModeChange, onDraftChange, onPreviewChange, onClose, className, onKeyDown, ...props
+  onValueChange, onPaintTypeChange, onModeChange, onDraftChange, onPreviewChange, onClose, embedded = false, sections, invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit, className, onKeyDown, ...props
 }: ColorPickerProps) {
+  const contract = useFieldContract<ColorPickerChange, 'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV'>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
+  const has = (s: ColorPickerSection) => (sections ?? (embedded ? EMBEDDED_SECTIONS : DIALOG_SECTIONS)).includes(s);
   const [current, setCurrent] = useControllableState<ColorValue | null>({ value, defaultValue, onChange: v => { if (v) onValueChange?.(v); } });
   const [type, setType] = useControllableState<PaintType | undefined>({ value: paintType, defaultValue: undefined, onChange: t => { if (t) onPaintTypeChange?.(t); } });
   const [tab, setTab] = useControllableState<PickerMode>({ value: mode, defaultValue: 'custom', onChange: onModeChange });
@@ -153,15 +180,17 @@ export function ColorPicker({
   useMixedValueText(alphaRef, isMixed('alpha'), labels.mixed);
 
   /** A drag step: previewed in release mode, committed at once in live mode. */
-  const step = (field: ColorPickerField, next: ColorValue) => {
+  const change = (field: 'plane' | 'hue' | 'alpha', next: ColorValue): ColorPickerChange => (field === 'plane' ? { field, value: { s: next.s, v: next.v } } : { field, value: field === 'hue' ? next.h : next.a });
+  const commitTo = (key: string, c: ColorPickerChange, next: ColorValue) => { contract.commit(key, c, () => setCurrent(next)); };
+  const step = (field: 'plane' | 'hue' | 'alpha', next: ColorValue) => {
     if (isReserved(field)) return;
-    if (release) { setPreviewing(next); onPreviewChange?.(next); } else setCurrent(next);
+    if (release) { setPreviewing(next); onPreviewChange?.(next); } else commitTo(field, change(field, next), next);
   };
   /** The end of a drag: one commit in release mode. */
-  const finish = (field: ColorPickerField, next: ColorValue) => {
+  const finish = (field: 'plane' | 'hue' | 'alpha', next: ColorValue) => {
     if (isReserved(field) || !release) return;
     setPreviewing(null);
-    setCurrent(next);
+    commitTo(field, change(field, next), next);
     onPreviewChange?.(null);
   };
 
@@ -170,7 +199,7 @@ export function ColorPicker({
     const rgb = parseHex(digits);
     if (!rgb) return;
     const hsv = rgbToHsv(rgb);
-    setCurrent({ h: hsv.s === 0 || hsv.v === 0 ? color.h : hsv.h, s: hsv.s, v: hsv.v, a: digits.length === 8 ? rgb.a / 100 : color.a });
+    commitTo('hex', { field: 'hex', value: digits.toUpperCase() }, { h: hsv.s === 0 || hsv.v === 0 ? color.h : hsv.h, s: hsv.s, v: hsv.v, a: digits.length === 8 ? rgb.a / 100 : color.a });
   };
   const pickSwatch = (id: string) => {
     if (isReserved('swatches')) return;
@@ -178,7 +207,7 @@ export function ColorPicker({
     const rgb = item ? resolveCssColor(item.color, rootRef.current) : null;
     if (!rgb) return;
     const hsv = rgbToHsv(rgb);
-    setCurrent({ h: hsv.s === 0 || hsv.v === 0 ? color.h : hsv.h, s: hsv.s, v: hsv.v, a: rgb.a / 100 });
+    commitTo('swatches', { field: 'swatches', value: id }, { h: hsv.s === 0 || hsv.v === 0 ? color.h : hsv.h, s: hsv.s, v: hsv.v, a: rgb.a / 100 });
   };
   const eyedrop = async () => {
     if (isReserved('eyedropper')) return;
@@ -201,18 +230,25 @@ export function ColorPicker({
     if (!next) return;
     e.preventDefault();
     next.focus();
-    setType(next.dataset.type as PaintType);
+    const chosen = next.dataset.type as PaintType;
+    contract.commit('paintType', { field: 'paintType', value: chosen }, () => setType(chosen));
   };
   const keyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(e);
     if (e.key === 'Escape' && !e.defaultPrevented) onClose?.();
   };
+  const withDropper = has('eyedropper');
+  const showSliders = has('hue') || has('alpha') || withDropper;
   const typeMixed = isMixed('paintType');
   const previewMixed = isMixed('plane') || isMixed('hex');
   const tabbable = typeMixed ? 'solid' : type ?? 'solid';
 
   return (
-    <div ref={rootRef} data-slot="color-picker" role="dialog" aria-label={labels.dialog} tabIndex={-1} onKeyDown={keyDown} className={cn(colorPickerVariants(), className)} {...props}>
+    <div
+      ref={rootRef} data-slot="color-picker" role={embedded ? 'group' : 'dialog'} aria-label={labels.dialog} data-embedded={embedded || undefined}
+      {...(embedded ? {} : { tabIndex: -1, onKeyDown: keyDown })} className={cn(colorPickerVariants({ embedded }), className)} {...props}
+    >
+      {!embedded && (
       <div data-slot="color-picker-header" className={colorPickerHeaderVariants()}>
         <div data-slot="color-picker-tabs" className="inline-flex" {...wrap('mode')}>
           <SegmentedControl
@@ -228,9 +264,10 @@ export function ColorPicker({
           <IconButton label={labels.close} size="xs" onClick={() => onClose?.()}><X /></IconButton>
         </div>
       </div>
-      {tab === 'custom' ? (
+      )}
+      {tab === 'custom' || embedded ? (
         <>
-          <div
+          {has('types') && <div
             ref={typesRef} data-slot="color-picker-types" role="radiogroup" aria-label={labels.typesGroup} onKeyDown={typeKeys} className={colorPickerTypesVariants()}
             data-mixed={typeMixed || undefined} {...wrap('paintType')}
           >
@@ -239,16 +276,16 @@ export function ColorPicker({
                 key={t} type="button" role="radio" data-slot="color-picker-type" data-type={t}
                 aria-checked={!typeMixed && type === t} aria-label={labels.types[t]} tabIndex={t === tabbable ? 0 : -1}
                 disabled={isDisabled('paintType')}
-                onClick={() => { if (!isReserved('paintType')) setType(t); }}
+                onClick={() => { if (!isReserved('paintType')) contract.commit('paintType', { field: 'paintType', value: t }, () => setType(t)); }}
                 className={colorPickerTypeVariants()}
                 {...(isReserved('paintType') ? busy : {})}
               >
                 {t === 'image' ? <ImageIcon aria-hidden /> : <span data-slot="color-picker-glyph" aria-hidden className={colorPickerGlyphVariants({ kind: t })} />}
               </button>
             ))}
-          </div>
-          <div data-slot="color-picker-body" className={colorPickerBodyVariants()}>
-            <div
+          </div>}
+          <div data-slot="color-picker-body" className={colorPickerBodyVariants({ embedded })}>
+            {has('plane') && <div
               data-slot="color-picker-plane" data-mixed={isMixed('plane') || undefined}
               className="data-[mixed]:[&_[role=slider]]:opacity-0 data-[mixed]:[&_[role=slider]:focus-visible]:opacity-100"
               {...wrap('plane')} {...block('plane')}
@@ -260,59 +297,83 @@ export function ColorPicker({
                 onValueChange={sv => step('plane', { ...color, ...sv })}
                 onValueCommit={sv => finish('plane', { ...color, ...sv })}
               />
-            </div>
-            <div data-slot="color-picker-sliders" className={colorPickerSlidersVariants()}>
-              <div data-slot="color-picker-eyedropper" className="inline-flex" {...wrap('eyedropper')}>
+            </div>}
+            {showSliders && <div data-slot="color-picker-sliders" className={colorPickerSlidersVariants({ picker: withDropper })}>
+              {withDropper && <div data-slot="color-picker-eyedropper" className="inline-flex" {...wrap('eyedropper')}>
                 <IconButton
                   label={labels.eyedropper} size="sm" disabled={!canPick || isDisabled('eyedropper')} data-mixed={isMixed('eyedropper') || undefined}
                   onClick={eyedrop} {...(isReserved('eyedropper') ? busy : {})}
                 >
                   <Pipette />
                 </IconButton>
-              </div>
+              </div>}
               <div data-slot="color-picker-tracks" className={colorPickerTracksVariants()}>
-                <div ref={hueRef} data-slot="color-picker-hue" data-mixed={isMixed('hue') || undefined} className="flex" {...wrap('hue')} {...block('hue')}>
+                {has('hue') && <div ref={hueRef} data-slot="color-picker-hue" data-mixed={isMixed('hue') || undefined} className="flex" {...wrap('hue')} {...block('hue')}>
                   <Slider
                     aria-label={labels.hue} appearance="gradient" size="sm" min={0} max={360} value={isMixed('hue') ? 0 : shown.h} disabled={isDisabled('hue')}
                     gradient={hueRamp} thumbColor={`hsl(${Math.round(shown.h)} 100% 50%)`}
                     onValueChange={h => step('hue', { ...color, h })}
                     onValueCommit={h => finish('hue', { ...color, h })}
                   />
-                </div>
-                <div ref={alphaRef} data-slot="color-picker-alpha" data-mixed={isMixed('alpha') || undefined} className="flex" {...wrap('alpha')} {...block('alpha')}>
+                </div>}
+                {has('alpha') && <div ref={alphaRef} data-slot="color-picker-alpha" data-mixed={isMixed('alpha') || undefined} className="flex" {...wrap('alpha')} {...block('alpha')}>
                   <Slider
                     aria-label={labels.alpha} appearance="alpha" size="sm" min={0} max={100} value={isMixed('alpha') ? 0 : alphaPct} disabled={isDisabled('alpha')}
                     gradient={`linear-gradient(90deg, transparent, ${opaque})`} thumbColor={cssColor(hex, alphaPct)}
                     onValueChange={a => step('alpha', { ...color, a: a / 100 })}
                     onValueCommit={a => finish('alpha', { ...color, a: a / 100 })}
                   />
-                </div>
+                </div>}
               </div>
               <span data-slot="color-picker-preview" aria-hidden data-mixed={previewMixed || undefined} className={colorPickerPreviewVariants()}>
                 <span className={colorPickerPreviewFillVariants({ mixed: previewMixed })} style={{ '--picked': cssColor(hex, alphaPct) } as CSSProperties} />
               </span>
-            </div>
-            <div data-slot="color-picker-fields" className={colorPickerFieldsVariants()}>
+            </div>}
+            {has('fields') && <div data-slot="color-picker-fields" className={colorPickerFieldsVariants()}>
               <button data-slot="color-picker-format" type="button" aria-label={labels.format} className={colorPickerFormatVariants()}>{labels.hex}<ChevronDown aria-hidden /></button>
-              <div data-slot="color-picker-hex" className="min-w-0" {...wrap('hex')}>
+              <div data-slot="color-picker-hex" className="min-w-0" {...wrap('hex')} {...contract.wrapAttrs('hex')}>
                 <HexInput
                   aria-label={labels.hex} value={hex} mixed={isMixed('hex')} mixedLabel={labels.mixed} disabled={isDisabled('hex')} reserved={isReserved('hex')} commitMode={commitMode}
+                  invalid={contract.isInvalid('hex')} aria-describedby={contract.describedBy('hex')} data-field="hex" data-dirty={contract.isDirty('hex') || undefined}
+                  onFocus={() => { if (!isReserved('hex') && !isDisabled('hex')) contract.focus('hex'); }}
+                  onBlur={() => { if (!isReserved('hex') && !isDisabled('hex')) contract.blur('hex'); }}
                   onValueChange={setHex}
-                  onDraftChange={d => onDraftChange?.({ field: 'hex', text: d.text, value: d.value, error: d.error, dirty: d.dirty })}
+                  onDraftChange={d => { contract.draft('hex', d); onDraftChange?.({ field: 'hex', text: d.text, value: d.value, error: d.error, dirty: d.dirty }); }}
                 />
               </div>
-              <div data-slot="color-picker-alpha-field" className="w-picker-alpha-w" {...wrap('alpha')}>
+              <div data-slot="color-picker-alpha-field" className="w-picker-alpha-w" {...wrap('alpha')} {...contract.wrapAttrs('alphaField')}>
                 <NumberField
                   aria-label={labels.alphaField} unit="%" min={0} max={100} value={alphaPct} mixed={isMixed('alpha')} mixedLabel={labels.mixed}
                   disabled={isDisabled('alpha')} reserved={isReserved('alpha')} commitMode={commitMode}
-                  onValueChange={a => setCurrent({ ...color, a: a / 100 })}
-                  onDraftChange={d => onDraftChange?.({ field: 'alphaField', text: d.text, value: d.value, error: d.error, dirty: d.dirty })}
+                  {...contract.inputProps('alphaField', isReserved('alpha') || isDisabled('alpha'))}
+                  onValueChange={a => { commitTo('alphaField', { field: 'alphaField', value: a }, { ...color, a: a / 100 }); }}
+                  onDraftChange={d => { contract.draft('alphaField', d); onDraftChange?.({ field: 'alphaField', text: d.text, value: d.value, error: d.error, dirty: d.dirty }); }}
                   onPreviewChange={a => { const next = a === null ? null : { ...color, a: a / 100 }; setPreviewing(next); onPreviewChange?.(next); }}
                 />
               </div>
-            </div>
+            </div>}
+            {has('hsv') && labels.hsv !== undefined && (
+              <div data-slot="color-picker-hsv" className="grid grid-cols-3 gap-1">
+                {([
+                  ['hsvH', labels.hsv.h, labels.hsv.hShort, shown.h, 360, '°', (n: number) => ({ ...color, h: n })],
+                  ['hsvS', labels.hsv.s, labels.hsv.sShort, shown.s * 100, 100, '%', (n: number) => ({ ...color, s: n / 100 })],
+                  ['hsvV', labels.hsv.v, labels.hsv.vShort, shown.v * 100, 100, '%', (n: number) => ({ ...color, v: n / 100 })],
+                ] as const).map(([key, name, letter, current, max, unit, build]) => (
+                  <div key={key} className="min-w-0" {...contract.wrapAttrs(key)}>
+                    <NumberField
+                      aria-label={name} label={letter} unit={unit} min={0} max={max} value={Math.round(current)} mixed={wholeMixed} mixedLabel={labels.mixed}
+                      disabled={isDisabled('plane')} reserved={isReserved('plane')} commitMode={commitMode}
+                      {...contract.inputProps(key, isReserved('plane') || isDisabled('plane'))}
+                      onValueChange={n => { commitTo(key, { field: key, value: n }, build(n)); }}
+                      onDraftChange={d => { contract.draft(key, d); onDraftChange?.({ field: key, text: d.text, value: d.value, error: d.error, dirty: d.dirty }); }}
+                      onPreviewChange={n => { const next = n === null ? null : build(n); setPreviewing(next); onPreviewChange?.(next); }}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-          <div data-slot="color-picker-foot" className={colorPickerFootVariants()}>
+          {has('swatches') && <div data-slot="color-picker-foot" className={colorPickerFootVariants()}>
             <div data-slot="color-picker-foot-head" className="flex items-center justify-between gap-2">
               <span data-slot="color-picker-foot-title" className="text-ui-xs font-semibold text-text-tertiary">{labels.swatchesTitle}</span>
               <div data-slot="color-picker-add" className="inline-flex">
@@ -331,7 +392,7 @@ export function ColorPicker({
             >
               <SwatchStrip items={items} columns={9} value={picked} onValueChange={pickSwatch} aria-label={labels.swatchesTitle} />
             </div>
-          </div>
+          </div>}
         </>
       ) : null}
     </div>

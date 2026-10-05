@@ -18,6 +18,9 @@ const labels: MotionTimelineLabels = {
   modeGroup: 'Motion type',
   mode: { easing: 'Easing', spring: 'Spring' },
   apply: 'Apply',
+  resume: 'Resume',
+  reset: 'Reset',
+  seek: (milliseconds, total) => `Timeline ${milliseconds} / ${total} ms`,
 };
 
 export default defineFixture({
