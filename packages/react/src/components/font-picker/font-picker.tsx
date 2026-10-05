@@ -24,6 +24,14 @@ export interface FontOption {
 }
 
 export interface FontPickerProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'children' | 'onChange'> {
+  /** The selection uses several families: the trigger shows mixedLabel and no option is selected. */
+  mixed?: boolean | undefined;
+  /** Text of the name while mixed; required whenever mixed can be true. */
+  mixedLabel?: string | undefined;
+  /** Disables the trigger; the list cannot open. */
+  disabled?: boolean | undefined;
+  /** A write is in flight or another window holds the family: focusable, aria-busy, the list does not open. */
+  reserved?: boolean | undefined;
   value?: string;
   defaultValue?: string;
   options: FontOption[];
@@ -57,13 +65,16 @@ const NAV = '[data-slot="font-picker-search"] input, [role="option"]';
 
 /** Chooses a font family while seeing it: every family is previewed in its own face. */
 export function FontPicker({
-  value, defaultValue, options, open, defaultOpen, inline = false, onValueChange, onOpenChange, onSearchChange, triggerLabel, sampleText, searchLabel, searchPlaceholder, listLabel, popupLabel, missingLabel, projectLabel, emptyMessage, className, onKeyDown, ...props
+  mixed = false, mixedLabel, disabled = false, reserved = false, value, defaultValue, options, open, defaultOpen, inline = false, onValueChange, onOpenChange, onSearchChange, triggerLabel, sampleText, searchLabel, searchPlaceholder, listLabel, popupLabel, missingLabel, projectLabel, emptyMessage, className, onKeyDown, ...props
 }: FontPickerProps) {
   const [val, setVal] = useControllableState<string>({ value, defaultValue: defaultValue ?? '', onChange: onValueChange });
-  const [isOpen, setOpen] = useControllableState<boolean>({ value: open, defaultValue: defaultOpen ?? false, onChange: onOpenChange });
+  const [openState, setOpenState] = useControllableState<boolean>({ value: open, defaultValue: defaultOpen ?? false, onChange: onOpenChange });
+  const blocked = disabled || reserved;
+  const isOpen = openState && !blocked;
+  const setOpen = (next: boolean) => { if (!(blocked && next)) setOpenState(next); };
   const triggerRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
-  const current = options.find(o => o.family === val);
+  const current = mixed ? undefined : options.find(o => o.family === val);
 
   const choose = (family: string) => { setVal(family); setOpen(false); triggerRef.current?.focus(); };
   const listKeys = (e: KeyboardEvent<HTMLElement>) => {
@@ -84,13 +95,14 @@ export function FontPicker({
     <button
       ref={triggerRef} type="button" data-slot="font-picker-trigger" role="combobox"
       aria-haspopup="listbox" aria-expanded={isOpen} aria-controls={isOpen ? listId : undefined}
-      aria-label={triggerLabel(current ? current.label ?? current.family : undefined)}
+      aria-label={triggerLabel(mixed ? mixedLabel : current ? current.label ?? current.family : undefined)}
+      disabled={disabled} aria-busy={reserved || undefined} data-reserved={reserved || undefined} data-mixed={mixed || undefined}
       className={fontPickerTriggerVariants()}
       onClick={inline ? () => setOpen(!isOpen) : undefined}
-      onKeyDown={e => { if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !isOpen) { e.preventDefault(); setOpen(true); } }}
+      onKeyDown={e => { if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !isOpen && !blocked) { e.preventDefault(); setOpen(true); } }}
     >
       <span data-slot="font-picker-sample" aria-hidden data-italic={current?.italic || undefined} className={fontPickerSampleVariants()} style={face(current?.cssFamily ?? '')}>{sampleText}</span>
-      <span data-slot="font-picker-name" className="min-w-0 flex-1 truncate text-ui-strong">{current ? current.label ?? current.family : ''}</span>
+      <span data-slot="font-picker-name" data-mixed={mixed || undefined} className="min-w-0 flex-1 truncate text-ui-strong data-[mixed]:italic data-[mixed]:text-text-secondary">{mixed ? mixedLabel : current ? current.label ?? current.family : ''}</span>
       <span data-slot="font-picker-chevron" aria-hidden className="inline-flex size-icon-sm shrink-0 text-text-tertiary [&_svg]:size-full [&_svg]:stroke-[1.75]"><ChevronDown /></span>
     </button>
   );
@@ -108,7 +120,7 @@ export function FontPicker({
         <div role="option" aria-disabled="true" aria-selected="false" data-slot="font-picker-empty" className={fontPickerEmptyVariants()}>{emptyMessage}</div>
       ) : null}
       {options.map(o => {
-        const selected = o.family === val;
+        const selected = !mixed && o.family === val;
         return (
           <div
             key={o.family} role="option" tabIndex={-1} aria-selected={selected}

@@ -9,7 +9,7 @@ export default defineFixture({
   id: 'grid-tracks',
   render: props => (
     <div className="w-68">
-      <GridTracks heading="Grid tracks" defaultTracks={tracks} {...(props as Partial<GridTracksProps>)} />
+      <GridTracks heading="Grid tracks" addLabel="Add column" trackLabel={n => `Track ${n}`} unitLabel={n => `Track ${n} unit`} removeLabel={n => `Remove track ${n}`} autoLabel="Auto" defaultTracks={tracks} {...(props as Partial<GridTracksProps>)} />
     </div>
   ),
   examples: {},

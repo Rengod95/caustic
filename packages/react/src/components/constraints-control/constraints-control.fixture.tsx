@@ -6,13 +6,23 @@ import { defineFixture } from '../../lib/fixture.ts';
 import { AlignBar, AlignBarItem, AlignBarSeparator } from '../align-bar/align-bar.tsx';
 import { Badge } from '../badge/badge.tsx';
 import { Button } from '../button/button.tsx';
-import { ConstraintsControl, type ConstraintsControlProps } from './constraints-control.tsx';
+import { ConstraintsControl, type ConstraintsControlLabels, type ConstraintsControlProps } from './constraints-control.tsx';
+
+const labels: ConstraintsControlLabels = {
+  group: 'Constraints',
+  pins: { top: 'Top', bottom: 'Bottom', left: 'Left', right: 'Right', centerX: 'Center X', centerY: 'Center Y' },
+  horizontal: 'Horizontal constraint',
+  vertical: 'Vertical constraint',
+  horizontalOptions: { left: 'Left', right: 'Right', 'left-right': 'Left & right', center: 'Center', scale: 'Scale' },
+  verticalOptions: { top: 'Top', bottom: 'Bottom', 'top-bottom': 'Top & bottom', center: 'Center', scale: 'Scale' },
+  mixed: 'Mixed',
+};
 
 export default defineFixture({
   id: 'constraints-control',
   render: props => (
     <div className="w-68">
-      <ConstraintsControl note="Resizing the parent keeps the frame in proportion." {...(props as Partial<ConstraintsControlProps>)} />
+      <ConstraintsControl labels={labels} note="Resizing the parent keeps the frame in proportion." {...(props as Partial<ConstraintsControlProps>)} />
     </div>
   ),
   examples: {
@@ -36,6 +46,7 @@ export default defineFixture({
           <Button tone="ghost" size="xs" iconStart={<Scan />}>Fit to selection</Button>
         </div>
         <ConstraintsControl
+          labels={labels}
           defaultValue={{ horizontal: 'left-right', vertical: 'center' }}
           note="Resizing the parent stretches width and keeps the frame centered vertically."
         />

@@ -8,6 +8,10 @@ import { colorPlaneThumbVariants, colorPlaneVariants } from './color-plane.varia
 export interface PlaneValue { s: number; v: number }
 
 export interface ColorPlaneProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
+  /** aria-label of the thumb ("Saturation and brightness"). Required; no built-in default. */
+  label: string;
+  /** aria-valuetext from the rounded percentages. Without it the thumb has no aria-valuetext. */
+  valueText?: ((saturation: number, brightness: number) => string) | undefined;
   /** Controlled saturation and brightness, both 0-1. */
   value?: PlaneValue;
   defaultValue?: PlaneValue;
@@ -23,7 +27,7 @@ export interface ColorPlaneProps extends Omit<ComponentProps<'div'>, 'defaultVal
 const keys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
 
 /** Saturation (horizontal) and brightness (vertical) of one hue: drag the thumb or use the arrow keys. */
-export function ColorPlane({ value, defaultValue = { s: 0, v: 1 }, hue = 0, pickedColor, disabled = false, onValueChange, onValueCommit, className, style, ...props }: ColorPlaneProps) {
+export function ColorPlane({ label, valueText, value, defaultValue = { s: 0, v: 1 }, hue = 0, pickedColor, disabled = false, onValueChange, onValueCommit, className, style, ...props }: ColorPlaneProps) {
   const [current, setCurrent] = useControllableState<PlaneValue>({ value, defaultValue, onChange: onValueChange });
   const latest = useRef(current); latest.current = current;
   const dragging = useRef(false);
@@ -82,8 +86,8 @@ export function ColorPlane({ value, defaultValue = { s: 0, v: 1 }, hue = 0, pick
     >
       <span
         data-slot="color-plane-thumb" role="slider" tabIndex={disabled ? -1 : 0}
-        aria-label="Saturation and brightness" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(current.s * 100)} aria-disabled={disabled || undefined}
-        aria-valuetext={`Saturation ${Math.round(current.s * 100)} %, brightness ${Math.round(current.v * 100)} %`}
+        aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(current.s * 100)} aria-disabled={disabled || undefined}
+        aria-valuetext={valueText?.(Math.round(current.s * 100), Math.round(current.v * 100))}
         onKeyDown={keyDown} onKeyUp={keyUp}
         className={colorPlaneThumbVariants()}
       />

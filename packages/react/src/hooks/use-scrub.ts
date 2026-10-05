@@ -1,4 +1,4 @@
-import { useRef, useState, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type PointerEvent } from 'react';
 
 /**
  * Drag-to-scrub for numeric labels. Every 2px of horizontal travel is one step;
@@ -10,15 +10,34 @@ export function scrubValue(start: number, dx: number, step: number, mods: { shif
   return Math.round(next * 1000) / 1000;
 }
 
-export function useScrub(get: () => number, set: (v: number) => void, step = 1) {
-  const origin = useRef<{ x: number; v: number } | null>(null);
+export interface ScrubOptions {
+  /** The pointer was released; `moved` is true when at least one value was produced. */
+  onEnd?: ((moved: boolean) => void) | undefined;
+  /** The drag was cancelled with Escape or by the browser (pointercancel). */
+  onCancel?: (() => void) | undefined;
+}
+
+export function useScrub(get: () => number, set: (v: number) => void, step = 1, options: ScrubOptions = {}) {
+  const origin = useRef<{ x: number; v: number; moved: boolean } | null>(null);
   const [scrubbing, setScrubbing] = useState(false);
+  const opts = useRef(options); opts.current = options;
+  useEffect(() => {
+    if (!scrubbing) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || !origin.current) return;
+      origin.current = null; setScrubbing(false); opts.current.onCancel?.();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [scrubbing]);
+  const release = (e: PointerEvent<HTMLElement>) => { if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId); };
   return {
     scrubbing,
     handlers: {
-      onPointerDown: (e: PointerEvent<HTMLElement>) => { e.preventDefault(); e.currentTarget.setPointerCapture(e.pointerId); origin.current = { x: e.clientX, v: get() }; setScrubbing(true); },
-      onPointerMove: (e: PointerEvent<HTMLElement>) => { const o = origin.current; if (!o) return; set(scrubValue(o.v, e.clientX - o.x, step, { shift: e.shiftKey, alt: e.altKey })); },
-      onPointerUp: (e: PointerEvent<HTMLElement>) => { if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId); origin.current = null; setScrubbing(false); },
+      onPointerDown: (e: PointerEvent<HTMLElement>) => { e.preventDefault(); e.currentTarget.setPointerCapture(e.pointerId); origin.current = { x: e.clientX, v: get(), moved: false }; setScrubbing(true); },
+      onPointerMove: (e: PointerEvent<HTMLElement>) => { const o = origin.current; if (!o) return; o.moved = true; set(scrubValue(o.v, e.clientX - o.x, step, { shift: e.shiftKey, alt: e.altKey })); },
+      onPointerUp: (e: PointerEvent<HTMLElement>) => { release(e); const o = origin.current; origin.current = null; setScrubbing(false); if (o) opts.current.onEnd?.(o.moved); },
+      onPointerCancel: (e: PointerEvent<HTMLElement>) => { release(e); if (!origin.current) return; origin.current = null; setScrubbing(false); opts.current.onCancel?.(); },
     },
   };
 }

@@ -8,6 +8,7 @@ export default defineFixture({
   id: 'stack-row',
   render: ({ lead, leading, ...props }) => (
     <StackRow
+      hideLabel="Hide" showLabel="Show" removeLabel="Remove"
       title="Linear"
       meta="2 stops"
       lead={lead === 'icon' ? 'icon' : 'swatch'}

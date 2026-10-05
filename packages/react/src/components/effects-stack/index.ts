@@ -1,1 +1,1 @@
-export { EffectsStack, type EffectItem, type EffectsStackProps } from './effects-stack.tsx';
+export { EffectsStack, type EffectItem, type EffectsStackLabels, type EffectsStackProps } from './effects-stack.tsx';

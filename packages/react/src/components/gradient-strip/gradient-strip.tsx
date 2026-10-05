@@ -8,6 +8,8 @@ import { gradientBarVariants, gradientStemVariants, gradientStopVariants, gradie
 export interface GradientStop { position: number; color: string }
 
 export interface GradientStripProps extends Omit<ComponentProps<'div'>, 'onChange' | 'children'> {
+  /** aria-label of the stop handle index (1-based). Required; no built-in default. */
+  stopLabel: (index: number) => string;
   /** Color stops: position 0-100 (whole percent) and a CSS color. */
   stops: GradientStop[];
   /** Index of the selected stop. */
@@ -18,7 +20,7 @@ export interface GradientStripProps extends Omit<ComponentProps<'div'>, 'onChang
 }
 
 /** The color-stop track of a gradient: press the bar to add a stop, drag a handle to move it. */
-export function GradientStrip({ stops, selected, disabled = false, onStopsChange, onSelectedChange, className, style, ...props }: GradientStripProps) {
+export function GradientStrip({ stopLabel, stops, selected, disabled = false, onStopsChange, onSelectedChange, className, style, ...props }: GradientStripProps) {
   const [current, setCurrent] = useControllableState<number | undefined>({ value: selected, defaultValue: undefined, onChange: i => { if (i !== undefined) onSelectedChange?.(i); } });
   const rootRef = useRef<HTMLDivElement>(null);
   const drag = useRef<number | null>(null);
@@ -80,7 +82,7 @@ export function GradientStrip({ stops, selected, disabled = false, onStopsChange
         <button
           key={index} type="button" role="slider" data-slot="gradient-strip-stop" data-selected={current === index || undefined}
           aria-disabled={disabled || undefined}
-          aria-label={`Stop ${index + 1}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={stop.position} aria-valuetext={`${stop.position} %, ${stop.color}`}
+          aria-label={stopLabel(index + 1)} aria-valuemin={0} aria-valuemax={100} aria-valuenow={stop.position} aria-valuetext={`${stop.position} %, ${stop.color}`}
           onPointerDown={stopDown(index)} onPointerMove={stopMove(index)} onPointerUp={stopUp} onPointerCancel={stopUp}
           onKeyDown={stopKey(index)} onFocus={() => { if (current !== index) setCurrent(index); }}
           className={gradientStopVariants()} style={{ '--stop-pos': `${stop.position}%`, '--stop-color': stop.color } as CSSProperties}

@@ -6,7 +6,7 @@ const hue = 'linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)';
 
 export default defineFixture({
   id: 'slider-field',
-  render: props => <div className="w-80"><SliderField label="Opacity" unit="%" defaultValue={72} {...props} /></div>,
+  render: props => <div className="w-80"><SliderField label="Opacity" unit="%" defaultValue={72} mixedLabel="Mixed" {...props} /></div>,
   examples: {
     variants: () => (
       <div className="grid gap-3">

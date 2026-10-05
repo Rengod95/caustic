@@ -10,7 +10,7 @@ const options: FontOption[] = [
 
 const labels = {
   triggerLabel: (f: string | undefined) => (f ? `Font: ${f}` : 'Font'), sampleText: 'Aa', searchLabel: 'Search fonts', searchPlaceholder: 'Search fonts',
-  listLabel: 'Fonts', popupLabel: 'Font list', missingLabel: 'Missing', projectLabel: 'Project', emptyMessage: 'No matching fonts',
+  listLabel: 'Fonts', popupLabel: 'Font list', mixedLabel: 'Mixed', missingLabel: 'Missing', projectLabel: 'Project', emptyMessage: 'No matching fonts',
 };
 
 export default defineFixture({

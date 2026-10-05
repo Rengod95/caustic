@@ -45,7 +45,7 @@ export function Popover({ trigger = 'click', size, open, defaultOpen, onOpenChan
   const classes = cn(popoverVariants({ trigger, size }), className);
   const content = (
     <TitleContext.Provider value={ctx}>
-      {children}
+      <div data-slot="popover-body" className="-m-1 grid min-h-0 gap-2.5 overflow-y-auto p-1">{children}</div>
       {arrow && <span data-slot="popover-arrow" aria-hidden className={popoverArrow()} />}
     </TitleContext.Provider>
   );

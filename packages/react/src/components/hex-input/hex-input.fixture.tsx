@@ -3,6 +3,6 @@ import { HexInput } from './hex-input.tsx';
 
 export default defineFixture({
   id: 'hex-input',
-  render: props => <div className="w-50"><HexInput aria-label="Hex" defaultValue="E2763F" {...props} /></div>,
+  render: props => <div className="w-50"><HexInput aria-label="Hex" defaultValue="E2763F" mixedLabel="Mixed" {...props} /></div>,
   examples: {},
 });

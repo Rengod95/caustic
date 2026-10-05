@@ -6,7 +6,7 @@ import { NumberField } from './number-field.tsx';
 
 export default defineFixture({
   id: 'number-field',
-  render: props => <div className="w-50"><NumberField aria-label="X" label="X" unit="px" defaultValue={360} {...props} /></div>,
+  render: props => <div className="w-50"><NumberField aria-label="X" label="X" unit="px" defaultValue={360} mixedLabel="Mixed" {...props} /></div>,
   examples: {
     states: () => (
       <>
@@ -15,7 +15,7 @@ export default defineFixture({
           <NumberField label="Y" defaultValue={96} aria-label="Y" />
           <NumberField label={<RotateCw />} defaultValue={0} unit="°" aria-label="Rotation" />
           <NumberField label={<SquareDashed />} defaultValue={12} unit="px" aria-label="Gap" />
-          <NumberField label="W" mixed aria-label="Width" />
+          <NumberField label="W" mixed mixedLabel="Mixed" aria-label="Width" />
           <NumberField label="H" defaultValue={-8} invalid aria-label="Height" />
           <NumberField label="R" defaultValue={12} locked trailing={<Lock />} aria-label="Radius" />
           <NumberField label="LH" defaultValue={1.5} trailing={<X />} aria-label="Line height" />

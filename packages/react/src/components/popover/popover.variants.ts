@@ -1,10 +1,10 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
 export const popoverVariants = cva(
-  'group glass glass-thick glass-shadow-4 z-40 grid max-w-full gap-2.5 rounded-2xl px-3.5 py-3.5 text-ui text-text-primary outline-none',
+  'group glass glass-thick glass-shadow-4 z-40 grid grid-rows-[minmax(0,1fr)] max-w-full gap-2.5 rounded-2xl px-3.5 py-3.5 text-ui text-text-primary outline-none',
   {
     variants: {
-      trigger: { click: '', hover: '' },
+      trigger: { click: 'max-h-(--radix-popover-content-available-height)', hover: 'max-h-(--radix-hover-card-content-available-height)' },
       size: { sm: 'w-popover-sm', md: 'w-popover-md' },
     },
     defaultVariants: { trigger: 'click', size: 'md' },

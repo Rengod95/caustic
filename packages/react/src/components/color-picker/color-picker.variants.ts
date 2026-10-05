@@ -54,3 +54,14 @@ export const colorPickerFormatVariants = cva(
 );
 
 export const colorPickerFootVariants = cva('grid gap-1.5 border-t border-border-subtle px-2.5 py-2');
+
+/** The painted layer of the preview: the picked color, or the hatch of a mixed selection. */
+export const colorPickerPreviewFillVariants = cva('absolute inset-0', {
+  variants: {
+    mixed: {
+      true: 'bg-[repeating-linear-gradient(135deg,var(--cs-color-fill-selected)_0_calc(var(--spacing)*0.75),transparent_calc(var(--spacing)*0.75)_calc(var(--spacing)*1.5))]',
+      false: 'bg-(--picked)',
+    },
+  },
+  defaultVariants: { mixed: false },
+});

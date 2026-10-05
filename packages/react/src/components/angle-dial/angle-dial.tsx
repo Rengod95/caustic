@@ -4,7 +4,11 @@ import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { angleDialHubVariants, angleDialNeedleVariants, angleDialVariants } from './angle-dial.variants.ts';
 
-export interface AngleDialProps extends Omit<ComponentProps<'span'>, 'defaultValue' | 'onChange' | 'children'> {
+export interface AngleDialProps extends Omit<ComponentProps<'span'>, 'defaultValue' | 'onChange' | 'children' | 'aria-label'> {
+  /** aria-label of the slider ("Angle"). Required; no built-in default. */
+  label: string;
+  /** aria-valuetext from the angle. Without it the dial has no aria-valuetext. */
+  valueText?: ((degrees: number) => string) | undefined;
   /** Controlled angle in degrees, 0-359. */
   value?: number;
   defaultValue?: number;
@@ -18,7 +22,7 @@ export interface AngleDialProps extends Omit<ComponentProps<'span'>, 'defaultVal
 const wrap = (n: number) => ((Math.round(n) % 360) + 360) % 360;
 
 /** A 32px dial with a short needle: 0 degrees points up, 90 points right. Pair it with an Angle field. */
-export function AngleDial({ value, defaultValue = 0, step = 1, disabled = false, onValueChange, onValueCommit, className, style, onKeyDown, onKeyUp, 'aria-label': ariaLabel = 'Angle', ...props }: AngleDialProps) {
+export function AngleDial({ label, valueText, value, defaultValue = 0, step = 1, disabled = false, onValueChange, onValueCommit, className, style, onKeyDown, onKeyUp, ...props }: AngleDialProps) {
   const [current, setCurrent] = useControllableState<number>({ value, defaultValue, onChange: onValueChange });
   const latest = useRef(current); latest.current = current;
   const dragging = useRef(false);
@@ -68,7 +72,7 @@ export function AngleDial({ value, defaultValue = 0, step = 1, disabled = false,
   return (
     <span
       data-slot="angle-dial" role="slider" tabIndex={disabled ? -1 : 0} data-disabled={disabled || undefined}
-      aria-label={ariaLabel} aria-valuemin={0} aria-valuemax={359} aria-valuenow={current} aria-valuetext={`${current} degrees`} aria-disabled={disabled || undefined}
+      aria-label={label} aria-valuemin={0} aria-valuemax={359} aria-valuenow={current} aria-valuetext={valueText?.(current)} aria-disabled={disabled || undefined}
       onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onKeyDown={keyDown} onKeyUp={keyUp}
       className={cn(angleDialVariants(), className)} style={{ ...style, '--dial-angle': `${current}deg` } as CSSProperties}
       {...props}

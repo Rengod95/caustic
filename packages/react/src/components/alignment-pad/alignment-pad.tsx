@@ -9,12 +9,18 @@ export type AlignmentPosition =
   | 'middle-left' | 'middle-center' | 'middle-right'
   | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
+/** One aria-label per position. The optional `position` marker only exposes the literal union to the spec prop check; label maps never carry it. */
+export type AlignmentCellLabels = Record<AlignmentPosition, string> & { position?: AlignmentPosition };
+
 const POSITIONS: AlignmentPosition[] = [
   'top-left', 'top-center', 'top-right', 'middle-left', 'middle-center', 'middle-right', 'bottom-left', 'bottom-center', 'bottom-right',
 ];
-const LABELS = ['Top left', 'Top center', 'Top right', 'Middle left', 'Middle center', 'Middle right', 'Bottom left', 'Bottom center', 'Bottom right'];
 
 export interface AlignmentPadProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'dir'> {
+  /** aria-label of the group ("Alignment"). Required; no built-in default. */
+  label: string;
+  /** aria-label of each cell ("Top left" ...). Required; no built-in default. */
+  cellLabels: AlignmentCellLabels;
   /** Controlled position. */
   value?: AlignmentPosition;
   /** Uncontrolled initial position. */
@@ -27,7 +33,7 @@ export interface AlignmentPadProps extends Omit<ComponentProps<'div'>, 'defaultV
 
 /** 3×3 radio grid that picks where children sit inside an auto-layout frame. */
 export function AlignmentPad({
-  value, defaultValue = 'middle-left', onValueChange, orientation = 'row', disabled = false, className, onKeyDown, ...props
+  label, cellLabels, value, defaultValue = 'middle-left', onValueChange, orientation = 'row', disabled = false, className, onKeyDown, ...props
 }: AlignmentPadProps) {
   const [current, setCurrent] = useControllableState<AlignmentPosition>({ value, defaultValue, onChange: onValueChange });
   const cells = useRef<(HTMLButtonElement | null)[]>([]);
@@ -48,7 +54,7 @@ export function AlignmentPad({
     <div
       data-slot="alignment-pad"
       role="radiogroup"
-      aria-label="Alignment"
+      aria-label={label}
       aria-disabled={disabled || undefined}
       data-orientation={orientation}
       className={cn(alignmentPadVariants(), className)}
@@ -66,7 +72,7 @@ export function AlignmentPad({
             data-slot="alignment-pad-cell"
             data-state={checked ? 'on' : 'off'}
             aria-checked={checked}
-            aria-label={LABELS[i]}
+            aria-label={cellLabels[position]}
             disabled={disabled}
             tabIndex={checked ? 0 : -1}
             className={alignmentPadCell()}

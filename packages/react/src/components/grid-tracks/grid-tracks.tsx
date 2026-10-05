@@ -12,7 +12,7 @@ export interface Track { size: number | null; unit: TrackUnit }
 /** An array of tracks. The optional `unit` marker only exposes the literal union to the spec prop check; arrays never carry it. */
 export type TrackList = Track[];
 
-const UNITS: { unit: TrackUnit; label: string }[] = [{ unit: 'fr', label: 'fr' }, { unit: 'px', label: 'px' }, { unit: 'auto', label: 'Auto' }];
+const UNITS: TrackUnit[] = ['fr', 'px', 'auto'];
 const DEFAULT_TRACKS: Track[] = [{ size: 1, unit: 'fr' }, { size: 240, unit: 'px' }, { size: null, unit: 'auto' }];
 
 export interface GridTracksProps extends Omit<ComponentProps<'div'>, 'onChange' | 'defaultValue'> {
@@ -23,14 +23,22 @@ export interface GridTracksProps extends Omit<ComponentProps<'div'>, 'onChange' 
   onTracksChange?: (tracks: TrackList) => void;
   /** Optional heading above the list. */
   heading?: ReactNode;
-  /** Label of the add button ("Add row" for rows). */
-  addLabel?: ReactNode;
+  /** Label of the add button ("Add column", "Add row"). Required; no built-in default. */
+  addLabel: ReactNode;
+  /** aria-label of the size field of track index (1-based). Required; no built-in default. */
+  trackLabel: (index: number) => string;
+  /** aria-label of the unit switch of track index (1-based). Required; no built-in default. */
+  unitLabel: (index: number) => string;
+  /** aria-label of the remove button of track index (1-based). Required; no built-in default. */
+  removeLabel: (index: number) => string;
+  /** Text of the Auto unit item and the placeholder of an auto track. Required; no built-in default. */
+  autoLabel: string;
   disabled?: boolean;
 }
 
 /** Columns (or rows) of a grid layout: index, size, unit switch and remove button per track, plus add. */
 export function GridTracks({
-  tracks, defaultTracks = DEFAULT_TRACKS, onTracksChange, heading, addLabel = 'Add column', disabled = false, className, ...props
+  tracks, defaultTracks = DEFAULT_TRACKS, onTracksChange, heading, addLabel, trackLabel, unitLabel, removeLabel, autoLabel, disabled = false, className, ...props
 }: GridTracksProps) {
   const [list, setList] = useControllableState<Track[]>({ value: tracks, defaultValue: defaultTracks, onChange: onTracksChange });
   const update = (i: number, next: Track) => setList(list.map((t, at) => (at === i ? next : t)));
@@ -44,8 +52,8 @@ export function GridTracks({
             <span data-slot="grid-tracks-index" aria-hidden className={gridTracksIndex()}>{i + 1}</span>
             <div data-slot="grid-tracks-field" className="min-w-0 flex-1">
               <NumberField
-                aria-label={`Track ${i + 1}`}
-                placeholder={track.unit === 'auto' ? 'Auto' : undefined}
+                aria-label={trackLabel(i + 1)}
+                placeholder={track.unit === 'auto' ? autoLabel : undefined}
                 value={track.size}
                 readOnly={track.unit === 'auto'}
                 disabled={disabled}
@@ -53,8 +61,8 @@ export function GridTracks({
                 onValueChange={size => update(i, { ...track, size })}
               />
             </div>
-            <UnitSwitch index={i} unit={track.unit} disabled={disabled} onChoose={unit => chooseUnit(i, unit)} />
-            <IconButton data-slot="grid-tracks-remove" size="xs" label={`Remove track ${i + 1}`} disabled={disabled} onClick={() => setList(list.filter((_, at) => at !== i))}>
+            <UnitSwitch label={unitLabel(i + 1)} autoLabel={autoLabel} unit={track.unit} disabled={disabled} onChoose={unit => chooseUnit(i, unit)} />
+            <IconButton data-slot="grid-tracks-remove" size="xs" label={removeLabel(i + 1)} disabled={disabled} onClick={() => setList(list.filter((_, at) => at !== i))}>
               <Minus />
             </IconButton>
           </div>
@@ -74,32 +82,32 @@ export function GridTracks({
   );
 }
 
-function UnitSwitch({ index, unit, disabled, onChoose }: { index: number; unit: TrackUnit; disabled: boolean; onChoose: (unit: TrackUnit) => void }) {
+function UnitSwitch({ label, autoLabel, unit, disabled, onChoose }: { label: string; autoLabel: string; unit: TrackUnit; disabled: boolean; onChoose: (unit: TrackUnit) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const key = (e: KeyboardEvent<HTMLDivElement>) => {
     const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
     if (!step || disabled) return;
     e.preventDefault();
-    const at = UNITS.findIndex(u => u.unit === unit);
+    const at = UNITS.indexOf(unit);
     const next = (at + step + UNITS.length) % UNITS.length;
     ref.current?.querySelectorAll<HTMLButtonElement>('[role="radio"]')[next]?.focus();
-    onChoose(UNITS[next]!.unit);
+    onChoose(UNITS[next]!);
   };
   return (
-    <div ref={ref} data-slot="grid-tracks-unit" role="radiogroup" aria-label={`Track ${index + 1} unit`} className={gridTracksUnit()} onKeyDown={key}>
+    <div ref={ref} data-slot="grid-tracks-unit" role="radiogroup" aria-label={label} className={gridTracksUnit()} onKeyDown={key}>
       {UNITS.map(u => (
         <button
-          key={u.unit}
+          key={u}
           type="button"
           role="radio"
           data-slot="grid-tracks-unit-item"
-          aria-checked={u.unit === unit}
-          tabIndex={u.unit === unit ? 0 : -1}
+          aria-checked={u === unit}
+          tabIndex={u === unit ? 0 : -1}
           disabled={disabled}
           className={gridTracksUnitItem()}
-          onClick={() => onChoose(u.unit)}
+          onClick={() => onChoose(u)}
         >
-          {u.label}
+          {u === 'auto' ? autoLabel : u}
         </button>
       ))}
     </div>

@@ -30,8 +30,10 @@ export const gradientHandleVariants = cva(
         false: 'bg-canvas-handle shadow-thumb-sm focus-visible:shadow-focus',
         true: 'bg-transparent shadow-[inset_0_0_0_3px_var(--cs-color-canvas-handle),var(--cs-elevation-thumb-sm)] focus-visible:shadow-[inset_0_0_0_3px_var(--cs-color-canvas-handle),var(--cs-focus)]',
       },
+      // A mixed handle has no position to show; it stays reachable and appears while focused.
+      mixed: { true: 'opacity-0 focus-visible:opacity-100', false: '' },
     },
-    defaultVariants: { end: false },
+    defaultVariants: { end: false, mixed: false },
   },
 );
 

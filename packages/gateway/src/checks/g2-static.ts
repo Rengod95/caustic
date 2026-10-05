@@ -217,6 +217,8 @@ function checkProps(c: Collector, spec: ComponentSpec, main: string) {
       for (const sg of t.getCallSignatures()) for (const prm of sg.getParameters()) walk(checker.getTypeOfSymbolAtLocation(prm, sf), depth + 1);
       // Object payloads ({ key; direction: 'ascending' | 'descending' }): their property literals count too.
       if (t.flags & ts.TypeFlags.Object && !t.getCallSignatures().length) for (const m of t.getProperties()) if (m.flags & ts.SymbolFlags.Property) walk(checker.getTypeOfSymbolAtLocation(m, sf), depth + 1);
+      // Keyed records (Partial<Record<'hex' | 'alpha', boolean>>): the key names are literals the prop accepts.
+      if (t.flags & ts.TypeFlags.Object && !t.getCallSignatures().length && !checker.isArrayType(t) && !checker.isTupleType(t)) for (const m of t.getProperties()) if (m.flags & ts.SymbolFlags.Property) accepted.add(m.name);
       // Arrays and tuples (Track[]): their element types count too.
       if (checker.isArrayType(t) || checker.isTupleType(t)) for (const a of checker.getTypeArguments(t as ts.TypeReference)) walk(a, depth + 1);
     };
