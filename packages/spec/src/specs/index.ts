@@ -67,12 +67,14 @@ import effectEditor from './effect-editor.spec.ts';
 import effectsStack from './effects-stack.spec.ts';
 import emptyState from './empty-state.spec.ts';
 import exportControls from './export-controls.spec.ts';
+import expressionEditor from './expression-editor.spec.ts';
 import field from './field.spec.ts';
 import fileUpload from './file-upload.spec.ts';
 import floatingBar from './floating-bar.spec.ts';
 import fontOptions from './font-options.spec.ts';
 import fontPicker from './font-picker.spec.ts';
 import formLayout from './form-layout.spec.ts';
+import foundationToolbar from './foundation-toolbar.spec.ts';
 import frameLabel from './frame-label.spec.ts';
 import gradientEditor from './gradient-editor.spec.ts';
 import gradientStrip from './gradient-strip.spec.ts';
@@ -225,12 +227,14 @@ export const registry: Record<string, SpecInput> = {
   'effects-stack': effectsStack,
   'empty-state': emptyState,
   'export-controls': exportControls,
+  'expression-editor': expressionEditor,
   'field': field,
   'file-upload': fileUpload,
   'floating-bar': floatingBar,
   'font-options': fontOptions,
   'font-picker': fontPicker,
   'form-layout': formLayout,
+  'foundation-toolbar': foundationToolbar,
   'frame-label': frameLabel,
   'gradient-editor': gradientEditor,
   'gradient-strip': gradientStrip,
