@@ -29,8 +29,12 @@ export default defineSpec({
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'selector' },
   },
   props: {
+    options: { type: '{ value: string; label: ReactNode; disabled?: boolean; group?: string }[]', description: 'InspectorBindingsRow prop (K2e). The selector becomes a Caustic Select over these options: role combobox, aria-label selectorLabel, a portal listbox with the Select height bound, the link glyph and swatch as its leading content, the chosen option label as the name and the Select chevron as the chevron slot. group puts consecutive options under a SelectHeading. onPick is not used. SelectOption values cannot be empty; the owner uses sentinels such as a direct-value option.' },
+    value: { type: 'string', description: 'InspectorBindingsRow prop (K2e). The chosen option value. Omit it, or use binding mixed, to show the mixed state: no option is chosen and the name is mixedLabel.' },
+    placeholder: { type: 'ReactNode', description: 'InspectorBindingsRow prop (K2e). Shown while no option is chosen and the row is not mixed.' },
+    unbindDisabled: { type: 'boolean', default: false, description: 'InspectorBindingsRow prop (K2e). Disables Unbind only (a locked selection), where disabled also disables the selector.' },
     selectorLabel: { type: 'string', required: true, description: 'InspectorBindingsRow prop. aria-label of the selector, replacing the built-in "property, token" pattern (e.g. "Fill, color/accent/solid"). Required; no built-in pattern.' },
-    selectorAsChild: { type: 'boolean', default: false, description: 'InspectorBindingsRow prop. Render the single child (for example a Select trigger with role combobox) with the selector styling instead of the built-in button, like InspectorSelect asChild. Then onPick is not used: the child owns opening. This lets a consumer offer one combobox per property.' },
+    selectorAsChild: { type: 'boolean', default: false, description: 'InspectorBindingsRow prop. Render the single child (for example a Select trigger with role combobox) with the selector styling instead of the built-in button, like InspectorSelect asChild. Then onPick is not used: the child owns opening. K2e: the child is a trigger-like element (a Popover trigger, a plain button) whose own children are replaced by the selector body; it must not be a Select, because a Select children are its options and would be replaced. For one combobox per property use options.' },
     disabled: { type: 'boolean', default: false, description: 'InspectorBindingsRow prop. Disables the selector and Unbind of the row.' },
     reserved: { type: 'boolean', default: false, description: 'InspectorBindingsRow prop. The property is being written or held by another window: the selector and Unbind are inert with aria-busy="true" and data-reserved on the row; the row stays readable.' },
     addDisabled: { type: 'boolean', default: false, description: 'Disables the add row.' },
@@ -46,6 +50,7 @@ export default defineSpec({
     addLabel: { type: 'ReactNode', required: true, description: 'Label of the add row (e.g. "Bind a property"). Required; no built-in default (K2d).' },
   },
   events: {
+    onValueChange: { payload: 'string', when: 'InspectorBindingsRow event (K2e): an option of the options selector is chosen. Not raised while the row is disabled or reserved.' },
     onUnbind: { payload: 'React.MouseEvent<HTMLButtonElement>', when: 'Unbind is activated (InspectorBindingsRow prop)' },
     onPick: { payload: 'React.MouseEvent<HTMLButtonElement>', when: 'the selector is activated, to open the token picker (InspectorBindingsRow prop)' },
     onAdd: { payload: 'React.MouseEvent<HTMLButtonElement>', when: 'the add row is activated' },
@@ -73,6 +78,8 @@ export default defineSpec({
     },
     pointer: ['the selector opens the token picker; Unbind removes the binding; the add row opens the property chooser'],
     scenarios: [
+      {"name":"options render a combobox","props":{"options":[{"value":"a","label":"color/accent/solid"},{"value":"b","label":"color/accent/soft","group":"Color"}],"value":"a"},"steps":[],"expect":[{"slot":"selector","attr":{"role":"combobox"}}]},
+      {"name":"unbind can be disabled alone","props":{"unbindDisabled":true},"steps":[],"expect":[{"slot":"selector","attr":{"aria-disabled":null}}]},
       { name: 'reserved row is busy', props: { reserved: true }, steps: [], expect: [{ slot: 'row', attr: { 'aria-busy': 'true' } }] },
       { name: 'disabled add row', props: { addDisabled: true }, steps: [{ do: 'click', slot: 'add' }], expect: [{ event: 'onAdd', calls: 0 }] },
       { name: 'selector opens the picker', steps: [{ do: 'click', slot: 'selector' }], expect: [{ event: 'onPick', calls: 1 }] },
@@ -101,5 +108,9 @@ export default defineSpec({
     'The example reproduces the whole section at its natural width; the "InspectorBindings" caption is hidden in the frame.',
     'Token chips (TokenChip) are the read-only form; use them in lists and alias chains, this component in the inspector.',
     '`uses: icon-button, badge` are rendered inside by the consumer; the component itself imports neither.',
+    'K2e resolution of the W-d mismatch. Checked against the shipped component: the row does not open a dialog (aria-haspopup="dialog" on the default button is only an attribute; onPick lets the owner open anything) and the English strings are already required label props. The remaining real mismatch is that selectorAsChild cannot hold a Select: the implementation clones the child and replaces its children with the selector body, which would replace the options. K2e therefore adds options, value, placeholder and onValueChange: the row renders the combobox itself, so Axiom keeps one combobox per property named "<property> token" (selectorLabel), a disabled sentinel for the mixed value and disabled options for restricted properties.',
+    'K2e add flow: the part add row is the dashed row labelled addLabel; Axiom passes its existing add button text so the browser suites that press it by name keep working, and renders its binding composer as a child after the rows. Axiom Unbind per row, the count badge on a mixed row and the TokenChip and AliasChain context entries are already supported (count, context). The visual change is that add moves from the section header to the end row (open question).',
+    'K2e: no typed field, so the field contract does not apply; disabled, reserved and unbindDisabled are the per-row states.',
+    'K2e fixture contract: every new prop is optional and off by default, so the default render, the examples and the existing baselines stay identical. New states and scenarios use props only; the fixture passes any new label as an explicit string (no English default in the component). A field slot that is an el any NumberField root receives the data-invalid, data-dirty and aria-busy attributes; the focus scenarios focus its inner input.',
   ],
 });

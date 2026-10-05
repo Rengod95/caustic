@@ -31,6 +31,10 @@ export default defineSpec({
     'preset-pressed': { props: { defaultBezier: [0.2, 0.8, 0.2, 1] } },
   },
   props: {
+    invalid: { type: "Partial<Record<'bezier' | 'preset' | 'duration', boolean>>", description: 'K2e: fields the owner marks invalid (a rejected commit, a bound value that needs explicit local intent). Sets aria-invalid="true", data-invalid and the danger edge on that field only; its draft and value stay. Independent of a rejection the part tracks itself through onFieldCommit returning false.' },
+    describedBy: { type: "Partial<Record<'bezier' | 'preset' | 'duration', string>>", description: 'K2e: id of the owner error or hint text per field (aria-describedby on the field input).' },
+    limits: { type: "Partial<Record<'duration', { min?: number | undefined; max?: number | undefined; step?: number | undefined }>>", description: 'K2e: per-field range and step from the owner (a size is 0 or more, letter spacing steps 0.1). Defaults are the specimen values. A typed value outside the range is a range draft error in release mode and is clamped in live mode.' },
+    preview: { type: 'boolean', default: true, description: 'K2e: false removes the motion preview stage (56px plus its 14px gap) for an owner that previews the motion itself or has little height. The graph, presets, css text and duration stay.' },
     value: { type: '{ bezier: [number, number, number, number]; duration: number }', description: 'Controlled easing and duration in ms.' },
     defaultValue: { type: '{ bezier: [number, number, number, number]; duration: number }', default: { bezier: [0.4, 0, 1, 1], duration: 320 }, description: 'Uncontrolled initial value. The plain render starts on "in" so that the first preset (out) is not pressed.' },
     defaultBezier: { type: '[number, number, number, number]', description: 'Shorthand for the initial control points; the example uses out (0.2, 0.8, 0.2, 1).' },
@@ -44,12 +48,16 @@ export default defineSpec({
     labels: { type: '{ graph: string; handle1: string; handle2: string; handleValueText: (x: number, y: number) => string; presetsGroup: string; duration: string; mixed: string }', required: true, description: 'Every accessible name and the mixed text; no English default. The specimen values: "Easing curve", "Easing handle 1", "Easing handle 2", "x 0.2, y 0.8" through handleValueText, Presets, Duration, Mixed. The css text stays the CSS function, which is not a word.' },
   },
   events: {
+    onFieldFocus: { payload: "{ field: 'bezier' | 'preset' | 'duration' }", when: 'K2e: focus enters a field, or a scrub or drag starts on its label (NumberField onScrubStart). The owner acquires that field reservation here. Not raised while the field is reserved or disabled.' },
+    onFieldBlur: { payload: "{ field: 'bezier' | 'preset' | 'duration'; dirty: boolean }", when: 'K2e: focus leaves a field after its commit decision. dirty is true while an invalid or uncommitted draft stays in it, so the owner keeps the reservation and the selection guard.' },
+    onFieldCommit: { payload: "{ field: 'bezier'; value: [number, number, number, number] } | { field: 'preset'; value: string } | { field: 'duration'; value: number }", when: 'K2e: exactly one field commits (valid Enter or blur, release of a scrub, an arrow step, a discrete choice). Raised before onValueChange. The handler may return false to reject: the part keeps the draft, marks that field invalid until the next edit, Escape or a new value prop, shows the value prop again for a discrete control, and does not raise onValueChange.' },
     onDraftChange: { payload: "{ field: 'duration'; text: string; value: number | null; error: 'empty' | 'syntax' | 'range' | null; dirty: boolean }", when: 'a numeric field text changes (NumberField contract: error empty, syntax or range, dirty while it differs from the committed value). field names the field.' },
     onPreviewChange: { payload: '{ bezier: [number, number, number, number]; duration: number } | null', when: 'commitMode release only: a scrub or drag gesture is in progress, with the value being previewed (not a commit); null when it ends or Escape cancels it. onValueChange follows once on release. The motion preview stage follows it.' },
     onValueChange: { payload: '{ bezier: [number, number, number, number]; duration: number }', when: 'a handle is dragged or nudged, a preset is chosen or the duration commits' },
     onPresetChange: { payload: 'string | null', when: 'a preset becomes active, or null when a handle moves it away' },
   },
   styles: [
+    {"slot":"presets","expect":{"gap":6},"note":"K2e rule: the preset row never clips or scrolls inside the part. It wraps (flex-wrap, min-width 0) so chips are never wider than the column, and chips keep their natural width (no shrink). Long localized labels simply take more rows."},
     { slot: 'root', expect: { gap: 14 } },
     { slot: 'graph', expect: { bg: 'bg.inset', radius: 'xl', width: 'size-curve-w' } },
     { slot: 'grid-line', expect: { fg: 'border.subtle' }, note: 'SVG stroke = currentColor; color is the token.' },
@@ -74,6 +82,9 @@ export default defineSpec({
       'the preview ball repeats the move with the curve and duration (autoplay)',
     ],
     scenarios: [
+      {"name":"invalid duration is marked","props":{"invalid":{"duration":true}},"steps":[],"expect":[{"slot":"duration","attr":{"data-invalid":"true"}}]},
+      {"name":"preview can be removed","props":{"preview":false},"steps":[],"expect":[{"hidden":"stage"}]},
+      {"name":"handle focus reports the bezier","steps":[{"do":"focus","slot":"handle"}],"expect":[{"event":"onFieldFocus","calls":1,"args":[{"field":"bezier"}]}]},
       { name: 'reserved duration is busy', props: { reserved: { duration: true } }, steps: [], expect: [{ slot: 'duration', attr: { 'aria-busy': 'true' } }] },
       { name: 'preset click', steps: [{ do: 'click', slot: 'preset' }], expect: [{ event: 'onPresetChange', calls: 1 }] },
       { name: 'ArrowRight nudges handle', props: { defaultBezier: [0.2, 0.8, 0.2, 1] }, steps: [{ do: 'focus', slot: 'handle' }, { do: 'press', key: 'ArrowRight' }], expect: [{ event: 'onValueChange', calls: 1 }] },
@@ -100,5 +111,9 @@ export default defineSpec({
     'Specimen bug: the preview ball is moved by a JavaScript interval (1100ms) that toggles it between the two ends, so the screenshot position depends on the capture time (at capture it sat at the far right in a local check, progress 1). The ball is 28px on an 800px stage, so either position stays inside the 2 % pixel tolerance; the progress prop lets the fixture pin it.',
     'Specimen: the first preset is pressed and uses chip outline sm; the handles are SVG circles, so the component draws the graph in SVG with a viewBox of −10 −40 120 180.',
     'Token requests: size-curve-w 280px (graph max width); size-duration-field-w 84px.',
+    "K2e field contract (defined on NumberField, same in every inspector part): invalid, describedBy, onFieldFocus, onFieldBlur and onFieldCommit are optional and inert when omitted. invalid[field] sets aria-invalid=\"true\", data-invalid and the danger edge on that one field; describedBy[field] is the id of the owner error text. onFieldFocus is raised when focus enters a field and when a scrub starts on its label (the owner acquires that field reservation); onFieldBlur when focus leaves it, dirty while a draft stays. onFieldCommit is the commit of exactly one field and runs before onValueChange; returning false rejects it: the part keeps the typed draft, marks that field invalid until the next edit, Escape or a new value prop, a discrete control shows the value prop again, and onValueChange is not raised. Every field element carries data-field, data-dirty while its draft differs and an always-present aria-invalid, so one selector serves a draft guard. Fields: 'bezier' | 'preset' | 'duration'.",
+    'K2e overflow check (CSP-K2d remaining risk): by reading easing-curve.variants.ts the preset row is flex-wrap with a 6px gap, so the chips do not overflow horizontally in a narrow container; with the four specimen labels they fit one row at 280px and wrap to two with long Korean labels. What was cut off in the Axiom dialog is vertical: the part is a graph of 280px (aspect-square), the preset row (28 or 62px), the preview stage (56px), the footer (32px) and three 14px gaps, about 440 to 480px, and sets no height bound. The rule is that the part never clips or scrolls itself and the owner container scrolls; preview false saves 70px. This is a code reading, not a measurement; Phase 2 adds a fixture frame of constrained height and measures it.',
+    'K2e: handle drags and nudges raise onFieldFocus with field bezier, a preset press commits field preset, and the duration NumberField follows the field contract (draft, invalid, limits).',
+    'K2e fixture contract: every new prop is optional and off by default, so the default render, the examples and the existing baselines stay identical. New states and scenarios use props only; the fixture passes any new label as an explicit string (no English default in the component). A field slot that is an el any NumberField root receives the data-invalid, data-dirty and aria-busy attributes; the focus scenarios focus its inner input.',
   ],
 });
