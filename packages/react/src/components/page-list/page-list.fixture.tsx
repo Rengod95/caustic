@@ -11,7 +11,7 @@ function CasePages(props: Partial<PageListProps> & PageListRowProps) {
   const { current, count, onSelect, ...list } = props;
   const label = `Pages ${useId()}`;
   return (
-    <PageList label={label} {...list}>
+    <PageList label={label} addLabel="Add page" {...list}>
       <PageListRow current={current} count={count ?? '4 frames'} onSelect={onSelect}>Pricing</PageListRow>
       <PageListRow count="7 frames">Checkout</PageListRow>
       <PageListRow count="12 frames">Explorations</PageListRow>
@@ -32,7 +32,7 @@ export default defineFixture({
           <MenuItem icon={<Scan />} end={<><Kbd>⇧</Kbd><Kbd>2</Kbd></>}>Fit selection</MenuItem>
           <MenuItem icon={<SquareDashed />} end={<><Kbd>⇧</Kbd><Kbd>0</Kbd></>}>100%</MenuItem>
         </Menu>
-        <PageList>
+        <PageList label="Pages" addLabel="Add page">
           <PageListRow current count="4 frames">Pricing</PageListRow>
           <PageListRow count="7 frames">Checkout</PageListRow>
           <PageListRow count="12 frames">Explorations</PageListRow>

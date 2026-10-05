@@ -6,6 +6,7 @@ import { TokenChip } from '../token-chip/token-chip.tsx';
 import { Combobox } from './combobox.tsx';
 
 const swatch = (color: string) => <TokenChip size="sm" className="rounded-full" swatch={`var(--cs-color-${color})`} />;
+const resultsLabel = (n: number) => `${n} results`;
 const tokens = [
   { value: 'color/accent/solid', label: 'color/accent/solid', meta: 'color', leading: swatch('accent-solid') },
   { value: 'color/accent/soft', label: 'color/accent/soft', meta: 'color', leading: swatch('accent-soft') },
@@ -19,7 +20,7 @@ export default defineFixture({
   // Item-level props apply to the first option.
   render: ({ inline, defaultInputValue, ...props }) => (
     <div className="w-80">
-      <Combobox aria-label="Search tokens" options={tokens} {...props} defaultInputValue={(defaultInputValue as string | undefined) ?? (inline ? '' : 'acc')} inline />
+      <Combobox aria-label="Search tokens" resultsLabel={resultsLabel} options={tokens} {...props} defaultInputValue={(defaultInputValue as string | undefined) ?? (inline ? '' : 'acc')} inline />
     </div>
   ),
   examples: {
@@ -39,7 +40,7 @@ export default defineFixture({
           </Select>
         </Field>
         <Field label="Bind to token" className="max-w-80">
-          <Combobox aria-label="Search tokens" inline defaultInputValue="acc" selected options={tokens} />
+          <Combobox aria-label="Search tokens" resultsLabel={resultsLabel} inline defaultInputValue="acc" selected options={tokens} />
         </Field>
       </div>
     ),

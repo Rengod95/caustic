@@ -30,6 +30,10 @@ export interface ComboboxProps extends Omit<InputProps, 'value' | 'defaultValue'
   filter?: (label: string, query: string) => boolean;
   /** Shown when nothing matches. */
   emptyMessage?: ReactNode;
+  /** aria-label of the listbox; defaults to aria-label. */
+  listLabel?: string | undefined;
+  /** Polite announcement of the result count while open. */
+  resultsLabel?: ((count: number) => string) | undefined;
   /** Render the listbox in place under the input (in flow), without portal or positioning. */
   inline?: boolean;
   /** Fixtures: the first option is the chosen one. */
@@ -57,7 +61,7 @@ function highlight(label: string, query: string) {
 
 /** Chooses from a long list by typing. A search Input filters a thick-glass listbox. */
 export function Combobox({
-  value, defaultValue, inputValue, defaultInputValue, open, defaultOpen, options, filter = defaultFilter, emptyMessage, inline = false, selected,
+  value, defaultValue, inputValue, defaultInputValue, open, defaultOpen, options, filter = defaultFilter, emptyMessage, listLabel, resultsLabel, inline = false, selected,
   onValueChange, onInputValueChange, onOpenChange, className, children, onKeyDown, onFocus, onBlur, 'aria-label': ariaLabel, ...props
 }: ComboboxProps) {
   const [val, setVal] = useControllableState<string>({ value, defaultValue: defaultValue ?? '', onChange: onValueChange });
@@ -112,7 +116,7 @@ export function Combobox({
 
   const listbox = showList && (
     <div
-      id={listId} role="listbox" aria-label={ariaLabel ?? 'Results'} data-slot="combobox-listbox"
+      id={listId} role="listbox" aria-label={listLabel ?? ariaLabel} data-slot="combobox-listbox"
       className={cn(menuSurfaceVariants(), comboboxListboxVariants())}
     >
       {matches.length === 0
@@ -173,7 +177,7 @@ export function Combobox({
           </Popover.Portal>
         )}
       </Popover.Root>
-      <span role="status" aria-live="polite" className="sr-only">{showList ? `${matches.length} results` : ''}</span>
+      <span role="status" aria-live="polite" className="sr-only">{showList ? resultsLabel?.(matches.length) : ''}</span>
     </div>
   );
 }

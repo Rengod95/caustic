@@ -23,6 +23,8 @@ export interface ModalProps extends Omit<ComponentProps<'div'>, 'title' | 'child
   icon?: ReactNode;
   /** Close IconButton at the end of the header. */
   showClose?: boolean;
+  /** aria-label of the close button; required with showClose. */
+  closeLabel?: string | undefined;
   /** Footer content (buttons, optional flex-1 spacer). */
   footer?: ReactNode;
   /** Body content. */
@@ -51,12 +53,14 @@ export function ModalAction({ children, ...props }: Omit<ComponentProps<typeof B
 }
 
 /** Sectioned thick-glass modal: header, scrolling body and footer. kind="alert" is the destructive confirm. */
-export function Modal({ open, defaultOpen, onOpenChange, kind = 'dialog', trigger, size, title, description, icon, showClose = false, footer, children, inline = false, className, ...props }: ModalProps) {
+export function Modal({ open, defaultOpen, onOpenChange, kind = 'dialog', trigger, size, title, description, icon, showClose = false, closeLabel, footer, children, inline = false, className, ...props }: ModalProps) {
   const alert = kind === 'alert';
   // An inline modal is part of the page: no portal, no focus steal, no outside dismissal. Escape
   // and close controls still close it. An inline alert uses Dialog parts with the alertdialog role
   // because AlertDialog is always modal and would block the page around it.
   const keep = (e: Event) => e.preventDefault();
+  // A portal alert is a Radix AlertDialog: its parts need the AlertDialog context, the Dialog parts throw there.
+  const parts = alert && !inline ? { Title: AD.Title, Description: AD.Description, Close: AD.Cancel } : { Title: D.Title, Description: D.Description, Close: D.Close };
   const surface = {
     'data-size': size ?? 'md', 'data-kind': kind,
     ...(description == null ? { 'aria-describedby': undefined } : {}),
@@ -68,10 +72,10 @@ export function Modal({ open, defaultOpen, onOpenChange, kind = 'dialog', trigge
       <div data-slot="modal-header" className="flex items-start gap-3 px-4.5 pt-4.5">
         {icon != null && <span data-slot="modal-icon" aria-hidden className="inline-grid size-control-lg shrink-0 place-items-center rounded-xl bg-danger-soft text-danger-text [&_svg]:size-icon-lg">{icon}</span>}
         <div data-slot="modal-heading" className="grid flex-1 gap-1">
-          <D.Title data-slot="modal-title" className="text-title-2 text-text-primary">{title}</D.Title>
-          {description != null && <D.Description data-slot="modal-description" className="text-ui-relaxed text-text-secondary">{description}</D.Description>}
+          <parts.Title data-slot="modal-title" className="text-title-2 text-text-primary">{title}</parts.Title>
+          {description != null && <parts.Description data-slot="modal-description" className="text-ui-relaxed text-text-secondary">{description}</parts.Description>}
         </div>
-        {showClose && <D.Close asChild><IconButton data-slot="modal-close" label="Close" size="sm"><X /></IconButton></D.Close>}
+        {showClose && <parts.Close asChild><IconButton data-slot="modal-close" label={closeLabel ?? ''} size="sm"><X /></IconButton></parts.Close>}
       </div>
       {children != null && <div data-slot="modal-body" className="grid gap-3.5 overflow-y-auto px-4.5 py-4">{children}</div>}
       <div data-slot="modal-footer" className="flex items-center justify-end gap-2 px-4.5 pb-4 pt-3">{footer}</div>

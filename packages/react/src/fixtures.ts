@@ -67,12 +67,14 @@ import effectEditor from './components/effect-editor/effect-editor.fixture.tsx';
 import effectsStack from './components/effects-stack/effects-stack.fixture.tsx';
 import emptyState from './components/empty-state/empty-state.fixture.tsx';
 import exportControls from './components/export-controls/export-controls.fixture.tsx';
+import expressionEditor from './components/expression-editor/expression-editor.fixture.tsx';
 import field from './components/field/field.fixture.tsx';
 import fileUpload from './components/file-upload/file-upload.fixture.tsx';
 import floatingBar from './components/floating-bar/floating-bar.fixture.tsx';
 import fontOptions from './components/font-options/font-options.fixture.tsx';
 import fontPicker from './components/font-picker/font-picker.fixture.tsx';
 import formLayout from './components/form-layout/form-layout.fixture.tsx';
+import foundationToolbar from './components/foundation-toolbar/foundation-toolbar.fixture.tsx';
 import frameLabel from './components/frame-label/frame-label.fixture.tsx';
 import gradientEditor from './components/gradient-editor/gradient-editor.fixture.tsx';
 import gradientStrip from './components/gradient-strip/gradient-strip.fixture.tsx';
@@ -225,12 +227,14 @@ export const fixtures: Record<string, Fixture> = {
   'effects-stack': effectsStack,
   'empty-state': emptyState,
   'export-controls': exportControls,
+  'expression-editor': expressionEditor,
   'field': field,
   'file-upload': fileUpload,
   'floating-bar': floatingBar,
   'font-options': fontOptions,
   'font-picker': fontPicker,
   'form-layout': formLayout,
+  'foundation-toolbar': foundationToolbar,
   'frame-label': frameLabel,
   'gradient-editor': gradientEditor,
   'gradient-strip': gradientStrip,

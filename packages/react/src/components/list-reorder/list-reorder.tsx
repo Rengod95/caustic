@@ -15,7 +15,11 @@ export interface ListReorderEvent { id: string; from: number; to: number; order:
 
 type Drop = { id: string; edge: 'above' | 'below' };
 
+/** Structured live-region event; position is 1-based (the original position for 'cancelled'). */
+export interface ListReorderAnnouncement { type: 'picked' | 'moved' | 'dropped' | 'cancelled'; title: string; position: number; size: number }
+
 interface Ctx {
+  handleLabel: (title: string) => string;
   shown: string[];
   numbered: boolean;
   picked: string | null;
@@ -60,6 +64,12 @@ export interface ListReorderProps extends Omit<ComponentProps<'div'>, 'title' | 
   'aria-label'?: string;
   /** Show the position badge. */
   numbered?: boolean;
+  /** aria-label of each drag handle from the item title. */
+  handleLabel: (title: string) => string;
+  /** Hidden instruction the handles are described by. */
+  instructions: string;
+  /** Builds the live-region text from an event. */
+  announce: (event: ListReorderAnnouncement) => string;
 }
 
 const text = (title: ReactNode, id: string) => (typeof title === 'string' ? title : id);
@@ -68,7 +78,7 @@ const text = (title: ReactNode, id: string) => (typeof title === 'string' ? titl
  * A grouped list whose items can be reordered by pointer drag or from a keyboard handle.
  */
 export function ListReorder({
-  order, defaultOrder, onReorder, heading, 'aria-label': ariaLabel, numbered = false,
+  order, defaultOrder, onReorder, heading, 'aria-label': ariaLabel, numbered = false, handleLabel, instructions, announce,
   className, children, ...props
 }: ListReorderProps) {
   const headingId = useId();
@@ -91,20 +101,20 @@ export function ListReorder({
   const byId = new Map(nodes.map(n => [n.props.itemId, n.props]));
   const label = (id: string) => text(byId.get(id)?.title, id);
   const isDisabled = (id: string) => !!byId.get(id)?.disabled;
-  const pos = (list: string[], id: string) => `position ${list.indexOf(id) + 1} of ${list.length}`;
+  const say = (type: ListReorderAnnouncement['type'], list: string[], id: string) => setMessage(announce({ type, title: label(id), position: list.indexOf(id) + 1, size: list.length }));
 
   const commit = (id: string, from: number, next: string[]) => {
     const to = next.indexOf(id);
     setOrder(next);
     if (to !== from) onReorder?.({ id, from, to, order: next });
-    setMessage(`Dropped at ${pos(next, id)}`);
+    say('dropped', next, id);
   };
 
   // ── keyboard
   const cancelPick = () => {
     const p = pickedRef.current; if (!p) return;
     pickedRef.current = null; setPicked(null); setPreview(null);
-    setMessage(`Cancelled, back at ${pos(p.original, p.id)}`);
+    say('cancelled', p.original, p.id);
   };
   const dropPick = () => {
     const p = pickedRef.current; if (!p) return;
@@ -119,7 +129,7 @@ export function ListReorder({
     const without = list.filter(x => x !== id);
     const next = [...without.slice(0, target), id, ...without.slice(target)];
     setPreview(next);
-    setMessage(`Moved to ${pos(next, id)}`);
+    say('moved', next, id);
   };
   const step = (id: string, dir: 1 | -1) => {
     const list = preview ?? shown;
@@ -155,7 +165,7 @@ export function ListReorder({
     const original = resolve(stored);
     pickedRef.current = { id, from: original.indexOf(id), original };
     setPicked(id); setPreview(original);
-    setMessage(`Picked up ${label(id)}, ${pos(original, id)}`);
+    say('picked', original, id);
   };
   // Losing focus while picked up cancels. The check is deferred because moving a row can blur it for a moment.
   const handleBlur = (id: string, el: HTMLElement) => {
@@ -222,7 +232,7 @@ export function ListReorder({
   };
 
   const ctx: Ctx = {
-    shown, numbered, picked, dragId: drag?.id ?? null, drop: drag?.drop ?? null, instructionId,
+    handleLabel, shown, numbered, picked, dragId: drag?.id ?? null, drop: drag?.drop ?? null, instructionId,
     startPointer, movePointer, endPointer, cancelPointer, handleKey, handleClick, handleBlur,
   };
   const sorted = [...nodes].sort((a, b) => shown.indexOf(a.props.itemId) - shown.indexOf(b.props.itemId));
@@ -234,7 +244,7 @@ export function ListReorder({
         <ul data-slot="list-reorder-items" role="list" aria-labelledby={heading != null ? headingId : undefined} aria-label={heading != null ? undefined : ariaLabel} className={listItemsVariants()}>
           {sorted}
         </ul>
-        <span id={instructionId} hidden>Press Space to pick up, arrow keys to move, Space to drop, Escape to cancel.</span>
+        <span id={instructionId} hidden>{instructions}</span>
         <div data-slot="list-reorder-status" role="status" aria-live="polite" className="sr-only">{message}</div>
       </div>
     </ReorderContext.Provider>
@@ -257,7 +267,7 @@ export function ListReorderItem({ itemId, title, description, end, disabled = fa
     >
       <button
         type="button" data-slot="list-reorder-handle" disabled={disabled}
-        aria-label={`Reorder ${text(title, itemId)}`} aria-pressed={isPicked} aria-describedby={ctx.instructionId}
+        aria-label={ctx.handleLabel(text(title, itemId))} aria-pressed={isPicked} aria-describedby={ctx.instructionId}
         className={listReorderHandleVariants()}
         onKeyDown={e => ctx.handleKey(e, itemId)} onClick={() => ctx.handleClick(itemId)} onBlur={e => ctx.handleBlur(itemId, e.currentTarget)}
       >

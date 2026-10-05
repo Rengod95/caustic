@@ -5,14 +5,19 @@ type Probe = Pick<Partial<CodeRealizationFileProps>, 'tone'> & { phase?: 'done' 
 
 const labels = [['requested', 'Requested'], ['proposed', 'Proposed'], ['reviewing', 'Reviewing'], ['downloaded', 'Downloaded']] as const;
 
+const text = {
+  phasesLabel: 'Progress', filesLabel: 'Files', targetLabel: (t: string) => `Realization target: ${t}`, downloadLabel: 'Download zip',
+  phaseStatusLabels: { done: ', done', now: ', current' },
+};
+
 const Realization = ({ phase, tone, ...props }: Partial<CodeRealizationProps> & Probe) => (
   <CodeRealization
     // The first phase takes the probed state; without a probe the strip follows `current`.
     phases={labels.map(([id, label], i) => ({ id, label, ...(i === 0 && phase ? { phase } : {}) }))}
-    current="reviewing" target="web-react" {...props}
+    {...text} current="reviewing" target="web-react" {...props}
   >
-    <CodeRealizationFile tone={tone} name="PricingCard.tsx" added={48} removed={6} />
-    <CodeRealizationFile name="tokens.css" added={112} />
+    <CodeRealizationFile tone={tone} name="PricingCard.tsx" added={48} removed={6} addedLabel=" added" removedLabel=" removed" />
+    <CodeRealizationFile name="tokens.css" added={112} addedLabel=" added" />
     <CodeRealizationFile tone="warning" name="limits.md" note="2 limits" />
   </CodeRealization>
 );

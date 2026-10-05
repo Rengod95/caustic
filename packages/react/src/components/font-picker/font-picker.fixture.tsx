@@ -8,10 +8,15 @@ const options: FontOption[] = [
   { family: 'Tiempos Text', meta: 'Previewing with Georgia', cssFamily: 'Georgia, serif', italic: true, missing: true },
 ];
 
+const labels = {
+  triggerLabel: (f: string | undefined) => (f ? `Font: ${f}` : 'Font'), sampleText: 'Aa', searchLabel: 'Search fonts', searchPlaceholder: 'Search fonts',
+  listLabel: 'Fonts', popupLabel: 'Font list', missingLabel: 'Missing', projectLabel: 'Project', emptyMessage: 'No matching fonts',
+};
+
 export default defineFixture({
   id: 'font-picker',
-  render: props => <FontPicker options={options} inline defaultOpen defaultValue="Geist" {...props} />,
+  render: props => <FontPicker {...labels} options={options} inline defaultOpen defaultValue="Geist" {...props} />,
   examples: {
-    'font-picker-open': () => <FontPicker options={options} inline defaultOpen defaultValue="Newsreader" />,
+    'font-picker-open': () => <FontPicker {...labels} options={options} inline defaultOpen defaultValue="Newsreader" />,
   },
 });

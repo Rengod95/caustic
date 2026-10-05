@@ -2,9 +2,30 @@ import { Component, Frame, Image, LayoutGrid, Eye, EyeOff, Lock, Rows3, Search, 
 import type { CSSProperties } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Input } from '../input/input.tsx';
-import { LayerTree, LayerTreeItem, type LayerDropPosition, type LayerTreeProps } from './layer-tree.tsx';
+import { LayerTree, LayerTreeItem, type LayerDropPosition, type LayerTreeAnnouncement, type LayerTreeProps } from './layer-tree.tsx';
 
 type StateProps = { selected?: boolean; secondary?: boolean; invisible?: boolean; locked?: boolean; component?: boolean; drop?: LayerDropPosition };
+
+const noun = (names: string[]) => (names.length === 1 ? names[0]! : `${names.length} layers`);
+const announce = (e: LayerTreeAnnouncement) => {
+  switch (e.type) {
+    case 'selected': return e.names.length === 1 ? `Selected ${e.names[0]}` : `${noun(e.names)} selected`;
+    case 'expanded': return `Expanded ${noun(e.names)}`;
+    case 'collapsed': return `Collapsed ${noun(e.names)}`;
+    case 'hid': return `Hid ${noun(e.names)}`;
+    case 'showed': return `Showed ${noun(e.names)}`;
+    case 'locked': return `Locked ${noun(e.names)}`;
+    case 'unlocked': return `Unlocked ${noun(e.names)}`;
+    case 'moved': return e.position === 'inside' ? `Moved ${noun(e.names)} into ${e.target}` : `Moved ${noun(e.names)} ${e.position} ${e.target}`;
+    case 'cancelled': return 'Move cancelled';
+  }
+};
+const labels = {
+  announce,
+  visibilityLabel: (name: string, hidden: boolean) => `${hidden ? 'Show' : 'Hide'} ${name}`,
+  lockLabel: (name: string, locked: boolean) => `${locked ? 'Unlock' : 'Lock'} ${name}`,
+  stateLabels: { hidden: 'hidden', locked: 'locked', agent: 'edited by the agent' },
+};
 
 const ghostAt = { '--ghost-x': '150px', '--ghost-y': '44px' } as CSSProperties;
 
@@ -14,7 +35,7 @@ export default defineFixture({
     // Item-level state props apply to the first row; the last row is hidden and locked.
     const { selected, secondary, invisible, locked, component, drop, ...rest } = props as Partial<LayerTreeProps> & StateProps;
     return (
-      <LayerTree aria-label="Layers" defaultValue={['price', 'button-primary']} dragLabel="Badge" dragIcon={<Component />} {...rest}>
+      <LayerTree {...labels} aria-label="Layers" defaultValue={['price', 'button-primary']} dragLabel="Badge" dragIcon={<Component />} {...rest}>
         <LayerTreeItem itemId="frame" depth={0} icon={<Frame />} label="Pricing / Desktop" expandable open selected={selected} secondary={secondary} invisible={invisible} locked={locked} component={component} drop={drop} />
         <LayerTreeItem itemId="cards" depth={1} icon={<Rows3 />} label="Cards" expandable open caption="auto · 12" />
         <LayerTreeItem itemId="starter" depth={2} icon={<Square />} label="Starter" expandable />
@@ -31,7 +52,7 @@ export default defineFixture({
     'layer-tree': () => (
       <>
         <Input appearance="sunken" prefix={<Search aria-hidden className="size-icon-sm" />} placeholder="Filter layers" aria-label="Filter layers" />
-        <LayerTree aria-label="Layers" dragLabel="Badge" dragIcon={<Component />} style={ghostAt}>
+        <LayerTree {...labels} aria-label="Layers" dragLabel="Badge" dragIcon={<Component />} style={ghostAt}>
           <LayerTreeItem itemId="frame" depth={0} icon={<Frame />} label="Pricing / Desktop" expandable open />
           <LayerTreeItem itemId="cards" depth={1} icon={<Rows3 />} label="Cards" expandable open caption="auto · 12" />
           <LayerTreeItem itemId="starter" depth={2} icon={<Square />} label="Starter" expandable drop="before" />
@@ -44,7 +65,7 @@ export default defineFixture({
       </>
     ),
     layers: () => (
-      <LayerTree aria-label="Layers">
+      <LayerTree {...labels} aria-label="Layers">
         <LayerTreeItem itemId="frame" depth={0} icon={<Frame />} label="Pricing / Desktop" expandable open />
         <LayerTreeItem itemId="cards" depth={1} icon={<LayoutGrid />} label="Cards" expandable open caption="auto · 12" />
         <LayerTreeItem itemId="starter" depth={2} icon={<Square />} label="Starter" expandable />

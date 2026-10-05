@@ -10,13 +10,16 @@ const specimen: PlanStep[] = [
   { id: 'contrast', label: 'Check contrast and tap targets', status: 'todo' },
 ];
 
+const countLabel = (d: number, t: number) => `${d} of ${t}`;
+const statusLabels = { done: 'Done', now: 'In progress', todo: 'To do' };
+
 export default defineFixture({
   id: 'plan',
   render: ({ status, ...props }) => {
     const steps = status ? specimen.map((s, i) => (i === 0 ? { ...s, status: status as PlanStep['status'] } : s)) : specimen;
-    return <div className="w-100"><Plan title="Build checkout flow" steps={steps} {...props} /></div>;
+    return <div className="w-100"><Plan title="Build checkout flow" steps={steps} countLabel={countLabel} statusLabels={statusLabels} {...props} /></div>;
   },
   examples: {
-    plan: () => <Plan title="Build checkout flow" steps={specimen} />,
+    plan: () => <Plan title="Build checkout flow" steps={specimen} countLabel={countLabel} statusLabels={statusLabels} />,
   },
 });

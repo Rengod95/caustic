@@ -26,3 +26,6 @@ export const fontPickerOptionVariants = cva([
 export const fontPickerOptionNameVariants = cva('block truncate text-title-overlay font-normal text-text-primary [font-family:var(--face)] data-[italic]:italic');
 
 export type FontPickerVariantProps = VariantProps<typeof fontPickerVariants>;
+
+/** Shown instead of the options when the list is empty (same row as the Combobox empty message). */
+export const fontPickerEmptyVariants = cva('flex h-menu-item items-center px-2 text-ui text-text-tertiary');

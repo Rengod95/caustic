@@ -47,9 +47,19 @@ export const codeRealizationRemovedVariants = cva('text-danger-text');
 export const codeRealizationFooterVariants = cva('flex items-center justify-between gap-2');
 export const codeRealizationTargetVariants = cva(
   [
-    'flex h-control-md w-target-w cursor-pointer items-center justify-between gap-2 rounded-md bg-fill-hover px-2.5 text-left font-ui text-ui-sm font-normal text-text-primary outline-none',
-    'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-fill-pressed',
-    'focus-visible:bg-surface-base focus-visible:shadow-focus-field',
+    'flex h-control-md w-target-w items-center justify-between gap-2 rounded-md bg-fill-hover px-2.5 text-left font-ui text-ui-sm font-normal text-text-primary outline-none',
   ],
+  {
+    variants: {
+      interactive: {
+        true: [
+          'cursor-pointer transition-[background-color,box-shadow] duration-120 ease-out hover:bg-fill-pressed',
+          'focus-visible:bg-surface-base focus-visible:shadow-focus-field',
+        ],
+        false: '',
+      },
+    },
+    defaultVariants: { interactive: true },
+  },
 );
 export const codeRealizationTargetChevronVariants = cva('size-icon-sm shrink-0 text-text-tertiary');

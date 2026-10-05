@@ -17,7 +17,7 @@ export default defineFixture({
         <Field label="Project name" required count="9 / 40" hint="Shown in the share link and the browser tab.">
           <Input defaultValue="Orbit Pay" maxLength={40} />
         </Field>
-        <Field label="Website" optional>
+        <Field label="Website" optional optionalLabel="Optional">
           <Input prefix={<Globe className="size-icon-sm" />} placeholder="https://" />
         </Field>
         <Field label="Workspace URL" error="Use lowercase letters, numbers and dashes.">

@@ -14,12 +14,16 @@ export interface MessageProps extends Omit<ComponentProps<'div'>, 'children'>, M
   onCopy?: () => void;
   /** Agent only. Shows the retry IconButton. */
   onRetry?: () => void;
+  /** Agent only. aria-label of the copy button; required with onCopy. */
+  copyLabel?: string | undefined;
+  /** Agent only. aria-label of the retry button; required with onRetry. */
+  retryLabel?: string | undefined;
   /** User: inline text. Agent: paragraphs (`<p>`) and MessageCode. */
   children: ReactNode;
 }
 
 /** One turn of the transcript: a grey bubble for a person, serif prose with a meta row for the agent. */
-export function Message({ author, streaming = false, meta, onCopy, onRetry, className, children, ...props }: MessageProps) {
+export function Message({ author, streaming = false, meta, onCopy, onRetry, copyLabel, retryLabel, className, children, ...props }: MessageProps) {
   const a = author ?? 'agent';
   const busy = streaming ? true : undefined;
   if (a === 'user') {
@@ -35,8 +39,8 @@ export function Message({ author, streaming = false, meta, onCopy, onRetry, clas
           {meta != null && <span data-slot="message-summary">{meta}</span>}
           {(onCopy !== undefined || onRetry !== undefined) && (
             <span data-slot="message-actions" className="ml-auto flex items-center gap-2">
-              {onCopy !== undefined && <IconButton data-slot="message-copy" size="xs" label="Copy" onClick={() => onCopy()}><Copy /></IconButton>}
-              {onRetry !== undefined && <IconButton data-slot="message-retry" size="xs" label="Retry" onClick={() => onRetry()}><RotateCcw /></IconButton>}
+              {onCopy !== undefined && <IconButton data-slot="message-copy" size="xs" label={copyLabel ?? ''} onClick={() => onCopy()}><Copy /></IconButton>}
+              {onRetry !== undefined && <IconButton data-slot="message-retry" size="xs" label={retryLabel ?? ''} onClick={() => onRetry()}><RotateCcw /></IconButton>}
             </span>
           )}
         </div>

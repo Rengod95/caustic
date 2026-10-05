@@ -14,6 +14,14 @@ import {
 export type LayerDropPosition = 'before' | 'after' | 'inside';
 export interface LayerTreeMoveEvent { ids: string[]; targetId: string; position: LayerDropPosition }
 
+/** Structured live-region event; `names` are layer names in tree order and its length is the count. */
+export type LayerTreeAnnouncement =
+  | { type: 'selected' | 'expanded' | 'collapsed' | 'hid' | 'showed' | 'locked' | 'unlocked'; names: string[] }
+  | { type: 'moved'; names: string[]; position: LayerDropPosition; target: string }
+  | { type: 'cancelled' };
+
+export interface LayerTreeStateLabels { hidden: string; locked: string; agent: string }
+
 export interface LayerTreeItemProps extends Omit<ComponentProps<'div'>, 'children' | 'content'> {
   /** Stable identity (selection, expansion, moves); rendered as data-item-id. */
   itemId: string;
@@ -52,6 +60,14 @@ export interface LayerTreeItemProps extends Omit<ComponentProps<'div'>, 'childre
 export interface LayerTreeProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'value' | 'children'> {
   /** Accessible name of the tree. */
   'aria-label': string;
+  /** Builds the live-region text from an event. */
+  announce: (event: LayerTreeAnnouncement) => string;
+  /** aria-label of the visibility toggle; required with onVisibilityChange. */
+  visibilityLabel?: ((name: string, hidden: boolean) => string) | undefined;
+  /** aria-label of the lock toggle; required with onLockChange. */
+  lockLabel?: ((name: string, locked: boolean) => string) | undefined;
+  /** Words of the hidden row description; required when a row can be invisible, locked or agent-marked. */
+  stateLabels?: LayerTreeStateLabels | undefined;
   /** Controlled selection: the last id is the primary (accent) selection. */
   value?: string[];
   defaultValue?: string[];
@@ -91,6 +107,9 @@ interface Ctx {
   /** The first row hosts the live region: a tree may only own treeitems, so the region lives inside one. */
   statusHost: string | undefined;
   message: string;
+  visibilityLabel: LayerTreeProps['visibilityLabel'];
+  lockLabel: LayerTreeProps['lockLabel'];
+  stateLabels: LayerTreeProps['stateLabels'];
   setFocus: (id: string) => void;
   click: (e: MouseEvent<HTMLElement>, id: string) => void;
   toggleExpanded: (id: string) => void;
@@ -105,14 +124,13 @@ const TreeContext = createContext<Ctx | null>(null);
 
 const textOf = (label: ReactNode, id: string) => (typeof label === 'string' ? label : id);
 const sameIds = (a: string[], b: string[]) => a.length === b.length && a.every((x, i) => x === b[i]);
-const noun = (n: number) => `${n} layer${n === 1 ? '' : 's'}`;
 
 /**
  * The layer panel: a flat ARIA tree of the canvas objects with expansion, single and multiple selection,
  * visibility and lock, and a drop indicator. The consumer owns the data and applies the reported moves.
  */
 export function LayerTree({
-  value, defaultValue, expanded: expandedProp, defaultExpanded, dragLabel, dragIcon,
+  announce, visibilityLabel, lockLabel, stateLabels, value, defaultValue, expanded: expandedProp, defaultExpanded, dragLabel, dragIcon,
   onValueChange, onExpandedChange, onMove, onVisibilityChange, onLockChange,
   className, style, children, onKeyDown, ...props
 }: LayerTreeProps) {
@@ -157,6 +175,7 @@ export function LayerTree({
 
   const orderedSelection = () => rows.filter(r => selected.has(r.id)).map(r => r.id);
   const label = (id: string) => info.get(id)?.text ?? id;
+  const say = (event: LayerTreeAnnouncement) => setMessage(announce(event));
 
   const focusRow = (id: string) => {
     setFocusId(id);
@@ -164,7 +183,7 @@ export function LayerTree({
   };
 
   // ── selection
-  const announceSelection = (next: string[]) => setMessage(next.length === 1 ? `Selected ${label(next[0]!)}` : `${noun(next.length)} selected`);
+  const announceSelection = (next: string[]) => say({ type: 'selected', names: next.map(label) });
   const select = (next: string[]) => {
     if (sameIds(next, sel)) return;
     setSel(next); announceSelection(next);
@@ -186,30 +205,30 @@ export function LayerTree({
   const toggleExpanded = (id: string) => {
     const was = expanded.has(id);
     setExpandedIds(was ? open.filter(x => x !== id) : [...open, id]);
-    setMessage(`${was ? 'Collapsed' : 'Expanded'} ${label(id)}`);
+    say({ type: was ? 'collapsed' : 'expanded', names: [label(id)] });
   };
 
   // ── visibility and lock
   const toggleVisibility = (id: string) => {
     const hidden = !info.get(id)?.invisible;
     onVisibilityChange?.({ id, hidden });
-    setMessage(`${hidden ? 'Hid' : 'Showed'} ${label(id)}`);
+    say({ type: hidden ? 'hid' : 'showed', names: [label(id)] });
   };
   const toggleLock = (id: string) => {
     const locked = !info.get(id)?.locked;
     onLockChange?.({ id, locked });
-    setMessage(`${locked ? 'Locked' : 'Unlocked'} ${label(id)}`);
+    say({ type: locked ? 'locked' : 'unlocked', names: [label(id)] });
   };
   const toggleSelected = (kind: 'visibility' | 'lock') => {
     const ids = orderedSelection(); if (!ids.length) return;
     if (kind === 'visibility') {
       ids.forEach(id => onVisibilityChange?.({ id, hidden: !info.get(id)?.invisible }));
       const hide = !info.get(ids[0]!)?.invisible;
-      setMessage(`${hide ? 'Hid' : 'Showed'} ${ids.length === 1 ? label(ids[0]!) : noun(ids.length)}`);
+      say({ type: hide ? 'hid' : 'showed', names: ids.map(label) });
     } else {
       ids.forEach(id => onLockChange?.({ id, locked: !info.get(id)?.locked }));
       const lock = !info.get(ids[0]!)?.locked;
-      setMessage(`${lock ? 'Locked' : 'Unlocked'} ${ids.length === 1 ? label(ids[0]!) : noun(ids.length)}`);
+      say({ type: lock ? 'locked' : 'unlocked', names: ids.map(label) });
     }
   };
 
@@ -233,8 +252,7 @@ export function LayerTree({
     if (target < 0) return;
     const t = rows[target]!;
     onMove?.({ ids, targetId: t.id, position });
-    const who = ids.length === 1 ? label(ids[0]!) : noun(ids.length);
-    setMessage(position === 'inside' ? `Moved ${who} into ${t.text}` : `Moved ${who} ${position} ${t.text}`);
+    say({ type: 'moved', names: ids.map(label), position, target: t.text });
   };
 
   // ── keyboard
@@ -298,7 +316,7 @@ export function LayerTree({
     if (key === '*') {
       consume();
       const siblings = rows.filter(r => r.parent === row.parent && r.depth === row.depth && r.expandable && !expanded.has(r.id)).map(r => r.id);
-      if (siblings.length) { setExpandedIds([...open, ...siblings]); setMessage(`Expanded ${noun(siblings.length)}`); }
+      if (siblings.length) { setExpandedIds([...open, ...siblings]); say({ type: 'expanded', names: siblings.map(label) }); }
       return;
     }
     if (key.length === 1 && !mod && !e.altKey) {
@@ -393,8 +411,7 @@ export function LayerTree({
     suppressClick.current = true;
     if (!p.drop || inPlace(p.ids, p.drop)) return;
     onMove?.({ ids: p.ids, targetId: p.drop.id, position: p.drop.position });
-    const who = p.ids.length === 1 ? label(p.ids[0]!) : noun(p.ids.length);
-    setMessage(p.drop.position === 'inside' ? `Moved ${who} into ${label(p.drop.id)}` : `Moved ${who} ${p.drop.position} ${label(p.drop.id)}`);
+    say({ type: 'moved', names: p.ids.map(label), position: p.drop.position, target: label(p.drop.id) });
   };
   const pointerCancel = (e: PointerEvent<HTMLElement>) => {
     if (press.current?.pid !== e.pointerId) return;
@@ -403,12 +420,12 @@ export function LayerTree({
   const cancelDrag = () => {
     press.current = null; clearHover(); setDrag(null);
     suppressClick.current = true;
-    setMessage('Move cancelled');
+    say({ type: 'cancelled' });
   };
 
   const ctx: Ctx = {
     info, selected, primary, expanded, tabId, drop: drag?.drop ?? null,
-    hasVisibility: !!onVisibilityChange, hasLock: !!onLockChange, statusHost: rows[0]?.id, message,
+    hasVisibility: !!onVisibilityChange, hasLock: !!onLockChange, statusHost: rows[0]?.id, message, visibilityLabel, lockLabel, stateLabels,
     setFocus: setFocusId, click, toggleExpanded, toggleVisibility, toggleLock, pointerDown, pointerMove, pointerUp, pointerCancel,
   };
 
@@ -450,7 +467,7 @@ export function LayerTreeItem({
   const isExpanded = ctx.expanded.has(itemId);
   const dropPos = dropProp ?? (ctx.drop?.id === itemId ? ctx.drop.position : undefined);
   const name = textOf(label, itemId);
-  const notes = [invisible && 'hidden', locked && 'locked', agent && 'edited by the agent'].filter(Boolean).join(', ');
+  const notes = [invisible && ctx.stateLabels?.hidden, locked && ctx.stateLabels?.locked, agent && ctx.stateLabels?.agent].filter(Boolean).join(', ');
   const showEnd = caption != null || agent || end != null || ctx.hasVisibility || ctx.hasLock;
   return (
     <div
@@ -484,7 +501,7 @@ export function LayerTreeItem({
           {end}
           {ctx.hasVisibility && (
             <button
-              type="button" tabIndex={-1} data-slot="layer-tree-visibility" aria-label={`${invisible ? 'Show' : 'Hide'} ${name}`} aria-pressed={invisible}
+              type="button" tabIndex={-1} data-slot="layer-tree-visibility" aria-label={ctx.visibilityLabel?.(name, invisible)} aria-pressed={invisible}
               className={layerTreeVisibilityVariants()}
               onPointerDown={e => e.stopPropagation()} onClick={e => { e.stopPropagation(); ctx.toggleVisibility(itemId); }}
             >
@@ -493,7 +510,7 @@ export function LayerTreeItem({
           )}
           {ctx.hasLock && (
             <button
-              type="button" tabIndex={-1} data-slot="layer-tree-lock" aria-label={`${locked ? 'Unlock' : 'Lock'} ${name}`} aria-pressed={locked}
+              type="button" tabIndex={-1} data-slot="layer-tree-lock" aria-label={ctx.lockLabel?.(name, locked)} aria-pressed={locked}
               className={layerTreeLockVariants()}
               onPointerDown={e => e.stopPropagation()} onClick={e => { e.stopPropagation(); ctx.toggleLock(itemId); }}
             >

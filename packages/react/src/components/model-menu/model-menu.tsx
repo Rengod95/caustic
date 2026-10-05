@@ -66,6 +66,13 @@ export interface ModelMenuProps extends Omit<ComponentProps<'div'>, 'children' |
   onOpenChange?: (open: boolean) => void;
   /** The search text changes. */
   onQueryChange?: (query: string) => void;
+  /** Accessible name of the surface and the listbox. */
+  label: string;
+  /** aria-label of the search field. */
+  searchLabel: string;
+  searchPlaceholder?: string | undefined;
+  /** Group heading from the provider name and connection state. */
+  groupLabel: (provider: string, connected: boolean) => string;
   /** ModelMenuGroup elements. */
   children?: ReactNode;
 }
@@ -96,7 +103,7 @@ const text = (n: ReactNode) => (typeof n === 'string' || typeof n === 'number' ?
 
 /** The agent model chooser: a search field over models grouped by provider, with a connect row for providers that are not connected. */
 export function ModelMenu({
-  value, defaultValue, inline = false, open, defaultOpen, trigger, onValueChange, onOpenChange, onQueryChange,
+  value, defaultValue, inline = false, open, defaultOpen, trigger, label, searchLabel, searchPlaceholder, groupLabel, onValueChange, onOpenChange, onQueryChange,
   className, children, onKeyDown, ...props
 }: ModelMenuProps) {
   const [chosen, setChosen] = useControllableState<string>({ value, defaultValue: defaultValue ?? '', onChange: onValueChange });
@@ -145,7 +152,7 @@ export function ModelMenu({
   let index = -1;
   const surface = (
     <div
-      data-slot="model-menu" role="dialog" aria-label="Models"
+      data-slot="model-menu" role="dialog" aria-label={label}
       className={cn(menuSurfaceVariants(), modelMenuWidthVariants({ inline }), className)}
       {...props}
       onKeyDown={handleKeyDown}
@@ -155,7 +162,7 @@ export function ModelMenu({
         onFocus={e => { if (e.target === e.currentTarget) e.currentTarget.querySelector<HTMLInputElement>('input')?.focus(); }}
       >
         <Input
-          appearance="sunken" prefix={<Search aria-hidden="true" className="size-icon-sm" />} placeholder="Search models" aria-label="Search models" autoComplete="off"
+          appearance="sunken" prefix={<Search aria-hidden="true" className="size-icon-sm" />} placeholder={searchPlaceholder} aria-label={searchLabel} autoComplete="off"
           autoFocus={!inline}
           role="combobox" aria-expanded="true" aria-controls={listId} aria-autocomplete="list"
           aria-activedescendant={active >= 0 && flat[active] ? optionId(active) : undefined}
@@ -163,14 +170,14 @@ export function ModelMenu({
           onValueChange={v => { setQuery(v); setActive(-1); onQueryChange?.(v); }}
         />
       </div>
-      <div id={listId} data-slot="model-menu-list" role="listbox" aria-label="Models" className={modelMenuListVariants()}>
+      <div id={listId} data-slot="model-menu-list" role="listbox" aria-label={label} className={modelMenuListVariants()}>
         {groups.map((g, gi) => {
           const headingId = `${base}-g${gi}`;
           return (
             <Fragment key={g.provider}>
               {gi > 0 && <div role="presentation" data-slot="model-menu-separator" className={menuSeparatorVariants()} />}
               <div role="group" aria-labelledby={headingId} className="grid">
-                <div id={headingId} data-slot="model-menu-heading" className={menuHeadingVariants()}>{g.provider} · {g.connected ? 'connected' : 'not connected'}</div>
+                <div id={headingId} data-slot="model-menu-heading" className={menuHeadingVariants()}>{groupLabel(g.provider, g.connected)}</div>
                 {g.items.map(item => {
                   index += 1;
                   const i = index;
@@ -206,7 +213,7 @@ export function ModelMenu({
           onClick={c.onConnect}
         >
           <span data-slot="model-menu-connect-provider" aria-hidden="true" className={modelMenuConnectProviderVariants()}>{c.initial ?? g.provider.charAt(0)}</span>
-          <span className="min-w-0 truncate">{c.children ?? 'Connect provider…'}</span>
+          <span className="min-w-0 truncate">{c.children}</span>
           <span data-slot="model-menu-connect-end" aria-hidden="true" className={modelMenuConnectEndVariants()}><ArrowUpRight /></span>
         </button>
       )))}

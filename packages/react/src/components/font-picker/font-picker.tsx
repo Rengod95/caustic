@@ -7,7 +7,7 @@ import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Badge } from '../badge/badge.tsx';
 import { Input } from '../input/input.tsx';
 import {
-  fontPickerListVariants, fontPickerOptionNameVariants, fontPickerOptionVariants, fontPickerSampleVariants, fontPickerTriggerVariants,
+  fontPickerEmptyVariants, fontPickerListVariants, fontPickerOptionNameVariants, fontPickerOptionVariants, fontPickerSampleVariants, fontPickerTriggerVariants,
   fontPickerVariants,
 } from './font-picker.variants.ts';
 
@@ -34,6 +34,22 @@ export interface FontPickerProps extends Omit<ComponentProps<'div'>, 'defaultVal
   onValueChange?: (value: string) => void;
   onOpenChange?: (open: boolean) => void;
   onSearchChange?: (value: string) => void;
+  /** Accessible name of the trigger from the shown name of the current family (undefined when none). */
+  triggerLabel: (family: string | undefined) => string;
+  /** Sample glyphs shown in the trigger. */
+  sampleText: string;
+  searchLabel: string;
+  searchPlaceholder?: string | undefined;
+  /** Accessible name of the listbox. */
+  listLabel: string;
+  /** aria-label of the floating popover; required when not inline. */
+  popupLabel?: string | undefined;
+  /** Badge text of a missing family; required when an option is missing. */
+  missingLabel?: string | undefined;
+  /** Badge text of a project family; required when an option is project. */
+  projectLabel?: string | undefined;
+  /** Row shown when options is empty. */
+  emptyMessage?: ReactNode;
 }
 
 const face = (family: string): CSSProperties => ({ ['--face' as string]: family });
@@ -41,7 +57,7 @@ const NAV = '[data-slot="font-picker-search"] input, [role="option"]';
 
 /** Chooses a font family while seeing it: every family is previewed in its own face. */
 export function FontPicker({
-  value, defaultValue, options, open, defaultOpen, inline = false, onValueChange, onOpenChange, onSearchChange, className, onKeyDown, ...props
+  value, defaultValue, options, open, defaultOpen, inline = false, onValueChange, onOpenChange, onSearchChange, triggerLabel, sampleText, searchLabel, searchPlaceholder, listLabel, popupLabel, missingLabel, projectLabel, emptyMessage, className, onKeyDown, ...props
 }: FontPickerProps) {
   const [val, setVal] = useControllableState<string>({ value, defaultValue: defaultValue ?? '', onChange: onValueChange });
   const [isOpen, setOpen] = useControllableState<boolean>({ value: open, defaultValue: defaultOpen ?? false, onChange: onOpenChange });
@@ -68,12 +84,12 @@ export function FontPicker({
     <button
       ref={triggerRef} type="button" data-slot="font-picker-trigger" role="combobox"
       aria-haspopup="listbox" aria-expanded={isOpen} aria-controls={isOpen ? listId : undefined}
-      aria-label={current ? `Font: ${current.label ?? current.family}` : 'Font'}
+      aria-label={triggerLabel(current ? current.label ?? current.family : undefined)}
       className={fontPickerTriggerVariants()}
       onClick={inline ? () => setOpen(!isOpen) : undefined}
       onKeyDown={e => { if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !isOpen) { e.preventDefault(); setOpen(true); } }}
     >
-      <span data-slot="font-picker-sample" aria-hidden data-italic={current?.italic || undefined} className={fontPickerSampleVariants()} style={face(current?.cssFamily ?? '')}>Aa</span>
+      <span data-slot="font-picker-sample" aria-hidden data-italic={current?.italic || undefined} className={fontPickerSampleVariants()} style={face(current?.cssFamily ?? '')}>{sampleText}</span>
       <span data-slot="font-picker-name" className="min-w-0 flex-1 truncate text-ui-strong">{current ? current.label ?? current.family : ''}</span>
       <span data-slot="font-picker-chevron" aria-hidden className="inline-flex size-icon-sm shrink-0 text-text-tertiary [&_svg]:size-full [&_svg]:stroke-[1.75]"><ChevronDown /></span>
     </button>
@@ -83,11 +99,14 @@ export function FontPicker({
     <>
       <div data-slot="font-picker-search" className="mb-1">
         <Input
-          appearance="sunken" aria-label="Search fonts" placeholder="Search fonts" prefix={<Search />}
+          appearance="sunken" aria-label={searchLabel} placeholder={searchPlaceholder} prefix={<Search />}
           onValueChange={onSearchChange}
         />
       </div>
-      <div role="listbox" id={listId} aria-label="Fonts" className="grid gap-px">
+      <div role="listbox" id={listId} aria-label={listLabel} className="grid gap-px">
+      {options.length === 0 && emptyMessage != null ? (
+        <div role="option" aria-disabled="true" aria-selected="false" data-slot="font-picker-empty" className={fontPickerEmptyVariants()}>{emptyMessage}</div>
+      ) : null}
       {options.map(o => {
         const selected = o.family === val;
         return (
@@ -104,8 +123,8 @@ export function FontPicker({
               <span data-slot="font-picker-option-meta" className="block text-ui-xs text-text-tertiary">{o.meta}</span>
             </span>
             {selected ? <span data-slot="font-picker-check" aria-hidden className="inline-flex size-icon-sm text-accent-text [&_svg]:size-full [&_svg]:stroke-[1.75]"><Check /></span> : null}
-            {!selected && o.missing ? <Badge data-slot="font-picker-badge" tone="warning" icon={<TriangleAlert />}>Missing</Badge> : null}
-            {!selected && !o.missing && o.project ? <Badge data-slot="font-picker-badge" shape="square">Project</Badge> : null}
+            {!selected && o.missing ? <Badge data-slot="font-picker-badge" tone="warning" icon={<TriangleAlert />}>{missingLabel}</Badge> : null}
+            {!selected && !o.missing && o.project ? <Badge data-slot="font-picker-badge" shape="square">{projectLabel}</Badge> : null}
           </div>
         );
       })}
@@ -131,7 +150,7 @@ export function FontPicker({
         <P.Trigger asChild>{trigger}</P.Trigger>
         <P.Portal>
           <P.Content
-            data-slot="font-picker-list" aria-label="Font list" side="bottom" align="start" sideOffset={6}
+            data-slot="font-picker-list" aria-label={popupLabel} side="bottom" align="start" sideOffset={6}
             className={fontPickerListVariants()} onKeyDown={listKeys}
           >
             {body}

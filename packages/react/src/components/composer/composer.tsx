@@ -1,13 +1,13 @@
 'use client';
 import { ArrowUp, ChevronDown, Plus } from 'lucide-react';
-import { useRef, type ComponentProps, type FormEvent, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
+import { useRef, type ComponentProps, type FormEvent, type KeyboardEvent, type MouseEvent, type ReactNode, type Ref } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import { composerInputVariants, composerModelVariants, composerStopVariants, composerVariants } from './composer.variants.ts';
 
-const DEFAULT_MODES = ['Ask', 'Plan', 'Build'];
+const NO_MODES: string[] = [];
 const RING_C = 50.27;
 
 export interface ComposerProps extends Omit<ComponentProps<'form'>, 'onSubmit' | 'defaultValue' | 'children'> {
@@ -15,8 +15,27 @@ export interface ComposerProps extends Omit<ComponentProps<'form'>, 'onSubmit' |
   value?: string;
   /** Uncontrolled initial text. */
   defaultValue?: string;
-  placeholder?: string;
-  rows?: number;
+  /** Placeholder text; no built-in default. */
+  placeholder?: string | undefined;
+  rows?: number | undefined;
+  /** Passed to the textarea. */
+  maxLength?: number | undefined;
+  /** Ref to the native textarea. */
+  inputRef?: Ref<HTMLTextAreaElement> | undefined;
+  /** aria-label of the textarea. */
+  inputLabel: string;
+  /** aria-label of the send control. */
+  sendLabel: string;
+  /** aria-label of the stop control; required whenever running can be true. */
+  stopLabel?: string | undefined;
+  /** aria-label of the attach button; required with onAttach. */
+  attachLabel?: string | undefined;
+  /** aria-label of the mode control; required when modes is not empty. */
+  modeLabel?: string | undefined;
+  /** aria-label of the usage ring from the rounded percentage; required with usage. */
+  usageLabel?: ((percent: number) => string) | undefined;
+  /** Disables send and Enter submission only. */
+  sendDisabled?: boolean | undefined;
   /** Context Chips shown above the text. */
   context?: ReactNode;
   /** Mode labels; pass [] to hide the control. */
@@ -44,7 +63,8 @@ export interface ComposerProps extends Omit<ComponentProps<'form'>, 'onSubmit' |
 
 /** The agent prompt box. Enter sends, Shift+Enter breaks the line, IME composition never submits. */
 export function Composer({
-  value, defaultValue = '', placeholder = 'Ask Caustic to design, refine or explain…', rows = 3, context, modes = DEFAULT_MODES,
+  value, defaultValue = '', placeholder, rows = 3, maxLength, inputRef: inputRefProp, inputLabel, sendLabel, stopLabel, attachLabel, modeLabel, usageLabel,
+  sendDisabled = false, context, modes = NO_MODES,
   mode, defaultMode, modelLabel, usage, running = false, disabled = false,
   onValueChange, onSubmit, onStop, onModeChange, onAttach, onModelClick, className, onClick, ...props
 }: ComposerProps) {
@@ -54,7 +74,7 @@ export function Composer({
 
   const submit = () => {
     const trimmed = text.trim();
-    if (running || disabled || trimmed === '') return;
+    if (running || disabled || sendDisabled || trimmed === '') return;
     onSubmit?.(trimmed);
     if (value === undefined) setText('');
   };
@@ -69,6 +89,11 @@ export function Composer({
     onClick?.(e);
     if (!(e.target as HTMLElement).closest('button, textarea, input, [role="radio"], [role="radiogroup"]')) inputRef.current?.focus();
   };
+  const setInput = (el: HTMLTextAreaElement | null) => {
+    inputRef.current = el;
+    if (typeof inputRefProp === 'function') inputRefProp(el);
+    else if (inputRefProp) inputRefProp.current = el;
+  };
   const pct = usage === undefined ? 0 : Math.min(100, Math.max(0, usage));
 
   return (
@@ -78,14 +103,14 @@ export function Composer({
     >
       {context != null && <div data-slot="composer-context" className="flex flex-wrap gap-1.5">{context}</div>}
       <textarea
-        ref={inputRef} data-slot="composer-input" aria-label="Message Caustic" rows={rows} placeholder={placeholder}
+        ref={setInput} data-slot="composer-input" aria-label={inputLabel} rows={rows} maxLength={maxLength} placeholder={placeholder}
         value={text} disabled={disabled} className={composerInputVariants()}
         onChange={e => setText(e.target.value)} onKeyDown={handleKeyDown}
       />
       <div data-slot="composer-bar" className="flex items-center gap-1">
-        {onAttach !== undefined && <IconButton data-slot="composer-attach" size="xs" label="Add context" disabled={disabled} onClick={() => onAttach()}><Plus /></IconButton>}
+        {onAttach !== undefined && <IconButton data-slot="composer-attach" size="xs" label={attachLabel ?? ''} disabled={disabled} onClick={() => onAttach()}><Plus /></IconButton>}
         {modes.length > 0 && (
-          <SegmentedControl data-slot="composer-mode" size="xs" aria-label="Mode" value={currentMode} onValueChange={setMode} disabled={disabled}>
+          <SegmentedControl data-slot="composer-mode" size="xs" aria-label={modeLabel} value={currentMode} onValueChange={setMode} disabled={disabled}>
             {modes.map(m => <SegmentedControlItem key={m} value={m}>{m}</SegmentedControlItem>)}
           </SegmentedControl>
         )}
@@ -94,17 +119,17 @@ export function Composer({
           <button type="button" data-slot="composer-model" disabled={disabled} className={composerModelVariants()} onClick={onModelClick}>{modelLabel}<ChevronDown aria-hidden /></button>
         )}
         {usage !== undefined && (
-          <svg data-slot="composer-usage" role="img" aria-label={`Context ${Math.round(pct)}%`} viewBox="0 0 22 22" className="size-usage-ring shrink-0 fill-none stroke-3">
+          <svg data-slot="composer-usage" role="img" aria-label={usageLabel?.(Math.round(pct))} viewBox="0 0 22 22" className="size-usage-ring shrink-0 fill-none stroke-3">
             <circle cx="11" cy="11" r="8" className="stroke-fill-selected" />
             <circle cx="11" cy="11" r="8" transform="rotate(-90 11 11)" strokeLinecap="round" strokeDasharray={RING_C} strokeDashoffset={RING_C * (1 - pct / 100)} className="stroke-accent-solid" />
           </svg>
         )}
         {running ? (
-          <IconButton data-slot="composer-send" tone="ink" shape="circle" size="sm" label="Stop" disabled={disabled} className={composerStopVariants()} onClick={() => onStop?.()}>
+          <IconButton data-slot="composer-send" tone="ink" shape="circle" size="sm" label={stopLabel ?? ''} disabled={disabled} className={composerStopVariants()} onClick={() => onStop?.()}>
             <span aria-hidden className="block size-stop-glyph rounded-2xs bg-current" />
           </IconButton>
         ) : (
-          <IconButton data-slot="composer-send" type="submit" tone="ink" shape="circle" size="sm" label="Send" disabled={disabled}><ArrowUp /></IconButton>
+          <IconButton data-slot="composer-send" type="submit" tone="ink" shape="circle" size="sm" label={sendLabel} disabled={disabled || sendDisabled}><ArrowUp /></IconButton>
         )}
       </div>
     </form>

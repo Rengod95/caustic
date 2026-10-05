@@ -6,7 +6,9 @@ import { IconButton } from '../icon-button/icon-button.tsx';
 
 export interface PageListProps extends Omit<ComponentProps<'nav'>, 'aria-label'> {
   /** aria-label of the landmark and the title text. */
-  label?: string;
+  label: string;
+  /** aria-label of the add button. */
+  addLabel: string;
   /** The add button is activated. */
   onAdd?: (event: MouseEvent<HTMLButtonElement>) => void;
   /** PageListRow elements. */
@@ -14,12 +16,12 @@ export interface PageListProps extends Omit<ComponentProps<'nav'>, 'aria-label'>
 }
 
 /** The pages of a project: a heading with an add button, then one row per page. */
-export function PageList({ label = 'Pages', onAdd, className, children, ...props }: PageListProps) {
+export function PageList({ label, addLabel, onAdd, className, children, ...props }: PageListProps) {
   return (
     <nav data-slot="page-list" aria-label={label} className={cn('grid gap-px', className)} {...props}>
       <div data-slot="page-list-header" className="flex items-center justify-between gap-2">
         <span data-slot="page-list-title" className="text-micro font-semibold text-text-tertiary">{label}</span>
-        <IconButton data-slot="page-list-add" label="Add page" size="xs" onClick={onAdd}><Plus /></IconButton>
+        <IconButton data-slot="page-list-add" label={addLabel} size="xs" onClick={onAdd}><Plus /></IconButton>
       </div>
       {children}
     </nav>

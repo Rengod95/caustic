@@ -16,7 +16,7 @@ export default defineFixture({
   render: props => (
     <div data-slot="modal-overlay" className={caseOverlay}>
       <Modal
-        inline defaultOpen icon={<Trash2 />} title="Rename project" description="The URL stays the same."
+        inline defaultOpen closeLabel="Close" icon={<Trash2 />} title="Rename project" description="The URL stays the same."
         footer={<><ModalClose asChild><Button tone="secondary" size="sm">Cancel</Button></ModalClose><ModalAction>Delete</ModalAction></>}
         {...props}
       >
@@ -29,7 +29,7 @@ export default defineFixture({
       <>
         <div className={stage}>
           <Modal
-            inline defaultOpen title="Invite people" description="They join Orbit Pay as editors." showClose
+            inline defaultOpen title="Invite people" description="They join Orbit Pay as editors." showClose closeLabel="Close"
             footer={
               <>
                 <Button tone="ghost" size="sm" iconStart={<Link />}>Copy link</Button>
