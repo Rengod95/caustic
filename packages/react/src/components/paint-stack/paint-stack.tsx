@@ -208,7 +208,7 @@ export function PaintStack({
             return detailMode === 'inline' && opened ? (
               <Fragment key={item.id}>
                 {row}
-                <div data-slot="paint-stack-detail" role="listitem" aria-label={item.detailLabel} className="grid gap-2">{item.detail}</div>
+                <div data-part="detail" role="listitem" aria-label={item.detailLabel} className="grid gap-2">{item.detail}</div>
               </Fragment>
             ) : row;
           })}

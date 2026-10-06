@@ -353,7 +353,7 @@ export function ColorPicker({
               </div>
             </div>}
             {has('hsv') && labels.hsv !== undefined && (
-              <div data-slot="color-picker-hsv" className="grid grid-cols-3 gap-1">
+              <div data-part="hsv" className="grid grid-cols-3 gap-1">
                 {([
                   ['hsvH', labels.hsv.h, labels.hsv.hShort, shown.h, 360, '°', (n: number) => ({ ...color, h: n })],
                   ['hsvS', labels.hsv.s, labels.hsv.sShort, shown.s * 100, 100, '%', (n: number) => ({ ...color, s: n / 100 })],
