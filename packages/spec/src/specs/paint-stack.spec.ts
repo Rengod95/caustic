@@ -81,7 +81,7 @@ export default defineSpec({
     notes: ['The section is labelled by its title; the list of layers is a list (role list) so the count is announced.', 'Each row exposes its paint as text (name and detail), not only through the swatch.'],
   },
   policies: ['P6'],
-  composition: { uses: ['inspector-panel', 'stack-row', 'color-well', 'number-field', 'icon-button', 'button'] },
+  composition: { uses: ['inspector-panel', 'stack-row', 'color-well', 'number-field', 'icon-button', 'button', 'popover'] },
   examples: [
     { id: 'fill-stack', title: 'Fill stack', doc: 'paint-stack#fill-stack' },
   ],

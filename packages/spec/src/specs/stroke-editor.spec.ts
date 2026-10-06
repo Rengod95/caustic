@@ -81,7 +81,7 @@ export default defineSpec({
     notes: ['The cap and position segments are radio groups; icon-only cap items need aria-labels (Butt cap, Round cap, Arrow cap).', 'The side fields are labelled Top / Left / Right / Bottom; the box is decorative (aria-hidden).'],
   },
   policies: ['P6'],
-  composition: { uses: ['paint-well', 'number-field', 'segmented-control', 'switch', 'icon-button'] },
+  composition: { uses: ['paint-well', 'number-field', 'segmented-control', 'switch', 'icon-button', 'input'] },
   examples: [
     { id: 'stroke', title: 'Stroke', doc: 'paint-stack#stroke' },
   ],

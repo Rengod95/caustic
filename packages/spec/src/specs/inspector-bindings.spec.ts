@@ -97,7 +97,7 @@ export default defineSpec({
     ],
   },
   policies: ['P6'],
-  composition: { uses: ['icon-button', 'badge'] },
+  composition: { uses: ['icon-button', 'badge', 'select'] },
   examples: [{ id: 'foundation-bindings', title: 'Foundation bindings', doc: 'token-binding#foundation-bindings' }],
   usage: [
     'K2d value model: this part has no typed field, so only disabled and reserved apply; unbinding, picking and adding are discrete commits raised by onUnbind, onPick and onAdd. Mixed is the existing mixed binding.',

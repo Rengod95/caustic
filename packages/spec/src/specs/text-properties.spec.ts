@@ -82,7 +82,7 @@ export default defineSpec({
     notes: ['Icon-only segments need aria-labels (Align left, Align center, Align right, Justify; Top, Middle, Bottom); the case items use "As typed", "Uppercase", "Lowercase", "Title case" because Aa / AA / aa / Ab are not words.', 'The notice has role="note"; it is informative, not an alert.'],
   },
   policies: ['P6'],
-  composition: { uses: ['inspector-select', 'number-field', 'segmented-control', 'button'] },
+  composition: { uses: ['inspector-select', 'number-field', 'segmented-control', 'button', 'select'] },
   examples: [
     { id: 'text-properties', title: 'Text properties', doc: 'typography-controls#text-properties' },
   ],

@@ -97,7 +97,7 @@ export default defineSpec({
     ],
   },
   policies: ['P6'],
-  composition: { uses: ['number-field', 'icon-toggle', 'chip', 'icon-button', 'inspector-panel', 'align-bar', 'menu'] },
+  composition: { uses: ['number-field', 'icon-toggle', 'chip', 'icon-button', 'inspector-panel', 'align-bar', 'menu', 'select'] },
   examples: [
     { id: 'position-and-size', title: 'Position & size', doc: 'position-size#position-and-size' },
   ],

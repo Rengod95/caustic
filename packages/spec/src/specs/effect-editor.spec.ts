@@ -65,7 +65,7 @@ export default defineSpec({
     notes: ['The stage is decorative (aria-hidden); the numbers are the real controls.', 'Every field has an aria-label (Shadow X, Shadow Y, Blur, Spread, Shadow color, Shadow opacity).'],
   },
   policies: ['P6'],
-  composition: { uses: ['number-field', 'paint-well'] },
+  composition: { uses: ['number-field', 'paint-well', 'select', 'switch'] },
   usage: [
     'K2d inspector value model (defined on NumberField): onValueChange is the commit; commitMode "release" turns every continuous gesture into onPreviewChange while it runs and one onValueChange when it ends, and keeps typed text as a draft (onDraftChange, aria-invalid, never clamped or dropped) until a valid Enter or blur; discrete choices (toggle, segment, select option, arrow key, preset, swatch) commit at once; mixed fields show the mixed label with no invented value; a reserved field is read-only with aria-busy and data-reserved and keeps focus and its draft; disabled may be a boolean or a per-field record. Fields: \'x\' | \'y\' | \'blur\' | \'spread\' | \'color\'.',
     'K2d labels: every string is labels.*; the fixture passes the specimen strings, so the baseline stays identical.',
