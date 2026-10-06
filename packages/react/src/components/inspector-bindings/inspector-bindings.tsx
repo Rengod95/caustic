@@ -142,7 +142,7 @@ export function InspectorBindingsRow({
           {options.map((option, i) => (
             <Fragment key={option.value}>
               {option.group !== undefined && option.group !== options[i - 1]?.group && <SelectHeading>{option.group}</SelectHeading>}
-              <SelectOption value={option.value} disabled={option.disabled}>{option.label}</SelectOption>
+              <SelectOption value={option.value} {...(option.disabled !== undefined ? { disabled: option.disabled } : {})}>{option.label}</SelectOption>
             </Fragment>
           ))}
         </Select>
