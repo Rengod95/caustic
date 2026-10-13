@@ -1,0 +1,6 @@
+pre-commit:
+  commands:
+    ws-check:
+      run: ws check
+    gitleaks:
+      run: gitleaks git --staged --redact --no-banner
