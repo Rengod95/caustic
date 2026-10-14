@@ -1,0 +1,26 @@
+# CI: just verify. The dotfiles repository is private: ws, secrets and remote are cloned from it into $RUNNER_TEMP
+# (outside the repository) with the DOTFILES_TOKEN secret, a fine-grained token that reads its contents.
+name: verify
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch ws, secrets and remote (private dotfiles, read-only token)
+        env:
+          DOTFILES_TOKEN: ${{ secrets.DOTFILES_TOKEN }}
+        run: |
+          if [ -z "$DOTFILES_TOKEN" ]; then
+            echo "::error::add the DOTFILES_TOKEN repository secret: a fine-grained token with read access to Rengod95/dotfiles contents"
+            exit 1
+          fi
+          git clone --quiet --depth 1 "https://x-access-token:${DOTFILES_TOKEN}@github.com/Rengod95/dotfiles.git" "$RUNNER_TEMP/ws-dotfiles"
+          for m in ws secrets remote; do echo "$RUNNER_TEMP/ws-dotfiles/modules/$m/bin" >>"$GITHUB_PATH"; done
+      - uses: jdx/mise-action@v2
+      - name: just verify
+        run: just verify
