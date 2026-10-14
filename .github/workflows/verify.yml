@@ -1,5 +1,5 @@
-# CI: just verify. The dotfiles repository is private: ws, secrets and remote come from it with the DOTFILES_TOKEN
-# secret (a fine-grained token that reads its contents). No secret value is written here.
+# CI: just verify. The dotfiles repository is private: ws, secrets and remote are cloned from it into $RUNNER_TEMP
+# (outside the repository) with the DOTFILES_TOKEN secret, a fine-grained token that reads its contents.
 name: verify
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check the DOTFILES_TOKEN secret
+      - name: Fetch ws, secrets and remote (private dotfiles, read-only token)
         env:
           DOTFILES_TOKEN: ${{ secrets.DOTFILES_TOKEN }}
         run: |
@@ -19,16 +19,6 @@ jobs:
             echo "::error::add the DOTFILES_TOKEN repository secret: a fine-grained token with read access to Rengod95/dotfiles contents"
             exit 1
           fi
-      - uses: actions/checkout@v4
-        with:
-          repository: Rengod95/dotfiles
-          token: ${{ secrets.DOTFILES_TOKEN }}
-          path: .ws-dotfiles
+          git clone --quiet --depth 1 "https://x-access-token:${DOTFILES_TOKEN}@github.com/Rengod95/dotfiles.git" "$RUNNER_TEMP/ws-dotfiles"
+          for m in ws secrets remote; do echo "$RUNNER_TEMP/ws-dotfiles/modules/$m/bin" >>"$GITHUB_PATH"; done
       - uses: jdx/mise-action@v2
-      - name: Put ws, secrets and remote on PATH
-        run: |
-          echo "$GITHUB_WORKSPACE/.ws-dotfiles/modules/ws/bin" >>"$GITHUB_PATH"
-          echo "$GITHUB_WORKSPACE/.ws-dotfiles/modules/secrets/bin" >>"$GITHUB_PATH"
-          echo "$GITHUB_WORKSPACE/.ws-dotfiles/modules/remote/bin" >>"$GITHUB_PATH"
-      - name: just verify
-        run: just verify
