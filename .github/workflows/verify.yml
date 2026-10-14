@@ -22,3 +22,5 @@ jobs:
           git clone --quiet --depth 1 "https://x-access-token:${DOTFILES_TOKEN}@github.com/Rengod95/dotfiles.git" "$RUNNER_TEMP/ws-dotfiles"
           for m in ws secrets remote; do echo "$RUNNER_TEMP/ws-dotfiles/modules/$m/bin" >>"$GITHUB_PATH"; done
       - uses: jdx/mise-action@v2
+      - name: just verify
+        run: just verify
