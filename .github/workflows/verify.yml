@@ -1,9 +1,10 @@
-# CI: just verify. The dotfiles repository is private: ws, secrets and remote are cloned from it into $RUNNER_TEMP
+# just verify: typecheck, design tokens, all component gates (no specimen links), ws check; run: just ci run verify.yml
+# On demand only (owner decision 2026-10-14): no push or pull_request trigger. The manifest is in CONTRIBUTING.md.
+# The dotfiles repository is private: ws, secrets and remote are cloned from it into $RUNNER_TEMP
 # (outside the repository) with the DOTFILES_TOKEN secret, a fine-grained token that reads its contents.
 name: verify
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
