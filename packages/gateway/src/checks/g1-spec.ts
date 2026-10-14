@@ -8,7 +8,8 @@ import { baselinesDir, specimenRoot } from '../paths.ts';
 import { dimPx, tokenIndex } from '../tokens.ts';
 import type { Fixture } from '../../../react/src/lib/fixture.ts';
 
-export async function g1(c: Collector, input: SpecInput, fixture: Fixture | undefined): Promise<ComponentSpec | null> {
+/** `specimens: false` (gate --no-specimens, CI) skips only the HTML specimen-link checks; ../caustic-preview is local-only. */
+export async function g1(c: Collector, input: SpecInput, fixture: Fixture | undefined, specimens = true): Promise<ComponentSpec | null> {
   const parsed = ComponentSpec.safeParse(input);
   if (!parsed.success) {
     for (const issue of parsed.error.issues) c.fail({ gate: 'G1', check: 'schema', message: issue.message, where: issue.path.join('.') });
@@ -67,6 +68,7 @@ export async function g1(c: Collector, input: SpecInput, fixture: Fixture | unde
       if (source !== 'react') c.fail({ gate: 'G1', check: 'specimen', message: `Example "${ex.id}" has no specimen and no React baseline.`, fix: `Record it with pnpm baseline:react ${spec.id} (main session).` });
       continue;
     }
+    if (!specimens) continue; // CI has no ../caustic-preview; the local gate-all checks this link
     const file = join(specimenRoot, 'docs', `${page}.html`);
     if (!existsSync(file)) c.fail({ gate: 'G1', check: 'specimen', message: `Specimen page docs/${page}.html not found.` });
     else if (heading && !readFileSync(file, 'utf8').includes(`id="${heading}"`)) c.fail({ gate: 'G1', check: 'specimen', message: `Specimen heading #${heading} not found in docs/${page}.html.` });

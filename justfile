@@ -23,11 +23,11 @@ setup:
 typecheck:
     pnpm typecheck
 
-# 완료 기준: 의존성, 타입, 토큰 검사, 게이트 전부(gate:all), ws check (ws help justfile)
+# 완료 기준: 의존성, 타입, 토큰, 게이트(--no-specimens: 명세→특정 링크 검사만 뺀다, 로컬 gate-all이 한다), ws check (ws help justfile)
 [group('quality')]
 verify: setup typecheck
     pnpm tokens:check
-    pnpm gate:all
+    pnpm gate:all --no-specimens
     ws check
 
 # 생성 파일 갱신: 토큰 빌드(dist)와 레지스트리(index, fixtures, specs index)
@@ -41,7 +41,7 @@ codegen:
 gate *ids:
     pnpm gate {{ids}}
 
-# 전체 게이트를 병렬 샤드로 (verify의 게이트와 같다)
+# 전체 게이트, 병렬 샤드. ../caustic-preview가 필요하다(명세→특정 링크 검사, 로컬 전용). verify는 이 검사만 뺀다
 [group('local')]
 gate-all:
     pnpm gate:all

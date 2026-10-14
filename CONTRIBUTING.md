@@ -127,6 +127,6 @@ A full pass records the component in `packages/spec/gated.json`. Never edit that
 
 Baselines are now recorded from the React render (`source: "react"` in each `baselines/<id>/<example>.json`); the HTML specimens were the reference until every component matched them. To change a component's look on purpose: change the spec, get it approved, then re-record with `pnpm baseline:react <id>` (main session only). `pnpm baseline <id>` still captures from a specimen page for new components.
 
-`pnpm gate:all` runs the whole gate in parallel shards. `pnpm docs:dev` serves the docs app (apps/docs, port 5180); `pnpm docs:build` builds it.
+`pnpm gate:all` runs the whole gate in parallel shards and needs `../caustic-preview` (G1 checks each example's specimen link). CI runs it with `--no-specimens`, which skips only that link check, because the specimens repo is not in CI; run `just gate-all` locally before a spec change is approved. `pnpm docs:dev` serves the docs app (apps/docs, port 5180); `pnpm docs:build` builds it.
 
 After changing the gateway, run `pnpm gate:selftest`. It applies known-bad mutations to Button and fails if any one slips through.
