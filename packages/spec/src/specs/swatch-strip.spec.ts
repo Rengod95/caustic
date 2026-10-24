@@ -49,7 +49,7 @@ export default defineSpec({
   composition: { uses: [] },
   usage: [
     'No example of its own: it is inside the color-picker examples.',
-    'Fixture contract: render(props) renders the nine specimen swatches in order — Orange #e2763f (id orange), Brown #2b1d14 (brown), accent (token, var(--cs-accent-600)), mint (token, var(--cs-mint-500)), Paper #f4ede4, Iris #5f4994, Sun #ffcf5a, Ink #111317, coral (token, var(--cs-coral-500)) — with orange selected through defaultValue "orange" in the example; the plain render has no selection.',
+    'Fixture contract: render(props) renders the nine specimen swatches in order — Orange #e2763f (id orange), Brown #2b1d14 (brown), accent (token, var(--cs-accent-7)), mint (token, var(--cs-mint-6)), Paper #f4ede4, Iris #5f4994, Sun #ffcf5a, Ink #111317, coral (token, var(--cs-coral-6)) — with orange selected through defaultValue "orange" in the example; the plain render has no selection.',
     'Specimen: the compact picker uses the same strip with 8 columns and no token dots; its swatches have a black 8 % hairline (swatch.edge is 10 %).',
   ],
 });

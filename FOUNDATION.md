@@ -32,7 +32,7 @@ Never edit `dist/` by hand.
 
 ## Layers
 
-1. **Primitive.** Raw OKLCH values and dimension scales: `--cs-accent-600`, `--cs-radius-3xl`. Components never read them directly.
+1. **Primitive.** Raw OKLCH values and dimension scales: `--cs-accent-7`, `--cs-radius-3xl`. Components never read them directly.
 2. **Semantic.** Role names, defined per theme: `--cs-color-accent-solid`, `--cs-color-text-tertiary`. This is the only color layer components read.
 3. **Component and studio.** Composes semantic tokens and owns layout and state, never color decisions. Studio shell metrics live in `--cs-studio-*`.
 
@@ -43,8 +43,8 @@ Naming:
 ## Color
 
 **Ramps**
-- One neutral ramp (Graphite, 16 steps, hue 260, chroma ≤ 0.012).
-- Five hued ramps with 12 steps each: Lagoon (accent), Mint (success), Amber (warning), Coral (danger), Iris (info).
+- One neutral ramp (Graphite, 11 steps named 1 to 11, 1 = lightest, 11 = darkest). It is a true neutral gray (chroma 0), in both themes.
+- Five hued ramps with 11 steps each, named 1 to 11 (1 = lightest, 11 = darkest): Lagoon (accent), Mint (success), Amber (warning), Coral (danger), Iris (info).
 - All hued ramps share one lightness/chroma profile; only the hue changes. A given step therefore has nearly the same contrast in every hue.
 
 **Gamut.** Out-of-sRGB values are mapped the CSS Color 4 way: lightness is kept and chroma is reduced. The validator uses the same mapping.
@@ -162,7 +162,7 @@ Naming:
 - no backdrop blur, no specular highlight, no rim, no edge, no sheen.
 
 **Materials:**
-- ultrathin, thin, regular, thick: all solid and equal (`neutral.0` light, `neutral.850` dark); kept as names for spec compatibility
+- ultrathin, thin, regular, thick: all solid and equal (`neutral.1` light, `neutral.8` dark); kept as names for spec compatibility
 - rim, edge, specular, sheen: zero alpha
 
 **Fallbacks:** none needed; nothing is translucent.
@@ -201,8 +201,8 @@ Naming:
 3. **Ink first, accent once.**
    - Primary actions use ink.
    - Buttons are flat, the iOS way: a solid fill and a 1px `control.edge` hairline, no shadow. No sheen, no specular top edge, no bevel.
-   - Ink is near-black in light mode and a lifted graphite (`neutral.700`) in dark mode, never white.
-   - Secondary buttons, segmented thumbs and the current nav item use `control.raised`, one step lighter than the surface (white in light mode, `neutral.850` in dark).
+   - Ink is near-black in light mode and a lifted graphite (`neutral.7`) in dark mode, never white.
+   - Secondary buttons, segmented thumbs and the current nav item use `control.raised`, one step lighter than the surface (white in light mode, `neutral.8` in dark).
    - Selected indicators that are not buttons (step dots, slider fills, pucks) use `text.primary`, not ink.
    - The accent is for selection, focus, links, toggles and at most one confirming action per view.
    - Status colors only mean status.

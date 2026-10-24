@@ -170,6 +170,16 @@ const themeBlock = theme => {
   return out.join('\n');
 };
 
+// Corner smoothing: progressive enhancement. Where CSS corner-shape exists (Chromium 139+), base.css turns
+// rounded corners into squircles. A squircle corner bulges toward the box corner, so it reads smaller than a
+// circular arc of the same radius; the radius tokens are scaled up by corner-scale to compensate.
+// Browsers without corner-shape (Safari, Firefox) keep circular corners at the nominal radius.
+const CORNER_SCALE = 1.2;
+const cornerScaled = [
+  ...Object.entries(T.radius).filter(([k]) => k !== 'none' && k !== 'full').map(([k, px]) => v(`radius-${k}`, `calc(${px}px * var(--${P}-corner-scale))`)),
+  ...Object.entries(T.studio).filter(([k]) => k.includes('radius')).map(([k, px]) => v(`studio-${k}`, `calc(${px}px * var(--${P}-corner-scale))`)),
+].join('\n');
+
 const css = `/* ${T.meta.name} foundation ${T.meta.version} — tokens. Generated; edit foundation/tokens.mjs. */
 @property --${P}-spin { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
 
@@ -179,6 +189,13 @@ ${root.join('\n')}
 
   /* semantic: light */
 ${themeBlock('light')}
+}
+
+@supports (corner-shape: squircle) {
+  :root {
+${v('corner-scale', CORNER_SCALE)}
+${cornerScaled}
+  }
 }
 
 @media (prefers-color-scheme: dark) {

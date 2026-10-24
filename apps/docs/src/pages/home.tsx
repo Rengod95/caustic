@@ -42,7 +42,7 @@ export function Home() {
         <div className={grid}>
           {Object.entries(policies).map(([id, p]) => (
             <CardSurface key={id} size="compact">
-              <CardHeader headerAlign="center"><Badge tone="accent" shape="square">{id}</Badge><CardTitle titleSize="sm">{p.title}</CardTitle></CardHeader>
+              <CardHeader headerAlign="center"><Badge shape="square">{id}</Badge><CardTitle titleSize="sm">{p.title}</CardTitle></CardHeader>
               <CardBody><CardDescription>{p.rule}</CardDescription></CardBody>
             </CardSurface>
           ))}

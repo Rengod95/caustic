@@ -12,7 +12,7 @@ const MenuContext = createContext<MenuContextValue>({ inline: false, close: () =
 const GroupContext = createContext<string | undefined>(undefined);
 
 export interface MenuItemProps extends Omit<ComponentProps<'button'>, 'onSelect' | 'color'> {
-  /** Marks the chosen item (accent.soft fill, accent icon); sets aria-checked on radio / checkbox roles. */
+  /** Marks the chosen item (accent.soft fill); sets aria-checked on radio / checkbox roles. */
   selected?: boolean;
   /** danger = destructive item (danger text and icon). */
   tone?: 'default' | 'danger';

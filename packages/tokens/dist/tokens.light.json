@@ -3,23 +3,23 @@
   "bg": {
     "app": {
       "$type": "color",
-      "$value": "{color.neutral.50}"
+      "$value": "{color.neutral.2}"
     },
     "canvas": {
       "$type": "color",
-      "$value": "{color.neutral.100}"
+      "$value": "{color.neutral.3}"
     },
     "inset": {
       "$type": "color",
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.04,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     },
     "scrim": {
@@ -27,49 +27,49 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.24,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     }
   },
   "surface": {
     "base": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "raised": {
       "$type": "color",
-      "$value": "{color.neutral.25}"
+      "$value": "{color.neutral.1}"
     },
     "raised-translucent": {
       "$type": "color",
-      "$value": "{color.neutral.25}"
+      "$value": "{color.neutral.1}"
     },
     "translucent": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     }
   },
   "material": {
     "ultrathin": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "thin": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "regular": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "thick": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "rim": {
       "$type": "color",
@@ -88,12 +88,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     },
     "specular": {
@@ -124,31 +124,31 @@
   "text": {
     "primary": {
       "$type": "color",
-      "$value": "{color.neutral.950}"
+      "$value": "{color.neutral.11}"
     },
     "secondary": {
       "$type": "color",
-      "$value": "{color.neutral.700}"
+      "$value": "{color.neutral.8}"
     },
     "tertiary": {
       "$type": "color",
-      "$value": "{color.neutral.600}"
+      "$value": "{color.neutral.7}"
     },
     "placeholder": {
       "$type": "color",
-      "$value": "{color.neutral.600}"
+      "$value": "{color.neutral.7}"
     },
     "disabled": {
       "$type": "color",
-      "$value": "{color.neutral.400}"
+      "$value": "{color.neutral.5}"
     },
     "inverse": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "link": {
       "$type": "color",
-      "$value": "{color.accent.700}"
+      "$value": "{color.accent.8}"
     }
   },
   "border": {
@@ -157,12 +157,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.05,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     },
     "default": {
@@ -170,12 +170,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.08,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     },
     "strong": {
@@ -183,17 +183,17 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.13,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     },
     "control": {
       "$type": "color",
-      "$value": "{color.neutral.400}"
+      "$value": "{color.neutral.5}"
     }
   },
   "fill": {
@@ -202,12 +202,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.045,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     },
     "pressed": {
@@ -215,12 +215,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.075,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     },
     "selected": {
@@ -228,70 +228,70 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.11,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     }
   },
   "control": {
     "off": {
       "$type": "color",
-      "$value": "{color.neutral.400}"
+      "$value": "{color.neutral.5}"
     },
     "thumb": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "raised": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "raised-hover": {
       "$type": "color",
-      "$value": "{color.neutral.25}"
+      "$value": "{color.neutral.2}"
     },
     "edge": {
       "$type": "color",
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.07,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     }
   },
   "ink": {
     "solid": {
       "$type": "color",
-      "$value": "{color.neutral.900}"
+      "$value": "{color.neutral.10}"
     },
     "hover": {
       "$type": "color",
-      "$value": "{color.neutral.800}"
+      "$value": "{color.neutral.8}"
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral.25}"
+      "$value": "{color.neutral.1}"
     },
     "on-muted": {
       "$type": "color",
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.985,
-          0.002,
-          260
+          0.995,
+          0,
+          0
         ],
         "alpha": 0.75,
-        "hex": "#f9fafb"
+        "hex": "#fdfdfd"
       }
     },
     "kbd": {
@@ -386,37 +386,37 @@
   "chart": {
     "1": {
       "$type": "color",
-      "$value": "{color.accent.500}"
+      "$value": "{color.accent.6}"
     },
     "2": {
       "$type": "color",
-      "$value": "{color.iris.600}"
+      "$value": "{color.iris.7}"
     },
     "3": {
       "$type": "color",
-      "$value": "{color.mint.600}"
+      "$value": "{color.mint.7}"
     },
     "4": {
       "$type": "color",
-      "$value": "{color.amber.600}"
+      "$value": "{color.amber.7}"
     }
   },
   "accent": {
     "solid": {
       "$type": "color",
-      "$value": "{color.accent.600}"
+      "$value": "{color.accent.7}"
     },
     "hover": {
       "$type": "color",
-      "$value": "{color.accent.700}"
+      "$value": "{color.accent.8}"
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "text": {
       "$type": "color",
-      "$value": "{color.accent.700}"
+      "$value": "{color.accent.8}"
     },
     "soft": {
       "$type": "color",
@@ -472,25 +472,25 @@
     },
     "fill": {
       "$type": "color",
-      "$value": "{color.accent.700}"
+      "$value": "{color.accent.8}"
     },
     "fill-hover": {
       "$type": "color",
-      "$value": "{color.accent.800}"
+      "$value": "{color.accent.9}"
     }
   },
   "success": {
     "solid": {
       "$type": "color",
-      "$value": "{color.mint.600}"
+      "$value": "{color.mint.7}"
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "text": {
       "$type": "color",
-      "$value": "{color.mint.700}"
+      "$value": "{color.mint.8}"
     },
     "soft": {
       "$type": "color",
@@ -509,15 +509,15 @@
   "warning": {
     "solid": {
       "$type": "color",
-      "$value": "{color.amber.500}"
+      "$value": "{color.amber.6}"
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral.1000}"
+      "$value": "{color.neutral.11}"
     },
     "text": {
       "$type": "color",
-      "$value": "{color.amber.700}"
+      "$value": "{color.amber.8}"
     },
     "soft": {
       "$type": "color",
@@ -536,15 +536,15 @@
   "danger": {
     "solid": {
       "$type": "color",
-      "$value": "{color.coral.600}"
+      "$value": "{color.coral.7}"
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "text": {
       "$type": "color",
-      "$value": "{color.coral.700}"
+      "$value": "{color.coral.8}"
     },
     "soft": {
       "$type": "color",
@@ -563,15 +563,15 @@
   "info": {
     "solid": {
       "$type": "color",
-      "$value": "{color.iris.600}"
+      "$value": "{color.iris.7}"
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "text": {
       "$type": "color",
-      "$value": "{color.iris.700}"
+      "$value": "{color.iris.8}"
     },
     "soft": {
       "$type": "color",
@@ -618,7 +618,7 @@
   "focus": {
     "ring": {
       "$type": "color",
-      "$value": "{color.accent.600}"
+      "$value": "{color.accent.7}"
     }
   },
   "canvas": {
@@ -627,37 +627,37 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.13,
-          0.008,
-          260
+          0.105,
+          0,
+          0
         ],
         "alpha": 0.13,
-        "hex": "#06070a"
+        "hex": "#040404"
       }
     },
     "selection": {
       "$type": "color",
-      "$value": "{color.accent.600}"
+      "$value": "{color.accent.7}"
     },
     "handle": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "selection-on": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "guide": {
       "$type": "color",
-      "$value": "{color.coral.600}"
+      "$value": "{color.coral.7}"
     },
     "guide-on": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "guide-user": {
       "$type": "color",
-      "$value": "{color.iris.600}"
+      "$value": "{color.iris.7}"
     },
     "hover": {
       "$type": "color",
@@ -687,19 +687,19 @@
     },
     "label": {
       "$type": "color",
-      "$value": "{color.neutral.600}"
+      "$value": "{color.neutral.7}"
     },
     "checker-a": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     },
     "checker-b": {
       "$type": "color",
-      "$value": "{color.neutral.200}"
+      "$value": "{color.neutral.3}"
     },
     "artboard": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     }
   },
   "agent": {
@@ -720,27 +720,27 @@
   "identity": {
     "coral": {
       "$type": "color",
-      "$value": "{color.coral.600}"
+      "$value": "{color.coral.7}"
     },
     "iris": {
       "$type": "color",
-      "$value": "{color.iris.600}"
+      "$value": "{color.iris.7}"
     },
     "mint": {
       "$type": "color",
-      "$value": "{color.mint.700}"
+      "$value": "{color.mint.8}"
     },
     "amber": {
       "$type": "color",
-      "$value": "{color.amber.700}"
+      "$value": "{color.amber.8}"
     },
     "slate": {
       "$type": "color",
-      "$value": "{color.neutral.600}"
+      "$value": "{color.neutral.7}"
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral.0}"
+      "$value": "{color.neutral.1}"
     }
   }
 }

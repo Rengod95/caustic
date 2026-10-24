@@ -8,8 +8,8 @@ const Graph = ({ traced, missing, ...props }: Partial<TokenGraphProps> & { trace
     <TokenGraphTier label="Primitive" at="start" />
     <TokenGraphTier label="Semantic" at="center" />
     <TokenGraphTier label="Component" at="end" />
-    <TokenGraphNode itemId="p1" x={3} y={18} title="color.accent.600" description="primitive" swatch="var(--cs-accent-600)" traced={traced} missing={missing} />
-    <TokenGraphNode itemId="p2" x={3} y={42} title="color.accent.400" description="primitive" swatch="var(--cs-accent-400)" />
+    <TokenGraphNode itemId="p1" x={3} y={18} title="color.accent.7" description="primitive" swatch="var(--cs-accent-7)" traced={traced} missing={missing} />
+    <TokenGraphNode itemId="p2" x={3} y={42} title="color.accent.5" description="primitive" swatch="var(--cs-accent-5)" />
     <TokenGraphNode itemId="p3" x={3} y={66} title="radius.3xl" description="22px" />
     <TokenGraphNode itemId="s1" x={37} y={14} title="color.accent.solid" description="light → 600 · dark → 400" swatch="var(--cs-color-accent-solid)" />
     <TokenGraphNode itemId="s2" x={37} y={40} title="color.focus.ring" description="light → 600 · dark → 400" swatch="var(--cs-color-focus-ring)" />

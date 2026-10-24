@@ -17,13 +17,13 @@ export const listSelectionRowVariants = cva([
   variants: {
     mode: {
       single: '',
-      multiple: '[--li-lead:var(--cs-size-check)] aria-checked:bg-accent-soft',
+      multiple: '[--li-lead:var(--cs-size-check)]',
     },
   },
   defaultVariants: { mode: 'single' },
 });
 
-/** The 18px box at the start of a multiple-mode row. Same box as Checkbox; decorative, the row carries aria-checked. */
+/** The 18px box at the start of a multiple-mode row. Same box as Checkbox; decorative, the row carries aria-checked. It is the checked row's one accent signal (single mode: the tick); fill and title stay neutral. */
 export const listSelectionIndicatorVariants = cva(
   'grid size-check flex-none place-items-center rounded-sm bg-surface-base text-accent-on shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] transition-[background-color] duration-120 ease-out group-aria-checked:bg-accent-solid group-aria-checked:shadow-none [&_svg]:size-icon-sm [&_svg]:stroke-3 [&_svg]:opacity-0 group-aria-checked:[&_svg]:opacity-100',
 );
@@ -33,6 +33,6 @@ export const listSelectionTickVariants = cva(
   'size-check flex-none text-accent-text opacity-0 transition-[opacity] duration-120 ease-out group-aria-checked:opacity-100',
 );
 
-export const listSelectionTitleVariants = cva('truncate text-ui-md text-text-primary group-aria-checked:text-accent-text');
+export const listSelectionTitleVariants = cva('truncate text-ui-md text-text-primary');
 
 export type ListSelectionVariantProps = VariantProps<typeof listSelectionRowVariants>;

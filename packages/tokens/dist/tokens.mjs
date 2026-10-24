@@ -5,47 +5,44 @@ export default {
     "prefix": "cs"
   },
   "hueSteps": [
-    25,
-    50,
-    100,
-    200,
-    300,
-    400,
-    500,
-    600,
-    700,
-    800,
-    900,
-    950
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
   ],
   "hueProfile": {
     "L": {
-      "25": 0.985,
-      "50": 0.965,
-      "100": 0.93,
-      "200": 0.88,
-      "300": 0.815,
-      "400": 0.735,
-      "500": 0.635,
-      "600": 0.525,
-      "700": 0.465,
-      "800": 0.385,
-      "900": 0.3,
-      "950": 0.23
+      "1": 0.965,
+      "2": 0.93,
+      "3": 0.88,
+      "4": 0.815,
+      "5": 0.735,
+      "6": 0.635,
+      "7": 0.525,
+      "8": 0.465,
+      "9": 0.385,
+      "10": 0.3,
+      "11": 0.23
     },
     "C": {
-      "25": 0.012,
-      "50": 0.024,
-      "100": 0.045,
-      "200": 0.075,
-      "300": 0.105,
-      "400": 0.13,
-      "500": 0.142,
-      "600": 0.135,
-      "700": 0.118,
-      "800": 0.095,
-      "900": 0.07,
-      "950": 0.05
+      "1": 0.024,
+      "2": 0.045,
+      "3": 0.075,
+      "4": 0.105,
+      "5": 0.13,
+      "6": 0.142,
+      "7": 0.135,
+      "8": 0.118,
+      "9": 0.095,
+      "10": 0.07,
+      "11": 0.05
     }
   },
   "hues": {
@@ -78,71 +75,51 @@ export default {
   },
   "neutral": {
     "name": "Graphite",
-    "hue": 260,
+    "hue": 0,
     "steps": {
-      "0": [
+      "1": [
         0.995,
-        0.001
+        0
       ],
-      "25": [
-        0.985,
-        0.002
+      "2": [
+        0.975,
+        0
       ],
-      "50": [
-        0.97,
-        0.003
+      "3": [
+        0.93,
+        0
       ],
-      "100": [
-        0.945,
-        0.004
+      "4": [
+        0.78,
+        0
       ],
-      "150": [
-        0.925,
-        0.005
+      "5": [
+        0.66,
+        0
       ],
-      "200": [
-        0.9,
-        0.006
+      "6": [
+        0.53,
+        0
       ],
-      "300": [
-        0.845,
-        0.008
-      ],
-      "400": [
-        0.65,
-        0.011
-      ],
-      "500": [
-        0.54,
-        0.012
-      ],
-      "600": [
-        0.48,
-        0.012
-      ],
-      "700": [
+      "7": [
         0.41,
-        0.012
+        0
       ],
-      "800": [
-        0.28,
-        0.011
+      "8": [
+        0.285,
+        0
       ],
-      "850": [
-        0.195,
-        0.01
+      "9": [
+        0.23,
+        0
       ],
-      "900": [
-        0.16,
-        0.009
+      "10": [
+        0.175,
+        0
       ],
-      "950": [
-        0.13,
-        0.008
-      ],
-      "1000": [
-        0.1,
-        0.007
+      "11": [
+        0.105,
+        0
       ]
     }
   },
@@ -165,45 +142,45 @@ export default {
   ],
   "themes": {
     "light": {
-      "bg.app": "neutral.50",
-      "bg.canvas": "neutral.100",
-      "bg.inset": "neutral.950/0.04",
-      "bg.scrim": "neutral.950/0.24",
-      "surface.base": "neutral.0",
-      "surface.raised": "neutral.25",
-      "surface.raised-translucent": "neutral.25",
-      "surface.translucent": "neutral.0",
-      "material.ultrathin": "neutral.0",
-      "material.thin": "neutral.0",
-      "material.regular": "neutral.0",
-      "material.thick": "neutral.0",
+      "bg.app": "neutral.2",
+      "bg.canvas": "neutral.3",
+      "bg.inset": "neutral.11/0.04",
+      "bg.scrim": "neutral.11/0.24",
+      "surface.base": "neutral.1",
+      "surface.raised": "neutral.1",
+      "surface.raised-translucent": "neutral.1",
+      "surface.translucent": "neutral.1",
+      "material.ultrathin": "neutral.1",
+      "material.thin": "neutral.1",
+      "material.regular": "neutral.1",
+      "material.thick": "neutral.1",
       "material.rim": "white/0",
-      "material.edge": "neutral.950/0",
+      "material.edge": "neutral.11/0",
       "material.specular": "white/0",
       "material.sheen": "white/0",
-      "text.primary": "neutral.950",
-      "text.secondary": "neutral.700",
-      "text.tertiary": "neutral.600",
-      "text.placeholder": "neutral.600",
-      "text.disabled": "neutral.400",
-      "text.inverse": "neutral.0",
-      "text.link": "accent.700",
-      "border.subtle": "neutral.950/0.05",
-      "border.default": "neutral.950/0.08",
-      "border.strong": "neutral.950/0.13",
-      "border.control": "neutral.400",
-      "fill.hover": "neutral.950/0.045",
-      "fill.pressed": "neutral.950/0.075",
-      "fill.selected": "neutral.950/0.11",
-      "control.off": "neutral.400",
-      "control.thumb": "neutral.0",
-      "control.raised": "neutral.0",
-      "control.raised-hover": "neutral.25",
-      "control.edge": "neutral.950/0.07",
-      "ink.solid": "neutral.900",
-      "ink.hover": "neutral.800",
-      "ink.on": "neutral.25",
-      "ink.on-muted": "neutral.25/0.75",
+      "text.primary": "neutral.11",
+      "text.secondary": "neutral.8",
+      "text.tertiary": "neutral.7",
+      "text.placeholder": "neutral.7",
+      "text.disabled": "neutral.5",
+      "text.inverse": "neutral.1",
+      "text.link": "accent.8",
+      "border.subtle": "neutral.11/0.05",
+      "border.default": "neutral.11/0.08",
+      "border.strong": "neutral.11/0.13",
+      "border.control": "neutral.5",
+      "fill.hover": "neutral.11/0.045",
+      "fill.pressed": "neutral.11/0.075",
+      "fill.selected": "neutral.11/0.11",
+      "control.off": "neutral.5",
+      "control.thumb": "neutral.1",
+      "control.raised": "neutral.1",
+      "control.raised-hover": "neutral.2",
+      "control.edge": "neutral.11/0.07",
+      "ink.solid": "neutral.10",
+      "ink.hover": "neutral.8",
+      "ink.on": "neutral.1",
+      "ink.on-muted": "neutral.1/0.75",
       "ink.kbd": "white/0.09",
       "swatch.edge": "black/0.1",
       "media.on": "white/1",
@@ -211,100 +188,100 @@ export default {
       "media.scrim": "black/0.55",
       "media.scrim-strong": "black/0.78",
       "media.shade": "black/1",
-      "chart.1": "accent.500",
-      "chart.2": "iris.600",
-      "chart.3": "mint.600",
-      "chart.4": "amber.600",
-      "accent.solid": "accent.600",
-      "accent.hover": "accent.700",
-      "accent.on": "neutral.0",
-      "accent.text": "accent.700",
-      "accent.soft": "accent.400/0.14",
-      "accent.tint": "accent.400/0.084",
-      "accent.border": "accent.400/0.5",
-      "accent.glow": "accent.500/0.2",
-      "accent.fill": "accent.700",
-      "accent.fill-hover": "accent.800",
-      "success.solid": "mint.600",
-      "success.on": "neutral.0",
-      "success.text": "mint.700",
-      "success.soft": "mint.300/0.22",
-      "warning.solid": "amber.500",
-      "warning.on": "neutral.1000",
-      "warning.text": "amber.700",
-      "warning.soft": "amber.300/0.3",
-      "danger.solid": "coral.600",
-      "danger.on": "neutral.0",
-      "danger.text": "coral.700",
-      "danger.soft": "coral.300/0.2",
-      "info.solid": "iris.600",
-      "info.on": "neutral.0",
-      "info.text": "iris.700",
-      "info.soft": "iris.300/0.2",
-      "diff.add": "mint.400/0.18",
-      "diff.remove": "coral.400/0.16",
-      "focus.ring": "accent.600",
-      "canvas.dot": "neutral.950/0.13",
-      "canvas.selection": "accent.600",
-      "canvas.handle": "neutral.0",
-      "canvas.selection-on": "neutral.0",
-      "canvas.guide": "coral.600",
-      "canvas.guide-on": "neutral.0",
-      "canvas.guide-user": "iris.600",
-      "canvas.hover": "accent.500/0.6",
-      "canvas.marquee": "accent.400/0.12",
-      "canvas.label": "neutral.600",
-      "canvas.checker-a": "neutral.0",
-      "canvas.checker-b": "neutral.200",
-      "canvas.artboard": "neutral.0",
-      "agent.glow": "accent.300/0.45",
-      "identity.coral": "coral.600",
-      "identity.iris": "iris.600",
-      "identity.mint": "mint.700",
-      "identity.amber": "amber.700",
-      "identity.slate": "neutral.600",
-      "identity.on": "neutral.0"
+      "chart.1": "accent.6",
+      "chart.2": "iris.7",
+      "chart.3": "mint.7",
+      "chart.4": "amber.7",
+      "accent.solid": "accent.7",
+      "accent.hover": "accent.8",
+      "accent.on": "neutral.1",
+      "accent.text": "accent.8",
+      "accent.soft": "accent.5/0.14",
+      "accent.tint": "accent.5/0.084",
+      "accent.border": "accent.5/0.5",
+      "accent.glow": "accent.6/0.2",
+      "accent.fill": "accent.8",
+      "accent.fill-hover": "accent.9",
+      "success.solid": "mint.7",
+      "success.on": "neutral.1",
+      "success.text": "mint.8",
+      "success.soft": "mint.4/0.22",
+      "warning.solid": "amber.6",
+      "warning.on": "neutral.11",
+      "warning.text": "amber.8",
+      "warning.soft": "amber.4/0.3",
+      "danger.solid": "coral.7",
+      "danger.on": "neutral.1",
+      "danger.text": "coral.8",
+      "danger.soft": "coral.4/0.2",
+      "info.solid": "iris.7",
+      "info.on": "neutral.1",
+      "info.text": "iris.8",
+      "info.soft": "iris.4/0.2",
+      "diff.add": "mint.5/0.18",
+      "diff.remove": "coral.5/0.16",
+      "focus.ring": "accent.7",
+      "canvas.dot": "neutral.11/0.13",
+      "canvas.selection": "accent.7",
+      "canvas.handle": "neutral.1",
+      "canvas.selection-on": "neutral.1",
+      "canvas.guide": "coral.7",
+      "canvas.guide-on": "neutral.1",
+      "canvas.guide-user": "iris.7",
+      "canvas.hover": "accent.6/0.6",
+      "canvas.marquee": "accent.5/0.12",
+      "canvas.label": "neutral.7",
+      "canvas.checker-a": "neutral.1",
+      "canvas.checker-b": "neutral.3",
+      "canvas.artboard": "neutral.1",
+      "agent.glow": "accent.4/0.45",
+      "identity.coral": "coral.7",
+      "identity.iris": "iris.7",
+      "identity.mint": "mint.8",
+      "identity.amber": "amber.8",
+      "identity.slate": "neutral.7",
+      "identity.on": "neutral.1"
     },
     "dark": {
-      "bg.app": "neutral.950",
-      "bg.canvas": "neutral.1000",
+      "bg.app": "neutral.10",
+      "bg.canvas": "neutral.11",
       "bg.inset": "black/0.3",
       "bg.scrim": "black/0.5",
-      "surface.base": "neutral.900",
-      "surface.raised": "neutral.850",
-      "surface.raised-translucent": "neutral.850",
-      "surface.translucent": "neutral.900",
-      "material.ultrathin": "neutral.850",
-      "material.thin": "neutral.850",
-      "material.regular": "neutral.850",
-      "material.thick": "neutral.850",
+      "surface.base": "neutral.9",
+      "surface.raised": "neutral.8",
+      "surface.raised-translucent": "neutral.8",
+      "surface.translucent": "neutral.9",
+      "material.ultrathin": "neutral.8",
+      "material.thin": "neutral.8",
+      "material.regular": "neutral.8",
+      "material.thick": "neutral.8",
       "material.rim": "white/0",
       "material.edge": "black/0",
       "material.specular": "white/0",
       "material.sheen": "white/0",
-      "text.primary": "neutral.25",
-      "text.secondary": "neutral.300",
-      "text.tertiary": "neutral.400",
-      "text.placeholder": "neutral.400",
-      "text.disabled": "neutral.500",
-      "text.inverse": "neutral.950",
-      "text.link": "accent.300",
+      "text.primary": "neutral.2",
+      "text.secondary": "neutral.4",
+      "text.tertiary": "neutral.5",
+      "text.placeholder": "neutral.5",
+      "text.disabled": "neutral.6",
+      "text.inverse": "neutral.10",
+      "text.link": "accent.4",
       "border.subtle": "white/0.05",
       "border.default": "white/0.07",
       "border.strong": "white/0.12",
-      "border.control": "neutral.500",
+      "border.control": "neutral.6",
       "fill.hover": "white/0.05",
       "fill.pressed": "white/0.08",
       "fill.selected": "white/0.12",
-      "control.off": "neutral.500",
-      "control.thumb": "neutral.0",
-      "control.raised": "neutral.850",
-      "control.raised-hover": "neutral.800",
+      "control.off": "neutral.6",
+      "control.thumb": "neutral.1",
+      "control.raised": "neutral.8",
+      "control.raised-hover": "neutral.7",
       "control.edge": "white/0.06",
-      "ink.solid": "neutral.700",
-      "ink.hover": "neutral.600",
-      "ink.on": "neutral.25",
-      "ink.on-muted": "neutral.25/0.75",
+      "ink.solid": "neutral.7",
+      "ink.hover": "neutral.6",
+      "ink.on": "neutral.1",
+      "ink.on-muted": "neutral.1/0.75",
       "ink.kbd": "white/0.09",
       "swatch.edge": "black/0.1",
       "media.on": "white/1",
@@ -312,109 +289,109 @@ export default {
       "media.scrim": "black/0.55",
       "media.scrim-strong": "black/0.78",
       "media.shade": "black/1",
-      "chart.1": "accent.500",
-      "chart.2": "iris.400",
-      "chart.3": "mint.400",
-      "chart.4": "amber.400",
-      "accent.solid": "accent.400",
-      "accent.hover": "accent.300",
-      "accent.on": "neutral.1000",
-      "accent.text": "accent.300",
-      "accent.soft": "accent.400/0.17",
-      "accent.tint": "accent.400/0.102",
-      "accent.border": "accent.400/0.45",
-      "accent.glow": "accent.400/0.2",
-      "accent.fill": "accent.400",
-      "accent.fill-hover": "accent.300",
-      "success.solid": "mint.400",
-      "success.on": "neutral.1000",
-      "success.text": "mint.300",
-      "success.soft": "mint.500/0.2",
-      "warning.solid": "amber.400",
-      "warning.on": "neutral.1000",
-      "warning.text": "amber.300",
-      "warning.soft": "amber.500/0.2",
-      "danger.solid": "coral.400",
-      "danger.on": "neutral.1000",
-      "danger.text": "coral.300",
-      "danger.soft": "coral.500/0.2",
-      "info.solid": "iris.400",
-      "info.on": "neutral.1000",
-      "info.text": "iris.300",
-      "info.soft": "iris.500/0.2",
-      "diff.add": "mint.500/0.18",
-      "diff.remove": "coral.500/0.18",
-      "focus.ring": "accent.400",
+      "chart.1": "accent.6",
+      "chart.2": "iris.5",
+      "chart.3": "mint.5",
+      "chart.4": "amber.5",
+      "accent.solid": "accent.5",
+      "accent.hover": "accent.4",
+      "accent.on": "neutral.11",
+      "accent.text": "accent.4",
+      "accent.soft": "accent.5/0.17",
+      "accent.tint": "accent.5/0.102",
+      "accent.border": "accent.5/0.45",
+      "accent.glow": "accent.5/0.2",
+      "accent.fill": "accent.5",
+      "accent.fill-hover": "accent.4",
+      "success.solid": "mint.5",
+      "success.on": "neutral.11",
+      "success.text": "mint.4",
+      "success.soft": "mint.6/0.2",
+      "warning.solid": "amber.5",
+      "warning.on": "neutral.11",
+      "warning.text": "amber.4",
+      "warning.soft": "amber.6/0.2",
+      "danger.solid": "coral.5",
+      "danger.on": "neutral.11",
+      "danger.text": "coral.4",
+      "danger.soft": "coral.6/0.2",
+      "info.solid": "iris.5",
+      "info.on": "neutral.11",
+      "info.text": "iris.4",
+      "info.soft": "iris.6/0.2",
+      "diff.add": "mint.6/0.18",
+      "diff.remove": "coral.6/0.18",
+      "focus.ring": "accent.5",
       "canvas.dot": "white/0.08",
-      "canvas.selection": "accent.500",
-      "canvas.handle": "neutral.0",
-      "canvas.selection-on": "neutral.1000",
-      "canvas.guide": "coral.500",
-      "canvas.guide-on": "neutral.1000",
-      "canvas.guide-user": "iris.400/0.8",
-      "canvas.hover": "accent.500/0.6",
-      "canvas.marquee": "accent.400/0.14",
-      "canvas.label": "neutral.400",
-      "canvas.checker-a": "neutral.800",
-      "canvas.checker-b": "neutral.700",
-      "canvas.artboard": "neutral.0",
-      "agent.glow": "accent.400/0.35",
-      "identity.coral": "coral.600",
-      "identity.iris": "iris.600",
-      "identity.mint": "mint.700",
-      "identity.amber": "amber.700",
-      "identity.slate": "neutral.600",
-      "identity.on": "neutral.0"
+      "canvas.selection": "accent.6",
+      "canvas.handle": "neutral.1",
+      "canvas.selection-on": "neutral.11",
+      "canvas.guide": "coral.6",
+      "canvas.guide-on": "neutral.11",
+      "canvas.guide-user": "iris.5/0.8",
+      "canvas.hover": "accent.6/0.6",
+      "canvas.marquee": "accent.5/0.14",
+      "canvas.label": "neutral.5",
+      "canvas.checker-a": "neutral.8",
+      "canvas.checker-b": "neutral.7",
+      "canvas.artboard": "neutral.1",
+      "agent.glow": "accent.5/0.35",
+      "identity.coral": "coral.7",
+      "identity.iris": "iris.7",
+      "identity.mint": "mint.8",
+      "identity.amber": "amber.8",
+      "identity.slate": "neutral.6",
+      "identity.on": "neutral.1"
     }
   },
   "resolved": {
     "light": {
       "bg.app": {
-        "hex": "#f4f5f7",
+        "hex": "#f7f7f7",
         "alpha": 1
       },
       "bg.canvas": {
-        "hex": "#ebedef",
+        "hex": "#e8e8e8",
         "alpha": 1
       },
       "bg.inset": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.04
       },
       "bg.scrim": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.24
       },
       "surface.base": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "surface.raised": {
-        "hex": "#f9fafb",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "surface.raised-translucent": {
-        "hex": "#f9fafb",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "surface.translucent": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "material.ultrathin": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "material.thin": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "material.regular": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "material.thick": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "material.rim": {
@@ -422,7 +399,7 @@ export default {
         "alpha": 0
       },
       "material.edge": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0
       },
       "material.specular": {
@@ -434,27 +411,27 @@ export default {
         "alpha": 0
       },
       "text.primary": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 1
       },
       "text.secondary": {
-        "hex": "#474b51",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "text.tertiary": {
-        "hex": "#5a5e65",
+        "hex": "#4a4a4a",
         "alpha": 1
       },
       "text.placeholder": {
-        "hex": "#5a5e65",
+        "hex": "#4a4a4a",
         "alpha": 1
       },
       "text.disabled": {
-        "hex": "#8b8f96",
+        "hex": "#929292",
         "alpha": 1
       },
       "text.inverse": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "text.link": {
@@ -462,67 +439,67 @@ export default {
         "alpha": 1
       },
       "border.subtle": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.05
       },
       "border.default": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.08
       },
       "border.strong": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.13
       },
       "border.control": {
-        "hex": "#8b8f96",
+        "hex": "#929292",
         "alpha": 1
       },
       "fill.hover": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.045
       },
       "fill.pressed": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.075
       },
       "fill.selected": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.11
       },
       "control.off": {
-        "hex": "#8b8f96",
+        "hex": "#929292",
         "alpha": 1
       },
       "control.thumb": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "control.raised": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "control.raised-hover": {
-        "hex": "#f9fafb",
+        "hex": "#f7f7f7",
         "alpha": 1
       },
       "control.edge": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.07
       },
       "ink.solid": {
-        "hex": "#0b0d11",
+        "hex": "#101010",
         "alpha": 1
       },
       "ink.hover": {
-        "hex": "#26292e",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "ink.on": {
-        "hex": "#f9fafb",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "ink.on-muted": {
-        "hex": "#f9fafb",
+        "hex": "#fdfdfd",
         "alpha": 0.75
       },
       "ink.kbd": {
@@ -578,7 +555,7 @@ export default {
         "alpha": 1
       },
       "accent.on": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "accent.text": {
@@ -614,7 +591,7 @@ export default {
         "alpha": 1
       },
       "success.on": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "success.text": {
@@ -630,7 +607,7 @@ export default {
         "alpha": 1
       },
       "warning.on": {
-        "hex": "#030305",
+        "hex": "#040404",
         "alpha": 1
       },
       "warning.text": {
@@ -646,7 +623,7 @@ export default {
         "alpha": 1
       },
       "danger.on": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "danger.text": {
@@ -662,7 +639,7 @@ export default {
         "alpha": 1
       },
       "info.on": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "info.text": {
@@ -686,7 +663,7 @@ export default {
         "alpha": 1
       },
       "canvas.dot": {
-        "hex": "#06070a",
+        "hex": "#040404",
         "alpha": 0.13
       },
       "canvas.selection": {
@@ -694,11 +671,11 @@ export default {
         "alpha": 1
       },
       "canvas.handle": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "canvas.selection-on": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "canvas.guide": {
@@ -706,7 +683,7 @@ export default {
         "alpha": 1
       },
       "canvas.guide-on": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "canvas.guide-user": {
@@ -722,19 +699,19 @@ export default {
         "alpha": 0.12
       },
       "canvas.label": {
-        "hex": "#5a5e65",
+        "hex": "#4a4a4a",
         "alpha": 1
       },
       "canvas.checker-a": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "canvas.checker-b": {
-        "hex": "#dcdee2",
+        "hex": "#e8e8e8",
         "alpha": 1
       },
       "canvas.artboard": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "agent.glow": {
@@ -758,21 +735,21 @@ export default {
         "alpha": 1
       },
       "identity.slate": {
-        "hex": "#5a5e65",
+        "hex": "#4a4a4a",
         "alpha": 1
       },
       "identity.on": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       }
     },
     "dark": {
       "bg.app": {
-        "hex": "#06070a",
+        "hex": "#101010",
         "alpha": 1
       },
       "bg.canvas": {
-        "hex": "#030305",
+        "hex": "#040404",
         "alpha": 1
       },
       "bg.inset": {
@@ -784,35 +761,35 @@ export default {
         "alpha": 0.5
       },
       "surface.base": {
-        "hex": "#0b0d11",
+        "hex": "#1d1d1d",
         "alpha": 1
       },
       "surface.raised": {
-        "hex": "#12151a",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "surface.raised-translucent": {
-        "hex": "#12151a",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "surface.translucent": {
-        "hex": "#0b0d11",
+        "hex": "#1d1d1d",
         "alpha": 1
       },
       "material.ultrathin": {
-        "hex": "#12151a",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "material.thin": {
-        "hex": "#12151a",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "material.regular": {
-        "hex": "#12151a",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "material.thick": {
-        "hex": "#12151a",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "material.rim": {
@@ -832,27 +809,27 @@ export default {
         "alpha": 0
       },
       "text.primary": {
-        "hex": "#f9fafb",
+        "hex": "#f7f7f7",
         "alpha": 1
       },
       "text.secondary": {
-        "hex": "#c9ccd1",
+        "hex": "#b7b7b7",
         "alpha": 1
       },
       "text.tertiary": {
-        "hex": "#8b8f96",
+        "hex": "#929292",
         "alpha": 1
       },
       "text.placeholder": {
-        "hex": "#8b8f96",
+        "hex": "#929292",
         "alpha": 1
       },
       "text.disabled": {
-        "hex": "#6b6f76",
+        "hex": "#6c6c6c",
         "alpha": 1
       },
       "text.inverse": {
-        "hex": "#06070a",
+        "hex": "#101010",
         "alpha": 1
       },
       "text.link": {
@@ -872,7 +849,7 @@ export default {
         "alpha": 0.12
       },
       "border.control": {
-        "hex": "#6b6f76",
+        "hex": "#6c6c6c",
         "alpha": 1
       },
       "fill.hover": {
@@ -888,19 +865,19 @@ export default {
         "alpha": 0.12
       },
       "control.off": {
-        "hex": "#6b6f76",
+        "hex": "#6c6c6c",
         "alpha": 1
       },
       "control.thumb": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "control.raised": {
-        "hex": "#12151a",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "control.raised-hover": {
-        "hex": "#26292e",
+        "hex": "#4a4a4a",
         "alpha": 1
       },
       "control.edge": {
@@ -908,19 +885,19 @@ export default {
         "alpha": 0.06
       },
       "ink.solid": {
-        "hex": "#474b51",
+        "hex": "#4a4a4a",
         "alpha": 1
       },
       "ink.hover": {
-        "hex": "#5a5e65",
+        "hex": "#6c6c6c",
         "alpha": 1
       },
       "ink.on": {
-        "hex": "#f9fafb",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "ink.on-muted": {
-        "hex": "#f9fafb",
+        "hex": "#fdfdfd",
         "alpha": 0.75
       },
       "ink.kbd": {
@@ -976,7 +953,7 @@ export default {
         "alpha": 1
       },
       "accent.on": {
-        "hex": "#030305",
+        "hex": "#040404",
         "alpha": 1
       },
       "accent.text": {
@@ -1012,7 +989,7 @@ export default {
         "alpha": 1
       },
       "success.on": {
-        "hex": "#030305",
+        "hex": "#040404",
         "alpha": 1
       },
       "success.text": {
@@ -1028,7 +1005,7 @@ export default {
         "alpha": 1
       },
       "warning.on": {
-        "hex": "#030305",
+        "hex": "#040404",
         "alpha": 1
       },
       "warning.text": {
@@ -1044,7 +1021,7 @@ export default {
         "alpha": 1
       },
       "danger.on": {
-        "hex": "#030305",
+        "hex": "#040404",
         "alpha": 1
       },
       "danger.text": {
@@ -1060,7 +1037,7 @@ export default {
         "alpha": 1
       },
       "info.on": {
-        "hex": "#030305",
+        "hex": "#040404",
         "alpha": 1
       },
       "info.text": {
@@ -1092,11 +1069,11 @@ export default {
         "alpha": 1
       },
       "canvas.handle": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "canvas.selection-on": {
-        "hex": "#030305",
+        "hex": "#040404",
         "alpha": 1
       },
       "canvas.guide": {
@@ -1104,7 +1081,7 @@ export default {
         "alpha": 1
       },
       "canvas.guide-on": {
-        "hex": "#030305",
+        "hex": "#040404",
         "alpha": 1
       },
       "canvas.guide-user": {
@@ -1120,19 +1097,19 @@ export default {
         "alpha": 0.14
       },
       "canvas.label": {
-        "hex": "#8b8f96",
+        "hex": "#929292",
         "alpha": 1
       },
       "canvas.checker-a": {
-        "hex": "#26292e",
+        "hex": "#2a2a2a",
         "alpha": 1
       },
       "canvas.checker-b": {
-        "hex": "#474b51",
+        "hex": "#4a4a4a",
         "alpha": 1
       },
       "canvas.artboard": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "agent.glow": {
@@ -1156,103 +1133,93 @@ export default {
         "alpha": 1
       },
       "identity.slate": {
-        "hex": "#5a5e65",
+        "hex": "#6c6c6c",
         "alpha": 1
       },
       "identity.on": {
-        "hex": "#fdfdfe",
+        "hex": "#fdfdfd",
         "alpha": 1
       }
     }
   },
   "primitiveHex": {
     "neutral": {
-      "0": "#fdfdfe",
-      "25": "#f9fafb",
-      "50": "#f4f5f7",
-      "100": "#ebedef",
-      "150": "#e4e6ea",
-      "200": "#dcdee2",
-      "300": "#c9ccd1",
-      "400": "#8b8f96",
-      "500": "#6b6f76",
-      "600": "#5a5e65",
-      "700": "#474b51",
-      "800": "#26292e",
-      "850": "#12151a",
-      "900": "#0b0d11",
-      "950": "#06070a",
-      "1000": "#030305"
+      "1": "#fdfdfd",
+      "2": "#f7f7f7",
+      "3": "#e8e8e8",
+      "4": "#b7b7b7",
+      "5": "#929292",
+      "6": "#6c6c6c",
+      "7": "#4a4a4a",
+      "8": "#2a2a2a",
+      "9": "#1d1d1d",
+      "10": "#101010",
+      "11": "#040404"
     },
     "accent": {
-      "25": "#f1fdfe",
-      "50": "#e2f9fb",
-      "100": "#c6f1f6",
-      "200": "#9be6ef",
-      "300": "#63d6e3",
-      "400": "#00bfcf",
-      "500": "#009daa",
-      "600": "#007983",
-      "700": "#00666e",
-      "800": "#004d54",
-      "900": "#00353a",
-      "950": "#002226"
+      "1": "#e2f9fb",
+      "2": "#c6f1f6",
+      "3": "#9be6ef",
+      "4": "#63d6e3",
+      "5": "#00bfcf",
+      "6": "#009daa",
+      "7": "#007983",
+      "8": "#00666e",
+      "9": "#004d54",
+      "10": "#00353a",
+      "11": "#002226"
     },
     "mint": {
-      "25": "#f4fdf7",
-      "50": "#e7f9ed",
-      "100": "#d0f2dd",
-      "200": "#aee7c5",
-      "300": "#85d7a9",
-      "400": "#56c289",
-      "500": "#1ba468",
-      "600": "#007f4e",
-      "700": "#006b41",
-      "800": "#005230",
-      "900": "#003820",
-      "950": "#032414"
+      "1": "#e7f9ed",
+      "2": "#d0f2dd",
+      "3": "#aee7c5",
+      "4": "#85d7a9",
+      "5": "#56c289",
+      "6": "#1ba468",
+      "7": "#007f4e",
+      "8": "#006b41",
+      "9": "#005230",
+      "10": "#003820",
+      "11": "#032414"
     },
     "amber": {
-      "25": "#fff9f2",
-      "50": "#fef1e2",
-      "100": "#fbe4c8",
-      "200": "#f7d0a1",
-      "300": "#edb774",
-      "400": "#db9b40",
-      "500": "#bc7b00",
-      "600": "#925e00",
-      "700": "#7b4f00",
-      "800": "#5e3b00",
-      "900": "#412700",
-      "950": "#2b1800"
+      "1": "#fef1e2",
+      "2": "#fbe4c8",
+      "3": "#f7d0a1",
+      "4": "#edb774",
+      "5": "#db9b40",
+      "6": "#bc7b00",
+      "7": "#925e00",
+      "8": "#7b4f00",
+      "9": "#5e3b00",
+      "10": "#412700",
+      "11": "#2b1800"
     },
     "coral": {
-      "25": "#fff8f8",
-      "50": "#ffefee",
-      "100": "#ffdfdc",
-      "200": "#ffc8c3",
-      "300": "#ffa8a0",
-      "400": "#f0877f",
-      "500": "#d3635e",
-      "600": "#aa4541",
-      "700": "#903a36",
-      "800": "#6e2c29",
-      "900": "#4b1d1b",
-      "950": "#311211"
+      "1": "#ffefee",
+      "2": "#ffdfdc",
+      "3": "#ffc8c3",
+      "4": "#ffa8a0",
+      "5": "#f0877f",
+      "6": "#d3635e",
+      "7": "#aa4541",
+      "8": "#903a36",
+      "9": "#6e2c29",
+      "10": "#4b1d1b",
+      "11": "#311211"
     },
     "iris": {
-      "25": "#faf9ff",
-      "50": "#f4f1ff",
-      "100": "#e9e3ff",
-      "200": "#dad0ff",
-      "300": "#c7b5ff",
-      "400": "#af98f2",
-      "500": "#9277d7",
-      "600": "#7157af",
-      "700": "#5f4994",
-      "800": "#483770",
-      "900": "#31254d",
-      "950": "#1f1732"
+      "1": "#f4f1ff",
+      "2": "#e9e3ff",
+      "3": "#dad0ff",
+      "4": "#c7b5ff",
+      "5": "#af98f2",
+      "6": "#9277d7",
+      "7": "#7157af",
+      "8": "#5f4994",
+      "9": "#483770",
+      "10": "#31254d",
+      "11": "#1f1732"
     }
   },
   "space": {
@@ -1743,17 +1710,17 @@ export default {
   },
   "elevation": {
     "light": {
-      "1": "0 1px 2px oklch(0.2 0.02 260 / 0.06)",
-      "2": "0 1px 2px oklch(0.2 0.02 260 / 0.05), 0 4px 12px -2px oklch(0.2 0.02 260 / 0.08)",
-      "3": "0 2px 4px oklch(0.2 0.02 260 / 0.04), 0 12px 28px -6px oklch(0.2 0.02 260 / 0.12)",
-      "4": "0 4px 8px oklch(0.2 0.02 260 / 0.05), 0 24px 48px -12px oklch(0.2 0.02 260 / 0.18)",
-      "5": "0 8px 16px oklch(0.2 0.02 260 / 0.06), 0 40px 80px -16px oklch(0.2 0.02 260 / 0.28)",
+      "1": "0 1px 2px oklch(0.2 0 0 / 0.06)",
+      "2": "0 1px 2px oklch(0.2 0 0 / 0.05), 0 4px 12px -2px oklch(0.2 0 0 / 0.08)",
+      "3": "0 2px 4px oklch(0.2 0 0 / 0.04), 0 12px 28px -6px oklch(0.2 0 0 / 0.12)",
+      "4": "0 4px 8px oklch(0.2 0 0 / 0.05), 0 24px 48px -12px oklch(0.2 0 0 / 0.18)",
+      "5": "0 8px 16px oklch(0.2 0 0 / 0.06), 0 40px 80px -16px oklch(0.2 0 0 / 0.28)",
       "thumb": "0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
       "thumb-sm": "0 2px 6px oklch(0 0 0 / 0.2)",
       "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25)",
-      "card": "0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.18)",
-      "lift": "0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)",
-      "well": "0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)",
+      "card": "0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0 0 / 0.18)",
+      "lift": "0 14px 30px -14px oklch(0.2 0 0 / 0.3)",
+      "well": "0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0 0 / 0.25)",
       "agent": "0 8px 30px -12px var(--cs-color-agent-glow)",
       "artboard": "0 6px 20px -8px oklch(0 0 0 / 0.2)"
     },
@@ -1766,11 +1733,11 @@ export default {
       "thumb": "0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
       "thumb-sm": "0 2px 6px oklch(0 0 0 / 0.2)",
       "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25)",
-      "card": "0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.18)",
-      "lift": "0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)",
-      "well": "0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)",
+      "card": "0 1px 2px oklch(0 0 0 / 0.4), 0 12px 32px -16px oklch(0 0 0 / 0.6)",
+      "lift": "0 14px 30px -14px oklch(0 0 0 / 0.7)",
+      "well": "0 1px 2px oklch(0 0 0 / 0.4), 0 6px 18px -10px oklch(0 0 0 / 0.55)",
       "agent": "0 8px 30px -12px var(--cs-color-agent-glow)",
-      "artboard": "0 6px 20px -8px oklch(0 0 0 / 0.2)"
+      "artboard": "0 6px 20px -8px oklch(0 0 0 / 0.5)"
     }
   },
   "blur": {
@@ -1946,7 +1913,7 @@ export default {
     ],
     [
       "text.primary",
-      "material.regular@accent.400",
+      "material.regular@accent.5",
       4.5,
       "panel over saturated content"
     ],
@@ -2018,7 +1985,7 @@ export default {
     ],
     [
       "text.primary",
-      "surface.translucent@accent.400",
+      "surface.translucent@accent.5",
       4.5,
       "translucent surface over saturated content"
     ],

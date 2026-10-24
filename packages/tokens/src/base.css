@@ -17,6 +17,17 @@ body {
   font-feature-settings: "cv11", "ss01";
 }
 [hidden] { display: none !important; }
+
+/* ── Corner smoothing ─────────────────────────────────────────────
+   Progressive enhancement: with CSS corner-shape (Chromium 139+) every rounded-* element gets squircle
+   corners; Safari and Firefox ignore this and keep circular arcs. The radius tokens are scaled by
+   --cs-corner-scale in the token file (inside the same @supports) so corners do not look smaller.
+   Circles and pills (rounded-full) stay circular; overlays that inherit their parent's radius inherit
+   the shape too. */
+@supports (corner-shape: squircle) {
+  [class*="rounded-"]:not([class*="rounded-full"], [class*="rounded-none"]) { corner-shape: squircle; }
+  [class*="rounded-[inherit]"], .cs-agent::after { corner-shape: inherit; }
+}
 button, input, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
 button { cursor: pointer; background: none; border: 0; padding: 0; }
 :where(button, [role="button"], a, input, textarea, select, [tabindex]):focus-visible { outline: none; box-shadow: var(--cs-focus); }

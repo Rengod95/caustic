@@ -18,9 +18,9 @@ export const menuItemVariants = cva([
   defaultVariants: { tone: 'default' },
 });
 
-/** Leading icon / swatch: 16px, tertiary; accent when selected, danger for destructive items. */
+/** Leading icon / swatch: 16px, tertiary; danger for destructive items. A selected item carries one accent signal, its fill, so the icon stays neutral. */
 export const menuIconVariants = cva(
-  'inline-flex shrink-0 items-center text-text-tertiary [&_svg]:size-icon-md group-data-[selected]:text-accent-text group-data-[tone=danger]:text-danger-text',
+  'inline-flex shrink-0 items-center text-text-tertiary [&_svg]:size-icon-md group-data-[tone=danger]:text-danger-text',
 );
 
 /** Trailing meta text or shortcut chord, pushed to the end. */

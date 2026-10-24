@@ -55,8 +55,8 @@ export default defineFixture({
           </CardHeader>
           <CardBody>
             <div className="flex gap-1.5">
-              <TokenChip swatch="var(--cs-accent-400)">accent/solid</TokenChip>
-              <TokenChip swatch="var(--cs-neutral-900)">surface/base</TokenChip>
+              <TokenChip swatch="var(--cs-accent-5)">accent/solid</TokenChip>
+              <TokenChip swatch="var(--cs-neutral-10)">surface/base</TokenChip>
               <TokenChip>+12</TokenChip>
             </div>
           </CardBody>

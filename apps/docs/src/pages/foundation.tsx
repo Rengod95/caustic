@@ -40,10 +40,10 @@ function ColorPage() {
   );
   return (
     <>
-      <Section id="ramps" title="Ramps" description="Five chromatic ramps share one lightness and chroma curve, so changing the accent hue keeps contrast. Hex values are the defaults (accent at hue 205).">
+      <Section id="ramps" title="Ramps" description="Six ramps of 11 steps each, 1 (lightest) to 11 (darkest). The five chromatic ramps share one lightness and chroma curve, so changing the accent hue keeps contrast. Hex values are the defaults (accent at hue 205).">
         <div className="grid gap-6">
           {Object.entries(T.hues).map(([key, h]) => ramp(key, h.name, `${h.role} · hue ${h.hue}`, Boolean(h.live), steps))}
-          {ramp('neutral', T.neutral.name, `Surfaces, text and borders · hue ${T.neutral.hue}`, false, Object.keys(T.primitiveHex.neutral ?? {}))}
+          {ramp('neutral', T.neutral.name, 'Surfaces, text and borders · true neutral, chroma 0', false, Object.keys(T.primitiveHex.neutral ?? {}))}
         </div>
       </Section>
       <Section id="spectrum" title="Agent spectrum" description="Three stops that only mark agent presence, work or provenance (P2). Never decoration.">
@@ -210,7 +210,7 @@ function SpacePage() {
           <div key={k} className="grid grid-cols-[6rem_3.5rem_1fr] items-center gap-3 max-[520px]:grid-cols-[4.5rem_3rem_1fr]">
             <Mono>space-{k}</Mono>
             <span className="font-mono text-mono-sm text-text-tertiary">{px}px</span>
-            <span aria-hidden className="h-3 max-w-full rounded-xs bg-accent-fill" style={{ width: Math.max(px, 1) }} />
+            <span aria-hidden className="h-3 max-w-full rounded-xs bg-border-control" style={{ width: Math.max(px, 1) }} />
           </div>
         ))}
       </div>
@@ -228,13 +228,13 @@ function RadiusPage() {
   const studio = Object.entries(T.studio).filter(([k]) => k.endsWith('radius'));
   const tile = (name: string, px: number, varName: string) => (
     <div key={name} className="grid justify-items-start gap-1.5">
-      <span aria-hidden className="size-18 bg-accent-soft shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-border)]" style={{ borderRadius: `var(${varName})` }} />
+      <span aria-hidden className="size-18 bg-fill-selected" style={{ borderRadius: `var(${varName})`, cornerShape: px === 999 ? undefined : 'squircle' } as CSSProperties} />
       <Mono>{name}</Mono><span className="font-mono text-mono-sm text-text-tertiary">{px === 999 ? 'full' : `${px}px`}</span>
     </div>
   );
   return (
     <>
-      <Section id="scale" title="Scale" description="Concentric corners (P5): an inner radius never exceeds its parent radius minus the parent padding.">
+      <Section id="scale" title="Scale" description="Concentric corners (P5): an inner radius never exceeds its parent radius minus the parent padding. Where the browser supports CSS corner-shape (Chromium 139+), corners are squircles and the radii are scaled 1.2x so they do not look smaller; the values shown are the nominal radii.">
         <div className="grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-4">{scale.map(([k, px]) => tile(`rounded-${k}`, px, `--cs-radius-${k}`))}</div>
       </Section>
       <Section id="shell" title="Studio shell" description="Named radii for the app shell.">

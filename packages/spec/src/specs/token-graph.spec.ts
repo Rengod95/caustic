@@ -83,7 +83,7 @@ export default defineSpec({
     minHit: 24,
     attrs: { root: ['aria-label'], node: ['aria-pressed', 'aria-describedby'], wires: ['aria-hidden'] },
     notes: [
-      'Nodes are native buttons with aria-pressed (traced). Each node\'s accessible description lists its sources and consumers ("depends on color.accent.600, color.accent.400; used by button.accent.bg") so the graph is available without the wires.',
+      'Nodes are native buttons with aria-pressed (traced). Each node\'s accessible description lists its sources and consumers ("depends on color.accent.7, color.accent.5; used by button.accent.bg") so the graph is available without the wires.',
       'A missing reference is stated in text ("missing reference") and the node name is read as is; the danger color is not the only signal.',
       'Port dots and wires are decorative.',
       'The traced state is not only color: aria-pressed, the 1.5px accent ring and the thicker wires all change.',
@@ -95,11 +95,11 @@ export default defineSpec({
   examples: [{ id: 'dependency-graph', title: 'Token dependency graph', doc: 'token-graph#token-dependency-graph' }],
   usage: [
     'Fixture render(props): aria-label "Token dependency graph"; tiers "Primitive" (start), "Semantic" (center, 38%), "Component" (end); defaultValue "s1".',
-    'Nodes (id, x%, y%, title, description, swatch): p1 3,18 "color.accent.600" "primitive" accent-600; p2 3,42 "color.accent.400" "primitive" accent-400; p3 3,66 "radius.3xl" "22px"; s1 37,14 "color.accent.solid" "light → 600 · dark → 400" accent solid; s2 37,40 "color.focus.ring" "light → 600 · dark → 400" focus ring; s3 37,66 "radius.panel" "→ radius.3xl"; s4 37,84 "color.brand.legacy" "missing reference" (missing); c1 71,18 "button.accent.bg" "Button / Accent" accent solid; c2 71,42 "input.focus" "Input / Focus"; c3 71,66 "inspector.radius" "Inspector". Item-level props (traced, missing) apply to the FIRST node in probes.',
+    'Nodes (id, x%, y%, title, description, swatch): p1 3,18 "color.accent.7" "primitive" accent-7; p2 3,42 "color.accent.5" "primitive" accent-5; p3 3,66 "radius.3xl" "22px"; s1 37,14 "color.accent.solid" "light → 600 · dark → 400" accent solid; s2 37,40 "color.focus.ring" "light → 600 · dark → 400" focus ring; s3 37,66 "radius.panel" "→ radius.3xl"; s4 37,84 "color.brand.legacy" "missing reference" (missing); c1 71,18 "button.accent.bg" "Button / Accent" accent solid; c2 71,42 "input.focus" "Input / Focus"; c3 71,66 "inspector.radius" "Inspector". Item-level props (traced, missing) apply to the FIRST node in probes.',
     'Edges: [p1,s1] [p2,s1] [p1,s2] [p2,s2] [p3,s3] [s1,c1] [s2,c2] [s3,c3] [s4,c1]. Wire path from source output port (right edge, vertical center) to target input port (left edge): M x1 y1 C mx y1, mx y2, x2 y2 with mx the midpoint of x1 and x2.',
     'Initial trace is s1: s1, p1, p2, c1 are lit (s4 is missing so it is never lit; the wire s4 to c1 is not traced). The consumer decides how many edges to light; the component derives upstream and downstream from the edges.',
     'The example captures the canvas after the first layout and fonts; the "click a node to trace" caption is hidden in the frame. Wires are drawn in an effect after measuring the DOM; the specimen waits one animation frame and font readiness.',
-    'Colors in swatches are data: pass them as --swatch custom properties (var(--cs-accent-600) etc. in the specimen).',
+    'Colors in swatches are data: pass them as --swatch custom properties (var(--cs-accent-7) etc. in the specimen).',
     'Alternative reading: this is a visualization, but nodes, ports and wires are reusable for any three-tier dependency view; position data stays with the consumer.',
   ],
 });
