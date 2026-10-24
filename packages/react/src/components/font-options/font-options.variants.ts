@@ -22,7 +22,7 @@ export const fontOptionsFeatureVariants = cva([
   'group inline-flex h-chip-h items-center gap-1.5 rounded-md px-2 text-ui-sm font-normal whitespace-nowrap text-text-primary outline-none',
   'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-[background-color,box-shadow,color] duration-120 ease-out motion-reduce:transition-none',
   'hover:bg-fill-hover focus-visible:shadow-focus',
-  'aria-pressed:bg-accent-soft aria-pressed:text-accent-text aria-pressed:shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]',
+  'aria-pressed:bg-accent-soft aria-pressed:text-accent-text',
   'disabled:pointer-events-none disabled:opacity-42',
 ]);
 

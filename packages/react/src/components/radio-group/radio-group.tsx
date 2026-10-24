@@ -54,7 +54,7 @@ export function RadioGroupItem({ value, disabled, className, children, ...props 
       aria-checked={checked} tabIndex={checked || (!ctx?.value && !off) ? 0 : -1} disabled={off}
       onClick={() => ctx?.select(value)}
       className={cn(
-        'inline-grid size-check shrink-0 place-items-center rounded-full bg-surface-base shadow-[inset_0_0_0_1.5px_var(--cs-color-border-control)]',
+        'inline-grid size-check shrink-0 place-items-center rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
         'outline-none focus-visible:shadow-focus data-[state=checked]:bg-accent-solid data-[state=checked]:shadow-none disabled:opacity-42',
         className,
       )}

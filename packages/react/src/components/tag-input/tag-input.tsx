@@ -65,10 +65,10 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
       data-invalid={isInvalid || undefined}
       data-disabled={isDisabled || undefined}
       className={cn(
-        'frost flex min-h-field-md min-w-0 cursor-text flex-wrap items-center gap-1.5 rounded-xl bg-surface-translucent px-2 py-1.5 text-ui transition-[box-shadow] duration-120 ease-out',
-        'shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-1)]',
-        'focus-within:shadow-[var(--cs-focus-field),var(--cs-elevation-1)]',
-        'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1.5px_var(--cs-color-danger-solid)]',
+        'flex min-h-field-md min-w-0 cursor-text flex-wrap items-center gap-1.5 rounded-xl bg-surface-translucent px-2 py-1.5 text-ui transition-[box-shadow] duration-120 ease-out',
+        'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+        'focus-within:shadow-[var(--cs-focus-field)]',
+        'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-42',
         containerClassName,
       )}

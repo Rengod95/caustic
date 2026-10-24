@@ -8,12 +8,12 @@ export const themeGalleryVariants = cva('grid grid-cols-[repeat(auto-fill,minmax
  */
 export const themeGalleryItemVariants = cva([
   'grid overflow-hidden rounded-2xl bg-surface-base text-left font-ui text-ui text-text-primary outline-none',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-2)]',
+  'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
   'transition-[transform,box-shadow] duration-base ease-spring motion-reduce:transition-none',
-  'hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-3)] motion-reduce:hover:translate-y-0',
-  'aria-checked:shadow-[var(--cs-focus),inset_0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-2),var(--cs-elevation-3)]',
-  'aria-checked:hover:shadow-[var(--cs-focus),inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-3)]',
-  'focus-visible:shadow-[var(--cs-focus),inset_0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-2),var(--cs-elevation-3)]',
+  'hover:-translate-y-0.5 hover:shadow-[var(--cs-elevation-3)] motion-reduce:hover:translate-y-0',
+  'aria-checked:shadow-[var(--cs-focus),var(--cs-elevation-3)]',
+  'aria-checked:hover:shadow-[var(--cs-focus),var(--cs-elevation-3)]',
+  'focus-visible:shadow-[var(--cs-focus),var(--cs-elevation-3)]',
 ]);
 
 export const themeGalleryPreviewVariants = cva(

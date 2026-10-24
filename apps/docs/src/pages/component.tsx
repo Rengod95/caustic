@@ -81,7 +81,7 @@ function Playground({ spec, fx }: { spec: Spec; fx: Fixture }) {
     return <Specimen title="Default"><Boundary label={`${spec.id} playground`}>{frameOf(fx)(fx.render({}))}</Boundary></Specimen>;
   }
   return (
-    <div className="grid min-w-0 gap-3 rounded-3xl bg-surface-base p-3 shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-2)] min-[1100px]:grid-cols-[minmax(0,1fr)_16rem]">
+    <div className="grid min-w-0 gap-3 rounded-3xl bg-surface-base p-3 shadow-[0_0_0_1px_var(--cs-color-border-subtle)] min-[1100px]:grid-cols-[minmax(0,1fr)_16rem]">
       <div className="canvas-grid relative grid min-h-40 min-w-0 content-center justify-items-start overflow-auto rounded-2xl p-5" data-testid="playground-stage">
         <Boundary key={JSON.stringify([values, flags])} label={`${spec.id} playground`}>{frameOf(fx)(fx.render(props))}</Boundary>
       </div>
@@ -246,7 +246,7 @@ export function ComponentPage({ id }: { id: string }) {
       </Section>
 
       <Section id="anatomy" title="Anatomy" description="Slots are the parts the gateway measures. Each carries a data-slot attribute.">
-        <div className="rounded-2xl bg-surface-base p-4 shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]"><SlotTree spec={spec} /></div>
+        <div className="rounded-2xl bg-surface-base p-4 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]"><SlotTree spec={spec} /></div>
       </Section>
 
       <Section id="variants" title="Variants & sizes">
@@ -314,7 +314,7 @@ export function ComponentPage({ id }: { id: string }) {
         <Section id="policies" title="Policies applied" description="Foundation policies the gateway checks for this component.">
           <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,17rem),1fr))] gap-3">
             {spec.policies.map(p => (
-              <div key={p} className="grid gap-1 rounded-2xl bg-surface-base p-3.5 shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]">
+              <div key={p} className="grid gap-1 rounded-2xl bg-surface-base p-3.5 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]">
                 <div className="flex items-center gap-2"><Badge tone="accent" shape="square">{p}</Badge><span className="font-ui text-ui-strong">{policies[p].title}</span></div>
                 <p className="m-0 font-ui text-ui-dense-relaxed text-text-secondary">{policies[p].rule}</p>
               </div>

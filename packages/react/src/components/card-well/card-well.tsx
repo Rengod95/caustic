@@ -38,7 +38,7 @@ export function CardWellPanel({ className, ...props }: ComponentProps<'div'>) {
       data-slot="card-well-panel"
       className={cn(
         'grid min-w-0 gap-2.5 rounded-well-inner bg-surface-base px-inset-regular-x py-inset-regular-y font-ui text-ui-relaxed text-text-secondary',
-        'shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-well)] [&_p]:m-0',
+        'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] [&_p]:m-0',
         className,
       )}
       {...props}

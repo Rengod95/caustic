@@ -3,11 +3,11 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // One focus edge (P9): the container swaps its hairline for focus-field; the native textarea draws nothing.
 export const textareaVariants = cva(
   [
-    'frost grid min-w-0 cursor-text rounded-xl bg-surface-translucent transition-[box-shadow,background-color] duration-120 ease-out',
-    'shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-1)]',
-    'hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong),var(--cs-elevation-1)]',
-    'focus-within:shadow-[var(--cs-focus-field),var(--cs-elevation-1)] hover:focus-within:shadow-[var(--cs-focus-field),var(--cs-elevation-1)]',
-    'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1.5px_var(--cs-color-danger-solid)]',
+    'grid min-w-0 cursor-text rounded-xl bg-surface-translucent transition-[box-shadow,background-color] duration-120 ease-out',
+    'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+    'hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+    'focus-within:shadow-[var(--cs-focus-field)] hover:focus-within:shadow-[var(--cs-focus-field)]',
+    'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]',
     'data-[readonly]:bg-bg-inset data-[readonly]:shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] data-[readonly]:focus-within:shadow-[var(--cs-focus-field)]',
     'data-[disabled]:pointer-events-none data-[disabled]:opacity-42',
   ],

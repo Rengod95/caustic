@@ -25,7 +25,7 @@ export const listSelectionRowVariants = cva([
 
 /** The 18px box at the start of a multiple-mode row. Same box as Checkbox; decorative, the row carries aria-checked. */
 export const listSelectionIndicatorVariants = cva(
-  'grid size-check flex-none place-items-center rounded-sm bg-surface-base text-accent-on shadow-[inset_0_0_0_1.5px_var(--cs-color-border-control)] transition-[background-color] duration-120 ease-out group-aria-checked:bg-accent-solid group-aria-checked:shadow-none [&_svg]:size-icon-sm [&_svg]:stroke-3 [&_svg]:opacity-0 group-aria-checked:[&_svg]:opacity-100',
+  'grid size-check flex-none place-items-center rounded-sm bg-surface-base text-accent-on shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] transition-[background-color] duration-120 ease-out group-aria-checked:bg-accent-solid group-aria-checked:shadow-none [&_svg]:size-icon-sm [&_svg]:stroke-3 [&_svg]:opacity-0 group-aria-checked:[&_svg]:opacity-100',
 );
 
 /** The 18px check at the end of a single-mode row; invisible until checked. */

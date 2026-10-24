@@ -47,7 +47,7 @@ export interface TableProps extends Omit<ComponentProps<'div'>, 'children'> {
 }
 
 const pageButton = 'inline-flex h-control-md min-w-control-md items-center justify-center gap-1 rounded-md px-2 text-ui tabular-nums text-text-secondary outline-none hover:bg-fill-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm';
-const pageCurrent = 'frost bg-control-raised font-semibold text-text-primary shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)] hover:bg-control-raised-hover';
+const pageCurrent = 'bg-control-raised font-semibold text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover';
 
 /** Data table: toolbar, row selection, sortable columns, row actions and a footer with summary and pager. */
 export function Table({
@@ -67,7 +67,7 @@ export function Table({
   return (
     <div
       data-slot="table"
-      className={cn('frost w-full overflow-hidden rounded-2xl bg-surface-translucent font-ui text-text-primary shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]', className)}
+      className={cn('w-full overflow-hidden rounded-2xl bg-surface-translucent font-ui text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]', className)}
       {...props}
     >
       {toolbar != null && <div data-slot="table-toolbar" className="flex flex-wrap items-center gap-2 border-b border-border-subtle px-3 py-2.5">{toolbar}</div>}

@@ -122,7 +122,7 @@ export function NumberField({
       className={cn(
         'relative flex h-control-md min-w-0 items-center rounded-lg bg-fill-hover transition-[background-color,box-shadow] duration-120 ease-out hover:bg-fill-pressed',
         'focus-within:bg-surface-base focus-within:shadow-focus-field',
-        'data-[invalid]:bg-danger-soft data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1.5px_var(--cs-color-danger-solid)]',
+        'data-[invalid]:bg-danger-soft data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]',
         'data-[locked]:pointer-events-none data-[locked]:bg-bg-inset data-[reserved]:bg-bg-inset data-[scrubbing]:bg-accent-soft data-[disabled]:pointer-events-none data-[disabled]:opacity-42',
         containerClassName,
       )}

@@ -9,7 +9,7 @@ export const accordionItemVariants = cva('', {
   variants: {
     variant: {
       flush: 'border-b border-border-subtle',
-      separated: 'rounded-xl bg-surface-base px-inset-regular-x shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)] data-[state=open]:shadow-[0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-2)]',
+      separated: 'rounded-xl bg-surface-base px-inset-regular-x shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] data-[state=open]:shadow-[0_0_0_1px_var(--cs-color-border-default)]',
     },
   },
   defaultVariants: { variant: 'flush' },

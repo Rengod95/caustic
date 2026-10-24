@@ -39,7 +39,7 @@ export function Plan({ title, steps, countLabel, statusLabels, className, ...pro
             <span data-slot="plan-indicator" aria-hidden className={planIndicatorVariants({ status: step.status })}>
               {step.status === 'done' && <Check />}
               {step.status === 'now' && <span data-slot="plan-orb" className={planOrbVariants({ status: step.status })} />}
-              {step.status === 'todo' && <span className="size-icon-sm rounded-full border-[1.5px] border-dashed border-border-strong" />}
+              {step.status === 'todo' && <span className="size-icon-sm rounded-full border border-dashed border-border-strong" />}
             </span>
             <span className="sr-only">{statusLabels[step.status]}: </span>
             <span data-slot="plan-label" className={planLabelVariants({ status: step.status })}>{step.label}</span>

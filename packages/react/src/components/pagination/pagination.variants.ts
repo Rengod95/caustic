@@ -18,7 +18,7 @@ export const paginationButton = cva([
   'hover:bg-fill-hover hover:text-text-primary focus-visible:shadow-focus',
   'disabled:pointer-events-none disabled:opacity-42',
   'aria-[current=page]:bg-control-raised aria-[current=page]:font-semibold aria-[current=page]:text-text-primary',
-  'aria-[current=page]:shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)]',
+  'aria-[current=page]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
 ]);
 
 export const paginationGap = cva('px-1 font-ui text-ui text-text-disabled');

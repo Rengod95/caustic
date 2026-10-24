@@ -14,7 +14,7 @@ export const gridTracksUnit = cva('inline-flex h-control-md shrink-0 gap-px roun
 export const gridTracksUnitItem = cva([
   'h-control-sm cursor-pointer whitespace-nowrap rounded-sm bg-transparent px-1.75 font-ui text-ui-xs font-medium text-text-tertiary outline-none',
   'transition-[color,background-color,box-shadow] duration-120 ease-out hover:text-text-primary focus-visible:shadow-focus',
-  'aria-checked:bg-control-raised aria-checked:text-text-primary aria-checked:shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)]',
+  'aria-checked:bg-control-raised aria-checked:text-text-primary aria-checked:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
   'disabled:pointer-events-none',
 ]);
 

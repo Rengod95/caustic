@@ -12,5 +12,5 @@ export const clarificationOptionVariants = cva([
 ]);
 
 export const clarificationRadioVariants = cva(
-  'pointer-events-none inline-grid size-check shrink-0 place-items-center rounded-full bg-surface-base shadow-[inset_0_0_0_1.5px_var(--cs-color-border-control)] group-data-[state=checked]:bg-accent-solid group-data-[state=checked]:shadow-none',
+  'pointer-events-none inline-grid size-check shrink-0 place-items-center rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] group-data-[state=checked]:bg-accent-solid group-data-[state=checked]:shadow-none',
 );

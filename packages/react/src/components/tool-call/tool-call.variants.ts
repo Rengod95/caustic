@@ -4,8 +4,8 @@ export const toolCallVariants = cva('relative overflow-hidden rounded-xl bg-surf
   variants: {
     status: {
       running: 'agent-rim overflow-visible shadow-1',
-      done: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]',
-      failed: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]',
+      done: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+      failed: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
     },
   },
   defaultVariants: { status: 'done' },

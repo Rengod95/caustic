@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 
 /** Opaque inline surface (never glass, P1): surface base, hairline edge, elevation 1. */
 export const appendListVariants = cva(
-  'overflow-hidden rounded-2xl bg-surface-base font-ui text-ui-dense text-text-primary shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]',
+  'overflow-hidden rounded-2xl bg-surface-base font-ui text-ui-dense text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
 );
 
 /** Header row: title at the start, one IconButton xs at the end. */

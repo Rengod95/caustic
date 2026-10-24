@@ -9,7 +9,7 @@ export function CardSurface({ className, ...props }: CardSurfaceProps) {
   return (
     <Card
       data-slot="card-surface"
-      className={cn('bg-surface-base shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-card)]', className)}
+      className={cn('bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]', className)}
       {...props}
     />
   );

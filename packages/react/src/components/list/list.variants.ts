@@ -11,7 +11,7 @@ export const listGroupFooterVariants = cva('px-3.5 pb-[1px] font-ui text-footnot
 
 /** The frosted inline surface. Translucent, never glass (P1); every list component imports it. */
 export const listVariants = cva(
-  'frost w-full overflow-hidden rounded-2xl bg-surface-translucent font-ui text-ui text-text-primary shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]',
+  'w-full overflow-hidden rounded-2xl bg-surface-translucent font-ui text-ui text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
 );
 
 /** Caption inside the surface; a count or action can sit at the end. */

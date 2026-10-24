@@ -1,12 +1,12 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
 export const tokenChipVariants = cva(
-  'frost inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md font-mono text-mono-md text-text-primary',
+  'inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md font-mono text-mono-md text-text-primary',
   {
     variants: {
       tone: {
         neutral: 'bg-fill-hover shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
-        bound: 'bg-accent-soft shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]',
+        bound: 'bg-accent-soft',
       },
       size: {
         sm: 'h-control-2xs pl-0.75 pr-1.5',

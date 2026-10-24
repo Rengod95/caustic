@@ -5,7 +5,7 @@ export const contrastInsightVariants = cva('grid gap-3 font-ui');
 
 /** The readout card: opaque inline surface (never glass, P1) with a hairline edge and elevation 1. */
 export const contrastInsightSummaryVariants = cva(
-  'grid grid-cols-[1fr_auto] items-center gap-3 rounded-xl bg-surface-base px-inset-regular-x py-inset-regular-y shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]',
+  'grid grid-cols-[1fr_auto] items-center gap-3 rounded-xl bg-surface-base px-inset-regular-x py-inset-regular-y shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
 );
 
 /** The measured ratio, large, with tabular numerals. */
@@ -37,7 +37,7 @@ export const contrastInsightSampleVariants = cva(
 
 /** The agent suggestion card: opaque, with the agent rim. */
 export const contrastInsightSuggestionVariants = cva(
-  'agent-rim relative grid gap-2 overflow-hidden rounded-xl bg-surface-base p-2.5 shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]',
+  'agent-rim relative grid gap-2 overflow-hidden rounded-xl bg-surface-base p-2.5 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
 );
 
 export const contrastInsightSuggestionTextVariants = cva('text-footnote text-text-secondary');

@@ -30,8 +30,8 @@ export const stepperIndicator = cva('relative grid size-control-sm place-items-c
   variants: {
     status: {
       done: 'bg-accent-solid text-accent-on',
-      current: 'bg-surface-base text-accent-text shadow-[inset_0_0_0_2px_var(--cs-color-accent-solid),0_0_0_4px_var(--cs-color-accent-soft)]',
-      upcoming: 'bg-surface-base text-text-secondary shadow-[inset_0_0_0_1.5px_var(--cs-color-border-control)]',
+      current: 'bg-surface-base text-accent-text shadow-[inset_0_0_0_2px_var(--cs-color-accent-solid)]',
+      upcoming: 'bg-surface-base text-text-secondary shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
     },
   },
   defaultVariants: { status: 'upcoming' },

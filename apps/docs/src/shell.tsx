@@ -55,7 +55,7 @@ export function Shell({ route, children }: { route: Route; children: ReactNode }
 
   return (
     <div className="min-h-screen bg-bg-app font-ui text-text-primary">
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border-subtle bg-material-regular px-3 backdrop-blur-regular min-[900px]:px-5">
+      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border-subtle bg-material-regular px-3 min-[900px]:px-5">
         <div className="min-[900px]:hidden">
           <IconButton label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} aria-controls="docs-nav" onClick={() => setOpen(o => !o)}>{open ? <X /> : <Menu />}</IconButton>
         </div>
@@ -76,7 +76,7 @@ export function Shell({ route, children }: { route: Route; children: ReactNode }
           className={[
             'z-40 grid content-start gap-4 overflow-y-auto p-3 scrollbar-none',
             'min-[900px]:sticky min-[900px]:top-14 min-[900px]:h-[calc(100vh-3.5rem)] min-[900px]:border-r min-[900px]:border-border-subtle',
-            'max-[899px]:fixed max-[899px]:inset-y-0 max-[899px]:left-0 max-[899px]:top-14 max-[899px]:w-[min(20rem,calc(100%-2.5rem))] max-[899px]:bg-material-thick max-[899px]:backdrop-blur-thick max-[899px]:shadow-5 max-[899px]:transition-transform max-[899px]:duration-300 max-[899px]:ease-spring',
+            'max-[899px]:fixed max-[899px]:inset-y-0 max-[899px]:left-0 max-[899px]:top-14 max-[899px]:w-[min(20rem,calc(100%-2.5rem))] max-[899px]:bg-material-thick max-[899px]:shadow-5 max-[899px]:transition-transform max-[899px]:duration-300 max-[899px]:ease-spring',
             open ? '' : 'max-[899px]:-translate-x-[110%] max-[899px]:invisible',
           ].join(' ')}
         >

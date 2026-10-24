@@ -14,7 +14,7 @@ export const chipVariants = cva(
         outline: 'bg-transparent text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
         solid: 'bg-ink-solid text-ink-on',
         dashed: 'bg-transparent text-text-secondary outline outline-1 outline-dashed outline-border-control -outline-offset-1',
-        surface: 'frost bg-surface-translucent text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-1)]',
+        surface: 'bg-surface-translucent text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
       },
       tone: {
         neutral: '',

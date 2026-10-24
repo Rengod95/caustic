@@ -11,13 +11,13 @@ export const buttonVariants = cva(
   {
     variants: {
       tone: {
-        ink: 'frost bg-ink-solid text-ink-on shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)] hover:bg-ink-hover',
-        accent: 'frost bg-accent-fill text-accent-on shadow-1 hover:bg-accent-fill-hover',
-        secondary: 'frost bg-control-raised text-text-primary shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)] hover:bg-control-raised-hover',
+        ink: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-ink-hover',
+        accent: 'bg-accent-fill text-accent-on shadow-1 hover:bg-accent-fill-hover',
+        secondary: 'bg-control-raised text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover',
         ghost: 'bg-transparent text-text-secondary hover:bg-fill-pressed hover:text-text-primary',
         danger: 'bg-danger-soft text-danger-text hover:bg-danger-solid hover:text-danger-on',
         destructive: 'bg-danger-solid text-danger-on shadow-1',
-        agent: 'agent-rim bg-surface-base text-text-primary shadow-2 hover:shadow-[var(--cs-elevation-2),0_6px_22px_-4px_var(--cs-color-agent-glow)]',
+        agent: 'agent-rim bg-surface-base text-text-primary shadow-2',
       },
       shape: { rounded: '', pill: 'rounded-full' },
       size: {

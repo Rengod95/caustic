@@ -11,7 +11,7 @@ export const iconButtonVariants = cva(
     variants: {
       tone: {
         ghost: 'bg-transparent text-text-secondary hover:bg-fill-pressed hover:text-text-primary aria-pressed:bg-fill-selected aria-pressed:text-text-primary',
-        ink: 'frost bg-ink-solid text-ink-on shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)] hover:scale-[1.06]',
+        ink: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:scale-[1.06]',
       },
       shape: { rounded: '', circle: 'rounded-full' },
       size: {

@@ -24,7 +24,7 @@ export const segmentedItemVariants = cva(
     'transition-[color,background-color,box-shadow] duration-base ease-out outline-none',
     'hover:text-text-primary focus-visible:shadow-focus disabled:pointer-events-none disabled:opacity-42',
     'data-[state=checked]:bg-control-raised data-[state=checked]:text-text-primary',
-    'data-[state=checked]:shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)]',
+    'data-[state=checked]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
     '[&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
   ],
   {

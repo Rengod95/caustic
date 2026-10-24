@@ -2,7 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 /** Opaque card that clips its cover to the corner radius. overlay has no inset: the cover is the whole card. */
 export const cardMediaVariants = cva(
-  'overflow-hidden bg-surface-base text-text-primary no-underline outline-none shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-2)] focus-visible:shadow-[var(--cs-focus),0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-2)]',
+  'overflow-hidden bg-surface-base text-text-primary no-underline outline-none shadow-[0_0_0_1px_var(--cs-color-border-subtle)] focus-visible:shadow-[var(--cs-focus),var(--cs-elevation-2)]',
   {
     variants: {
       layout: {

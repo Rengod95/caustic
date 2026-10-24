@@ -79,7 +79,7 @@ export function FileUpload({
         onDragLeave={e => drag(e, false)}
         onDrop={drop}
       >
-        <span data-slot="file-upload-dropzone-icon" aria-hidden className="grid size-control-lg place-items-center rounded-xl bg-control-raised shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)] [&_svg]:size-icon-md [&_svg]:stroke-[1.75]"><Upload /></span>
+        <span data-slot="file-upload-dropzone-icon" aria-hidden className="grid size-control-lg place-items-center rounded-xl bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] [&_svg]:size-icon-md [&_svg]:stroke-[1.75]"><Upload /></span>
         <b data-slot="file-upload-dropzone-label" className="text-ui-strong text-text-primary">{label}{' '}<u data-slot="file-upload-dropzone-browse" className="text-accent-text no-underline">{browseLabel}</u></b>
         {hint != null && <span data-slot="file-upload-dropzone-hint" className="text-ui-sm font-normal text-text-tertiary group-hover:text-text-secondary group-data-[dragging]:text-text-secondary">{hint}</span>}
         <input ref={picker} type="file" hidden accept={accept} multiple={multiple} disabled={disabled} onChange={change} onClick={e => e.stopPropagation()} />

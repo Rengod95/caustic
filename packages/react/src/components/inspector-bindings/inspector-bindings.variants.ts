@@ -24,7 +24,7 @@ export const inspectorBindingsSelectorVariants = cva(
   {
     variants: {
       binding: {
-        bound: 'bg-accent-soft shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]',
+        bound: 'bg-accent-soft',
         mixed: 'bg-warning-soft shadow-[inset_0_0_0_1px_var(--cs-color-warning-solid)]',
       },
     },

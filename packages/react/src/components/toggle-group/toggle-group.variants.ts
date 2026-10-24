@@ -18,8 +18,8 @@ export const toggleGroupItem = cva([
   'inline-grid size-control-md shrink-0 place-items-center rounded-md bg-transparent text-text-secondary',
   'transition-[color,background-color,box-shadow] duration-base ease-out outline-none',
   'hover:text-text-primary focus-visible:shadow-focus disabled:pointer-events-none disabled:opacity-42',
-  'data-[state=on]:frost data-[state=on]:bg-control-raised data-[state=on]:text-text-primary',
-  'data-[state=on]:shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)]',
+  'data-[state=on]:bg-control-raised data-[state=on]:text-text-primary',
+  'data-[state=on]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
 ]);
 
 export type ToggleGroupVariantProps = VariantProps<typeof toggleGroupVariants>;

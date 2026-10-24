@@ -11,7 +11,7 @@ export function Home() {
       <PageHeader
         eyebrow={<Badge tone="agent">Agent-first</Badge>}
         title="Caustic"
-        lead="A design system for builders where the agent works next to you. Glass floats, light means agent, ink comes first and the accent appears once. Every component here is spec-first: a contract, a gate and a live specimen."
+        lead="A design system for builders where the agent works next to you. Floating layers are solid, light means agent, ink comes first and the accent appears once. Every component here is spec-first: a contract, a gate and a live specimen."
       />
 
       <div className={grid}>

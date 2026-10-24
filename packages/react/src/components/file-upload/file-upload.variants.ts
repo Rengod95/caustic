@@ -11,13 +11,13 @@ export const dropzoneVariants = cva([
 ]);
 
 export const fileItemVariants = cva(
-  'frost grid grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-xl bg-surface-translucent py-2.5 pl-3 pr-2.5',
+  'grid grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-xl bg-surface-translucent py-2.5 pl-3 pr-2.5',
   {
     variants: {
       status: {
-        done: 'shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]',
-        uploading: 'shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]',
-        error: 'shadow-[0_0_0_1px_var(--cs-color-danger-solid),var(--cs-elevation-1)]',
+        done: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+        uploading: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+        error: 'shadow-[0_0_0_1px_var(--cs-color-danger-solid)]',
       },
     },
     defaultVariants: { status: 'done' },

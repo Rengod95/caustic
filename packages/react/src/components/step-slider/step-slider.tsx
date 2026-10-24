@@ -117,7 +117,7 @@ export function StepSlider({ value, defaultValue = -1, onValueChange, appearance
             <span
               key={j} data-slot="step-slider-mark" data-state={j === cur ? 'current' : j < cur ? 'on' : 'off'}
               className={cn(
-                'size-2 rounded-full bg-surface-base shadow-[inset_0_0_0_1.5px_var(--cs-color-border-control)]',
+                'size-2 rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
                 'data-[state=on]:bg-text-primary data-[state=on]:shadow-none data-[state=current]:size-4 data-[state=current]:bg-control-thumb data-[state=current]:shadow-thumb-sm',
               )}
             />

@@ -25,7 +25,7 @@ export function Checkbox({ checked, defaultChecked = false, onCheckedChange, dis
       disabled={disabled}
       className={cn(
         'inline-grid size-check shrink-0 place-items-center rounded-sm bg-surface-base text-accent-on transition-[background-color] duration-120 ease-out',
-        'shadow-[inset_0_0_0_1.5px_var(--cs-color-border-control)] outline-none focus-visible:shadow-focus',
+        'shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] outline-none focus-visible:shadow-focus',
         'data-[state=checked]:bg-accent-solid data-[state=checked]:shadow-none data-[state=indeterminate]:bg-accent-solid data-[state=indeterminate]:shadow-none',
         'disabled:pointer-events-none disabled:opacity-42',
         className,

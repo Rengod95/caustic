@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
-export const cardStatVariants = cva('overflow-hidden bg-surface-base shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]');
+export const cardStatVariants = cva('overflow-hidden bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]');
 
 export const cardStatDeltaVariants = cva(
   'inline-flex h-control-2xs items-center gap-0.75 rounded-full px-1.5 font-ui text-hint font-semibold [&_svg]:size-3 [&_svg]:stroke-[2.5]',

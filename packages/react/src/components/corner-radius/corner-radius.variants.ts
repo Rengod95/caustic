@@ -6,7 +6,7 @@ export const cornerRadiusStage = cva('flex items-center justify-center gap-3.5 r
 
 // The radius is data: --r holds the border-radius shorthand derived from the value.
 export const cornerRadiusShape = cva(
-  'h-radius-preview-h w-radius-preview-w shrink-0 rounded-(--r) bg-surface-base shadow-[inset_0_0_0_1.5px_var(--cs-color-text-primary),var(--cs-elevation-2)] transition-[border-radius] duration-gentle ease-spring',
+  'h-radius-preview-h w-radius-preview-w shrink-0 rounded-(--r) bg-surface-base shadow-[inset_0_0_0_1.5px_var(--cs-color-text-primary)] transition-[border-radius] duration-gentle ease-spring',
 );
 
 export const cornerRadiusFields = cva('grid grid-cols-[1fr_1fr_auto] items-center gap-1.5');

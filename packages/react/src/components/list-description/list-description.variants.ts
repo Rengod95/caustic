@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 
 /** The frosted inline surface, same as List: translucent, never glass (P1). */
 export const listDescriptionVariants = cva(
-  'frost m-0 grid w-full overflow-hidden rounded-2xl bg-surface-translucent font-ui text-ui text-text-primary shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]',
+  'm-0 grid w-full overflow-hidden rounded-2xl bg-surface-translucent font-ui text-ui text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
 );
 
 export const listDescriptionRow = cva(

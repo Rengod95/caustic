@@ -8,7 +8,7 @@ import { Bullets, Chip, Mono, Page, PageHeader, Section } from '../ui.tsx';
 
 const T = tokens;
 const grid = 'grid grid-cols-[repeat(auto-fill,minmax(min(100%,calc(var(--spacing)*50)),1fr))] gap-3';
-const card = 'rounded-2xl bg-surface-base p-3.5 shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]';
+const card = 'rounded-2xl bg-surface-base p-3.5 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]';
 
 /** A color from resolved token data, drawn over a checker so alpha stays visible. */
 const rgba = (c: { hex: string; alpha: number }) => `color-mix(in srgb, ${c.hex} ${Math.round(c.alpha * 100)}%, transparent)`;
@@ -315,7 +315,7 @@ function MaterialsPage() {
   ];
   return (
     <>
-      <Section id="glass" title="Glass" description="Glass is for what floats (P1): menus, popovers, toolbars, dialogs. It refracts what is behind it, so it needs something behind it.">
+      <Section id="glass" title="Floating surfaces" description="Anything that floats (menus, popovers, toolbars, dialogs) is a solid fill with one elevation shadow. No blur, no translucency, no rim. The glass* class names are kept as aliases.">
         <div className="canvas-grid relative isolate overflow-hidden rounded-3xl p-5">
           <span aria-hidden className="absolute left-[8%] top-12 size-28 rounded-full bg-accent-solid" />
           <span aria-hidden className="absolute left-[34%] top-20 size-24 rounded-full bg-success-solid" />
@@ -325,18 +325,18 @@ function MaterialsPage() {
             {tiles.map(t => (
               <div key={t.name} className={`${t.cls} grid h-32 content-end gap-0.5 rounded-2xl p-3`}>
                 <span className="font-ui text-ui-strong text-text-primary">{t.name}</span>
-                <span className="font-mono text-mono-sm text-text-secondary">blur {t.blur}px</span>
+                <span className="font-mono text-mono-sm text-text-secondary">solid</span>
               </div>
             ))}
           </div>
         </div>
       </Section>
-      <Section id="blur" title="Blur & frost">
+      <Section id="blur" title="Blur (retired)">
         <div className="flex flex-wrap gap-1.5">{Object.entries(T.blur).map(([k, px]) => <Chip key={k}>blur-{k} · {px}px</Chip>)}</div>
         <Bullets items={[
-          <>Menus and forms with text over glass use <Mono>glass-thick</Mono> or heavier.</>,
-          <><Mono>frost</Mono> is the light control blur and is allowed on any control.</>,
-          'With prefers-reduced-transparency the glass becomes a solid surface.',
+          'The blur scale is kept only so existing specs resolve. No component uses it.',
+          <>The <Mono>frost</Mono> utility was removed. Controls are solid.</>,
+          'One depth cue per surface: a hairline for things that rest, a shadow for things that float. Never both.',
         ]} />
       </Section>
     </>
@@ -408,7 +408,7 @@ const bodies: Record<string, { lead: string; view: () => ReactNode }> = {
   radius: { lead: 'Concentric corners from xs to full, plus the studio shell radii.', view: RadiusPage },
   sizes: { lead: 'Control, field, icon and component dimensions in two densities.', view: SizesPage },
   elevation: { lead: 'Five levels plus named shadows for cards, thumbs and artboards.', view: ElevationPage },
-  materials: { lead: 'Glass thicknesses and the light control frost.', view: MaterialsPage },
+  materials: { lead: 'Solid floating surfaces. The old glass classes remain as aliases.', view: MaterialsPage },
   motion: { lead: 'Durations and easings, with a demo that honors reduced motion.', view: MotionPage },
 };
 

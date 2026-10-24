@@ -20,7 +20,7 @@ export const autoLayoutPreview = cva(
 );
 
 export const autoLayoutPreviewItem = cva(
-  'w-toolbar-item flex-none rounded-sm bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-1)] transition-all duration-gentle ease-spring',
+  'w-toolbar-item flex-none rounded-sm bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-all duration-gentle ease-spring',
   {
     variants: {
       size: { a: 'h-control-inline', b: 'h-10', c: 'h-4.5' },

@@ -45,7 +45,7 @@ export function Section({ id, title, description, children }: { id?: string; tit
 /** A framed live specimen: title bar over a dot-grid canvas. */
 export function Specimen({ title, meta, children, flush = false }: { title: string; meta?: ReactNode; children: ReactNode; flush?: boolean }) {
   return (
-    <figure className="m-0 min-w-0 overflow-hidden rounded-3xl bg-surface-base shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-2)]">
+    <figure className="m-0 min-w-0 overflow-hidden rounded-3xl bg-surface-base shadow-[0_0_0_1px_var(--cs-color-border-subtle)]">
       <figcaption className="flex items-center justify-between gap-3 border-b border-border-subtle bg-material-thin px-3.5 py-2">
         <span className="font-ui text-ui-strong text-text-primary">{title}</span>
         {meta ? <span className="font-mono text-mono-sm text-text-tertiary">{meta}</span> : null}

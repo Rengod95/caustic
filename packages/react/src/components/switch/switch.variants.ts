@@ -14,7 +14,7 @@ export const switchVariants = cva(
 export const switchThumb = cva(
   [
     'block rounded-full bg-control-thumb transition-[transform,width] duration-320 ease-spring',
-    'shadow-[0_0_0_0.5px_var(--cs-color-border-subtle),var(--cs-elevation-2)]',
+    'shadow-2',
   ],
   {
     variants: {

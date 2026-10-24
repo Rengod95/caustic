@@ -5,7 +5,7 @@ export const constraintsControlVariants = cva('grid grid-cols-[var(--cs-size-pad
 export const constraintsBoxVariants = cva('relative size-pad-box rounded-lg bg-fill-hover shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]');
 
 export const constraintsFrameVariants = cva(
-  'absolute top-1/2 left-1/2 size-card-tile -translate-x-1/2 -translate-y-1/2 rounded-xs bg-surface-base shadow-[inset_0_0_0_1.5px_var(--cs-color-border-control)]',
+  'absolute top-1/2 left-1/2 size-card-tile -translate-x-1/2 -translate-y-1/2 rounded-xs bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
 );
 
 // Pins are 2 to 4px wide: the ::before extends the pointer target to 24px without moving the drawn bar.

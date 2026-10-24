@@ -51,10 +51,10 @@ export function StepperInput({ value, defaultValue = null, step = 1, min, max, i
       data-invalid={isInvalid || undefined}
       data-disabled={isDisabled || undefined}
       className={cn(
-        'frost inline-flex h-field-md items-stretch overflow-hidden rounded-xl bg-surface-translucent text-ui transition-[box-shadow] duration-120 ease-out',
-        'shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-1)]',
-        'focus-within:shadow-[var(--cs-focus-field),var(--cs-elevation-1)]',
-        'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1.5px_var(--cs-color-danger-solid)]',
+        'inline-flex h-field-md items-stretch overflow-hidden rounded-xl bg-surface-translucent text-ui transition-[box-shadow] duration-120 ease-out',
+        'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+        'focus-within:shadow-[var(--cs-focus-field)]',
+        'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-42',
         containerClassName,
       )}

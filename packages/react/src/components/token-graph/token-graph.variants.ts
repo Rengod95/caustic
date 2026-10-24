@@ -14,12 +14,12 @@ export const tokenGraphTierVariants = cva('absolute top-2.5 text-caption text-te
 export const tokenGraphNodeVariants = cva(
   [
     'group absolute top-(--y) left-(--x) grid w-graph-node-w cursor-pointer gap-0.5 rounded-lg px-2.5 py-1.75 font-ui text-ui-xs outline-none',
-    'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-2)]',
+    'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
     'focus-visible:shadow-focus',
   ],
   {
     variants: {
-      traced: { true: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-solid),var(--cs-elevation-3)]', false: '' },
+      traced: { true: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-solid)]', false: '' },
       missing: { true: 'bg-danger-soft shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]', false: '' },
     },
     defaultVariants: { traced: false, missing: false },
@@ -35,7 +35,7 @@ export const tokenGraphSwatchVariants = cva('size-2.5 shrink-0 rounded-xs bg-(--
 export const tokenGraphPortVariants = cva(
   [
     'pointer-events-none absolute top-1/2 size-2 -translate-y-1/2 rounded-full bg-surface-base',
-    'shadow-[inset_0_0_0_1.5px_var(--cs-color-border-control)]',
+    'shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
     'group-data-[traced]:bg-accent-solid group-data-[traced]:shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-solid)]',
   ],
   { variants: { side: { in: '-left-1', out: '-right-1' } }, defaultVariants: { side: 'in' } },
