@@ -125,23 +125,23 @@ export default {
         0.012
       ],
       "800": [
-        0.32,
+        0.28,
         0.011
       ],
       "850": [
-        0.265,
+        0.195,
         0.01
       ],
       "900": [
-        0.225,
+        0.16,
         0.009
       ],
       "950": [
-        0.18,
+        0.13,
         0.008
       ],
       "1000": [
-        0.14,
+        0.1,
         0.007
       ]
     }
@@ -171,16 +171,16 @@ export default {
       "bg.scrim": "neutral.950/0.24",
       "surface.base": "neutral.0",
       "surface.raised": "neutral.25",
-      "surface.raised-translucent": "neutral.25/0.7",
-      "surface.translucent": "neutral.0/0.78",
-      "material.ultrathin": "neutral.0/0.3",
-      "material.thin": "neutral.0/0.48",
-      "material.regular": "neutral.0/0.66",
-      "material.thick": "neutral.0/0.84",
-      "material.rim": "white/0.62",
-      "material.edge": "neutral.950/0.11",
-      "material.specular": "white/0.95",
-      "material.sheen": "white/0.5",
+      "surface.raised-translucent": "neutral.25",
+      "surface.translucent": "neutral.0",
+      "material.ultrathin": "neutral.0",
+      "material.thin": "neutral.0",
+      "material.regular": "neutral.0",
+      "material.thick": "neutral.0",
+      "material.rim": "white/0",
+      "material.edge": "neutral.950/0",
+      "material.specular": "white/0",
+      "material.sheen": "white/0",
       "text.primary": "neutral.950",
       "text.secondary": "neutral.700",
       "text.tertiary": "neutral.600",
@@ -188,20 +188,20 @@ export default {
       "text.disabled": "neutral.400",
       "text.inverse": "neutral.0",
       "text.link": "accent.700",
-      "border.subtle": "neutral.950/0.07",
-      "border.default": "neutral.950/0.12",
-      "border.strong": "neutral.950/0.2",
+      "border.subtle": "neutral.950/0.05",
+      "border.default": "neutral.950/0.08",
+      "border.strong": "neutral.950/0.13",
       "border.control": "neutral.400",
       "fill.hover": "neutral.950/0.045",
       "fill.pressed": "neutral.950/0.075",
       "fill.selected": "neutral.950/0.11",
       "control.off": "neutral.400",
       "control.thumb": "neutral.0",
-      "control.raised": "neutral.0/0.8",
-      "control.raised-hover": "neutral.0/0.94",
-      "control.edge": "neutral.950/0.1",
-      "ink.solid": "neutral.900/0.9",
-      "ink.hover": "neutral.800/0.9",
+      "control.raised": "neutral.0",
+      "control.raised-hover": "neutral.25",
+      "control.edge": "neutral.950/0.07",
+      "ink.solid": "neutral.900",
+      "ink.hover": "neutral.800",
       "ink.on": "neutral.25",
       "ink.on-muted": "neutral.25/0.75",
       "ink.kbd": "white/0.09",
@@ -222,9 +222,9 @@ export default {
       "accent.soft": "accent.400/0.14",
       "accent.tint": "accent.400/0.084",
       "accent.border": "accent.400/0.5",
-      "accent.glow": "accent.500/0.35",
-      "accent.fill": "accent.700/0.9",
-      "accent.fill-hover": "accent.800/0.9",
+      "accent.glow": "accent.500/0.2",
+      "accent.fill": "accent.700",
+      "accent.fill-hover": "accent.800",
       "success.solid": "mint.600",
       "success.on": "neutral.0",
       "success.text": "mint.700",
@@ -268,20 +268,20 @@ export default {
     "dark": {
       "bg.app": "neutral.950",
       "bg.canvas": "neutral.1000",
-      "bg.inset": "black/0.22",
+      "bg.inset": "black/0.3",
       "bg.scrim": "black/0.5",
       "surface.base": "neutral.900",
       "surface.raised": "neutral.850",
-      "surface.raised-translucent": "neutral.850/0.7",
-      "surface.translucent": "neutral.900/0.72",
-      "material.ultrathin": "neutral.850/0.28",
-      "material.thin": "neutral.850/0.44",
-      "material.regular": "neutral.900/0.62",
-      "material.thick": "neutral.900/0.84",
-      "material.rim": "white/0.09",
-      "material.edge": "black/0.55",
-      "material.specular": "white/0.17",
-      "material.sheen": "white/0.1",
+      "surface.raised-translucent": "neutral.850",
+      "surface.translucent": "neutral.900",
+      "material.ultrathin": "neutral.850",
+      "material.thin": "neutral.850",
+      "material.regular": "neutral.850",
+      "material.thick": "neutral.850",
+      "material.rim": "white/0",
+      "material.edge": "black/0",
+      "material.specular": "white/0",
+      "material.sheen": "white/0",
       "text.primary": "neutral.25",
       "text.secondary": "neutral.300",
       "text.tertiary": "neutral.400",
@@ -289,20 +289,20 @@ export default {
       "text.disabled": "neutral.500",
       "text.inverse": "neutral.950",
       "text.link": "accent.300",
-      "border.subtle": "white/0.06",
-      "border.default": "white/0.1",
-      "border.strong": "white/0.17",
+      "border.subtle": "white/0.05",
+      "border.default": "white/0.07",
+      "border.strong": "white/0.12",
       "border.control": "neutral.500",
       "fill.hover": "white/0.05",
       "fill.pressed": "white/0.08",
       "fill.selected": "white/0.12",
       "control.off": "neutral.500",
       "control.thumb": "neutral.0",
-      "control.raised": "neutral.850/0.76",
-      "control.raised-hover": "neutral.800/0.82",
-      "control.edge": "white/0.08",
-      "ink.solid": "neutral.700/0.86",
-      "ink.hover": "neutral.600/0.86",
+      "control.raised": "neutral.850",
+      "control.raised-hover": "neutral.800",
+      "control.edge": "white/0.06",
+      "ink.solid": "neutral.700",
+      "ink.hover": "neutral.600",
       "ink.on": "neutral.25",
       "ink.on-muted": "neutral.25/0.75",
       "ink.kbd": "white/0.09",
@@ -323,9 +323,9 @@ export default {
       "accent.soft": "accent.400/0.17",
       "accent.tint": "accent.400/0.102",
       "accent.border": "accent.400/0.45",
-      "accent.glow": "accent.400/0.3",
-      "accent.fill": "accent.400/0.9",
-      "accent.fill-hover": "accent.300/0.92",
+      "accent.glow": "accent.400/0.2",
+      "accent.fill": "accent.400",
+      "accent.fill-hover": "accent.300",
       "success.solid": "mint.400",
       "success.on": "neutral.1000",
       "success.text": "mint.300",
@@ -378,11 +378,11 @@ export default {
         "alpha": 1
       },
       "bg.inset": {
-        "hex": "#101215",
+        "hex": "#06070a",
         "alpha": 0.04
       },
       "bg.scrim": {
-        "hex": "#101215",
+        "hex": "#06070a",
         "alpha": 0.24
       },
       "surface.base": {
@@ -395,46 +395,46 @@ export default {
       },
       "surface.raised-translucent": {
         "hex": "#f9fafb",
-        "alpha": 0.7
+        "alpha": 1
       },
       "surface.translucent": {
         "hex": "#fdfdfe",
-        "alpha": 0.78
+        "alpha": 1
       },
       "material.ultrathin": {
         "hex": "#fdfdfe",
-        "alpha": 0.3
+        "alpha": 1
       },
       "material.thin": {
         "hex": "#fdfdfe",
-        "alpha": 0.48
+        "alpha": 1
       },
       "material.regular": {
         "hex": "#fdfdfe",
-        "alpha": 0.66
+        "alpha": 1
       },
       "material.thick": {
         "hex": "#fdfdfe",
-        "alpha": 0.84
+        "alpha": 1
       },
       "material.rim": {
         "hex": "#ffffff",
-        "alpha": 0.62
+        "alpha": 0
       },
       "material.edge": {
-        "hex": "#101215",
-        "alpha": 0.11
+        "hex": "#06070a",
+        "alpha": 0
       },
       "material.specular": {
         "hex": "#ffffff",
-        "alpha": 0.95
+        "alpha": 0
       },
       "material.sheen": {
         "hex": "#ffffff",
-        "alpha": 0.5
+        "alpha": 0
       },
       "text.primary": {
-        "hex": "#101215",
+        "hex": "#06070a",
         "alpha": 1
       },
       "text.secondary": {
@@ -462,31 +462,31 @@ export default {
         "alpha": 1
       },
       "border.subtle": {
-        "hex": "#101215",
-        "alpha": 0.07
+        "hex": "#06070a",
+        "alpha": 0.05
       },
       "border.default": {
-        "hex": "#101215",
-        "alpha": 0.12
+        "hex": "#06070a",
+        "alpha": 0.08
       },
       "border.strong": {
-        "hex": "#101215",
-        "alpha": 0.2
+        "hex": "#06070a",
+        "alpha": 0.13
       },
       "border.control": {
         "hex": "#8b8f96",
         "alpha": 1
       },
       "fill.hover": {
-        "hex": "#101215",
+        "hex": "#06070a",
         "alpha": 0.045
       },
       "fill.pressed": {
-        "hex": "#101215",
+        "hex": "#06070a",
         "alpha": 0.075
       },
       "fill.selected": {
-        "hex": "#101215",
+        "hex": "#06070a",
         "alpha": 0.11
       },
       "control.off": {
@@ -499,23 +499,23 @@ export default {
       },
       "control.raised": {
         "hex": "#fdfdfe",
-        "alpha": 0.8
+        "alpha": 1
       },
       "control.raised-hover": {
-        "hex": "#fdfdfe",
-        "alpha": 0.94
+        "hex": "#f9fafb",
+        "alpha": 1
       },
       "control.edge": {
-        "hex": "#101215",
-        "alpha": 0.1
+        "hex": "#06070a",
+        "alpha": 0.07
       },
       "ink.solid": {
-        "hex": "#191c20",
-        "alpha": 0.9
+        "hex": "#0b0d11",
+        "alpha": 1
       },
       "ink.hover": {
-        "hex": "#303339",
-        "alpha": 0.9
+        "hex": "#26292e",
+        "alpha": 1
       },
       "ink.on": {
         "hex": "#f9fafb",
@@ -599,15 +599,15 @@ export default {
       },
       "accent.glow": {
         "hex": "#009daa",
-        "alpha": 0.35
+        "alpha": 0.2
       },
       "accent.fill": {
         "hex": "#00666e",
-        "alpha": 0.9
+        "alpha": 1
       },
       "accent.fill-hover": {
         "hex": "#004d54",
-        "alpha": 0.9
+        "alpha": 1
       },
       "success.solid": {
         "hex": "#007f4e",
@@ -630,7 +630,7 @@ export default {
         "alpha": 1
       },
       "warning.on": {
-        "hex": "#08090c",
+        "hex": "#030305",
         "alpha": 1
       },
       "warning.text": {
@@ -686,7 +686,7 @@ export default {
         "alpha": 1
       },
       "canvas.dot": {
-        "hex": "#101215",
+        "hex": "#06070a",
         "alpha": 0.13
       },
       "canvas.selection": {
@@ -768,68 +768,68 @@ export default {
     },
     "dark": {
       "bg.app": {
-        "hex": "#101215",
+        "hex": "#06070a",
         "alpha": 1
       },
       "bg.canvas": {
-        "hex": "#08090c",
+        "hex": "#030305",
         "alpha": 1
       },
       "bg.inset": {
         "hex": "#000000",
-        "alpha": 0.22
+        "alpha": 0.3
       },
       "bg.scrim": {
         "hex": "#000000",
         "alpha": 0.5
       },
       "surface.base": {
-        "hex": "#191c20",
+        "hex": "#0b0d11",
         "alpha": 1
       },
       "surface.raised": {
-        "hex": "#22252a",
+        "hex": "#12151a",
         "alpha": 1
       },
       "surface.raised-translucent": {
-        "hex": "#22252a",
-        "alpha": 0.7
+        "hex": "#12151a",
+        "alpha": 1
       },
       "surface.translucent": {
-        "hex": "#191c20",
-        "alpha": 0.72
+        "hex": "#0b0d11",
+        "alpha": 1
       },
       "material.ultrathin": {
-        "hex": "#22252a",
-        "alpha": 0.28
+        "hex": "#12151a",
+        "alpha": 1
       },
       "material.thin": {
-        "hex": "#22252a",
-        "alpha": 0.44
+        "hex": "#12151a",
+        "alpha": 1
       },
       "material.regular": {
-        "hex": "#191c20",
-        "alpha": 0.62
+        "hex": "#12151a",
+        "alpha": 1
       },
       "material.thick": {
-        "hex": "#191c20",
-        "alpha": 0.84
+        "hex": "#12151a",
+        "alpha": 1
       },
       "material.rim": {
         "hex": "#ffffff",
-        "alpha": 0.09
+        "alpha": 0
       },
       "material.edge": {
         "hex": "#000000",
-        "alpha": 0.55
+        "alpha": 0
       },
       "material.specular": {
         "hex": "#ffffff",
-        "alpha": 0.17
+        "alpha": 0
       },
       "material.sheen": {
         "hex": "#ffffff",
-        "alpha": 0.1
+        "alpha": 0
       },
       "text.primary": {
         "hex": "#f9fafb",
@@ -852,7 +852,7 @@ export default {
         "alpha": 1
       },
       "text.inverse": {
-        "hex": "#101215",
+        "hex": "#06070a",
         "alpha": 1
       },
       "text.link": {
@@ -861,15 +861,15 @@ export default {
       },
       "border.subtle": {
         "hex": "#ffffff",
-        "alpha": 0.06
+        "alpha": 0.05
       },
       "border.default": {
         "hex": "#ffffff",
-        "alpha": 0.1
+        "alpha": 0.07
       },
       "border.strong": {
         "hex": "#ffffff",
-        "alpha": 0.17
+        "alpha": 0.12
       },
       "border.control": {
         "hex": "#6b6f76",
@@ -896,24 +896,24 @@ export default {
         "alpha": 1
       },
       "control.raised": {
-        "hex": "#22252a",
-        "alpha": 0.76
+        "hex": "#12151a",
+        "alpha": 1
       },
       "control.raised-hover": {
-        "hex": "#303339",
-        "alpha": 0.82
+        "hex": "#26292e",
+        "alpha": 1
       },
       "control.edge": {
         "hex": "#ffffff",
-        "alpha": 0.08
+        "alpha": 0.06
       },
       "ink.solid": {
         "hex": "#474b51",
-        "alpha": 0.86
+        "alpha": 1
       },
       "ink.hover": {
         "hex": "#5a5e65",
-        "alpha": 0.86
+        "alpha": 1
       },
       "ink.on": {
         "hex": "#f9fafb",
@@ -976,7 +976,7 @@ export default {
         "alpha": 1
       },
       "accent.on": {
-        "hex": "#08090c",
+        "hex": "#030305",
         "alpha": 1
       },
       "accent.text": {
@@ -997,22 +997,22 @@ export default {
       },
       "accent.glow": {
         "hex": "#00bfcf",
-        "alpha": 0.3
+        "alpha": 0.2
       },
       "accent.fill": {
         "hex": "#00bfcf",
-        "alpha": 0.9
+        "alpha": 1
       },
       "accent.fill-hover": {
         "hex": "#63d6e3",
-        "alpha": 0.92
+        "alpha": 1
       },
       "success.solid": {
         "hex": "#56c289",
         "alpha": 1
       },
       "success.on": {
-        "hex": "#08090c",
+        "hex": "#030305",
         "alpha": 1
       },
       "success.text": {
@@ -1028,7 +1028,7 @@ export default {
         "alpha": 1
       },
       "warning.on": {
-        "hex": "#08090c",
+        "hex": "#030305",
         "alpha": 1
       },
       "warning.text": {
@@ -1044,7 +1044,7 @@ export default {
         "alpha": 1
       },
       "danger.on": {
-        "hex": "#08090c",
+        "hex": "#030305",
         "alpha": 1
       },
       "danger.text": {
@@ -1060,7 +1060,7 @@ export default {
         "alpha": 1
       },
       "info.on": {
-        "hex": "#08090c",
+        "hex": "#030305",
         "alpha": 1
       },
       "info.text": {
@@ -1096,7 +1096,7 @@ export default {
         "alpha": 1
       },
       "canvas.selection-on": {
-        "hex": "#08090c",
+        "hex": "#030305",
         "alpha": 1
       },
       "canvas.guide": {
@@ -1104,7 +1104,7 @@ export default {
         "alpha": 1
       },
       "canvas.guide-on": {
-        "hex": "#08090c",
+        "hex": "#030305",
         "alpha": 1
       },
       "canvas.guide-user": {
@@ -1124,7 +1124,7 @@ export default {
         "alpha": 1
       },
       "canvas.checker-a": {
-        "hex": "#303339",
+        "hex": "#26292e",
         "alpha": 1
       },
       "canvas.checker-b": {
@@ -1178,11 +1178,11 @@ export default {
       "500": "#6b6f76",
       "600": "#5a5e65",
       "700": "#474b51",
-      "800": "#303339",
-      "850": "#22252a",
-      "900": "#191c20",
-      "950": "#101215",
-      "1000": "#08090c"
+      "800": "#26292e",
+      "850": "#12151a",
+      "900": "#0b0d11",
+      "950": "#06070a",
+      "1000": "#030305"
     },
     "accent": {
       "25": "#f1fdfe",
@@ -1748,14 +1748,14 @@ export default {
       "3": "0 2px 4px oklch(0.2 0.02 260 / 0.04), 0 12px 28px -6px oklch(0.2 0.02 260 / 0.12)",
       "4": "0 4px 8px oklch(0.2 0.02 260 / 0.05), 0 24px 48px -12px oklch(0.2 0.02 260 / 0.18)",
       "5": "0 8px 16px oklch(0.2 0.02 260 / 0.06), 0 40px 80px -16px oklch(0.2 0.02 260 / 0.28)",
-      "thumb": "0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
-      "thumb-sm": "0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2)",
-      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)",
-      "card": "inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22)",
+      "thumb": "0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
+      "thumb-sm": "0 2px 6px oklch(0 0 0 / 0.2)",
+      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25)",
+      "card": "0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.18)",
       "lift": "0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)",
       "well": "0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)",
       "agent": "0 8px 30px -12px var(--cs-color-agent-glow)",
-      "artboard": "0 0 0 1px oklch(0 0 0 / 0.06), 0 6px 20px -8px oklch(0 0 0 / 0.2)"
+      "artboard": "0 6px 20px -8px oklch(0 0 0 / 0.2)"
     },
     "dark": {
       "1": "0 1px 2px oklch(0 0 0 / 0.3)",
@@ -1763,14 +1763,14 @@ export default {
       "3": "0 2px 4px oklch(0 0 0 / 0.25), 0 12px 28px -6px oklch(0 0 0 / 0.45)",
       "4": "0 4px 8px oklch(0 0 0 / 0.25), 0 24px 48px -12px oklch(0 0 0 / 0.55)",
       "5": "0 8px 16px oklch(0 0 0 / 0.3), 0 40px 80px -16px oklch(0 0 0 / 0.65)",
-      "thumb": "0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
-      "thumb-sm": "0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2)",
-      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25)",
-      "card": "inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22)",
+      "thumb": "0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
+      "thumb-sm": "0 2px 6px oklch(0 0 0 / 0.2)",
+      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25)",
+      "card": "0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.18)",
       "lift": "0 14px 30px -14px oklch(0.2 0.02 260 / 0.3)",
       "well": "0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25)",
       "agent": "0 8px 30px -12px var(--cs-color-agent-glow)",
-      "artboard": "0 0 0 1px oklch(0 0 0 / 0.06), 0 6px 20px -8px oklch(0 0 0 / 0.2)"
+      "artboard": "0 6px 20px -8px oklch(0 0 0 / 0.2)"
     }
   },
   "blur": {

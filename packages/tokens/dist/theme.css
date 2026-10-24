@@ -501,21 +501,15 @@
 
 /* Caustic utilities: materials, agent signature, focus policy */
 @utility glass {
+  /* Solid floating surface (name kept for spec compatibility): flat fill + one elevation shadow. No blur, no hairline, no specular. */
   position: relative;
   background: var(--cs-material, var(--cs-color-material-regular));
-  -webkit-backdrop-filter: blur(var(--cs-material-blur, var(--cs-blur-regular))) saturate(1.8);
-  backdrop-filter: blur(var(--cs-material-blur, var(--cs-blur-regular))) saturate(1.8);
-  box-shadow: inset 0 1px 0 var(--cs-color-material-specular), inset 0 0 0 1px var(--cs-color-material-rim), 0 0 0 0.5px var(--cs-color-material-edge), var(--cs-shadow, var(--cs-elevation-3));
-  &::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
-    background: linear-gradient(155deg, var(--cs-color-material-specular), transparent 28%, transparent 66%, var(--cs-color-material-sheen));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+  box-shadow: var(--cs-shadow, var(--cs-elevation-3));
 }
-@utility glass-ultrathin { --cs-material: var(--cs-color-material-ultrathin); --cs-material-blur: var(--cs-blur-ultrathin); }
-@utility glass-thin { --cs-material: var(--cs-color-material-thin); --cs-material-blur: var(--cs-blur-thin); }
-@utility glass-thick { --cs-material: var(--cs-color-material-thick); --cs-material-blur: var(--cs-blur-thick); }
+@utility glass-ultrathin { --cs-material: var(--cs-color-material-ultrathin); }
+@utility glass-thin { --cs-material: var(--cs-color-material-thin); }
+@utility glass-thick { --cs-material: var(--cs-color-material-thick); }
 @utility glass-shadow-* { --cs-shadow: --value(--shadow-*); }
-@utility frost { -webkit-backdrop-filter: blur(var(--cs-blur-control)) saturate(1.6); backdrop-filter: blur(var(--cs-blur-control)) saturate(1.6); }
 @utility agent-rim {
   position: relative;
   &::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;

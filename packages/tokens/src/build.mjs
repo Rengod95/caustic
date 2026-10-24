@@ -321,21 +321,15 @@ function tailwindTheme() {
   L.push('}', '');
   L.push(`/* Caustic utilities: materials, agent signature, focus policy */
 @utility glass {
+  /* Solid floating surface (name kept for spec compatibility): flat fill + one elevation shadow. No blur, no hairline, no specular. */
   position: relative;
   background: var(--${P}-material, var(--${P}-color-material-regular));
-  -webkit-backdrop-filter: blur(var(--${P}-material-blur, var(--${P}-blur-regular))) saturate(1.8);
-  backdrop-filter: blur(var(--${P}-material-blur, var(--${P}-blur-regular))) saturate(1.8);
-  box-shadow: inset 0 1px 0 var(--${P}-color-material-specular), inset 0 0 0 1px var(--${P}-color-material-rim), 0 0 0 0.5px var(--${P}-color-material-edge), var(--${P}-shadow, var(--${P}-elevation-3));
-  &::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
-    background: linear-gradient(155deg, var(--${P}-color-material-specular), transparent 28%, transparent 66%, var(--${P}-color-material-sheen));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+  box-shadow: var(--${P}-shadow, var(--${P}-elevation-3));
 }
-@utility glass-ultrathin { --${P}-material: var(--${P}-color-material-ultrathin); --${P}-material-blur: var(--${P}-blur-ultrathin); }
-@utility glass-thin { --${P}-material: var(--${P}-color-material-thin); --${P}-material-blur: var(--${P}-blur-thin); }
-@utility glass-thick { --${P}-material: var(--${P}-color-material-thick); --${P}-material-blur: var(--${P}-blur-thick); }
+@utility glass-ultrathin { --${P}-material: var(--${P}-color-material-ultrathin); }
+@utility glass-thin { --${P}-material: var(--${P}-color-material-thin); }
+@utility glass-thick { --${P}-material: var(--${P}-color-material-thick); }
 @utility glass-shadow-* { --${P}-shadow: --value(--shadow-*); }
-@utility frost { -webkit-backdrop-filter: blur(var(--${P}-blur-control)) saturate(1.6); backdrop-filter: blur(var(--${P}-blur-control)) saturate(1.6); }
 @utility agent-rim {
   position: relative;
   &::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;

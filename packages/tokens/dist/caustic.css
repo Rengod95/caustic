@@ -18,11 +18,11 @@
   --cs-neutral-500: oklch(0.54 0.012 260);
   --cs-neutral-600: oklch(0.48 0.012 260);
   --cs-neutral-700: oklch(0.41 0.012 260);
-  --cs-neutral-800: oklch(0.32 0.011 260);
-  --cs-neutral-850: oklch(0.265 0.01 260);
-  --cs-neutral-900: oklch(0.225 0.009 260);
-  --cs-neutral-950: oklch(0.18 0.008 260);
-  --cs-neutral-1000: oklch(0.14 0.007 260);
+  --cs-neutral-800: oklch(0.28 0.011 260);
+  --cs-neutral-850: oklch(0.195 0.01 260);
+  --cs-neutral-900: oklch(0.16 0.009 260);
+  --cs-neutral-950: oklch(0.13 0.008 260);
+  --cs-neutral-1000: oklch(0.1 0.007 260);
 
   /* primitives: accent (Lagoon) */
   --cs-accent-25: oklch(0.985 0.012 var(--cs-accent-hue));
@@ -430,41 +430,41 @@
   /* semantic: light */
   --cs-color-bg-app: oklch(0.97 0.003 260);
   --cs-color-bg-canvas: oklch(0.945 0.004 260);
-  --cs-color-bg-inset: oklch(0.18 0.008 260 / 0.04);
-  --cs-color-bg-scrim: oklch(0.18 0.008 260 / 0.24);
+  --cs-color-bg-inset: oklch(0.13 0.008 260 / 0.04);
+  --cs-color-bg-scrim: oklch(0.13 0.008 260 / 0.24);
   --cs-color-surface-base: oklch(0.995 0.001 260);
   --cs-color-surface-raised: oklch(0.985 0.002 260);
-  --cs-color-surface-raised-translucent: oklch(0.985 0.002 260 / 0.7);
-  --cs-color-surface-translucent: oklch(0.995 0.001 260 / 0.78);
-  --cs-color-material-ultrathin: oklch(0.995 0.001 260 / 0.3);
-  --cs-color-material-thin: oklch(0.995 0.001 260 / 0.48);
-  --cs-color-material-regular: oklch(0.995 0.001 260 / 0.66);
-  --cs-color-material-thick: oklch(0.995 0.001 260 / 0.84);
-  --cs-color-material-rim: oklch(1 0 0 / 0.62);
-  --cs-color-material-edge: oklch(0.18 0.008 260 / 0.11);
-  --cs-color-material-specular: oklch(1 0 0 / 0.95);
-  --cs-color-material-sheen: oklch(1 0 0 / 0.5);
-  --cs-color-text-primary: oklch(0.18 0.008 260);
+  --cs-color-surface-raised-translucent: oklch(0.985 0.002 260);
+  --cs-color-surface-translucent: oklch(0.995 0.001 260);
+  --cs-color-material-ultrathin: oklch(0.995 0.001 260);
+  --cs-color-material-thin: oklch(0.995 0.001 260);
+  --cs-color-material-regular: oklch(0.995 0.001 260);
+  --cs-color-material-thick: oklch(0.995 0.001 260);
+  --cs-color-material-rim: oklch(1 0 0 / 0);
+  --cs-color-material-edge: oklch(0.13 0.008 260 / 0);
+  --cs-color-material-specular: oklch(1 0 0 / 0);
+  --cs-color-material-sheen: oklch(1 0 0 / 0);
+  --cs-color-text-primary: oklch(0.13 0.008 260);
   --cs-color-text-secondary: oklch(0.41 0.012 260);
   --cs-color-text-tertiary: oklch(0.48 0.012 260);
   --cs-color-text-placeholder: oklch(0.48 0.012 260);
   --cs-color-text-disabled: oklch(0.65 0.011 260);
   --cs-color-text-inverse: oklch(0.995 0.001 260);
   --cs-color-text-link: oklch(0.465 0.118 var(--cs-accent-hue));
-  --cs-color-border-subtle: oklch(0.18 0.008 260 / 0.07);
-  --cs-color-border-default: oklch(0.18 0.008 260 / 0.12);
-  --cs-color-border-strong: oklch(0.18 0.008 260 / 0.2);
+  --cs-color-border-subtle: oklch(0.13 0.008 260 / 0.05);
+  --cs-color-border-default: oklch(0.13 0.008 260 / 0.08);
+  --cs-color-border-strong: oklch(0.13 0.008 260 / 0.13);
   --cs-color-border-control: oklch(0.65 0.011 260);
-  --cs-color-fill-hover: oklch(0.18 0.008 260 / 0.045);
-  --cs-color-fill-pressed: oklch(0.18 0.008 260 / 0.075);
-  --cs-color-fill-selected: oklch(0.18 0.008 260 / 0.11);
+  --cs-color-fill-hover: oklch(0.13 0.008 260 / 0.045);
+  --cs-color-fill-pressed: oklch(0.13 0.008 260 / 0.075);
+  --cs-color-fill-selected: oklch(0.13 0.008 260 / 0.11);
   --cs-color-control-off: oklch(0.65 0.011 260);
   --cs-color-control-thumb: oklch(0.995 0.001 260);
-  --cs-color-control-raised: oklch(0.995 0.001 260 / 0.8);
-  --cs-color-control-raised-hover: oklch(0.995 0.001 260 / 0.94);
-  --cs-color-control-edge: oklch(0.18 0.008 260 / 0.1);
-  --cs-color-ink-solid: oklch(0.225 0.009 260 / 0.9);
-  --cs-color-ink-hover: oklch(0.32 0.011 260 / 0.9);
+  --cs-color-control-raised: oklch(0.995 0.001 260);
+  --cs-color-control-raised-hover: oklch(0.985 0.002 260);
+  --cs-color-control-edge: oklch(0.13 0.008 260 / 0.07);
+  --cs-color-ink-solid: oklch(0.16 0.009 260);
+  --cs-color-ink-hover: oklch(0.28 0.011 260);
   --cs-color-ink-on: oklch(0.985 0.002 260);
   --cs-color-ink-on-muted: oklch(0.985 0.002 260 / 0.75);
   --cs-color-ink-kbd: oklch(1 0 0 / 0.09);
@@ -485,15 +485,15 @@
   --cs-color-accent-soft: oklch(0.735 0.13 var(--cs-accent-hue) / 0.14);
   --cs-color-accent-tint: oklch(0.735 0.13 var(--cs-accent-hue) / 0.084);
   --cs-color-accent-border: oklch(0.735 0.13 var(--cs-accent-hue) / 0.5);
-  --cs-color-accent-glow: oklch(0.635 0.142 var(--cs-accent-hue) / 0.35);
-  --cs-color-accent-fill: oklch(0.465 0.118 var(--cs-accent-hue) / 0.9);
-  --cs-color-accent-fill-hover: oklch(0.385 0.095 var(--cs-accent-hue) / 0.9);
+  --cs-color-accent-glow: oklch(0.635 0.142 var(--cs-accent-hue) / 0.2);
+  --cs-color-accent-fill: oklch(0.465 0.118 var(--cs-accent-hue));
+  --cs-color-accent-fill-hover: oklch(0.385 0.095 var(--cs-accent-hue));
   --cs-color-success-solid: oklch(0.525 0.135 158);
   --cs-color-success-on: oklch(0.995 0.001 260);
   --cs-color-success-text: oklch(0.465 0.118 158);
   --cs-color-success-soft: oklch(0.815 0.105 158 / 0.22);
   --cs-color-warning-solid: oklch(0.635 0.142 72);
-  --cs-color-warning-on: oklch(0.14 0.007 260);
+  --cs-color-warning-on: oklch(0.1 0.007 260);
   --cs-color-warning-text: oklch(0.465 0.118 72);
   --cs-color-warning-soft: oklch(0.815 0.105 72 / 0.3);
   --cs-color-danger-solid: oklch(0.525 0.135 25);
@@ -507,7 +507,7 @@
   --cs-color-diff-add: oklch(0.735 0.13 158 / 0.18);
   --cs-color-diff-remove: oklch(0.735 0.13 25 / 0.16);
   --cs-color-focus-ring: oklch(0.525 0.135 var(--cs-accent-hue));
-  --cs-color-canvas-dot: oklch(0.18 0.008 260 / 0.13);
+  --cs-color-canvas-dot: oklch(0.13 0.008 260 / 0.13);
   --cs-color-canvas-selection: oklch(0.525 0.135 var(--cs-accent-hue));
   --cs-color-canvas-handle: oklch(0.995 0.001 260);
   --cs-color-canvas-selection-on: oklch(0.995 0.001 260);
@@ -532,14 +532,14 @@
   --cs-elevation-3: 0 2px 4px oklch(0.2 0.02 260 / 0.04), 0 12px 28px -6px oklch(0.2 0.02 260 / 0.12);
   --cs-elevation-4: 0 4px 8px oklch(0.2 0.02 260 / 0.05), 0 24px 48px -12px oklch(0.2 0.02 260 / 0.18);
   --cs-elevation-5: 0 8px 16px oklch(0.2 0.02 260 / 0.06), 0 40px 80px -16px oklch(0.2 0.02 260 / 0.28);
-  --cs-elevation-thumb: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
-  --cs-elevation-thumb-sm: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2);
-  --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25);
-  --cs-elevation-card: inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22);
+  --cs-elevation-thumb: 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
+  --cs-elevation-thumb-sm: 0 2px 6px oklch(0 0 0 / 0.2);
+  --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25);
+  --cs-elevation-card: 0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.18);
   --cs-elevation-lift: 0 14px 30px -14px oklch(0.2 0.02 260 / 0.3);
   --cs-elevation-well: 0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25);
   --cs-elevation-agent: 0 8px 30px -12px var(--cs-color-agent-glow);
-  --cs-elevation-artboard: 0 0 0 1px oklch(0 0 0 / 0.06), 0 6px 20px -8px oklch(0 0 0 / 0.2);
+  --cs-elevation-artboard: 0 6px 20px -8px oklch(0 0 0 / 0.2);
   --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
   --cs-focus: 0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring);
 }
@@ -547,43 +547,43 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --cs-color-bg-app: oklch(0.18 0.008 260);
-    --cs-color-bg-canvas: oklch(0.14 0.007 260);
-    --cs-color-bg-inset: oklch(0 0 0 / 0.22);
+    --cs-color-bg-app: oklch(0.13 0.008 260);
+    --cs-color-bg-canvas: oklch(0.1 0.007 260);
+    --cs-color-bg-inset: oklch(0 0 0 / 0.3);
     --cs-color-bg-scrim: oklch(0 0 0 / 0.5);
-    --cs-color-surface-base: oklch(0.225 0.009 260);
-    --cs-color-surface-raised: oklch(0.265 0.01 260);
-    --cs-color-surface-raised-translucent: oklch(0.265 0.01 260 / 0.7);
-    --cs-color-surface-translucent: oklch(0.225 0.009 260 / 0.72);
-    --cs-color-material-ultrathin: oklch(0.265 0.01 260 / 0.28);
-    --cs-color-material-thin: oklch(0.265 0.01 260 / 0.44);
-    --cs-color-material-regular: oklch(0.225 0.009 260 / 0.62);
-    --cs-color-material-thick: oklch(0.225 0.009 260 / 0.84);
-    --cs-color-material-rim: oklch(1 0 0 / 0.09);
-    --cs-color-material-edge: oklch(0 0 0 / 0.55);
-    --cs-color-material-specular: oklch(1 0 0 / 0.17);
-    --cs-color-material-sheen: oklch(1 0 0 / 0.1);
+    --cs-color-surface-base: oklch(0.16 0.009 260);
+    --cs-color-surface-raised: oklch(0.195 0.01 260);
+    --cs-color-surface-raised-translucent: oklch(0.195 0.01 260);
+    --cs-color-surface-translucent: oklch(0.16 0.009 260);
+    --cs-color-material-ultrathin: oklch(0.195 0.01 260);
+    --cs-color-material-thin: oklch(0.195 0.01 260);
+    --cs-color-material-regular: oklch(0.195 0.01 260);
+    --cs-color-material-thick: oklch(0.195 0.01 260);
+    --cs-color-material-rim: oklch(1 0 0 / 0);
+    --cs-color-material-edge: oklch(0 0 0 / 0);
+    --cs-color-material-specular: oklch(1 0 0 / 0);
+    --cs-color-material-sheen: oklch(1 0 0 / 0);
     --cs-color-text-primary: oklch(0.985 0.002 260);
     --cs-color-text-secondary: oklch(0.845 0.008 260);
     --cs-color-text-tertiary: oklch(0.65 0.011 260);
     --cs-color-text-placeholder: oklch(0.65 0.011 260);
     --cs-color-text-disabled: oklch(0.54 0.012 260);
-    --cs-color-text-inverse: oklch(0.18 0.008 260);
+    --cs-color-text-inverse: oklch(0.13 0.008 260);
     --cs-color-text-link: oklch(0.815 0.105 var(--cs-accent-hue));
-    --cs-color-border-subtle: oklch(1 0 0 / 0.06);
-    --cs-color-border-default: oklch(1 0 0 / 0.1);
-    --cs-color-border-strong: oklch(1 0 0 / 0.17);
+    --cs-color-border-subtle: oklch(1 0 0 / 0.05);
+    --cs-color-border-default: oklch(1 0 0 / 0.07);
+    --cs-color-border-strong: oklch(1 0 0 / 0.12);
     --cs-color-border-control: oklch(0.54 0.012 260);
     --cs-color-fill-hover: oklch(1 0 0 / 0.05);
     --cs-color-fill-pressed: oklch(1 0 0 / 0.08);
     --cs-color-fill-selected: oklch(1 0 0 / 0.12);
     --cs-color-control-off: oklch(0.54 0.012 260);
     --cs-color-control-thumb: oklch(0.995 0.001 260);
-    --cs-color-control-raised: oklch(0.265 0.01 260 / 0.76);
-    --cs-color-control-raised-hover: oklch(0.32 0.011 260 / 0.82);
-    --cs-color-control-edge: oklch(1 0 0 / 0.08);
-    --cs-color-ink-solid: oklch(0.41 0.012 260 / 0.86);
-    --cs-color-ink-hover: oklch(0.48 0.012 260 / 0.86);
+    --cs-color-control-raised: oklch(0.195 0.01 260);
+    --cs-color-control-raised-hover: oklch(0.28 0.011 260);
+    --cs-color-control-edge: oklch(1 0 0 / 0.06);
+    --cs-color-ink-solid: oklch(0.41 0.012 260);
+    --cs-color-ink-hover: oklch(0.48 0.012 260);
     --cs-color-ink-on: oklch(0.985 0.002 260);
     --cs-color-ink-on-muted: oklch(0.985 0.002 260 / 0.75);
     --cs-color-ink-kbd: oklch(1 0 0 / 0.09);
@@ -599,28 +599,28 @@
     --cs-color-chart-4: oklch(0.735 0.13 72);
     --cs-color-accent-solid: oklch(0.735 0.13 var(--cs-accent-hue));
     --cs-color-accent-hover: oklch(0.815 0.105 var(--cs-accent-hue));
-    --cs-color-accent-on: oklch(0.14 0.007 260);
+    --cs-color-accent-on: oklch(0.1 0.007 260);
     --cs-color-accent-text: oklch(0.815 0.105 var(--cs-accent-hue));
     --cs-color-accent-soft: oklch(0.735 0.13 var(--cs-accent-hue) / 0.17);
     --cs-color-accent-tint: oklch(0.735 0.13 var(--cs-accent-hue) / 0.102);
     --cs-color-accent-border: oklch(0.735 0.13 var(--cs-accent-hue) / 0.45);
-    --cs-color-accent-glow: oklch(0.735 0.13 var(--cs-accent-hue) / 0.3);
-    --cs-color-accent-fill: oklch(0.735 0.13 var(--cs-accent-hue) / 0.9);
-    --cs-color-accent-fill-hover: oklch(0.815 0.105 var(--cs-accent-hue) / 0.92);
+    --cs-color-accent-glow: oklch(0.735 0.13 var(--cs-accent-hue) / 0.2);
+    --cs-color-accent-fill: oklch(0.735 0.13 var(--cs-accent-hue));
+    --cs-color-accent-fill-hover: oklch(0.815 0.105 var(--cs-accent-hue));
     --cs-color-success-solid: oklch(0.735 0.13 158);
-    --cs-color-success-on: oklch(0.14 0.007 260);
+    --cs-color-success-on: oklch(0.1 0.007 260);
     --cs-color-success-text: oklch(0.815 0.105 158);
     --cs-color-success-soft: oklch(0.635 0.142 158 / 0.2);
     --cs-color-warning-solid: oklch(0.735 0.13 72);
-    --cs-color-warning-on: oklch(0.14 0.007 260);
+    --cs-color-warning-on: oklch(0.1 0.007 260);
     --cs-color-warning-text: oklch(0.815 0.105 72);
     --cs-color-warning-soft: oklch(0.635 0.142 72 / 0.2);
     --cs-color-danger-solid: oklch(0.735 0.13 25);
-    --cs-color-danger-on: oklch(0.14 0.007 260);
+    --cs-color-danger-on: oklch(0.1 0.007 260);
     --cs-color-danger-text: oklch(0.815 0.105 25);
     --cs-color-danger-soft: oklch(0.635 0.142 25 / 0.2);
     --cs-color-info-solid: oklch(0.735 0.13 295);
-    --cs-color-info-on: oklch(0.14 0.007 260);
+    --cs-color-info-on: oklch(0.1 0.007 260);
     --cs-color-info-text: oklch(0.815 0.105 295);
     --cs-color-info-soft: oklch(0.635 0.142 295 / 0.2);
     --cs-color-diff-add: oklch(0.635 0.142 158 / 0.18);
@@ -629,14 +629,14 @@
     --cs-color-canvas-dot: oklch(1 0 0 / 0.08);
     --cs-color-canvas-selection: oklch(0.635 0.142 var(--cs-accent-hue));
     --cs-color-canvas-handle: oklch(0.995 0.001 260);
-    --cs-color-canvas-selection-on: oklch(0.14 0.007 260);
+    --cs-color-canvas-selection-on: oklch(0.1 0.007 260);
     --cs-color-canvas-guide: oklch(0.635 0.142 25);
-    --cs-color-canvas-guide-on: oklch(0.14 0.007 260);
+    --cs-color-canvas-guide-on: oklch(0.1 0.007 260);
     --cs-color-canvas-guide-user: oklch(0.735 0.13 295 / 0.8);
     --cs-color-canvas-hover: oklch(0.635 0.142 var(--cs-accent-hue) / 0.6);
     --cs-color-canvas-marquee: oklch(0.735 0.13 var(--cs-accent-hue) / 0.14);
     --cs-color-canvas-label: oklch(0.65 0.011 260);
-    --cs-color-canvas-checker-a: oklch(0.32 0.011 260);
+    --cs-color-canvas-checker-a: oklch(0.28 0.011 260);
     --cs-color-canvas-checker-b: oklch(0.41 0.012 260);
     --cs-color-canvas-artboard: oklch(0.995 0.001 260);
     --cs-color-agent-glow: oklch(0.735 0.13 var(--cs-accent-hue) / 0.35);
@@ -651,14 +651,14 @@
     --cs-elevation-3: 0 2px 4px oklch(0 0 0 / 0.25), 0 12px 28px -6px oklch(0 0 0 / 0.45);
     --cs-elevation-4: 0 4px 8px oklch(0 0 0 / 0.25), 0 24px 48px -12px oklch(0 0 0 / 0.55);
     --cs-elevation-5: 0 8px 16px oklch(0 0 0 / 0.3), 0 40px 80px -16px oklch(0 0 0 / 0.65);
-    --cs-elevation-thumb: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
-    --cs-elevation-thumb-sm: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2);
-    --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25);
-    --cs-elevation-card: inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22);
+    --cs-elevation-thumb: 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
+    --cs-elevation-thumb-sm: 0 2px 6px oklch(0 0 0 / 0.2);
+    --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25);
+    --cs-elevation-card: 0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.18);
     --cs-elevation-lift: 0 14px 30px -14px oklch(0.2 0.02 260 / 0.3);
     --cs-elevation-well: 0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25);
     --cs-elevation-agent: 0 8px 30px -12px var(--cs-color-agent-glow);
-    --cs-elevation-artboard: 0 0 0 1px oklch(0 0 0 / 0.06), 0 6px 20px -8px oklch(0 0 0 / 0.2);
+    --cs-elevation-artboard: 0 6px 20px -8px oklch(0 0 0 / 0.2);
     --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
     --cs-focus: 0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring);
   }
@@ -666,43 +666,43 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --cs-color-bg-app: oklch(0.18 0.008 260);
-  --cs-color-bg-canvas: oklch(0.14 0.007 260);
-  --cs-color-bg-inset: oklch(0 0 0 / 0.22);
+  --cs-color-bg-app: oklch(0.13 0.008 260);
+  --cs-color-bg-canvas: oklch(0.1 0.007 260);
+  --cs-color-bg-inset: oklch(0 0 0 / 0.3);
   --cs-color-bg-scrim: oklch(0 0 0 / 0.5);
-  --cs-color-surface-base: oklch(0.225 0.009 260);
-  --cs-color-surface-raised: oklch(0.265 0.01 260);
-  --cs-color-surface-raised-translucent: oklch(0.265 0.01 260 / 0.7);
-  --cs-color-surface-translucent: oklch(0.225 0.009 260 / 0.72);
-  --cs-color-material-ultrathin: oklch(0.265 0.01 260 / 0.28);
-  --cs-color-material-thin: oklch(0.265 0.01 260 / 0.44);
-  --cs-color-material-regular: oklch(0.225 0.009 260 / 0.62);
-  --cs-color-material-thick: oklch(0.225 0.009 260 / 0.84);
-  --cs-color-material-rim: oklch(1 0 0 / 0.09);
-  --cs-color-material-edge: oklch(0 0 0 / 0.55);
-  --cs-color-material-specular: oklch(1 0 0 / 0.17);
-  --cs-color-material-sheen: oklch(1 0 0 / 0.1);
+  --cs-color-surface-base: oklch(0.16 0.009 260);
+  --cs-color-surface-raised: oklch(0.195 0.01 260);
+  --cs-color-surface-raised-translucent: oklch(0.195 0.01 260);
+  --cs-color-surface-translucent: oklch(0.16 0.009 260);
+  --cs-color-material-ultrathin: oklch(0.195 0.01 260);
+  --cs-color-material-thin: oklch(0.195 0.01 260);
+  --cs-color-material-regular: oklch(0.195 0.01 260);
+  --cs-color-material-thick: oklch(0.195 0.01 260);
+  --cs-color-material-rim: oklch(1 0 0 / 0);
+  --cs-color-material-edge: oklch(0 0 0 / 0);
+  --cs-color-material-specular: oklch(1 0 0 / 0);
+  --cs-color-material-sheen: oklch(1 0 0 / 0);
   --cs-color-text-primary: oklch(0.985 0.002 260);
   --cs-color-text-secondary: oklch(0.845 0.008 260);
   --cs-color-text-tertiary: oklch(0.65 0.011 260);
   --cs-color-text-placeholder: oklch(0.65 0.011 260);
   --cs-color-text-disabled: oklch(0.54 0.012 260);
-  --cs-color-text-inverse: oklch(0.18 0.008 260);
+  --cs-color-text-inverse: oklch(0.13 0.008 260);
   --cs-color-text-link: oklch(0.815 0.105 var(--cs-accent-hue));
-  --cs-color-border-subtle: oklch(1 0 0 / 0.06);
-  --cs-color-border-default: oklch(1 0 0 / 0.1);
-  --cs-color-border-strong: oklch(1 0 0 / 0.17);
+  --cs-color-border-subtle: oklch(1 0 0 / 0.05);
+  --cs-color-border-default: oklch(1 0 0 / 0.07);
+  --cs-color-border-strong: oklch(1 0 0 / 0.12);
   --cs-color-border-control: oklch(0.54 0.012 260);
   --cs-color-fill-hover: oklch(1 0 0 / 0.05);
   --cs-color-fill-pressed: oklch(1 0 0 / 0.08);
   --cs-color-fill-selected: oklch(1 0 0 / 0.12);
   --cs-color-control-off: oklch(0.54 0.012 260);
   --cs-color-control-thumb: oklch(0.995 0.001 260);
-  --cs-color-control-raised: oklch(0.265 0.01 260 / 0.76);
-  --cs-color-control-raised-hover: oklch(0.32 0.011 260 / 0.82);
-  --cs-color-control-edge: oklch(1 0 0 / 0.08);
-  --cs-color-ink-solid: oklch(0.41 0.012 260 / 0.86);
-  --cs-color-ink-hover: oklch(0.48 0.012 260 / 0.86);
+  --cs-color-control-raised: oklch(0.195 0.01 260);
+  --cs-color-control-raised-hover: oklch(0.28 0.011 260);
+  --cs-color-control-edge: oklch(1 0 0 / 0.06);
+  --cs-color-ink-solid: oklch(0.41 0.012 260);
+  --cs-color-ink-hover: oklch(0.48 0.012 260);
   --cs-color-ink-on: oklch(0.985 0.002 260);
   --cs-color-ink-on-muted: oklch(0.985 0.002 260 / 0.75);
   --cs-color-ink-kbd: oklch(1 0 0 / 0.09);
@@ -718,28 +718,28 @@
   --cs-color-chart-4: oklch(0.735 0.13 72);
   --cs-color-accent-solid: oklch(0.735 0.13 var(--cs-accent-hue));
   --cs-color-accent-hover: oklch(0.815 0.105 var(--cs-accent-hue));
-  --cs-color-accent-on: oklch(0.14 0.007 260);
+  --cs-color-accent-on: oklch(0.1 0.007 260);
   --cs-color-accent-text: oklch(0.815 0.105 var(--cs-accent-hue));
   --cs-color-accent-soft: oklch(0.735 0.13 var(--cs-accent-hue) / 0.17);
   --cs-color-accent-tint: oklch(0.735 0.13 var(--cs-accent-hue) / 0.102);
   --cs-color-accent-border: oklch(0.735 0.13 var(--cs-accent-hue) / 0.45);
-  --cs-color-accent-glow: oklch(0.735 0.13 var(--cs-accent-hue) / 0.3);
-  --cs-color-accent-fill: oklch(0.735 0.13 var(--cs-accent-hue) / 0.9);
-  --cs-color-accent-fill-hover: oklch(0.815 0.105 var(--cs-accent-hue) / 0.92);
+  --cs-color-accent-glow: oklch(0.735 0.13 var(--cs-accent-hue) / 0.2);
+  --cs-color-accent-fill: oklch(0.735 0.13 var(--cs-accent-hue));
+  --cs-color-accent-fill-hover: oklch(0.815 0.105 var(--cs-accent-hue));
   --cs-color-success-solid: oklch(0.735 0.13 158);
-  --cs-color-success-on: oklch(0.14 0.007 260);
+  --cs-color-success-on: oklch(0.1 0.007 260);
   --cs-color-success-text: oklch(0.815 0.105 158);
   --cs-color-success-soft: oklch(0.635 0.142 158 / 0.2);
   --cs-color-warning-solid: oklch(0.735 0.13 72);
-  --cs-color-warning-on: oklch(0.14 0.007 260);
+  --cs-color-warning-on: oklch(0.1 0.007 260);
   --cs-color-warning-text: oklch(0.815 0.105 72);
   --cs-color-warning-soft: oklch(0.635 0.142 72 / 0.2);
   --cs-color-danger-solid: oklch(0.735 0.13 25);
-  --cs-color-danger-on: oklch(0.14 0.007 260);
+  --cs-color-danger-on: oklch(0.1 0.007 260);
   --cs-color-danger-text: oklch(0.815 0.105 25);
   --cs-color-danger-soft: oklch(0.635 0.142 25 / 0.2);
   --cs-color-info-solid: oklch(0.735 0.13 295);
-  --cs-color-info-on: oklch(0.14 0.007 260);
+  --cs-color-info-on: oklch(0.1 0.007 260);
   --cs-color-info-text: oklch(0.815 0.105 295);
   --cs-color-info-soft: oklch(0.635 0.142 295 / 0.2);
   --cs-color-diff-add: oklch(0.635 0.142 158 / 0.18);
@@ -748,14 +748,14 @@
   --cs-color-canvas-dot: oklch(1 0 0 / 0.08);
   --cs-color-canvas-selection: oklch(0.635 0.142 var(--cs-accent-hue));
   --cs-color-canvas-handle: oklch(0.995 0.001 260);
-  --cs-color-canvas-selection-on: oklch(0.14 0.007 260);
+  --cs-color-canvas-selection-on: oklch(0.1 0.007 260);
   --cs-color-canvas-guide: oklch(0.635 0.142 25);
-  --cs-color-canvas-guide-on: oklch(0.14 0.007 260);
+  --cs-color-canvas-guide-on: oklch(0.1 0.007 260);
   --cs-color-canvas-guide-user: oklch(0.735 0.13 295 / 0.8);
   --cs-color-canvas-hover: oklch(0.635 0.142 var(--cs-accent-hue) / 0.6);
   --cs-color-canvas-marquee: oklch(0.735 0.13 var(--cs-accent-hue) / 0.14);
   --cs-color-canvas-label: oklch(0.65 0.011 260);
-  --cs-color-canvas-checker-a: oklch(0.32 0.011 260);
+  --cs-color-canvas-checker-a: oklch(0.28 0.011 260);
   --cs-color-canvas-checker-b: oklch(0.41 0.012 260);
   --cs-color-canvas-artboard: oklch(0.995 0.001 260);
   --cs-color-agent-glow: oklch(0.735 0.13 var(--cs-accent-hue) / 0.35);
@@ -770,14 +770,14 @@
   --cs-elevation-3: 0 2px 4px oklch(0 0 0 / 0.25), 0 12px 28px -6px oklch(0 0 0 / 0.45);
   --cs-elevation-4: 0 4px 8px oklch(0 0 0 / 0.25), 0 24px 48px -12px oklch(0 0 0 / 0.55);
   --cs-elevation-5: 0 8px 16px oklch(0 0 0 / 0.3), 0 40px 80px -16px oklch(0 0 0 / 0.65);
-  --cs-elevation-thumb: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
-  --cs-elevation-thumb-sm: 0 0 0 0.5px oklch(0 0 0 / 0.12), 0 2px 6px oklch(0 0 0 / 0.2);
-  --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 0 0 3.5px oklch(0 0 0 / 0.14), 0 2px 8px oklch(0 0 0 / 0.25);
-  --cs-elevation-card: inset 0 1px 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.22);
+  --cs-elevation-thumb: 0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12);
+  --cs-elevation-thumb-sm: 0 2px 6px oklch(0 0 0 / 0.2);
+  --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25);
+  --cs-elevation-card: 0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0.02 260 / 0.18);
   --cs-elevation-lift: 0 14px 30px -14px oklch(0.2 0.02 260 / 0.3);
   --cs-elevation-well: 0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0.02 260 / 0.25);
   --cs-elevation-agent: 0 8px 30px -12px var(--cs-color-agent-glow);
-  --cs-elevation-artboard: 0 0 0 1px oklch(0 0 0 / 0.06), 0 6px 20px -8px oklch(0 0 0 / 0.2);
+  --cs-elevation-artboard: 0 6px 20px -8px oklch(0 0 0 / 0.2);
   --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
   --cs-focus: 0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring);
 }
@@ -848,38 +848,20 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 :lang(ko) :is(.cs-display, .cs-title-1, .cs-title-2, .cs-title-3) { letter-spacing: -0.01em; }
 :lang(ko) .cs-caption { letter-spacing: 0.02em; }
 
-/* ── Materials ──────────────────────────────────────────────────────
-   Glass is for layers that float above content. Thin/regular for chrome,
-   thick for anything carrying menu or form text. */
+/* ── Surfaces ───────────────────────────────────────────────────────
+   Floating layers are solid: a flat fill plus one elevation shadow. No blur,
+   no hairline, no specular rim. Class names keep the cs-glass prefix so
+   existing markup resolves. */
 .cs-glass {
   --cs-material: var(--cs-color-material-regular);
-  --cs-material-blur: var(--cs-blur-regular);
   position: relative;
   background: var(--cs-material);
-  -webkit-backdrop-filter: blur(var(--cs-material-blur)) saturate(1.8);
-  backdrop-filter: blur(var(--cs-material-blur)) saturate(1.8);
-  box-shadow:
-    inset 0 1px 0 var(--cs-color-material-specular),
-    inset 0 0 0 1px var(--cs-color-material-rim),
-    0 0 0 0.5px var(--cs-color-material-edge),
-    var(--cs-shadow, var(--cs-elevation-3));
+  box-shadow: var(--cs-shadow, var(--cs-elevation-3));
 }
-.cs-glass::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
-  background: linear-gradient(155deg, var(--cs-color-material-specular), transparent 28%, transparent 66%, var(--cs-color-material-sheen));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-}
-.cs-glass.cs-ultrathin { --cs-material: var(--cs-color-material-ultrathin); --cs-material-blur: var(--cs-blur-ultrathin); }
-.cs-glass.cs-thin      { --cs-material: var(--cs-color-material-thin);      --cs-material-blur: var(--cs-blur-thin); }
-.cs-glass.cs-thick     { --cs-material: var(--cs-color-material-thick);     --cs-material-blur: var(--cs-blur-thick); }
-.cs-solid { background: var(--cs-color-surface-base); box-shadow: 0 0 0 1px var(--cs-color-border-subtle), var(--cs-shadow, var(--cs-elevation-1)); }
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .cs-glass { background: var(--cs-color-material-thick); }
-}
-@media (prefers-reduced-transparency: reduce) {
-  .cs-glass { background: var(--cs-color-surface-base); -webkit-backdrop-filter: none; backdrop-filter: none; }
-}
+.cs-glass.cs-ultrathin { --cs-material: var(--cs-color-material-ultrathin); }
+.cs-glass.cs-thin      { --cs-material: var(--cs-color-material-thin); }
+.cs-glass.cs-thick     { --cs-material: var(--cs-color-material-thick); }
+.cs-solid { background: var(--cs-color-surface-base); box-shadow: inset 0 0 0 1px var(--cs-color-border-subtle); }
 
 /* ── Agent signature ────────────────────────────────────────────────
    Spectrum light marks agent presence, work or provenance. Never decoration. */
