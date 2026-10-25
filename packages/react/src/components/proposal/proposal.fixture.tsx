@@ -13,7 +13,7 @@ const chips = (
 export default defineFixture({
   id: 'proposal',
   render: props => (
-    <div className="w-100">
+    <div className="w-100 max-w-full">
       <Proposal title="Add saved cards" badge="Plan mode" chips={chips} {...props}>I’ll add a list of up to three saved cards above the form, with an “Add card” row.</Proposal>
     </div>
   ),

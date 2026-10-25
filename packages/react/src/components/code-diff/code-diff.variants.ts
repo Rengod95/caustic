@@ -2,20 +2,20 @@ import { cva } from 'class-variance-authority';
 
 /** The card: opaque surface, xl radius, subtle inset edge, clipped. Mono voice (P4). */
 export const codeDiffVariants = cva(
-  'm-0 overflow-hidden rounded-xl bg-surface-base font-mono text-mono-relaxed text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+  'm-0 max-w-full min-w-0 overflow-hidden rounded-xl bg-surface-base font-mono text-mono-relaxed text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
 );
 
-export const codeDiffHeader = cva('flex h-tab-h items-center gap-2 border-b border-border-subtle pl-3 pr-2 font-ui text-footnote text-text-primary');
+export const codeDiffHeader = cva('flex min-h-tab-h flex-wrap items-center gap-x-2 gap-y-1 border-b border-border-subtle py-1 pl-3 pr-2 font-ui text-footnote text-text-primary');
 
 export const codeDiffIcon = cva('inline-flex size-icon-sm shrink-0 text-text-secondary [&_svg]:size-full');
 
-export const codeDiffFilename = cva('font-mono text-footnote text-text-primary');
+export const codeDiffFilename = cva('min-w-0 break-all font-mono text-footnote text-text-primary');
 
 export const codeDiffStatAdd = cva('font-mono text-mono-md font-normal text-success-text');
 
 export const codeDiffStatDel = cva('font-mono text-mono-md font-normal text-danger-text');
 
-export const codeDiffActions = cva('ms-auto flex items-center gap-0.5');
+export const codeDiffActions = cva('ms-auto flex shrink-0 items-center gap-0.5');
 
 export const codeDiffBody = cva('m-0 overflow-x-auto py-1.5 outline-none focus-visible:shadow-focus');
 

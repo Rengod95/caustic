@@ -21,15 +21,19 @@ export const checkpointTimelineNode = cva(
   },
 );
 
-/** The node dot. An agent checkpoint shows the rotating spectrum; a selected checkpoint shows the accent dot (selected wins). */
+/** The node dot. An agent checkpoint shows the spectrum, rotating only while it is running; a selected checkpoint shows the accent dot (selected wins). */
 export const checkpointTimelineDot = cva('size-1.5 rounded-full motion-reduce:animate-none', {
   variants: {
     author: { human: '', agent: 'size-2 spectrum-fill' },
     selected: { true: 'bg-accent-solid', false: '' },
+    running: { true: '', false: 'animate-none' },
   },
   compoundVariants: [{ author: 'human', selected: false, class: 'bg-text-tertiary' }],
-  defaultVariants: { author: 'human', selected: false },
+  defaultVariants: { author: 'human', selected: false, running: false },
 });
+
+/** The restore confirm step: spans the body and action columns under the row, on the inset fill. */
+export const checkpointTimelineConfirm = cva('col-span-2 col-start-2 mb-3.5 grid gap-2 rounded-lg bg-bg-inset px-2.5 py-2');
 
 export const checkpointTimelineBody = cva('min-w-0 pb-3.5');
 

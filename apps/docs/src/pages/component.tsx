@@ -82,7 +82,7 @@ function Playground({ spec, fx }: { spec: Spec; fx: Fixture }) {
   }
   return (
     <div className="grid min-w-0 gap-3 rounded-3xl bg-surface-base p-3 shadow-[0_0_0_1px_var(--cs-color-border-subtle)] min-[1100px]:grid-cols-[minmax(0,1fr)_16rem]">
-      <div className="canvas-grid relative grid min-h-40 min-w-0 content-center justify-items-start overflow-auto rounded-2xl p-5" data-testid="playground-stage">
+      <div className="canvas-grid relative grid min-h-40 min-w-0 grid-cols-[minmax(0,1fr)] content-center justify-items-start overflow-auto rounded-2xl p-5" data-testid="playground-stage">
         <Boundary key={JSON.stringify([values, flags])} label={`${spec.id} playground`}>{frameOf(fx)(fx.render(props))}</Boundary>
       </div>
       <div className="grid min-w-0 content-start gap-3.5 p-1">

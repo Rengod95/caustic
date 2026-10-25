@@ -7,9 +7,14 @@ export const activityStepVariants = cva('grid min-h-7 grid-cols-[var(--cs-size-c
 export const activityCallVariants = cva('grid min-h-7 grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 pl-check text-ui-dense text-text-secondary');
 export const activityUnassignedVariants = cva('mt-1.5 grid min-h-7 grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 border-t border-dashed border-border-strong pt-1.5 text-ui-dense text-text-secondary');
 
-export const activityStepGlyphVariants = cva('grid size-icon-md place-items-center text-success-text [&_svg]:size-icon-sm');
-export const activityCallGlyphVariants = cva('grid size-icon-md place-items-center text-text-secondary [&_svg]:size-icon-sm');
+export const activityStepGlyphVariants = cva('grid size-icon-md place-items-center [&_svg]:size-icon-sm', {
+  variants: { failed: { true: 'text-danger-text', false: 'text-success-text' } },
+  defaultVariants: { failed: false },
+});
+export const activityCallGlyphVariants = cva('grid size-icon-md place-items-center [&_svg]:size-icon-sm', {
+  variants: { failed: { true: 'text-danger-text', false: 'text-text-secondary' } },
+  defaultVariants: { failed: false },
+});
 
-export const activityOrbVariants = cva('mx-0.5 orb orb-sm');
-export const activityShimmerVariants = cva('shimmer');
-export const activityWorkerOrbVariants = cva('orb orb-dot');
+export const activityOrbVariants = cva('mx-0.5 orb orb-sm motion-reduce:animate-none');
+export const activityWorkerOrbVariants = cva('orb orb-dot animate-none');

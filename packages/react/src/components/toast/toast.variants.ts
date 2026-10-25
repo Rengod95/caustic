@@ -29,8 +29,11 @@ export const toastMark = cva('', {
   defaultVariants: { tone: 'success' },
 });
 
+/** The mark of a failure (tone danger): a danger circle with an alert glyph. */
+export const toastDangerMark = cva('grid size-control-sm flex-none place-items-center rounded-full bg-danger-solid text-danger-on [&_svg]:size-icon-md');
+
 export const toastViewport = cva(
   'fixed end-4 bottom-4 z-(--cs-z-toast) grid w-toast-w max-w-full gap-2',
 );
 
-export type ToastVariantProps = Pick<VariantProps<typeof toastVariants>, 'tone'>;
+export type ToastVariantProps = { tone?: 'success' | 'agent' | 'danger' | undefined };

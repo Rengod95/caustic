@@ -14,7 +14,7 @@ export const revisionHistorySpineVariants = cva('absolute top-0 bottom-0 left-1/
 /** The node on the spine: a ring dot; agent revisions show the rotating spectrum dot; the chosen revision is the accent dot (it wins). */
 export const revisionHistoryNodeVariants = cva('relative size-2.5 rounded-full motion-reduce:animate-none', {
   variants: {
-    author: { human: '', agent: 'spectrum-fill' },
+    author: { human: '', agent: 'spectrum-fill animate-none' },
     selected: { true: 'bg-accent-solid shadow-[inset_0_0_0_2px_var(--cs-color-accent-solid)]', false: '' },
   },
   compoundVariants: [

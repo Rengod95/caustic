@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
-export const permissionRequestVariants = cva('grid gap-2.5 px-inset-compact-x py-inset-compact-y text-text-primary', {
+export const permissionRequestVariants = cva('grid min-w-0 max-w-full gap-2.5 px-inset-compact-x py-inset-compact-y text-text-primary', {
   variants: {
     status: {
       pending: 'rounded-2xl bg-surface-base shadow-2',

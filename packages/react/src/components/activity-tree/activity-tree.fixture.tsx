@@ -10,6 +10,12 @@ const nodes: ActivityNode[] = [
   { id: 'c3', kind: 'call', running: true, label: 'edit_layers · Pricing / Team', meta: 'running' },
   { id: 'c4', kind: 'call', unassigned: true, label: 'screenshot_frame · Checkout', meta: 'Unassigned' },
 ];
+// A run that stopped: the failed step and call carry the danger glyph and text.
+const failedNodes: ActivityNode[] = [
+  nodes[0]!,
+  { id: 'f1', kind: 'step', status: 'failed', label: 'Apply spacing and radius', meta: '2.1s' },
+  { id: 'fc1', kind: 'call', failed: true, label: 'edit_layers · Pricing / Team', meta: 'timed out' },
+];
 const worker = { name: 'Worker · canvas-editor', meta: 'round 4 · 38s' };
 
 export default defineFixture({
@@ -17,5 +23,6 @@ export default defineFixture({
   render: props => <div className="w-100"><ActivityTree nodes={nodes} worker={worker} {...props} /></div>,
   examples: {
     'activity-tree': () => <ActivityTree nodes={nodes} worker={worker} />,
+    'activity-tree-failed': () => <ActivityTree nodes={failedNodes} worker={worker} />,
   },
 });

@@ -19,7 +19,7 @@ const changes: TokenDiffRow[] = [
 export default defineFixture({
   id: 'review-request',
   render: props => (
-    <div className="w-100"><ReviewRequest title="Review 9 changes" subtitle="Caustic · Pricing refresh" summary={summary} changes={changes} {...props} /></div>
+    <div className="w-100 max-w-full"><ReviewRequest title="Review 9 changes" subtitle="Caustic · Pricing refresh" summary={summary} changes={changes} {...props} /></div>
   ),
   examples: {
     'review-request': () => <ReviewRequest title="Review 9 changes" subtitle="Caustic · Pricing refresh" summary={summary} changes={changes} />,
