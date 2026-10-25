@@ -80,7 +80,7 @@ function NeutralRamps({ theme, state, onDarkRamp }: { theme: Theme; state: Build
         <span className="font-mono text-mono-sm text-text-tertiary">
           dark {LADDER.map(r => `${r.replace('surface ', '').replace('bg ', '')} ${roleStepOf(p, 'dark', r)} (${neutralsFor(p, 'dark')[roleStepOf(p, 'dark', r) - 1]![0].toFixed(3).slice(1)})`).join(' · ')}
         </span>
-        <p className="m-0 text-footnote text-text-tertiary">Role links stay (canvas 1, app 2, surface 3, raised 4); steps 2–11 get darker. Subtle is the decided default.</p>
+        <p className="m-0 text-footnote text-text-tertiary">Role links stay (canvas 1, app 2, surface 3, raised 4); steps 2–11 get darker. A bit more is the decided default.</p>
       </div>
     </section>
   );

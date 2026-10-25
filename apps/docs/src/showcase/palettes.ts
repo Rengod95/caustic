@@ -51,7 +51,7 @@ export const NEUTRAL_ROLES: { role: string; light: number; dark: number }[] = [
 
 /**
  * Deep Black's dark ramp. The owner kept the role links (canvas 1, app 2, surface 3, raised 4) and asked for steps 2–11
- * a little darker instead; 'subtle' is the default, the other two stay for comparison in the lab.
+ * a little darker instead; 'more' is the default (owner, 2026-10-25), the other two stay for comparison in the lab.
  */
 export const DARK_RAMPS = {
   subtle: [0.09, 0.145, 0.195, 0.245, 0.365, 0.545, 0.605, 0.655, 0.71, 0.8, 0.965],
@@ -93,7 +93,7 @@ export const palettes: Palette[] = [
     id: 'deep', name: 'Signal Grey · Deep Black',
     concept: 'The original with denser ink: near-pure black accent and darker strong text, a slightly deeper dark canvas.',
     neutralLight: ramp([0.995, 0.975, 0.93, 0.875, 0.79, 0.6, 0.55, 0.5, 0.44, 0.29, 0.12]),
-    neutralDark: darkRamp('subtle'),
+    neutralDark: darkRamp('more'),
     accent: s('Deep Black', [0.11, 0, 0], [0.97, 0, 0]), ...SIGNAL_STATUS,
     spectrum: [s('Signal', [0.78, 0.09, 55], [0.74, 0.09, 55]), s('Panel', [0.78, 0.06, 235], [0.75, 0.06, 235]), s('Pad', [0.8, 0.08, 150], [0.76, 0.08, 150])],
     extras: [s('Knob Orange', [0.64, 0.12, 50], [0.72, 0.11, 50]), s('Dust Blue', [0.6, 0.07, 240], [0.72, 0.065, 240])],

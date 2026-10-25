@@ -31,7 +31,7 @@ export interface BuilderState {
   /** null: derived from the solid like the proposals. */
   accentHover: { light: LCH | null; dark: LCH | null };
   diffAlpha: { add: { light: number; dark: number }; remove: { light: number; dark: number } };
-  /** Which Deep Black neutral-dark ramp to use: 'subtle' is the decided default, the others are for comparison. */
+  /** Which Deep Black neutral-dark ramp to use: 'more' (A bit more) is the decided default, the others are for comparison. */
   darkRamp: DarkRamp;
   /** 'proposed': each colour gets a 1–11 ramp per mode and the semantic variables read slots (PROPOSAL-color-language.md). */
   language: 'current' | 'proposed';
@@ -55,7 +55,7 @@ export function initialState(): BuilderState {
   return {
     v: 1, colors, accentHover: { light: null, dark: null },
     diffAlpha: { add: { light: 0.22, dark: 0.2 }, remove: { light: 0.18, dark: 0.2 } },
-    darkRamp: 'subtle',
+    darkRamp: 'more',
     language: 'current',
   };
 }

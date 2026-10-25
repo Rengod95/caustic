@@ -258,8 +258,8 @@ card-action (card-action.variants.ts:12-13) · choice-cards (choice-cards.varian
 | 단계 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | 이전 | .09 | .16 | .215 | .27 | .39 | .56 | .62 | .67 | .72 | .81 | .97 |
-| **Subtle (기본)** | .09 | .145 | .195 | .245 | .365 | .545 | .605 | .655 | .71 | .80 | .965 |
-| A bit more | .09 | .135 | .18 | .225 | .345 | .535 | .595 | .645 | .70 | .795 | .96 |
+| Subtle | .09 | .145 | .195 | .245 | .365 | .545 | .605 | .655 | .71 | .80 | .965 |
+| **A bit more (결정)** | .09 | .135 | .18 | .225 | .345 | .535 | .595 | .645 | .70 | .795 | .96 |
 
 | 확인 (다크, 감마 기준) | 이전 | Subtle | A bit more | 기준 |
 |---|---|---|---|---|
@@ -309,7 +309,7 @@ card-action (card-action.variants.ts:12-13) · choice-cards (choice-cards.varian
 | 2 | 뉴트럴 hover·pressed·selected | **뉴트럴은 알파, 색 있는 soft만 불투명** | `neutral-hover/-pressed/-selected/-selected-hover`는 알파로 남고, `{tone}-soft*`만 램프 3–5 |
 | 3 | 리스트·메뉴 선택 | **뉴트럴** | `neutral-selected` + 체크 + 뉴트럴 테두리 7(`selection-edge`). menu, model-menu, layer-tree, icon-toggle, option-tiles, list-navigation, pagination, page-list가 accent soft·control-raised·fill-pressed에서 옮겨 온다 |
 | 4 | 캔버스 가이드 색 | **캔버스 전용 마젠타** | `canvas-guide` 라이트 oklch(.60 .20 345), 다크 oklch(.72 .17 345), `canvas-guide-on`은 잉크/종이 중 대비가 큰 쪽 |
-| 5 | 다크 surface | **연결은 그대로, `neutral-dark` 2–11을 조금 어둡게 (Subtle)** | §6 표. 안 A는 채택하지 않음 |
+| 5 | 다크 surface | **연결은 그대로, `neutral-dark` 2–11을 조금 어둡게 (A bit more)** | §6 표. 안 A는 채택하지 않음 |
 | 6 | 필수 입력 별표 | **뉴트럴** | `required-mark` = `text-tertiary`. danger는 실제 오류에만 |
 | 7 | 라이트의 밝은 solid (L > .7) | **허용** | solid 상한 없음. graphic 8이 solid보다 어두울 수 있다 |
 
@@ -318,7 +318,7 @@ card-action (card-action.variants.ts:12-13) · choice-cards (choice-cards.varian
 ---
 
 ## 빌더에서 보는 법 (`#/lab/builder`)
-- Neutrals 아래 **Dark ramp**(Subtle 기본 / A bit more / Previous)로 다크 램프를 비교한다.
+- Neutrals 아래 **Dark ramp**(A bit more 기본 / Subtle / Previous)로 다크 램프를 비교한다.
 - 툴바에서 **Current / Proposed language**를 고른다. Proposed를 켜면 각 색 컨트롤 아래에 1–11 램프가 나타나고(9에 표시), 대비 칩이 슬롯 기준으로 바뀐다.
 - "Emphasis × tone matrix" 섹션: 모든 톤 × 강조 × 상태(rest, hover, pressed, selected, focus, disabled)를 `--lang-*` 슬롯 변수로 직접 그린다.
 - 아래 실제 컴포넌트 시나리오는 기존 시멘틱 변수를 슬롯에 다시 연결해서 보여준다(solid 9, soft 3, text 11, accent border 7, diff 3). 컴포넌트에 새 슬롯이 아직 없으므로, hover와 테두리 차이는 매트릭스에서만 보인다.
@@ -331,7 +331,7 @@ card-action (card-action.variants.ts:12-13) · choice-cards (choice-cards.varian
 §7의 2–4단계를 실제로 옮기는 순서다. 각 묶음은 따로 커밋하고, 묶음마다 `pnpm gate <묶음 컴포넌트>`를 한 번 돌린다. 기준 스크린샷 재촬영과 `spec:approve`는 오너 단계다.
 
 ### 2-1. 토큰 구조 (`packages/tokens`)
-1. **모드별 램프.** `neutral-light-1..11`, `neutral-dark-1..11`(Deep Black, 다크는 Subtle)을 따로 정의한다. 지금처럼 한 램프를 뒤집지 않는다. 색 있는 램프도 `{hue}-light-1..11`, `{hue}-dark-1..11`로 나눈다: accent(잉크), success, warning, danger, info, agent 1–3, extra 1–2, canvas-guide.
+1. **모드별 램프.** `neutral-light-1..11`, `neutral-dark-1..11`(Deep Black, 다크는 A bit more)을 따로 정의한다. 지금처럼 한 램프를 뒤집지 않는다. 색 있는 램프도 `{hue}-light-1..11`, `{hue}-dark-1..11`로 나눈다: accent(잉크), success, warning, danger, info, agent 1–3, extra 1–2, canvas-guide.
 2. **램프 생성.** `build.mjs`가 빌더의 `hueRamp()`와 같은 규칙으로 9단계(고른 solid)에서 1–11을 만든다. 1–6은 고정 명도, 채도는 solid의 비율, 8은 표면 대비 3, 11은 표면과 soft 3–5 위 4.5. 고른 값은 `tokens.mjs`에 모드별 solid 하나씩만 둔다.
 3. **슬롯 토큰.** `--cs-{tone}-{slot}`(§3), 뉴트럴 인터랙션 슬롯(알파), 축 토큰(`focus-ring`, `focus-offset`, `selection-edge`, `disabled-*`, `required-mark`), 패밀리 토큰(`canvas-guide*`, `chart-1..6`, `agent-stop-1..3`, `diff-*-bg/-text`, `syntax-*`).
 4. **별칭(전환 기간).** 옛 이름은 새 슬롯을 가리키는 별칭으로 남긴다: `danger.soft` → `danger-soft`(불투명 3), `accent.fill` → `accent-solid`, `fill.hover` → `neutral-hover` 등. 별칭은 3단계 컴포넌트 이전이 끝나고 게이트 규칙 1이 켜질 때 지운다.

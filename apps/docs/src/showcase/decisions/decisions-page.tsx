@@ -170,8 +170,8 @@ function useQuestions(s: BuilderState): Question[] {
         id: 'q5', title: '다크 neutral 램프 2–11단계를 조금 어둡게',
         question: <>역할 연결(canvas 1, app 2, surface 3, raised 4)은 그대로 두고, neutral-dark 램프의 2–11단계 값만 조금 내린다. 1단계(.09)는 그대로다.</>,
         affects: ['다크의 bg-app · surface-base · surface-raised · 텍스트·테두리 단계 전부', '다크 기준 스크린샷 전부'],
-        why: <>소유자 결정(2026-10-25). 층 간격은 .045 이상을 지키고, 텍스트 4.5 · 컨트롤 테두리 3 대비를 모두 통과한다. 기본값은 Subtle.</>,
-        options: [q5Option(0, '이전 램프'), q5Option(1, 'Subtle (기본)', true), q5Option(2, 'A bit more')],
+        why: <>소유자 결정(2026-10-25). 층 간격은 .045 이상을 지키고, 텍스트 4.5 · 컨트롤 테두리 3 대비를 모두 통과한다. 기본값은 A bit more(2026-10-25 결정).</>,
+        options: [q5Option(0, '이전 램프'), q5Option(1, 'Subtle'), q5Option(2, 'A bit more (결정)', true)],
       },
       {
         id: 'q6', title: '필수 입력 별표: 뉴트럴 vs danger',
