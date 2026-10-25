@@ -1,6 +1,7 @@
 // Builder state: every non-neutral colour of a palette, per theme, starting from Signal Grey · Deep Black.
 // Neutrals stay locked to Deep Black's two ramps; everything else goes through paletteVars() like the proposals.
 import { css, gamutMap, type LCH } from '../color.ts';
+import { langVars } from './language.ts';
 import { DARK_LINKS_LOWER, paletteById, paletteVars, resolve, type Palette, type Swatch, type Theme } from '../palettes.ts';
 
 export const BASE = paletteById('deep');
@@ -32,6 +33,8 @@ export interface BuilderState {
   diffAlpha: { add: { light: number; dark: number }; remove: { light: number; dark: number } };
   /** Dark background links: 'lower' moves surface, raised and app one neutral-dark step down (DARK_LINKS_LOWER). */
   darkSurface: 'current' | 'lower';
+  /** 'proposed': each colour gets a 1–11 ramp per mode and the semantic variables read slots (PROPOSAL-color-language.md). */
+  language: 'current' | 'proposed';
 }
 
 const swatchOf = (k: ColorKey, p: Palette): Swatch => {
@@ -53,6 +56,7 @@ export function initialState(): BuilderState {
     v: 1, colors, accentHover: { light: null, dark: null },
     diffAlpha: { add: { light: 0.22, dark: 0.2 }, remove: { light: 0.18, dark: 0.2 } },
     darkSurface: 'current',
+    language: 'current',
   };
 }
 
@@ -88,6 +92,9 @@ export function builderVars(s: BuilderState, t: Theme): Record<string, string> {
   const r = resolve(p, t);
   v['--cs-color-diff-add'] = css(r.role.success.solid, s.diffAlpha.add[t]);
   v['--cs-color-diff-remove'] = css(r.role.danger.solid, s.diffAlpha.remove[t]);
+  // the proposal replaces the alpha derivation (accent hover override still wins)
+  if (s.language === 'proposed') Object.assign(v, langVars(p, t));
+  if (hover && s.language === 'proposed') { v['--cs-color-accent-hover'] = css(hover); v['--cs-color-accent-fill-hover'] = css(hover); }
   return v;
 }
 
@@ -137,6 +144,7 @@ export function parse(raw: string): BuilderState {
     }
   }
   if (j.darkSurface === 'lower' || j.darkSurface === 'current') base.darkSurface = j.darkSurface;
+  if (j.language === 'proposed' || j.language === 'current') base.language = j.language;
   return base;
 }
 
@@ -148,7 +156,7 @@ export function exportJson(s: BuilderState): string {
     colors[key] = { light: c.light, dark: valueOf(c, 'dark'), link: c.link, shift: c.shift };
   }
   return JSON.stringify({ v: 1, base: 'Signal Grey · Deep Black neutrals', colors, accentHover: s.accentHover, diffAlpha: s.diffAlpha,
-    darkSurface: s.darkSurface, darkLinks: s.darkSurface === 'lower' ? DARK_LINKS_LOWER : null }, null, 2);
+    darkSurface: s.darkSurface, language: s.language, darkLinks: s.darkSurface === 'lower' ? DARK_LINKS_LOWER : null }, null, 2);
 }
 
 export function exportCss(s: BuilderState): string {
@@ -156,7 +164,7 @@ export function exportCss(s: BuilderState): string {
     const v = builderVars(s, t);
     return `${sel} {\n${Object.entries(v).map(([k, val]) => `  ${k}: ${val};`).join('\n')}\n}`;
   };
-  const links = s.darkSurface === 'lower' ? ' · dark surface links one step lower' : '';
+  const links = (s.darkSurface === 'lower' ? ' · dark surface links one step lower' : '') + (s.language === 'proposed' ? ' · proposed colour language (--lang-* ramps, slots)' : '');
   return `/* Caustic lab builder export · neutrals: Signal Grey · Deep Black${links} */\n${block('light', ':root')}\n\n${block('dark', ':root[data-theme="dark"]')}\n`;
 }
 

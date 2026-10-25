@@ -1,6 +1,6 @@
 import { TriangleAlert } from 'lucide-react';
 import { Checkbox, ContrastChip, NumberField, Slider } from '@caustic/react';
-import { contrast, gamutMap, hex, isInGamut, type LCH } from '../color.ts';
+import { contrast, gamutMap, hex, isInGamut, label, type LCH } from '../color.ts';
 import { report, surfaceFor, type Palette, type Theme } from '../palettes.ts';
 import { linkedDark, round, valueOf, type ColorDef, type ColorState } from './state.ts';
 
@@ -85,9 +85,31 @@ export function Swatch({ c, className = 'size-8' }: { c: LCH; className?: string
   return <span aria-hidden className={`${className} shrink-0 rounded-md shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]`} style={{ background: ok(gamutMap(c)) }} />;
 }
 
+const STEP_ROLE = ['tint', 'tint', 'soft', 'soft hover', 'pressed', 'border', 'border strong', 'graphic', 'solid', 'solid hover', 'text'];
+
+/** The generated 1–11 ramp of the proposed language, step 9 (the pick) marked. */
+export function RampStrip({ ramp, name }: { ramp: LCH[]; name: string }) {
+  return (
+    <div className="grid gap-0.5" aria-label={`${name} ramp 1–11`} role="group">
+      <div className="grid grid-cols-11 overflow-hidden rounded-sm shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]">
+        {ramp.map((c, i) => (
+          <span key={i} title={`${i + 1} · ${STEP_ROLE[i]} · oklch ${label(c)}`} className="relative h-5" style={{ background: ok(c) }}>
+            {i === 8 && <span aria-hidden className="absolute inset-x-1 bottom-0.5 h-0.5 rounded-full" style={{ background: ok(contrast([0.15, 0, 0], c) > contrast([0.99, 0, 0], c) ? [0.15, 0, 0] : [0.99, 0, 0]) }} />}
+          </span>
+        ))}
+      </div>
+      <div className="grid grid-cols-11 font-mono text-mono-micro text-text-tertiary">
+        {ramp.map((c, i) => <span key={i} className={`text-center ${i === 8 ? 'text-text-primary' : ''}`}>{i + 1}</span>)}
+      </div>
+    </div>
+  );
+}
+
 /** One editable colour for the active theme. */
-export function ColorControl({ def, state, theme, palette, onChange }: {
+export function ColorControl({ def, state, theme, palette, onChange, ramp, rampChecks }: {
   def: ColorDef; state: ColorState; theme: Theme; palette: Palette; onChange: (next: ColorState) => void;
+  /** Proposed language: the generated ramp for this theme, and its slot checks (replace the current checks). */
+  ramp?: LCH[]; rampChecks?: Check[];
 }) {
   const value = valueOf(state, theme);
   const linkedHere = theme === 'dark' && state.link;
@@ -110,8 +132,9 @@ export function ColorControl({ def, state, theme, palette, onChange }: {
         </p>
       )}
       <LchEditor name={`${def.name} ${theme}`} value={value} disabled={linkedHere} onChange={v => onChange({ ...state, [theme]: v })} />
+      {ramp && <RampStrip ramp={ramp} name={`${def.name} ${theme}`} />}
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <Checks checks={checksFor(def.key, palette, theme)} />
+        <Checks checks={rampChecks ?? checksFor(def.key, palette, theme)} />
         <label className="flex items-center gap-1.5 text-footnote text-text-secondary">
           <Checkbox
             aria-label={`${def.name}: dark follows light`} checked={state.link}

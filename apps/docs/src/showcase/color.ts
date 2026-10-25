@@ -42,13 +42,15 @@ export function contrastLin(a: number[], b: number[]) {
 }
 export const contrast = (a: LCH, b: LCH) => contrastLin(linRgb(a), linRgb(b));
 
-/** `fg` at `alpha` over `bg` (premultiplied in linear light, like the compositor). */
-export function over(fg: LCH, alpha: number, bg: LCH): number[] {
-  const f = linRgb(fg), b = linRgb(bg);
-  return f.map((v, i) => v * alpha + b[i]! * (1 - alpha));
-}
-
 const toSrgb = (v: number) => (v <= 0.0031308 ? 12.92 * v : 1.055 * v ** (1 / 2.4) - 0.055);
+const fromSrgb = (v: number) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+
+/** `fg` at `alpha` over `bg`, returned as linear RGB. Browsers blend CSS colours in gamma-encoded sRGB, not linear
+ *  light, so the mix happens there: a linear mix predicts a paler tint than the screen shows. */
+export function over(fg: LCH, alpha: number, bg: LCH): number[] {
+  const f = linRgb(fg).map(toSrgb), b = linRgb(bg).map(toSrgb);
+  return f.map((v, i) => fromSrgb(v * alpha + b[i]! * (1 - alpha)));
+}
 export function hex(c: LCH): string {
   return '#' + linRgb(c).map(v => Math.round(clamp01(toSrgb(v)) * 255).toString(16).padStart(2, '0')).join('');
 }

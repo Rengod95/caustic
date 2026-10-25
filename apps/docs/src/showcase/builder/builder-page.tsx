@@ -6,13 +6,21 @@ import { useSettings } from '../../settings.tsx';
 import { label } from '../color.ts';
 import { usePalette } from '../palette-state.tsx';
 import { NEUTRAL_ROLES, neutralsFor, paletteVars, roleStepOf, type Theme } from '../palettes.ts';
-import { ColorControl, LchEditor, Swatch } from './controls.tsx';
+import { ColorControl, LchEditor, Swatch, type Check } from './controls.tsx';
+import { langChecks, rampFor } from './language.ts';
+import { EmphasisMatrix } from './matrix.tsx';
 import { AgentSession, GateDashboard, LibrarySettings, PublishForm, Scenario, StateMatrix } from './scenarios.tsx';
 import {
-  BASE, builderVars, COLORS, derivedHover, exportCss, exportJson, initialState, load, parse, save, toPalette, type BuilderState,
+  BASE, builderVars, COLORS, derivedHover, exportCss, exportJson, initialState, load, parse, save, toPalette, valueOf, type BuilderState, type ColorKey,
 } from './state.ts';
 
+/** Slot checks of the proposed language for the colours that map onto a tone. */
+const LANG_TONE: Partial<Record<ColorKey, 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'>> = {
+  accent: 'accent', success: 'success', warning: 'warning', danger: 'danger', info: 'info', agent1: 'agent',
+};
+
 const SECTIONS = [
+  { id: 'lab-matrix', label: 'Matrix' },
   { id: 'lab-form', label: 'Form' },
   { id: 'lab-agent', label: 'Agent' },
   { id: 'lab-settings', label: 'Settings' },
@@ -136,7 +144,11 @@ export default function BuilderPage() {
           <SegmentedControlItem value="light">Light</SegmentedControlItem>
           <SegmentedControlItem value="dark">Dark</SegmentedControlItem>
         </SegmentedControl>
-        <nav aria-label="Scenarios" className="flex flex-wrap gap-0.5 max-[1199px]:hidden">
+        <SegmentedControl size="xs" aria-label="Colour language" value={state.language} onValueChange={v => setState(s => ({ ...s, language: v as BuilderState['language'] }))}>
+          <SegmentedControlItem value="current">Current</SegmentedControlItem>
+          <SegmentedControlItem value="proposed">Proposed language</SegmentedControlItem>
+        </SegmentedControl>
+        <nav aria-label="Scenarios" className="flex flex-wrap gap-0.5 max-[1535px]:hidden">
           {SECTIONS.map(s => <a key={s.id} href={`#/lab/builder`} onClick={e => { e.preventDefault(); document.getElementById(s.id)?.scrollIntoView({ block: 'start' }); }} className="rounded-sm px-2 py-1 text-ui-sm text-text-secondary outline-none hover:bg-fill-hover hover:text-text-primary focus-visible:shadow-focus">{s.label}</a>)}
         </nav>
         <span className="flex-1" />
@@ -177,7 +189,14 @@ export default function BuilderPage() {
               <h2 className="m-0 border-b border-border-subtle bg-bg-app px-3 py-1.5 text-caption uppercase text-text-tertiary">{g}</h2>
               {COLORS.filter(c => c.group === g).map(def => (
                 <div key={def.key}>
-                  <ColorControl def={def} state={state.colors[def.key]} theme={theme} palette={palette} onChange={next => setState(s => ({ ...s, colors: { ...s.colors, [def.key]: next } }))} />
+                  <ColorControl
+                    def={def} state={state.colors[def.key]} theme={theme} palette={palette}
+                    onChange={next => setState(s => ({ ...s, colors: { ...s.colors, [def.key]: next } }))}
+                    {...(state.language === 'proposed' ? {
+                      ramp: rampFor(valueOf(state.colors[def.key], theme), palette, theme),
+                      ...(LANG_TONE[def.key] ? { rampChecks: langChecks(palette, theme, LANG_TONE[def.key]!).map((c): Check => ({ label: c.label, ratio: c.ratio, need: c.need })) } : {}),
+                    } : {})}
+                  />
                   {def.key === 'accent' && (
                     <div className="grid gap-2 border-b border-border-subtle px-3 pb-3">
                       <label className="flex items-center gap-1.5 text-footnote text-text-secondary">
@@ -200,11 +219,18 @@ export default function BuilderPage() {
           <div className="grid grid-cols-2 gap-2 px-3 py-3">
             <NumberField aria-label={`Added line alpha ${theme}`} label="+" value={state.diffAlpha.add[theme]} step={0.01} min={0} max={1} onValueChange={n => setState(s => ({ ...s, diffAlpha: { ...s.diffAlpha, add: { ...s.diffAlpha.add, [theme]: n } } }))} />
             <NumberField aria-label={`Removed line alpha ${theme}`} label="−" value={state.diffAlpha.remove[theme]} step={0.01} min={0} max={1} onValueChange={n => setState(s => ({ ...s, diffAlpha: { ...s.diffAlpha, remove: { ...s.diffAlpha.remove, [theme]: n } } }))} />
-            <p className="col-span-2 m-0 text-footnote text-text-tertiary">Alpha of success and danger over the surface on added and removed code lines.</p>
+            <p className="col-span-2 m-0 text-footnote text-text-tertiary">
+              Alpha of success and danger over the surface on added and removed code lines.{state.language === 'proposed' && ' Not used by the proposed language: diff lines read the opaque step 3 of success and danger.'}
+            </p>
           </div>
         </aside>
 
         <main className="grid min-w-0 content-start gap-8 bg-bg-app px-4 py-5 min-[900px]:px-6">
+          <Scenario id="lab-matrix" title="Emphasis × tone matrix (proposal)" note="Every tone in every emphasis and state, drawn from the generated ramps. Components below read the same slots through the shipped semantic variables (solid 9, soft 3, text 11, accent border 7).">
+            {state.language === 'proposed'
+              ? <EmphasisMatrix theme={theme} />
+              : <p className="m-0 text-ui-sm text-text-secondary">Switch the toolbar to <b className="text-text-primary">Proposed language</b> to generate the 1–11 ramps and draw the matrix. The current derivation has no ramps: soft is an alpha tint of the solid.</p>}
+          </Scenario>
           <Scenario id="lab-form" title="Complex form · publish a token release" note="Inputs, combobox, date range, number and slider fields, checkbox tree, radios, segmented, toggle group, switches, required, read-only, disabled and errors.">
             <PublishForm />
           </Scenario>
