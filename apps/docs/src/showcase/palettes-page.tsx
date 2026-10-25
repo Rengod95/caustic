@@ -17,12 +17,12 @@ const BASELINE_KEYS = Object.keys(paletteVars(palettes[1]!, 'light'));
 
 const peakChroma = (p: Palette) => Math.max(...[p.accent, p.success, p.warning, p.danger, p.info].map(s => s.light[1]));
 
-function PalettePoster({ id }: { id: string }) {
+function PalettePoster({ id, name }: { id: string; name: string }) {
   const INK = 'var(--cs-color-accent-solid)', X1 = 'var(--sc-extra-1, var(--cs-color-chart-2))';
   const W = 'var(--cs-color-warning-solid)', S = 'var(--cs-color-success-solid)', D = 'var(--cs-color-danger-solid)', I = 'var(--cs-color-info-solid)';
   const bg = 'var(--cs-color-bg-canvas)', line = 'var(--cs-color-border-strong)';
   const sp = ['var(--cs-spectrum-1)', 'var(--cs-spectrum-2)', 'var(--cs-spectrum-3)'];
-  const common = { viewBox: '0 0 720 150', preserveAspectRatio: 'xMidYMid meet', className: 'block h-[150px] w-full bg-bg-canvas', role: 'img', 'aria-label': 'Palette poster' } as const;
+  const common = { viewBox: '0 0 720 150', preserveAspectRatio: 'xMidYMid meet', className: 'block h-[120px] w-full rounded-xl bg-bg-canvas min-[700px]:h-[150px]', role: 'img', 'aria-label': `${name}: palette in an illustration` } as const;
   if (id !== 'current') {
     const X2 = 'var(--sc-extra-2, var(--cs-color-chart-3))';
     const pads = [sp[0], 'var(--cs-color-fill-pressed)', W, 'var(--cs-color-fill-pressed)', sp[1], X1, 'var(--cs-color-fill-pressed)', sp[2], 'var(--cs-color-fill-pressed)', X2, S, 'var(--cs-color-fill-pressed)'];
@@ -47,13 +47,13 @@ function SwatchCard({ name, role, c, p }: { name: string; role: string; c: LCH; 
   const on = bestOn(c, p);
   const clipped = !isInGamut(c);
   return (
-    <div className="min-w-0 overflow-hidden rounded-lg bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]">
-      <div className="flex h-[72px] flex-col justify-between p-2" style={{ background: css(c), color: css(on) }}>
+    <div className="grid min-w-0 content-start gap-1.5">
+      <div className="flex h-16 flex-col justify-between rounded-lg p-2 shadow-[inset_0_0_0_1px_oklch(0_0_0/0.06)]" style={{ background: css(c), color: css(on) }}>
         <span className="text-ui-strong">{name}</span>
-        <span className={mono}>Aa · {contrast(on, c).toFixed(1)}:1</span>
+        <span className={`${mono} tabular-nums`}>Aa {contrast(on, c).toFixed(1)}:1</span>
       </div>
-      <div className="grid gap-0.5 p-2">
-        <span className="text-caption uppercase text-text-tertiary">{role}</span>
+      <div className="grid gap-px px-0.5">
+        <span className="text-label text-text-tertiary">{role}</span>
         <span className={`${mono} text-text-primary`}>oklch({label(c)})</span>
         <span className={`${mono} text-text-tertiary`}>{hex(c)}{clipped ? ` · sRGB C ${mapped[1].toFixed(2)}` : ''}</span>
       </div>
@@ -62,11 +62,27 @@ function SwatchCard({ name, role, c, p }: { name: string; role: string; c: LCH; 
 }
 
 function Tick({ ok }: { ok: boolean }) {
-  return ok ? <Check aria-label="passes" className="size-3.5 text-success-text" /> : <X aria-label="fails" className="size-3.5 text-danger-text" />;
+  return ok ? <Check role="img" aria-label="passes" className="size-3.5 text-success-text" /> : <X role="img" aria-label="fails" className="size-3.5 text-danger-text" />;
 }
+
+/** A contrast ratio in a table cell: passes read as plain numbers, only failures carry a mark and colour. */
+function Ratio({ value, pass, mark }: { value: number; pass: boolean; mark?: ReactNode }) {
+  return (
+    <span className={`inline-flex items-center justify-end gap-1 ${mono} tabular-nums ${pass ? 'text-text-primary' : 'text-danger-text'}`}>
+      {mark ?? (pass ? null : <X role="img" aria-label="fails" className="size-3.5" />)}
+      {value.toFixed(1)}
+    </span>
+  );
+}
+
+const table = 'w-full border-collapse text-ui';
+const th = 'whitespace-nowrap px-2 py-1.5 text-left text-label font-medium text-text-tertiary';
+const thNum = 'whitespace-nowrap px-2 py-1.5 text-right text-label font-medium text-text-tertiary';
+const row = 'border-t border-border-subtle';
 
 function ContrastMatrix({ p, theme }: { p: Palette; theme: Theme }) {
   const rows = useMemo(() => report(p, theme), [p, theme]);
+  const anyFillOnly = rows.some(x => !x.pass && Boolean(x.note));
   const roles = ['Accent', 'Success', 'Warning', 'Danger', 'Info'];
   const metrics = [
     { k: 'label on solid fill', title: 'Label on solid', need: '4.5' },
@@ -75,49 +91,48 @@ function ContrastMatrix({ p, theme }: { p: Palette; theme: Theme }) {
     { k: 'solid vs surface (graphic)', title: 'Solid vs surface (UI)', need: '3' },
   ];
   return (
-    <div className="overflow-x-auto rounded-lg bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]">
-      <table className="w-full min-w-[34rem] border-collapse text-ui">
-        <thead>
-          <tr className="text-left text-caption uppercase text-text-tertiary">
-            <th className="p-2 font-medium">Pair (need)</th>
-            {roles.map(r => <th key={r} className="p-2 font-medium">{r}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {metrics.map(m => (
-            <tr key={m.k} className="border-t border-border-subtle">
-              <td className="p-2 text-text-secondary">{m.title} <span className="text-text-tertiary">≥ {m.need}</span></td>
-              {roles.map(r => {
-                const row = rows.find(x => x.label === `${r}: ${m.k}`)!;
-                const fillOnly = !row.pass && Boolean(row.note);
-                return (
-                  <td key={r} className="p-2">
-                    <span className="inline-flex items-center gap-1.5">
-                      {fillOnly ? <span aria-label="fill plus ink" className="inline-block size-3.5 rounded-full bg-fill-pressed text-center text-[9px] leading-[14px] text-text-secondary">i</span> : <Tick ok={row.pass} />}
-                      <span className={`${mono} ${row.pass || fillOnly ? 'text-text-primary' : 'text-danger-text'}`}>{row.ratio.toFixed(1)}</span>
-                    </span>
-                  </td>
-                );
-              })}
+    <div className="grid content-start gap-1.5">
+      <div className="overflow-x-auto">
+        <table className={`${table} min-w-[30rem]`}>
+          <thead>
+            <tr>
+              <th className={th}>Pair <span className="font-normal">(need)</span></th>
+              {roles.map(r => <th key={r} className={thNum}>{r}</th>)}
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="m-0 border-t border-border-subtle p-2 text-footnote text-text-tertiary">
+          </thead>
+          <tbody>
+            {metrics.map(m => (
+              <tr key={m.k} className={row}>
+                <td className="px-2 py-1.5 text-text-secondary">{m.title} <span className="text-text-tertiary">≥ {m.need}</span></td>
+                {roles.map(r => {
+                  const x = rows.find(y => y.label === `${r}: ${m.k}`)!;
+                  const fillOnly = !x.pass && Boolean(x.note);
+                  return (
+                    <td key={r} className="px-2 py-1.5 text-right">
+                      <Ratio value={x.ratio} pass={x.pass || fillOnly} mark={fillOnly ? <span aria-label="fill plus ink" className="inline-block size-3.5 rounded-full bg-fill-pressed text-center font-ui text-[9px] leading-[14px] text-text-secondary">i</span> : undefined} />
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {anyFillOnly && <p className="m-0 max-w-[72ch] px-2 text-footnote text-text-tertiary">
         (i) = vivid fill that cannot hold a 3:1 edge on its own. It is always paired with ink text (row 1) and a text or border cue, and never used as a thin line or small glyph.
-      </p>
+      </p>}
     </div>
   );
 }
 
 function SwatchGroup({ title, caption, children }: { title: string; caption: string; children: ReactNode }) {
   return (
-    <div className="grid content-start gap-2">
+    <div className="grid content-start gap-2.5">
       <div className="grid gap-0.5">
-        <span className="text-caption uppercase text-text-tertiary">{title}</span>
-        <span className="text-footnote text-text-secondary">{caption}</span>
+        <h3 className="m-0 text-title-4 text-text-primary">{title}</h3>
+        <p className="m-0 text-footnote text-text-secondary">{caption}</p>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,10.5rem),1fr))] gap-2">{children}</div>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-x-2 gap-y-3">{children}</div>
     </div>
   );
 }
@@ -128,14 +143,14 @@ function NeutralRamp({ p, t }: { p: Palette; t: Theme }) {
   const r = neutralsFor(p, t);
   return (
     <div className="grid gap-1.5">
-      <span className="text-ui-strong text-text-primary">neutral-{t} 1-11</span>
+      <span className={`${mono} text-text-secondary`}>neutral-{t} 1-11</span>
       <div className="grid grid-cols-[repeat(11,minmax(0,1fr))] overflow-hidden rounded-lg shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] max-[700px]:grid-cols-[repeat(6,minmax(0,1fr))]">
         {r.map((c, i) => {
           const role = roleAt(t, i + 1);
           return (
             <div key={i} title={role || undefined} className="grid min-h-[76px] content-between gap-1 p-1.5" style={{ background: css(c), color: css(bestOn(c, p)) }}>
               <span className="text-ui-strong">{i + 1}</span>
-              <span className="grid font-mono text-[10px] leading-[1.25]"><span>L {c[0].toFixed(3)}</span><span>C {c[1].toFixed(3)}</span><span>H {c[1] ? c[2] : '-'}</span></span>
+              <span className="grid font-mono text-[10px] leading-[1.25] tabular-nums"><span>L {c[0].toFixed(3)}</span><span>C {c[1].toFixed(3)}</span><span>H {c[1] ? c[2] : '-'}</span></span>
             </div>
           );
         })}
@@ -148,26 +163,32 @@ function NeutralRamps({ p }: { p: Palette }) {
   return (
     <div className="grid gap-3">
       <div className="grid gap-0.5">
-        <span className="text-caption uppercase text-text-tertiary">Neutrals, one ramp per mode</span>
-        <span className="text-footnote text-text-secondary">Step 1 is the background end in both ramps and step 11 the strongest text. Text and control roles read the same step in both modes; the dark ramp is spaced for the dark ladder instead of mirroring the light one.</span>
+        <h3 className="m-0 text-title-4 text-text-primary">Neutrals, one ramp per mode</h3>
+        <p className="m-0 max-w-[80ch] text-footnote text-text-secondary">Step 1 is the background end in both ramps and step 11 the strongest text. Text and control roles read the same step in both modes; the dark ramp is spaced for the dark ladder instead of mirroring the light one.</p>
       </div>
       <NeutralRamp p={p} t="light" />
       <NeutralRamp p={p} t="dark" />
-      <div className="overflow-x-auto rounded-lg bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]">
-        <table className="w-full min-w-[26rem] border-collapse text-ui">
-          <thead><tr className="text-left text-caption uppercase text-text-tertiary"><th className="p-2 font-medium">Role</th><th className="p-2 font-medium">Light step</th><th className="p-2 font-medium">Dark step</th></tr></thead>
-          <tbody>
-            {NEUTRAL_ROLES.map(r => (
-              <tr key={r.role} className="border-t border-border-subtle">
-                <td className="p-2 text-text-secondary">{r.role}</td>
-                <td className={`p-2 ${mono}`}>{r.light}</td>
-                <td className={`p-2 ${mono} ${r.light === r.dark ? '' : 'text-text-primary'}`}>{r.dark}{r.light === r.dark ? '' : ' *'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <p className="m-0 border-t border-border-subtle p-2 text-footnote text-text-tertiary">* Light puts white surfaces above a darker canvas; dark lifts surfaces away from the darkest canvas, so the background roles sit on different steps.</p>
-      </div>
+    </div>
+  );
+}
+
+/** The role-to-step mapping is one constant for every Signal Grey variant, so it is shown once above the sections. */
+function NeutralRoles() {
+  return (
+    <div className="grid content-start gap-1.5">
+      <table className={`${table} max-w-[32rem]`}>
+        <thead><tr><th className={th}>Role</th><th className={thNum}>Light step</th><th className={thNum}>Dark step</th></tr></thead>
+        <tbody>
+          {NEUTRAL_ROLES.map(r => (
+            <tr key={r.role} className={row}>
+              <td className="px-2 py-1 text-text-secondary">{r.role}</td>
+              <td className={`px-2 py-1 text-right ${mono} tabular-nums`}>{r.light}</td>
+              <td className={`px-2 py-1 text-right ${mono} tabular-nums ${r.light === r.dark ? 'text-text-secondary' : 'text-text-primary'}`}>{r.light === r.dark ? '' : '* '}{r.dark}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="m-0 max-w-[72ch] px-2 text-footnote text-text-tertiary">* Light puts white surfaces above a darker canvas; dark lifts surfaces away from the darkest canvas, so the background roles sit on different steps.</p>
     </div>
   );
 }
@@ -176,28 +197,30 @@ function NeutralMatrix({ p, theme }: { p: Palette; theme: Theme }) {
   const rows = useMemo(() => [...neutralReport(p, theme), ...extrasReport(p, theme)], [p, theme]);
   const extras = rows.filter(r => r.label.startsWith('Extra'));
   return (
-    <div className="overflow-x-auto rounded-lg bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]">
-      <table className="w-full min-w-[34rem] border-collapse text-ui">
-        <thead>
-          <tr className="text-left text-caption uppercase text-text-tertiary">
-            <th className="p-2 font-medium">Neutral step (need)</th>
-            {NEUTRAL_BGS.map(b => <th key={b} className="p-2 font-medium">on {b}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {NEUTRAL_FGS.map(([name, , need]) => (
-            <tr key={name} className="border-t border-border-subtle">
-              <td className="p-2 text-text-secondary">{name} <span className="text-text-tertiary">≥ {need}</span></td>
-              {NEUTRAL_BGS.map(b => {
-                const row = rows.find(x => x.label === `${name} on ${b}`)!;
-                return <td key={b} className="p-2"><span className="inline-flex items-center gap-1.5"><Tick ok={row.pass} /><span className={`${mono} ${row.pass ? 'text-text-primary' : 'text-danger-text'}`}>{row.ratio.toFixed(1)}</span></span></td>;
-              })}
+    <div className="grid content-start gap-1.5">
+      <div className="overflow-x-auto">
+        <table className={`${table} min-w-[30rem]`}>
+          <thead>
+            <tr>
+              <th className={th}>Neutral step <span className="font-normal">(need)</span></th>
+              {NEUTRAL_BGS.map(b => <th key={b} className={thNum}>on {b}</th>)}
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="m-0 border-t border-border-subtle p-2 text-footnote text-text-secondary">
-        Extra colours vs surface (lines and small marks, ≥ 3): {extras.map(r => <span key={r.label} className="mr-3 inline-flex items-center gap-1"><Tick ok={r.pass} /><span className={mono}>{r.label.replace(' vs surface', '')} {r.ratio.toFixed(1)}</span></span>)}
+          </thead>
+          <tbody>
+            {NEUTRAL_FGS.map(([name, , need]) => (
+              <tr key={name} className={row}>
+                <td className="px-2 py-1.5 text-text-secondary">{name} <span className="text-text-tertiary">≥ {need}</span></td>
+                {NEUTRAL_BGS.map(b => {
+                  const x = rows.find(y => y.label === `${name} on ${b}`)!;
+                  return <td key={b} className="px-2 py-1.5 text-right"><Ratio value={x.ratio} pass={x.pass} /></td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="m-0 px-2 text-footnote text-text-secondary">
+        Extra colours vs surface (lines and small marks, ≥ 3): {extras.map(r => <span key={r.label} className="mr-3 inline-flex items-center gap-1"><Tick ok={r.pass} /><span className={`${mono} tabular-nums`}>{r.label.replace(' vs surface', '')} {r.ratio.toFixed(1)}</span></span>)}
       </p>
     </div>
   );
@@ -206,7 +229,7 @@ function NeutralMatrix({ p, theme }: { p: Palette; theme: Theme }) {
 function Cell({ title, children, className = '' }: { title: string; children: ReactNode; className?: string }) {
   return (
     <div className={`grid min-w-0 content-start gap-2.5 rounded-xl bg-surface-base p-3.5 shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] ${className}`}>
-      <span className="text-caption uppercase text-text-tertiary">{title}</span>
+      <h4 className="m-0 text-label text-text-tertiary">{title}</h4>
       {children}
     </div>
   );
@@ -218,7 +241,7 @@ function ChartDemo() {
   const X1 = 'var(--sc-extra-1, var(--cs-color-chart-2))', X2 = 'var(--sc-extra-2, var(--cs-color-chart-3))';
   const total = (c: number[]) => c.reduce((a, b) => a + b, 0);
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)_96px] items-end gap-3">
+    <div className="grid max-w-[36rem] grid-cols-[minmax(0,1fr)_96px] items-end gap-6">
       <svg viewBox="0 0 240 120" className="block max-h-44 w-full" role="img" aria-label="Stacked column chart">
         {[0, 1, 2, 3].map(i => <line key={i} x1="0" x2="240" y1={10 + i * 32} y2={10 + i * 32} stroke="var(--cs-color-border-default)" />)}
         {cols.map((c, i) => {
@@ -335,27 +358,29 @@ function PaletteSection({ p, theme, base, active, onApply }: { p: Palette; theme
   const rows = report(p, theme);
   const textFails = [...rows, ...(p.current ? [] : neutralReport(p, theme))].filter(x => x.need === 4.5 && !x.pass).length;
   return (
-    <section id={`p-${p.id}`} className="scroll-mt-28 grid min-w-0 gap-3">
-      <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
-        <div className="grid min-w-0 flex-1 gap-1">
-          <h2 className="m-0 font-ui text-title-1 text-text-primary">{p.name}</h2>
+    <section id={`p-${p.id}`} aria-labelledby={`h-${p.id}`} className="grid min-w-0 scroll-mt-32 gap-4 border-t border-border-default pt-8">
+      <div className="flex flex-wrap items-start gap-x-6 gap-y-3">
+        <div className="grid min-w-0 flex-1 basis-[28rem] gap-1.5">
+          <h2 id={`h-${p.id}`} className="m-0 font-ui text-title-1 text-text-primary">{p.name}</h2>
           <p className="m-0 max-w-[70ch] text-body text-text-secondary">{p.concept}</p>
+          <p className="m-0 max-w-[70ch] text-ui text-text-tertiary">{notes[p.id]}</p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge tone="neutral">peak chroma {peakChroma(p).toFixed(2)}</Badge>
-          <Badge tone={textFails ? 'danger' : 'success'}>{textFails ? `${textFails} text fails` : 'all text pairs AA'}</Badge>
-          <Button tone={active ? 'secondary' : 'ink'} size="sm" onClick={onApply} disabled={active}>{active ? 'Applied to docs and samples' : 'Apply to docs and samples'}</Button>
+        <div className="grid justify-items-start gap-2 min-[900px]:justify-items-end">
+          <Button tone={active ? 'secondary' : 'ink'} size="sm" onClick={onApply} disabled={active}>{active ? 'Applied' : 'Apply to docs and samples'}</Button>
+          <span className={`${mono} tabular-nums text-text-tertiary`}>
+            peak C {peakChroma(p).toFixed(2)} · <span className={textFails ? 'text-danger-text' : ''}>{textFails ? `${textFails} text pairs fail AA` : 'all text pairs AA'}</span>
+          </span>
         </div>
       </div>
 
-      <div style={vars as CSSProperties} className="grid min-w-0 gap-4 rounded-2xl bg-bg-app p-3 text-text-primary max-[520px]:p-2 min-[900px]:p-4">
-        <div className="overflow-hidden rounded-xl shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]"><PalettePoster id={p.id} /></div>
+      <div style={vars as CSSProperties} className="grid min-w-0 gap-7 rounded-2xl bg-bg-app p-3 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] text-text-primary max-[520px]:p-2.5 min-[900px]:p-5">
+        <PalettePoster id={p.id} name={p.name} />
 
-        <div className="grid gap-2">
-          <SwatchGroup title={`Accent and status (${theme})`} caption="Accent is ink. Status colours carry meaning only: success, warning, danger, info.">
+        <div className="grid gap-6">
+          <SwatchGroup title={`Accent and status (${theme})`} caption={p.current ? `Accent is the hued ${p.accent.name} step. Status colours carry meaning only: success, warning, danger, info.` : 'Accent is ink. Status colours carry meaning only: success, warning, danger, info.'}>
             {roleSw.map(([n, role, sw]) => <SwatchCard key={role} name={sw.name} role={n} c={r.role[role].solid} p={p} />)}
           </SwatchGroup>
-          <div className="grid gap-2 min-[900px]:grid-cols-[3fr_2fr]">
+          <div className="grid gap-6 min-[900px]:grid-cols-[3fr_2fr] min-[900px]:gap-4">
             <SwatchGroup title="Agent gradient 1-3" caption="Ask agent button border, agent progress, glow and avatar ring.">
               {p.spectrum.map((sw, i) => <SwatchCard key={`s${i}`} name={sw.name} role={`Agent gradient ${i + 1}`} c={sw[theme]} p={p} />)}
             </SwatchGroup>
@@ -367,15 +392,19 @@ function PaletteSection({ p, theme, base, active, onApply }: { p: Palette; theme
 
         {!p.current && <NeutralRamps p={p} />}
 
-        <div className="grid gap-2">
-          <span className="text-caption uppercase text-text-tertiary">Contrast, computed from the sRGB-mapped values</span>
-          <ContrastMatrix p={p} theme={theme} />
-          {!p.current && <NeutralMatrix p={p} theme={theme} />}
+        <div className="grid gap-3">
+          <h3 className="m-0 text-title-4 text-text-primary">Contrast <span className="font-normal text-text-tertiary">computed from the sRGB-mapped values</span></h3>
+          <div className="grid items-start gap-6 min-[1200px]:grid-cols-2 min-[1200px]:gap-4">
+            <ContrastMatrix p={p} theme={theme} />
+            {!p.current && <NeutralMatrix p={p} theme={theme} />}
+          </div>
         </div>
 
-        <InComponents p={p} />
+        <div className="grid gap-3">
+          <h3 className="m-0 text-title-4 text-text-primary">In components</h3>
+          <InComponents p={p} />
+        </div>
       </div>
-      <p className="m-0 text-footnote text-text-tertiary">{notes[p.id]}</p>
     </section>
   );
 }
@@ -392,9 +421,8 @@ export default function PalettesPage() {
   }, []);
 
   return (
-    <article className="mx-auto grid w-full min-w-0 max-w-[76rem] grid-cols-[minmax(0,1fr)] content-start gap-10 px-4 py-8 min-[900px]:px-8">
+    <article className="mx-auto grid w-full min-w-0 max-w-[76rem] grid-cols-[minmax(0,1fr)] content-start gap-12 px-4 py-8 min-[900px]:px-8">
       <header className="grid gap-3">
-        <span className="text-caption uppercase text-text-tertiary">Colour direction, round 3</span>
         <h1 className="m-0 font-ui text-display text-text-primary text-balance max-[899px]:text-title-1">Signal Grey and its variants</h1>
         <p className="m-0 max-w-[72ch] text-body text-text-secondary">
           Every variant keeps the Signal Grey base: <b>ink is the accent</b> (black to grey in light, near-white in dark) and <b>neutrals stay neutral</b>, at chroma 0 or at most one drop (C ≤ 0.004).
@@ -402,33 +430,42 @@ export default function PalettesPage() {
         </p>
         <p className="m-0 max-w-[72ch] text-ui text-text-tertiary">
           Each block renders with its own palette scoped to a wrapper. The switcher above recolours this docs app and the
-          <a className="text-text-link" href="#/samples/editor"> sample pages</a> through semantic variables only. Contrast is computed in the page from the sRGB-mapped values.
+          <a className="text-text-link" href="#/samples/editor"> sample pages</a> through semantic variables only. Contrast is computed in the page from the sRGB-mapped values. Colour direction, round 3.
         </p>
       </header>
 
-      <div className="overflow-x-auto rounded-xl shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]">
-        <table className="w-full min-w-[40rem] border-collapse text-ui">
-          <thead><tr className="text-left text-caption uppercase text-text-tertiary"><th className="p-2.5 font-medium">Palette</th><th className="p-2.5 font-medium">Accent</th><th className="p-2.5 font-medium">Status colours</th><th className="p-2.5 font-medium">Agent gradient</th><th className="p-2.5 font-medium">Neutral C</th><th className="p-2.5 font-medium">Text AA</th><th className="p-2.5 font-medium" /></tr></thead>
-          <tbody>
-            {palettes.map(p => {
-              const rows = report(p, theme);
-              const all = [...rows, ...(p.current ? [] : neutralReport(p, theme))];
-              const fails = all.filter(x => x.need === 4.5 && !x.pass).length;
-              const minText = Math.min(...all.filter(x => x.need === 4.5).map(x => x.ratio));
-              return (
-                <tr key={p.id} className="border-t border-border-subtle">
-                  <td className="p-2.5"><a href="#/palettes" onClick={e => { e.preventDefault(); document.getElementById(`p-${p.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} className="text-ui-strong text-text-primary no-underline hover:underline">{p.name}</a></td>
-                  <td className="p-2.5"><i className="mr-1.5 inline-block size-3 rounded-full align-[-1px]" style={{ background: css(p.accent[theme]) }} />{p.accent.name}</td>
-                  <td className="p-2.5"><span className="inline-flex gap-1">{[p.success, p.warning, p.danger, p.info].map((s, i) => <i key={i} className="size-4 rounded-full shadow-[inset_0_0_0_1px_oklch(0_0_0/0.12)]" style={{ background: css(s[theme]) }} title={s.name} />)}</span></td>
-                  <td className="p-2.5"><span className="inline-flex gap-1">{[...p.spectrum, ...p.extras].map((s, i) => <i key={i} className="size-4 rounded-full shadow-[inset_0_0_0_1px_oklch(0_0_0/0.12)]" style={{ background: css(s[theme]) }} title={s.name} />)}</span></td>
-                  <td className={`p-2.5 ${mono}`}>{p.current ? 'shipped' : Math.max(...neutralsFor(p, theme).map(c => c[1])).toFixed(3)}</td>
-                  <td className="p-2.5"><span className="inline-flex items-center gap-1.5"><Tick ok={fails === 0} /><span className={mono}>min {minText.toFixed(1)}:1</span></span></td>
-                  <td className="p-2.5 text-right"><Button size="xs" tone={palette.id === p.id ? 'secondary' : 'ink'} disabled={palette.id === p.id} onClick={() => setPalette(p.id)}>{palette.id === p.id ? 'Applied' : 'Apply'}</Button></td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+      <div className="grid gap-4 min-[1100px]:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] min-[1100px]:gap-10">
+        <div className="overflow-x-auto">
+          <table className={`${table} min-w-[38rem]`}>
+            <caption className="sr-only">The eight palettes at a glance</caption>
+            <thead><tr><th className={th}>Palette</th><th className={th}>Accent</th><th className={th}>Status</th><th className={th}>Agent gradient · extras</th><th className={thNum}>Neutral C</th><th className={thNum}>Min text contrast</th></tr></thead>
+            <tbody>
+              {palettes.map(p => {
+                const all = [...report(p, theme), ...(p.current ? [] : neutralReport(p, theme))];
+                const fails = all.filter(x => x.need === 4.5 && !x.pass).length;
+                const minText = Math.min(...all.filter(x => x.need === 4.5).map(x => x.ratio));
+                const dot = 'size-3.5 rounded-full shadow-[inset_0_0_0_1px_oklch(0_0_0/0.12)]';
+                return (
+                  <tr key={p.id} className={row}>
+                    <td className="px-2 py-2">
+                      <a href="#/palettes" onClick={e => { e.preventDefault(); document.getElementById(`p-${p.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} className="text-ui-strong text-text-primary underline decoration-border-strong underline-offset-[3px] hover:decoration-text-primary">{p.name}</a>
+                      {palette.id === p.id ? <span className="ml-2 text-label text-text-tertiary">applied</span> : null}
+                    </td>
+                    <td className="px-2 py-2 text-text-secondary"><i className="mr-1.5 inline-block size-3 rounded-full align-[-1px]" style={{ background: css(p.accent[theme]) }} />{p.accent.name}</td>
+                    <td className="px-2 py-2"><span className="inline-flex gap-1">{[p.success, p.warning, p.danger, p.info].map((s, i) => <i key={i} className={dot} style={{ background: css(s[theme]) }} title={s.name} />)}</span></td>
+                    <td className="px-2 py-2"><span className="inline-flex gap-1">{[...p.spectrum, ...p.extras].map((s, i) => <i key={i} className={`${dot} ${i === p.spectrum.length ? 'ml-1.5' : ''}`} style={{ background: css(s[theme]) }} title={s.name} />)}</span></td>
+                    <td className={`px-2 py-2 text-right ${mono} tabular-nums text-text-secondary`}>{p.current ? 'shipped' : Math.max(...neutralsFor(p, theme).map(c => c[1])).toFixed(3)}</td>
+                    <td className="px-2 py-2 text-right"><Ratio value={minText} pass={fails === 0} /></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div className="grid content-start gap-2">
+          <h2 className="m-0 text-title-4 text-text-primary">Neutral roles <span className="font-normal text-text-tertiary">same steps in every Signal Grey variant</span></h2>
+          <NeutralRoles />
+        </div>
       </div>
 
       {palettes.map(p => <PaletteSection key={p.id} p={p} theme={theme} base={base} active={palette.id === p.id} onApply={() => setPalette(p.id)} />)}

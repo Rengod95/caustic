@@ -74,7 +74,7 @@ export function Shell({ route, children }: { route: Route; children: ReactNode }
           Caustic
           <span className="font-ui text-ui-sm text-text-tertiary max-[520px]:hidden">docs · {componentIds.length} components</span>
         </a>
-        <div className="ml-auto flex items-center gap-4 max-[1099px]:hidden"><PaletteSelect /><Controls /></div>
+        <div className="ml-auto flex items-center gap-4 max-[1099px]:hidden">{route.page === 'showcase' ? null : <PaletteSelect />}<Controls /></div>
       </header>
 
       {open ? <div aria-hidden className="fixed inset-0 z-30 bg-bg-scrim min-[900px]:hidden" onClick={() => setOpen(false)} /> : null}
@@ -91,7 +91,7 @@ export function Shell({ route, children }: { route: Route; children: ReactNode }
           ].join(' ')}
         >
           <Input aria-label="Search components" placeholder="Search components" prefix={<Search />} value={query} onValueChange={setQuery} />
-          <div className="grid gap-3 min-[1100px]:hidden"><PaletteSelect /><Controls stacked /></div>
+          <div className="grid gap-3 min-[1100px]:hidden">{route.page === 'showcase' ? null : <PaletteSelect />}<Controls stacked /></div>
           <Nav route={route} query={query} />
           <p className="m-0 px-2 font-ui text-footnote text-text-tertiary">{Object.keys(specs).length} components · spec-first, gated</p>
         </aside>

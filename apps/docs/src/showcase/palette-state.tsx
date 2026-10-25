@@ -69,9 +69,8 @@ export function ShowcaseBar() {
   const { palette, setPalette } = usePalette();
   const { theme, set } = useSettings();
   return (
-    <div data-showcase-bar className="sticky top-14 z-20 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-border-subtle bg-surface-base px-3 py-2 min-[900px]:px-5">
-      <span className="text-caption uppercase text-text-tertiary">Palette</span>
-      <div className="flex min-w-0 flex-wrap items-center gap-1.5" role="group" aria-label="Palette">
+    <div data-showcase-bar className="sticky top-14 z-20 flex items-center gap-3 border-b border-border-subtle bg-surface-base py-2 pl-3 pr-3 min-[900px]:px-5">
+      <div className="-my-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto py-1 scrollbar-none min-[1200px]:flex-wrap" role="group" aria-label="Palette">
         {palettes.map(p => {
           const on = p.id === palette.id;
           return (
@@ -81,7 +80,7 @@ export function ShowcaseBar() {
               aria-pressed={on}
               onClick={() => setPalette(p.id)}
               className={[
-                'inline-flex h-7 cursor-pointer items-center gap-1.5 rounded-full border px-2.5 font-ui text-ui-sm outline-none focus-visible:shadow-focus',
+                'inline-flex h-7 shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 font-ui text-ui-sm outline-none focus-visible:shadow-focus',
                 on ? 'border-text-primary bg-text-primary text-text-inverse' : 'border-border-strong bg-surface-base text-text-secondary hover:bg-fill-hover',
               ].join(' ')}
             >
@@ -95,7 +94,7 @@ export function ShowcaseBar() {
           );
         })}
       </div>
-      <div className="ml-auto">
+      <div className="shrink-0">
         <SegmentedControl size="xs" aria-label="Theme" value={theme} onValueChange={v => set({ theme: v as Theme })}>
           <SegmentedControlItem value="light">Light</SegmentedControlItem>
           <SegmentedControlItem value="dark">Dark</SegmentedControlItem>
