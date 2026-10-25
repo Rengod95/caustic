@@ -15,7 +15,6 @@ export interface Palette {
   neutralLight?: Ramp;
   neutralDark?: Ramp;
   /** Overrides of the dark role→step links (role name as in NEUTRAL_ROLES); the ramp values stay. */
-  darkLinks?: Partial<Record<string, number>>;
   accent: Swatch; success: Swatch; warning: Swatch; danger: Swatch; info: Swatch;
   /** Agent gradient: the Ask agent border, agent progress, glow and avatar ring. */
   spectrum: [Swatch, Swatch, Swatch];
@@ -50,8 +49,17 @@ export const NEUTRAL_ROLES: { role: string; light: number; dark: number }[] = [
   { role: 'ink button', light: 11, dark: 5 },
 ];
 
-/** Dark background ladder one step lower: surface and raised drop a step, app joins the canvas at step 1. */
-export const DARK_LINKS_LOWER: Partial<Record<string, number>> = { 'surface base': 2, 'surface raised': 3, 'bg app': 1, 'bg canvas': 1 };
+/**
+ * Deep Black's dark ramp. The owner kept the role links (canvas 1, app 2, surface 3, raised 4) and asked for steps 2–11
+ * a little darker instead; 'subtle' is the default, the other two stay for comparison in the lab.
+ */
+export const DARK_RAMPS = {
+  subtle: [0.09, 0.145, 0.195, 0.245, 0.365, 0.545, 0.605, 0.655, 0.71, 0.8, 0.965],
+  more: [0.09, 0.135, 0.18, 0.225, 0.345, 0.535, 0.595, 0.645, 0.7, 0.795, 0.96],
+  previous: [0.09, 0.16, 0.215, 0.27, 0.39, 0.56, 0.62, 0.67, 0.72, 0.81, 0.97],
+} as const;
+export type DarkRamp = keyof typeof DARK_RAMPS;
+export const darkRamp = (k: DarkRamp): Ramp => ramp([...DARK_RAMPS[k]]);
 
 const SIGNAL_STATUS = {
   success: s('Pad Green', [0.55, 0.085, 155], [0.77, 0.085, 155]),
@@ -85,7 +93,7 @@ export const palettes: Palette[] = [
     id: 'deep', name: 'Signal Grey · Deep Black',
     concept: 'The original with denser ink: near-pure black accent and darker strong text, a slightly deeper dark canvas.',
     neutralLight: ramp([0.995, 0.975, 0.93, 0.875, 0.79, 0.6, 0.55, 0.5, 0.44, 0.29, 0.12]),
-    neutralDark: ramp([0.09, 0.16, 0.215, 0.27, 0.39, 0.56, 0.62, 0.67, 0.72, 0.81, 0.97]),
+    neutralDark: darkRamp('subtle'),
     accent: s('Deep Black', [0.11, 0, 0], [0.97, 0, 0]), ...SIGNAL_STATUS,
     spectrum: [s('Signal', [0.78, 0.09, 55], [0.74, 0.09, 55]), s('Panel', [0.78, 0.06, 235], [0.75, 0.06, 235]), s('Pad', [0.8, 0.08, 150], [0.76, 0.08, 150])],
     extras: [s('Knob Orange', [0.64, 0.12, 50], [0.72, 0.11, 50]), s('Dust Blue', [0.6, 0.07, 240], [0.72, 0.065, 240])],
@@ -138,8 +146,8 @@ export function neutralsFor(p: Palette, t: Theme): Ramp {
 }
 const step = (p: Palette, t: Theme, n: number): LCH => neutralsFor(p, t)[n - 1]!;
 const roleStep = (role: string, t: Theme) => NEUTRAL_ROLES.find(r => r.role === role)![t];
-/** The step a role reads in a mode, after the palette's dark link overrides. */
-export const roleStepOf = (p: Palette, t: Theme, role: string) => (t === 'dark' && p.darkLinks?.[role]) || roleStep(role, t);
+/** The step a role reads in a mode. */
+export const roleStepOf = (_p: Palette, t: Theme, role: string) => roleStep(role, t);
 const N = (p: Palette, t: Theme, role: string) => step(p, t, roleStepOf(p, t, role));
 
 // ---------- derivation ----------

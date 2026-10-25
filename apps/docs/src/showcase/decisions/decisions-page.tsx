@@ -7,7 +7,7 @@ import { contrast, gamutMap } from '../color.ts';
 import { neutralsFor, roleStepOf, surfaceFor, type Theme } from '../palettes.ts';
 import { toPalette, valueOf, type BuilderState } from '../builder/state.ts';
 import {
-  decisionBase, GUIDE_OWN, huedAccent, ladder, mergeInk, onOf, opaqueNeutral, OPAQUE_STEPS, ownGuide, roleL, scope, stepL, withDark,
+  dangerGuide, decisionBase, GUIDE_OWN, huedAccent, ladder, mergeInk, onOf, opaqueNeutral, OPAQUE_STEPS, ownGuide, roleL, scope, stepL, withDark,
 } from './model.ts';
 import { CanvasScene, DarkShellScene, Frame, InkScene, LightSolidScene, NeutralScene, RequiredScene, SelectionScene } from './scenes.tsx';
 
@@ -69,16 +69,26 @@ function useQuestions(s: BuilderState): Question[] {
     const dangerL = gamutMap(valueOf(s.colors.danger, 'light'));
     const ownL = gamutMap(GUIDE_OWN.light);
 
-    // Q5
-    const cur = ladder(withDark(s, 'current'));
-    const low = ladder(withDark(s, 'lower'));
+    // Q5: the role links stay; three versions of the neutral-dark ramp
+    const q5 = (['previous', 'subtle', 'more'] as const).map(k => {
+      const st = withDark(s, k);
+      const pp = toPalette(st);
+      const l = ladder(st);
+      const lch = (role: string) => neutralsFor(pp, 'dark')[roleStepOf(pp, 'dark', role) - 1]!;
+      const placeholder = Math.min(...(['surface base', 'surface raised', 'bg app'] as const).map(r => contrast(lch('text placeholder'), lch(r))));
+      const border = contrast(lch('control off · border control · text disabled'), lch('surface raised'));
+      return { k, st, l, placeholder, border };
+    });
     const tagsOf = (l: ReturnType<typeof ladder>) => Object.fromEntries(l.map(x => [x.name, `${x.name} ${x.step} · ${f2(x.L)}`]));
     const ladderText = (l: ReturnType<typeof ladder>) => l.map(x => `${x.name} ${f2(x.L)}`).join(' / ');
-    const pLow = toPalette(withDark(s, 'lower'));
-    const txtLow = Math.min(...(['surface base', 'surface raised', 'bg app'] as const).map(r => contrast(neutralsFor(pLow, 'dark')[roleStepOf(pLow, 'dark', 'text placeholder') - 1]!, roleLch(pLow, r))));
-    const pCur = toPalette(withDark(s, 'current'));
-    const txtCur = Math.min(...(['surface base', 'surface raised', 'bg app'] as const).map(r => contrast(neutralsFor(pCur, 'dark')[roleStepOf(pCur, 'dark', 'text placeholder') - 1]!, roleLch(pCur, r))));
-    function roleLch(pp: typeof p, role: string) { return neutralsFor(pp, 'dark')[roleStepOf(pp, 'dark', role) - 1]!; }
+    const q5Option = (i: number, title: string, recommended?: boolean): Option => {
+      const x = q5[i]!;
+      return {
+        id: x.k, title, recommended,
+        scene: <Frame label="다크" style={scope(x.st, 'dark')}><DarkShellScene tags={tagsOf(x.l)} /></Frame>,
+        consequence: <>{ladderText(x.l)}. 플레이스홀더 최저 대비 {f1(x.placeholder)}, 컨트롤 테두리(raised 위) {f2(x.border)}.</>,
+      };
+    };
 
     // Q6
     const sL = surfaceFor(p, 'light');
@@ -150,23 +160,18 @@ function useQuestions(s: BuilderState): Question[] {
         affects: ['canvas-guide (smart, measure, snap), motion-timeline 플레이헤드', 'canvas-guide · canvas-guide-on'],
         why: <>가이드는 정상 동작인데 오류와 같은 색이면 편집 중 화면 전체가 경고처럼 보인다. 전용 마젠타는 danger(h {Math.round(dangerL[2])})와 색상이 멀고, 사용자 가이드(info)와도 구분된다.</>,
         options: [
-          { id: 'A', title: 'danger 색 그대로 (지금)', scene: <Frame style={style('light')}><CanvasScene /></Frame>,
+          { id: 'A', title: 'danger 색 그대로 (지금)', scene: <Frame style={style('light', dangerGuide(s, 'light'))}><CanvasScene /></Frame>,
             consequence: <>토큰 추가 없음. 가이드 라벨 대비 {f1(contrast(onOf(dangerL, p), dangerL))}. 가이드와 오류 배지가 같은 색.</> },
           { id: 'B', title: '캔버스 전용 마젠타', recommended: true, scene: <Frame style={style('light', ownGuide(s, 'light'))}><CanvasScene /></Frame>,
             consequence: <>canvas 패밀리에 색 1개 추가(라이트 L{f2(ownL[0])} C{f2(ownL[1])} h345). 라벨 대비 {f1(contrast(onOf(ownL, p), ownL))}. canvas-guide, motion-timeline 기준 변경.</> },
         ],
       },
       {
-        id: 'q5', title: '다크 surface 한 단계 낮추기 (안 A)',
-        question: <>다크 배경 역할이 가리키는 단계를 한 칸씩 내린다. 램프 값은 그대로다. app과 canvas가 같아지는 부작용을 에디터 화면에서 본다.</>,
-        affects: ['다크의 bg-app · bg-canvas · surface-base · surface-raised (+ material, control-raised)', '다크 기준 스크린샷 전부'],
-        why: <>요청대로 surface가 어두워지고 층 간격은 그대로 유지된다. 텍스트 대비도 오른다. 캔버스와 앱 크롬이 같은 톤이 되지만 패널(surface)로 나뉜다.</>,
-        options: [
-          { id: 'current', title: '지금', scene: <Frame label="다크" style={scope(withDark(s, 'current'), 'dark')}><DarkShellScene tags={tagsOf(cur)} /></Frame>,
-            consequence: <>{ladderText(cur)}. 플레이스홀더 최저 대비 {f1(txtCur)}.</> },
-          { id: 'A', title: '안 A · 한 단계 낮춤', recommended: true, scene: <Frame label="다크" style={scope(withDark(s, 'lower'), 'dark')}><DarkShellScene tags={tagsOf(low)} /></Frame>,
-            consequence: <>{ladderText(low)}. app = canvas. 플레이스홀더 최저 대비 {f1(txtLow)}. 다크 기준 전부 재촬영.</> },
-        ],
+        id: 'q5', title: '다크 neutral 램프 2–11단계를 조금 어둡게',
+        question: <>역할 연결(canvas 1, app 2, surface 3, raised 4)은 그대로 두고, neutral-dark 램프의 2–11단계 값만 조금 내린다. 1단계(.09)는 그대로다.</>,
+        affects: ['다크의 bg-app · surface-base · surface-raised · 텍스트·테두리 단계 전부', '다크 기준 스크린샷 전부'],
+        why: <>소유자 결정(2026-10-25). 층 간격은 .045 이상을 지키고, 텍스트 4.5 · 컨트롤 테두리 3 대비를 모두 통과한다. 기본값은 Subtle.</>,
+        options: [q5Option(0, '이전 램프'), q5Option(1, 'Subtle (기본)', true), q5Option(2, 'A bit more')],
       },
       {
         id: 'q6', title: '필수 입력 별표: 뉴트럴 vs danger',
@@ -200,7 +205,7 @@ function OptionColumn({ o, chosen }: { o: Option; chosen: boolean }) {
   return (
     <div className={`grid min-w-0 content-start gap-2 rounded-lg p-2 ${chosen ? 'shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-border)]' : ''}`}>
       <div className="flex flex-wrap items-center gap-2">
-        {o.id !== 'current' && <span className={`${mono} text-text-tertiary`}>{o.id}</span>}
+        {!['current', 'previous', 'subtle', 'more'].includes(o.id) && <span className={`${mono} text-text-tertiary`}>{o.id}</span>}
         <b className="font-ui text-ui-strong text-text-primary">{o.title}</b>
         {o.recommended && <Badge tone="solid" shape="square">권장</Badge>}
         {chosen && <Badge tone="outline">내 선택</Badge>}
@@ -276,7 +281,7 @@ export default function DecisionsPage() {
                 <ul className="m-0 grid gap-0.5 pl-4">{q.affects.map(a => <li key={a}>{a}</li>)}</ul>
               </div>
             </header>
-            <div className={`grid min-w-0 gap-3 ${q.options.length === 3 ? 'min-[1100px]:grid-cols-3' : 'min-[1100px]:grid-cols-2'}`}>
+            <div className={`grid min-w-0 gap-3 ${q.options.length === 3 ? 'min-[1600px]:grid-cols-3' : 'min-[1100px]:grid-cols-2'}`}>
               {q.options.map(o => <OptionColumn key={o.id} o={o} chosen={choices[q.id] === o.id} />)}
             </div>
             <div className="grid max-w-[72ch] gap-2">

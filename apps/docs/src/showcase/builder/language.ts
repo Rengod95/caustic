@@ -113,8 +113,14 @@ export function langVars(p: Palette, t: Theme): Record<string, string> {
   // diff lines: the tint steps of success and danger, opaque
   v['--cs-color-diff-add'] = s('success', 3);
   v['--cs-color-diff-remove'] = s('danger', 3);
+  const guide = gamutMap(GUIDE_MAGENTA[t]);
+  v['--cs-color-canvas-guide'] = css(guide);
+  v['--cs-color-canvas-guide-on'] = css(onFor(guide, p));
   return v;
 }
+
+/** Decision 4 (2026-10-25): canvas guides get their own magenta family, far from danger (h ~40) and info. */
+export const GUIDE_MAGENTA: Record<Theme, LCH> = { light: [0.6, 0.2, 345], dark: [0.72, 0.17, 345] };
 
 export interface StepCheck { label: string; ratio: number; need: number }
 

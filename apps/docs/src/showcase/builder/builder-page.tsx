@@ -5,7 +5,7 @@ import { Alert, Badge, Button, Checkbox, NumberField, SegmentedControl, Segmente
 import { useSettings } from '../../settings.tsx';
 import { label } from '../color.ts';
 import { usePalette } from '../palette-state.tsx';
-import { NEUTRAL_ROLES, neutralsFor, paletteVars, roleStepOf, type Theme } from '../palettes.ts';
+import { NEUTRAL_ROLES, neutralsFor, paletteVars, roleStepOf, type DarkRamp, type Theme } from '../palettes.ts';
 import { ColorControl, LchEditor, Swatch, type Check } from './controls.tsx';
 import { langChecks, rampFor } from './language.ts';
 import { EmphasisMatrix } from './matrix.tsx';
@@ -47,7 +47,7 @@ function useApplyVars(state: BuilderState, theme: Theme) {
 
 const LADDER = ['bg canvas', 'bg app', 'surface base', 'surface raised'] as const;
 
-function NeutralRamps({ theme, state, onDarkSurface }: { theme: Theme; state: BuilderState; onDarkSurface: (v: BuilderState['darkSurface']) => void }) {
+function NeutralRamps({ theme, state, onDarkRamp }: { theme: Theme; state: BuilderState; onDarkRamp: (v: DarkRamp) => void }) {
   const p = toPalette(state);
   return (
     <section aria-label="Neutrals, locked" className="grid gap-2 border-b border-border-default px-3 py-3">
@@ -60,26 +60,27 @@ function NeutralRamps({ theme, state, onDarkSurface }: { theme: Theme; state: Bu
         <div key={t} className="grid gap-1">
           <span className={`font-mono text-mono-sm ${t === theme ? 'text-text-primary' : 'text-text-tertiary'}`}>neutral-{t} 1–11{t === theme ? ' · in use' : ''}</span>
           <div className="grid grid-cols-11 overflow-hidden rounded-md shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]">
-            {neutralsFor(BASE, t).map((c, i) => (
+            {neutralsFor(p, t).map((c, i) => (
               <span key={i} title={`neutral-${t}-${i + 1} · oklch ${label(c)}`} className="h-6" style={{ background: `oklch(${c[0]} ${c[1]} ${c[2]})` }} />
             ))}
           </div>
           <div className="grid grid-cols-11 font-mono text-mono-micro text-text-tertiary">
-            {neutralsFor(BASE, t).map((c, i) => <span key={i} className="text-center">{c[0].toFixed(2).slice(1)}</span>)}
+            {neutralsFor(p, t).map((c, i) => <span key={i} className="text-center">{c[0].toFixed(3).slice(1)}</span>)}
           </div>
         </div>
       ))}
-      <p className="m-0 text-footnote text-text-tertiary">L shown; C 0 and no hue on every step. Roles: {NEUTRAL_ROLES.filter(r => r.light !== r.dark).map(r => `${r.role} ${r.light}/${roleStepOf(p, 'dark', r.role)}`).join(' · ')} (light/dark); text and borders share steps.</p>
+      <p className="m-0 text-footnote text-text-tertiary">L shown; C 0 and no hue on every step. Roles: {NEUTRAL_ROLES.filter(r => r.light !== r.dark).map(r => `${r.role} ${r.light}/${r.dark}`).join(' · ')} (light/dark); text and borders share steps.</p>
       <div className="grid gap-1.5 pt-1">
-        <span className="font-ui text-ui-strong text-text-primary">Dark surface links</span>
-        <SegmentedControl size="xs" aria-label="Dark surface links" value={state.darkSurface} onValueChange={v => onDarkSurface(v as BuilderState['darkSurface'])}>
-          <SegmentedControlItem value="current">Current</SegmentedControlItem>
-          <SegmentedControlItem value="lower">One step lower</SegmentedControlItem>
+        <span className="font-ui text-ui-strong text-text-primary">Dark ramp</span>
+        <SegmentedControl size="xs" aria-label="Dark ramp" value={state.darkRamp} onValueChange={v => onDarkRamp(v as DarkRamp)}>
+          <SegmentedControlItem value="subtle">Subtle</SegmentedControlItem>
+          <SegmentedControlItem value="more">A bit more</SegmentedControlItem>
+          <SegmentedControlItem value="previous">Previous</SegmentedControlItem>
         </SegmentedControl>
         <span className="font-mono text-mono-sm text-text-tertiary">
-          dark {LADDER.map(r => `${r.replace('surface ', '').replace('bg ', '')} ${roleStepOf(p, 'dark', r)} (${neutralsFor(BASE, 'dark')[roleStepOf(p, 'dark', r) - 1]![0].toFixed(3).slice(1)})`).join(' · ')}
+          dark {LADDER.map(r => `${r.replace('surface ', '').replace('bg ', '')} ${roleStepOf(p, 'dark', r)} (${neutralsFor(p, 'dark')[roleStepOf(p, 'dark', r) - 1]![0].toFixed(3).slice(1)})`).join(' · ')}
         </span>
-        <p className="m-0 text-footnote text-text-tertiary">Links only; the ramp values stay. Lower: surface 3→2, raised 4→3, app 2→1 (shares step 1 with the canvas).</p>
+        <p className="m-0 text-footnote text-text-tertiary">Role links stay (canvas 1, app 2, surface 3, raised 4); steps 2–11 get darker. Subtle is the decided default.</p>
       </div>
     </section>
   );
@@ -130,6 +131,8 @@ export default function BuilderPage() {
 
   return (
     <div className="min-w-0 font-ui text-text-primary" data-lab="builder">
+      {/* decision 6 (2026-10-25): the required mark is neutral; previewed here until field.tsx moves */}
+      {state.language === 'proposed' && <style>{'[data-lab="builder"] [data-slot="field-required-mark"]{color:var(--cs-color-text-tertiary)}'}</style>}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border-default bg-bg-inset px-4 py-2.5 min-[900px]:px-5">
         <Badge tone="solid" shape="square" icon={<FlaskConical />}>Lab</Badge>
         <p className="m-0 min-w-0 flex-1 text-ui-sm text-text-secondary">
@@ -183,7 +186,7 @@ export default function BuilderPage() {
           <div className="border-b border-border-default px-3 py-2 text-footnote text-text-tertiary">
             Editing <b className="text-text-primary">{theme}</b>. Switch the theme above to edit the other mode; each colour keeps separate light and dark values.
           </div>
-          <NeutralRamps theme={theme} state={state} onDarkSurface={v => setState(s => ({ ...s, darkSurface: v }))} />
+          <NeutralRamps theme={theme} state={state} onDarkRamp={v => setState(s => ({ ...s, darkRamp: v }))} />
           {(['Accent', 'Status', 'Agent gradient', 'Extra chart / illustration'] as const).map(g => (
             <div key={g}>
               <h2 className="m-0 border-b border-border-subtle bg-bg-app px-3 py-1.5 text-caption uppercase text-text-tertiary">{g}</h2>

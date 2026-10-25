@@ -52,12 +52,19 @@ function styleFor(k: LangTone, e: Emphasis, s: State, theme: Theme): CSSProperti
   const shadows: string[] = [];
   if (look.border) shadows.push(`inset 0 0 0 ${look.borderW ?? 1}px ${v(k, look.border)}`);
   if (s === 'focus') shadows.push('0 0 0 2px var(--cs-color-surface-base)', '0 0 0 4px var(--cs-color-focus-ring)');
-  return {
-    background: look.bg ? v(k, look.bg) : 'transparent',
-    color: v(k, look.fg),
-    boxShadow: shadows.length ? shadows.join(', ') : undefined,
-  };
+  let background = look.bg ? v(k, look.bg) : 'transparent';
+  // decision 2: neutral interaction stays alpha, layered over the rest fill, so it reads on any background
+  if (k === 'neutral' && e !== 'solid' && NEUTRAL_FILL[s]) {
+    const rest = RECIPES[e].rest.bg;
+    background = `linear-gradient(${NEUTRAL_FILL[s]}, ${NEUTRAL_FILL[s]}), ${rest ? v(k, rest) : 'transparent'}`;
+  }
+  return { background, color: v(k, look.fg), boxShadow: shadows.length ? shadows.join(', ') : undefined };
 }
+
+/** Decision 2 (2026-10-25): neutral hover, pressed and selected are the alpha fills, not ramp steps. */
+const NEUTRAL_FILL: Partial<Record<State, string>> = {
+  hover: 'var(--cs-color-fill-hover)', pressed: 'var(--cs-color-fill-pressed)', selected: 'var(--cs-color-fill-selected)',
+};
 
 const NAME: Record<LangTone, string> = { accent: 'Accent', neutral: 'Neutral', success: 'Success', warning: 'Warning', danger: 'Danger', info: 'Info', agent: 'Agent' };
 
@@ -116,10 +123,47 @@ export function EmphasisMatrix({ theme }: { theme: Theme }) {
           </div>
         </div>
       ))}
+      <ListSelection />
       <p className="m-0 text-footnote text-text-tertiary">
+        Neutral hover, pressed and selected stay alpha fills over whatever sits below (decision 2); hued soft is opaque.
         Hover and pressed stay inside their emphasis: a soft control never turns solid on hover. Selected adds a mark and an edge, never the focus ring;
         focus is the same outer ring on every cell. Disabled is a neutral colour (fill 3/4, text 6), not opacity, so a disabled tone reads as off, not faded.
       </p>
+    </div>
+  );
+}
+
+/** Decision 3 (2026-10-25): list and menu selection is neutral: fill-selected, a check mark and a neutral edge 7. */
+function ListSelection() {
+  const rows: { name: string; state: 'rest' | 'hover' | 'selected' | 'selected-hover' }[] = [
+    { name: 'Frame / Header', state: 'rest' }, { name: 'Frame / Hero', state: 'hover' },
+    { name: 'Button / Primary', state: 'selected' }, { name: 'Button / Ghost', state: 'selected-hover' },
+  ];
+  const bgOf = (st: string) => {
+    if (st === 'hover') return 'var(--cs-color-fill-hover)';
+    if (st === 'selected') return 'var(--cs-color-fill-selected)';
+    if (st === 'selected-hover') return 'linear-gradient(var(--cs-color-fill-hover), var(--cs-color-fill-hover)), var(--cs-color-fill-selected)';
+    return 'transparent';
+  };
+  return (
+    <div className="grid gap-1.5">
+      <div className="flex flex-wrap items-baseline gap-x-3">
+        <span className="font-ui text-ui-strong text-text-primary">List and menu selection</span>
+        <span className="font-mono text-mono-sm text-text-tertiary">fill-selected · mark · edge neutral 7 · selected + hover adds fill-hover</span>
+      </div>
+      <div className="grid max-w-[24rem] gap-0.5 rounded-lg bg-surface-raised p-1 shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]">
+        {rows.map(r => {
+          const sel = r.state.startsWith('selected');
+          return (
+            <span key={r.name} className="flex h-7 items-center gap-2 rounded-md px-2 font-ui text-ui-sm text-text-primary"
+              style={{ background: bgOf(r.state), boxShadow: sel ? `inset 0 0 0 1px ${v('neutral', 7)}` : undefined }}>
+              <span className="grid size-icon-sm place-items-center">{sel && <Check aria-hidden className="size-icon-sm" />}</span>
+              {r.name}
+              <span className="ml-auto font-mono text-mono-micro text-text-tertiary">{r.state}</span>
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 }

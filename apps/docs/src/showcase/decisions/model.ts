@@ -3,8 +3,8 @@
 // with the proposed language on, so the page follows whatever the owner tuned in #/lab/builder.
 import type { CSSProperties } from 'react';
 import { contrast, css, gamutMap, type LCH } from '../color.ts';
-import { DARK_LINKS_LOWER, neutralsFor, roleStepOf, scopeVars, type Palette, type Theme } from '../palettes.ts';
-import { rampFor } from '../builder/language.ts';
+import { neutralsFor, roleStepOf, scopeVars, type DarkRamp, type Palette, type Theme } from '../palettes.ts';
+import { GUIDE_MAGENTA, rampFor } from '../builder/language.ts';
 import { builderVars, load, toPalette, valueOf, type BuilderState } from '../builder/state.ts';
 
 /** The builder's saved state (read only) with the proposed language switched on. */
@@ -17,7 +17,7 @@ export function scope(s: BuilderState, t: Theme, extra: Record<string, string> =
   return scopeVars({ ...builderVars(s, t), ...extra }) as CSSProperties;
 }
 
-export const withDark = (s: BuilderState, darkSurface: BuilderState['darkSurface']): BuilderState => ({ ...s, darkSurface });
+export const withDark = (s: BuilderState, darkRamp: DarkRamp): BuilderState => ({ ...s, darkRamp });
 
 // ---------- Q1: ink.* merged into accent-* ----------
 
@@ -70,7 +70,13 @@ export function onOf(fill: LCH, p: Palette): LCH {
 // ---------- Q4: canvas guides in their own colour ----------
 
 /** A canvas-only magenta, far from every status hue (danger sits near h 40). */
-export const GUIDE_OWN: Record<Theme, LCH> = { light: [0.6, 0.2, 345], dark: [0.72, 0.17, 345] };
+export const GUIDE_OWN = GUIDE_MAGENTA;
+
+/** Option A of Q4: the guide back on the danger solid (the proposed language now defaults to the magenta). */
+export function dangerGuide(s: BuilderState, t: Theme): Record<string, string> {
+  const c = gamutMap(valueOf(s.colors.danger, t));
+  return { '--cs-color-canvas-guide': css(c), '--cs-color-canvas-guide-on': css(onOf(c, toPalette(s))) };
+}
 
 export function ownGuide(s: BuilderState, t: Theme): Record<string, string> {
   const c = gamutMap(GUIDE_OWN[t]);
@@ -86,7 +92,6 @@ export function ladder(s: BuilderState): { role: string; name: string; step: num
   return LADDER.map(([role, name]) => ({ role, name, step: roleStepOf(p, 'dark', role), L: roleL(p, 'dark', role) }));
 }
 
-export { DARK_LINKS_LOWER };
 
 // ---------- Q7: light solids above L .7 ----------
 
