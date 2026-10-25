@@ -1,5 +1,5 @@
 import { lazy, Suspense, type ComponentType, type ReactNode } from 'react';
-import { Bot, LayoutDashboard, PenTool, Settings2, SwatchBook } from 'lucide-react';
+import { Bot, LayoutDashboard, PenTool, Settings2, SlidersHorizontal, SwatchBook } from 'lucide-react';
 import { Boundary } from '../ui.tsx';
 import { ShowcaseBar } from './palette-state.tsx';
 
@@ -14,15 +14,22 @@ export const showcasePages: ShowcaseEntry[] = [
   { slug: 'samples/settings', title: 'Sample: team & billing', icon: <Settings2 />, Component: lazy(() => import('./samples/settings.tsx')) },
 ];
 
-export const showcaseTitle = (slug: string) => `${showcasePages.find(p => p.slug === slug)?.title ?? slug} · Caustic showcase`;
+/** Internal tools: not showcase pages, no palette bar. */
+export const labPages: ShowcaseEntry[] = [
+  { slug: 'lab/builder', title: 'Palette builder', icon: <SlidersHorizontal />, Component: lazy(() => import('./builder/builder-page.tsx')) },
+];
+
+const entryFor = (slug: string) => showcasePages.find(p => p.slug === slug) ?? labPages.find(p => p.slug === slug);
+
+export const showcaseTitle = (slug: string) => `${entryFor(slug)?.title ?? slug} · Caustic ${slug.startsWith('lab/') ? 'lab' : 'showcase'}`;
 
 export function ShowcasePage({ slug }: { slug: string }) {
-  const entry = showcasePages.find(p => p.slug === slug);
+  const entry = entryFor(slug);
   if (!entry) return <p className="p-6 text-text-secondary">Unknown showcase page.</p>;
   const { Component } = entry;
   return (
     <div className="min-w-0" data-showcase={slug}>
-      <ShowcaseBar />
+      {slug.startsWith('lab/') ? null : <ShowcaseBar />}
       <Boundary label={entry.title}>
         <Suspense fallback={<p className="p-6 text-text-tertiary">Loading…</p>}><Component /></Suspense>
       </Boundary>

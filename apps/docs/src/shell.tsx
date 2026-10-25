@@ -5,7 +5,7 @@ import { componentGroups, foundationPages, specs, componentIds } from './data.ts
 import { hrefFor, type Route } from './router.ts';
 import { Controls } from './settings.tsx';
 import { PaletteSelect } from './showcase/palette-state.tsx';
-import { showcasePages } from './showcase/index.tsx';
+import { labPages, showcasePages } from './showcase/index.tsx';
 
 const isCurrent = (route: Route, key: string) =>
   (route.page === 'home' && key === 'home') ||
@@ -30,6 +30,13 @@ function Nav({ route, query }: { route: Route; query: string }) {
         <ListNavigationGroup heading="Showcase">
           {showcasePages.map(p => (
             <ListNavigationItem key={p.slug} icon={p.icon} href={p.slug === 'palettes' ? hrefFor.palettes : `#/${p.slug}`} current={isCurrent(route, `s:${p.slug}`)}>{p.title}</ListNavigationItem>
+          ))}
+        </ListNavigationGroup>
+      ) : null}
+      {!q ? (
+        <ListNavigationGroup heading="Lab · internal tools">
+          {labPages.map(p => (
+            <ListNavigationItem key={p.slug} icon={p.icon} href={`#/${p.slug}`} current={isCurrent(route, `s:${p.slug}`)}>{p.title}</ListNavigationItem>
           ))}
         </ListNavigationGroup>
       ) : null}
