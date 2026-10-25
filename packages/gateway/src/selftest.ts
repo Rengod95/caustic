@@ -1,12 +1,57 @@
 // Gateway self-test: proves the gate rejects known-bad implementations.
 // Each mutation edits the Button source (or spec) temporarily, runs the gate, and asserts that
 // a blocking finding of the expected check appears. Files are always restored.
-// Usage: pnpm gate:selftest
+// Colour language rules CL1–CL7 are pure functions; each has a passing and a failing synthetic snippet,
+// checked first and without a browser.
+// Usage: pnpm gate:selftest            colour rule cases, then the Button mutations (these render: G3–G5 start a browser)
+//        pnpm gate:selftest --rules    colour rule cases only (no browser, no gate run)
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { root } from './paths.ts';
+import { checkComponent, slotContrast, type ColorConfig, type RuleId, type Source } from './checks/color-language.ts';
+
+// ── Colour language rule cases ──
+const cfg: ColorConfig = { migrated: [], slotOnlyBlocking: [], contrastBlocking: false, literalColorAllow: { colourMath: ['color-picker'], contentFixtures: ['theme-gallery'] } };
+const known = new Set(['danger-soft', 'danger-solid', 'danger-text', 'danger-on', 'ink-solid', 'ink-hover', 'ink-on', 'fill-hover', 'fill-pressed', 'fill-selected', 'accent-soft', 'accent-fill', 'surface-base', 'text-primary', 'text-disabled', 'focus-ring', 'border-default']);
+const v = (body: string): Source[] => [{ rel: 'x/x.variants.ts', text: `import { cva } from 'class-variance-authority';\n${body}\n`, fixture: false }];
+const fx = (body: string): Source[] => [{ rel: 'x/x.fixture.tsx', text: body, fixture: true }];
+interface RuleCase { rule: RuleId; name: string; id?: string; src?: Source[]; css?: string; hit: boolean }
+const css = (text: string, on: string, soft: string, graphic: string) => `:root {\n  --cs-color-surface-base: oklch(1 0 0);\n  --cs-danger-text: ${text};\n  --cs-danger-soft: oklch(0.935 0.034 25);\n  --cs-danger-soft-hover: ${soft};\n  --cs-danger-solid: oklch(0.54 0.13 25);\n  --cs-danger-on: ${on};\n  --cs-danger-graphic: ${graphic};\n}\n`;
+const ruleCases: RuleCase[] = [
+  { rule: 'CL1', hit: false, name: 'slot tokens only', src: v("export const x = cva('bg-danger-soft text-danger-text hover:bg-danger-soft-hover shadow-[inset_0_0_0_1px_var(--cs-danger-border)]');") },
+  { rule: 'CL1', hit: true, name: 'legacy alias fill-pressed', src: v("export const x = cva('bg-transparent hover:bg-fill-pressed');") },
+  { rule: 'CL1', hit: true, name: 'ramp step read directly', src: v("export const x = cva('shadow-[inset_0_0_0_1px_var(--cs-danger-light-7)]');") },
+  { rule: 'CL2', hit: false, name: 'disabled as colour', src: v("export const x = cva('disabled:bg-disabled-fill disabled:text-disabled-text data-[disabled]:pointer-events-none');") },
+  { rule: 'CL2', hit: true, name: 'disabled:opacity-42', src: v("export const x = cva('disabled:pointer-events-none disabled:opacity-42');") },
+  { rule: 'CL2', hit: true, name: 'cn(disabled && opacity)', src: [{ rel: 'x/x.tsx', text: "import { cn } from '../../lib/cn.ts';\nexport const X = ({ disabled }: { disabled?: boolean }) => <div className={cn('flex', disabled && 'opacity-42')} />;\n", fixture: false }] },
+  { rule: 'CL3', hit: false, name: 'soft hover stays soft', src: v("export const x = cva('', { variants: { tone: { danger: 'bg-danger-soft hover:bg-danger-soft-hover active:bg-danger-soft-pressed', ghost: 'bg-transparent hover:bg-neutral-hover' } } });") },
+  { rule: 'CL3', hit: true, name: 'danger soft -> solid on hover', src: v("export const x = cva('', { variants: { tone: { danger: 'bg-danger-soft text-danger-text hover:bg-danger-solid hover:text-danger-on' } } });") },
+  { rule: 'CL3', hit: true, name: 'pressed chip turns ink', src: v("export const x = cva('aria-pressed:bg-ink-solid', { variants: { tone: { danger: 'bg-danger-soft text-danger-text' } } });") },
+  { rule: 'CL4', hit: false, name: 'selection edge + focus on focus only', src: v("export const x = cva('aria-checked:shadow-[inset_0_0_0_1px_var(--cs-selection-edge)] focus-visible:shadow-focus aria-checked:focus-visible:shadow-focus');") },
+  { rule: 'CL4', hit: true, name: 'selected drawn with focus-field', src: v("export const x = cva('data-[state=checked]:bg-accent-soft data-[state=checked]:shadow-[var(--cs-focus-field)]');") },
+  { rule: 'CL5', hit: false, name: 'invalid edge + focus ring together', src: v("export const x = cva('focus-within:shadow-[var(--cs-focus-field)] data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-danger-border-strong),var(--cs-focus)]');") },
+  { rule: 'CL5', hit: true, name: 'invalid erases focus', src: v("export const x = cva('focus-within:shadow-[var(--cs-focus-field)] data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-danger-border-strong)]');") },
+  { rule: 'CL5', hit: true, name: 'invalid and focus fight over box-shadow', src: v("export const x = cva('focus-visible:shadow-[var(--cs-focus-field)] data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-danger-border-strong)]');") },
+  { rule: 'CL5', hit: true, name: 'invalid edge is not danger border-strong', src: v("export const x = cva('data-[invalid]:border-danger-solid');") },
+  { rule: 'CL6', hit: false, name: 'colour math on the allowlist', id: 'color-picker', src: [{ rel: 'x/x.tsx', text: 'export const ramp = (h: number) => `hsl(${h} 100% 50%)`;\n', fixture: false }] },
+  { rule: 'CL6', hit: false, name: 'content fixture on the allowlist', id: 'theme-gallery', src: fx("export const themes = ['#f7f8fa', '#0e7f93'];\n") },
+  { rule: 'CL6', hit: true, name: 'template literal colour in code', src: [{ rel: 'x/x.tsx', text: 'export const tint = (l: number) => `oklch(${l} 0 0)`;\n', fixture: false }] },
+  { rule: 'CL6', hit: true, name: 'literal stage colour in a fixture', src: fx('export default <div className="bg-[oklch(0.2_0.01_260/0.1)] p-4" />;\n') },
+  { rule: 'CL7', hit: false, name: 'slot pairs meet their floors', css: css('oklch(0.45 0.13 25)', 'oklch(0.995 0 0)', 'oklch(0.905 0.051 25)', 'oklch(0.618 0.13 25)') },
+  { rule: 'CL7', hit: true, name: 'text on soft-hover below 4.5', css: css('oklch(0.62 0.13 25)', 'oklch(0.995 0 0)', 'oklch(0.905 0.051 25)', 'oklch(0.618 0.13 25)') },
+];
+let ruleFailed = 0;
+for (const k of ruleCases) {
+  const hits = k.css !== undefined ? slotContrast(k.css).hits.filter(h => h.expected !== undefined) : checkComponent(k.id ?? 'x', k.src ?? [], cfg, known);
+  const mine = hits.filter(h => h.rule === k.rule);
+  const ok = k.hit ? mine.length > 0 : mine.length === 0;
+  if (!ok) ruleFailed++;
+  console.log(`${ok ? (k.hit ? 'CATCH' : 'PASS ') : 'MISS '} ${k.rule} ${k.name}${ok ? '' : `: expected ${k.hit ? 'a hit' : 'no hit'}, got ${mine.map(h => `${h.where} ${h.message}`).join(' | ') || 'nothing'}`}`);
+}
+console.log(`\n${ruleCases.length - ruleFailed}/${ruleCases.length} colour rule cases correct\n`);
+if (process.argv.includes('--rules')) process.exit(ruleFailed ? 1 : 0);
 
 const comp = join(root, 'packages/react/src/components/button');
 const V = join(comp, 'button.variants.ts'), C = join(comp, 'button.tsx'), I = join(comp, 'index.ts'), S = join(root, 'packages/spec/src/specs/button.spec.ts');
@@ -48,4 +93,4 @@ for (const m of mutations) {
   } finally { writeFileSync(m.file, original); }
 }
 console.log(`\n${mutations.length - failed}/${mutations.length} mutations caught`);
-process.exit(failed ? 1 : 0);
+process.exit(failed || ruleFailed ? 1 : 0);

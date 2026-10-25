@@ -1,0 +1,15 @@
+{
+  "$comment": "Colour language gate rules CL1-CL7 (PROPOSAL-color-language.md section 7). A component id in 'migrated' makes CL2-CL6 blocking for it; an id in 'slotOnlyBlocking' makes CL1 blocking for it. '*' means every component. Add a batch's ids when that batch is migrated. CL7 (slot contrast pairs) is foundation-wide and blocks only when 'contrastBlocking' is true.",
+  "migrated": [],
+  "slotOnlyBlocking": [],
+  "contrastBlocking": false,
+  "literalColorAllow": {
+    "$comment": "colourMath: component code that computes colours (hsl()/oklch() ramps, color-mix of user paint). contentFixtures: fixtures whose literal colours are user content (swatches, themes, images, artwork), not UI chrome.",
+    "colourMath": ["channel-slider", "color-picker", "color-plane", "effect-editor", "paint-well"],
+    "contentFixtures": [
+      "agent-work-area", "canvas-artboard", "card", "card-agent", "channel-slider", "color-picker", "color-plane", "color-tile", "color-well",
+      "compare-view", "contrast-chip", "contrast-insight", "expression-editor", "gradient-editor", "gradient-strip", "image-fill", "paint-stack", "paint-well",
+      "slider", "slider-field", "stack-row", "swatch-strip", "theme-gallery", "token-chip"
+    ]
+  }
+}

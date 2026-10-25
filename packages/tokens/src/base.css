@@ -30,7 +30,9 @@ body {
 }
 button, input, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
 button { cursor: pointer; background: none; border: 0; padding: 0; }
-:where(button, [role="button"], a, input, textarea, select, [tabindex]):focus-visible { outline: none; box-shadow: var(--cs-focus); }
+:where(button, [role="button"], a, input, textarea, select, [tabindex]):focus-visible { outline: none; box-shadow: 0 0 0 1px var(--cs-focus-offset, var(--cs-color-focus-offset)), 0 0 0 3px var(--cs-color-focus-ring); }
+/* The focus gap takes the colour of the surface the element sits on: set --cs-focus-offset on the element or a container
+   (e.g. var(--cs-color-surface-raised)); it defaults to focus.offset (= surface.base). Resolved here, per element. */
 /* Field focus policy: a text field owns its focus. The field container swaps its
    own border for --cs-focus-field (1.5px, focus.ring); the inner control draws
    nothing, and no outer ring or halo is added. One edge, never three. */
