@@ -1,8 +1,9 @@
-import { contrast, css, ensure, gamutMap, label, over, contrastLin, type LCH } from './color.ts';
+import { contrast, css, ensure, gamutMap, label, over, contrastLin, linRgb, type LCH } from './color.ts';
 
 export type Theme = 'light' | 'dark';
 export type Swatch = { name: string; light: LCH; dark: LCH };
-type Bg = { app: LCH; canvas: LCH; surface?: LCH; raised?: LCH };
+/** 11 steps. Step 1 is the background end (lightest in light, darkest in dark), step 11 the strongest text. */
+export type Ramp = readonly [LCH, LCH, LCH, LCH, LCH, LCH, LCH, LCH, LCH, LCH, LCH];
 
 export interface Palette {
   id: string;
@@ -10,19 +11,51 @@ export interface Palette {
   concept: string;
   /** true = the shipped tokens, no overrides. */
   current?: boolean;
-  bg?: { light: Bg; dark: Bg };
+  /** Each mode has its own neutral ramp; dark is tuned for the dark ladder, not a flipped light ramp. */
+  neutralLight?: Ramp;
+  neutralDark?: Ramp;
   accent: Swatch; success: Swatch; warning: Swatch; danger: Swatch; info: Swatch;
+  /** Agent gradient: the Ask agent border, agent progress, glow and avatar ring. */
   spectrum: [Swatch, Swatch, Swatch];
+  /** Extra chart series 5-6, illustrations and empty states. */
   extras: [Swatch, Swatch];
 }
 
 const s = (name: string, light: LCH, dark: LCH = light): Swatch => ({ name, light, dark });
 
-export const LIGHT_SURFACE: LCH = [0.995, 0, 0];
-export const DARK_SURFACE: LCH = [0.23, 0, 0];
+/** Neutral chroma ceiling: a neutral may carry at most one drop of hue. */
+export const NEUTRAL_MAX_C = 0.004;
 
-const inkDark = (h: number): LCH => [0.15, 0.03, h];
-const inkLight: LCH = [0.995, 0.004, 100];
+const ramp = (ls: number[], c = 0, h = 0): Ramp => ls.map(l => [l, c, h] as LCH) as unknown as Ramp;
+const LIGHT_L = [0.995, 0.975, 0.93, 0.875, 0.79, 0.6, 0.55, 0.5, 0.44, 0.32, 0.15];
+const DARK_L = [0.105, 0.175, 0.23, 0.285, 0.4, 0.56, 0.62, 0.67, 0.72, 0.81, 0.965];
+
+/**
+ * Which step each neutral role reads. Text, borders and controls share a step number in both modes;
+ * the background ladder and the ink button differ because light lifts surfaces to white above a darker canvas,
+ * while dark lifts them away from the darkest canvas.
+ */
+export const NEUTRAL_ROLES: { role: string; light: number; dark: number }[] = [
+  { role: 'surface base', light: 1, dark: 3 },
+  { role: 'surface raised', light: 1, dark: 4 },
+  { role: 'bg app', light: 2, dark: 2 },
+  { role: 'bg canvas', light: 3, dark: 1 },
+  { role: 'control off · border control · text disabled', light: 6, dark: 6 },
+  { role: 'text placeholder', light: 8, dark: 8 },
+  { role: 'text tertiary', light: 9, dark: 9 },
+  { role: 'text secondary', light: 10, dark: 10 },
+  { role: 'text primary', light: 11, dark: 11 },
+  { role: 'ink button', light: 11, dark: 5 },
+];
+
+const SIGNAL_STATUS = {
+  success: s('Pad Green', [0.55, 0.085, 155], [0.77, 0.085, 155]),
+  warning: s('Tape Yellow', [0.66, 0.1, 95], [0.82, 0.1, 95]),
+  danger: s('Signal Orange', [0.54, 0.13, 40], [0.72, 0.11, 40]),
+  info: s('Panel Blue', [0.53, 0.075, 235], [0.75, 0.07, 235]),
+};
+const BLACK = s('Black', [0.16, 0, 0], [0.96, 0, 0]);
+const GREY = { neutralLight: ramp(LIGHT_L), neutralDark: ramp(DARK_L) };
 
 export const palettes: Palette[] = [
   {
@@ -37,68 +70,70 @@ export const palettes: Palette[] = [
     extras: [s('Slate', [0.48, 0.012, 260]), s('Lagoon 200', [0.88, 0.075, 205])],
   },
   {
-    id: 'putty', name: 'Putty & Clay',
-    concept: 'Kinfolk-style editorial: warm paper, soft black ink, hue only as sage, ochre, clay and fog.',
-    bg: {
-      light: { app: [0.963, 0.012, 80], canvas: [0.935, 0.016, 78], surface: [0.99, 0.006, 85] },
-      dark: { app: [0.175, 0.008, 60], canvas: [0.145, 0.008, 60], surface: [0.225, 0.009, 60], raised: [0.265, 0.01, 60] },
-    },
-    accent: s('Soft Ink', [0.22, 0.008, 60], [0.94, 0.008, 80]),
-    success: s('Sage', [0.55, 0.07, 145], [0.76, 0.075, 145]),
-    warning: s('Ochre', [0.66, 0.1, 82], [0.8, 0.1, 85]),
-    danger: s('Clay', [0.52, 0.115, 33], [0.72, 0.1, 33]),
-    info: s('Fog Blue', [0.54, 0.06, 240], [0.75, 0.06, 240]),
-    spectrum: [s('Clay', [0.78, 0.08, 45], [0.74, 0.08, 45]), s('Sage', [0.82, 0.07, 145], [0.78, 0.07, 145]), s('Putty', [0.86, 0.06, 90], [0.82, 0.06, 90])],
-    extras: [s('Terracotta', [0.62, 0.11, 40], [0.7, 0.1, 40]), s('Oat', [0.9, 0.03, 85], [0.4, 0.03, 85])],
-  },
-  {
-    id: 'fog', name: 'Fog & Slate',
-    concept: 'Linear / Vercel register: cool near-neutral surfaces, graphite ink, hue limited to fog blue, moss, straw and brick.',
-    bg: {
-      light: { app: [0.972, 0.004, 255], canvas: [0.945, 0.006, 255], surface: [0.996, 0.002, 255] },
-      dark: { app: [0.17, 0.01, 265], canvas: [0.14, 0.01, 265], surface: [0.22, 0.012, 265], raised: [0.26, 0.014, 265] },
-    },
-    accent: s('Graphite', [0.2, 0.01, 265], [0.95, 0.004, 265]),
-    success: s('Moss Teal', [0.54, 0.075, 170], [0.76, 0.08, 170]),
-    warning: s('Straw', [0.65, 0.095, 95], [0.8, 0.095, 95]),
-    danger: s('Brick', [0.52, 0.12, 22], [0.72, 0.1, 22]),
-    info: s('Fog Blue', [0.53, 0.09, 250], [0.75, 0.08, 250]),
-    spectrum: [s('Fog', [0.78, 0.07, 245], [0.75, 0.07, 245]), s('Lilac Grey', [0.78, 0.06, 300], [0.75, 0.06, 300]), s('Sage Teal', [0.82, 0.06, 175], [0.78, 0.06, 175])],
-    extras: [s('Slate Blue', [0.45, 0.065, 255], [0.7, 0.06, 255]), s('Mist', [0.9, 0.02, 240], [0.4, 0.02, 240])],
-  },
-  {
-    id: 'mauve', name: 'Mauve & Olive',
-    concept: 'Arc-like soft studio: blush-grey paper, plum-black ink, mauve, olive, honey and rosewood as the only hues.',
-    bg: {
-      light: { app: [0.967, 0.01, 335], canvas: [0.94, 0.014, 335], surface: [0.995, 0.004, 335] },
-      dark: { app: [0.175, 0.012, 330], canvas: [0.145, 0.012, 330], surface: [0.225, 0.014, 330], raised: [0.265, 0.016, 330] },
-    },
-    accent: s('Plum Ink', [0.21, 0.012, 335], [0.94, 0.008, 335]),
-    success: s('Olive', [0.54, 0.08, 125], [0.76, 0.08, 125]),
-    warning: s('Honey', [0.66, 0.1, 78], [0.8, 0.1, 80]),
-    danger: s('Rosewood', [0.5, 0.12, 15], [0.72, 0.1, 15]),
-    info: s('Lilac Grey', [0.54, 0.07, 295], [0.76, 0.065, 295]),
-    spectrum: [s('Mauve', [0.78, 0.07, 335], [0.74, 0.07, 335]), s('Olive', [0.8, 0.08, 120], [0.76, 0.08, 120]), s('Peach', [0.85, 0.07, 60], [0.8, 0.07, 60])],
-    extras: [s('Mauve', [0.62, 0.085, 335], [0.72, 0.08, 335]), s('Pistachio', [0.88, 0.06, 125], [0.4, 0.05, 125])],
-  },
-  {
     id: 'signal', name: 'Signal Grey',
-    concept: 'Teenage Engineering utility: true-grey panels, black ink, one dusty orange signal, tape yellow and panel blue.',
-    bg: {
-      light: { app: [0.962, 0, 0], canvas: [0.93, 0, 0], surface: [0.994, 0, 0] },
-      dark: { app: [0.165, 0, 0], canvas: [0.13, 0, 0], surface: [0.215, 0, 0], raised: [0.255, 0, 0] },
-    },
-    accent: s('Black', [0.16, 0, 0], [0.96, 0, 0]),
-    success: s('Pad Green', [0.55, 0.085, 155], [0.77, 0.085, 155]),
-    warning: s('Tape Yellow', [0.66, 0.1, 95], [0.82, 0.1, 95]),
-    danger: s('Signal Orange', [0.54, 0.13, 40], [0.72, 0.11, 40]),
-    info: s('Panel Blue', [0.53, 0.075, 235], [0.75, 0.07, 235]),
+    concept: 'The original: true-grey panels, black ink, one dusty orange signal with tape yellow and panel blue.',
+    ...GREY, accent: BLACK, ...SIGNAL_STATUS,
     spectrum: [s('Signal', [0.78, 0.09, 55], [0.74, 0.09, 55]), s('Panel', [0.78, 0.06, 235], [0.75, 0.06, 235]), s('Pad', [0.8, 0.08, 150], [0.76, 0.08, 150])],
-    extras: [s('Knob Orange', [0.66, 0.125, 50], [0.72, 0.11, 50]), s('Panel Grey', [0.82, 0, 0], [0.4, 0, 0])],
+    extras: [s('Knob Orange', [0.64, 0.12, 50], [0.72, 0.11, 50]), s('Dust Blue', [0.6, 0.07, 240], [0.72, 0.065, 240])],
+  },
+  {
+    id: 'deep', name: 'Signal Grey · Deep Black',
+    concept: 'The original with denser ink: near-pure black accent and darker strong text, a slightly deeper dark canvas.',
+    neutralLight: ramp([0.995, 0.975, 0.93, 0.875, 0.79, 0.6, 0.55, 0.5, 0.44, 0.29, 0.12]),
+    neutralDark: ramp([0.09, 0.16, 0.215, 0.27, 0.39, 0.56, 0.62, 0.67, 0.72, 0.81, 0.97]),
+    accent: s('Deep Black', [0.11, 0, 0], [0.97, 0, 0]), ...SIGNAL_STATUS,
+    spectrum: [s('Signal', [0.78, 0.09, 55], [0.74, 0.09, 55]), s('Panel', [0.78, 0.06, 235], [0.75, 0.06, 235]), s('Pad', [0.8, 0.08, 150], [0.76, 0.08, 150])],
+    extras: [s('Knob Orange', [0.64, 0.12, 50], [0.72, 0.11, 50]), s('Dust Blue', [0.6, 0.07, 240], [0.72, 0.065, 240])],
+  },
+  {
+    id: 'tape', name: 'Tape',
+    concept: 'Masking-tape yellow leads the agent gradient through straw into pad green; neutrals carry one drop of warmth.',
+    neutralLight: ramp(LIGHT_L, 0.003, 90), neutralDark: ramp(DARK_L, 0.003, 90),
+    accent: BLACK, ...SIGNAL_STATUS,
+    spectrum: [s('Tape', [0.86, 0.1, 95], [0.82, 0.1, 95]), s('Straw', [0.82, 0.09, 75], [0.78, 0.09, 75]), s('Pad', [0.8, 0.08, 150], [0.76, 0.08, 150])],
+    extras: [s('Mustard', [0.66, 0.11, 85], [0.76, 0.1, 85]), s('Olive', [0.58, 0.08, 125], [0.7, 0.08, 125])],
+  },
+  {
+    id: 'pad', name: 'Pad',
+    concept: 'Drum-pad green leads: lichen, pad and pool water, like a sampler with its green pads lit.',
+    ...GREY, accent: BLACK, ...SIGNAL_STATUS,
+    spectrum: [s('Pad', [0.8, 0.09, 155], [0.76, 0.09, 155]), s('Lichen', [0.83, 0.08, 120], [0.79, 0.08, 120]), s('Pool', [0.79, 0.07, 200], [0.75, 0.07, 200])],
+    extras: [s('Moss', [0.58, 0.09, 145], [0.72, 0.085, 145]), s('Teal Dust', [0.6, 0.07, 195], [0.72, 0.065, 195])],
+  },
+  {
+    id: 'panel', name: 'Panel',
+    concept: 'Cool panel blue leads through lilac grey and ice: the calmest variant, hue reads as light on metal.',
+    ...GREY, accent: BLACK, ...SIGNAL_STATUS,
+    spectrum: [s('Panel', [0.78, 0.07, 240], [0.75, 0.07, 240]), s('Lilac', [0.78, 0.07, 290], [0.75, 0.07, 290]), s('Ice', [0.84, 0.06, 210], [0.8, 0.06, 210])],
+    extras: [s('Cobalt Dust', [0.55, 0.085, 255], [0.7, 0.08, 255]), s('Periwinkle', [0.62, 0.08, 285], [0.73, 0.075, 285])],
+  },
+  {
+    id: 'coral', name: 'Coral Field',
+    concept: 'A warm red field: coral, rose and peach on the agent, brick reserved for danger so the two never meet.',
+    ...GREY, accent: BLACK, ...SIGNAL_STATUS,
+    danger: s('Brick', [0.5, 0.12, 30], [0.71, 0.1, 30]),
+    spectrum: [s('Coral', [0.76, 0.1, 25], [0.73, 0.1, 25]), s('Rose', [0.78, 0.08, 355], [0.75, 0.08, 355]), s('Peach', [0.84, 0.08, 60], [0.8, 0.08, 60])],
+    extras: [s('Salmon', [0.64, 0.11, 30], [0.73, 0.1, 30]), s('Dusk Rose', [0.6, 0.08, 350], [0.72, 0.075, 350])],
+  },
+  {
+    id: 'dual', name: 'Dual Signal',
+    concept: 'Two signals and nothing else: dusty orange and panel blue alternate on the agent, the charts and the art.',
+    ...GREY, accent: BLACK, ...SIGNAL_STATUS,
+    spectrum: [s('Signal', [0.76, 0.1, 50], [0.73, 0.1, 50]), s('Mist', [0.86, 0.03, 220], [0.8, 0.03, 220]), s('Panel', [0.74, 0.08, 240], [0.72, 0.08, 240])],
+    extras: [s('Signal Orange', [0.62, 0.12, 48], [0.72, 0.11, 48]), s('Panel Blue', [0.56, 0.08, 240], [0.71, 0.075, 240])],
   },
 ];
 
 export const paletteById = (id: string) => palettes.find(p => p.id === id) ?? palettes[0]!;
+
+/** The neutral ramp of a mode (Current falls back to the grey ramps, for display only). */
+export function neutralsFor(p: Palette, t: Theme): Ramp {
+  const r = t === 'light' ? p.neutralLight : p.neutralDark;
+  return r ?? ramp(t === 'light' ? LIGHT_L : DARK_L);
+}
+const step = (p: Palette, t: Theme, n: number): LCH => neutralsFor(p, t)[n - 1]!;
+const roleStep = (role: string, t: Theme) => NEUTRAL_ROLES.find(r => r.role === role)![t];
+const N = (p: Palette, t: Theme, role: string) => step(p, t, roleStep(role, t));
 
 // ---------- derivation ----------
 
@@ -110,14 +145,15 @@ export interface Resolved {
 }
 
 export function surfaceFor(p: Palette, t: Theme): LCH {
-  return p.bg?.[t].surface ?? (t === 'light' ? LIGHT_SURFACE : DARK_SURFACE);
+  return N(p, t, 'surface base');
 }
 
 export function resolve(p: Palette, t: Theme): Resolved {
   const surface = surfaceFor(p, t);
-  const bgApp: LCH = p.bg?.[t].app ?? (t === 'light' ? [0.975, 0, 0] : [0.175, 0, 0]);
-  const ink = inkDark(p.accent.light[2]);
-  const paper = inkLight;
+  const bgApp = N(p, t, 'bg app');
+  // labels on fills use the light ramp's two ends, so a label never picks up hue
+  const ink = neutralsFor(p, 'light')[10];
+  const paper = neutralsFor(p, 'light')[0];
   const make = (sw: Swatch) => {
     const solid = gamutMap(sw[t]);
     const on = contrast(ink, solid) >= contrast(paper, solid) ? ink : paper;
@@ -128,29 +164,71 @@ export function resolve(p: Palette, t: Theme): Resolved {
     // keep text legible on its own tinted background, too
     const softBg = over(solid, softAlpha, surface);
     let tx = text;
-    for (let i = 0; i < 60 && contrastLin(toLin(tx), softBg) < 4.5; i++) tx = nudge(tx, t);
+    for (let i = 0; i < 60 && contrastLin(linRgb(tx), softBg) < 4.5; i++) tx = nudge(tx, t);
     return { solid, hover, on, text: tx, softBase: solid, softAlpha, softBg };
   };
   return { surface, bgApp, ink, paper, role: { accent: make(p.accent), success: make(p.success), warning: make(p.warning), danger: make(p.danger), info: make(p.info) } };
 }
-import { linRgb } from './color.ts';
-const toLin = (c: LCH) => linRgb(c);
 const nudge = (c: LCH, t: Theme): LCH => gamutMap([c[0] + (t === 'light' ? -0.01 : 0.01), c[1], c[2]]);
+
+/** Every neutral semantic variable, read from the mode's own ramp. */
+function neutralVars(p: Palette, t: Theme, v: Record<string, string>) {
+  const n = (role: string) => css(N(p, t, role));
+  const at = (k: number) => css(step(p, t, k));
+  const strong = step(p, t, 11);
+  const paper = neutralsFor(p, 'light')[0];
+  const a = (al: number) => css(t === 'light' ? strong : [1, 0, 0], al);
+  for (let i = 1; i <= 11; i++) {
+    v[`--cs-neutral-light-${i}`] = css(neutralsFor(p, 'light')[i - 1]!);
+    v[`--cs-neutral-dark-${i}`] = css(neutralsFor(p, 'dark')[i - 1]!);
+  }
+  v['--cs-color-bg-app'] = n('bg app');
+  v['--cs-color-bg-canvas'] = n('bg canvas');
+  v['--cs-color-bg-inset'] = t === 'light' ? css(strong, 0.04) : css([0, 0, 0], 0.3);
+  v['--cs-color-bg-scrim'] = t === 'light' ? css(strong, 0.24) : css([0, 0, 0], 0.5);
+  const base = n('surface base'), raised = n('surface raised');
+  for (const k of ['surface-base', 'surface-translucent'] as const) v[`--cs-color-${k}`] = base;
+  for (const k of ['surface-raised', 'surface-raised-translucent', 'control-raised'] as const) v[`--cs-color-${k}`] = raised;
+  for (const k of ['ultrathin', 'thin', 'regular', 'thick'] as const) v[`--cs-color-material-${k}`] = raised;
+  v['--cs-color-text-primary'] = n('text primary');
+  v['--cs-color-text-secondary'] = n('text secondary');
+  v['--cs-color-text-tertiary'] = n('text tertiary');
+  v['--cs-color-text-placeholder'] = n('text placeholder');
+  const six = n('control off · border control · text disabled');
+  v['--cs-color-text-disabled'] = six;
+  v['--cs-color-border-control'] = six;
+  v['--cs-color-control-off'] = six;
+  v['--cs-color-text-inverse'] = t === 'light' ? at(1) : at(2);
+  v['--cs-color-border-subtle'] = a(0.05);
+  v['--cs-color-border-default'] = a(t === 'light' ? 0.08 : 0.07);
+  v['--cs-color-border-strong'] = a(t === 'light' ? 0.13 : 0.12);
+  v['--cs-color-fill-hover'] = a(t === 'light' ? 0.045 : 0.05);
+  v['--cs-color-fill-pressed'] = a(t === 'light' ? 0.075 : 0.08);
+  v['--cs-color-fill-selected'] = a(t === 'light' ? 0.11 : 0.12);
+  v['--cs-color-control-thumb'] = css(paper);
+  v['--cs-color-control-raised-hover'] = t === 'light' ? at(2) : at(5);
+  v['--cs-color-control-edge'] = a(t === 'light' ? 0.07 : 0.06);
+  v['--cs-color-ink-solid'] = n('ink button');
+  v['--cs-color-ink-hover'] = t === 'light' ? at(10) : at(6);
+  v['--cs-color-ink-on'] = css(paper);
+  v['--cs-color-ink-on-muted'] = css(paper, 0.75);
+  v['--cs-color-canvas-dot'] = a(t === 'light' ? 0.13 : 0.08);
+  v['--cs-color-canvas-handle'] = css(paper);
+  v['--cs-color-canvas-label'] = n('text tertiary');
+  v['--cs-color-canvas-checker-a'] = t === 'light' ? at(1) : at(4);
+  v['--cs-color-canvas-checker-b'] = t === 'light' ? at(3) : at(5);
+  v['--cs-color-canvas-artboard'] = css(paper);
+  v['--cs-color-identity-slate'] = t === 'light' ? at(9) : at(6);
+  v['--cs-color-identity-on'] = css(paper);
+}
 
 /** CSS variable overrides: semantic tokens only, so ramp renames underneath cannot break them. */
 export function paletteVars(p: Palette, t: Theme): Record<string, string> {
   if (p.current) return {};
   const r = resolve(p, t);
   const v: Record<string, string> = {};
+  neutralVars(p, t, v);
   const A = r.role.accent;
-  const bg = p.bg?.[t];
-  if (bg) {
-    v['--cs-color-bg-app'] = css(bg.app);
-    v['--cs-color-bg-canvas'] = css(bg.canvas);
-    if (bg.surface) { v['--cs-color-surface-base'] = css(bg.surface); v['--cs-color-surface-translucent'] = css(bg.surface); v['--cs-color-material-regular'] = css(bg.surface); v['--cs-color-material-thick'] = css(bg.surface); v['--cs-color-material-thin'] = css(bg.surface); v['--cs-color-material-ultrathin'] = css(bg.surface); v['--cs-color-canvas-artboard'] = css(bg.surface); v['--cs-color-control-thumb'] = css(bg.surface); }
-    if (bg.raised) { v['--cs-color-surface-raised'] = css(bg.raised); v['--cs-color-surface-raised-translucent'] = css(bg.raised); }
-    else if (bg.surface) { v['--cs-color-surface-raised'] = css(bg.surface); v['--cs-color-surface-raised-translucent'] = css(bg.surface); }
-  }
   const a = (c: LCH, al: number) => css(c, al);
   v['--cs-color-accent-solid'] = css(A.solid);
   v['--cs-color-accent-hover'] = css(A.hover);
@@ -205,7 +283,7 @@ export function report(p: Palette, t: Theme): Row[] {
   const r = resolve(p, t);
   const rows: Row[] = [];
   const add = (label: string, fg: LCH, bg: LCH | { lin: number[] }, need: number, note?: string) => {
-    const ratio = 'lin' in bg ? contrastLin(linRgbOf(fg), bg.lin) : contrast(fg, bg);
+    const ratio = 'lin' in bg ? contrastLin(linRgb(fg), bg.lin) : contrast(fg, bg);
     rows.push({ label, fg, bg, ratio, need, pass: ratio >= need - 1e-9, note });
   };
   const names: [keyof Resolved['role'], string][] = [['accent', 'Accent'], ['success', 'Success'], ['warning', 'Warning'], ['danger', 'Danger'], ['info', 'Info']];
@@ -218,12 +296,40 @@ export function report(p: Palette, t: Theme): Row[] {
   }
   return rows;
 }
-const linRgbOf = (c: LCH) => linRgb(c);
+
+export const NEUTRAL_BGS = ['surface', 'raised', 'app', 'canvas'] as const;
+export const NEUTRAL_FGS: [string, string, number][] = [
+  ['Text primary', 'text primary', 4.5], ['Text secondary', 'text secondary', 4.5], ['Text tertiary', 'text tertiary', 4.5],
+  ['Placeholder', 'text placeholder', 4.5], ['Border control', 'control off · border control · text disabled', 3],
+];
+
+/** Neutral text and control steps against every background they sit on. */
+export function neutralReport(p: Palette, t: Theme): Row[] {
+  const bg: Record<(typeof NEUTRAL_BGS)[number], LCH> = { surface: N(p, t, 'surface base'), raised: N(p, t, 'surface raised'), app: N(p, t, 'bg app'), canvas: N(p, t, 'bg canvas') };
+  const rows: Row[] = [];
+  for (const [name, role, need] of NEUTRAL_FGS) {
+    const fg = N(p, t, role);
+    for (const b of NEUTRAL_BGS) {
+      const ratio = contrast(fg, bg[b]);
+      rows.push({ label: `${name} on ${b}`, fg, bg: bg[b], ratio, need, pass: ratio >= need - 1e-9 });
+    }
+  }
+  return rows;
+}
+
+/** Extra chart / illustration colours against the surface (they draw lines and small marks). */
+export function extrasReport(p: Palette, t: Theme): Row[] {
+  const surface = surfaceFor(p, t);
+  return p.extras.map((sw, i) => {
+    const ratio = contrast(sw[t], surface);
+    return { label: `Extra ${i + 1} vs surface`, fg: sw[t], bg: surface, ratio, need: 3, pass: ratio >= 3 - 1e-9 };
+  });
+}
 
 /** Ink or paper, whichever reads better on `c`. */
 export function bestOn(c: LCH, p: Palette): LCH {
-  const ink = inkDark(p.accent.light[2]);
-  return contrast(ink, c) >= contrast(inkLight, c) ? ink : inkLight;
+  const lr = neutralsFor(p, 'light');
+  return contrast(lr[10], c) >= contrast(lr[0], c) ? lr[10] : lr[0];
 }
 
 /** Tailwind utilities read `--color-*` twins resolved at :root, so a scoped wrapper must restate them (plus the derived focus/spectrum vars). */

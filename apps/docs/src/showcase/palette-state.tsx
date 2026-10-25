@@ -86,7 +86,7 @@ export function ShowcaseBar() {
               ].join(' ')}
             >
               <span aria-hidden className="flex">
-                {[p.accent, p.success, p.warning, p.danger].map((s, i) => (
+                {[...p.spectrum, p.extras[0]].map((s, i) => (
                   <i key={i} className="-ml-1 size-2.5 rounded-full first:ml-0 ring-1 ring-surface-base" style={{ background: `oklch(${s[theme][0]} ${s[theme][1]} ${s[theme][2]})` }} />
                 ))}
               </span>
