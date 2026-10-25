@@ -5,7 +5,7 @@ import { Alert, Badge, Button, Checkbox, NumberField, SegmentedControl, Segmente
 import { useSettings } from '../../settings.tsx';
 import { label } from '../color.ts';
 import { usePalette } from '../palette-state.tsx';
-import { NEUTRAL_ROLES, neutralsFor, paletteVars, type Theme } from '../palettes.ts';
+import { NEUTRAL_ROLES, neutralsFor, paletteVars, roleStepOf, type Theme } from '../palettes.ts';
 import { ColorControl, LchEditor, Swatch } from './controls.tsx';
 import { AgentSession, GateDashboard, LibrarySettings, PublishForm, Scenario, StateMatrix } from './scenarios.tsx';
 import {
@@ -37,7 +37,10 @@ function useApplyVars(state: BuilderState, theme: Theme) {
   }, [state, theme, palette]);
 }
 
-function NeutralRamps({ theme }: { theme: Theme }) {
+const LADDER = ['bg canvas', 'bg app', 'surface base', 'surface raised'] as const;
+
+function NeutralRamps({ theme, state, onDarkSurface }: { theme: Theme; state: BuilderState; onDarkSurface: (v: BuilderState['darkSurface']) => void }) {
+  const p = toPalette(state);
   return (
     <section aria-label="Neutrals, locked" className="grid gap-2 border-b border-border-default px-3 py-3">
       <div className="flex items-center justify-between gap-2">
@@ -58,7 +61,18 @@ function NeutralRamps({ theme }: { theme: Theme }) {
           </div>
         </div>
       ))}
-      <p className="m-0 text-footnote text-text-tertiary">L shown; C 0 and no hue on every step. Roles: {NEUTRAL_ROLES.filter(r => r.light !== r.dark).map(r => `${r.role} ${r.light}/${r.dark}`).join(' · ')} (light/dark); text and borders share steps.</p>
+      <p className="m-0 text-footnote text-text-tertiary">L shown; C 0 and no hue on every step. Roles: {NEUTRAL_ROLES.filter(r => r.light !== r.dark).map(r => `${r.role} ${r.light}/${roleStepOf(p, 'dark', r.role)}`).join(' · ')} (light/dark); text and borders share steps.</p>
+      <div className="grid gap-1.5 pt-1">
+        <span className="font-ui text-ui-strong text-text-primary">Dark surface links</span>
+        <SegmentedControl size="xs" aria-label="Dark surface links" value={state.darkSurface} onValueChange={v => onDarkSurface(v as BuilderState['darkSurface'])}>
+          <SegmentedControlItem value="current">Current</SegmentedControlItem>
+          <SegmentedControlItem value="lower">One step lower</SegmentedControlItem>
+        </SegmentedControl>
+        <span className="font-mono text-mono-sm text-text-tertiary">
+          dark {LADDER.map(r => `${r.replace('surface ', '').replace('bg ', '')} ${roleStepOf(p, 'dark', r)} (${neutralsFor(BASE, 'dark')[roleStepOf(p, 'dark', r) - 1]![0].toFixed(3).slice(1)})`).join(' · ')}
+        </span>
+        <p className="m-0 text-footnote text-text-tertiary">Links only; the ramp values stay. Lower: surface 3→2, raised 4→3, app 2→1 (shares step 1 with the canvas).</p>
+      </div>
     </section>
   );
 }
@@ -157,7 +171,7 @@ export default function BuilderPage() {
           <div className="border-b border-border-default px-3 py-2 text-footnote text-text-tertiary">
             Editing <b className="text-text-primary">{theme}</b>. Switch the theme above to edit the other mode; each colour keeps separate light and dark values.
           </div>
-          <NeutralRamps theme={theme} />
+          <NeutralRamps theme={theme} state={state} onDarkSurface={v => setState(s => ({ ...s, darkSurface: v }))} />
           {(['Accent', 'Status', 'Agent gradient', 'Extra chart / illustration'] as const).map(g => (
             <div key={g}>
               <h2 className="m-0 border-b border-border-subtle bg-bg-app px-3 py-1.5 text-caption uppercase text-text-tertiary">{g}</h2>

@@ -1,7 +1,7 @@
 // Builder state: every non-neutral colour of a palette, per theme, starting from Signal Grey · Deep Black.
 // Neutrals stay locked to Deep Black's two ramps; everything else goes through paletteVars() like the proposals.
 import { css, gamutMap, type LCH } from '../color.ts';
-import { paletteById, paletteVars, resolve, type Palette, type Swatch, type Theme } from '../palettes.ts';
+import { DARK_LINKS_LOWER, paletteById, paletteVars, resolve, type Palette, type Swatch, type Theme } from '../palettes.ts';
 
 export const BASE = paletteById('deep');
 
@@ -30,6 +30,8 @@ export interface BuilderState {
   /** null: derived from the solid like the proposals. */
   accentHover: { light: LCH | null; dark: LCH | null };
   diffAlpha: { add: { light: number; dark: number }; remove: { light: number; dark: number } };
+  /** Dark background links: 'lower' moves surface, raised and app one neutral-dark step down (DARK_LINKS_LOWER). */
+  darkSurface: 'current' | 'lower';
 }
 
 const swatchOf = (k: ColorKey, p: Palette): Swatch => {
@@ -50,6 +52,7 @@ export function initialState(): BuilderState {
   return {
     v: 1, colors, accentHover: { light: null, dark: null },
     diffAlpha: { add: { light: 0.22, dark: 0.2 }, remove: { light: 0.18, dark: 0.2 } },
+    darkSurface: 'current',
   };
 }
 
@@ -68,6 +71,7 @@ export function toPalette(s: BuilderState): Palette {
   const sw = (k: ColorKey, name: string): Swatch => ({ name, light: valueOf(s.colors[k], 'light'), dark: valueOf(s.colors[k], 'dark') });
   return {
     ...BASE, id: 'builder', name: 'Builder',
+    ...(s.darkSurface === 'lower' ? { darkLinks: DARK_LINKS_LOWER } : {}),
     accent: sw('accent', 'Accent'), success: sw('success', 'Success'), warning: sw('warning', 'Warning'),
     danger: sw('danger', 'Danger'), info: sw('info', 'Info'),
     spectrum: [sw('agent1', 'Agent 1'), sw('agent2', 'Agent 2'), sw('agent3', 'Agent 3')],
@@ -132,6 +136,7 @@ export function parse(raw: string): BuilderState {
       if (typeof a.remove[t] === 'number') base.diffAlpha.remove[t] = a.remove[t];
     }
   }
+  if (j.darkSurface === 'lower' || j.darkSurface === 'current') base.darkSurface = j.darkSurface;
   return base;
 }
 
@@ -142,7 +147,8 @@ export function exportJson(s: BuilderState): string {
     const c = s.colors[key];
     colors[key] = { light: c.light, dark: valueOf(c, 'dark'), link: c.link, shift: c.shift };
   }
-  return JSON.stringify({ v: 1, base: 'Signal Grey · Deep Black neutrals', colors, accentHover: s.accentHover, diffAlpha: s.diffAlpha }, null, 2);
+  return JSON.stringify({ v: 1, base: 'Signal Grey · Deep Black neutrals', colors, accentHover: s.accentHover, diffAlpha: s.diffAlpha,
+    darkSurface: s.darkSurface, darkLinks: s.darkSurface === 'lower' ? DARK_LINKS_LOWER : null }, null, 2);
 }
 
 export function exportCss(s: BuilderState): string {
@@ -150,7 +156,8 @@ export function exportCss(s: BuilderState): string {
     const v = builderVars(s, t);
     return `${sel} {\n${Object.entries(v).map(([k, val]) => `  ${k}: ${val};`).join('\n')}\n}`;
   };
-  return `/* Caustic lab builder export · neutrals: Signal Grey · Deep Black */\n${block('light', ':root')}\n\n${block('dark', ':root[data-theme="dark"]')}\n`;
+  const links = s.darkSurface === 'lower' ? ' · dark surface links one step lower' : '';
+  return `/* Caustic lab builder export · neutrals: Signal Grey · Deep Black${links} */\n${block('light', ':root')}\n\n${block('dark', ':root[data-theme="dark"]')}\n`;
 }
 
 /** sRGB clip for display of out-of-gamut authored values. */

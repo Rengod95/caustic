@@ -14,6 +14,8 @@ export interface Palette {
   /** Each mode has its own neutral ramp; dark is tuned for the dark ladder, not a flipped light ramp. */
   neutralLight?: Ramp;
   neutralDark?: Ramp;
+  /** Overrides of the dark role→step links (role name as in NEUTRAL_ROLES); the ramp values stay. */
+  darkLinks?: Partial<Record<string, number>>;
   accent: Swatch; success: Swatch; warning: Swatch; danger: Swatch; info: Swatch;
   /** Agent gradient: the Ask agent border, agent progress, glow and avatar ring. */
   spectrum: [Swatch, Swatch, Swatch];
@@ -47,6 +49,9 @@ export const NEUTRAL_ROLES: { role: string; light: number; dark: number }[] = [
   { role: 'text primary', light: 11, dark: 11 },
   { role: 'ink button', light: 11, dark: 5 },
 ];
+
+/** Dark background ladder one step lower: surface and raised drop a step, app joins the canvas at step 1. */
+export const DARK_LINKS_LOWER: Partial<Record<string, number>> = { 'surface base': 2, 'surface raised': 3, 'bg app': 1, 'bg canvas': 1 };
 
 const SIGNAL_STATUS = {
   success: s('Pad Green', [0.55, 0.085, 155], [0.77, 0.085, 155]),
@@ -133,7 +138,9 @@ export function neutralsFor(p: Palette, t: Theme): Ramp {
 }
 const step = (p: Palette, t: Theme, n: number): LCH => neutralsFor(p, t)[n - 1]!;
 const roleStep = (role: string, t: Theme) => NEUTRAL_ROLES.find(r => r.role === role)![t];
-const N = (p: Palette, t: Theme, role: string) => step(p, t, roleStep(role, t));
+/** The step a role reads in a mode, after the palette's dark link overrides. */
+export const roleStepOf = (p: Palette, t: Theme, role: string) => (t === 'dark' && p.darkLinks?.[role]) || roleStep(role, t);
+const N = (p: Palette, t: Theme, role: string) => step(p, t, roleStepOf(p, t, role));
 
 // ---------- derivation ----------
 
