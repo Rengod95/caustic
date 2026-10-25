@@ -1,5 +1,5 @@
 import { lazy, Suspense, type ComponentType, type ReactNode } from 'react';
-import { Bot, LayoutDashboard, PenTool, Settings2, SlidersHorizontal, SwatchBook } from 'lucide-react';
+import { Bot, LayoutDashboard, ListChecks, PenTool, Settings2, SlidersHorizontal, SwatchBook } from 'lucide-react';
 import { Boundary } from '../ui.tsx';
 import { ShowcaseBar } from './palette-state.tsx';
 
@@ -17,6 +17,7 @@ export const showcasePages: ShowcaseEntry[] = [
 /** Internal tools: not showcase pages, no palette bar. */
 export const labPages: ShowcaseEntry[] = [
   { slug: 'lab/builder', title: 'Palette builder', icon: <SlidersHorizontal />, Component: lazy(() => import('./builder/builder-page.tsx')) },
+  { slug: 'lab/decisions', title: 'Colour decisions (temporary)', icon: <ListChecks />, Component: lazy(() => import('./decisions/decisions-page.tsx')) },
 ];
 
 const entryFor = (slug: string) => showcasePages.find(p => p.slug === slug) ?? labPages.find(p => p.slug === slug);
