@@ -10,8 +10,11 @@ const specimen: PlanStep[] = [
   { id: 'contrast', label: 'Check contrast and tap targets', status: 'todo' },
 ];
 
+// The run stopped at Payment: the step is failed, later steps stay to do.
+const failedSpecimen: PlanStep[] = specimen.map(s => (s.id === 'payment' ? { ...s, status: 'failed', detail: 'Card form' } : s));
+
 const countLabel = (d: number, t: number) => `${d} of ${t}`;
-const statusLabels = { done: 'Done', now: 'In progress', todo: 'To do' };
+const statusLabels = { done: 'Done', now: 'In progress', todo: 'To do', failed: 'Failed' };
 
 export default defineFixture({
   id: 'plan',
@@ -20,6 +23,7 @@ export default defineFixture({
     return <div className="w-100"><Plan title="Build checkout flow" steps={steps} countLabel={countLabel} statusLabels={statusLabels} {...props} /></div>;
   },
   examples: {
+    'plan-failed': () => <Plan title="Build checkout flow" steps={failedSpecimen} countLabel={countLabel} statusLabels={statusLabels} />,
     plan: () => <Plan title="Build checkout flow" steps={specimen} countLabel={countLabel} statusLabels={statusLabels} />,
   },
 });

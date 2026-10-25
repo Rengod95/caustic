@@ -4,7 +4,7 @@ import { PermissionRequest } from './permission-request.tsx';
 export default defineFixture({
   id: 'permission-request',
   render: ({ status, ...props }) => (
-    <div className="w-100">
+    <div className="w-100 max-w-full">
       {status === 'allowed'
         ? <PermissionRequest status="allowed" title="Allowed once" description="Edited 12 instances · 2:41 PM" {...props} />
         : <PermissionRequest title="Edit the shared Button component?" description="12 instances in 4 frames will change. You can undo this from history." {...props} />}

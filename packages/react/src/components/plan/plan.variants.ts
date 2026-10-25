@@ -28,7 +28,7 @@ export const planLabelVariants = cva('', {
   variants: {
     status: {
       done: 'line-through decoration-border-strong',
-      now: 'shimmer',
+      now: '',
       todo: '',
     },
   },
@@ -39,6 +39,10 @@ export type PlanStepVariantProps = VariantProps<typeof planStepVariants>;
 
 /** The 12px spectrum orb; rendered only for the now step. */
 export const planOrbVariants = cva('', {
-  variants: { status: { done: '', now: 'orb orb-sm', todo: '' } },
+  variants: { status: { done: '', now: 'orb orb-sm motion-reduce:animate-none', todo: '' } },
   defaultVariants: { status: 'todo' },
 });
+
+/** The failed step (outside the status variants): danger text on the row, danger glyph in the indicator. */
+export const planFailedStepClass = 'text-danger-text';
+export const planFailedIndicatorClass = 'text-danger-text [&_svg]:size-icon-sm';

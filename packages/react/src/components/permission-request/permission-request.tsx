@@ -26,9 +26,9 @@ export function PermissionRequest({ status, title, description, allowLabel = 'Al
   const titleId = useId();
   return (
     <div role="group" aria-labelledby={titleId} data-slot="permission-request" data-status={s} className={cn(permissionRequestVariants({ status }), className)} {...props}>
-      <div data-slot="permission-request-header" className="flex items-center gap-3">
+      <div data-slot="permission-request-header" className="flex min-w-0 items-center gap-3">
         <span data-slot="permission-request-icon" aria-hidden className={permissionIconVariants({ status })}>{s === 'pending' ? <ShieldCheck /> : <Check />}</span>
-        <div data-slot="permission-request-text">
+        <div data-slot="permission-request-text" className="min-w-0">
           <div id={titleId} data-slot="permission-request-title" className={permissionTitleVariants({ status })}>{title}</div>
           {description != null && <div data-slot="permission-request-description" className="mt-0.5 text-ui-sm font-normal text-text-secondary">{description}</div>}
         </div>

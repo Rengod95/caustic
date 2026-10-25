@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 export interface ToastOptions {
-  tone?: 'success' | 'agent';
+  tone?: 'success' | 'agent' | 'danger';
   title: ReactNode;
   description?: ReactNode;
   actionLabel?: string;
@@ -9,6 +9,8 @@ export interface ToastOptions {
   onDismiss?: () => void;
   /** Milliseconds before auto-dismiss; 0 keeps it until dismissed. */
   duration?: number;
+  /** Hidden status word read before the title, e.g. "Failed". */
+  statusLabel?: string;
 }
 
 export interface ToastItem extends ToastOptions {

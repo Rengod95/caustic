@@ -7,4 +7,4 @@ export const reviewOrbVariants = cva('orb [--orb:var(--cs-size-orb-md)] [--orb-h
 export const reviewTitleVariants = cva('text-title-3 text-text-primary');
 export const reviewSubtitleVariants = cva('text-footnote text-text-tertiary');
 export const reviewSummaryVariants = cva('flex flex-wrap gap-2');
-export const reviewActionsVariants = cva('flex justify-end gap-2');
+export const reviewActionsVariants = cva('flex flex-wrap justify-end gap-2');

@@ -18,6 +18,8 @@ export default defineFixture({
   id: 'toast',
   render: props => <CaseRegion {...(props as Partial<ToastProps>)} />,
   examples: {
+    // A failure: danger mark and text, no auto-dismiss.
+    'toast-failed': () => <Toast inline tone="danger" statusLabel="Failed" title="Publish failed" description="orbit-pay.caustic.app is unreachable" actionLabel="Retry" />,
     toasts: () => (
       <>
         <Toast inline title="Published v2.4" description="orbit-pay.caustic.app" actionLabel="Open" />
