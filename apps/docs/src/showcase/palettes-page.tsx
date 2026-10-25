@@ -15,86 +15,52 @@ const BASELINE_KEYS = Object.keys(paletteVars(palettes[1]!, 'light'));
 const peakChroma = (p: Palette) => Math.max(...[p.accent, p.success, p.warning, p.danger, p.info].map(s => s.light[1]));
 
 function PalettePoster({ id }: { id: string }) {
-  const A = 'var(--cs-color-accent-solid)', X1 = 'var(--sc-extra-1, var(--cs-color-chart-2))', X2 = 'var(--sc-extra-2, var(--cs-color-chart-3))';
+  const INK = 'var(--cs-color-accent-solid)', X1 = 'var(--sc-extra-1, var(--cs-color-chart-2))';
   const W = 'var(--cs-color-warning-solid)', S = 'var(--cs-color-success-solid)', D = 'var(--cs-color-danger-solid)', I = 'var(--cs-color-info-solid)';
-  const ink = 'var(--cs-color-text-primary)', bg = 'var(--cs-color-bg-canvas)';
+  const bg = 'var(--cs-color-bg-canvas)', line = 'var(--cs-color-border-strong)';
+  const sp = ['var(--cs-spectrum-1)', 'var(--cs-spectrum-2)', 'var(--cs-spectrum-3)'];
   const common = { viewBox: '0 0 720 150', preserveAspectRatio: 'xMidYMid meet', className: 'block h-[150px] w-full bg-bg-canvas', role: 'img', 'aria-label': 'Palette poster' } as const;
-  if (id === 'arcade') {
-    const ghost = ['0011100', '0111110', '1101011', '1111111', '1111111', '1010101'];
+  if (id === 'putty') {
     return (
       <svg {...common}>
-        <rect width="720" height="150" fill={bg} />
-        {Array.from({ length: 15 }, (_, i) => <rect key={i} x="0" y={i * 10} width="720" height="1" fill={A} opacity=".12" />)}
-        {ghost.flatMap((row, y) => [...row].map((c, x) => c === '1' ? <rect key={`${x}-${y}`} x={70 + x * 16} y={24 + y * 16} width="15" height="15" fill={y === 2 && (x === 2 || x === 4) ? 'var(--cs-color-bg-app)' : A} /> : null))}
-        <path d="M330 75 L420 28 A62 62 0 1 0 420 122 Z" fill={W} transform="translate(-20 0)" />
-        {[0, 1, 2, 3, 4, 5].map(i => <circle key={i} cx={430 + i * 34} cy="75" r="7" fill={S} />)}
-        <rect x="640" y="40" width="40" height="40" fill={X1} /><rect x="664" y="64" width="40" height="40" fill={X2} />
-        <text x="352" y="143" fontFamily="var(--cs-font-mono)" fontSize="11" fill={ink} opacity=".7">1UP  HI-SCORE 128400</text>
+        <path d="M60 130 V80 a45 45 0 0 1 90 0 V130 Z" fill={D} /><path d="M170 130 V60 a45 45 0 0 1 90 0 V130 Z" fill={sp[1]} /><circle cx="330" cy="85" r="45" fill={sp[2]} />
+        <path d="M390 130 V80 a45 45 0 0 1 90 0 V130 Z" fill={X1} /><rect x="500" y="40" width="90" height="90" fill={W} /><circle cx="635" cy="85" r="45" fill={INK} />
+        <line x1="40" x2="680" y1="131" y2="131" stroke={INK} strokeWidth="2" />
       </svg>
     );
   }
-  if (id === 'riso') {
+  if (id === 'fog') {
     return (
       <svg {...common}>
-        <defs><pattern id="rdots" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(22)"><circle cx="4.5" cy="4.5" r="2.1" fill={I} /></pattern></defs>
-        <rect width="720" height="150" fill={bg} />
-        <rect x="360" y="0" width="360" height="150" fill="url(#rdots)" opacity=".55" />
-        <g style={{ mixBlendMode: 'multiply' }}>
-          <circle cx="180" cy="75" r="62" fill={A} /><circle cx="236" cy="82" r="62" fill={I} opacity=".85" /><circle cx="214" cy="46" r="40" fill={W} />
-        </g>
-        <g style={{ mixBlendMode: 'multiply' }}><rect x="440" y="30" width="150" height="90" rx="6" fill={X1} /><rect x="452" y="42" width="150" height="90" rx="6" fill={A} opacity=".8" /></g>
-        <text x="690" y="136" fontFamily="var(--cs-font-ui)" fontWeight="800" fontSize="34" fill={ink} opacity=".9" textAnchor="end" letterSpacing="-2">RISO</text>
+        {[0, 1, 2, 3, 4].map(i => <line key={i} x1="40" x2="680" y1={30 + i * 26} y2={30 + i * 26} stroke={line} />)}
+        {[40, 62, 50, 84, 70, 98, 88].map((h, i) => <rect key={i} x={60 + i * 44} y={134 - h} width="28" height={h} rx="3" fill={i % 2 ? sp[0] : sp[1]} />)}
+        <polyline points="60,110 104,96 148,104 192,70 236,82 280,50 324,58" fill="none" stroke={INK} strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+        <rect x="400" y="30" width="270" height="100" rx="10" fill="var(--cs-color-surface-base)" stroke={line} />
+        <rect x="418" y="48" width="90" height="10" rx="5" fill={INK} /><rect x="418" y="68" width="200" height="8" rx="4" fill={line} /><rect x="418" y="84" width="160" height="8" rx="4" fill={line} />
+        <rect x="418" y="104" width="56" height="16" rx="8" fill={I} /><rect x="482" y="104" width="56" height="16" rx="8" fill={S} /><rect x="546" y="104" width="56" height="16" rx="8" fill={D} />
       </svg>
     );
   }
-  if (id === 'candy') {
+  if (id === 'mauve') {
     return (
       <svg {...common}>
-        <defs>
-          {[['g1', A], ['g2', X1], ['g3', S], ['g4', X2]].map(([n, c]) => (
-            <radialGradient key={n} id={n} cx=".35" cy=".3" r=".8"><stop offset="0" stopColor="white" stopOpacity=".95" /><stop offset=".28" stopColor={c} /><stop offset="1" stopColor={c} /></radialGradient>
-          ))}
-        </defs>
-        <rect width="720" height="150" fill={bg} />
-        <rect x="60" y="40" width="250" height="74" rx="37" fill="url(#g1)" /><ellipse cx="150" cy="56" rx="70" ry="9" fill="white" opacity=".6" />
-        <circle cx="380" cy="76" r="52" fill="url(#g2)" /><circle cx="470" cy="50" r="30" fill="url(#g3)" /><circle cx="520" cy="108" r="36" fill="url(#g4)" />
-        <circle cx="610" cy="70" r="46" fill="none" stroke={I} strokeWidth="14" /><circle cx="610" cy="70" r="46" fill="none" stroke="white" strokeOpacity=".55" strokeWidth="3" strokeDasharray="40 250" />
+        <ellipse cx="150" cy="80" rx="95" ry="55" fill={sp[0]} /><ellipse cx="260" cy="70" rx="80" ry="60" fill={sp[1]} opacity=".85" /><ellipse cx="360" cy="90" rx="70" ry="45" fill={sp[2]} opacity=".9" />
+        <circle cx="500" cy="75" r="46" fill="none" stroke={INK} strokeWidth="2" /><circle cx="500" cy="75" r="30" fill={D} /><circle cx="590" cy="75" r="30" fill={I} /><circle cx="650" cy="75" r="12" fill={W} />
       </svg>
     );
   }
-  if (id === 'memphis') {
+  if (id === 'signal') {
     return (
       <svg {...common}>
-        <defs><pattern id="mdots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2.4" fill={ink} /></pattern></defs>
-        <rect width="720" height="150" fill={bg} />
-        <rect x="40" y="26" width="120" height="98" fill="url(#mdots)" opacity=".7" />
-        <path d="M200 100 q20-60 40 0 t40 0 t40 0 t40 0" fill="none" stroke={ink} strokeWidth="6" strokeLinecap="round" />
-        <path d="M400 118 L450 30 L500 118 Z" fill={A} stroke={ink} strokeWidth="4" strokeLinejoin="round" />
-        <circle cx="560" cy="60" r="34" fill={S} stroke={ink} strokeWidth="4" /><path d="M526 60 a34 34 0 0 1 68 0 Z" fill={W} stroke={ink} strokeWidth="4" />
-        <rect x="610" y="82" width="70" height="44" fill={X1} stroke={ink} strokeWidth="4" transform="rotate(-8 645 104)" />
-        <path d="M300 40 l12-14 12 14 12-14 12 14 12-14 12 14" fill="none" stroke={D} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    );
-  }
-  if (id === 'acid') {
-    return (
-      <svg {...common}>
-        <defs><pattern id="hz" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="11" height="22" fill={ink} /><rect x="11" width="11" height="22" fill={X1} /></pattern></defs>
-        <rect width="720" height="150" fill={bg} />
-        <rect x="24" y="24" width="300" height="102" fill={X1} stroke={ink} strokeWidth="3" />
-        <text x="36" y="104" fontFamily="var(--cs-font-ui)" fontWeight="900" fontSize="74" letterSpacing="-4" fill="oklch(0.15 0.01 130)">ACID</text>
-        <rect x="344" y="24" width="140" height="102" fill="url(#hz)" stroke={ink} strokeWidth="3" />
-        <rect x="504" y="24" width="90" height="48" fill={A} stroke={ink} strokeWidth="3" /><rect x="504" y="78" width="90" height="48" fill={I} stroke={ink} strokeWidth="3" />
-        <rect x="614" y="24" width="82" height="102" fill={D} stroke={ink} strokeWidth="3" />
-        <text x="655" y="82" fontFamily="var(--cs-font-mono)" fontWeight="700" fontSize="26" textAnchor="middle" fill="var(--cs-color-danger-on)">NO.7</text>
+        {[0, 1, 2, 3].map(i => <g key={i}><circle cx={90 + i * 100} cy="75" r="36" fill="var(--cs-color-surface-base)" stroke={INK} strokeWidth="2" /><line x1={90 + i * 100} y1="75" x2={90 + i * 100 + 20 * Math.cos(i * 1.4 - 1)} y2={75 + 20 * Math.sin(i * 1.4 - 1)} stroke={INK} strokeWidth="4" strokeLinecap="round" /></g>)}
+        {Array.from({ length: 12 }, (_, i) => <rect key={i} x={500 + (i % 4) * 46} y={26 + Math.floor(i / 4) * 38} width="40" height="32" rx="5" fill={i === 5 ? X1 : i === 2 ? W : i === 9 ? S : 'var(--cs-color-fill-pressed)'} />)}
       </svg>
     );
   }
   return (
     <svg {...common}>
-      <rect width="720" height="150" fill={bg} />
       <circle cx="140" cy="75" r="48" fill="var(--cs-spectrum-1)" /><circle cx="230" cy="75" r="48" fill="var(--cs-spectrum-2)" /><circle cx="320" cy="75" r="48" fill="var(--cs-spectrum-3)" />
-      <rect x="420" y="40" width="240" height="14" rx="7" fill={A} /><rect x="420" y="66" width="190" height="14" rx="7" fill={S} /><rect x="420" y="92" width="140" height="14" rx="7" fill={W} />
+      <rect x="420" y="40" width="240" height="14" rx="7" fill="var(--cs-color-accent-solid)" /><rect x="420" y="66" width="190" height="14" rx="7" fill={S} /><rect x="420" y="92" width="140" height="14" rx="7" fill={W} />
     </svg>
   );
 }
@@ -282,12 +248,11 @@ function InComponents({ p }: { p: Palette }) {
 }
 
 const notes: Record<string, string> = {
-  current: 'Reference. Every hue shares one chroma ceiling (~0.14) and one lightness ladder, which reads as uniform and slightly dusty on white.',
-  arcade: 'Lime, yellow and cyan are fills that carry black ink. Only violet and red hold white labels. Dark mode becomes an indigo cabinet with the same neon.',
-  riso: 'Cream paper and flat spot colours. Pink leads, blue and sunflower overprint (multiply) in artwork. Text colours stay deep so print charm never costs legibility.',
-  candy: 'Glossy azure with bubblegum and slime. Pastel lilac glaze on the canvas; sticker-like fills with ink labels on the light hues.',
-  memphis: 'Tangerine is the signature (white labels hold 5.5:1). Teal, flamingo and grape fill the confetti. Thick ink outlines in artwork are the style; the tokens stay accessible.',
-  acid: 'Light mode: toxic green on stark white. Dark mode: the accent flips to acid lime on black with black ink. Hard 1px edges suit it best.',
+  current: 'Reference. The accent is a hued ramp step and every hue shares one chroma ceiling (~0.14), so the whole UI reads blue-tinted and uniform.',
+  putty: 'Warm paper, soft black ink. Clay is the only red, so danger stays unmistakable; sage, ochre and fog fill the rest. Dark mode is a warm charcoal with bone-white ink.',
+  fog: 'The most tool-like direction: near-neutral cool greys and graphite ink, hue appears only on badges, charts and the agent spectrum. Closest to Linear and Vercel.',
+  mauve: 'A softer, slightly romantic option: blush-grey paper, plum-black ink, mauve and olive series. Rosewood carries danger; lilac grey carries info.',
+  signal: 'True-grey panels like hardware: black ink, one dusty signal orange for danger and highlights, tape yellow warnings. Nothing but the signal colours has chroma.',
 };
 
 function PaletteSection({ p, theme, base, active, onApply }: { p: Palette; theme: Theme; base: Record<string, string>; active: boolean; onApply: () => void }) {
@@ -339,17 +304,21 @@ export default function PalettesPage() {
   const { palette, setPalette } = usePalette();
   const [base, setBase] = useState<Record<string, string>>({});
   useLayoutEffect(() => { setBase(readBaseline(BASELINE_KEYS)); }, [theme]);
+  // ?section=<id> deep-links a palette block (used for review screenshots).
+  useLayoutEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('section');
+    if (id) requestAnimationFrame(() => document.getElementById(`p-${id}`)?.scrollIntoView({ block: 'start' }));
+  }, []);
 
   return (
     <article className="mx-auto grid w-full min-w-0 max-w-[76rem] grid-cols-[minmax(0,1fr)] content-start gap-10 px-4 py-8 min-[900px]:px-8">
       <header className="grid gap-3">
-        <span className="text-caption uppercase text-text-tertiary">Colour direction, proposal</span>
-        <h1 className="m-0 font-ui text-display text-text-primary text-balance max-[899px]:text-title-1">Louder palettes for Caustic</h1>
+        <span className="text-caption uppercase text-text-tertiary">Colour direction, round 2</span>
+        <h1 className="m-0 font-ui text-display text-text-primary text-balance max-[899px]:text-title-1">Quieter palettes for Caustic</h1>
         <p className="m-0 max-w-[72ch] text-body text-text-secondary">
-          The shipped hued ramps stop at OKLCH chroma ~0.14, so every non-neutral reads dusty on white. These five directions push chroma to 0.20-0.27 where the sRGB gamut allows,
-          and keep usability by one rule: <b>a vivid colour is either a fill that carries ink text, or it is darkened (same hue and chroma, lower lightness) until it holds 4.5:1 as text.</b> Every
-          ratio below is computed in the page from the actual values.
-        </p>
+          Round two drops the neon and applies one rule: <b>the primary accent is ink.</b> In light mode, the primary button, switch and checkbox on-state, focus ring, selection, tabs indicator and links are black-to-grey
+          (a neutral or a near-neutral tint); in dark mode they become near-white. <b>Hue is reserved for meaning</b>: success, warning, danger, info, chart series and the agent spectrum, all dusty (OKLCH chroma 0.06-0.13) and in-between
+          (sage, clay, fog, mauve, ochre) rather than saturated. Text stays at 4.5:1 and UI at 3:1, computed in the page from the actual values; a vivid-enough fill that cannot hold 3:1 is paired with ink text.</p>
         <p className="m-0 max-w-[72ch] text-ui text-text-tertiary">
           Each block is rendered with its own palette scoped to a wrapper, independent of the switcher. The switcher above recolours this docs app and the
           <a className="text-text-link" href="#/samples/editor"> sample pages</a> through semantic variables only (accent, status, chart, spectrum and a few canvas tokens, plus an optional paper tint).

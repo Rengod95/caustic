@@ -18,8 +18,8 @@ export interface Palette {
 
 const s = (name: string, light: LCH, dark: LCH = light): Swatch => ({ name, light, dark });
 
-export const LIGHT_SURFACE: LCH = [0.995, 0.001, 260];
-export const DARK_SURFACE: LCH = [0.16, 0.009, 260];
+export const LIGHT_SURFACE: LCH = [0.995, 0, 0];
+export const DARK_SURFACE: LCH = [0.23, 0, 0];
 
 const inkDark = (h: number): LCH => [0.15, 0.03, h];
 const inkLight: LCH = [0.995, 0.004, 100];
@@ -37,79 +37,64 @@ export const palettes: Palette[] = [
     extras: [s('Slate', [0.48, 0.012, 260]), s('Lagoon 200', [0.88, 0.075, 205])],
   },
   {
-    id: 'arcade', name: 'Arcade Neon-Pop',
-    concept: 'Cabinet glow on clean glass: electric violet with pellet lime, coin yellow and laser cyan. Vivid fills carry black ink.',
+    id: 'putty', name: 'Putty & Clay',
+    concept: 'Kinfolk-style editorial: warm paper, soft black ink, hue only as sage, ochre, clay and fog.',
     bg: {
-      light: { app: [0.965, 0.014, 290], canvas: [0.94, 0.024, 290] },
-      dark: { app: [0.15, 0.045, 285], canvas: [0.115, 0.05, 285], surface: [0.19, 0.05, 285], raised: [0.23, 0.055, 285] },
+      light: { app: [0.963, 0.012, 80], canvas: [0.935, 0.016, 78], surface: [0.99, 0.006, 85] },
+      dark: { app: [0.175, 0.008, 60], canvas: [0.145, 0.008, 60], surface: [0.225, 0.009, 60], raised: [0.265, 0.01, 60] },
     },
-    accent: s('Electric Violet', [0.52, 0.27, 288], [0.72, 0.21, 298]),
-    success: s('Pellet Lime', [0.82, 0.27, 142], [0.86, 0.26, 142]),
-    warning: s('Coin Yellow', [0.9, 0.19, 98]),
-    danger: s('Ghost Red', [0.57, 0.25, 24], [0.7, 0.22, 24]),
-    info: s('Laser Cyan', [0.78, 0.14, 215], [0.82, 0.13, 210]),
-    spectrum: [s('Laser Cyan', [0.82, 0.15, 205]), s('Hot Magenta', [0.72, 0.27, 335]), s('Coin Yellow', [0.9, 0.19, 100])],
-    extras: [s('Hot Magenta', [0.64, 0.27, 340], [0.72, 0.25, 340]), s('Continue Orange', [0.74, 0.19, 55])],
+    accent: s('Soft Ink', [0.22, 0.008, 60], [0.94, 0.008, 80]),
+    success: s('Sage', [0.55, 0.07, 145], [0.76, 0.075, 145]),
+    warning: s('Ochre', [0.66, 0.1, 82], [0.8, 0.1, 85]),
+    danger: s('Clay', [0.52, 0.115, 33], [0.72, 0.1, 33]),
+    info: s('Fog Blue', [0.54, 0.06, 240], [0.75, 0.06, 240]),
+    spectrum: [s('Clay', [0.78, 0.08, 45], [0.74, 0.08, 45]), s('Sage', [0.82, 0.07, 145], [0.78, 0.07, 145]), s('Putty', [0.86, 0.06, 90], [0.82, 0.06, 90])],
+    extras: [s('Terracotta', [0.62, 0.11, 40], [0.7, 0.1, 40]), s('Oat', [0.9, 0.03, 85], [0.4, 0.03, 85])],
   },
   {
-    id: 'riso', name: 'Risograph Print',
-    concept: 'Two-drum print on cream paper: fluorescent pink, federal blue, sunflower and riso green. Flat, a little misregistered.',
+    id: 'fog', name: 'Fog & Slate',
+    concept: 'Linear / Vercel register: cool near-neutral surfaces, graphite ink, hue limited to fog blue, moss, straw and brick.',
     bg: {
-      light: { app: [0.962, 0.024, 85], canvas: [0.93, 0.034, 85], surface: [0.986, 0.012, 90] },
-      dark: { app: [0.18, 0.025, 265], canvas: [0.145, 0.028, 265], surface: [0.22, 0.03, 265], raised: [0.26, 0.034, 265] },
+      light: { app: [0.972, 0.004, 255], canvas: [0.945, 0.006, 255], surface: [0.996, 0.002, 255] },
+      dark: { app: [0.17, 0.01, 265], canvas: [0.14, 0.01, 265], surface: [0.22, 0.012, 265], raised: [0.26, 0.014, 265] },
     },
-    accent: s('Fluoro Pink', [0.57, 0.25, 8], [0.74, 0.19, 8]),
-    success: s('Riso Green', [0.56, 0.15, 165], [0.78, 0.16, 165]),
-    warning: s('Sunflower', [0.88, 0.17, 92]),
-    danger: s('Vermilion', [0.55, 0.23, 33], [0.7, 0.2, 33]),
-    info: s('Federal Blue', [0.48, 0.2, 262], [0.72, 0.15, 262]),
-    spectrum: [s('Fluoro Pink', [0.72, 0.22, 5]), s('Sunflower', [0.9, 0.17, 92]), s('Riso Blue', [0.65, 0.18, 255])],
-    extras: [s('Mint Ink', [0.85, 0.12, 170]), s('Orchid', [0.62, 0.22, 320], [0.72, 0.2, 320])],
+    accent: s('Graphite', [0.2, 0.01, 265], [0.95, 0.004, 265]),
+    success: s('Moss Teal', [0.54, 0.075, 170], [0.76, 0.08, 170]),
+    warning: s('Straw', [0.65, 0.095, 95], [0.8, 0.095, 95]),
+    danger: s('Brick', [0.52, 0.12, 22], [0.72, 0.1, 22]),
+    info: s('Fog Blue', [0.53, 0.09, 250], [0.75, 0.08, 250]),
+    spectrum: [s('Fog', [0.78, 0.07, 245], [0.75, 0.07, 245]), s('Lilac Grey', [0.78, 0.06, 300], [0.75, 0.06, 300]), s('Sage Teal', [0.82, 0.06, 175], [0.78, 0.06, 175])],
+    extras: [s('Slate Blue', [0.45, 0.065, 255], [0.7, 0.06, 255]), s('Mist', [0.9, 0.02, 240], [0.4, 0.02, 240])],
   },
   {
-    id: 'candy', name: 'Candy Y2K',
-    concept: 'Frosted-plastic iMac era: aqua azure with bubblegum, slime green and cyber lilac over a pastel glaze.',
+    id: 'mauve', name: 'Mauve & Olive',
+    concept: 'Arc-like soft studio: blush-grey paper, plum-black ink, mauve, olive, honey and rosewood as the only hues.',
     bg: {
-      light: { app: [0.97, 0.016, 255], canvas: [0.945, 0.03, 300], surface: [0.996, 0.004, 260] },
-      dark: { app: [0.2, 0.045, 275], canvas: [0.16, 0.05, 275], surface: [0.25, 0.055, 275], raised: [0.29, 0.06, 275] },
+      light: { app: [0.967, 0.01, 335], canvas: [0.94, 0.014, 335], surface: [0.995, 0.004, 335] },
+      dark: { app: [0.175, 0.012, 330], canvas: [0.145, 0.012, 330], surface: [0.225, 0.014, 330], raised: [0.265, 0.016, 330] },
     },
-    accent: s('Aqua Azure', [0.55, 0.2, 248], [0.77, 0.15, 235]),
-    success: s('Slime', [0.83, 0.25, 135], [0.87, 0.24, 135]),
-    warning: s('Tangerine Fizz', [0.8, 0.18, 62]),
-    danger: s('Cherry Soda', [0.57, 0.25, 18], [0.72, 0.2, 18]),
-    info: s('Cyber Lilac', [0.54, 0.22, 300], [0.74, 0.16, 300]),
-    spectrum: [s('Aqua', [0.82, 0.13, 215]), s('Bubblegum', [0.75, 0.2, 350]), s('Lilac', [0.75, 0.15, 300])],
-    extras: [s('Bubblegum', [0.7, 0.24, 350]), s('Lemon Drop', [0.92, 0.16, 105])],
+    accent: s('Plum Ink', [0.21, 0.012, 335], [0.94, 0.008, 335]),
+    success: s('Olive', [0.54, 0.08, 125], [0.76, 0.08, 125]),
+    warning: s('Honey', [0.66, 0.1, 78], [0.8, 0.1, 80]),
+    danger: s('Rosewood', [0.5, 0.12, 15], [0.72, 0.1, 15]),
+    info: s('Lilac Grey', [0.54, 0.07, 295], [0.76, 0.065, 295]),
+    spectrum: [s('Mauve', [0.78, 0.07, 335], [0.74, 0.07, 335]), s('Olive', [0.8, 0.08, 120], [0.76, 0.08, 120]), s('Peach', [0.85, 0.07, 60], [0.8, 0.07, 60])],
+    extras: [s('Mauve', [0.62, 0.085, 335], [0.72, 0.08, 335]), s('Pistachio', [0.88, 0.06, 125], [0.4, 0.05, 125])],
   },
   {
-    id: 'memphis', name: 'Memphis Pop',
-    concept: '80s confetti on cream: tangerine, teal, flamingo and grape, thick outlines and squiggles allowed.',
+    id: 'signal', name: 'Signal Grey',
+    concept: 'Teenage Engineering utility: true-grey panels, black ink, one dusty orange signal, tape yellow and panel blue.',
     bg: {
-      light: { app: [0.972, 0.028, 95], canvas: [0.942, 0.045, 95], surface: [0.996, 0.01, 95] },
-      dark: { app: [0.17, 0.025, 300], canvas: [0.13, 0.025, 300], surface: [0.21, 0.03, 300], raised: [0.25, 0.035, 300] },
+      light: { app: [0.962, 0, 0], canvas: [0.93, 0, 0], surface: [0.994, 0, 0] },
+      dark: { app: [0.165, 0, 0], canvas: [0.13, 0, 0], surface: [0.215, 0, 0], raised: [0.255, 0, 0] },
     },
-    accent: s('Tangerine', [0.64, 0.2, 45], [0.74, 0.18, 48]),
-    success: s('Memphis Teal', [0.54, 0.12, 188], [0.78, 0.12, 188]),
-    warning: s('Confetti Yellow', [0.9, 0.18, 98]),
-    danger: s('Flamingo Red', [0.57, 0.24, 12], [0.7, 0.2, 12]),
-    info: s('Grape', [0.5, 0.24, 295], [0.74, 0.16, 295]),
-    spectrum: [s('Tangerine', [0.75, 0.18, 55]), s('Teal', [0.78, 0.12, 185]), s('Flamingo', [0.75, 0.19, 355])],
-    extras: [s('Lilac', [0.8, 0.11, 305]), s('Cobalt', [0.5, 0.2, 262], [0.7, 0.16, 262])],
-  },
-  {
-    id: 'acid', name: 'Acid Brutal',
-    concept: 'Raw grid, hard edges, toxic green. Signal red, safety yellow and electric blue; dark mode flips to acid lime on black.',
-    bg: {
-      light: { app: [0.962, 0.004, 105], canvas: [0.92, 0.012, 110], surface: [0.999, 0, 0] },
-      dark: { app: [0.12, 0.006, 130], canvas: [0.085, 0.006, 130], surface: [0.165, 0.01, 130], raised: [0.2, 0.012, 130] },
-    },
-    accent: s('Toxic Green', [0.5, 0.2, 146], [0.9, 0.26, 128]),
-    success: s('Acid Mint', [0.82, 0.2, 165], [0.85, 0.19, 165]),
-    warning: s('Safety Yellow', [0.93, 0.19, 102]),
-    danger: s('Signal Red', [0.58, 0.26, 28], [0.7, 0.22, 28]),
-    info: s('Electric Blue', [0.5, 0.25, 262], [0.72, 0.17, 262]),
-    spectrum: [s('Acid Lime', [0.92, 0.24, 125]), s('Electric Cyan', [0.85, 0.13, 205]), s('Ultraviolet', [0.7, 0.22, 300])],
-    extras: [s('Acid Lime', [0.93, 0.25, 125]), s('Hazard Orange', [0.72, 0.2, 50])],
+    accent: s('Black', [0.16, 0, 0], [0.96, 0, 0]),
+    success: s('Pad Green', [0.55, 0.085, 155], [0.77, 0.085, 155]),
+    warning: s('Tape Yellow', [0.66, 0.1, 95], [0.82, 0.1, 95]),
+    danger: s('Signal Orange', [0.54, 0.13, 40], [0.72, 0.11, 40]),
+    info: s('Panel Blue', [0.53, 0.075, 235], [0.75, 0.07, 235]),
+    spectrum: [s('Signal', [0.78, 0.09, 55], [0.74, 0.09, 55]), s('Panel', [0.78, 0.06, 235], [0.75, 0.06, 235]), s('Pad', [0.8, 0.08, 150], [0.76, 0.08, 150])],
+    extras: [s('Knob Orange', [0.66, 0.125, 50], [0.72, 0.11, 50]), s('Panel Grey', [0.82, 0, 0], [0.4, 0, 0])],
   },
 ];
 
@@ -130,15 +115,16 @@ export function surfaceFor(p: Palette, t: Theme): LCH {
 
 export function resolve(p: Palette, t: Theme): Resolved {
   const surface = surfaceFor(p, t);
-  const bgApp: LCH = p.bg?.[t].app ?? (t === 'light' ? [0.97, 0.003, 260] : [0.13, 0.008, 260]);
+  const bgApp: LCH = p.bg?.[t].app ?? (t === 'light' ? [0.975, 0, 0] : [0.175, 0, 0]);
   const ink = inkDark(p.accent.light[2]);
   const paper = inkLight;
   const make = (sw: Swatch) => {
     const solid = gamutMap(sw[t]);
     const on = contrast(ink, solid) >= contrast(paper, solid) ? ink : paper;
-    const hover: LCH = t === 'light' ? [solid[0] - 0.05, solid[1], solid[2]] : [Math.min(0.97, solid[0] + 0.05), solid[1], solid[2]];
+    const dl = t === 'light' ? (solid[0] < 0.4 ? 0.12 : -0.05) : (solid[0] > 0.9 ? -0.08 : 0.05);
+    const hover: LCH = [Math.min(0.97, Math.max(0.05, solid[0] + dl)), solid[1], solid[2]];
     const text = ensure(ensure(solid, surface, 4.5), bgApp, 4.5);
-    const softAlpha = t === 'light' ? 0.16 : 0.2;
+    const softAlpha = t === 'light' ? 0.16 : sw === p.accent ? 0.13 : 0.2;
     // keep text legible on its own tinted background, too
     const softBg = over(solid, softAlpha, surface);
     let tx = text;
@@ -171,7 +157,7 @@ export function paletteVars(p: Palette, t: Theme): Record<string, string> {
   v['--cs-color-accent-on'] = css(A.on);
   v['--cs-color-accent-text'] = css(A.text);
   v['--cs-color-text-link'] = css(A.text);
-  v['--cs-color-accent-soft'] = a(A.solid, t === 'light' ? 0.16 : 0.2);
+  v['--cs-color-accent-soft'] = a(A.solid, A.softAlpha);
   v['--cs-color-accent-tint'] = a(A.solid, 0.09);
   v['--cs-color-accent-border'] = a(A.solid, 0.5);
   v['--cs-color-accent-glow'] = a(A.solid, 0.3);
