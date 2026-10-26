@@ -26,8 +26,8 @@ export default defineSpec({
     children: { type: 'ReactNode', description: 'Token path or name; omit for a swatch-only chip.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'fill.hover', fg: 'text.primary', edge: 'border.default', frost: true, radius: 'md', height: 'control-xs', gap: 6, font: 'mono', text: 'mono-md' }, note: 'Specimen radius is 7px (between sm 6 and md 8); md is used. Padding-inline 4px start / 8px end cannot be expressed by padX.' },
-    { slot: 'root', when: { tone: 'bound' }, expect: { bg: 'accent.soft', edge: 'accent.border' } },
+    { slot: 'root', expect: { bg: 'neutral.well', fg: 'text.primary', edge: 'border.default', radius: 'md', height: 'control-xs', gap: 6, font: 'mono', text: 'mono-md' }, note: 'Specimen radius is 7px (between sm 6 and md 8); md is used. Padding-inline 4px start / 8px end cannot be expressed by padX.' },
+    { slot: 'root', when: { tone: 'bound' }, expect: { bg: 'accent.soft', edge: 'accent.border-strong' }, note: 'The bound edge is accent.border-strong (step 7); accent.border is now the step 6 decorative border.' },
     { slot: 'root', when: { size: 'sm' }, expect: { height: 'control-2xs' }, note: 'Padding-inline 3px start / 6px end.' },
     { slot: 'swatch', expect: { height: 'icon-md', width: 'icon-md', radius: 'xs', edge: 'swatch.edge' } },
     { slot: 'swatch', when: { size: 'sm' }, expect: { height: 'icon-sm', width: 'icon-sm' } },

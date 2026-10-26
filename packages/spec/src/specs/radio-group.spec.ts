@@ -13,6 +13,9 @@ export default defineSpec({
     { name: 'indicator', el: 'span', parent: 'item', required: false, description: '7px dot when selected.' },
     { name: 'label', el: 'label', parent: 'root', required: false, description: 'Wraps an item with its text.' },
   ],
+  states: {
+    disabled: { props: { disabled: true } },
+  },
   props: {
     value: { type: 'string', description: 'Controlled value.' },
     defaultValue: { type: 'string', description: 'Uncontrolled initial value.' },
@@ -23,6 +26,9 @@ export default defineSpec({
   styles: [
     { slot: 'item', expect: { bg: 'surface.base', edge: 'border.control', radius: 'full', height: 'size-check', width: 'size-check' } },
     { slot: 'indicator', expect: { bg: 'accent.on', height: 'size-radio-dot' } },
+    { slot: 'item', when: { state: 'disabled' }, expect: { bg: 'disabled.fill', edge: 'disabled.border', opacity: 1 }, note: 'Disabled is a colour, not opacity. A selected disabled item keeps the dot in disabled.text on disabled.fill, and the label text takes disabled.text.' },
+    { slot: 'indicator', when: { state: 'disabled' }, expect: { bg: 'disabled.text' }, note: 'The dot is currentColor, so the accent drops out with the item.' },
+    { slot: 'label', when: { state: 'disabled' }, expect: { fg: 'disabled.text' }, note: 'Disabled is a colour, not opacity: the label text takes disabled.text with the item.' },
   ],
   behavior: {
     keyboard: { ArrowDown: 'select next', ArrowUp: 'select previous', ArrowRight: 'select next', ArrowLeft: 'select previous' },

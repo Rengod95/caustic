@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'Wraps its trigger (asChild). Short text only, optionally followed by one Kbd chord.',
   role: 'tooltip',
   slots: [
-    { name: 'root', el: 'div', role: 'tooltip', description: 'The bubble (Radix Content, portaled). Opaque ink fill with the light control frost.' },
+    { name: 'root', el: 'div', role: 'tooltip', description: 'The bubble (Radix Content, portaled). Solid ink fill with elevation 3.' },
     { name: 'trigger', el: 'any', required: false, description: 'The element that owns the tooltip (the child). Receives data-slot="tooltip-trigger" and aria-describedby while open.' },
     { name: 'shortcut', el: 'kbd', parent: 'root', required: false, description: 'A Kbd chord after the text, recolored for the ink bubble.' },
     { name: 'arrow', el: 'span', parent: 'root', description: '8px square rotated 45deg, same fill as the bubble, pointing at the trigger.' },
@@ -31,7 +31,7 @@ export default defineSpec({
   },
   events: { onOpenChange: { payload: 'boolean', when: 'the bubble opens or closes' } },
   styles: [
-    { slot: 'root', when: { state: 'open' }, expect: { bg: 'ink.solid', fg: 'ink.on', radius: 'md', minHeight: 'control-sm', padX: 8, padY: 5, gap: 8, text: 'ui-sm', shadow: '3', frost: true } },
+    { slot: 'root', when: { state: 'open' }, expect: { bg: 'ink.solid', fg: 'ink.on', radius: 'md', minHeight: 'control-sm', padX: 8, padY: 5, gap: 8, text: 'ui-sm', shadow: '3' }, note: 'Floating surface: solid ink fill + one elevation (3), no blur.' },
     { slot: 'shortcut', when: { state: 'open', shortcut: '⌘Z' }, expect: { bg: 'ink.kbd', fg: 'ink.on-muted' }, note: 'Kbd inside the bubble: ink.kbd fill, ink.on-muted text, no edge or inset shadow.' },
     { slot: 'arrow', when: { state: 'open' }, expect: { bg: 'ink.solid' } },
   ],

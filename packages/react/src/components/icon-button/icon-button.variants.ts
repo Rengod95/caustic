@@ -5,13 +5,18 @@ export const iconButtonVariants = cva(
     'relative inline-grid shrink-0 place-items-center select-none font-ui',
     'transition-[background-color,box-shadow,transform,color] duration-120 ease-out',
     'outline-none focus-visible:shadow-focus',
-    'disabled:pointer-events-none disabled:opacity-42',
+    // Disabled is a colour, not opacity.
+    'disabled:pointer-events-none disabled:text-disabled-text',
   ],
   {
     variants: {
       tone: {
-        ghost: 'bg-transparent text-text-secondary hover:bg-fill-pressed hover:text-text-primary aria-pressed:bg-fill-selected aria-pressed:text-text-primary',
-        ink: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:scale-[1.06]',
+        ghost: [
+          'bg-transparent text-text-secondary hover:bg-neutral-hover hover:text-text-primary',
+          'aria-pressed:bg-neutral-selected aria-pressed:text-text-primary aria-pressed:hover:bg-neutral-selected-hover',
+          'disabled:aria-pressed:bg-disabled-fill disabled:aria-pressed:text-disabled-text',
+        ],
+        ink: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:scale-[1.06] disabled:bg-disabled-fill disabled:shadow-none',
       },
       shape: { rounded: '', circle: 'rounded-full' },
       size: {

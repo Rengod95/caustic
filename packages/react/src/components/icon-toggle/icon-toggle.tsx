@@ -15,7 +15,7 @@ export interface IconToggleProps extends Omit<ComponentProps<'button'>, 'childre
   children: ReactNode;
 }
 
-/** A quiet icon button that stays on, marked with the accent soft fill. */
+/** A quiet icon button that stays on, marked with the neutral selected fill and the selection edge. */
 export function IconToggle({ pressed, defaultPressed = false, onPressedChange, disabled = false, className, children, onClick, ...props }: IconToggleProps) {
   const [on, setOn] = useControllableState({ value: pressed, defaultValue: defaultPressed, onChange: onPressedChange });
   return (

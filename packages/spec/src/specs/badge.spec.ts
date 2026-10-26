@@ -26,7 +26,7 @@ export default defineSpec({
     children: { type: 'ReactNode', description: 'Label or count.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'fill.pressed', fg: 'text.secondary', radius: 'full', height: 'control-2xs', padX: 7, gap: 4, text: 'hint', weight: 500 } },
+    { slot: 'root', expect: { bg: 'neutral.track', fg: 'text.secondary', radius: 'full', height: 'control-2xs', padX: 7, gap: 4, text: 'hint', weight: 500 } },
     { slot: 'root', when: { tone: 'accent' }, expect: { bg: 'accent.soft', fg: 'accent.text' } },
     { slot: 'root', when: { tone: 'success' }, expect: { bg: 'success.soft', fg: 'success.text' } },
     { slot: 'root', when: { tone: 'warning' }, expect: { bg: 'warning.soft', fg: 'warning.text' } },

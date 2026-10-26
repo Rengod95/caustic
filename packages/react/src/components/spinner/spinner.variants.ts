@@ -1,11 +1,11 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
 export const spinnerVariants = cva(
-  'inline-block shrink-0 rounded-full border-solid border-fill-selected animate-spinner motion-reduce:animate-none',
+  'inline-block shrink-0 rounded-full border-solid border-neutral-track animate-spinner motion-reduce:animate-none',
   {
     variants: {
       tone: {
-        default: 'border-t-text-primary',
+        default: 'border-t-neutral-graphic',
         accent: 'border-t-accent-solid',
       },
       size: {

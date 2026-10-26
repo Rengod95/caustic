@@ -37,9 +37,9 @@ export default defineSpec({
     { slot: 'root', when: { appearance: 'outline' }, expect: { bg: 'transparent', edge: 'border.default' } },
     { slot: 'item', expect: { bg: 'transparent', fg: 'text.secondary', radius: 'md', height: 'control-md', width: 'control-md' } },
     { slot: 'item', when: { state: 'hover' }, expect: { fg: 'text.primary' } },
-    { slot: 'item', when: { state: 'pressed' }, expect: { bg: 'control.raised', fg: 'text.primary', edge: 'control.edge', shadow: '1', frost: true } },
+    { slot: 'item', when: { state: 'pressed' }, expect: { bg: 'control.raised', fg: 'text.primary', edge: 'control.edge' }, note: 'The segment thumb (control family): raised fill + control edge hairline; one depth cue, no elevation.' },
     { slot: 'item', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
-    { slot: 'item', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'item', when: { state: 'disabled' }, expect: { bg: 'transparent', fg: 'disabled.text', opacity: 1 }, note: 'Disabled is a colour, not opacity. An on item that is disabled flattens to disabled.fill with disabled.text.' },
     { slot: 'icon', expect: { height: 'icon-sm', width: 'icon-sm' } },
   ],
   behavior: {

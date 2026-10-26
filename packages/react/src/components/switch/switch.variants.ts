@@ -3,7 +3,9 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export const switchVariants = cva(
   [
     'group relative inline-flex shrink-0 items-center rounded-full bg-control-off p-0.5 transition-[background-color] duration-200 ease-out',
-    'outline-none focus-visible:shadow-focus data-[state=checked]:bg-accent-solid disabled:pointer-events-none disabled:opacity-42',
+    'outline-none focus-visible:shadow-focus data-[state=checked]:bg-accent-solid',
+    // Disabled is a colour, not opacity: the track drops to disabled.fill on and off; the thumb position still says which.
+    'disabled:pointer-events-none disabled:bg-disabled-fill disabled:data-[state=checked]:bg-disabled-fill',
   ],
   {
     variants: { size: { sm: 'h-switch-sm-h w-switch-sm-w', md: 'h-switch-md-h w-switch-md-w' } },

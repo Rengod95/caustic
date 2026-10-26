@@ -17,9 +17,12 @@ export const toggleGroupVariants = cva(
 export const toggleGroupItem = cva([
   'inline-grid size-control-md shrink-0 place-items-center rounded-md bg-transparent text-text-secondary',
   'transition-[color,background-color,box-shadow] duration-base ease-out outline-none',
-  'hover:text-text-primary focus-visible:shadow-focus disabled:pointer-events-none disabled:opacity-42',
+  'hover:text-text-primary focus-visible:shadow-focus',
+  // On = the segment thumb (control family): raised fill + control edge.
   'data-[state=on]:bg-control-raised data-[state=on]:text-text-primary',
-  'data-[state=on]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
+  'data-[state=on]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] data-[state=on]:focus-visible:shadow-focus',
+  // Disabled is a colour, not opacity: the label takes disabled.text and an on thumb flattens to disabled.fill.
+  'disabled:pointer-events-none disabled:text-disabled-text disabled:data-[state=on]:bg-disabled-fill disabled:data-[state=on]:text-disabled-text disabled:data-[state=on]:shadow-none',
 ]);
 
 export type ToggleGroupVariantProps = VariantProps<typeof toggleGroupVariants>;

@@ -6,7 +6,7 @@ import { contrastChipLevelVariants, contrastChipVariants, type ContrastChipVaria
 export interface ContrastChipProps extends Omit<ComponentProps<'span'>, 'children'>, ContrastChipVariantProps {
   /** The WCAG level badge text. */
   level?: string;
-  /** Ratio text; add the verdict for a failing pair ("2.9 : 1 · fails"). */
+  /** Ratio text; add the verdict for a failing or large-only pair ("2.9 : 1 · fails", "3.4 : 1 · large text"). */
   children: ReactNode;
 }
 

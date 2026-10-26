@@ -24,8 +24,9 @@ export default defineSpec({
     size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'sm', description: '16 · 24 · 32 · 36.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'identity.coral', fg: 'identity.on', radius: 'full', height: 'size-avatar-sm', width: 'size-avatar-sm', text: 'micro' } },
-    { slot: 'root', when: { color: 'iris' }, expect: { bg: 'identity.iris' } },
+    { slot: 'root', expect: { bg: 'identity.coral', fg: 'identity.on-coral', radius: 'full', height: 'size-avatar-sm', width: 'size-avatar-sm', text: 'micro' }, note: 'Identity family: the hue\'s solid 9 per mode with its own on colour.' },
+    { slot: 'root', when: { color: 'iris' }, expect: { bg: 'identity.iris', fg: 'identity.on-iris' } },
+    { slot: 'root', when: { color: 'slate' }, expect: { bg: 'identity.slate', fg: 'identity.on-slate' } },
     { slot: 'root', when: { size: 'md' }, expect: { height: 'size-avatar-md', text: 'ui-sm' } },
     { slot: 'root', when: { size: 'xs' }, expect: { height: 'size-avatar-xs' } },
     { slot: 'root', when: { kind: 'agent' }, expect: { bg: 'surface.base' } },

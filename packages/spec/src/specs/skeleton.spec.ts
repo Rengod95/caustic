@@ -16,13 +16,13 @@ export default defineSpec({
     radius: { type: "'sm' | 'lg'", default: 'sm', description: 'Corner token: 6 for text lines, 10 for tiles.' },
   },
   styles: [
-    { slot: 'root', expect: { radius: 'sm', height: 10, opacity: 1 }, note: 'Background is a 90deg gradient fill.pressed 25%, fill.selected 50%, fill.pressed 75% at 300% size, shimmering with a linear infinite slide; computed background-color is therefore not asserted. Specimen speed 1.8s has no token: use duration-shimmer (2200ms), see token requests.' },
+    { slot: 'root', expect: { radius: 'sm', height: 10, opacity: 1 }, note: 'Background is a 90deg gradient neutral.track 25%, neutral.well 50%, neutral.track 75% at 300% size (rest fills, not interaction fills), shimmering with a linear infinite slide; computed background-color is therefore not asserted. Specimen speed 1.8s has no token: use duration-shimmer (2200ms), see token requests.' },
     { slot: 'root', when: { radius: 'lg' }, expect: { radius: 'lg' } },
   ],
   a11y: {
     notes: [
       'Decorative: aria-hidden="true". The loading region around skeletons carries aria-busy="true" or a visible status; skeletons never announce.',
-      'Under prefers-reduced-motion the shimmer stops and the block stays at fill.pressed.',
+      'Under prefers-reduced-motion the shimmer stops and the block stays at neutral.track.',
     ],
   },
   policies: ['P8'],

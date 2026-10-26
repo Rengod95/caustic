@@ -5,8 +5,8 @@ export const tokenChipVariants = cva(
   {
     variants: {
       tone: {
-        neutral: 'bg-fill-hover shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
-        bound: 'bg-accent-soft',
+        neutral: 'bg-neutral-well shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+        bound: 'bg-accent-soft shadow-[inset_0_0_0_1px_var(--cs-color-accent-border-strong)]',
       },
       size: {
         sm: 'h-control-2xs pl-0.75 pr-1.5',

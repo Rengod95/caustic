@@ -1,9 +1,9 @@
 'use client';
-import { X } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import type { ComponentProps, MouseEvent, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
-import { chipIconVariants, chipRemoveVariants, chipVariants, type ChipVariantProps } from './chip.variants.ts';
+import { chipCheckVariants, chipIconVariants, chipRemoveVariants, chipVariants, type ChipVariantProps } from './chip.variants.ts';
 
 export interface ChipProps extends Omit<ComponentProps<'button'>, 'children' | 'onToggle'>, ChipVariantProps {
   /** Leading icon. */
@@ -38,6 +38,8 @@ export function Chip({
 
   const content = (
     <>
+      {/* The on state is carried by aria-pressed, the edge and this check, never by the fill alone. */}
+      {toggle && on ? <span data-slot="chip-check" aria-hidden className={chipCheckVariants({ shape })}><Check aria-hidden /></span> : null}
       {icon ? <span data-slot="chip-icon" aria-hidden className={chipIconVariants({ shape })}>{icon}</span> : null}
       {dot ? <span data-slot="chip-dot" aria-hidden className="size-1.5 shrink-0 rounded-full bg-current" /> : null}
       <span data-slot="chip-label">{children}</span>
@@ -61,7 +63,7 @@ export function Chip({
     'data-tone': tone ?? 'neutral',
     'data-shape': shape ?? 'pill',
     'data-size': size ?? 'md',
-    className: cn(chipVariants({ appearance: eff, tone, shape, size }), interactive && 'cursor-pointer', className),
+    className: cn(chipVariants({ appearance: eff, tone, shape, size, interactive }), className),
   };
 
   if (interactive) {

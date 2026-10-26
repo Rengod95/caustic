@@ -49,7 +49,7 @@ export function StepSlider({ value, defaultValue = -1, onValueChange, appearance
         <span data-slot="step-slider-glyph" aria-hidden className="inline-flex h-3 items-end gap-0.5">
           {[0, 1, 2].map(j => (
             <i key={j} data-slot="step-slider-bar" data-state={j < filled ? 'on' : 'off'}
-              className={cn('block w-0.75 rounded-xs bg-fill-selected data-[state=on]:bg-text-primary', j === 0 ? 'h-1.25' : j === 1 ? 'h-2' : 'h-3')} />
+              className={cn('block w-0.75 rounded-xs bg-neutral-track data-[state=on]:bg-accent-solid group-disabled:bg-disabled-fill group-disabled:data-[state=on]:bg-disabled-text', j === 0 ? 'h-1.25' : j === 1 ? 'h-2' : 'h-3')} />
           ))}
         </span>
         <span data-slot="step-slider-text">{cur >= 0 ? name(cur) : ''}</span>
@@ -104,13 +104,13 @@ export function StepSlider({ value, defaultValue = -1, onValueChange, appearance
       <div
         ref={trackRef} role="slider" data-slot="step-slider-track" tabIndex={disabled ? undefined : 0}
         aria-label={accessibleName} aria-labelledby={ariaLabelledBy} aria-valuemin={0} aria-valuemax={n - 1} aria-valuenow={Math.max(cur, 0)} aria-valuetext={cur >= 0 ? name(cur) : undefined} aria-disabled={disabled || undefined}
-        className="relative grid h-5 cursor-pointer touch-none items-center rounded-xs outline-none focus-visible:shadow-focus aria-disabled:cursor-not-allowed"
+        className="group relative grid h-5 cursor-pointer touch-none items-center rounded-xs outline-none focus-visible:shadow-focus aria-disabled:cursor-not-allowed"
         onKeyDown={onKey}
         onPointerDown={e => { if (disabled) return; e.currentTarget.setPointerCapture(e.pointerId); fromPointer(e); }}
         onPointerMove={e => { if (e.currentTarget.hasPointerCapture(e.pointerId)) fromPointer(e); }}
       >
-        <div data-slot="step-slider-rail" className="relative h-1 rounded-xs bg-fill-selected">
-          <i data-slot="step-slider-fill" className="absolute inset-y-0 left-0 w-(--fill) rounded-[inherit] bg-text-primary transition-[width] duration-320 ease-spring" style={{ '--fill': `${fill}%` } as CSSProperties} />
+        <div data-slot="step-slider-rail" className="relative h-1 rounded-xs bg-neutral-track group-aria-disabled:bg-disabled-fill">
+          <i data-slot="step-slider-fill" className="absolute inset-y-0 left-0 w-(--fill) rounded-[inherit] bg-accent-solid transition-[width] duration-320 ease-spring group-aria-disabled:bg-disabled-text" style={{ '--fill': `${fill}%` } as CSSProperties} />
         </div>
         <div data-slot="step-slider-marks" className="pointer-events-none absolute inset-0 flex items-center justify-between">
           {Array.from({ length: n }, (_, j) => (
@@ -118,7 +118,7 @@ export function StepSlider({ value, defaultValue = -1, onValueChange, appearance
               key={j} data-slot="step-slider-mark" data-state={j === cur ? 'current' : j < cur ? 'on' : 'off'}
               className={cn(
                 'size-2 rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
-                'data-[state=on]:bg-text-primary data-[state=on]:shadow-none data-[state=current]:size-4 data-[state=current]:bg-control-thumb data-[state=current]:shadow-thumb-sm',
+                'data-[state=on]:bg-accent-solid data-[state=on]:shadow-none group-aria-disabled:data-[state=on]:bg-disabled-text data-[state=current]:size-4 data-[state=current]:bg-control-thumb data-[state=current]:shadow-thumb-sm',
               )}
             />
           ))}

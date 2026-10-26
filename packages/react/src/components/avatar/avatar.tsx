@@ -18,7 +18,7 @@ export function Avatar({ name, kind, color, size, presence = false, className, .
   return (
     <span role="img" aria-label={name} data-slot="avatar" data-kind={kind ?? 'person'} className={cn(avatarVariants({ kind, color, size }), className)} {...props}>
       {agent ? <span aria-hidden className={avatarCore({ kind })} /> : initials(name)}
-      {presence && <span data-slot="avatar-presence" aria-hidden className="absolute -bottom-px -right-px size-presence rounded-full bg-success-solid shadow-[0_0_0_2px_var(--cs-color-surface-base)]" />}
+      {presence && <span data-slot="avatar-presence" aria-hidden className="absolute -bottom-px -right-px size-presence rounded-full bg-success-solid shadow-[0_0_0_2px_var(--cs-focus-offset,var(--cs-color-focus-offset))]" />}
     </span>
   );
 }

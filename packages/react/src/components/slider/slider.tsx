@@ -34,10 +34,10 @@ export function Slider({ value, defaultValue = 0, onValueChange, onValueCommit, 
       {...props}
     >
       <S.Track data-slot="slider-track" className={cn(sliderTrack({ appearance, size }))}>
-        {kind === 'default' && <S.Range data-slot="slider-range" className="absolute inset-y-0 bg-accent-solid" />}
+        {kind === 'default' && <S.Range data-slot="slider-range" className="absolute inset-y-0 bg-accent-solid data-[disabled]:bg-disabled-text" />}
       </S.Track>
       <S.Thumb data-slot="slider-thumb" aria-label={ariaLabel} aria-labelledby={ariaLabelledBy} className={cn(sliderThumb({ appearance, size }))}>
-        {kind === 'ruler' && <span data-slot="slider-knob" aria-hidden className="absolute -top-0.75 left-1/2 size-2 -translate-x-1/2 rounded-full bg-accent-solid shadow-[0_0_0_2px_var(--cs-color-surface-base)]" />}
+        {kind === 'ruler' && <span data-slot="slider-knob" aria-hidden className="absolute -top-0.75 left-1/2 size-2 -translate-x-1/2 rounded-full bg-accent-solid shadow-[0_0_0_2px_var(--cs-color-surface-base)] group-data-[disabled]:bg-disabled-text" />}
       </S.Thumb>
     </S.Root>
   );

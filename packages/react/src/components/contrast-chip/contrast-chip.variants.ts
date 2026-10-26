@@ -7,6 +7,7 @@ export const contrastChipVariants = cva(
     variants: {
       result: {
         pass: 'bg-success-soft text-success-text',
+        large: 'bg-warning-soft text-warning-text',
         fail: 'bg-danger-soft text-danger-text',
       },
     },
@@ -15,14 +16,16 @@ export const contrastChipVariants = cva(
 );
 export type ContrastChipVariantProps = VariantProps<typeof contrastChipVariants>;
 
-/** The WCAG level badge: solid status fill with its on-color, 16px tall. */
+/** The WCAG level badge, 16px tall: soft 3 with text 11 like ContrastInsight's badge, separated from the soft 3 chip
+ *  by the tone's border 6 edge. No solid inside the chip, and no interaction slot used as a rest fill. */
 export const contrastChipLevelVariants = cva(
   'inline-flex h-icon-md items-center rounded-xs px-1 text-micro',
   {
     variants: {
       result: {
-        pass: 'bg-success-solid text-success-on',
-        fail: 'bg-danger-solid text-danger-on',
+        pass: 'bg-success-soft text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]',
+        large: 'bg-warning-soft text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]',
+        fail: 'bg-danger-soft text-danger-text shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)]',
       },
     },
     defaultVariants: { result: 'pass' },

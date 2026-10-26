@@ -29,7 +29,7 @@ export default defineSpec({
     { slot: 'root', when: { state: 'checked' }, expect: { bg: 'accent.solid' } },
     { slot: 'root', when: { size: 'sm' }, expect: { height: 'size-switch-sm-h', width: 'size-switch-sm-w' } },
     { slot: 'root', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
-    { slot: 'root', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'root', when: { state: 'disabled' }, expect: { bg: 'disabled.fill', opacity: 1 }, note: 'Disabled is a colour, not opacity: the track is disabled.fill whether on or off; the thumb position carries the value.' },
     { slot: 'thumb', expect: { bg: 'control.thumb', radius: 'full', height: 'size-switch-md-thumb', width: 'size-switch-md-thumb' } },
     { slot: 'thumb', when: { size: 'sm' }, expect: { height: 'size-switch-sm-thumb', width: 'size-switch-sm-thumb' } },
   ],

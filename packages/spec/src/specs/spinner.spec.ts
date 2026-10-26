@@ -7,7 +7,7 @@ export default defineSpec({
   status: 'ready',
   purpose: 'Shows that something is in progress when the duration is unknown: a ring with one dark arc turning.',
   role: 'status',
-  slots: [{ name: 'root', el: 'span', role: 'status', description: 'Ring: fill.selected track, text.primary arc. Rotates linearly.' }],
+  slots: [{ name: 'root', el: 'span', role: 'status', description: 'Ring: neutral.track track, neutral.graphic arc (accent.solid with tone accent). Rotates linearly.' }],
   variants: { tone: { values: ['default', 'accent'], default: 'default', description: 'accent colors the arc with the accent.' } },
   sizes: { values: ['sm', 'md', 'lg'], default: 'md' },
   props: {
@@ -17,7 +17,7 @@ export default defineSpec({
     decorative: { type: 'boolean', default: false, description: 'aria-hidden with no role; use inside a control that already says it is busy (e.g. a loading Button).' },
   },
   styles: [
-    { slot: 'root', expect: { radius: 'full', border: 'text.primary', height: 'icon-lg', width: 'icon-lg' }, note: 'Track (the other three sides) is fill.selected; only the arc color is asserted. Specimen border widths 1.75 / 2 / 2.5px compute to 1 / 2 / 2px at 1x; use the hairline classes 1.5px / 2px / 2px.' },
+    { slot: 'root', expect: { radius: 'full', border: 'neutral.graphic', height: 'icon-lg', width: 'icon-lg' }, note: 'Track (the other three sides) is neutral.track; the arc is a graphic (step 8, 3:1 on the surface), not a text colour; only the arc color is asserted. Specimen border widths 1.75 / 2 / 2.5px compute to 1 / 2 / 2px at 1x; use the hairline classes 1.5px / 2px / 2px.' },
     { slot: 'root', when: { size: 'sm' }, expect: { height: 'icon-sm', width: 'icon-sm' } },
     { slot: 'root', when: { size: 'lg' }, expect: { height: 'size-spinner-lg', width: 'size-spinner-lg' } },
     { slot: 'root', when: { tone: 'accent' }, expect: { border: 'accent.solid' } },

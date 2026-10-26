@@ -54,15 +54,18 @@ export function RadioGroupItem({ value, disabled, className, children, ...props 
       aria-checked={checked} tabIndex={checked || (!ctx?.value && !off) ? 0 : -1} disabled={off}
       onClick={() => ctx?.select(value)}
       className={cn(
-        'inline-grid size-check shrink-0 place-items-center rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
-        'outline-none focus-visible:shadow-focus data-[state=checked]:bg-accent-solid data-[state=checked]:shadow-none disabled:opacity-42',
+        'inline-grid size-check shrink-0 place-items-center rounded-full bg-surface-base text-accent-on shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
+        'outline-none focus-visible:shadow-focus data-[state=checked]:bg-accent-solid data-[state=checked]:shadow-none data-[state=checked]:focus-visible:shadow-focus',
+        // Disabled is a colour, not opacity: the accent drops out and the dot takes disabled.text.
+        'disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] disabled:data-[state=checked]:bg-disabled-fill',
         className,
       )}
       {...props}
     >
-      {checked && <span data-slot="radio-group-indicator" className="size-radio-dot rounded-full bg-accent-on" />}
+      {checked && <span data-slot="radio-group-indicator" className="size-radio-dot rounded-full bg-current" />}
     </button>
   );
   if (!children) return radio;
-  return <label data-slot="radio-group-label" className="inline-flex items-center gap-2.5 text-ui text-text-primary">{radio}{children}</label>;
+  // The label text dims with a disabled item (disabled.text), like the dot.
+  return <label data-slot="radio-group-label" className="inline-flex items-center gap-2.5 text-ui text-text-primary has-disabled:text-disabled-text">{radio}{children}</label>;
 }
