@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'The light is two decorative layers driven by the pointer position (--mx, --my relative to the card); both fade in on hover with duration-base. At rest the card looks like a plain surface card.',
   role: null,
   slots: [
-    { name: 'root', el: 'div', description: 'Card root: Card layout on an opaque surface; overflow hidden, isolated. Layer behind the content: radial accent.soft glow (320px) at the pointer. Layer above: a 1px ring of radial accent.border (200px) at the pointer, masked to the edge.' },
+    { name: 'root', el: 'div', description: 'Card root: Card layout on an opaque surface with a 1px inset border.subtle hairline and no elevation (one depth cue); overflow hidden, isolated. Layer behind the content: radial accent.soft glow (320px) at the pointer. Layer above: a 1px ring of radial accent.border-strong (200px) at the pointer, masked to the edge.' },
   ],
   states: {
     hover: { pseudo: ['hover'] },
@@ -19,7 +19,7 @@ export default defineSpec({
     children: { type: 'ReactNode', description: 'Card parts.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', shadow: '1', radius: '3xl', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 10, fg: 'text.primary' }, note: 'The glow (320px) and rim (200px) sizes have no tokens; see token requests (size-spotlight-glow, size-spotlight-rim).' },
+    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', radius: '3xl', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 10, fg: 'text.primary' }, note: 'One depth cue: at rest the card draws the 1px inset hairline and no elevation. The glow (320px) and rim (200px) sizes have no tokens; see token requests (size-spotlight-glow, size-spotlight-rim).' },
   ],
   behavior: {
     pointer: [

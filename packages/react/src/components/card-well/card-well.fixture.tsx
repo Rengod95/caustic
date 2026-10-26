@@ -22,7 +22,7 @@ function Usage() {
         <div className="grid gap-1"><span className="font-ui text-stat tabular-nums text-text-primary">3,912 <small className="text-ui-lg leading-[inherit] tracking-normal text-text-tertiary">rounds</small></span></div>
         <div className="flex h-11 items-end gap-1" aria-hidden>
           {bars.map((h, i) => (
-            <i key={h + '-' + i} style={{ ['--h' as string]: `${h}%` }} className={i === 6 ? 'h-(--h) flex-1 rounded-t-xs rounded-b-[2px] bg-accent-solid' : 'h-(--h) flex-1 rounded-t-xs rounded-b-[2px] bg-fill-selected'} />
+            <i key={h + '-' + i} style={{ ['--h' as string]: `${h}%` }} className={i === 6 ? 'h-(--h) flex-1 rounded-t-xs rounded-b-[2px] bg-chart-1' : 'h-(--h) flex-1 rounded-t-xs rounded-b-[2px] bg-neutral-track'} />
           ))}
         </div>
       </CardWellPanel>
@@ -55,7 +55,7 @@ export default defineFixture({
             <div className="-mx-inset-regular-x">
               {providers.map(p => (
                 <div key={p.id} className="relative flex min-h-13 items-center gap-3 px-3.5 py-2 [&+&]:before:absolute [&+&]:before:inset-x-0 [&+&]:before:left-14.5 [&+&]:before:top-0 [&+&]:before:h-px [&+&]:before:bg-border-subtle">
-                  <span aria-hidden className="grid size-8 flex-none place-items-center rounded-lg bg-fill-pressed font-ui text-ui-strong text-text-primary">{p.initial}</span>
+                  <span aria-hidden className="grid size-8 flex-none place-items-center rounded-lg bg-neutral-well font-ui text-ui-strong text-text-primary">{p.initial}</span>
                   <span className="grid min-w-0 flex-1 gap-px"><b className="truncate font-ui text-ui-md leading-4.75 text-text-primary">{p.name}</b><span className="truncate text-ui-sm font-normal leading-4.75 text-text-tertiary">{p.meta}</span></span>
                   {p.live ? <Badge tone="success" dot>Live</Badge> : <Button tone="secondary" size="xs">Connect</Button>}
                 </div>

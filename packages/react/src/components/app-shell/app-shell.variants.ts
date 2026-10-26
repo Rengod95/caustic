@@ -7,7 +7,7 @@ export const appShellVariants = cva(
 export const appShellSkipVariants = cva(
   [
     'absolute left-2 top-2 z-20 -translate-y-[200%] rounded-lg bg-control-raised px-3 py-2 font-ui text-ui-strong text-text-primary opacity-0 outline-none',
-    'focus:translate-y-0 focus:opacity-100 focus-visible:shadow-focus',
+    '[--cs-focus-offset:var(--cs-color-bg-app)] focus:translate-y-0 focus:opacity-100 focus-visible:focus-ring',
   ],
 );
 

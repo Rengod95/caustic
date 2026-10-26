@@ -1,6 +1,9 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
-/** Opaque card that clips its cover to the corner radius. overlay has no inset: the cover is the whole card. */
+/**
+ * Opaque card that clips its cover to the corner radius, with a 1px hairline ring and no resting elevation (one depth cue).
+ * Focus swaps the hairline for the focus ring and elevation 2. overlay has no inset: the cover is the whole card.
+ */
 export const cardMediaVariants = cva(
   'overflow-hidden bg-surface-base text-text-primary no-underline outline-none shadow-[0_0_0_1px_var(--cs-color-border-subtle)] focus-visible:shadow-[var(--cs-focus),var(--cs-elevation-2)]',
   {

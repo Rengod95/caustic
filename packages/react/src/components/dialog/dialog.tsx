@@ -41,7 +41,7 @@ export function Dialog({ open, defaultOpen, onOpenChange, modal = true, trigger,
     >
       {children}
       {showClose && (
-        <D.Close data-slot="dialog-close" {...(closeLabel !== undefined ? { 'aria-label': closeLabel } : {})} className="absolute right-2.5 top-2.5 inline-grid size-control-sm place-items-center rounded-md text-text-secondary outline-none hover:bg-fill-pressed hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-md">
+        <D.Close data-slot="dialog-close" {...(closeLabel !== undefined ? { 'aria-label': closeLabel } : {})} className="absolute right-2.5 top-2.5 inline-grid size-control-sm place-items-center rounded-md text-text-secondary outline-none hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-md">
           <X />
         </D.Close>
       )}

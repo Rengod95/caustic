@@ -10,7 +10,7 @@ export default defineSpec({
   role: 'dialog',
   slots: [
     { name: 'root', el: 'div', role: 'dialog', description: 'The anchored surface (Radix Content): thick glass, 2xl radius, 14px padding, 10px gap, elevation 4. Its height is bounded by the available viewport height (max-height var(--radix-popover-content-available-height), var(--radix-hover-card-content-available-height) for hover) and the content scrolls inside it (overflow-y auto); inline is not bounded.' },
-    { name: 'arrow', el: 'span', parent: 'root', required: false, description: 'A 12px rotated square on the anchor side, material.thick fill with a rim on its two outer edges. Offset 24px from the start edge for align="start".' },
+    { name: 'arrow', el: 'span', parent: 'root', required: false, description: 'A 12px rotated square on the anchor side, material.thick fill (floating surfaces have no rim). Offset 24px from the start edge for align="start".' },
     { name: 'title', el: 'b', parent: 'root', required: false, description: 'Semibold heading (13px / 600). In the hover card, the person’s name.' },
     { name: 'description', el: 'p', parent: 'root', required: false, description: 'Secondary text, 12.5px / 18, tertiary. Not the aria description of a hover card.' },
   ],

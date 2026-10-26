@@ -7,7 +7,7 @@ import { Switch } from '../switch/switch.tsx';
 import { CardGlass, type CardGlassProps } from './card-glass.tsx';
 
 // The stage art is a runtime value: it enters through a custom property.
-const stage = 'radial-gradient(circle at 18% 22%, oklch(.78 .13 var(--cs-accent-hue) / .9), transparent 42%), radial-gradient(circle at 82% 30%, oklch(.82 .12 80 / .85), transparent 40%), radial-gradient(circle at 55% 95%, oklch(.7 .14 158 / .7), transparent 45%), var(--cs-color-bg-canvas)';
+const stage = 'radial-gradient(circle at 18% 22%, oklch(.78 .13 205 / .9), transparent 42%), radial-gradient(circle at 82% 30%, oklch(.82 .12 80 / .85), transparent 40%), radial-gradient(circle at 55% 95%, oklch(.7 .14 158 / .7), transparent 45%), var(--cs-color-bg-canvas)';
 const stageStyle = { ['--stage' as string]: stage };
 
 export default defineFixture({
@@ -34,7 +34,7 @@ export default defineFixture({
         </CardGlass>
         <CardGlass>
           <CardHeader headerAlign="center">
-            <CardIcon className="[background:var(--tile)]" style={{ ['--tile' as string]: 'oklch(1 0 0 / .4)' }}><Sun /></CardIcon>
+            <CardIcon><Sun /></CardIcon>
             <CardHeading><CardTitle>Light theme</CardTitle><CardDescription>Preview over the canvas</CardDescription></CardHeading>
             <CardTrailing><Switch defaultChecked aria-label="Light theme" /></CardTrailing>
           </CardHeader>

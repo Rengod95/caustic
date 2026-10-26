@@ -4,7 +4,7 @@ import { Card, type CardProps } from '../card/card.tsx';
 
 export interface CardSurfaceProps extends CardProps {}
 
-/** The default card for content that is read: opaque surface, hairline, long soft shadow. Compose with the Card parts. */
+/** The default card for content that is read: opaque surface and a hairline (one depth cue, no elevation). Compose with the Card parts. */
 export function CardSurface({ className, ...props }: CardSurfaceProps) {
   return (
     <Card

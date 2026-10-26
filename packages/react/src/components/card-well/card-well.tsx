@@ -10,7 +10,7 @@ export function CardWell({ className, ...props }: CardWellProps) {
   return (
     <Card
       data-slot="card-well"
-      className={cn('gap-0 bg-fill-pressed p-1 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]', className)}
+      className={cn('gap-0 bg-neutral-well p-1 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]', className)}
       {...props}
     />
   );

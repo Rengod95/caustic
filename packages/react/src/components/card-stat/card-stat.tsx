@@ -65,12 +65,12 @@ export function CardStat({
         <svg data-slot="card-stat-spark" viewBox="0 0 100 32" preserveAspectRatio="none" role="img" aria-label={trendLabel} className={cardStatSparkVariants({ size })}>
           <defs>
             <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="var(--cs-color-accent-solid)" stopOpacity="0.28" />
-              <stop offset="1" stopColor="var(--cs-color-accent-solid)" stopOpacity="0" />
+              <stop offset="0" stopColor="var(--cs-color-chart-1)" stopOpacity="0.28" />
+              <stop offset="1" stopColor="var(--cs-color-chart-1)" stopOpacity="0" />
             </linearGradient>
           </defs>
           <path d={paths.area} fill={`url(#${gradId})`} />
-          <path d={paths.line} className="fill-none stroke-accent-solid stroke-2 [vector-effect:non-scaling-stroke]" />
+          <path d={paths.line} className="fill-none stroke-chart-1 stroke-2 [vector-effect:non-scaling-stroke]" />
         </svg>
       )}
       {children}

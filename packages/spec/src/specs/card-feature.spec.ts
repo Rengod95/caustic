@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'The card fills its grid cell. In the fill layout the content blocks are spread top to bottom and the visual takes the remaining height.',
   role: null,
   slots: [
-    { name: 'root', el: 'div', description: 'Card root: Card layout on an opaque surface; overflow hidden. A decorative glow (an accent.soft radial gradient, 80% wide, offset -30% right and -40% top) sits behind the content.' },
+    { name: 'root', el: 'div', description: 'Card root: Card layout on an opaque surface with a 1px inset border.subtle hairline and no elevation (one depth cue); overflow hidden. A decorative glow (an accent.soft radial gradient, 80% wide, offset -30% right and -40% top) sits behind the content.' },
     { name: 'headline', el: 'span', parent: 'root', description: 'Large title (balanced wrapping) used in the hero tile; small tiles use the card title (titleSize sm).' },
     { name: 'visual', el: 'div', parent: 'root', description: 'Inset visual well: xl radius, bg.inset fill, at least 80px tall, content centered, pushed to the bottom (margin-top auto), fills the remaining height.' },
   ],
@@ -22,7 +22,7 @@ export default defineSpec({
     children: { type: 'ReactNode', description: 'Card parts, headline and visual.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', shadow: '1', radius: '3xl', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 10, fg: 'text.primary' } },
+    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', radius: '3xl', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 10, fg: 'text.primary' }, note: 'One depth cue: a resting surface draws the 1px inset hairline and no elevation.' },
     { slot: 'headline', expect: { text: 'title-feature', fg: 'text.primary' }, note: '19 / 24 / 600, tracking -0.02em. title-2 is 20 / 26: 2px taller per line, so a new role is requested.' },
     { slot: 'visual', expect: { bg: 'bg.inset', radius: 'xl', minHeight: 80 } },
   ],

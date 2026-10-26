@@ -36,7 +36,7 @@ export default defineSpec({
     { slot: 'body', expect: { gap: 10 } },
     { slot: 'stage', expect: { cursor: 'default' } },
     { slot: 'skip', expect: { bg: 'control.raised', fg: 'text.primary', text: 'ui-strong', radius: 'lg' } },
-    { slot: 'skip', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
+    { slot: 'skip', when: { state: 'focus-visible' }, expect: { ring: 'focus' }, note: 'The focus gap takes the colour the link sits on: --cs-focus-offset = bg.app (focus-ring utility), not surface.base.' },
   ],
   behavior: {
     keyboard: {

@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'Color in the delta says whether the change is good or bad; the arrow says its direction. A rising number can be bad (cost) and a falling one good (errors). Extra sections (a divided footer) are passed as children.',
   role: null,
   slots: [
-    { name: 'root', el: 'div', description: 'Card root: Card layout on an opaque surface; overflow hidden so the sparkline clips to the corners.' },
+    { name: 'root', el: 'div', description: 'Card root: Card layout on an opaque surface with a 1px inset border.subtle hairline and no elevation (one depth cue); overflow hidden so the sparkline clips to the corners.' },
     { name: 'label', el: 'span', parent: 'root', description: 'What is measured; may begin with a small dot or icon (6px gap).' },
     { name: 'value', el: 'span', parent: 'root', description: 'The figure, tabular numerals, 4px under the label.' },
     { name: 'unit', el: 'small', parent: 'value', description: 'Unit or context after the figure ("of 96").' },
@@ -35,14 +35,14 @@ export default defineSpec({
     children: { type: 'ReactNode', description: 'Extra sections, e.g. a divided CardFooter.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', shadow: '1', radius: '3xl', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 10, fg: 'text.primary' }, note: 'When a sparkline is present it is the last section: it bleeds to the sides and bottom, so the bottom inset is 0 there.' },
+    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', radius: '3xl', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 10, fg: 'text.primary' }, note: 'One depth cue: the 1px inset hairline, no elevation. When a sparkline is present it is the last section: it bleeds to the sides and bottom, so the bottom inset is 0 there.' },
     { slot: 'label', expect: { text: 'ui-sm', weight: 400, fg: 'text.tertiary', gap: 6 } },
     { slot: 'value', expect: { text: 'stat', fg: 'text.primary' }, note: '30 / 34 / 600, tracking -0.035em, tabular-nums. No token role exists (see token requests: stat).' },
     { slot: 'unit', expect: { text: 'ui-lg', fg: 'text.tertiary' }, note: 'Specimen is 14px / 500 with tracking 0; ui-lg matches size and weight.' },
     { slot: 'delta', expect: { bg: 'success.soft', fg: 'success.text', radius: 'full', height: 'control-2xs', padX: 6, gap: 3, text: 'hint', weight: 600 } },
     { slot: 'delta', when: { deltaTone: 'bad' }, expect: { bg: 'danger.soft', fg: 'danger.text' } },
     { slot: 'delta-note', expect: { text: 'ui-sm', weight: 400, fg: 'text.tertiary' } },
-    { slot: 'spark', expect: { height: 'size-card-spark' }, note: 'Spans the card width. Line = accent.solid, 2px, non-scaling stroke; area = vertical gradient of accent.solid from 28% to 0 opacity (SVG stops).' },
+    { slot: 'spark', expect: { height: 'size-card-spark' }, note: 'Spans the card width. Line = chart.1, 2px, non-scaling stroke; area = vertical gradient of chart.1 from 28% to 0 opacity (SVG stops). A sparkline is data, so it uses the chart family, not accent.' },
   ],
   a11y: {
     notes: [

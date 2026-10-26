@@ -12,7 +12,7 @@ export default defineFixture({
   ),
   examples: {
     compact: () => (
-      <div className="grid place-items-center gap-3 rounded-xl bg-[oklch(0.2_0.01_260/0.1)] p-4">
+      <div className="grid place-items-center gap-3 rounded-xl bg-bg-canvas p-4">
         <Dialog inline defaultOpen size="sm">
           <DialogTitle>Detach from component?</DialogTitle>
           <DialogDescription>This layer stops receiving updates from Button / Primary. You can reattach it from the history panel.</DialogDescription>

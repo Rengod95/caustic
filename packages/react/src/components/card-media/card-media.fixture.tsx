@@ -6,7 +6,7 @@ import { Badge } from '../badge/badge.tsx';
 import { Button } from '../button/button.tsx';
 import { CardDescription, CardFooter, CardHeader, CardHeading, CardMeta, CardSpacer, CardTitle, CardTrailing } from '../card/card.tsx';
 import {
-  CardMedia, CardMediaCover, CardMediaImage, CardMediaOverlay, CardMediaOverlayDescription, CardMediaOverlayTitle, CardMediaTag, type CardMediaProps,
+  CardMedia, CardMediaCover, CardMediaImage, CardMediaOverlay, CardMediaOverlayDescription, CardMediaOverlayTag, CardMediaOverlayTitle, CardMediaTag, type CardMediaProps,
 } from './card-media.tsx';
 
 // Art is decorative and runtime-valued: it enters through custom properties.
@@ -21,11 +21,11 @@ function Overlay() {
       <CardMediaCover>
         <CardMediaImage className="scale-120 [background:var(--art)] [filter:var(--art-filter)]" style={vars({ '--art': artC, '--art-filter': 'blur(10px) saturate(1.1)' })} />
         <CardMediaOverlay>
-          <Badge className="justify-self-start bg-(--chip) text-(color:--chip-on)" style={vars({ '--chip': 'oklch(1 0 0 / .2)', '--chip-on': 'oklch(1 0 0)' })}>Template</Badge>
+          <CardMediaOverlayTag>Template</CardMediaOverlayTag>
           <CardMediaOverlayTitle>Checkout flow for subscription apps</CardMediaOverlayTitle>
           <CardMediaOverlayDescription>6 screens · light and dark</CardMediaOverlayDescription>
           <div className="mt-2 flex">
-            <Button asChild tone="secondary" size="xs" className="bg-(--btn) text-(color:--btn-on)" style={vars({ '--btn': 'oklch(1 0 0 / .9)', '--btn-on': 'oklch(.2 .01 260)' })}><a href="#template">Use template</a></Button>
+            <Button asChild tone="secondary" size="xs"><a href="#template">Use template</a></Button>
           </div>
         </CardMediaOverlay>
       </CardMediaCover>

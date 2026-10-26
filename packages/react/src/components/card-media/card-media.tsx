@@ -49,6 +49,11 @@ export function CardMediaOverlay({ className, ...props }: ComponentProps<'div'>)
   return <div data-slot="card-media-overlay" className={cn('absolute inset-x-0 bottom-0 z-10 grid gap-1 p-4 text-media-on', className)} {...props} />;
 }
 
+/** Overlay layout only: the chip above the title, a 20% white tag (media.chip) with white text (media.on). It owns its colour, so callers pass no bg / text classes. */
+export function CardMediaOverlayTag({ className, ...props }: BadgeProps) {
+  return <Badge data-slot="card-media-overlay-tag" className={cn('justify-self-start bg-media-chip text-media-on', className)} {...props} />;
+}
+
 /** Large headline over the image. */
 export function CardMediaOverlayTitle({ className, ...props }: ComponentProps<'b'>) {
   return <b data-slot="card-media-overlay-title" className={cn('block font-ui text-title-overlay text-media-on', className)} {...props} />;

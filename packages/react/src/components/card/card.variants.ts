@@ -21,7 +21,7 @@ export const cardHeaderVariants = cva('flex gap-3', {
 export const cardIconVariants = cva('grid size-card-tile flex-none place-items-center rounded-lg [&_svg]:size-card-glyph', {
   variants: {
     iconTone: {
-      neutral: 'bg-fill-pressed text-text-primary',
+      neutral: 'bg-neutral-well text-text-primary',
       accent: 'bg-accent-soft text-accent-text',
     },
   },

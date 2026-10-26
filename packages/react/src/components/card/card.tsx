@@ -32,9 +32,9 @@ export function CardHeading({ className, ...props }: ComponentProps<'div'>) {
   return <div data-slot="card-heading" className={cn('grid min-w-0 flex-1 gap-0.5', className)} {...props} />;
 }
 
-/** Uppercase accent caption above the title. */
+/** Uppercase neutral caption above the title. */
 export function CardEyebrow({ className, ...props }: ComponentProps<'span'>) {
-  return <span data-slot="card-eyebrow" className={cn('block font-ui text-caption uppercase text-accent-text', className)} {...props} />;
+  return <span data-slot="card-eyebrow" className={cn('block font-ui text-caption uppercase text-text-secondary', className)} {...props} />;
 }
 
 export interface CardTitleProps extends ComponentProps<'span'>, CardTitleVariantProps {

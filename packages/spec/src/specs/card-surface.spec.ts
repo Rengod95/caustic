@@ -5,18 +5,18 @@ export default defineSpec({
   name: 'CardSurface',
   category: 'card',
   status: 'ready',
-  purpose: 'The default card for content that is read: a solid surface, a hairline, a long soft shadow and a very faint light along the top edge.',
+  purpose: 'The default card for content that is read: a solid surface and a hairline.',
   description: 'Anatomy comes from `card` (CardHeader, CardBody, CardFooter and friends). CardSurface adds only the surface.',
   role: null,
   slots: [
-    { name: 'root', el: 'div', description: 'Card root: Card layout (inset, 10px gap, radius 3xl) on an opaque surface.base fill.' },
+    { name: 'root', el: 'div', description: 'Card root: Card layout (inset, 10px gap, radius 3xl) on an opaque surface.base fill with a 1px inset border.subtle hairline and no elevation (one depth cue).' },
   ],
   props: {
     size: { type: "'regular' | 'compact'", default: 'regular', description: 'Passed to Card: regular or compact inset.' },
     children: { type: 'ReactNode', description: 'Card parts.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', shadow: 'card', radius: '3xl', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 10, fg: 'text.primary' }, note: 'Box-shadow: inset 0 1px 0 white/5%, 0 0 0 1px border.subtle, then the long soft shadow. The whole stack is the requested elevation-card token (see token requests).' },
+    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', radius: '3xl', padX: 'inset-regular-x', padY: 'inset-regular-y', gap: 10, fg: 'text.primary' }, note: 'Box-shadow: inset 0 0 0 1px border.subtle only. One depth cue per surface: a resting card has the hairline or an elevation, never both, and this card keeps the hairline (no elevation-card shadow, no top-edge light).' },
   ],
   a11y: { notes: ['Static container; it has no role. Interactive cards use CardAction or CardMedia.'] },
   policies: ['P5', 'P6'],

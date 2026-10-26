@@ -117,7 +117,7 @@ export default defineFixture({
                 <Avatar name="Mina Kim" color="coral" />
                 <Avatar name="Jin Soo" color="iris" />
                 <Avatar name="Dae Ho" color="mint" />
-                <span className="relative inline-grid size-avatar-sm shrink-0 place-items-center rounded-full bg-fill-selected font-ui text-micro text-text-secondary shadow-[0_0_0_2px_var(--cs-color-surface-base)]">+5</span>
+                <span className="relative inline-grid size-avatar-sm shrink-0 place-items-center rounded-full bg-neutral-soft font-ui text-micro text-text-secondary shadow-[0_0_0_2px_var(--cs-color-surface-base)]">+5</span>
               </Stack>
               <CardMeta>2 seats left</CardMeta>
             </div>
@@ -147,7 +147,7 @@ export default defineFixture({
               <div key={r.id} className="relative flex min-h-16 items-center gap-3 px-3.5 py-2 [&+&]:before:absolute [&+&]:before:inset-x-0 [&+&]:before:left-18.5 [&+&]:before:top-0 [&+&]:before:h-px [&+&]:before:bg-border-subtle">
                 <span className="h-9 w-12 flex-none rounded-md shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] [background:var(--thumb)]" style={{ ['--thumb' as string]: r.thumb }} />
                 <span className="grid min-w-0 flex-1 gap-px"><b className="truncate font-ui text-ui-md text-text-primary">{r.title}</b><span className="truncate text-ui-sm font-normal text-text-tertiary">{r.meta}</span></span>
-                <ChevronRight className="size-icon-lg flex-none text-text-disabled" aria-hidden />
+                <ChevronRight className="size-icon-lg flex-none text-neutral-graphic" aria-hidden />
               </div>
             ))}
           </CardBody>

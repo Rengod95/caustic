@@ -11,7 +11,7 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'div', role: 'dialog', description: 'The surface (Radix Content): thick glass, elevation 5, flex column. Right: fixed 10px from top, right and bottom, panel radius, width min(380, 100% - 20px). Bottom: fixed 8px from left, right and bottom, max-height 70vh, 28px top corners and panel-radius bottom corners. Enters with duration-slow and ease-spring.' },
     { name: 'overlay', el: 'div', required: false, description: 'Scrim over the page (portal mode): bg.scrim, fades in with duration-base.' },
-    { name: 'grabber', el: 'span', parent: 'root', required: false, description: 'Bottom side only: 36x5 bar, 3px radius, border.strong, centred, 8px from the top. aria-hidden.' },
+    { name: 'grabber', el: 'span', parent: 'root', required: false, description: 'Bottom side only: 36x5 bar, 3px radius, neutral.track fill, centred, 8px from the top. aria-hidden.' },
     { name: 'header', el: 'div', parent: 'root', description: 'Flex row, centred, 10px gap, padding 14px 16px, hairline under it (border.subtle) when dividers are on.' },
     { name: 'title', el: 'h2', parent: 'header', description: 'Accessible name, flex-1. 15px / 20 semibold.' },
     { name: 'close', el: 'button', parent: 'header', required: false, description: 'Icon-only close (xs IconButton, x icon, aria-label "Close").' },
@@ -42,7 +42,7 @@ export default defineSpec({
     { slot: 'root', when: { side: 'bottom' }, expect: { radius: '4xl' }, note: 'Top corners 28px; the bottom corners stay at panel (22px). The radius probe checks the top-left corner.' },
     { slot: 'root', when: { side: 'right', inline: false }, expect: { width: 'size-sheet-md' }, note: 'Token request: 380px.' },
     { slot: 'overlay', expect: { bg: 'bg.scrim' } },
-    { slot: 'grabber', when: { side: 'bottom' }, expect: { bg: 'border.strong', radius: 'xs', height: 5, width: 36 }, note: 'Specimen radius is 3px; xs (4) is within 1px.' },
+    { slot: 'grabber', when: { side: 'bottom' }, expect: { bg: 'neutral.track', radius: 'xs', height: 5, width: 36 }, note: 'Specimen radius is 3px; xs (4) is within 1px. A filled bar takes the neutral track fill, not a border token.' },
     { slot: 'header', expect: { padX: 16, padY: 14, gap: 10, border: 'border.subtle' } },
     { slot: 'header', when: { dividers: false }, expect: { border: 'transparent' } },
     { slot: 'title', expect: { text: 'title-3', fg: 'text.primary' } },

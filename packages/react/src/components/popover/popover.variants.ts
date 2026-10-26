@@ -13,15 +13,11 @@ export const popoverVariants = cva(
 
 /**
  * The pointer: a 12px box clipped to a diamond, centered on the surface edge. Clipping (not rotating)
- * keeps the box 12px; two gradient bands draw the rim on the two outer edges.
+ * keeps the box 12px. Floating surfaces have no rim, so the arrow is the material fill only.
  */
 export const popoverArrow = cva([
   'pointer-events-none absolute size-popover-arrow rounded-xs bg-material-thick [clip-path:polygon(50%_0,100%_50%,50%_100%,0_50%)]',
   'group-data-[side=bottom]:-top-1.5 group-data-[side=top]:-bottom-1.5 group-data-[side=right]:-left-1.5 group-data-[side=left]:-right-1.5',
-  'group-data-[side=bottom]:bg-[linear-gradient(135deg,var(--cs-color-material-rim)_25%,transparent_31%),linear-gradient(225deg,var(--cs-color-material-rim)_25%,transparent_31%)]',
-  'group-data-[side=top]:bg-[linear-gradient(45deg,var(--cs-color-material-rim)_25%,transparent_31%),linear-gradient(315deg,var(--cs-color-material-rim)_25%,transparent_31%)]',
-  'group-data-[side=right]:bg-[linear-gradient(135deg,var(--cs-color-material-rim)_25%,transparent_31%),linear-gradient(45deg,var(--cs-color-material-rim)_25%,transparent_31%)]',
-  'group-data-[side=left]:bg-[linear-gradient(225deg,var(--cs-color-material-rim)_25%,transparent_31%),linear-gradient(315deg,var(--cs-color-material-rim)_25%,transparent_31%)]',
   'group-data-[side=bottom]:group-data-[align=start]:left-6 group-data-[side=top]:group-data-[align=start]:left-6',
   'group-data-[side=bottom]:group-data-[align=end]:right-6 group-data-[side=top]:group-data-[align=end]:right-6',
   'group-data-[side=bottom]:group-data-[align=center]:left-[calc(50%-var(--spacing)*1.5)] group-data-[side=top]:group-data-[align=center]:left-[calc(50%-var(--spacing)*1.5)]',

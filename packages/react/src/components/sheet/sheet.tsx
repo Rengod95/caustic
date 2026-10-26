@@ -47,7 +47,7 @@ export function Sheet({ open, defaultOpen, onOpenChange, trigger, side, title, d
       )}
       {...props}
     >
-      {bottom && <span data-slot="sheet-grabber" aria-hidden className="mx-auto mt-2 h-1.25 w-grabber-w shrink-0 rounded-xs bg-border-strong" />}
+      {bottom && <span data-slot="sheet-grabber" aria-hidden className="mx-auto mt-2 h-1.25 w-grabber-w shrink-0 rounded-xs bg-neutral-track" />}
       <div data-slot="sheet-header" className={cn('flex shrink-0 items-center gap-2.5 border-b px-4 py-3.5', dividers ? 'border-border-subtle' : 'border-transparent')}>
         <D.Title data-slot="sheet-title" className="flex-1 text-title-3 text-text-primary">{title}</D.Title>
         {showClose && <D.Close asChild><IconButton data-slot="sheet-close" label="Close" size="xs"><X /></IconButton></D.Close>}
