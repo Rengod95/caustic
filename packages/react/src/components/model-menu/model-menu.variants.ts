@@ -25,26 +25,34 @@ export const modelMenuSearchVariants = cva('mb-1 text-ui');
 /** The listbox wrapper: layout-neutral. A grid so the heading and separator margins do not collapse into each other. */
 export const modelMenuListVariants = cva('grid');
 
-/** One model. Radius lg is concentric with the Menu surface (2xl minus 6px padding); two-line label so the height is a minimum. Selection as Menu: neutral-selected, the selection edge and the end check. */
+/**
+ * One model. Radius lg is concentric with the Menu surface (2xl minus 6px padding); two-line label so the height is a minimum.
+ * Selection as Menu: the chosen model inverts (selected utility: ink fill, paper text, no edge; description and check invert
+ * with it); hovered or highlighted while chosen: selection.fill-hover. Disabled drops the inversion: disabled.fill, disabled text.
+ */
 export const modelMenuItemVariants = cva([
   'group flex min-h-menu-item w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg px-2 py-1.25 text-left text-ui text-text-primary outline-none',
   'hover:bg-neutral-hover data-[highlighted]:bg-neutral-hover',
-  'data-[selected]:bg-neutral-selected data-[selected]:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)] data-[selected]:hover:bg-neutral-selected-hover data-[selected]:data-[highlighted]:bg-neutral-selected-hover',
-  'data-[disabled]:pointer-events-none data-[disabled]:text-disabled-text',
+  'data-[selected]:not-data-[disabled]:selected data-[selected]:hover:bg-selection-fill-hover data-[selected]:data-[highlighted]:bg-selection-fill-hover',
+  'data-[disabled]:pointer-events-none data-[disabled]:text-disabled-text data-[disabled]:data-[selected]:bg-disabled-fill',
 ]);
 
-/** 18px provider tile: ink fill, ink-on text, one centered capital; disabled fill and text on a disabled item. */
-export const modelMenuProviderVariants = cva('inline-grid size-check shrink-0 place-items-center rounded-sm bg-ink-solid text-micro text-ink-on group-data-[disabled]:bg-disabled-fill group-data-[disabled]:text-disabled-text');
+/**
+ * 18px provider tile: ink fill, ink-on text, one centered capital. On the chosen (ink) model it inverts too, so it does not
+ * vanish into the fill: selection.on tile, selection.fill capital. Disabled fill and text on a disabled item; the stacked
+ * disabled rule (0,3,0) beats the selected one.
+ */
+export const modelMenuProviderVariants = cva('inline-grid size-check shrink-0 place-items-center rounded-sm bg-ink-solid text-micro text-ink-on group-data-[selected]:bg-selection-on group-data-[selected]:text-selection-fill group-data-[disabled]:bg-disabled-fill group-data-[disabled]:text-disabled-text group-data-[disabled]:group-data-[selected]:bg-disabled-fill group-data-[disabled]:group-data-[selected]:text-disabled-text');
 
 export const modelMenuTextVariants = cva('grid min-w-0 flex-1');
 
 export const modelMenuNameVariants = cva('truncate text-ui text-text-primary group-data-[disabled]:text-disabled-text');
 
-/** Tertiary, also on the selected item (design over contrast, owner 2026-10-25); disabled colour. */
+/** Tertiary; on the chosen model it reads selection.on-tertiary (the selected utility re-points text.tertiary); disabled colour. */
 export const modelMenuDescriptionVariants = cva('truncate text-ui-xs text-text-tertiary group-data-[disabled]:text-disabled-text');
 
 /**
- * Trailing check box: 16px, kept on every item so rows align; the check shows on the chosen model in primary text (the selection stays neutral).
+ * Trailing check box: 16px, kept on every item so rows align; the check shows on the chosen model in primary text (selection.on on the inverted item).
  * A chosen but disabled model drops its check to the disabled colour: the stacked rule (0,3,0) beats the selected one.
  */
 export const modelMenuEndVariants = cva('ml-auto inline-flex size-icon-md shrink-0 items-center text-text-tertiary group-data-[selected]:text-text-primary group-data-[disabled]:text-disabled-text group-data-[disabled]:group-data-[selected]:text-disabled-text [&_svg]:size-full');

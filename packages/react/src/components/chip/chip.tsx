@@ -38,7 +38,7 @@ export function Chip({
 
   const content = (
     <>
-      {/* The on state is carried by aria-pressed, the edge and this check, never by the fill alone. */}
+      {/* The on state is carried by aria-pressed and this check, never by the fill alone. */}
       {toggle && on ? <span data-slot="chip-check" aria-hidden className={chipCheckVariants({ shape })}><Check aria-hidden /></span> : null}
       {icon ? <span data-slot="chip-icon" aria-hidden className={chipIconVariants({ shape })}>{icon}</span> : null}
       {dot ? <span data-slot="chip-dot" aria-hidden className="size-1.5 shrink-0 rounded-full bg-current" /> : null}

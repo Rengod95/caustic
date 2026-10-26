@@ -115,7 +115,7 @@ export function Table({
               return (
                 <tr
                   key={row.id} data-slot="table-row" aria-selected={selectable ? on : undefined}
-                  className="h-12 border-b border-border-subtle last:border-b-0 hover:bg-neutral-hover aria-selected:bg-neutral-selected aria-selected:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)] aria-selected:hover:bg-neutral-selected-hover"
+                  className="h-12 border-b border-border-subtle last:border-b-0 hover:bg-neutral-hover aria-selected:selected aria-selected:hover:bg-selection-fill-hover"
                 >
                   {selectable && (
                     <td data-slot="table-cell" className="h-12 px-3 text-ui text-text-primary">

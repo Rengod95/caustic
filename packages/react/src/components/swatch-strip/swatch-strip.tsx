@@ -25,7 +25,7 @@ export interface SwatchStripProps extends Omit<ComponentProps<'div'>, 'defaultVa
   columns?: number;
 }
 
-/** A radio group of equal palette swatches; the checked one has the selection edge and a check, token swatches carry an accent dot. */
+/** A radio group of equal palette swatches; the checked one has the ink selection ring and a check, token swatches carry an accent dot. */
 export function SwatchStrip({ items, value, defaultValue = '', onValueChange, columns = 9, className, style, onKeyDown, ...props }: SwatchStripProps) {
   const [current, setCurrent] = useControllableState<string>({ value, defaultValue, onChange: onValueChange });
   const ref = useRef<HTMLDivElement>(null);

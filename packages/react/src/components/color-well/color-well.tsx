@@ -13,7 +13,7 @@ export interface ColorWellProps extends Omit<ComponentProps<'span'>, 'color'>, O
   split?: boolean | undefined;
   /** Multi-selection with differing paints: a hatch instead of a color. */
   mixed?: boolean;
-  /** This swatch is the active one: the selection edge and a check badge. */
+  /** This swatch is the active one: the ink selection ring and a check badge. */
   selected?: boolean;
   /** Render the child (a popover trigger) with swatch styling. */
   asChild?: boolean;

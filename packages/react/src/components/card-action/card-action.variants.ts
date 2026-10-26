@@ -3,8 +3,9 @@ import { cva, type VariantProps } from 'class-variance-authority';
 /**
  * Whole-card target: opaque surface with a hairline ring (one depth cue, no resting elevation); on hover the lift
  * elevation replaces the hairline and the card rises 2px (the transform drops under reduced motion).
- * Selected (radio) keeps the opaque surface and lays the alpha neutral.selected wash over it, with the 1.5px selection
- * edge and the filled radio indicator as the check; it never borrows the focus ring, so focus shows both.
+ * Selected (radio) inverts (selected utility, owner 2026-10-26): ink fill, paper text, no edge; the radio indicator,
+ * tile text and description invert with it. Hover while selected: selection.fill-hover plus the lift. Focus keeps the
+ * ring only. A disabled selected card drops the inversion.
  */
 export const cardActionVariants = cva(
   [
@@ -14,9 +15,9 @@ export const cardActionVariants = cva(
     'hover:-translate-y-0.5 hover:shadow-[var(--cs-elevation-lift)]',
     'motion-reduce:transition-[box-shadow,background-color] motion-reduce:hover:translate-y-0',
     'focus-visible:shadow-focus',
-    'data-[state=checked]:wash-neutral-selected data-[state=checked]:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge)]',
-    'data-[state=checked]:hover:wash-neutral-selected-hover data-[state=checked]:hover:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-elevation-lift)]',
-    'data-[state=checked]:focus-visible:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-focus)]',
+    'data-[state=checked]:not-disabled:selected data-[state=checked]:not-disabled:shadow-none',
+    'data-[state=checked]:not-disabled:hover:bg-selection-fill-hover data-[state=checked]:not-disabled:hover:shadow-[var(--cs-elevation-lift)]',
+    'data-[state=checked]:not-disabled:focus-visible:shadow-focus',
   ],
   {
     variants: {

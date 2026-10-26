@@ -4,7 +4,8 @@ export const themeGalleryVariants = cva('grid grid-cols-[repeat(auto-fill,minmax
 
 /**
  * One theme card. At rest a hairline, no elevation (one depth cue); hover lifts 2px over the base duration with the spring easing and
- * swaps the hairline for elevation 3. The checked card draws the 1.5px selection edge (neutral 7, inset) over elevation 3 and a check
+ * swaps the hairline for elevation 3. The checked card draws a 1.5px inset ring in the selection ink (selection.fill:
+ * the preview is the content and cannot invert, so the ring carries the one selection colour) over elevation 3 and a check
  * in the meta row, never the focus ring.
  */
 export const themeGalleryItemVariants = cva([
@@ -12,10 +13,10 @@ export const themeGalleryItemVariants = cva([
   'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
   'transition-[transform,box-shadow] duration-base ease-spring motion-reduce:transition-none',
   'hover:-translate-y-0.5 hover:shadow-[var(--cs-elevation-3)] motion-reduce:hover:translate-y-0',
-  'aria-checked:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-elevation-3)]',
-  'aria-checked:hover:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-elevation-3)]',
+  'aria-checked:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-fill),var(--cs-elevation-3)]',
+  'aria-checked:hover:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-fill),var(--cs-elevation-3)]',
   'focus-visible:shadow-[var(--cs-focus),var(--cs-elevation-3)]',
-  'aria-checked:focus-visible:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-focus),var(--cs-elevation-3)]',
+  'aria-checked:focus-visible:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-fill),var(--cs-focus),var(--cs-elevation-3)]',
 ]);
 
 export const themeGalleryPreviewVariants = cva(

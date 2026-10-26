@@ -87,7 +87,7 @@ export interface FloatingBarItemProps extends Omit<ComponentProps<'button'>, 'ch
   icon?: ReactNode | undefined;
   /** One-letter shortcut hint. */
   shortcut?: string | undefined;
-  /** The current tool: the neutral selection (same look as a pressed toggle). */
+  /** The current tool: inverted, ink fill and paper icon (same look as a pressed toggle). */
   active?: boolean | undefined;
   /** A toggle that is on (controlled). */
   pressed?: boolean | undefined;

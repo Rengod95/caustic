@@ -40,7 +40,7 @@ export const gradientHandleVariants = cva(
 export const gradientDotVariants = cva([
   'absolute top-(--dy) left-(--dx) size-3.5 -translate-1/2 rotate-45 cursor-grab touch-none rounded-xs bg-(--stop-color) active:cursor-grabbing',
   'shadow-[0_0_0_2px_var(--cs-color-canvas-handle),var(--cs-elevation-thumb-sm)]',
-  'data-[selected]:shadow-[0_0_0_2px_var(--cs-color-canvas-handle),0_0_0_3.5px_var(--cs-color-selection-edge),var(--cs-elevation-thumb-sm)]',
+  'data-[selected]:shadow-[0_0_0_2px_var(--cs-color-canvas-handle),0_0_0_3.5px_var(--cs-color-selection-fill),var(--cs-elevation-thumb-sm)]',
   'data-[disabled]:pointer-events-none',
 ]);
 
@@ -57,8 +57,9 @@ export const gradientControlsVariants = cva('flex items-center justify-between g
 
 export const gradientStopsVariants = cva('grid min-w-0 gap-2');
 
+/** One stop row. The selected row inverts (selected utility: ink fill, paper text, no edge); in a disabled editor it drops the inversion to disabled.fill. */
 export const gradientRowVariants = cva(
-  'grid grid-cols-[calc(var(--spacing)*16)_auto_1fr_auto] items-center gap-1.5 rounded-md p-0.5 data-[selected]:bg-neutral-selected data-[selected]:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)]',
+  'grid grid-cols-[calc(var(--spacing)*16)_auto_1fr_auto] items-center gap-1.5 rounded-md p-0.5 data-[selected]:not-in-data-[disabled]:selected in-data-[disabled]:data-[selected]:bg-disabled-fill',
 );
 
 export const gradientSummaryVariants = cva(

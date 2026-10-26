@@ -4,8 +4,8 @@ export const colorWellVariants = cva(
   [
     'relative inline-block shrink-0 overflow-hidden align-middle',
     'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
-    // Selected is the selection edge (neutral 7) outside a surface gap; focus draws its own ring inside it, so both show.
-    'data-[selected]:shadow-[0_0_0_2px_var(--cs-color-surface-base),0_0_0_3.5px_var(--cs-color-selection-edge)]',
+    // Selected is the ink selection ring (selection.fill) outside a surface gap; focus draws its own ring inside it, so both show.
+    'data-[selected]:shadow-[0_0_0_2px_var(--cs-color-surface-base),0_0_0_3.5px_var(--cs-color-selection-fill)]',
     // Disabled keeps the user paint; the disabled edge is drawn on the paint layers, which cover the root.
     'aria-disabled:cursor-default',
   ],
@@ -13,7 +13,7 @@ export const colorWellVariants = cva(
     variants: {
       appearance: { flat: '', checker: 'checker' },
       size: { sm: 'size-control-2xs rounded-sm', md: 'size-control-md rounded-md' },
-      interactive: { true: 'cursor-pointer outline-none focus-visible:shadow-focus data-[selected]:focus-visible:shadow-[var(--cs-focus),0_0_0_4px_var(--cs-color-surface-base),0_0_0_5.5px_var(--cs-color-selection-edge)]', false: '' },
+      interactive: { true: 'cursor-pointer outline-none focus-visible:shadow-focus data-[selected]:focus-visible:shadow-[var(--cs-focus),0_0_0_4px_var(--cs-color-surface-base),0_0_0_5.5px_var(--cs-color-selection-fill)]', false: '' },
     },
     defaultVariants: { appearance: 'flat', size: 'md', interactive: false },
   },
@@ -35,9 +35,9 @@ export const colorWellSolidVariants = cva(
   'absolute inset-0 z-10 [background:var(--well-solid,var(--well-color))] [clip-path:polygon(0_0,100%_0,0_100%)] in-aria-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
 );
 
-/** Selected only: a check on a round surface badge with a selection-edge hairline, bottom-right above the paint, so it reads on any user colour. */
+/** Selected only: a check on a round surface badge with an ink (selection.fill) hairline, bottom-right above the paint, so it reads on any user colour. */
 export const colorWellCheckVariants = cva(
-  'pointer-events-none absolute right-0.5 bottom-0.5 z-20 inline-grid place-items-center rounded-full bg-surface-base text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)] [&_svg]:size-full [&_svg]:stroke-3',
+  'pointer-events-none absolute right-0.5 bottom-0.5 z-20 inline-grid place-items-center rounded-full bg-surface-base text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-selection-fill)] [&_svg]:size-full [&_svg]:stroke-3',
   {
     variants: { size: { sm: 'size-2.5 p-px', md: 'size-3.5 p-0.5' } },
     defaultVariants: { size: 'md' },

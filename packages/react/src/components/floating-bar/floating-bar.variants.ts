@@ -34,9 +34,9 @@ export const floatingBarItemVariants = cva(
     'outline-none hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
     // Disabled is a colour, not opacity.
     'disabled:pointer-events-none disabled:text-disabled-text',
-    // One "on" look for a toggled-on item and the current tool: the neutral selection, as IconButton pressed.
-    'data-[pressed=true]:bg-neutral-selected data-[pressed=true]:text-text-primary data-[pressed=true]:hover:bg-neutral-selected-hover',
-    'data-[active=true]:bg-neutral-selected data-[active=true]:text-text-primary data-[active=true]:hover:bg-neutral-selected-hover',
+    // One "on" look for a toggled-on item and the current tool: inverted (selected utility), as IconButton pressed.
+    'data-[pressed=true]:not-disabled:selected data-[pressed=true]:not-disabled:hover:bg-selection-fill-hover',
+    'data-[active=true]:not-disabled:selected data-[active=true]:not-disabled:hover:bg-selection-fill-hover',
     'disabled:data-[pressed=true]:bg-disabled-fill disabled:data-[pressed=true]:text-disabled-text disabled:data-[active=true]:bg-disabled-fill disabled:data-[active=true]:text-disabled-text',
     'data-[agent=true]:agent-rim data-[agent=true]:text-text-primary',
     // Disabled drops the tone: a disabled agent item loses the spectrum rim and takes disabled-text, as Button agent.

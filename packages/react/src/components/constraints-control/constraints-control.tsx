@@ -148,7 +148,7 @@ function ConstraintSelect<T extends string>({ slot, label, icon, options, value,
               data-slot="constraints-control-option"
               role="option"
               aria-selected={!mixed && v === value}
-              className="flex h-control-sm cursor-pointer items-center justify-between gap-2 rounded-md bg-transparent px-2 text-left outline-none hover:bg-neutral-hover focus-visible:shadow-focus aria-selected:bg-neutral-selected aria-selected:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)] aria-selected:hover:bg-neutral-selected-hover aria-selected:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge),var(--cs-focus)]"
+              className="flex h-control-sm cursor-pointer items-center justify-between gap-2 rounded-md bg-transparent px-2 text-left outline-none hover:bg-neutral-hover focus-visible:shadow-focus aria-selected:not-disabled:selected aria-selected:not-disabled:hover:bg-selection-fill-hover"
               onClick={() => { onPick(v); setOpen(false); }}
             >
               {name}

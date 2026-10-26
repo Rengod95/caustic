@@ -19,7 +19,9 @@ export const colorPickerTypeVariants = cva(
     'grid size-control-sm shrink-0 cursor-pointer place-items-center rounded-md text-text-tertiary outline-none',
     'transition-[background-color,color,box-shadow] duration-120 ease-out',
     'hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
-    'aria-checked:bg-neutral-selected aria-checked:text-text-primary aria-checked:hover:bg-neutral-selected-hover',
+    // Checked inverts (selected utility: ink fill, paper glyph, no edge); disabled drops the inversion to disabled colour.
+    'aria-checked:not-disabled:selected aria-checked:not-disabled:hover:bg-selection-fill-hover',
+    'disabled:cursor-default disabled:text-disabled-text disabled:hover:bg-transparent disabled:aria-checked:bg-disabled-fill',
     '[&_svg]:size-icon-sm [&_svg]:stroke-[1.75]',
   ],
 );

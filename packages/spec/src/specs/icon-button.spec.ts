@@ -42,7 +42,8 @@ export default defineSpec({
     { slot: 'root', when: { size: 'sm' }, expect: { height: 'control-sm', width: 'control-sm', radius: 'md' }, note: 'Specimen radius is 7px (between sm 6 and md 8); md is used, as in Button.' },
     { slot: 'root', when: { size: 'xs' }, expect: { height: 'control-xs', width: 'control-xs', radius: 'sm' } },
     { slot: 'root', when: { state: 'hover' }, expect: { bg: 'neutral.hover', fg: 'text.primary' } },
-    { slot: 'root', when: { state: 'pressed' }, expect: { bg: 'neutral.selected', fg: 'text.primary' }, note: 'Selected + hover keeps the selected look one step up: neutral.selected-hover.' },
+    { slot: 'root', when: { state: 'pressed' }, expect: { bg: 'selection.fill', fg: 'selection.on' }, note: 'Pressed inverts (owner 2026-10-26, proposal B): ink fill, paper icon, no edge. Pressed + hover: selection.fill-hover. Disabled + pressed drops the inversion (disabled.fill, disabled.text).' },
+    { slot: 'root', when: { pressed: true, state: 'disabled' }, expect: { bg: 'disabled.fill', fg: 'disabled.text' }, note: 'Disabled drops the inversion.' },
     { slot: 'root', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'root', when: { state: 'disabled' }, expect: { bg: 'transparent', fg: 'disabled.text', opacity: 1 }, note: 'Disabled is a colour, not opacity. A disabled toggle that is on takes disabled.fill.' },
     { slot: 'icon', expect: { height: 'icon-md', width: 'icon-md' } },
@@ -75,7 +76,7 @@ export default defineSpec({
   usage: [
     'Always provide label (aria-label).',
     'tone="ink" shape="circle" size="sm" (28px) is the send button; use it once per text area or composer. Specimen has no stop variant (.send.stop exists in CSS: neutral.selected with a 9px square).',
-    'Show the on state of a toggle with the neutral selected fill (neutral.selected), not an accent color.',
+    'Show the on state of a toggle with the inverted selection (selection.fill, selection.on), not an accent color.',
     'Wrap in Tooltip when the icon needs a name or shows a shortcut. `uses: tooltip` is for the example fixture only; IconButton itself does not import Tooltip.',
   ],
 });

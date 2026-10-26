@@ -23,7 +23,7 @@ export interface ModelMenuItemProps {
   name: ReactNode;
   /** One-line summary. */
   description?: ReactNode;
-  /** Marks the chosen model: accent.soft fill, check at the end, aria-selected. */
+  /** Marks the chosen model: inverted (selection.fill, selection.on), check at the end, aria-selected. */
   selected?: boolean;
   /** Not choosable, 0.42 opacity. */
   disabled?: boolean;

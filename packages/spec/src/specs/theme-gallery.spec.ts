@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'inspector',
   status: 'ready',
   purpose: 'A responsive grid of theme cards. Each card is a miniature app drawn from the theme\'s own colors and corner radius, with the theme name, a one-line description and three color dots. Picking a card selects the theme to preview; nothing is written until the consumer applies it.',
-  description: 'A single-choice group: one card is selected (a 1.5px inset selection edge and a check mark, never the focus ring). The mini app is decorative and fully data-driven: five colors (page, surface, accent, ink, muted) and the button radius come from the theme. The search field and the filter segments of the specimen are the consumer\'s composition (Input sunken and SegmentedControl xs) and sit above the grid.',
+  description: 'A single-choice group: one card is selected (a 1.5px inset ring in the selection ink, selection.fill, and a check mark, never the focus ring; the preview is the content, so the card does not invert). The mini app is decorative and fully data-driven: five colors (page, surface, accent, ink, muted) and the button radius come from the theme. The search field and the filter segments of the specimen are the consumer\'s composition (Input sunken and SegmentedControl xs) and sit above the grid.',
   role: 'radiogroup',
   slots: [
     { name: 'root', el: 'div', role: 'radiogroup', description: 'The grid. Grid, 12px gap, auto-fill columns of at least 170px. Needs an accessible name (aria-label, for example "Themes").' },
@@ -49,7 +49,7 @@ export default defineSpec({
     { slot: 'root', expect: { gap: 12 }, note: 'Columns repeat(auto-fill, minmax(170px, 1fr)); the 170px minimum is size-theme-card-min.' },
     { slot: 'item', when: { checked: false }, expect: { bg: 'surface.base', edge: 'border.subtle', radius: '2xl', text: 'ui' }, note: 'One depth cue: a resting card has the hairline and no elevation. checked false: the fixture selects the first card by default.' },
     { slot: 'item', when: { state: 'hover', checked: false }, expect: { shadow: '3' }, note: 'The hairline gives way to elevation 3. Also translateY(-2px) over the base duration with the spring easing; stops under reduced motion (P8).' },
-    { slot: 'item', when: { state: 'checked' }, expect: { edge: 'selection.edge', shadow: '3', ring: 'none' }, note: 'A 1.5px inset selection.edge over elevation 3 plus the check mark; never the focus ring, and focus adds its outer ring, so both show.' },
+    { slot: 'item', when: { state: 'checked' }, expect: { edge: 'selection.fill', shadow: '3', ring: 'none' }, note: 'A 1.5px inset ring in selection.fill (the ink every selected item uses; owner 2026-10-26: content cards keep a ring, not an inversion) over elevation 3 plus the check mark; never the focus ring, and focus adds its outer ring, so both show.' },
     { slot: 'check', when: { state: 'checked' }, expect: { bg: 'accent.solid', fg: 'accent.on', height: 'size-check', width: 'size-check', radius: 'full' } },
     { slot: 'item', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'preview', expect: { radius: 'md', height: 'size-theme-preview-h', padX: 8, padY: 8, gap: 6, edge: 'swatch.edge' }, note: 'The specimen edge is 6% black; swatch.edge is 10%. Fill is --m-bg.' },
@@ -87,7 +87,7 @@ export default defineSpec({
     notes: [
       'A radio group of buttons: role radiogroup > role radio with aria-checked and roving tabindex. The accessible name of a card is the theme name; the caption is its description.',
       'The mini app and the color dots are decorative (aria-hidden): the colors are not described, so do not rely on them to tell themes apart; the name does.',
-      'Selection is the 1.5px selection edge plus a check mark and aria-checked, never the focus ring and not only a lift.',
+      'Selection is the 1.5px selection-ink ring plus a check mark and aria-checked, never the focus ring and not only a lift.',
       'Hover lift is 2px over a base duration and is removed under reduced motion.',
     ],
   },

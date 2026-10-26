@@ -13,7 +13,7 @@ export default defineSpec({
     { name: 'bar', el: 'div', parent: 'root', description: 'The ramp: fills the root, sm radius, a 1px inset swatch.edge hairline. Paints --cs-gradient (linear-gradient(90deg, stops…)) over a checkerboard (canvas.checker-a / canvas.checker-b, 8px cells) so alpha stops read.' },
     { name: 'stop', el: 'button', parent: 'root', role: 'slider', description: 'One stop handle, 18 × 22px, centered on its position (left: position %) and hanging 16px below the top edge of the bar (top 100%, translateY −6px). grab cursor, no outline or ring of its own: the swatch covers three sides of it, so its focus ring is drawn on the swatch.' },
     { name: 'stem', el: 'span', parent: 'stop', description: 'A 2 × 8px line from the bar into the handle, control.thumb with a hairline.' },
-    { name: 'swatch', el: 'span', parent: 'stop', description: 'The 18px square color chip at the bottom of the handle: sm radius, filled with the stop color (--cs-stop-color), a 2px control.thumb ring, a 0.5px dark outline and a soft shadow. While its stop has keyboard focus it draws a 2px focus.ring outside the thumb ring; a focused selected stop shows the focus ring inside the selection edge.' },
+    { name: 'swatch', el: 'span', parent: 'stop', description: 'The 18px square color chip at the bottom of the handle: sm radius, filled with the stop color (--cs-stop-color), a 2px control.thumb ring, a 0.5px dark outline and a soft shadow. While its stop has keyboard focus it draws a 2px focus.ring outside the thumb ring; a focused selected stop shows the focus ring inside the ink selection ring.' },
     { name: 'check', el: 'svg', parent: 'swatch', required: false, description: 'Selected stop only: a check glyph (lucide Check, stroke 3), 10px, centred on the swatch, media.on with a 1px media.scrim drop shadow so it reads on any stop colour; aria-hidden.' },
   ],
   states: {
@@ -25,7 +25,7 @@ export default defineSpec({
   props: {
     stopLabel: { type: '(index: number) => string', required: true, description: 'aria-label of the stop handle index (1-based), e.g. n => "Stop " + n. Required; no built-in default.' },
     stops: { type: '{ position: number; color: string }[]', required: true, description: 'Color stops: position 0–100 (whole percent) and a CSS color (hex or var()). At least two; the strip never removes below two.' },
-    selected: { type: 'number', description: 'Index of the selected stop; draws the selection edge on its swatch (2px control.thumb, then 1.5px selection.edge) and a check, never the focus ring.' },
+    selected: { type: 'number', description: 'Index of the selected stop; draws the ink selection ring on its swatch (2px control.thumb, then 1.5px selection.fill) and a check, never the focus ring.' },
     disabled: { type: 'boolean', default: false, description: 'Disables adding and moving.' },
   },
   events: {
@@ -38,11 +38,11 @@ export default defineSpec({
     { slot: 'stop', expect: { height: 22, width: 18, cursor: 'grab' } },
     { slot: 'stem', expect: { bg: 'control.thumb', width: 2, height: 8 } },
     { slot: 'swatch', expect: { radius: 'sm', height: 18, width: 18, shadow: 'thumb-swatch' }, note: 'Specimen ring is 2px (thumb-swatch uses 3px) and a 2.5px black 18 % outline; shadow 0 2px 6px black 25 %.' },
-    { slot: 'swatch', when: { state: 'selected' }, expect: { edge: 'selection.edge', ring: 'none' }, note: '2px control.thumb ring, then a 1.5px selection.edge ring, and the check; a focused selected stop shows the focus ring inside the selection edge.' },
+    { slot: 'swatch', when: { state: 'selected' }, expect: { edge: 'selection.fill', ring: 'none' }, note: 'The stop colour is the content, so it never inverts (owner 2026-10-26): 2px control.thumb ring, then a 1.5px selection.fill (ink) ring, and the check; a focused selected stop shows the focus ring inside the ink selection ring.' },
     { slot: 'check', when: { state: 'selected' }, expect: { fg: 'media.on', height: 10, width: 10 } },
     { slot: 'stop', when: { state: 'focus-visible' }, expect: { ring: 'none' }, note: 'The focus ring is on the swatch, which covers three sides of the stop box.' },
     { slot: 'swatch', when: { state: 'focus-visible' }, expect: { edge: 'focus.ring' }, note: 'Focus ring on the swatch: the 2px control.thumb ring is the gap, then 2px focus.ring (group-focus-visible). Written as an edge because the ring is drawn on a child of the focused stop.' },
-    { slot: 'swatch', when: { state: 'selected-focus-visible' }, expect: { edge: 'selection.edge' }, note: 'Focused + selected: 2px control.thumb, 2px focus.ring, 1px control.thumb gap, then 1.5px selection.edge, so both show.' },
+    { slot: 'swatch', when: { state: 'selected-focus-visible' }, expect: { edge: 'selection.fill' }, note: 'Focused + selected: 2px control.thumb, 2px focus.ring, 1px control.thumb gap, then 1.5px selection.fill (ink), so both show.' },
     { slot: 'swatch', when: { state: 'selected-focus-visible' }, expect: { edge: 'focus.ring' } },
   ],
   behavior: {

@@ -8,11 +8,11 @@ export const clarificationOptionVariants = cva([
   'group grid grid-cols-[var(--cs-icon-lg)_1fr] gap-2 rounded-lg p-2.5 text-left font-ui text-ui-dense text-text-primary',
   'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] outline-none transition-[box-shadow,background-color] duration-120 ease-out',
   'hover:bg-neutral-hover focus-visible:shadow-focus',
-  // Selected is neutral: the selected fill, the 1.5px selection edge and the radio mark. It never borrows the focus ring,
-  // so a focused selected row shows both the edge and the outer ring.
-  'data-[state=checked]:bg-neutral-selected data-[state=checked]:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge)]',
-  'data-[state=checked]:hover:bg-neutral-selected-hover data-[state=checked]:focus-visible:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-focus)]',
-  // Disabled is a colour: the tone drops out to the disabled text and border.
+  // Selected inverts (selected utility, owner 2026-10-26): ink fill, paper text, no edge; the radio mark and hint invert
+  // with it. Hover while selected: selection.fill-hover. Focus keeps the ring only.
+  'data-[state=checked]:not-disabled:selected data-[state=checked]:not-disabled:shadow-none',
+  'data-[state=checked]:not-disabled:hover:bg-selection-fill-hover data-[state=checked]:not-disabled:focus-visible:shadow-focus',
+  // Disabled is a colour: the tone drops out to the disabled text and border; a selected disabled row drops the inversion.
   'disabled:pointer-events-none disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
   'data-[state=checked]:disabled:shadow-[inset_0_0_0_1.5px_var(--cs-color-disabled-border)]',
 ]);

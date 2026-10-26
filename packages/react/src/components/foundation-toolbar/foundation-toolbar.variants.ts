@@ -18,8 +18,9 @@ export const foundationToolbarDomainVariants = cva([
   'inline-flex min-h-control-xl min-w-control-xl shrink-0 cursor-pointer select-none flex-col items-center justify-center gap-1 whitespace-nowrap rounded-md p-1.5 font-ui text-label text-text-secondary outline-none',
   'transition-[background-color,color,box-shadow] duration-120 ease-out',
   'hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
-  'aria-pressed:bg-neutral-selected aria-pressed:text-text-primary aria-pressed:hover:bg-neutral-selected-hover',
-  // Disabled is a colour, not opacity.
+  // The chosen domain inverts (selected utility: ink fill, paper icon and label, no edge).
+  'aria-pressed:not-disabled:selected aria-pressed:not-disabled:hover:bg-selection-fill-hover',
+  // Disabled is a colour, not opacity, and drops the inversion.
   'disabled:pointer-events-none disabled:text-disabled-text disabled:aria-pressed:bg-disabled-fill disabled:aria-pressed:text-disabled-text',
 ]);
 

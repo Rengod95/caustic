@@ -5,8 +5,8 @@ export default defineSpec({
   name: 'IconToggle',
   category: 'inspector',
   status: 'ready',
-  purpose: 'A quiet icon button that stays on: lock aspect ratio, independent corners. When on it takes the neutral selected fill with the selection edge (colour language decision 3).',
-  description: 'A button with aria-pressed. It looks like an xs IconButton at rest and on hover; only the pressed state differs (neutral.selected fill, text.primary icon and a 1px selection.edge), which is how an inspector marks "this option is on" next to a field. For a labelled or neutral toggle use Chip (pressed) or ToggleGroup.',
+  purpose: 'A quiet icon button that stays on: lock aspect ratio, independent corners. When on it inverts: selection.fill (ink) with a selection.on icon, no edge (owner 2026-10-26, proposal B).',
+  description: 'A button with aria-pressed. It looks like an xs IconButton at rest and on hover; only the pressed state differs (inverted: selection.fill, selection.on icon, no edge), which is how an inspector marks "this option is on" next to a field. For a labelled or neutral toggle use Chip (pressed) or ToggleGroup.',
   role: 'button',
   slots: [
     { name: 'root', el: 'button', role: 'button', description: 'Square hit target, type="button", aria-pressed. 24px, sm radius.' },
@@ -28,7 +28,7 @@ export default defineSpec({
   styles: [
     { slot: 'root', expect: { bg: 'transparent', fg: 'text.secondary', radius: 'sm', height: 'control-xs', width: 'control-xs' } },
     { slot: 'root', when: { state: 'hover' }, expect: { bg: 'neutral.hover', fg: 'text.primary' } },
-    { slot: 'root', when: { state: 'pressed' }, expect: { bg: 'neutral.selected', fg: 'text.primary', edge: 'selection.edge' }, note: 'Selected + hover: neutral.selected-hover. Selected + focus shows the selection edge and the focus ring together.' },
+    { slot: 'root', when: { state: 'pressed' }, expect: { bg: 'selection.fill', fg: 'selection.on' }, note: 'On inverts. On + hover: selection.fill-hover. On + focus shows the focus ring only (its gap reads the fill).' },
     { slot: 'root', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'root', when: { state: 'disabled' }, expect: { bg: 'transparent', fg: 'disabled.text', opacity: 1 }, note: 'Disabled is a colour, not opacity. A disabled toggle that is on takes disabled.fill with a disabled.border edge and a disabled.text icon.' },
     { slot: 'root', when: { pressed: true, state: 'disabled' }, expect: { bg: 'disabled.fill', fg: 'disabled.text', edge: 'disabled.border', opacity: 1 }, note: 'On + disabled: the tone and the selection drop out; the glyph takes disabled.text.' },
@@ -47,13 +47,13 @@ export default defineSpec({
     labelRequired: true,
     minHit: 24,
     attrs: { root: ['aria-pressed', 'aria-label'] },
-    notes: ['aria-label names the option, not the state ("Lock aspect ratio", "Independent corners").', 'text.primary on neutral.selected passes 4.5:1 on every surface; the on state is also carried by aria-pressed and the selection edge.'],
+    notes: ['aria-label names the option, not the state ("Lock aspect ratio", "Independent corners").', 'selection.on on selection.fill passes 4.5:1; the on state is also carried by aria-pressed.'],
   },
   policies: ['P6'],
   composition: { uses: [] },
   usage: [
     'Fixture contract: render(props) shows a link icon with aria-label "Lock aspect ratio"; pressed state props are defaultPressed or pressed.',
     'Only the xs size appears in the specimen (the lock next to W/H, independent corners next to the radius and smoothing fields); other sizes are not specified.',
-    'IconButton marks pressed with neutral.selected only; IconToggle adds the selection edge because it sits next to fields where a fill alone is too quiet.',
+    'IconButton pressed and IconToggle on share the inverted look (selection.fill, selection.on); IconToggle is the xs inspector form.',
   ],
 });

@@ -31,6 +31,7 @@ export default defineSpec({
     { slot: 'root', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'root', when: { state: 'disabled' }, expect: { bg: 'disabled.fill', opacity: 1 }, note: 'Disabled is a colour, not opacity: the track is disabled.fill whether on or off; the thumb position carries the value.' },
     { slot: 'thumb', expect: { bg: 'control.thumb', radius: 'full', height: 'size-switch-md-thumb', width: 'size-switch-md-thumb' } },
+    { slot: 'thumb', when: { state: 'checked' }, expect: { bg: 'accent.on' }, note: 'The thumb inverts with the track: accent.on on accent.solid, so it reads in both modes (black on the light dark-mode track).' },
     { slot: 'thumb', when: { size: 'sm' }, expect: { height: 'size-switch-sm-thumb', width: 'size-switch-sm-thumb' } },
   ],
   behavior: {

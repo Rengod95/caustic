@@ -25,10 +25,10 @@ export const gradientStemVariants = cva(
 export const gradientSwatchVariants = cva(
   [
     'pointer-events-none absolute top-1.5 left-0 size-4.5 rounded-sm bg-(--stop-color) shadow-thumb-swatch',
-    'group-data-[selected]:shadow-[0_0_0_2px_var(--cs-color-control-thumb),0_0_0_3.5px_var(--cs-color-selection-edge),0_2px_6px_var(--cs-color-swatch-edge)]',
-    // Focus: the ring outside the thumb ring. Focused + selected: focus inside, a thumb gap, then the selection edge outside, so both show.
+    'group-data-[selected]:shadow-[0_0_0_2px_var(--cs-color-control-thumb),0_0_0_3.5px_var(--cs-color-selection-fill),0_2px_6px_var(--cs-color-swatch-edge)]',
+    // Focus: the ring outside the thumb ring. Focused + selected: focus inside, a thumb gap, then the ink selection ring (selection.fill) outside, so both show.
     'group-focus-visible:shadow-[0_0_0_2px_var(--cs-color-control-thumb),0_0_0_4px_var(--cs-color-focus-ring),0_2px_6px_var(--cs-color-swatch-edge)]',
-    'group-data-[selected]:group-focus-visible:shadow-[0_0_0_2px_var(--cs-color-control-thumb),0_0_0_4px_var(--cs-color-focus-ring),0_0_0_5px_var(--cs-color-control-thumb),0_0_0_6.5px_var(--cs-color-selection-edge),0_2px_6px_var(--cs-color-swatch-edge)]',
+    'group-data-[selected]:group-focus-visible:shadow-[0_0_0_2px_var(--cs-color-control-thumb),0_0_0_4px_var(--cs-color-focus-ring),0_0_0_5px_var(--cs-color-control-thumb),0_0_0_6.5px_var(--cs-color-selection-fill),0_2px_6px_var(--cs-color-swatch-edge)]',
   ],
 );
 

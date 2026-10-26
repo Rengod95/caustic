@@ -49,12 +49,14 @@ export default defineSpec({
     { slot: 'listbox', expect: { material: 'thick', radius: '2xl', padX: 6, padY: 6, shadow: '4' }, note: 'Identical to the menu surface. max-height 220px (token request size-listbox-max) with overflow-y auto; min-width 0 (it follows the input width).' },
     { slot: 'option', expect: { height: 'size-menu-item', padX: 8, gap: 8, radius: 'lg', text: 'ui', fg: 'text.primary' } },
     { slot: 'option', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
-    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'neutral.selected', edge: 'selection.edge' }, note: 'Neutral list selection: selected fill, selection edge and a trailing check; never accent soft or the focus ring. Hover on it is neutral.selected-hover.' },
-    { slot: 'check', when: { state: 'selected' }, expect: { fg: 'text.secondary', width: 'icon-sm', height: 'icon-sm' } },
+    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'selection.fill', fg: 'selection.on' }, note: 'The chosen option inverts (owner 2026-10-26, proposal B): selection.fill (ink), selection.on text, no edge, and a trailing check; never accent soft or the focus ring. Hover or highlight on it is selection.fill-hover. A disabled chosen option drops the inversion (disabled.fill, disabled.text).' },
+    { slot: 'check', when: { state: 'selected' }, expect: { fg: 'selection.on-secondary', width: 'icon-sm', height: 'icon-sm' }, note: 'text.secondary, re-pointed by the inverted option.' },
     { slot: 'leading', expect: { fg: 'text.tertiary' } },
+    { slot: 'leading', when: { state: 'selected' }, expect: { fg: 'selection.on-tertiary' }, note: 'Inverts with the chosen option. A swatch keeps its own colour unless it is drawn from a re-pointed var (accent.solid, accent.text, surface.base).' },
     { slot: 'match', expect: { fg: 'accent.text', text: 'ui', weight: 600 } },
+    { slot: 'match', when: { state: 'selected' }, expect: { fg: 'selection.on', weight: 600 }, note: 'accent.text re-points to selection.on inside the inverted option; the weight still marks the match.' },
     { slot: 'meta', expect: { fg: 'text.tertiary', text: 'hint' } },
-    { slot: 'meta', when: { state: 'selected' }, expect: { fg: 'text.tertiary' }, note: 'Meta keeps tertiary on hover, highlight and the neutral selected fill (owner: design over contrast; G3 treats combobox-meta contrast as a warning).' },
+    { slot: 'meta', when: { state: 'selected' }, expect: { fg: 'selection.on-tertiary' }, note: 'Meta inverts with the chosen option: selection.on-tertiary, an opaque step on the ink fill.' },
   ],
   behavior: {
     keyboard: {

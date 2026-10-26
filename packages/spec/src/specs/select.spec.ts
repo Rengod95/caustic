@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'form',
   status: 'ready',
   purpose: 'Chooses one value from a short list (up to 7). A field-looking trigger opens a thick-glass listbox that uses the Menu surface and item anatomy.',
-  description: 'The trigger is a PickerTrigger (chevrons-up-down indicator, placeholder in the placeholder color). The popup is the Menu surface with role="listbox" and role="option" items; the chosen option takes the neutral selection (neutral.selected fill, selection edge, trailing check). More than 7 options: use Combobox.',
+  description: 'The trigger is a PickerTrigger (chevrons-up-down indicator, placeholder in the placeholder color). The popup is the Menu surface with role="listbox" and role="option" items; the chosen option inverts (selection.fill, selection.on text, trailing check, no edge). More than 7 options: use Combobox.',
   role: 'listbox',
   slots: [
     { name: 'root', el: 'div', role: 'listbox', description: 'The floating listbox surface (Radix Select Content in popper mode). Rendered only while open, or in place with inline. Its height is bounded by the available viewport height (max-height var(--radix-select-content-available-height)) and the options scroll inside it (overflow-y auto); inline is not bounded.' },
@@ -43,8 +43,8 @@ export default defineSpec({
     { slot: 'root', expect: { material: 'thick', radius: '2xl', padX: 6, padY: 6, shadow: '4' }, note: 'Identical to the menu surface; min-width is the trigger width.' },
     { slot: 'option', expect: { height: 'size-menu-item', padX: 8, gap: 8, radius: 'lg', text: 'ui', fg: 'text.primary' } },
     { slot: 'option', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
-    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'neutral.selected', edge: 'selection.edge' }, note: 'Neutral list selection: selected fill, selection edge and a trailing check; never accent soft or the focus ring. Hover on it is neutral.selected-hover.' },
-    { slot: 'check', when: { state: 'selected' }, expect: { fg: 'text.secondary', width: 'icon-sm', height: 'icon-sm' } },
+    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'selection.fill', fg: 'selection.on' }, note: 'The chosen option inverts (owner 2026-10-26, proposal B): selection.fill (ink), selection.on text, no edge, and a trailing check; never accent soft or the focus ring. Hover or highlight on it is selection.fill-hover. A disabled chosen option drops the inversion: disabled.fill, disabled.text.' },
+    { slot: 'check', when: { state: 'selected' }, expect: { fg: 'selection.on-secondary', width: 'icon-sm', height: 'icon-sm' }, note: 'text.secondary, re-pointed by the inverted option.' },
     { slot: 'heading', expect: { fg: 'text.tertiary', text: 'label', padX: 8, padY: 5 } },
     { slot: 'separator', expect: { bg: 'border.subtle', height: 1 } },
   ],
@@ -73,7 +73,7 @@ export default defineSpec({
     notes: [
       'Trigger role="combobox" aria-haspopup="listbox"; wrap in Field for the label (Radix wires aria-labelledby).',
       'The hidden native select keeps form posts and autofill working.',
-      'The chosen option is marked by aria-selected, the neutral selection fill and the trailing check together.',
+      'The chosen option is marked by aria-selected, the inverted fill and the trailing check together.',
     ],
   },
   policies: ['P1', 'P5', 'P6'],

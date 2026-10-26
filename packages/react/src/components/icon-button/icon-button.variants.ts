@@ -13,7 +13,8 @@ export const iconButtonVariants = cva(
       tone: {
         ghost: [
           'bg-transparent text-text-secondary hover:bg-neutral-hover hover:text-text-primary',
-          'aria-pressed:bg-neutral-selected aria-pressed:text-text-primary aria-pressed:hover:bg-neutral-selected-hover',
+          // Pressed inverts (selected utility: ink fill, paper icon, no edge); disabled drops the inversion.
+          'aria-pressed:not-disabled:selected aria-pressed:not-disabled:hover:bg-selection-fill-hover',
           'disabled:aria-pressed:bg-disabled-fill disabled:aria-pressed:text-disabled-text',
         ],
         ink: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:scale-[1.06] disabled:bg-disabled-fill disabled:shadow-none',

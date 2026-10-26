@@ -8,10 +8,11 @@ export const contextAnalyticsRounds = cva('grid h-rounds-h grid-cols-12 items-en
 /** The selectable cell of one round: the hit target, bottom-aligned. */
 export const contextAnalyticsRoundButton = cva('flex h-full w-full cursor-pointer flex-col justify-end border-0 bg-transparent p-0 outline-none focus-visible:shadow-focus');
 
-/** One round column. Its height (a percentage of the window) arrives as --ca-h. Ring is 1.5px outside when selected. */
+/** One round column. Its height (a percentage of the window) arrives as --ca-h. Ring is 1.5px outside when selected, in the selection ink
+ * (selection.fill): the column's fill is data, so it cannot invert; the ring carries the one selection colour. */
 export const contextAnalyticsRound = cva('relative block h-[var(--ca-h)] w-full rounded-xs bg-neutral-track', {
   variants: {
-    selected: { true: 'shadow-[0_0_0_1.5px_var(--cs-color-selection-edge)]', false: '' },
+    selected: { true: 'shadow-[0_0_0_1.5px_var(--cs-color-selection-fill)]', false: '' },
   },
   defaultVariants: { selected: false },
 });

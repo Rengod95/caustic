@@ -13,7 +13,7 @@ export interface GradientStripProps extends Omit<ComponentProps<'div'>, 'onChang
   stopLabel: (index: number) => string;
   /** Color stops: position 0-100 (whole percent) and a CSS color. */
   stops: GradientStop[];
-  /** Index of the selected stop: the selection edge and a check on its swatch. */
+  /** Index of the selected stop: the ink selection ring and a check on its swatch. */
   selected?: number;
   disabled?: boolean;
   onStopsChange?: (stops: GradientStop[]) => void;

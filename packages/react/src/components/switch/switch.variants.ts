@@ -16,6 +16,8 @@ export const switchVariants = cva(
 export const switchThumb = cva(
   [
     'block rounded-full bg-control-thumb transition-[transform,width] duration-320 ease-spring',
+    // On, the thumb takes the colour that sits on accent.solid: white on the dark light-mode track, black on the light dark-mode track.
+    'group-enabled:data-[state=checked]:bg-accent-on',
     'shadow-2',
   ],
   {

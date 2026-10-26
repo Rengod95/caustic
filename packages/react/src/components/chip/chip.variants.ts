@@ -5,8 +5,10 @@ import { cva, type VariantProps } from 'class-variance-authority';
 //   soft    rest soft 3            → on soft-pressed 5 + border-strong 7 edge
 //   outline rest border 6 edge     → on soft 3 + graphic 8 edge (1.5px)
 //   solid   rest solid 9           → on solid-hover 10
-// Every on cell also draws a leading check (chip.tsx). The neutral tone keeps its alpha interaction fills:
-// on = neutral.selected + selection.edge (decisions 2 and 3); the neutral outline on edge is graphic 8 like the hues.
+// Every on cell also draws a leading check (chip.tsx). A neutral on chip (soft, outline, dashed) and every on surface chip
+// is a selection and inverts (selected utility, owner 2026-10-26 proposal B): ink fill, paper text and check, no edge;
+// hover while on takes selection.fill-hover, focus keeps the ring only. Disabled drops the inversion (disabled colour).
+// Hued soft / outline / dashed keep their on cell inside the tone; solid on stays solid-hover 10 (it is already ink).
 // Hover and press exist only on interactive chips (buttons): see the `interactive: true` compounds below.
 export const chipVariants = cva(
   [
@@ -19,30 +21,21 @@ export const chipVariants = cva(
   {
     variants: {
       appearance: {
-        soft: [
-          'bg-neutral-track text-text-primary',
-          'aria-pressed:bg-neutral-selected aria-pressed:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)]',
-          'aria-pressed:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge),var(--cs-focus)]',
-        ],
+        soft: 'bg-neutral-track text-text-primary',
         outline: [
           'bg-transparent text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]',
-          'aria-pressed:bg-neutral-selected aria-pressed:shadow-[inset_0_0_0_1.5px_var(--cs-color-neutral-graphic)]',
-          'aria-pressed:focus-visible:shadow-[inset_0_0_0_1.5px_var(--cs-color-neutral-graphic),var(--cs-focus)]',
           // Disabled keeps a disabled.border edge whether on or off; the tone drops out.
           'disabled:bg-transparent disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] disabled:aria-pressed:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
         ],
         solid: 'bg-ink-solid text-ink-on aria-pressed:bg-ink-solid-hover',
         dashed: [
           'bg-transparent text-text-secondary outline outline-1 outline-dashed outline-border-control -outline-offset-1',
-          'aria-pressed:bg-neutral-selected aria-pressed:text-text-primary aria-pressed:outline-selection-edge',
           'disabled:bg-transparent disabled:outline-disabled-border disabled:aria-pressed:outline-disabled-border',
         ],
         surface: [
           'bg-surface-translucent text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
-          // The token surface stays opaque: the neutral selection is a wash laid over it, not a replacement fill.
-          'aria-pressed:wash-neutral-selected aria-pressed:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)]',
-          'aria-pressed:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge),var(--cs-focus)]',
-          'disabled:aria-pressed:bg-none',
+          // On inverts in every tone (the tone only ever coloured the text): the selected utility re-points the text.
+          'aria-pressed:not-disabled:selected aria-pressed:not-disabled:shadow-none aria-pressed:not-disabled:focus-visible:shadow-focus',
         ],
       },
       tone: { neutral: '', accent: '', info: '', success: '', warning: '', danger: '' },
@@ -57,6 +50,11 @@ export const chipVariants = cva(
     },
     compoundVariants: [
       { shape: 'rounded', className: 'h-chip-h gap-1.5 rounded-md pl-2 pr-1.5 text-ui-sm' },
+
+      // neutral on = the inverted selection (soft, outline, dashed); the edge and the dashes drop.
+      { appearance: 'soft', tone: 'neutral', className: 'aria-pressed:not-disabled:selected aria-pressed:not-disabled:focus-visible:shadow-focus' },
+      { appearance: 'outline', tone: 'neutral', className: 'aria-pressed:not-disabled:selected aria-pressed:not-disabled:shadow-none aria-pressed:not-disabled:focus-visible:shadow-focus' },
+      { appearance: 'dashed', tone: 'neutral', className: 'aria-pressed:not-disabled:selected aria-pressed:not-disabled:outline-transparent' },
 
       // soft × tone
       { appearance: 'soft', tone: 'accent', className: 'bg-accent-soft text-accent-text aria-pressed:bg-accent-soft-pressed aria-pressed:shadow-[inset_0_0_0_1px_var(--cs-color-accent-border-strong)] aria-pressed:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-accent-border-strong),var(--cs-focus)]' },
@@ -98,11 +96,12 @@ export const chipVariants = cva(
       //   soft    3 → hover 4 → press 5; on + hover keeps 5 and the edge goes to graphic 8
       //   outline none → hover tint 2 + border-strong 7 → press soft 3; on keeps soft 3 + graphic 8 (1.5px)
       //   solid   9 → hover 10 (the rest fill is repeated so each cell reads rest → hover on its own)
-      //   neutral alpha: a hover / pressed wash over the track or surface, neutral.selected-hover when on
-      { interactive: true, appearance: 'soft', tone: 'neutral', className: 'hover:wash-neutral-hover active:wash-neutral-pressed aria-pressed:bg-none aria-pressed:hover:bg-neutral-selected-hover' },
-      { interactive: true, appearance: 'outline', tone: 'neutral', className: 'hover:bg-neutral-hover hover:shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border-strong)] active:bg-neutral-pressed aria-pressed:hover:bg-neutral-selected-hover' },
+      //   neutral: opaque neutral.hover / neutral.pressed fills; selection.fill-hover when on (inverted)
+      { interactive: true, appearance: 'soft', tone: 'neutral', className: 'hover:bg-neutral-hover active:bg-neutral-pressed aria-pressed:not-disabled:hover:bg-selection-fill-hover' },
+      { interactive: true, appearance: 'outline', tone: 'neutral', className: 'hover:bg-neutral-hover hover:shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border-strong)] active:bg-neutral-pressed aria-pressed:not-disabled:hover:bg-selection-fill-hover' },
+      { interactive: true, appearance: 'dashed', tone: 'neutral', className: 'aria-pressed:not-disabled:hover:bg-selection-fill-hover' },
       { interactive: true, appearance: 'solid', tone: 'neutral', className: 'bg-ink-solid hover:bg-ink-solid-hover' },
-      { interactive: true, appearance: 'surface', className: 'hover:wash-neutral-hover aria-pressed:hover:wash-neutral-selected-hover' },
+      { interactive: true, appearance: 'surface', className: 'hover:bg-neutral-hover aria-pressed:not-disabled:hover:bg-selection-fill-hover' },
       { interactive: true, appearance: 'soft', tone: 'accent', className: 'hover:bg-accent-soft-hover active:bg-accent-soft-pressed aria-pressed:hover:shadow-[inset_0_0_0_1px_var(--cs-color-accent-graphic)] aria-pressed:hover:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-accent-graphic),var(--cs-focus)]' },
       { interactive: true, appearance: 'soft', tone: 'info', className: 'hover:bg-info-soft-hover active:bg-info-soft-pressed aria-pressed:hover:shadow-[inset_0_0_0_1px_var(--cs-color-info-graphic)] aria-pressed:hover:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-info-graphic),var(--cs-focus)]' },
       { interactive: true, appearance: 'soft', tone: 'success', className: 'hover:bg-success-soft-hover active:bg-success-soft-pressed aria-pressed:hover:shadow-[inset_0_0_0_1px_var(--cs-color-success-graphic)] aria-pressed:hover:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-success-graphic),var(--cs-focus)]' },

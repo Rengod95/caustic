@@ -5,8 +5,9 @@ export const layerTreeVariants = cva('relative grid gap-[1px] font-ui text-ui-de
 
 /**
  * One layer row. 28px, 6px inline padding; the depth indent is a margin on the twisty (--depth x tree indent).
- * Selection is neutral (decision 3): every selected row takes neutral-selected (neutral-selected-hover under the pointer) and the
- * check glyph in the end cluster; the primary row also carries the selection edge and primary text, and focus keeps that edge.
+ * Every selected row inverts (selected utility, owner 2026-10-26 proposal B: ink fill, paper text, no edge; selection.fill-hover
+ * under the pointer) and shows the check glyph in the end cluster. The primary row reads primary text (selection.on), the others
+ * keep secondary text (selection.on-secondary). Focus is the plain focus ring; its gap reads the ink fill.
  * data-drop="inside" outlines the row.
  * A main component reads in one category hue (info text) on the row, its glyph, its label and its tag.
  */
@@ -14,9 +15,7 @@ export const layerTreeRowVariants = cva([
   'group relative flex h-control-sm cursor-default select-none items-center gap-1.5 rounded-md px-1.5 text-ui-dense text-text-secondary outline-none',
   'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover focus-visible:shadow-focus',
   'data-[component]:text-category-component',
-  'data-[secondary]:bg-neutral-selected data-[secondary]:hover:bg-neutral-selected-hover',
-  'data-[primary]:bg-neutral-selected data-[primary]:text-text-primary data-[primary]:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)] data-[primary]:hover:bg-neutral-selected-hover',
-  'data-[primary]:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge),var(--cs-focus)]',
+  'data-[selected]:selected data-[selected]:hover:bg-selection-fill-hover data-[selected]:data-[primary]:text-text-primary data-[selected]:data-[secondary]:text-text-secondary',
   'data-[drop=inside]:bg-accent-soft data-[drop=inside]:shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-solid)]',
 ]);
 

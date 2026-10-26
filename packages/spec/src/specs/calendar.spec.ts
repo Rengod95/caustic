@@ -25,6 +25,7 @@ export default defineSpec({
   states: {
     hover: { pseudo: ['hover'], target: 'day' },
     selected: { props: { mode: 'single', defaultValue: '2026-10-01' } },
+    'in-range': { props: { mode: 'range', defaultValue: { from: '2026-09-30', to: '2026-10-02' } } },
   },
   props: {
     mode: { type: "'single' | 'range'", default: 'range', description: 'One date or a start–end range.' },
@@ -49,6 +50,7 @@ export default defineSpec({
     { slot: 'day', expect: { height: 'size-calendar-day', radius: 'md', text: 'ui', fg: 'text.primary' } },
     { slot: 'day', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
     { slot: 'day', when: { state: 'selected' }, expect: { bg: 'accent.solid', fg: 'accent.on', text: 'ui', weight: 600 }, note: 'Endpoints (and the only day in single mode). In range mode the endpoint corners are md on the outer side and square on the inner side.' },
+    { slot: 'day', when: { state: 'in-range' }, expect: { bg: 'selection.fill', fg: 'selection.on' }, note: 'Days between the endpoints invert (owner 2026-10-26, proposal B): selection.fill (ink), selection.on text, no edge, square corners; hover selection.fill-hover; the today dot reads selection.on. The in-range state selects Sep 30 – Oct 2 so the first day cell (Oct 1) is in range.' },
     { slot: 'outside-day', expect: { fg: 'disabled.text', height: 'size-calendar-day', radius: 'md', text: 'ui' } },
     { slot: 'today-mark', expect: { bg: 'accent.solid', radius: 'full', height: 4, width: 4 } },
     { slot: 'footer', expect: { gap: 6, padY: 4 } },
@@ -92,7 +94,7 @@ export default defineSpec({
       'role="grid" labelled by the title; one tab stop (roving tabindex) on the selected day, else today, else the first day. Arrow keys move focus; the grid scrolls nothing.',
       'The title is aria-live="polite" so month changes are announced.',
       'Each day has an accessible name with the full date (“Thursday, October 8, 2026”) and aria-selected; today also has aria-current="date". The visible number alone is not the name.',
-      'Selected endpoints use accent.on on accent.solid; the in-range fill (neutral.selected) is decorative and the state is also in aria-selected.',
+      'Selected endpoints use accent.on on accent.solid; in-range days are selection.on on selection.fill (the inverted selection); the state is also in aria-selected.',
       'Inside a DatePicker the panel is role="dialog" with aria-label “Choose dates”; the calendar itself adds no role to its root.',
     ],
   },
@@ -101,7 +103,7 @@ export default defineSpec({
   composition: { uses: ['icon-button', 'chip'], radix: [] },
   usage: [
     'No specimen section shows the Calendar alone: it is gated visually through the DatePicker example (date-picker#date-picker), which renders it inline with Oct 8 – Oct 14, 2026 selected, today = Oct 1, and the three shortcuts.',
-    'In-range days (between the endpoints) take the neutral selection fill (neutral.selected, hover neutral.selected-hover) and have a square corner; the range endpoints are accent.solid with md corners on the outer sides only. These are data-attribute styles and are not probed by the style rules (the first day in the grid is Oct 1).',
+    'In-range days (between the endpoints) invert (selected utility: selection.fill, selection.on text, no edge; hover selection.fill-hover; a disabled day drops the inversion) and have a square corner; the range endpoints are accent.solid with md corners on the outer sides only. The in-range fill is probed through the in-range state (Sep 30 – Oct 2, so Oct 1 is between the endpoints); the endpoint corners are not probed.',
     'Today dot sits 5px above the day cell’s bottom edge (specimen); it is a real span (today-mark), not a pseudo-element, so the gateway can probe it.',
     'Fixture convention: render(props) pins today = 2026-10-01 and month = 2026-10 so the first day cell is Oct 1; the state “selected” selects that day in single mode.',
     'The nav buttons are IconButton xs (approved measurements: 24px square, sm radius, 14px icon, secondary text, neutral.hover on hover). The shortcut chips are Chip size sm (soft).',

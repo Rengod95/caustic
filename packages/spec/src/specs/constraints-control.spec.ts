@@ -17,7 +17,7 @@ export default defineSpec({
     { name: 'horizontal', el: 'any', parent: 'column', description: 'InspectorSelect with a move-horizontal icon and the horizontal constraint name (Left, Right, Left & right, Center, Scale).' },
     { name: 'vertical', el: 'any', parent: 'column', description: 'InspectorSelect with a move-vertical icon and the vertical constraint name (Top, Bottom, Top & bottom, Center, Scale).' },
     { name: 'listbox', el: 'div', parent: 'column', required: false, role: 'listbox', description: 'The open select list, under its select: surface.base, lg radius, 4px padding, 1px gap, one elevation (shadow 2), no edge.' },
-    { name: 'option', el: 'button', parent: 'listbox', required: false, role: 'option', description: 'One option, control-sm high, md radius, 8px inline padding, the name and (when selected) a check at the end. Hover neutral.hover; selected neutral.selected with the 1px selection.edge and the check (decision 3), selected hover neutral.selected-hover.' },
+    { name: 'option', el: 'button', parent: 'listbox', required: false, role: 'option', description: 'One option, control-sm high, md radius, 8px inline padding, the name and (when selected) a check at the end. Hover neutral.hover; selected inverts (selection.fill, selection.on text and check, no edge; owner 2026-10-26 proposal B), selected hover selection.fill-hover.' },
     { name: 'option-check', el: 'svg', parent: 'option', required: false, description: 'Check glyph of the selected option, 12px, aria-hidden, currentColor.' },
     { name: 'note', el: 'p', parent: 'column', required: false, description: 'Footnote: what resizing the parent does with the current constraints.' },
   ],

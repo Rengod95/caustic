@@ -15,7 +15,8 @@ export interface AgentWorkAreaProps extends Omit<ComponentProps<'div'>, 'childre
 
 /** Marks the part of the canvas the agent is working on. Decorative: the activity is stated in the transcript, not by the light. */
 export function AgentWorkArea({ scanning = true, radius, rect, className, style, ...props }: AgentWorkAreaProps) {
-  const vars = { '--rim-r': `${(radius ?? 16) + 3}px`, ...(radius !== undefined ? { '--obj-r': `${radius}px` } : null) } as CSSProperties;
+  // The rim sits 3px outside the object, so its radius is the object's plus 3 (the scaled 2xl token by default).
+  const vars = { '--rim-r': radius !== undefined ? `${radius + 3}px` : 'calc(var(--cs-radius-2xl) + 3px)', ...(radius !== undefined ? { '--obj-r': `${radius}px` } : null) } as CSSProperties;
   return (
     <div
       aria-hidden

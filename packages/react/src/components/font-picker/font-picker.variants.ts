@@ -21,9 +21,10 @@ export const fontPickerListVariants = cva(
 export const fontPickerOptionVariants = cva([
   'grid cursor-pointer grid-cols-[1fr_auto] items-center gap-2 rounded-lg px-2 py-1.5 text-left outline-none',
   'hover:bg-neutral-hover focus-visible:bg-neutral-hover',
-  // Selected is neutral (list selection): neutral.selected, the selection edge and the check mark; never accent.soft.
-  'data-[selected]:bg-neutral-selected data-[selected]:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)]',
-  'data-[selected]:hover:bg-neutral-selected-hover data-[selected]:focus-visible:bg-neutral-selected-hover',
+  // The selected option inverts (selected utility: ink fill, paper text, no edge; name, meta and check invert with it);
+  // hover or focus on it is selection.fill-hover. Never accent.soft. Options cannot be disabled.
+  'data-[selected]:selected',
+  'data-[selected]:hover:bg-selection-fill-hover data-[selected]:focus-visible:bg-selection-fill-hover',
 ]);
 
 export const fontPickerOptionNameVariants = cva('block truncate text-title-overlay font-normal text-text-primary [font-family:var(--face)] data-[italic]:italic');

@@ -37,7 +37,7 @@ export interface LayerTreeItemProps extends Omit<ComponentProps<'div'>, 'childre
   open?: boolean;
   /** State hook for fixtures; normally derived from the tree-level selection. */
   selected?: boolean;
-  /** Selected but not the primary selection (neutral-selected and the check, without the selection edge). */
+  /** Selected but not the primary selection (inverted with the check, secondary text instead of primary). */
   secondary?: boolean;
   /** The layer is hidden on the canvas. */
   invisible?: boolean;
@@ -68,7 +68,7 @@ export interface LayerTreeProps extends Omit<ComponentProps<'div'>, 'defaultValu
   lockLabel?: ((name: string, locked: boolean) => string) | undefined;
   /** Words of the hidden row description; required when a row can be invisible, locked or agent-marked. */
   stateLabels?: LayerTreeStateLabels | undefined;
-  /** Controlled selection: the last id is the primary selection (it also carries the selection edge). */
+  /** Controlled selection: the last id is the primary selection (it reads primary text). */
   value?: string[];
   defaultValue?: string[];
   /** Controlled set of expanded row ids. */
