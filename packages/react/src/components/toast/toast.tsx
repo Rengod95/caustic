@@ -1,9 +1,9 @@
 'use client';
-import { Check, CircleAlert } from 'lucide-react';
+import { Check, CircleAlert, Info, TriangleAlert } from 'lucide-react';
 import { useEffect, useState, useSyncExternalStore, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { Button } from '../button/button.tsx';
-import { toastDangerMark, toastMark, toastVariants, toastViewport, type ToastVariantProps } from './toast.variants.ts';
+import { toastMark, toastVariants, toastViewport, type ToastVariantProps } from './toast.variants.ts';
 import { getServerSnapshot, getSnapshot, subscribe, toast } from './toast.store.ts';
 
 export interface ToastProps extends Omit<ComponentProps<'div'>, 'title'>, ToastVariantProps {
@@ -21,6 +21,13 @@ export interface ToastProps extends Omit<ComponentProps<'div'>, 'title'>, ToastV
   onAction?: () => void;
   onDismiss?: () => void;
 }
+
+const glyph = {
+  success: <Check strokeWidth={2.5} />,
+  info: <Info strokeWidth={2.25} />,
+  warning: <TriangleAlert strokeWidth={2.25} />,
+  danger: <CircleAlert strokeWidth={2.25} />,
+} as const;
 
 /** Transient confirmation on thick glass. Springs in, auto-dismisses, pauses while hovered or focused. A failure (tone danger) stays until dismissed. */
 export function Toast({
@@ -40,20 +47,20 @@ export function Toast({
   return (
     <div
       role={t === 'danger' ? 'alert' : 'status'} tabIndex={-1} data-slot="toast" data-tone={t}
-      className={cn(toastVariants({ tone: t === 'danger' ? 'success' : t, action: actionLabel != null }), className)}
+      className={cn(toastVariants({ tone: t, action: actionLabel != null }), className)}
       onPointerEnter={() => setPaused(true)} onPointerLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}
       onKeyDown={handleKeyDown} {...props}
     >
       {t === 'agent'
         ? <span data-slot="toast-orb" aria-hidden="true" className={toastMark({ tone: 'agent' })} />
-        : <span data-slot="toast-icon" aria-hidden="true" className={t === 'danger' ? toastDangerMark() : toastMark({ tone: 'success' })}>{t === 'danger' ? <CircleAlert strokeWidth={2.25} /> : <Check strokeWidth={2.5} />}</span>}
+        : <span data-slot="toast-icon" aria-hidden="true" className={toastMark({ tone: t })}>{glyph[t]}</span>}
       <div data-slot="toast-main" className="min-w-0 flex-1">
         <div data-slot="toast-title" className="text-ui-strong text-text-primary">{statusLabel != null && <span className="sr-only">{statusLabel}: </span>}{title}</div>
         {description != null && <div data-slot="toast-description" className={cn('text-ui-sm font-normal', t === 'danger' ? 'text-danger-text' : 'text-text-tertiary')}>{description}</div>}
       </div>
       {actionLabel != null && (
-        <Button data-slot="toast-action" size="xs" tone={t === 'agent' ? 'ink' : 'ghost'} onClick={() => onAction?.()}>{actionLabel}</Button>
+        <Button data-slot="toast-action" size="xs" tone="ghost" onClick={() => onAction?.()}>{actionLabel}</Button>
       )}
     </div>
   );

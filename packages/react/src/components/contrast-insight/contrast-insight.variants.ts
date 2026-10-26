@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 /** The stack: readout card, suggestion card, note. */
 export const contrastInsightVariants = cva('grid gap-3 font-ui');
 
-/** The readout card: opaque inline surface (never glass, P1) with a hairline edge and elevation 1. */
+/** The readout card: opaque inline surface (never glass, P1) with a hairline edge as its one depth cue (no elevation). */
 export const contrastInsightSummaryVariants = cva(
   'grid grid-cols-[1fr_auto] items-center gap-3 rounded-xl bg-surface-base px-inset-regular-x py-inset-regular-y shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
 );
@@ -15,13 +15,15 @@ export const contrastInsightUnitVariants = cva('text-ui-lg font-medium text-text
 
 export const contrastInsightLevelsVariants = cva('mt-2 flex flex-wrap gap-1.5');
 
-/** One level badge: soft status tint, a check or a cross so the result is not only color. */
+/** One level badge: soft status tint, a check, a triangle or a cross so the result is not only color. */
 export const contrastInsightLevelVariants = cva(
   'inline-flex h-control-compact-xs items-center gap-1 rounded-sm px-2 text-micro [&_svg]:size-icon-xs [&_svg]:flex-none [&_svg]:stroke-[3]',
   {
     variants: {
       result: {
         pass: 'bg-success-soft text-success-text',
+        // Reached only for large text (AA large: 3 : 1 and up, below 4.5 : 1).
+        warning: 'bg-warning-soft text-warning-text',
         fail: 'bg-danger-soft text-danger-text',
       },
     },

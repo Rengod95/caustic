@@ -27,7 +27,7 @@ export default defineSpec({
   styles: [
     { slot: 'root', expect: { radius: '2xl', padX: 16, padY: 28, gap: 10 }, note: 'Outline 1px dashed border.strong, offset -1px (an outline, not a border); transparent background. Text and items centered.' },
     { slot: 'root', when: { size: 'sm' }, expect: { padY: 18 } },
-    { slot: 'icon', expect: { bg: 'fill.pressed', fg: 'text.secondary', radius: 'xl', height: 'control-xl', width: 'control-xl' }, note: 'Glyph is 22px: no token, see token requests (size-empty-glyph).' },
+    { slot: 'icon', expect: { bg: 'neutral.track', fg: 'text.secondary', radius: 'xl', height: 'control-xl', width: 'control-xl' }, note: 'Glyph is 22px: no token, see token requests (size-empty-glyph).' },
     { slot: 'icon', when: { size: 'sm' }, expect: { height: 'control-lg', width: 'control-lg' } },
     { slot: 'title', expect: { text: 'title-3', fg: 'text.primary' } },
     { slot: 'title', when: { size: 'sm' }, expect: { text: 'title-4' }, note: 'Specimen: title-3 with font-size 13.5px; token request title-4 (13.5 / 20 / 600).' },

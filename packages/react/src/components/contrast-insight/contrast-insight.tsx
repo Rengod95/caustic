@@ -1,5 +1,5 @@
 'use client';
-import { Check, X } from 'lucide-react';
+import { Check, TriangleAlert, X } from 'lucide-react';
 import type { ComponentProps, CSSProperties, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import {
@@ -16,8 +16,8 @@ export interface ContrastInsightLevelProps extends ComponentProps<'span'>, Contr
 export interface ContrastInsightProps extends Omit<ComponentProps<'div'>, 'children'> {
   /** Measured contrast ratio; shown with two decimals. */
   ratio: number;
-  /** Levels to show with their result, for example AA, AA large, AAA. */
-  levels: { label: string; pass: boolean }[];
+  /** Levels to show with their result, for example AA, AA large, AAA. `result` overrides `pass`; "warning" marks a level reached only for large text. */
+  levels: { label: string; pass: boolean; result?: 'pass' | 'warning' | 'fail' }[];
   /** CSS colors of the measured pair (set as --pair-bg and --pair-fg). */
   sample: { background: string; foreground: string };
   /** The suggestion sentence (renders the suggestion card). Pair with actions. */
@@ -28,14 +28,21 @@ export interface ContrastInsightProps extends Omit<ComponentProps<'div'>, 'child
   note?: ReactNode;
 }
 
-/** One level badge: a check and "passes", or a cross and "fails", after the level name. */
+const LEVEL = {
+  pass: { Glyph: Check, word: 'passes' },
+  warning: { Glyph: TriangleAlert, word: 'passes for large text only' },
+  fail: { Glyph: X, word: 'fails' },
+} as const;
+
+/** One level badge: a check and "passes", a triangle and "passes for large text only", or a cross and "fails", after the level name. */
 export function ContrastInsightLevel({ result, className, children, ...props }: ContrastInsightLevelProps) {
-  const pass = (result ?? 'pass') === 'pass';
+  const r = result ?? 'pass';
+  const { Glyph, word } = LEVEL[r];
   return (
-    <span data-slot="contrast-insight-level" role="listitem" data-result={result ?? 'pass'} className={cn(contrastInsightLevelVariants({ result }), className)} {...props}>
-      {pass ? <Check aria-hidden /> : <X aria-hidden />}
+    <span data-slot="contrast-insight-level" role="listitem" data-result={r} className={cn(contrastInsightLevelVariants({ result }), className)} {...props}>
+      <Glyph aria-hidden />
       {children}
-      <span className="sr-only">{pass ? 'passes' : 'fails'}</span>
+      <span className="sr-only">{word}</span>
     </span>
   );
 }
@@ -51,7 +58,7 @@ export function ContrastInsight({ ratio, levels, sample, suggestion, actions, no
             <small data-slot="contrast-insight-unit" className={contrastInsightUnitVariants()}>{' : 1'}</small>
           </div>
           <div data-slot="contrast-insight-levels" role="list" aria-label="WCAG levels" className={contrastInsightLevelsVariants()}>
-            {levels.map(level => <ContrastInsightLevel key={level.label} result={level.pass ? 'pass' : 'fail'}>{level.label}</ContrastInsightLevel>)}
+            {levels.map(level => <ContrastInsightLevel key={level.label} result={level.result ?? (level.pass ? 'pass' : 'fail')}>{level.label}</ContrastInsightLevel>)}
           </div>
         </div>
         <div

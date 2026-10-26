@@ -8,7 +8,7 @@ export const emptyStateVariants = cva(
   },
 );
 
-export const emptyStateIcon = cva('grid place-items-center rounded-xl bg-fill-pressed text-text-secondary [&_svg]:size-empty-glyph', {
+export const emptyStateIcon = cva('grid place-items-center rounded-xl bg-neutral-track text-text-secondary [&_svg]:size-empty-glyph', {
   variants: { size: { md: 'size-control-xl', sm: 'size-control-lg' } },
   defaultVariants: { size: 'md' },
 });

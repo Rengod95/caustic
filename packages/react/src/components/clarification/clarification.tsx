@@ -54,11 +54,11 @@ export function ClarificationOption({ value, label, hint, className, ...props }:
   return (
     <R.Item data-slot="clarification-option" data-value={value} value={value} className={cn(clarificationOptionVariants(), className)} {...(props as Omit<ComponentProps<typeof R.Item>, 'value'>)}>
       <span data-slot="clarification-radio" aria-hidden className={clarificationRadioVariants()}>
-        <R.Indicator className="size-radio-dot rounded-full bg-accent-on" />
+        <R.Indicator className="size-radio-dot rounded-full bg-accent-on group-disabled:bg-disabled-text" />
       </span>
       <div data-slot="clarification-label">
         {label}
-        {hint != null && <span data-slot="clarification-hint" className="block text-hint font-normal text-text-tertiary group-data-[state=checked]:text-text-secondary">{hint}</span>}
+        {hint != null && <span data-slot="clarification-hint" className="block text-hint font-normal text-text-tertiary group-data-[state=checked]:text-text-secondary group-disabled:text-disabled-text group-data-[state=checked]:group-disabled:text-disabled-text">{hint}</span>}
       </div>
     </R.Item>
   );

@@ -1,5 +1,5 @@
 'use client';
-import { CircleAlert, Info, TriangleAlert } from 'lucide-react';
+import { CircleAlert, CircleCheck, Info, TriangleAlert } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { alertIcon, alertVariants, type AlertVariantProps } from './alert.variants.ts';
@@ -11,7 +11,7 @@ export interface AlertProps extends ComponentProps<'div'>, AlertVariantProps {
   action?: ReactNode;
 }
 
-const defaultIcon = { info: <Info />, warning: <TriangleAlert />, danger: <CircleAlert /> } as const;
+const defaultIcon = { info: <Info />, success: <CircleCheck />, warning: <TriangleAlert />, danger: <CircleAlert /> } as const;
 
 /** Inline notice inside a card, panel or form. Danger announces as an alert, the other tones as status. */
 export function Alert({ tone, icon, action, className, children, ...props }: AlertProps) {

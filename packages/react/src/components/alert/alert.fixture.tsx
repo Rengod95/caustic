@@ -14,6 +14,15 @@ export default defineFixture({
     </div>
   ),
   examples: {
+    // All four tones in the subtle emphasis: tint fill, tone border, tone text, graphic icon.
+    'alert-tones': () => (
+      <>
+        <Alert tone="info">Theme changes apply to all 3 themes.</Alert>
+        <Alert tone="success"><b>Published v2.4.</b> 42 pairs still meet AA.</Alert>
+        <Alert tone="warning"><b>2 tokens fail AA in dark.</b> text/tertiary on surface is 3.9 : 1.</Alert>
+        <Alert tone="danger"><b>Export failed.</b> The token file could not be written.</Alert>
+      </>
+    ),
     feedback: () => (
       <>
         <Alert tone="warning" action={<Button tone="ghost" size="xs">Fix</Button>}>

@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
+import type { ToastTone } from './toast.variants.ts';
 
 export interface ToastOptions {
-  tone?: 'success' | 'agent' | 'danger';
+  tone?: ToastTone;
   title: ReactNode;
   description?: ReactNode;
   actionLabel?: string;

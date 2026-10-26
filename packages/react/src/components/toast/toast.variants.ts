@@ -10,7 +10,7 @@ export const toastVariants = cva(
   ],
   {
     variants: {
-      tone: { success: '', agent: 'agent-rim' },
+      tone: { success: '', info: '', warning: '', danger: '', agent: 'agent-rim' },
       // The trailing xs button sits concentric with the corner, so end padding tightens to 12 only when an action is present.
       action: { true: 'pr-3', false: 'pr-3.5' },
     },
@@ -18,22 +18,23 @@ export const toastVariants = cva(
   },
 );
 
-/** The status mark: a success circle with a check, or the agent orb. */
+/** The status mark: a solid status circle with its on-colour glyph, or the agent orb. */
 export const toastMark = cva('', {
   variants: {
     tone: {
-      success: 'grid size-control-sm flex-none place-items-center rounded-full bg-success-solid text-accent-on [&_svg]:size-icon-md',
+      success: 'grid size-control-sm flex-none place-items-center rounded-full bg-success-solid text-success-on [&_svg]:size-icon-md',
+      info: 'grid size-control-sm flex-none place-items-center rounded-full bg-info-solid text-info-on [&_svg]:size-icon-md',
+      warning: 'grid size-control-sm flex-none place-items-center rounded-full bg-warning-solid text-warning-on [&_svg]:size-icon-md',
+      danger: 'grid size-control-sm flex-none place-items-center rounded-full bg-danger-solid text-danger-on [&_svg]:size-icon-md',
       agent: 'orb',
     },
   },
   defaultVariants: { tone: 'success' },
 });
 
-/** The mark of a failure (tone danger): a danger circle with an alert glyph. */
-export const toastDangerMark = cva('grid size-control-sm flex-none place-items-center rounded-full bg-danger-solid text-danger-on [&_svg]:size-icon-md');
-
 export const toastViewport = cva(
   'fixed end-4 bottom-4 z-(--cs-z-toast) grid w-toast-w max-w-full gap-2',
 );
 
-export type ToastVariantProps = { tone?: 'success' | 'agent' | 'danger' | undefined };
+export type ToastTone = 'success' | 'info' | 'warning' | 'danger' | 'agent';
+export type ToastVariantProps = { tone?: ToastTone | undefined };
