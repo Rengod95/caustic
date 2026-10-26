@@ -28,7 +28,7 @@ export interface SuggestionsItemProps extends Omit<ComponentProps<'button'>, 'ch
 export function SuggestionsItem({ icon, hint, className, children, ...props }: SuggestionsItemProps) {
   return (
     <button type="button" data-slot="suggestions-item" className={cn(suggestionVariants(), className)} {...props}>
-      {icon != null && <span data-slot="suggestions-icon" aria-hidden className="-mb-px inline-grid size-icon-md place-items-center text-accent-text [&_svg]:size-full">{icon}</span>}
+      {icon != null && <span data-slot="suggestions-icon" aria-hidden className="-mb-px inline-grid size-icon-md place-items-center text-text-secondary [&_svg]:size-full">{icon}</span>}
       <span data-slot="suggestions-title">{children}</span>
       {hint != null && <span data-slot="suggestions-hint" className="text-hint text-text-tertiary">{hint}</span>}
     </button>

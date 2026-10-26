@@ -6,7 +6,7 @@ export const planStepVariants = cva('flex min-h-7 items-center gap-2 rounded-sm 
   variants: {
     status: {
       done: 'text-text-tertiary',
-      now: 'bg-fill-hover font-medium',
+      now: 'bg-neutral-well font-medium',
       todo: '',
     },
   },

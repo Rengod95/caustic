@@ -22,15 +22,15 @@ export default defineSpec({
   styles: [
     { slot: 'root', expect: { gap: 4, font: 'mono', text: 'mono-relaxed' }, note: 'Row gap 4, column gap 8.' },
     { slot: 'key', expect: { fg: 'text.secondary' } },
-    { slot: 'from', expect: { fg: 'danger.text', bg: 'diff.remove', padX: 4, radius: 'xs' } },
-    { slot: 'arrow', expect: { fg: 'text.disabled' } },
-    { slot: 'to', expect: { fg: 'success.text', bg: 'diff.add', padX: 4, radius: 'xs' } },
+    { slot: 'from', expect: { fg: 'diff.remove-text', bg: 'diff.remove-bg', padX: 4, radius: 'xs' } },
+    { slot: 'arrow', expect: { fg: 'text.tertiary' } },
+    { slot: 'to', expect: { fg: 'diff.add-text', bg: 'diff.add-bg', padX: 4, radius: 'xs' } },
   ],
   behavior: { pointer: ['read-only'] },
   a11y: {
     notes: [
       'The change is stated in the row aria-label ("changed from 12 to 20"); del and ins carry the removed / added semantics, so the colors are not the only signal.',
-      'text.disabled is used for the decorative arrow only.',
+      'text.tertiary is used for the decorative arrow (not the disabled colour: nothing here is disabled).',
     ],
   },
   policies: ['P4', 'P6'],

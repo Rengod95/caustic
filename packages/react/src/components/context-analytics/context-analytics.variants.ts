@@ -9,15 +9,15 @@ export const contextAnalyticsRounds = cva('grid h-rounds-h grid-cols-12 items-en
 export const contextAnalyticsRoundButton = cva('flex h-full w-full cursor-pointer flex-col justify-end border-0 bg-transparent p-0 outline-none focus-visible:shadow-focus');
 
 /** One round column. Its height (a percentage of the window) arrives as --ca-h. Ring is 1.5px outside when selected. */
-export const contextAnalyticsRound = cva('relative block h-[var(--ca-h)] w-full rounded-xs bg-fill-selected', {
+export const contextAnalyticsRound = cva('relative block h-[var(--ca-h)] w-full rounded-xs bg-neutral-track', {
   variants: {
-    selected: { true: 'shadow-[0_0_0_1.5px_var(--cs-color-text-primary)]', false: '' },
+    selected: { true: 'shadow-[0_0_0_1.5px_var(--cs-color-selection-edge)]', false: '' },
   },
   defaultVariants: { selected: false },
 });
 
 /** Output share, filled from the bottom of the column. Its height (a percentage of the column) arrives as --ca-out. */
-export const contextAnalyticsRoundOut = cva('absolute inset-x-0 bottom-0 block h-[var(--ca-out)] rounded-[inherit] bg-accent-solid');
+export const contextAnalyticsRoundOut = cva('absolute inset-x-0 bottom-0 block h-[var(--ca-out)] rounded-[inherit] bg-chart-1');
 
 export const contextAnalyticsSummary = cva('flex items-center justify-between text-footnote');
 
@@ -36,7 +36,7 @@ export const contextAnalyticsSegment = cva('block h-full', {
       tokens: 'w-[var(--ca-w)] bg-chart-2',
       transcript: 'w-[var(--ca-w)] bg-chart-3',
       tools: 'w-[var(--ca-w)] bg-chart-4',
-      free: 'flex-1 bg-fill-selected',
+      free: 'flex-1 bg-neutral-track',
     },
   },
   defaultVariants: { tone: 'scene' },
@@ -53,7 +53,7 @@ export const contextAnalyticsLegendSwatch = cva('block size-2 rounded-2xs', {
       tokens: 'bg-chart-2',
       transcript: 'bg-chart-3',
       tools: 'bg-chart-4',
-      free: 'bg-fill-selected',
+      free: 'bg-neutral-track',
     },
   },
   defaultVariants: { tone: 'scene' },

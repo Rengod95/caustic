@@ -53,5 +53,5 @@ export type MessageCodeProps = ComponentProps<'code'>;
 
 /** Inline code inside agent prose. */
 export function MessageCode({ className, ...props }: MessageCodeProps) {
-  return <code data-slot="message-code" className={cn('rounded-sm bg-fill-pressed px-1.25 py-0.25 font-mono text-mono', className)} {...props} />;
+  return <code data-slot="message-code" className={cn('rounded-sm bg-neutral-track px-1.25 py-0.25 font-mono text-mono', className)} {...props} />;
 }

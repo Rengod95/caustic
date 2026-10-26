@@ -30,7 +30,7 @@ export default defineSpec({
     { slot: 'root', expect: { gap: 8 } },
     { slot: 'item', expect: { material: 'thin', radius: 'toolbar', padX: 12, padY: 10, gap: 4, shadow: '1', text: 'ui-dense', fg: 'text.primary' }, note: 'Specimen font 12.5 / 17: ui-dense is 12.5 / 18. The glass shadow variable is elevation 1.' },
     { slot: 'item', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
-    { slot: 'icon', expect: { fg: 'accent.text', height: 'icon-md', width: 'icon-md' }, note: 'Specimen 15px; icon-md (16) used.' },
+    { slot: 'icon', expect: { fg: 'text.secondary', height: 'icon-md', width: 'icon-md' }, note: 'Specimen 15px; icon-md (16) used.' },
     { slot: 'hint', expect: { fg: 'text.tertiary', text: 'hint' } },
   ],
   behavior: {

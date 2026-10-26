@@ -10,7 +10,7 @@ export default defineSpec({
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Flex row, 2px gap, pointer-events none, above the canvas overlays.' },
-    { name: 'pointer', el: 'svg', parent: 'root', description: '18px arrow path with the spectrum-1/2/3 linear gradient fill and a 1.5px white round-joined stroke.' },
+    { name: 'pointer', el: 'svg', parent: 'root', description: '18px arrow path with the agent.stop-1/2/3 linear gradient fill and a 1.5px white round-joined stroke.' },
     { name: 'tag', el: 'span', parent: 'root', description: 'Name tag: 22px pill on thick glass, 14px below the arrow tip, spectrum rim, elevation 3.' },
     { name: 'orb', el: 'span', parent: 'tag', description: 'The agent orb, small (12px).' },
     { name: 'label', el: 'span', parent: 'tag', description: 'The agent name.' },
@@ -22,7 +22,7 @@ export default defineSpec({
   },
   styles: [
     { slot: 'pointer', expect: { height: 'size-cursor', width: 'size-cursor' }, note: '18px; no existing token (icon-lg is 20, size-check and size-card-glyph are 18 but unrelated).' },
-    { slot: 'tag', expect: { bg: 'material.thick', edge: 'material.rim', fg: 'text.primary', radius: 'full', height: 'control-compact-xs', padX: 8, gap: 6, shadow: '3', text: 'label', agentRim: true }, note: 'Padding is 0 8px 0 6px (the orb side is 6). Blur 16px in the specimen (not the thick 36). Rim ::after is 1px, spectrum conic, spinning 4.8s.' },
+    { slot: 'tag', expect: { bg: 'material.thick', fg: 'text.primary', radius: 'full', height: 'control-compact-xs', padX: 8, gap: 6, shadow: '3', text: 'label', agentRim: true }, note: 'Padding is 0 8px 0 6px (the orb side is 6). Solid thick material with elevation 3 and no backdrop blur (solid surfaces, 542df1d). Rim ::after is 1px, spectrum conic, spinning 4.8s.' },
     { slot: 'orb', expect: { height: 12, width: 12, radius: 'full' } },
   ],
   a11y: { notes: ['Decorative and aria-hidden: the agent name and activity are in the agent activity list; the cursor only shows where.', 'The orb and rim stop spinning under prefers-reduced-motion.'] },

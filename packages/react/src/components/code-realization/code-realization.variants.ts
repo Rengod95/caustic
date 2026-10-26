@@ -10,7 +10,7 @@ export const codeRealizationPhaseVariants = cva('inline-flex h-control-xs items-
     phase: {
       done: 'bg-success-soft text-success-text',
       now: 'bg-surface-base text-text-primary shadow-1',
-      todo: 'bg-fill-pressed text-text-tertiary',
+      todo: 'bg-neutral-track text-text-tertiary',
     },
   },
   defaultVariants: { phase: 'todo' },
@@ -33,27 +33,27 @@ export const codeRealizationPhaseIconVariants = cva('size-icon-xs shrink-0 strok
 export const codeRealizationSeparatorVariants = cva('h-px w-3 bg-border-strong');
 
 export const codeRealizationFilesVariants = cva('m-0 grid list-none gap-px p-0');
-export const codeRealizationFileVariants = cva('grid h-menu-item grid-cols-[auto_1fr_auto] items-center gap-2 rounded-md px-2 text-ui-sm font-normal text-text-primary hover:bg-fill-hover');
+export const codeRealizationFileVariants = cva('grid h-menu-item grid-cols-[auto_1fr_auto] items-center gap-2 rounded-md px-2 text-ui-sm font-normal text-text-primary hover:bg-neutral-hover');
 export const codeRealizationFileIconVariants = cva('size-icon-sm shrink-0', {
-  variants: { tone: { default: 'text-text-tertiary', warning: 'text-warning-text' } },
+  variants: { tone: { default: 'text-text-tertiary', warning: 'text-warning-text', danger: 'text-danger-text' } },
   defaultVariants: { tone: 'default' },
 });
 export type CodeRealizationFileVariantProps = VariantProps<typeof codeRealizationFileIconVariants>;
 export const codeRealizationFileNameVariants = cva('truncate font-mono text-mono-md font-normal');
 export const codeRealizationStatsVariants = cva('flex gap-1.5 font-mono text-mono-sm font-normal');
-export const codeRealizationAddedVariants = cva('text-success-text');
-export const codeRealizationRemovedVariants = cva('text-danger-text');
+export const codeRealizationAddedVariants = cva('text-diff-add-text');
+export const codeRealizationRemovedVariants = cva('text-diff-remove-text');
 
 export const codeRealizationFooterVariants = cva('flex items-center justify-between gap-2');
 export const codeRealizationTargetVariants = cva(
   [
-    'flex h-control-md w-target-w items-center justify-between gap-2 rounded-md bg-fill-hover px-2.5 text-left font-ui text-ui-sm font-normal text-text-primary outline-none',
+    'flex h-control-md w-target-w items-center justify-between gap-2 rounded-md bg-neutral-well px-2.5 text-left font-ui text-ui-sm font-normal text-text-primary outline-none',
   ],
   {
     variants: {
       interactive: {
         true: [
-          'cursor-pointer transition-[background-color,box-shadow] duration-120 ease-out hover:bg-fill-pressed',
+          'cursor-pointer transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover',
           'focus-visible:bg-surface-base focus-visible:shadow-focus-field',
         ],
         false: '',

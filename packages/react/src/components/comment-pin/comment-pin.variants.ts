@@ -10,7 +10,7 @@ export const commentPinVariants = cva(
   {
     variants: {
       author: {
-        human: 'bg-identity-coral text-identity-on',
+        human: 'bg-identity-coral text-identity-on-coral',
         agent: 'bg-ink-solid text-ink-on',
       },
       placed: { true: 'absolute top-(--rect-t) left-(--rect-l)', false: '' },

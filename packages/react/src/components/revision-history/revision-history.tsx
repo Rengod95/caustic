@@ -1,10 +1,11 @@
 'use client';
+import { Check } from 'lucide-react';
 import { createContext, useContext, useId, useRef, type ComponentProps, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Button } from '../button/button.tsx';
 import {
-  revisionHistoryDetailVariants, revisionHistoryFooterVariants, revisionHistoryGlyphVariants, revisionHistoryItemVariants,
+  revisionHistoryCheckVariants, revisionHistoryDetailVariants, revisionHistoryFooterVariants, revisionHistoryGlyphVariants, revisionHistoryItemVariants,
   revisionHistoryListVariants, revisionHistoryNodeVariants, revisionHistoryNoteVariants, revisionHistorySpineVariants,
   revisionHistoryTextVariants, revisionHistoryTimeVariants, revisionHistoryTitleVariants, revisionHistoryVariants,
 } from './revision-history.variants.ts';
@@ -105,6 +106,7 @@ export function RevisionHistoryItem({ itemId, author = 'human', title, detail, t
         {detail != null && <span data-slot="revision-history-detail" className={revisionHistoryDetailVariants()}>{detail}</span>}
       </span>
       <time data-slot="revision-history-time" dateTime={dateTime} className={revisionHistoryTimeVariants()}>{time}</time>
+      <span data-slot="revision-history-check" aria-hidden="true" className={revisionHistoryCheckVariants()}>{chosen && <Check />}</span>
     </div>
   );
 }

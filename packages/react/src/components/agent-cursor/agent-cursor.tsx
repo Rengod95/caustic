@@ -24,9 +24,9 @@ export function AgentCursor({ name = 'Caustic', rect, className, style, ...props
       <svg data-slot="agent-cursor-pointer" viewBox="0 0 24 24" className="size-cursor shrink-0 [filter:drop-shadow(0_1px_2px_var(--cs-color-agent-glow))]">
         <defs>
           <linearGradient id={gradient} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" className="[stop-color:var(--cs-spectrum-1)]" />
-            <stop offset="0.5" className="[stop-color:var(--cs-spectrum-2)]" />
-            <stop offset="1" className="[stop-color:var(--cs-spectrum-3)]" />
+            <stop offset="0" className="[stop-color:var(--cs-color-agent-stop-1)]" />
+            <stop offset="0.5" className="[stop-color:var(--cs-color-agent-stop-2)]" />
+            <stop offset="1" className="[stop-color:var(--cs-color-agent-stop-3)]" />
           </linearGradient>
         </defs>
         <path d="M4 2.5 20 11l-7 1.8L9.5 20z" fill={`url(#${gradient})`} strokeWidth="1.5" strokeLinejoin="round" className="stroke-canvas-handle" />

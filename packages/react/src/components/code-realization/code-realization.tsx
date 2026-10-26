@@ -1,5 +1,5 @@
 'use client';
-import { Check, ChevronDown, FileCode, FileWarning, Package } from 'lucide-react';
+import { Check, ChevronDown, FileCode, FileWarning, FileX, Package } from 'lucide-react';
 import { Fragment, type ComponentProps, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { Badge } from '../badge/badge.tsx';
@@ -12,7 +12,7 @@ import {
 } from './code-realization.variants.ts';
 
 type PhaseState = 'done' | 'now' | 'todo';
-type Tone = 'default' | 'warning';
+type Tone = 'default' | 'warning' | 'danger';
 
 export interface CodeRealizationPhaseEntry {
   id: string;
@@ -116,7 +116,7 @@ export function CodeRealizationPhase({ phase = 'todo', statusLabel, children, cl
 }
 
 export interface CodeRealizationFileProps extends Omit<ComponentProps<'li'>, 'children'> {
-  /** warning = the row reports what could not be realized. */
+  /** warning = the row reports what could not be realized; danger = the file could not be written. */
   tone?: Tone;
   /** File name. */
   name: string;
@@ -133,7 +133,7 @@ export interface CodeRealizationFileProps extends Omit<ComponentProps<'li'>, 'ch
 }
 
 export function CodeRealizationFile({ tone = 'default', name, added, removed, note, addedLabel, removedLabel, className, ...props }: CodeRealizationFileProps) {
-  const Icon = tone === 'warning' ? FileWarning : FileCode;
+  const Icon = tone === 'warning' ? FileWarning : tone === 'danger' ? FileX : FileCode;
   return (
     <li data-slot="code-realization-file" data-tone={tone} className={cn(codeRealizationFileVariants(), className)} {...props}>
       <Icon aria-hidden="true" data-slot="code-realization-file-icon" className={codeRealizationFileIconVariants({ tone })} />
@@ -144,7 +144,7 @@ export function CodeRealizationFile({ tone = 'default', name, added, removed, no
           {removed != null && <span data-slot="code-realization-removed" className={codeRealizationRemovedVariants()}>−{removed}<span className="sr-only">{removedLabel}</span></span>}
         </span>
       )}
-      {note != null && <Badge data-slot="code-realization-badge" tone="warning">{note}</Badge>}
+      {note != null && <Badge data-slot="code-realization-badge" tone={tone === 'danger' ? 'danger' : 'warning'}>{note}</Badge>}
     </li>
   );
 }

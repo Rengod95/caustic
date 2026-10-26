@@ -31,11 +31,11 @@ export function ToolCall({ name, detail, icon, status, duration, activity, faile
   return (
     <div data-slot="tool-call" data-status={s} className={cn(toolCallVariants({ status }), className)} {...props}>
       <div data-slot="tool-call-header" className="flex h-10 min-w-0 items-center gap-2 px-2.5 text-ui-dense">
-        {icon != null && <span data-slot="tool-call-icon" className="inline-grid size-tool-icon shrink-0 place-items-center rounded-xs bg-fill-pressed text-text-secondary [&_svg]:size-icon-sm">{icon}</span>}
+        {icon != null && <span data-slot="tool-call-icon" className="inline-grid size-tool-icon shrink-0 place-items-center rounded-xs bg-neutral-track text-text-secondary [&_svg]:size-icon-sm">{icon}</span>}
         <span data-slot="tool-call-name" className="whitespace-nowrap font-mono text-mono-strong text-text-primary">{name}</span>
         {detail != null && <span data-slot="tool-call-detail" className="min-w-0 flex-1 truncate text-text-tertiary">{detail}</span>}
         <span data-slot="tool-call-status" className={toolStatus({ status })}>
-          {s === 'running' ? <span>{activity}</span> : s === 'failed' ? <><CircleAlert aria-hidden />{failedLabel}</> : <><CircleCheck aria-hidden className="text-success-solid" />{duration}</>}
+          {s === 'running' ? <span>{activity}</span> : s === 'failed' ? <><CircleAlert aria-hidden />{failedLabel}</> : <><CircleCheck aria-hidden className="text-success-graphic" />{duration}</>}
         </span>
       </div>
       {s === 'running' && progress !== undefined && (

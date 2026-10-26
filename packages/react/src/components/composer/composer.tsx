@@ -101,7 +101,7 @@ export function Composer({
       data-slot="composer" data-disabled={disabled || undefined} data-running={running || undefined}
       className={cn(composerVariants(), className)} onSubmit={handleSubmit} onClick={handleClick} {...props}
     >
-      {context != null && <div data-slot="composer-context" className="flex flex-wrap gap-1.5">{context}</div>}
+      {context != null && <div data-slot="composer-context" inert={disabled || undefined} className="flex flex-wrap gap-1.5">{context}</div>}
       <textarea
         ref={setInput} data-slot="composer-input" aria-label={inputLabel} rows={rows} maxLength={maxLength} placeholder={placeholder}
         value={text} disabled={disabled} className={composerInputVariants()}
@@ -119,9 +119,9 @@ export function Composer({
           <button type="button" data-slot="composer-model" disabled={disabled} className={composerModelVariants()} onClick={onModelClick}>{modelLabel}<ChevronDown aria-hidden /></button>
         )}
         {usage !== undefined && (
-          <svg data-slot="composer-usage" role="img" aria-label={usageLabel?.(Math.round(pct))} viewBox="0 0 22 22" className="size-usage-ring shrink-0 fill-none stroke-3">
-            <circle cx="11" cy="11" r="8" className="stroke-fill-selected" />
-            <circle cx="11" cy="11" r="8" transform="rotate(-90 11 11)" strokeLinecap="round" strokeDasharray={RING_C} strokeDashoffset={RING_C * (1 - pct / 100)} className="stroke-accent-solid" />
+          <svg data-slot="composer-usage" role="img" aria-label={usageLabel?.(Math.round(pct))} viewBox="0 0 22 22" className="size-usage-ring shrink-0 fill-none stroke-3 text-accent-solid in-data-[disabled]:text-disabled-text">
+            <circle cx="11" cy="11" r="8" className="stroke-neutral-track" />
+            <circle cx="11" cy="11" r="8" transform="rotate(-90 11 11)" strokeLinecap="round" strokeDasharray={RING_C} strokeDashoffset={RING_C * (1 - pct / 100)} className="stroke-current" />
           </svg>
         )}
         {running ? (

@@ -36,7 +36,7 @@ export default defineSpec({
     { slot: 'steps', expect: { gap: 1 } },
     { slot: 'step', expect: { minHeight: 28, padX: 6, gap: 8, radius: 'sm', text: 'ui-dense', fg: 'text.primary' }, note: 'Specimen gap is 9px (between the 8 and 10 spacing steps; 8 used). Specimen radius 7; sm (6) = root radius 12 - inset 6, concentric (P5).' },
     { slot: 'step', when: { status: 'done' }, expect: { fg: 'text.tertiary' } },
-    { slot: 'step', when: { status: 'now' }, expect: { bg: 'fill.hover', weight: 500 } },
+    { slot: 'step', when: { status: 'now' }, expect: { bg: 'neutral.well', weight: 500 } },
     { slot: 'indicator', expect: { height: 'icon-md', width: 'icon-md' } },
     { slot: 'indicator', when: { status: 'done' }, expect: { bg: 'success.soft', fg: 'success.text', radius: 'full' }, note: 'Check glyph 11px (icon-xs 12 used), stroke 3.' },
     { slot: 'orb', expect: { height: 12, width: 12, radius: 'full' } },

@@ -11,7 +11,7 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'div', description: 'User: the bubble (end-aligned, max 88% of the column; corners 16 / 16 / 6 / 16, the small corner under the sender). Agent: a grid with 12px gap holding the prose and the meta row.' },
     { name: 'body', el: 'div', parent: 'root', description: 'Agent only. The prose: voice serif, one or more paragraphs, each with an 8px bottom margin (the last one too).' },
-    { name: 'code', el: 'code', parent: 'body', required: false, description: 'Inline code in the prose: mono, pressed fill.' },
+    { name: 'code', el: 'code', parent: 'body', required: false, description: 'Inline code in the prose: mono, neutral track fill.' },
     { name: 'meta', el: 'div', parent: 'root', required: false, description: 'Agent only. Row under the prose: orb, summary text, then the actions pushed to the end.' },
     { name: 'orb', el: 'span', parent: 'meta', required: false, description: '8px spectrum dot (the dot form of the orb), aria-hidden.' },
     { name: 'summary', el: 'span', parent: 'meta', required: false, description: 'Who and how much: "Caustic · 3 tool calls · 12s".' },
@@ -40,10 +40,10 @@ export default defineSpec({
     onRetry: { payload: 'void', when: 'the retry IconButton is activated' },
   },
   styles: [
-    { slot: 'root', when: { author: 'user' }, expect: { bg: 'fill.pressed', fg: 'text.primary', padX: 12, padY: 8, text: 'ui-relaxed' }, note: 'Radius is 16 (2xl) on three corners and 6 (sm) on the bottom-end corner; the schema cannot express per-corner radii. Specimen edge is a 0.5px inset ring in border.subtle. justify-self / align-self end, max-width 88%.' },
+    { slot: 'root', when: { author: 'user' }, expect: { bg: 'neutral.track', fg: 'text.primary', padX: 12, padY: 8, text: 'ui-relaxed' }, note: 'Radius is 16 (2xl) on three corners and 6 (sm) on the bottom-end corner; the schema cannot express per-corner radii. Specimen edge is a 0.5px inset ring in border.subtle. justify-self / align-self end, max-width 88%.' },
     { slot: 'root', when: { author: 'agent' }, expect: { gap: 12 } },
     { slot: 'body', expect: { font: 'voice', text: 'voice', fg: 'text.primary' } },
-    { slot: 'code', expect: { font: 'mono', text: 'mono', bg: 'fill.pressed', padX: 5, padY: 1, radius: 'sm' }, note: 'Specimen radius 5px; sm (6) used. Specimen font-size 12 = mono.' },
+    { slot: 'code', expect: { font: 'mono', text: 'mono', bg: 'neutral.track', padX: 5, padY: 1, radius: 'sm' }, note: 'Specimen radius 5px; sm (6) used. Specimen font-size 12 = mono.' },
     { slot: 'meta', expect: { gap: 6, text: 'hint', fg: 'text.tertiary' } },
     { slot: 'orb', expect: { height: 8, width: 8, radius: 'full' } },
     { slot: 'actions', expect: { gap: 8 } },

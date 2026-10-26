@@ -18,7 +18,7 @@ export type ChangeDetailKindProps = VariantProps<typeof changeDetailKindVariants
 
 export const changeDetailPathVariants = cva('font-mono text-mono-md font-normal text-text-primary');
 export const changeDetailValuesVariants = cva('col-start-2 flex flex-wrap items-center gap-1.5 font-mono text-mono-md font-normal');
-export const changeDetailFromVariants = cva('inline-flex items-center gap-1 rounded-xs bg-diff-remove px-1.25 py-px text-danger-text');
-export const changeDetailToVariants = cva('inline-flex items-center gap-1 rounded-xs bg-diff-add px-1.25 py-px text-success-text no-underline');
+export const changeDetailFromVariants = cva('inline-flex items-center gap-1 rounded-xs bg-diff-remove-bg px-1.25 py-px text-diff-remove-text');
+export const changeDetailToVariants = cva('inline-flex items-center gap-1 rounded-xs bg-diff-add-bg px-1.25 py-px text-diff-add-text no-underline');
 export const changeDetailArrowVariants = cva('inline-flex size-icon-sm shrink-0 text-text-tertiary [&_svg]:size-full');
 export const changeDetailSwatchVariants = cva('size-2.5 shrink-0 rounded-xs bg-(--swatch) shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]');
