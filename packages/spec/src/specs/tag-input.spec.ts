@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'The container owns the fill, edge and focus edge and wraps tags onto new lines. Tags are Chip instances (with remove) rendered directly inside root; they are not slots of this component, so Chip owns their look (26px, translucent fill with a hairline, 16px remove button).',
   role: null,
   slots: [
-    { name: 'root', el: 'div', description: 'Field container: wrapping flex row, min height 40, translucent fill, 1px hairline edge, radius xl. Pressing anywhere in it focuses the control.' },
+    { name: 'root', el: 'div', description: 'Field container: wrapping flex row, min height 40, translucent fill, 1px hairline edge, radius xl. Tags are rounded chips at radius sm (one step under the standalone chip) so they stay concentric with the field. Pressing anywhere in it focuses the control.' },
     { name: 'control', el: 'input', parent: 'root', role: 'textbox', description: 'The native input for the next tag. Flexes to fill the row, 90px minimum width; no border, outline or ring.' },
   ],
   states: {
