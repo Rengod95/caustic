@@ -29,9 +29,12 @@ export function hueRamp(pick: LCH, t: Theme, surface: LCH): Ramp11 {
   const solid = gamutMap(pick);
   const [L9, C9, H] = solid;
   const out: LCH[] = [];
-  for (let i = 0; i < 5; i++) out.push(gamutMap([fixedL[t][i]!, C9 * chromaShare[t][i]!, H]));
+  // a solid at or past step 5 squeezes the tints 2–5 between step 1 and the solid (build.mjs hueRamp)
+  const squeeze = t === 'light' ? L9 > fixedL[t][4]! - 0.04 : L9 < fixedL[t][4]! + 0.04;
+  const tintL = (i: number) => (squeeze && i > 0 ? fixedL[t][0]! + (L9 - fixedL[t][0]!) * [0, 0.15, 0.3, 0.45, 0.6][i]! : fixedL[t][i]!);
+  for (let i = 0; i < 5; i++) out.push(gamutMap([tintL(i), C9 * chromaShare[t][i]!, H]));
   // steps 6–8 run in order between step 5 and the solid; 6 keeps its fixed lightness unless the solid is at or past it
-  const L5 = fixedL[t][4]!, F6 = fixedL[t][5]!;
+  const L5 = tintL(4), F6 = fixedL[t][5]!;
   const L6 = (t === 'light' ? F6 > L9 + 0.03 : F6 < L9 - 0.03) ? F6 : L5 + (L9 - L5) * 0.26;
   out.push(gamutMap([L6, C9 * chromaShare[t][5]!, H]));
   out.push(gamutMap([L6 + (L9 - L6) * 0.4, C9 * chromaShare[t][6]!, H]));

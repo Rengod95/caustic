@@ -27,17 +27,18 @@ export const neutral = {
 /* ── AUTHORED SOLIDS ── the only hued values a person picks. ───────────────────────
    [L, C, h] in OKLCH, one per mode; this is step 9 of the ramp. Paste builder values here
    (#/lab/builder, Copy JSON). Everything else (1–8, 10, 11, on) is derived by build.mjs. */
-// Authored solids: the owner's builder export of 2026-10-25 (Signal Grey · Deep Black neutrals, proposed language).
+// Authored solids: the owner's builder export of 2026-10-26 (Deep Black neutrals; status and agent solids are the same value
+// in both modes, link "same"). The 2026-10-25 Signal Grey values are archived outside the repo (owner request).
 // Values outside sRGB are kept as authored; the build gamut-maps them.
 export const solids = {
   accent: { name: 'Deep Black', role: 'Accent: primary emphasis, links, selection on canvas, focus (separate from ink, decision 1)', light: [0.11, 0, 0], dark: [0.97, 0, 0] },
-  success: { name: 'Pad Green', role: 'Success, diff add', light: [0.77, 0.298, 155], dark: [0.725, 0.124, 146] },
-  warning: { name: 'Tape Yellow', role: 'Warning, permission', light: [0.66, 0.1, 95], dark: [0.84, 0.143, 118] },
-  danger: { name: 'Signal Orange', role: 'Danger, diff remove', light: [0.82, 0.37, 30], dark: [0.64, 0.178, 42] },
-  info: { name: 'Panel Blue', role: 'Info, review, user guides', light: [0.78, 0.362, 235], dark: [0.625, 0.169, 266] },
-  'agent-1': { name: 'Signal', role: 'Agent gradient stop 1; the agent tone', light: [0.78, 0.09, 55], dark: [0.74, 0.09, 55] },
-  'agent-2': { name: 'Panel', role: 'Agent gradient stop 2', light: [0.78, 0.06, 235], dark: [0.75, 0.06, 235] },
-  'agent-3': { name: 'Pad', role: 'Agent gradient stop 3', light: [0.8, 0.08, 150], dark: [0.86, 0.37, 150] },
+  success: { name: 'Pad Green', role: 'Success, diff add', light: [0.82, 0.187, 155], dark: [0.82, 0.187, 155] },
+  warning: { name: 'Tape Yellow', role: 'Warning, permission', light: [0.905, 0.159, 118], dark: [0.905, 0.159, 118] },
+  danger: { name: 'Signal Orange', role: 'Danger, diff remove', light: [0.77, 0.261, 43], dark: [0.77, 0.261, 43] },
+  info: { name: 'Panel Blue', role: 'Info, review, user guides', light: [0.7, 0.145, 266], dark: [0.7, 0.145, 266] },
+  'agent-1': { name: 'Signal', role: 'Agent gradient stop 1; the agent tone', light: [0.755, 0.251, 88], dark: [0.755, 0.251, 88] },
+  'agent-2': { name: 'Panel', role: 'Agent gradient stop 2', light: [0.695, 0.308, 281], dark: [0.695, 0.308, 281] },
+  'agent-3': { name: 'Pad', role: 'Agent gradient stop 3', light: [0.79, 0.31, 37], dark: [0.79, 0.31, 37] },
   'extra-1': { name: 'Knob Orange', role: 'Chart series 5, illustration, syntax property', light: [0.64, 0.12, 50], dark: [0.72, 0.11, 50] },
   'extra-2': { name: 'Dust Blue', role: 'Chart series 6, illustration', light: [0.6, 0.07, 240], dark: [0.72, 0.065, 240] },
   'canvas-guide': { name: 'Guide Magenta', role: 'Canvas smart guides only (decision 4)', light: [0.6, 0.2, 345], dark: [0.72, 0.17, 345] },

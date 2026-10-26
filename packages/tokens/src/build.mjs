@@ -78,10 +78,14 @@ function hueRamp(pick, mode, surface) {
   const solid = gamutMap(pick);
   const [L9, C9, H] = solid;
   const out = [];
-  for (let i = 0; i < 5; i++) out.push(gamutMap([fixedL[mode][i], C9 * chromaShare[mode][i], H]));
+  // A solid at or past step 5 (light warning L .905) squeezes the tints 2–5 between step 1 and the solid, so the ramp
+  // still runs one way; otherwise 1–5 keep their fixed lightness and line up across hues.
+  const squeeze = mode === 'light' ? L9 > fixedL[mode][4] - 0.04 : L9 < fixedL[mode][4] + 0.04;
+  const tintL = i => (squeeze && i > 0 ? fixedL[mode][0] + (L9 - fixedL[mode][0]) * [0, 0.15, 0.3, 0.45, 0.6][i] : fixedL[mode][i]);
+  for (let i = 0; i < 5; i++) out.push(gamutMap([tintL(i), C9 * chromaShare[mode][i], H]));
   // The ramp runs one way from the authored solid: steps 6–8 sit in order between step 5 and step 9. Step 6 keeps its
   // fixed lightness unless the solid is at or past it (a light solid such as danger L .82), then it moves between 5 and 9.
-  const L5 = fixedL[mode][4], F6 = fixedL[mode][5];
+  const L5 = tintL(4), F6 = fixedL[mode][5];
   const L6 = (mode === 'light' ? F6 > L9 + 0.03 : F6 < L9 - 0.03) ? F6 : L5 + (L9 - L5) * 0.26;
   out.push(gamutMap([L6, C9 * chromaShare[mode][5], H]));
   out.push(gamutMap([L6 + (L9 - L6) * 0.4, C9 * chromaShare[mode][6], H]));

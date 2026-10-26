@@ -817,12 +817,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.74,
-          0.09,
-          55
+          0.755,
+          0.1545,
+          88
         ],
         "alpha": 0.35,
-        "hex": "#d79c73"
+        "hex": "#d8a800"
       }
     }
   },
