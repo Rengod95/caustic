@@ -190,6 +190,20 @@
       "$value": "{color.neutral-dark.6}"
     }
   },
+  "divider": {
+    "line": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1,
+          0,
+          0
+        ],
+        "alpha": 0.07
+      }
+    }
+  },
   "control": {
     "off": {
       "$type": "color",
@@ -314,6 +328,18 @@
         "alpha": 0.55
       }
     },
+    "chip": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1,
+          0,
+          0
+        ],
+        "alpha": 0.2
+      }
+    },
     "scrim-strong": {
       "$type": "color",
       "$value": {
@@ -327,6 +353,32 @@
       }
     },
     "shade": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 1
+      }
+    }
+  },
+  "shadow": {
+    "ambient": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 1
+      }
+    },
+    "contact": {
       "$type": "color",
       "$value": {
         "colorSpace": "oklch",
@@ -895,11 +947,11 @@
     },
     "selection": {
       "$type": "color",
-      "$value": "{color.accent-dark.7}"
+      "$value": "{color.accent-dark.9}"
     },
     "handle": {
       "$type": "color",
-      "$value": "{color.neutral-light.1}"
+      "$value": "{color.neutral-dark.1}"
     },
     "selection-on": {
       "$type": "color",
@@ -907,7 +959,7 @@
     },
     "guide": {
       "$type": "color",
-      "$value": "{color.canvas-guide-dark.8}"
+      "$value": "{color.canvas-guide-dark.9}"
     },
     "guide-on": {
       "$type": "color",
@@ -960,30 +1012,60 @@
       "$value": "{color.neutral-light.1}"
     }
   },
+  "category": {
+    "component": {
+      "$type": "color",
+      "$value": "{color.info-dark.11}"
+    },
+    "component-soft": {
+      "$type": "color",
+      "$value": "{color.info-dark.3}"
+    }
+  },
   "identity": {
     "coral": {
       "$type": "color",
-      "$value": "{color.danger-light.11}"
+      "$value": "{color.danger-dark.9}"
     },
     "iris": {
       "$type": "color",
-      "$value": "{color.info-light.11}"
+      "$value": "{color.info-dark.9}"
     },
     "mint": {
       "$type": "color",
-      "$value": "{color.success-light.11}"
+      "$value": "{color.success-dark.9}"
     },
     "amber": {
       "$type": "color",
-      "$value": "{color.warning-light.11}"
+      "$value": "{color.warning-dark.9}"
     },
     "slate": {
       "$type": "color",
-      "$value": "{color.neutral-light.9}"
+      "$value": "{color.neutral-dark.9}"
+    },
+    "on-coral": {
+      "$type": "color",
+      "$value": "{color.neutral-light.11}"
+    },
+    "on-iris": {
+      "$type": "color",
+      "$value": "{color.neutral-light.11}"
+    },
+    "on-mint": {
+      "$type": "color",
+      "$value": "{color.neutral-light.11}"
+    },
+    "on-amber": {
+      "$type": "color",
+      "$value": "{color.neutral-light.11}"
+    },
+    "on-slate": {
+      "$type": "color",
+      "$value": "{color.neutral-light.11}"
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral-light.1}"
+      "$value": "{identity.on-slate}"
     }
   },
   "fill": {

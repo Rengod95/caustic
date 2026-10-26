@@ -20,6 +20,7 @@ const StateDef = z.object({
  */
 export const StyleExpect = z.object({
   bg: z.string().optional().describe('background-color = color token'),
+  wash: z.string().optional().describe('background-image is a flat layer of this color token over the bg (a neutral interaction fill on an opaque surface: wash-* utility)'),
   fg: z.string().optional().describe('color = color token'),
   border: z.string().optional().describe('border-color = color token'),
   edge: z.string().optional().describe('box-shadow contains a 1px ring of this color token'),
@@ -40,8 +41,8 @@ export const StyleExpect = z.object({
   text: z.string().optional().describe('type role: font-size, line-height, weight, tracking'),
   weight: z.union([z.literal(400), z.literal(500), z.literal(600)]).optional().describe('overrides the role weight (font-normal / font-medium / font-semibold); size and line-height stay the role'),
   font: z.enum(['ui', 'voice', 'mono']).optional(),
-  material: z.enum(['ultrathin', 'thin', 'regular', 'thick']).optional().describe('glass material: background + backdrop blur'),
-  frost: z.boolean().optional().describe('light control frost (blur-control) behind the fill'),
+  material: z.enum(['ultrathin', 'thin', 'regular', 'thick']).optional().describe('floating material: background = material token, no backdrop blur (solid surfaces, 542df1d)'),
+  frost: z.boolean().optional().describe('removed: the frost utility went with solid surfaces (542df1d); G1 rejects frost: true'),
   opacity: z.number().optional(),
   agentRim: z.boolean().optional().describe('spectrum rim on ::after'),
   outline: z.literal('none').optional(),

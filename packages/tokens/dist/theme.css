@@ -42,6 +42,7 @@
   --color-text-inverse: var(--cs-color-text-inverse);
   --color-border-subtle: var(--cs-color-border-subtle);
   --color-border-default: var(--cs-color-border-default);
+  --color-divider-line: var(--cs-color-divider-line);
   --color-border-strong: var(--cs-color-border-strong);
   --color-border-control: var(--cs-color-border-control);
   --color-control-off: var(--cs-color-control-off);
@@ -58,8 +59,11 @@
   --color-media-on: var(--cs-color-media-on);
   --color-media-on-muted: var(--cs-color-media-on-muted);
   --color-media-scrim: var(--cs-color-media-scrim);
+  --color-media-chip: var(--cs-color-media-chip);
   --color-media-scrim-strong: var(--cs-color-media-scrim-strong);
   --color-media-shade: var(--cs-color-media-shade);
+  --color-shadow-ambient: var(--cs-color-shadow-ambient);
+  --color-shadow-contact: var(--cs-color-shadow-contact);
   --color-accent-tint: var(--cs-color-accent-tint);
   --color-accent-soft: var(--cs-color-accent-soft);
   --color-accent-soft-hover: var(--cs-color-accent-soft-hover);
@@ -181,11 +185,18 @@
   --color-canvas-checker-a: var(--cs-color-canvas-checker-a);
   --color-canvas-checker-b: var(--cs-color-canvas-checker-b);
   --color-canvas-artboard: var(--cs-color-canvas-artboard);
+  --color-category-component: var(--cs-color-category-component);
+  --color-category-component-soft: var(--cs-color-category-component-soft);
   --color-identity-coral: var(--cs-color-identity-coral);
   --color-identity-iris: var(--cs-color-identity-iris);
   --color-identity-mint: var(--cs-color-identity-mint);
   --color-identity-amber: var(--cs-color-identity-amber);
   --color-identity-slate: var(--cs-color-identity-slate);
+  --color-identity-on-coral: var(--cs-color-identity-on-coral);
+  --color-identity-on-iris: var(--cs-color-identity-on-iris);
+  --color-identity-on-mint: var(--cs-color-identity-on-mint);
+  --color-identity-on-amber: var(--cs-color-identity-on-amber);
+  --color-identity-on-slate: var(--cs-color-identity-on-slate);
   --color-identity-on: var(--cs-color-identity-on);
   --color-accent-hover: var(--cs-color-accent-hover);
   --color-ink-hover: var(--cs-color-ink-hover);
@@ -586,11 +597,16 @@
   position: relative;
   background: var(--cs-material, var(--cs-color-material-regular));
   box-shadow: var(--cs-shadow, var(--cs-elevation-3));
+  /* Focus gaps and avatar rings inside take the material, not surface.base (F9). */
+  --cs-focus-offset: var(--cs-material, var(--cs-color-material-regular));
 }
 @utility glass-ultrathin { --cs-material: var(--cs-color-material-ultrathin); }
 @utility glass-thin { --cs-material: var(--cs-color-material-thin); }
 @utility glass-thick { --cs-material: var(--cs-color-material-thick); }
 @utility glass-shadow-* { --cs-shadow: --value(--shadow-*); }
+/* A neutral interaction fill laid over an opaque surface (a selected card, a pressed surface chip): the alpha fill
+   paints on top of the surface colour instead of replacing it, so the surface stays opaque. */
+@utility wash-* { background-image: linear-gradient(--value(--color-*), --value(--color-*)); }
 @utility agent-rim {
   position: relative;
   &::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;

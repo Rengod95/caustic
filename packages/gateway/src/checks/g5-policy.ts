@@ -47,7 +47,7 @@ export async function g5Static(c: Collector, spec: ComponentSpec) {
     if (/^text-(voice|voice-sm|thought)$/.test(util) && !u.literal.split(/\s+/).includes('font-voice')) c.fail({ gate: 'G5', check: 'P4 voices', where: u.where, message: `"${u.cls}" needs font-voice in the same class list.` });
     if (/^text-(mono|mono-sm)$/.test(util) && !u.literal.split(/\s+/).includes('font-mono')) c.fail({ gate: 'G5', check: 'P4 voices', where: u.where, message: `"${u.cls}" needs font-mono in the same class list.` });
     if (/^font-voice$/.test(util) && !['agent', 'card', 'list'].includes(spec.category) && agent === false) c.warn({ gate: 'G5', check: 'P4 voices', where: u.where, message: 'font-voice outside an agent component. Agent prose only.' });
-    if (/^animate-/.test(util) && util !== 'animate-spinner' && !spec.flags.motionLoop && agent === false) c.fail({ gate: 'G5', check: 'P8 motion', where: u.where, message: `"${u.cls}" loops forever; only agent components may.` });
+    if (/^animate-/.test(util) && util !== 'animate-spinner' && util !== 'animate-none' && !spec.flags.motionLoop && agent === false) c.fail({ gate: 'G5', check: 'P8 motion', where: u.where, message: `"${u.cls}" loops forever; only agent components may.` });
   }
 }
 

@@ -27,6 +27,10 @@ export interface ColorConfig {
   slotOnlyBlocking: string[];
   contrastBlocking: boolean;
   literalColorAllow: { colourMath: string[]; contentFixtures: string[] };
+  /** Owner-approved design over contrast: axe colour-contrast on these slots is reported as a warning, not blocking. */
+  designOverContrast: Record<string, { slots: string[]; reason: string }>;
+  /** Owner-approved design exceptions to a CL rule: rule → component id → reason. The hits stay as warnings. */
+  designAllow: Partial<Record<RuleId, Record<string, string>>>;
 }
 export interface RuleHit { rule: RuleId; where: string; message: string; actual?: string; expected?: string; fix?: string }
 export interface Source { rel: string; text: string; fixture: boolean }
@@ -37,10 +41,13 @@ export function loadColorConfig(path = configPath): ColorConfig {
   return {
     migrated: raw.migrated ?? [], slotOnlyBlocking: raw.slotOnlyBlocking ?? [], contrastBlocking: !!raw.contrastBlocking,
     literalColorAllow: { colourMath: raw.literalColorAllow?.colourMath ?? [], contentFixtures: raw.literalColorAllow?.contentFixtures ?? [] },
+    designOverContrast: Object.fromEntries(Object.entries(raw.designOverContrast ?? {}).filter(([k]) => !k.startsWith('$'))) as ColorConfig['designOverContrast'],
+    designAllow: Object.fromEntries(Object.entries(raw.designAllow ?? {}).filter(([k]) => !k.startsWith('$'))) as ColorConfig['designAllow'],
   };
 }
 const listed = (list: string[], id: string) => list.includes('*') || list.includes(id);
 export function isBlocking(cfg: ColorConfig, rule: RuleId, id: string) {
+  if (cfg.designAllow[rule]?.[id]) return false;
   if (rule === 'CL1') return listed(cfg.slotOnlyBlocking, id);
   if (rule === 'CL7') return cfg.contrastBlocking;
   return listed(cfg.migrated, id);

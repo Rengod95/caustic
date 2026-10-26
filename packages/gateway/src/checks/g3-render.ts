@@ -4,6 +4,7 @@ import type { ComponentSpec } from '@caustic/spec';
 import { Collector } from '../report.ts';
 import { caseFor, caseSelector, expectPayload, forcePseudo, openPage, slotSelector, type CaseDef, type Runtime } from '../runtime.ts';
 import { tokenIndex } from '../tokens.ts';
+import { loadColorConfig } from './color-language.ts';
 
 const require = createRequire(import.meta.url);
 const THEMES = ['light', 'dark'] as const;
@@ -40,8 +41,23 @@ export async function g3(c: Collector, spec: ComponentSpec, rt: Runtime) {
       // Accessibility (axe) on every case
       if (theme === 'light' || theme === 'dark') {
         await page.addScriptTag({ path: require.resolve('axe-core/axe.min.js') });
-        const violations: any[] = await page.evaluate(async () => (await (window as any).axe.run('.cases', { resultTypes: ['violations'] })).violations);
-        for (const v of violations) c.fail({ gate: 'G3', check: `axe:${v.id}`, where: theme, message: `${v.help} (${v.impact}).`, actual: v.nodes.slice(0, 3).map((n: any) => n.target.join(' ')).join(' | '), fix: v.helpUrl });
+        // Design over contrast (src/color-language.json): colour-contrast nodes inside an owner-approved slot are reported, not blocking.
+        const waive = loadColorConfig().designOverContrast[spec.id];
+        const violations: any[] = await page.evaluate(async (slots: string[]) => {
+          const found = (await (window as any).axe.run('.cases', { resultTypes: ['violations'] })).violations;
+          for (const v of found) for (const n of v.nodes) {
+            const el = v.id === 'color-contrast' && n.target.length === 1 ? document.querySelector(n.target[0]) : null;
+            const slot = el?.closest('[data-slot]')?.getAttribute('data-slot');
+            n.waived = !!slot && slots.includes(slot);
+          }
+          return found;
+        }, waive?.slots ?? []);
+        const targets = (nodes: any[]) => nodes.slice(0, 3).map((n: any) => n.target.join(' ')).join(' | ');
+        for (const v of violations) {
+          const blocking = v.nodes.filter((n: any) => !n.waived), waived = v.nodes.filter((n: any) => n.waived);
+          if (blocking.length) c.fail({ gate: 'G3', check: `axe:${v.id}`, where: theme, message: `${v.help} (${v.impact}).`, actual: targets(blocking), fix: v.helpUrl });
+          if (waived.length) c.warn({ gate: 'G3', check: `axe:${v.id} (design over contrast)`, where: theme, message: `${v.help}: waived by the owner for ${waive!.slots.join(', ')}. ${waive!.reason}`, actual: targets(waived) });
+        }
       }
     } finally { await page.close(); }
   }

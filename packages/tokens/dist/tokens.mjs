@@ -93,14 +93,14 @@ export default {
       "name": "Pad Green",
       "role": "Success, diff add",
       "light": [
-        0.55,
-        0.085,
+        0.77,
+        0.298,
         155
       ],
       "dark": [
-        0.77,
-        0.085,
-        155
+        0.725,
+        0.124,
+        146
       ]
     },
     "warning": {
@@ -112,37 +112,37 @@ export default {
         95
       ],
       "dark": [
-        0.82,
-        0.1,
-        95
+        0.84,
+        0.143,
+        118
       ]
     },
     "danger": {
       "name": "Signal Orange",
       "role": "Danger, diff remove",
       "light": [
-        0.54,
-        0.13,
-        40
+        0.82,
+        0.37,
+        30
       ],
       "dark": [
-        0.72,
-        0.11,
-        40
+        0.64,
+        0.178,
+        42
       ]
     },
     "info": {
       "name": "Panel Blue",
       "role": "Info, review, user guides",
       "light": [
-        0.53,
-        0.075,
+        0.78,
+        0.362,
         235
       ],
       "dark": [
-        0.75,
-        0.07,
-        235
+        0.625,
+        0.169,
+        266
       ]
     },
     "agent-1": {
@@ -182,8 +182,8 @@ export default {
         150
       ],
       "dark": [
-        0.76,
-        0.08,
+        0.86,
+        0.37,
         150
       ]
     },
@@ -251,7 +251,7 @@ export default {
     },
     "danger": {
       "name": "Signal Orange",
-      "hue": 40,
+      "hue": 30,
       "live": false,
       "role": "Danger, diff remove"
     },
@@ -633,147 +633,147 @@ export default {
       "light": [
         [
           0.985,
-          0.0119,
+          0.0228,
           155
         ],
         [
           0.965,
-          0.0238,
+          0.0533,
           155
         ],
         [
           0.935,
-          0.0391,
+          0.0876,
           155
         ],
         [
           0.905,
-          0.0493,
+          0.1105,
           155
         ],
         [
           0.87,
-          0.0595,
+          0.1334,
           155
         ],
         [
           0.8,
-          0.068,
+          0.1524,
           155
         ],
         [
-          0.7,
-          0.0765,
+          0.788,
+          0.1715,
           155
         ],
         [
-          0.625,
-          0.085,
+          0.644,
+          0.1595,
           155
         ],
         [
-          0.55,
-          0.085,
+          0.77,
+          0.1905,
           155
         ],
         [
-          0.5,
-          0.085,
+          0.72,
+          0.1782,
           155
         ],
         [
-          0.46,
-          0.085,
+          0.465,
+          0.1155,
           155
         ]
       ],
       "dark": [
         [
           0.225,
-          0.0187,
-          155
+          0.0272,
+          146
         ],
         [
           0.255,
-          0.0272,
-          155
+          0.0396,
+          146
         ],
         [
           0.29,
-          0.0391,
-          155
+          0.057,
+          146
         ],
         [
           0.32,
-          0.0476,
-          155
+          0.0694,
+          146
         ],
         [
           0.355,
-          0.0561,
-          155
+          0.0818,
+          146
         ],
         [
           0.42,
-          0.0646,
-          155
+          0.0942,
+          146
         ],
         [
-          0.56,
-          0.0748,
-          155
+          0.542,
+          0.1091,
+          146
         ],
         [
-          0.665,
-          0.085,
-          155
+          0.6335,
+          0.124,
+          146
         ],
         [
-          0.77,
-          0.085,
-          155
+          0.725,
+          0.124,
+          146
         ],
         [
-          0.82,
-          0.085,
-          155
+          0.775,
+          0.124,
+          146
         ],
         [
-          0.86,
-          0.085,
-          155
+          0.815,
+          0.124,
+          146
         ]
       ],
       "hex": {
         "light": [
-          "#f4fdf7",
-          "#e8f9ed",
-          "#d6f2de",
-          "#c7ead2",
-          "#b6e0c3",
-          "#9bcbab",
-          "#78ad8a",
-          "#5c9771",
-          "#45805b",
-          "#36714e",
-          "#2a6643"
+          "#effff4",
+          "#d8ffe4",
+          "#bbfcd0",
+          "#a3f6c0",
+          "#87eead",
+          "#5eda92",
+          "#43d988",
+          "#00a960",
+          "#00d67c",
+          "#00c471",
+          "#006b3b"
         ],
         "dark": [
-          "#151e18",
-          "#18271d",
-          "#1b3123",
-          "#1d3a28",
-          "#21442f",
-          "#2e583d",
-          "#4f8261",
-          "#68a37d",
-          "#88c59d",
-          "#98d5ac",
-          "#a4e2b9"
+          "#131f14",
+          "#162817",
+          "#173319",
+          "#183c1c",
+          "#1a4720",
+          "#255a2c",
+          "#408047",
+          "#539e5b",
+          "#70bb76",
+          "#7fcb85",
+          "#8cd891"
         ]
       },
       "on": {
-        "light": "neutral-light.1",
+        "light": "neutral-light.11",
         "dark": "neutral-light.11"
       }
     },
@@ -831,66 +831,66 @@ export default {
           95
         ],
         [
-          0.475,
-          0.0981,
+          0.47,
+          0.0971,
           95
         ]
       ],
       "dark": [
         [
           0.225,
-          0.022,
-          95
+          0.0314,
+          118
         ],
         [
           0.255,
-          0.032,
-          95
+          0.0457,
+          118
         ],
         [
           0.29,
-          0.046,
-          95
+          0.0657,
+          118
         ],
         [
           0.32,
-          0.056,
-          95
+          0.076,
+          118
         ],
         [
           0.355,
-          0.066,
-          95
+          0.0839,
+          118
         ],
         [
           0.42,
-          0.076,
-          95
+          0.0986,
+          118
         ],
         [
-          0.58,
-          0.088,
-          95
+          0.588,
+          0.1258,
+          118
         ],
         [
-          0.7,
-          0.1,
-          95
+          0.714,
+          0.1429,
+          118
         ],
         [
-          0.82,
-          0.1,
-          95
+          0.84,
+          0.1429,
+          118
         ],
         [
-          0.87,
-          0.1,
-          95
+          0.89,
+          0.1429,
+          118
         ],
         [
-          0.91,
-          0.1,
-          95
+          0.93,
+          0.1429,
+          118
         ]
       ],
       "hex": {
@@ -905,20 +905,20 @@ export default {
           "#a69245",
           "#a59145",
           "#968234",
-          "#6e5b00"
+          "#6c5900"
         ],
         "dark": [
-          "#1f1c10",
-          "#282310",
-          "#322b0e",
-          "#3c320c",
-          "#473b0a",
-          "#5a4c13",
-          "#8b7a38",
-          "#b29e51",
-          "#d8c477",
-          "#e9d487",
-          "#f6e193"
+          "#1a1e0c",
+          "#21260a",
+          "#292f02",
+          "#303700",
+          "#384100",
+          "#495400",
+          "#76861d",
+          "#9bae37",
+          "#c2d764",
+          "#d2e874",
+          "#dff582"
         ]
       },
       "on": {
@@ -931,147 +931,147 @@ export default {
       "light": [
         [
           0.985,
-          0.0076,
-          40
+          0.0073,
+          30
         ],
         [
           0.965,
-          0.018,
-          40
+          0.0173,
+          30
         ],
         [
           0.935,
-          0.0343,
-          40
+          0.033,
+          30
         ],
         [
           0.905,
-          0.0514,
-          40
+          0.0495,
+          30
         ],
         [
           0.87,
-          0.0725,
-          40
+          0.0699,
+          30
         ],
         [
           0.8,
-          0.104,
-          40
+          0.0812,
+          30
         ],
         [
-          0.696,
-          0.117,
-          40
+          0.808,
+          0.0913,
+          30
         ],
         [
-          0.618,
-          0.13,
-          40
+          0.674,
+          0.1015,
+          30
         ],
         [
-          0.54,
-          0.13,
-          40
+          0.82,
+          0.1015,
+          30
         ],
         [
-          0.49,
-          0.13,
-          40
+          0.77,
+          0.1015,
+          30
         ],
         [
-          0.45,
-          0.13,
-          40
+          0.475,
+          0.1015,
+          30
         ]
       ],
       "dark": [
         [
           0.225,
-          0.0242,
-          40
+          0.0391,
+          42
         ],
         [
           0.255,
-          0.0352,
-          40
+          0.0569,
+          42
         ],
         [
           0.29,
-          0.0506,
-          40
+          0.0818,
+          42
         ],
         [
           0.32,
-          0.0616,
-          40
+          0.0987,
+          42
         ],
         [
           0.355,
-          0.0726,
-          40
+          0.1089,
+          42
         ],
         [
           0.42,
-          0.0836,
-          40
+          0.128,
+          42
         ],
         [
-          0.54,
-          0.0968,
-          40
+          0.508,
+          0.1541,
+          42
         ],
         [
-          0.63,
-          0.11,
-          40
+          0.574,
+          0.1738,
+          42
         ],
         [
-          0.72,
-          0.11,
-          40
+          0.64,
+          0.178,
+          42
         ],
         [
-          0.77,
-          0.11,
-          40
+          0.69,
+          0.178,
+          42
         ],
         [
-          0.81,
-          0.11,
-          40
+          0.735,
+          0.1696,
+          42
         ]
       ],
       "hex": {
         "light": [
-          "#fff8f6",
-          "#fff0eb",
-          "#ffe3d9",
-          "#ffd5c6",
-          "#ffc5b1",
-          "#f8a78b",
-          "#da8364",
-          "#c66745",
-          "#ac502e",
-          "#9b411e",
-          "#8e3510"
+          "#fff8f7",
+          "#ffefed",
+          "#ffe2dd",
+          "#ffd4cd",
+          "#ffc4b9",
+          "#edab9f",
+          "#f6aa9d",
+          "#cd7e71",
+          "#ffab9d",
+          "#ee9c8e",
+          "#8c4339"
         ],
         "dark": [
-          "#261813",
-          "#311d16",
-          "#402217",
-          "#4d2719",
-          "#5b2d1d",
-          "#733c28",
-          "#9e5a42",
-          "#c17154",
-          "#df8c6f",
-          "#f09c7e",
-          "#fea88a"
+          "#2b150d",
+          "#39180b",
+          "#4b1a04",
+          "#591c00",
+          "#672200",
+          "#832e00",
+          "#aa3e00",
+          "#c84a00",
+          "#e15e20",
+          "#f36e34",
+          "#ff7f4b"
         ]
       },
       "on": {
-        "light": "neutral-light.1",
+        "light": "neutral-light.11",
         "dark": "neutral-light.11"
       }
     },
@@ -1090,137 +1090,137 @@ export default {
         ],
         [
           0.935,
-          0.0345,
+          0.0367,
           235
         ],
         [
           0.905,
-          0.0434,
+          0.0542,
           235
         ],
         [
           0.87,
-          0.0525,
+          0.0751,
           235
         ],
         [
           0.8,
-          0.06,
+          0.1052,
           235
         ],
         [
-          0.692,
-          0.0675,
+          0.792,
+          0.1183,
           235
         ],
         [
-          0.611,
-          0.075,
+          0.656,
+          0.1276,
           235
         ],
         [
-          0.53,
-          0.075,
+          0.78,
+          0.1315,
           235
         ],
         [
-          0.48,
-          0.075,
+          0.73,
+          0.1315,
           235
         ],
         [
-          0.44,
-          0.075,
+          0.465,
+          0.0992,
           235
         ]
       ],
       "dark": [
         [
           0.225,
-          0.0154,
-          235
+          0.0371,
+          266
         ],
         [
           0.255,
-          0.0224,
-          235
+          0.054,
+          266
         ],
         [
           0.29,
-          0.0322,
-          235
+          0.0777,
+          266
         ],
         [
           0.32,
-          0.0392,
-          235
+          0.0946,
+          266
         ],
         [
           0.355,
-          0.0462,
-          235
+          0.1115,
+          266
         ],
         [
           0.42,
-          0.0532,
-          235
+          0.1284,
+          266
         ],
         [
-          0.552,
-          0.0616,
-          235
+          0.502,
+          0.1487,
+          266
         ],
         [
-          0.651,
-          0.07,
-          235
+          0.5635,
+          0.169,
+          266
         ],
         [
-          0.75,
-          0.07,
-          235
+          0.625,
+          0.169,
+          266
         ],
         [
-          0.8,
-          0.07,
-          235
+          0.675,
+          0.169,
+          266
         ],
         [
-          0.84,
-          0.07,
-          235
+          0.73,
+          0.139,
+          266
         ]
       ],
       "hex": {
         "light": [
           "#f5fbff",
           "#e8f6ff",
-          "#d4eefe",
-          "#c5e5f9",
-          "#b4dbf2",
-          "#99c5df",
-          "#72a3c0",
-          "#548baa",
-          "#3c7391",
-          "#2d6482",
-          "#215976"
+          "#d3eeff",
+          "#bee6ff",
+          "#a4ddff",
+          "#76c9f8",
+          "#66c7fc",
+          "#289cd3",
+          "#54c4ff",
+          "#41b4ee",
+          "#006188"
         ],
         "dark": [
-          "#151d22",
-          "#18252c",
-          "#1b2e39",
-          "#1e3644",
-          "#224051",
-          "#2e5266",
-          "#4d7891",
-          "#6497b4",
-          "#82b6d4",
-          "#92c6e5",
-          "#9ed3f2"
+          "#141b2d",
+          "#16213d",
+          "#192952",
+          "#1c2f62",
+          "#203675",
+          "#2c4792",
+          "#3b5db8",
+          "#466dd7",
+          "#5780ed",
+          "#6590fe",
+          "#7ea4ff"
         ]
       },
       "on": {
-        "light": "neutral-light.1",
+        "light": "neutral-light.11",
         "dark": "neutral-light.11"
       }
     },
@@ -1278,7 +1278,7 @@ export default {
           55
         ],
         [
-          0.475,
+          0.47,
           0.09,
           55
         ]
@@ -1352,7 +1352,7 @@ export default {
           "#c1875f",
           "#e5a880",
           "#d49970",
-          "#834d26"
+          "#814c24"
         ],
         "dark": [
           "#231913",
@@ -1427,7 +1427,7 @@ export default {
           235
         ],
         [
-          0.47,
+          0.465,
           0.06,
           235
         ]
@@ -1501,7 +1501,7 @@ export default {
           "#6e99b2",
           "#92bed9",
           "#83aec8",
-          "#376078"
+          "#365f76"
         ],
         "dark": [
           "#161d21",
@@ -1576,7 +1576,7 @@ export default {
           150
         ],
         [
-          0.47,
+          0.465,
           0.08,
           150
         ]
@@ -1584,57 +1584,57 @@ export default {
       "dark": [
         [
           0.225,
-          0.0176,
+          0.0521,
           150
         ],
         [
           0.255,
-          0.0256,
+          0.0724,
           150
         ],
         [
           0.29,
-          0.0368,
+          0.0816,
           150
         ],
         [
           0.32,
-          0.0448,
+          0.0895,
           150
         ],
         [
           0.355,
-          0.0528,
+          0.0989,
           150
         ],
         [
           0.42,
-          0.0608,
+          0.1164,
           150
         ],
         [
-          0.556,
-          0.0704,
+          0.596,
+          0.1645,
           150
         ],
         [
-          0.658,
-          0.08,
+          0.728,
+          0.2007,
           150
         ],
         [
-          0.76,
-          0.08,
+          0.86,
+          0.237,
           150
         ],
         [
-          0.81,
-          0.08,
+          0.91,
+          0.1607,
           150
         ],
         [
-          0.85,
-          0.08,
+          0.95,
+          0.0835,
           150
         ]
       ],
@@ -1650,20 +1650,20 @@ export default {
           "#6d9f77",
           "#99cda3",
           "#8abd93",
-          "#376742"
+          "#366641"
         ],
         "dark": [
-          "#161e17",
-          "#1a261c",
-          "#1e3122",
-          "#213927",
-          "#27442d",
-          "#34563b",
-          "#557f5d",
-          "#6ea078",
-          "#8dc096",
-          "#9cd0a6",
-          "#a9ddb2"
+          "#06220e",
+          "#002c0f",
+          "#003614",
+          "#003f18",
+          "#00491d",
+          "#005e28",
+          "#009945",
+          "#00c85d",
+          "#00fa76",
+          "#8bffa7",
+          "#c7ffd1"
         ]
       },
       "on": {
@@ -1725,7 +1725,7 @@ export default {
           50
         ],
         [
-          0.48,
+          0.475,
           0.12,
           50
         ]
@@ -1799,7 +1799,7 @@ export default {
           "#d17f4e",
           "#c67544",
           "#b56535",
-          "#91450d"
+          "#90440b"
         ],
         "dark": [
           "#251811",
@@ -1874,7 +1874,7 @@ export default {
           240
         ],
         [
-          0.47,
+          0.465,
           0.07,
           240
         ]
@@ -1948,7 +1948,7 @@ export default {
           "#6a98b9",
           "#5886a6",
           "#4a7797",
-          "#33607e"
+          "#315e7d"
         ],
         "dark": [
           "#161d22",
@@ -2023,7 +2023,7 @@ export default {
           345
         ],
         [
-          0.49,
+          0.485,
           0.2,
           345
         ]
@@ -2097,7 +2097,7 @@ export default {
           "#e253ae",
           "#cd3f9b",
           "#bb2d8c",
-          "#a7107a"
+          "#a50c78"
         ],
         "dark": [
           "#281420",
@@ -2180,6 +2180,7 @@ export default {
       "text.inverse": "neutral.1",
       "border.subtle": "neutral.11/0.05",
       "border.default": "neutral.11/0.08",
+      "divider.line": "neutral.11/0.08",
       "border.strong": "neutral.11/0.13",
       "border.control": "neutral.6",
       "control.off": "neutral.6",
@@ -2196,8 +2197,11 @@ export default {
       "media.on": "white/1",
       "media.on-muted": "white/0.82",
       "media.scrim": "black/0.55",
+      "media.chip": "white/0.2",
       "media.scrim-strong": "black/0.78",
       "media.shade": "black/1",
+      "shadow.ambient": "neutral-light.11",
+      "shadow.contact": "black/1",
       "accent.tint": "accent.2",
       "accent.soft": "accent.3",
       "accent.soft-hover": "accent.4",
@@ -2319,12 +2323,19 @@ export default {
       "canvas.checker-a": "neutral.1",
       "canvas.checker-b": "neutral.3",
       "canvas.artboard": "neutral-light.1",
-      "identity.coral": "danger-light.11",
-      "identity.iris": "info-light.11",
-      "identity.mint": "success-light.11",
-      "identity.amber": "warning-light.11",
-      "identity.slate": "neutral-light.9",
-      "identity.on": "neutral-light.1",
+      "category.component": "info.11",
+      "category.component-soft": "info.3",
+      "identity.coral": "danger.9",
+      "identity.iris": "info.9",
+      "identity.mint": "success.9",
+      "identity.amber": "warning.9",
+      "identity.slate": "neutral.9",
+      "identity.on-coral": "danger.on",
+      "identity.on-iris": "info.on",
+      "identity.on-mint": "success.on",
+      "identity.on-amber": "warning.on",
+      "identity.on-slate": "neutral.on",
+      "identity.on": "=identity.on-slate",
       "accent.hover": "=accent.solid-hover",
       "ink.hover": "=ink.solid-hover",
       "accent.fill": "=accent.solid",
@@ -2362,6 +2373,7 @@ export default {
       "text.inverse": "neutral.2",
       "border.subtle": "white/0.05",
       "border.default": "white/0.07",
+      "divider.line": "white/0.07",
       "border.strong": "white/0.12",
       "border.control": "neutral.6",
       "control.off": "neutral.6",
@@ -2378,8 +2390,11 @@ export default {
       "media.on": "white/1",
       "media.on-muted": "white/0.82",
       "media.scrim": "black/0.55",
+      "media.chip": "white/0.2",
       "media.scrim-strong": "black/0.78",
       "media.shade": "black/1",
+      "shadow.ambient": "black/1",
+      "shadow.contact": "black/1",
       "accent.tint": "accent.2",
       "accent.soft": "accent.3",
       "accent.soft-hover": "accent.4",
@@ -2489,10 +2504,10 @@ export default {
       "syntax.property": "extra-1.11",
       "syntax.comment": "=text.secondary",
       "canvas.dot": "white/0.08",
-      "canvas.selection": "accent.7",
-      "canvas.handle": "neutral-light.1",
+      "canvas.selection": "accent.9",
+      "canvas.handle": "neutral-dark.1",
       "canvas.selection-on": "accent.on",
-      "canvas.guide": "canvas-guide.8",
+      "canvas.guide": "canvas-guide.9",
       "canvas.guide-on": "canvas-guide.on",
       "canvas.guide-user": "info.9",
       "canvas.hover": "accent.9/0.6",
@@ -2501,12 +2516,19 @@ export default {
       "canvas.checker-a": "neutral.4",
       "canvas.checker-b": "neutral.5",
       "canvas.artboard": "neutral-light.1",
-      "identity.coral": "danger-light.11",
-      "identity.iris": "info-light.11",
-      "identity.mint": "success-light.11",
-      "identity.amber": "warning-light.11",
-      "identity.slate": "neutral-light.9",
-      "identity.on": "neutral-light.1",
+      "category.component": "info.11",
+      "category.component-soft": "info.3",
+      "identity.coral": "danger.9",
+      "identity.iris": "info.9",
+      "identity.mint": "success.9",
+      "identity.amber": "warning.9",
+      "identity.slate": "neutral.9",
+      "identity.on-coral": "danger.on",
+      "identity.on-iris": "info.on",
+      "identity.on-mint": "success.on",
+      "identity.on-amber": "warning.on",
+      "identity.on-slate": "neutral.on",
+      "identity.on": "=identity.on-slate",
       "accent.hover": "=accent.solid-hover",
       "ink.hover": "=ink.solid-hover",
       "accent.fill": "=accent.solid",
@@ -2615,6 +2637,10 @@ export default {
         "hex": "#060606",
         "alpha": 0.08
       },
+      "divider.line": {
+        "hex": "#060606",
+        "alpha": 0.08
+      },
       "border.strong": {
         "hex": "#060606",
         "alpha": 0.13
@@ -2679,11 +2705,23 @@ export default {
         "hex": "#000000",
         "alpha": 0.55
       },
+      "media.chip": {
+        "hex": "#ffffff",
+        "alpha": 0.2
+      },
       "media.scrim-strong": {
         "hex": "#000000",
         "alpha": 0.78
       },
       "media.shade": {
+        "hex": "#000000",
+        "alpha": 1
+      },
+      "shadow.ambient": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "shadow.contact": {
         "hex": "#000000",
         "alpha": 1
       },
@@ -2776,47 +2814,47 @@ export default {
         "alpha": 1
       },
       "success.tint": {
-        "hex": "#e8f9ed",
+        "hex": "#d8ffe4",
         "alpha": 1
       },
       "success.soft": {
-        "hex": "#d6f2de",
+        "hex": "#bbfcd0",
         "alpha": 1
       },
       "success.soft-hover": {
-        "hex": "#c7ead2",
+        "hex": "#a3f6c0",
         "alpha": 1
       },
       "success.soft-pressed": {
-        "hex": "#b6e0c3",
+        "hex": "#87eead",
         "alpha": 1
       },
       "success.border": {
-        "hex": "#9bcbab",
+        "hex": "#5eda92",
         "alpha": 1
       },
       "success.border-strong": {
-        "hex": "#78ad8a",
+        "hex": "#43d988",
         "alpha": 1
       },
       "success.graphic": {
-        "hex": "#5c9771",
+        "hex": "#00a960",
         "alpha": 1
       },
       "success.solid": {
-        "hex": "#45805b",
+        "hex": "#00d67c",
         "alpha": 1
       },
       "success.solid-hover": {
-        "hex": "#36714e",
+        "hex": "#00c471",
         "alpha": 1
       },
       "success.text": {
-        "hex": "#2a6643",
+        "hex": "#006b3b",
         "alpha": 1
       },
       "success.on": {
-        "hex": "#fdfdfd",
+        "hex": "#060606",
         "alpha": 1
       },
       "warning.tint": {
@@ -2856,7 +2894,7 @@ export default {
         "alpha": 1
       },
       "warning.text": {
-        "hex": "#6e5b00",
+        "hex": "#6c5900",
         "alpha": 1
       },
       "warning.on": {
@@ -2864,47 +2902,47 @@ export default {
         "alpha": 1
       },
       "danger.tint": {
-        "hex": "#fff0eb",
+        "hex": "#ffefed",
         "alpha": 1
       },
       "danger.soft": {
-        "hex": "#ffe3d9",
+        "hex": "#ffe2dd",
         "alpha": 1
       },
       "danger.soft-hover": {
-        "hex": "#ffd5c6",
+        "hex": "#ffd4cd",
         "alpha": 1
       },
       "danger.soft-pressed": {
-        "hex": "#ffc5b1",
+        "hex": "#ffc4b9",
         "alpha": 1
       },
       "danger.border": {
-        "hex": "#f8a78b",
+        "hex": "#edab9f",
         "alpha": 1
       },
       "danger.border-strong": {
-        "hex": "#da8364",
+        "hex": "#f6aa9d",
         "alpha": 1
       },
       "danger.graphic": {
-        "hex": "#c66745",
+        "hex": "#cd7e71",
         "alpha": 1
       },
       "danger.solid": {
-        "hex": "#ac502e",
+        "hex": "#ffab9d",
         "alpha": 1
       },
       "danger.solid-hover": {
-        "hex": "#9b411e",
+        "hex": "#ee9c8e",
         "alpha": 1
       },
       "danger.text": {
-        "hex": "#8e3510",
+        "hex": "#8c4339",
         "alpha": 1
       },
       "danger.on": {
-        "hex": "#fdfdfd",
+        "hex": "#060606",
         "alpha": 1
       },
       "info.tint": {
@@ -2912,43 +2950,43 @@ export default {
         "alpha": 1
       },
       "info.soft": {
-        "hex": "#d4eefe",
+        "hex": "#d3eeff",
         "alpha": 1
       },
       "info.soft-hover": {
-        "hex": "#c5e5f9",
+        "hex": "#bee6ff",
         "alpha": 1
       },
       "info.soft-pressed": {
-        "hex": "#b4dbf2",
+        "hex": "#a4ddff",
         "alpha": 1
       },
       "info.border": {
-        "hex": "#99c5df",
+        "hex": "#76c9f8",
         "alpha": 1
       },
       "info.border-strong": {
-        "hex": "#72a3c0",
+        "hex": "#66c7fc",
         "alpha": 1
       },
       "info.graphic": {
-        "hex": "#548baa",
+        "hex": "#289cd3",
         "alpha": 1
       },
       "info.solid": {
-        "hex": "#3c7391",
+        "hex": "#54c4ff",
         "alpha": 1
       },
       "info.solid-hover": {
-        "hex": "#2d6482",
+        "hex": "#41b4ee",
         "alpha": 1
       },
       "info.text": {
-        "hex": "#215976",
+        "hex": "#006188",
         "alpha": 1
       },
       "info.on": {
-        "hex": "#fdfdfd",
+        "hex": "#060606",
         "alpha": 1
       },
       "agent.tint": {
@@ -2988,7 +3026,7 @@ export default {
         "alpha": 1
       },
       "agent.text": {
-        "hex": "#834d26",
+        "hex": "#814c24",
         "alpha": 1
       },
       "agent.on": {
@@ -3052,11 +3090,11 @@ export default {
         "alpha": 1
       },
       "chart.2": {
-        "hex": "#548baa",
+        "hex": "#289cd3",
         "alpha": 1
       },
       "chart.3": {
-        "hex": "#5c9771",
+        "hex": "#00a960",
         "alpha": 1
       },
       "chart.4": {
@@ -3088,31 +3126,31 @@ export default {
         "alpha": 0.45
       },
       "diff.add-bg": {
-        "hex": "#d6f2de",
+        "hex": "#bbfcd0",
         "alpha": 1
       },
       "diff.remove-bg": {
-        "hex": "#ffe3d9",
+        "hex": "#ffe2dd",
         "alpha": 1
       },
       "diff.add-text": {
-        "hex": "#2a6643",
+        "hex": "#006b3b",
         "alpha": 1
       },
       "diff.remove-text": {
-        "hex": "#8e3510",
+        "hex": "#8c4339",
         "alpha": 1
       },
       "syntax.keyword": {
-        "hex": "#215976",
+        "hex": "#006188",
         "alpha": 1
       },
       "syntax.string": {
-        "hex": "#2a6643",
+        "hex": "#006b3b",
         "alpha": 1
       },
       "syntax.property": {
-        "hex": "#91450d",
+        "hex": "#90440b",
         "alpha": 1
       },
       "syntax.comment": {
@@ -3144,7 +3182,7 @@ export default {
         "alpha": 1
       },
       "canvas.guide-user": {
-        "hex": "#3c7391",
+        "hex": "#54c4ff",
         "alpha": 1
       },
       "canvas.hover": {
@@ -3171,24 +3209,52 @@ export default {
         "hex": "#fdfdfd",
         "alpha": 1
       },
+      "category.component": {
+        "hex": "#006188",
+        "alpha": 1
+      },
+      "category.component-soft": {
+        "hex": "#d3eeff",
+        "alpha": 1
+      },
       "identity.coral": {
-        "hex": "#8e3510",
+        "hex": "#ffab9d",
         "alpha": 1
       },
       "identity.iris": {
-        "hex": "#215976",
+        "hex": "#54c4ff",
         "alpha": 1
       },
       "identity.mint": {
-        "hex": "#2a6643",
+        "hex": "#00d67c",
         "alpha": 1
       },
       "identity.amber": {
-        "hex": "#6e5b00",
+        "hex": "#a59145",
         "alpha": 1
       },
       "identity.slate": {
         "hex": "#525252",
+        "alpha": 1
+      },
+      "identity.on-coral": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "identity.on-iris": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "identity.on-mint": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "identity.on-amber": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "identity.on-slate": {
+        "hex": "#fdfdfd",
         "alpha": 1
       },
       "identity.on": {
@@ -3236,11 +3302,11 @@ export default {
         "alpha": 0.11
       },
       "diff.add": {
-        "hex": "#d6f2de",
+        "hex": "#bbfcd0",
         "alpha": 1
       },
       "diff.remove": {
-        "hex": "#ffe3d9",
+        "hex": "#ffe2dd",
         "alpha": 1
       }
     },
@@ -3337,6 +3403,10 @@ export default {
         "hex": "#ffffff",
         "alpha": 0.07
       },
+      "divider.line": {
+        "hex": "#ffffff",
+        "alpha": 0.07
+      },
       "border.strong": {
         "hex": "#ffffff",
         "alpha": 0.12
@@ -3401,11 +3471,23 @@ export default {
         "hex": "#000000",
         "alpha": 0.55
       },
+      "media.chip": {
+        "hex": "#ffffff",
+        "alpha": 0.2
+      },
       "media.scrim-strong": {
         "hex": "#000000",
         "alpha": 0.78
       },
       "media.shade": {
+        "hex": "#000000",
+        "alpha": 1
+      },
+      "shadow.ambient": {
+        "hex": "#000000",
+        "alpha": 1
+      },
+      "shadow.contact": {
         "hex": "#000000",
         "alpha": 1
       },
@@ -3498,43 +3580,43 @@ export default {
         "alpha": 1
       },
       "success.tint": {
-        "hex": "#18271d",
+        "hex": "#162817",
         "alpha": 1
       },
       "success.soft": {
-        "hex": "#1b3123",
+        "hex": "#173319",
         "alpha": 1
       },
       "success.soft-hover": {
-        "hex": "#1d3a28",
+        "hex": "#183c1c",
         "alpha": 1
       },
       "success.soft-pressed": {
-        "hex": "#21442f",
+        "hex": "#1a4720",
         "alpha": 1
       },
       "success.border": {
-        "hex": "#2e583d",
+        "hex": "#255a2c",
         "alpha": 1
       },
       "success.border-strong": {
-        "hex": "#4f8261",
+        "hex": "#408047",
         "alpha": 1
       },
       "success.graphic": {
-        "hex": "#68a37d",
+        "hex": "#539e5b",
         "alpha": 1
       },
       "success.solid": {
-        "hex": "#88c59d",
+        "hex": "#70bb76",
         "alpha": 1
       },
       "success.solid-hover": {
-        "hex": "#98d5ac",
+        "hex": "#7fcb85",
         "alpha": 1
       },
       "success.text": {
-        "hex": "#a4e2b9",
+        "hex": "#8cd891",
         "alpha": 1
       },
       "success.on": {
@@ -3542,43 +3624,43 @@ export default {
         "alpha": 1
       },
       "warning.tint": {
-        "hex": "#282310",
+        "hex": "#21260a",
         "alpha": 1
       },
       "warning.soft": {
-        "hex": "#322b0e",
+        "hex": "#292f02",
         "alpha": 1
       },
       "warning.soft-hover": {
-        "hex": "#3c320c",
+        "hex": "#303700",
         "alpha": 1
       },
       "warning.soft-pressed": {
-        "hex": "#473b0a",
+        "hex": "#384100",
         "alpha": 1
       },
       "warning.border": {
-        "hex": "#5a4c13",
+        "hex": "#495400",
         "alpha": 1
       },
       "warning.border-strong": {
-        "hex": "#8b7a38",
+        "hex": "#76861d",
         "alpha": 1
       },
       "warning.graphic": {
-        "hex": "#b29e51",
+        "hex": "#9bae37",
         "alpha": 1
       },
       "warning.solid": {
-        "hex": "#d8c477",
+        "hex": "#c2d764",
         "alpha": 1
       },
       "warning.solid-hover": {
-        "hex": "#e9d487",
+        "hex": "#d2e874",
         "alpha": 1
       },
       "warning.text": {
-        "hex": "#f6e193",
+        "hex": "#dff582",
         "alpha": 1
       },
       "warning.on": {
@@ -3586,43 +3668,43 @@ export default {
         "alpha": 1
       },
       "danger.tint": {
-        "hex": "#311d16",
+        "hex": "#39180b",
         "alpha": 1
       },
       "danger.soft": {
-        "hex": "#402217",
+        "hex": "#4b1a04",
         "alpha": 1
       },
       "danger.soft-hover": {
-        "hex": "#4d2719",
+        "hex": "#591c00",
         "alpha": 1
       },
       "danger.soft-pressed": {
-        "hex": "#5b2d1d",
+        "hex": "#672200",
         "alpha": 1
       },
       "danger.border": {
-        "hex": "#733c28",
+        "hex": "#832e00",
         "alpha": 1
       },
       "danger.border-strong": {
-        "hex": "#9e5a42",
+        "hex": "#aa3e00",
         "alpha": 1
       },
       "danger.graphic": {
-        "hex": "#c17154",
+        "hex": "#c84a00",
         "alpha": 1
       },
       "danger.solid": {
-        "hex": "#df8c6f",
+        "hex": "#e15e20",
         "alpha": 1
       },
       "danger.solid-hover": {
-        "hex": "#f09c7e",
+        "hex": "#f36e34",
         "alpha": 1
       },
       "danger.text": {
-        "hex": "#fea88a",
+        "hex": "#ff7f4b",
         "alpha": 1
       },
       "danger.on": {
@@ -3630,43 +3712,43 @@ export default {
         "alpha": 1
       },
       "info.tint": {
-        "hex": "#18252c",
+        "hex": "#16213d",
         "alpha": 1
       },
       "info.soft": {
-        "hex": "#1b2e39",
+        "hex": "#192952",
         "alpha": 1
       },
       "info.soft-hover": {
-        "hex": "#1e3644",
+        "hex": "#1c2f62",
         "alpha": 1
       },
       "info.soft-pressed": {
-        "hex": "#224051",
+        "hex": "#203675",
         "alpha": 1
       },
       "info.border": {
-        "hex": "#2e5266",
+        "hex": "#2c4792",
         "alpha": 1
       },
       "info.border-strong": {
-        "hex": "#4d7891",
+        "hex": "#3b5db8",
         "alpha": 1
       },
       "info.graphic": {
-        "hex": "#6497b4",
+        "hex": "#466dd7",
         "alpha": 1
       },
       "info.solid": {
-        "hex": "#82b6d4",
+        "hex": "#5780ed",
         "alpha": 1
       },
       "info.solid-hover": {
-        "hex": "#92c6e5",
+        "hex": "#6590fe",
         "alpha": 1
       },
       "info.text": {
-        "hex": "#9ed3f2",
+        "hex": "#7ea4ff",
         "alpha": 1
       },
       "info.on": {
@@ -3774,15 +3856,15 @@ export default {
         "alpha": 1
       },
       "chart.2": {
-        "hex": "#6497b4",
+        "hex": "#466dd7",
         "alpha": 1
       },
       "chart.3": {
-        "hex": "#68a37d",
+        "hex": "#539e5b",
         "alpha": 1
       },
       "chart.4": {
-        "hex": "#b29e51",
+        "hex": "#9bae37",
         "alpha": 1
       },
       "chart.5": {
@@ -3802,7 +3884,7 @@ export default {
         "alpha": 1
       },
       "agent.stop-3": {
-        "hex": "#8dc096",
+        "hex": "#00fa76",
         "alpha": 1
       },
       "agent.glow": {
@@ -3810,27 +3892,27 @@ export default {
         "alpha": 0.35
       },
       "diff.add-bg": {
-        "hex": "#1b3123",
+        "hex": "#173319",
         "alpha": 1
       },
       "diff.remove-bg": {
-        "hex": "#402217",
+        "hex": "#4b1a04",
         "alpha": 1
       },
       "diff.add-text": {
-        "hex": "#a4e2b9",
+        "hex": "#8cd891",
         "alpha": 1
       },
       "diff.remove-text": {
-        "hex": "#fea88a",
+        "hex": "#ff7f4b",
         "alpha": 1
       },
       "syntax.keyword": {
-        "hex": "#9ed3f2",
+        "hex": "#7ea4ff",
         "alpha": 1
       },
       "syntax.string": {
-        "hex": "#a4e2b9",
+        "hex": "#8cd891",
         "alpha": 1
       },
       "syntax.property": {
@@ -3846,11 +3928,11 @@ export default {
         "alpha": 0.08
       },
       "canvas.selection": {
-        "hex": "#8c8c8c",
+        "hex": "#f5f5f5",
         "alpha": 1
       },
       "canvas.handle": {
-        "hex": "#fdfdfd",
+        "hex": "#020202",
         "alpha": 1
       },
       "canvas.selection-on": {
@@ -3858,7 +3940,7 @@ export default {
         "alpha": 1
       },
       "canvas.guide": {
-        "hex": "#cd57a0",
+        "hex": "#ed74bd",
         "alpha": 1
       },
       "canvas.guide-on": {
@@ -3866,7 +3948,7 @@ export default {
         "alpha": 1
       },
       "canvas.guide-user": {
-        "hex": "#82b6d4",
+        "hex": "#5780ed",
         "alpha": 1
       },
       "canvas.hover": {
@@ -3893,28 +3975,56 @@ export default {
         "hex": "#fdfdfd",
         "alpha": 1
       },
+      "category.component": {
+        "hex": "#7ea4ff",
+        "alpha": 1
+      },
+      "category.component-soft": {
+        "hex": "#192952",
+        "alpha": 1
+      },
       "identity.coral": {
-        "hex": "#8e3510",
+        "hex": "#e15e20",
         "alpha": 1
       },
       "identity.iris": {
-        "hex": "#215976",
+        "hex": "#5780ed",
         "alpha": 1
       },
       "identity.mint": {
-        "hex": "#2a6643",
+        "hex": "#70bb76",
         "alpha": 1
       },
       "identity.amber": {
-        "hex": "#6e5b00",
+        "hex": "#c2d764",
         "alpha": 1
       },
       "identity.slate": {
-        "hex": "#525252",
+        "hex": "#9e9e9e",
+        "alpha": 1
+      },
+      "identity.on-coral": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "identity.on-iris": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "identity.on-mint": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "identity.on-amber": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "identity.on-slate": {
+        "hex": "#060606",
         "alpha": 1
       },
       "identity.on": {
-        "hex": "#fdfdfd",
+        "hex": "#060606",
         "alpha": 1
       },
       "accent.hover": {
@@ -3958,11 +4068,11 @@ export default {
         "alpha": 0.12
       },
       "diff.add": {
-        "hex": "#1b3123",
+        "hex": "#173319",
         "alpha": 1
       },
       "diff.remove": {
-        "hex": "#402217",
+        "hex": "#4b1a04",
         "alpha": 1
       }
     }
@@ -3995,17 +4105,17 @@ export default {
       "11": "#010101"
     },
     "success": {
-      "1": "#f4fdf7",
-      "2": "#e8f9ed",
-      "3": "#d6f2de",
-      "4": "#c7ead2",
-      "5": "#b6e0c3",
-      "6": "#9bcbab",
-      "7": "#78ad8a",
-      "8": "#5c9771",
-      "9": "#45805b",
-      "10": "#36714e",
-      "11": "#2a6643"
+      "1": "#effff4",
+      "2": "#d8ffe4",
+      "3": "#bbfcd0",
+      "4": "#a3f6c0",
+      "5": "#87eead",
+      "6": "#5eda92",
+      "7": "#43d988",
+      "8": "#00a960",
+      "9": "#00d67c",
+      "10": "#00c471",
+      "11": "#006b3b"
     },
     "warning": {
       "1": "#fdfaf0",
@@ -4018,33 +4128,33 @@ export default {
       "8": "#a69245",
       "9": "#a59145",
       "10": "#968234",
-      "11": "#6e5b00"
+      "11": "#6c5900"
     },
     "danger": {
-      "1": "#fff8f6",
-      "2": "#fff0eb",
-      "3": "#ffe3d9",
-      "4": "#ffd5c6",
-      "5": "#ffc5b1",
-      "6": "#f8a78b",
-      "7": "#da8364",
-      "8": "#c66745",
-      "9": "#ac502e",
-      "10": "#9b411e",
-      "11": "#8e3510"
+      "1": "#fff8f7",
+      "2": "#ffefed",
+      "3": "#ffe2dd",
+      "4": "#ffd4cd",
+      "5": "#ffc4b9",
+      "6": "#edab9f",
+      "7": "#f6aa9d",
+      "8": "#cd7e71",
+      "9": "#ffab9d",
+      "10": "#ee9c8e",
+      "11": "#8c4339"
     },
     "info": {
       "1": "#f5fbff",
       "2": "#e8f6ff",
-      "3": "#d4eefe",
-      "4": "#c5e5f9",
-      "5": "#b4dbf2",
-      "6": "#99c5df",
-      "7": "#72a3c0",
-      "8": "#548baa",
-      "9": "#3c7391",
-      "10": "#2d6482",
-      "11": "#215976"
+      "3": "#d3eeff",
+      "4": "#bee6ff",
+      "5": "#a4ddff",
+      "6": "#76c9f8",
+      "7": "#66c7fc",
+      "8": "#289cd3",
+      "9": "#54c4ff",
+      "10": "#41b4ee",
+      "11": "#006188"
     },
     "agent-1": {
       "1": "#fff9f5",
@@ -4057,7 +4167,7 @@ export default {
       "8": "#c1875f",
       "9": "#e5a880",
       "10": "#d49970",
-      "11": "#834d26"
+      "11": "#814c24"
     },
     "agent-2": {
       "1": "#f5fbff",
@@ -4070,7 +4180,7 @@ export default {
       "8": "#6e99b2",
       "9": "#92bed9",
       "10": "#83aec8",
-      "11": "#376078"
+      "11": "#365f76"
     },
     "agent-3": {
       "1": "#f5fcf6",
@@ -4083,7 +4193,7 @@ export default {
       "8": "#6d9f77",
       "9": "#99cda3",
       "10": "#8abd93",
-      "11": "#376742"
+      "11": "#366641"
     },
     "extra-1": {
       "1": "#fff9f5",
@@ -4096,7 +4206,7 @@ export default {
       "8": "#d17f4e",
       "9": "#c67544",
       "10": "#b56535",
-      "11": "#91450d"
+      "11": "#90440b"
     },
     "extra-2": {
       "1": "#f6fbff",
@@ -4109,7 +4219,7 @@ export default {
       "8": "#6a98b9",
       "9": "#5886a6",
       "10": "#4a7797",
-      "11": "#33607e"
+      "11": "#315e7d"
     },
     "canvas-guide": {
       "1": "#fff8fb",
@@ -4122,7 +4232,7 @@ export default {
       "8": "#e253ae",
       "9": "#cd3f9b",
       "10": "#bb2d8c",
-      "11": "#a7107a"
+      "11": "#a50c78"
     }
   },
   "space": {
@@ -4613,34 +4723,34 @@ export default {
   },
   "elevation": {
     "light": {
-      "1": "0 1px 2px oklch(0.2 0 0 / 0.06)",
-      "2": "0 1px 2px oklch(0.2 0 0 / 0.05), 0 4px 12px -2px oklch(0.2 0 0 / 0.08)",
-      "3": "0 2px 4px oklch(0.2 0 0 / 0.04), 0 12px 28px -6px oklch(0.2 0 0 / 0.12)",
-      "4": "0 4px 8px oklch(0.2 0 0 / 0.05), 0 24px 48px -12px oklch(0.2 0 0 / 0.18)",
-      "5": "0 8px 16px oklch(0.2 0 0 / 0.06), 0 40px 80px -16px oklch(0.2 0 0 / 0.28)",
-      "thumb": "0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
-      "thumb-sm": "0 2px 6px oklch(0 0 0 / 0.2)",
-      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25)",
-      "card": "0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0 0 / 0.18)",
-      "lift": "0 14px 30px -14px oklch(0.2 0 0 / 0.3)",
-      "well": "0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0 0 / 0.25)",
+      "1": "0 1px 2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06)",
+      "2": "0 1px 2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.05), 0 4px 12px -2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.08)",
+      "3": "0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 12px 28px -6px oklch(from var(--cs-color-shadow-ambient) l c h / 0.12)",
+      "4": "0 4px 8px oklch(from var(--cs-color-shadow-ambient) l c h / 0.05), 0 24px 48px -12px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)",
+      "5": "0 8px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06), 0 40px 80px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.28)",
+      "thumb": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)",
+      "thumb-sm": "0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)",
+      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25)",
+      "card": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 12px 32px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)",
+      "lift": "0 14px 30px -14px oklch(from var(--cs-color-shadow-ambient) l c h / 0.3)",
+      "well": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 6px 18px -10px oklch(from var(--cs-color-shadow-ambient) l c h / 0.25)",
       "agent": "0 8px 30px -12px var(--cs-color-agent-glow)",
-      "artboard": "0 6px 20px -8px oklch(0 0 0 / 0.2)"
+      "artboard": "0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)"
     },
     "dark": {
-      "1": "0 1px 2px oklch(0 0 0 / 0.3)",
-      "2": "0 1px 2px oklch(0 0 0 / 0.3), 0 4px 12px -2px oklch(0 0 0 / 0.35)",
-      "3": "0 2px 4px oklch(0 0 0 / 0.25), 0 12px 28px -6px oklch(0 0 0 / 0.45)",
-      "4": "0 4px 8px oklch(0 0 0 / 0.25), 0 24px 48px -12px oklch(0 0 0 / 0.55)",
-      "5": "0 8px 16px oklch(0 0 0 / 0.3), 0 40px 80px -16px oklch(0 0 0 / 0.65)",
-      "thumb": "0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)",
-      "thumb-sm": "0 2px 6px oklch(0 0 0 / 0.2)",
-      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25)",
-      "card": "0 1px 2px oklch(0 0 0 / 0.4), 0 12px 32px -16px oklch(0 0 0 / 0.6)",
-      "lift": "0 14px 30px -14px oklch(0 0 0 / 0.7)",
-      "well": "0 1px 2px oklch(0 0 0 / 0.4), 0 6px 18px -10px oklch(0 0 0 / 0.55)",
+      "1": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.3)",
+      "2": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 4px 12px -2px oklch(from var(--cs-color-shadow-contact) l c h / 0.35)",
+      "3": "0 2px 4px oklch(from var(--cs-color-shadow-contact) l c h / 0.25), 0 12px 28px -6px oklch(from var(--cs-color-shadow-contact) l c h / 0.45)",
+      "4": "0 4px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25), 0 24px 48px -12px oklch(from var(--cs-color-shadow-contact) l c h / 0.55)",
+      "5": "0 8px 16px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 40px 80px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.65)",
+      "thumb": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)",
+      "thumb-sm": "0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)",
+      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25)",
+      "card": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 12px 32px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.6)",
+      "lift": "0 14px 30px -14px oklch(from var(--cs-color-shadow-contact) l c h / 0.7)",
+      "well": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 6px 18px -10px oklch(from var(--cs-color-shadow-contact) l c h / 0.55)",
       "agent": "0 8px 30px -12px var(--cs-color-agent-glow)",
-      "artboard": "0 6px 20px -8px oklch(0 0 0 / 0.5)"
+      "artboard": "0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.5)"
     }
   },
   "blur": {
@@ -5391,36 +5501,6 @@ export default {
       "chart series"
     ],
     [
-      "canvas.guide-user",
-      "bg.canvas",
-      3,
-      "user guide on canvas"
-    ],
-    [
-      "canvas.selection",
-      "bg.canvas",
-      3,
-      "selection outline"
-    ],
-    [
-      "canvas.selection",
-      "canvas.artboard",
-      3,
-      "selection on white artboard"
-    ],
-    [
-      "canvas.guide",
-      "canvas.artboard",
-      3,
-      "smart guide on artboard"
-    ],
-    [
-      "canvas.guide",
-      "bg.canvas",
-      3,
-      "smart guide on canvas"
-    ],
-    [
       "canvas.handle",
       "canvas.selection",
       3,
@@ -5445,34 +5525,46 @@ export default {
       "frame label"
     ],
     [
-      "identity.on",
+      "identity.on-coral",
       "identity.coral",
       4.5,
       "avatar initials"
     ],
     [
-      "identity.on",
+      "identity.on-iris",
       "identity.iris",
       4.5,
       "avatar initials"
     ],
     [
-      "identity.on",
+      "identity.on-mint",
       "identity.mint",
       4.5,
       "avatar initials"
     ],
     [
-      "identity.on",
+      "identity.on-amber",
       "identity.amber",
       4.5,
       "avatar initials"
     ],
     [
-      "identity.on",
+      "identity.on-slate",
       "identity.slate",
       4.5,
       "avatar initials"
+    ],
+    [
+      "category.component",
+      "surface.base",
+      4.5,
+      "main component label"
+    ],
+    [
+      "category.component",
+      "category.component-soft",
+      4.5,
+      "main component tag"
     ]
   ]
 };

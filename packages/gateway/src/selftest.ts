@@ -13,7 +13,7 @@ import { root } from './paths.ts';
 import { checkComponent, slotContrast, type ColorConfig, type RuleId, type Source } from './checks/color-language.ts';
 
 // ── Colour language rule cases ──
-const cfg: ColorConfig = { migrated: [], slotOnlyBlocking: [], contrastBlocking: false, literalColorAllow: { colourMath: ['color-picker'], contentFixtures: ['theme-gallery'] } };
+const cfg: ColorConfig = { migrated: [], slotOnlyBlocking: [], contrastBlocking: false, literalColorAllow: { colourMath: ['color-picker'], contentFixtures: ['theme-gallery'] }, designOverContrast: {}, designAllow: {} };
 const known = new Set(['danger-soft', 'danger-solid', 'danger-text', 'danger-on', 'ink-solid', 'ink-hover', 'ink-on', 'fill-hover', 'fill-pressed', 'fill-selected', 'accent-soft', 'accent-fill', 'surface-base', 'text-primary', 'text-disabled', 'focus-ring', 'border-default']);
 const v = (body: string): Source[] => [{ rel: 'x/x.variants.ts', text: `import { cva } from 'class-variance-authority';\n${body}\n`, fixture: false }];
 const fx = (body: string): Source[] => [{ rel: 'x/x.fixture.tsx', text: body, fixture: true }];
@@ -60,12 +60,12 @@ interface Mutation { name: string; file: string; from: string; to: string; expec
 const mutations: Mutation[] = [
   { name: 'literal color', file: V, from: 'bg-ink-solid text-ink-on', to: 'bg-[#111318] text-ink-on', expect: ['G2:arbitrary-value', 'G3:tokens'], skip: 'G4' },
   { name: 'non-token color', file: V, from: 'bg-danger-soft text-danger-text', to: 'bg-red-500 text-danger-text', expect: ['G2:non-token-class'], skip: 'G4' },
-  { name: 'wrong hover token', file: V, from: 'hover:bg-ink-hover', to: 'hover:bg-ink-solid', expect: ['G3:tokens'], skip: 'G4' },
+  { name: 'wrong hover token', file: V, from: 'hover:bg-ink-solid-hover', to: 'hover:bg-ink-solid', expect: ['G3:tokens'], skip: 'G4' },
   { name: 'off-scale padding', file: V, from: 'h-control-md gap-1.5 px-3', to: 'h-control-md gap-1.5 px-9', expect: ['G2:space-scale', 'G3:tokens'] }, // 36px: between scale steps 8 and 10
   { name: 'wrong radius', file: V, from: 'h-control-md gap-1.5 px-3 text-ui-strong rounded-md', to: 'h-control-md gap-1.5 px-3 text-ui-strong rounded-xl', expect: ['G3:tokens'], skip: 'G4' },
   { name: 'missing variant value', file: V, from: "        ghost: 'bg-transparent", to: "        quiet: 'bg-transparent", expect: ['G2:variants'], skip: 'G4' },
-  { name: 'spectrum outside agent', file: V, from: "ink: 'frost bg-ink-solid", to: "ink: 'agent-rim frost bg-ink-solid", expect: ['G5:P2 spectrum'], skip: 'G4' },
-  { name: 'gradient on a button', file: V, from: "secondary: 'frost bg-control-raised", to: "secondary: 'bg-linear-to-b frost bg-control-raised", expect: ['G5:P3 flat'], skip: 'G4' },
+  { name: 'spectrum outside agent', file: V, from: "ink: 'bg-ink-solid", to: "ink: 'agent-rim bg-ink-solid", expect: ['G5:P2 spectrum'], skip: 'G4' },
+  { name: 'gradient on a button', file: V, from: "secondary: 'bg-control-raised", to: "secondary: 'bg-linear-to-b bg-control-raised", expect: ['G5:P3 flat'], skip: 'G4' },
   { name: 'dark: variant', file: V, from: 'hover:bg-control-raised-hover', to: 'hover:bg-control-raised-hover dark:bg-ink-solid', expect: ['G2:no-dark-variant'], skip: 'G4' },
   { name: 'spacing calc loophole', file: V, from: 'h-control-md gap-1.5 px-3', to: 'h-control-md gap-1.5 px-[calc(var(--spacing)*7)]', expect: ['G2:space-scale'], skip: 'G3,G4,G5' },
   { name: 'misspelt token variable', file: V, from: 'bg-danger-soft text-danger-text', to: 'bg-[var(--cs-color-danger-sofft)] text-danger-text', expect: ['G2:unknown-var'], skip: 'G3,G4,G5' },
@@ -81,6 +81,9 @@ for (const m of mutations) {
   const original = readFileSync(m.file, 'utf8');
   if (!original.includes(m.from)) { console.log(`?? ${m.name}: mutation anchor not found`); failed++; continue; }
   writeFileSync(m.file, original.replace(m.from, m.to));
+  // A killed run (memory cap, Ctrl-C) must not leave the mutation in the component.
+  const restore = () => { writeFileSync(m.file, original); process.exit(130); };
+  process.once('SIGTERM', restore); process.once('SIGINT', restore);
   try {
     try {
       execFileSync(process.execPath, ['--import', 'tsx', join(root, 'packages/gateway/src/cli.ts'), 'button', ...(m.skip ? [`--skip=${m.skip}`] : [])], { env: { ...process.env, CAUSTIC_SELFTEST: '1', CAUSTIC_REPORTS_DIR: reports }, stdio: 'pipe', timeout: 600000 });
@@ -90,7 +93,7 @@ for (const m of mutations) {
     const missing = m.expect.filter(e => !got.has(e));
     if (missing.length) { failed++; console.log(`MISS ${m.name}: gate did not report ${missing.join(', ')} (got ${[...got].join(', ') || 'nothing'})`); }
     else console.log(`CATCH ${m.name}: ${m.expect.join(', ')}`);
-  } finally { writeFileSync(m.file, original); }
+  } finally { writeFileSync(m.file, original); process.off('SIGTERM', restore); process.off('SIGINT', restore); }
 }
 console.log(`\n${mutations.length - failed}/${mutations.length} mutations caught`);
 process.exit(failed || ruleFailed ? 1 : 0);

@@ -27,15 +27,17 @@ export const neutral = {
 /* ── AUTHORED SOLIDS ── the only hued values a person picks. ───────────────────────
    [L, C, h] in OKLCH, one per mode; this is step 9 of the ramp. Paste builder values here
    (#/lab/builder, Copy JSON). Everything else (1–8, 10, 11, on) is derived by build.mjs. */
+// Authored solids: the owner's builder export of 2026-10-25 (Signal Grey · Deep Black neutrals, proposed language).
+// Values outside sRGB are kept as authored; the build gamut-maps them.
 export const solids = {
   accent: { name: 'Deep Black', role: 'Accent: primary emphasis, links, selection on canvas, focus (separate from ink, decision 1)', light: [0.11, 0, 0], dark: [0.97, 0, 0] },
-  success: { name: 'Pad Green', role: 'Success, diff add', light: [0.55, 0.085, 155], dark: [0.77, 0.085, 155] },
-  warning: { name: 'Tape Yellow', role: 'Warning, permission', light: [0.66, 0.1, 95], dark: [0.82, 0.1, 95] },
-  danger: { name: 'Signal Orange', role: 'Danger, diff remove', light: [0.54, 0.13, 40], dark: [0.72, 0.11, 40] },
-  info: { name: 'Panel Blue', role: 'Info, review, user guides', light: [0.53, 0.075, 235], dark: [0.75, 0.07, 235] },
+  success: { name: 'Pad Green', role: 'Success, diff add', light: [0.77, 0.298, 155], dark: [0.725, 0.124, 146] },
+  warning: { name: 'Tape Yellow', role: 'Warning, permission', light: [0.66, 0.1, 95], dark: [0.84, 0.143, 118] },
+  danger: { name: 'Signal Orange', role: 'Danger, diff remove', light: [0.82, 0.37, 30], dark: [0.64, 0.178, 42] },
+  info: { name: 'Panel Blue', role: 'Info, review, user guides', light: [0.78, 0.362, 235], dark: [0.625, 0.169, 266] },
   'agent-1': { name: 'Signal', role: 'Agent gradient stop 1; the agent tone', light: [0.78, 0.09, 55], dark: [0.74, 0.09, 55] },
   'agent-2': { name: 'Panel', role: 'Agent gradient stop 2', light: [0.78, 0.06, 235], dark: [0.75, 0.06, 235] },
-  'agent-3': { name: 'Pad', role: 'Agent gradient stop 3', light: [0.8, 0.08, 150], dark: [0.76, 0.08, 150] },
+  'agent-3': { name: 'Pad', role: 'Agent gradient stop 3', light: [0.8, 0.08, 150], dark: [0.86, 0.37, 150] },
   'extra-1': { name: 'Knob Orange', role: 'Chart series 5, illustration, syntax property', light: [0.64, 0.12, 50], dark: [0.72, 0.11, 50] },
   'extra-2': { name: 'Dust Blue', role: 'Chart series 6, illustration', light: [0.6, 0.07, 240], dark: [0.72, 0.065, 240] },
   'canvas-guide': { name: 'Guide Magenta', role: 'Canvas smart guides only (decision 4)', light: [0.6, 0.2, 345], dark: [0.72, 0.17, 345] },
@@ -119,6 +121,8 @@ export const themes = {
 
     'border.subtle': 'neutral.11/0.05',
     'border.default': 'neutral.11/0.08',
+    // A separator drawn as a 1px fill (align-bar): its own role, not a border token used as a fill (E15). Same look.
+    'divider.line': 'neutral.11/0.08',
     'border.strong': 'neutral.11/0.13',
     'border.control': 'neutral.6',
 
@@ -138,8 +142,12 @@ export const themes = {
     'media.on': 'white/1',
     'media.on-muted': 'white/0.82',
     'media.scrim': 'black/0.55',
+    'media.chip': 'white/0.2',
     'media.scrim-strong': 'black/0.78',
     'media.shade': 'black/1',
+    // Shadow colours for the elevation scale (H1): ambient is the long diffuse layer, contact the short one.
+    'shadow.ambient': 'neutral-light.11',
+    'shadow.contact': 'black/1',
 
     // Tone slots: accent, neutral, success, warning, danger, info, agent × tint … text, on.
     ...toneSlots(),
@@ -195,13 +203,21 @@ export const themes = {
     'canvas.checker-b': 'neutral.3',
     'canvas.artboard': 'neutral-light.1',
 
-    // Identity (avatars, people): the light text step of each hue in both modes, paper initials.
-    'identity.coral': 'danger-light.11',
-    'identity.iris': 'info-light.11',
-    'identity.mint': 'success-light.11',
-    'identity.amber': 'warning-light.11',
-    'identity.slate': 'neutral-light.9',
-    'identity.on': 'neutral-light.1',
+    // Identity (avatars, people): each category hue's solid 9 in the current mode, with that hue's own on (PROPOSAL §2, F10).
+    // Category (one categorical hue, not a status): the layer tree's main components (PROPOSAL E5).
+    'category.component': 'info.11',
+    'category.component-soft': 'info.3',
+    'identity.coral': 'danger.9',
+    'identity.iris': 'info.9',
+    'identity.mint': 'success.9',
+    'identity.amber': 'warning.9',
+    'identity.slate': 'neutral.9',
+    'identity.on-coral': 'danger.on',
+    'identity.on-iris': 'info.on',
+    'identity.on-mint': 'success.on',
+    'identity.on-amber': 'warning.on',
+    'identity.on-slate': 'neutral.on',
+    'identity.on': '=identity.on-slate',
 
     ...aliasEntries(),
   },
@@ -234,6 +250,7 @@ export const themes = {
 
     'border.subtle': 'white/0.05',
     'border.default': 'white/0.07',
+    'divider.line': 'white/0.07',
     'border.strong': 'white/0.12',
     'border.control': 'neutral.6',
 
@@ -252,8 +269,11 @@ export const themes = {
     'media.on': 'white/1',
     'media.on-muted': 'white/0.82',
     'media.scrim': 'black/0.55',
+    'media.chip': 'white/0.2',
     'media.scrim-strong': 'black/0.78',
     'media.shade': 'black/1',
+    'shadow.ambient': 'black/1',
+    'shadow.contact': 'black/1',
 
     ...toneSlots(),
 
@@ -292,12 +312,12 @@ export const themes = {
     'syntax.comment': '=text.secondary',
 
     'canvas.dot': 'white/0.08',
-    // White artboards stay white in dark: the near-white accent 9 and the L .72 guide pick cannot reach 3:1 on them,
-    // so dark selection reads accent 7 and dark guides read the guide's graphic step 8 (both keep 3:1 on the dark canvas).
-    'canvas.selection': 'accent.7',
-    'canvas.handle': 'neutral-light.1',
+    // White artboards stay white in dark. Selection and guides keep the designed solids (accent 9, guide 9) even where
+    // they fall under 3:1 on a white artboard: design over contrast for canvas marks (owner, 2026-10-25).
+    'canvas.selection': 'accent.9',
+    'canvas.handle': 'neutral-dark.1',
     'canvas.selection-on': 'accent.on',
-    'canvas.guide': 'canvas-guide.8',
+    'canvas.guide': 'canvas-guide.9',
     'canvas.guide-on': 'canvas-guide.on',
     'canvas.guide-user': 'info.9',
     'canvas.hover': 'accent.9/0.6',
@@ -307,12 +327,20 @@ export const themes = {
     'canvas.checker-b': 'neutral.5',
     'canvas.artboard': 'neutral-light.1',
 
-    'identity.coral': 'danger-light.11',
-    'identity.iris': 'info-light.11',
-    'identity.mint': 'success-light.11',
-    'identity.amber': 'warning-light.11',
-    'identity.slate': 'neutral-light.9',
-    'identity.on': 'neutral-light.1',
+    // Category (one categorical hue, not a status): the layer tree's main components (PROPOSAL E5).
+    'category.component': 'info.11',
+    'category.component-soft': 'info.3',
+    'identity.coral': 'danger.9',
+    'identity.iris': 'info.9',
+    'identity.mint': 'success.9',
+    'identity.amber': 'warning.9',
+    'identity.slate': 'neutral.9',
+    'identity.on-coral': 'danger.on',
+    'identity.on-iris': 'info.on',
+    'identity.on-mint': 'success.on',
+    'identity.on-amber': 'warning.on',
+    'identity.on-slate': 'neutral.on',
+    'identity.on': '=identity.on-slate',
 
     ...aliasEntries(),
   },
@@ -385,16 +413,14 @@ export const contrastRules = [
   ]),
   ...[1, 2, 3, 4, 5, 6].map(i => [`chart.${i}`, 'surface.base', 3, 'chart series']),
 
-  ['canvas.guide-user', 'bg.canvas', 3, 'user guide on canvas'],
-  ['canvas.selection', 'bg.canvas', 3, 'selection outline'],
-  ['canvas.selection', 'canvas.artboard', 3, 'selection on white artboard'],
-  ['canvas.guide', 'canvas.artboard', 3, 'smart guide on artboard'],
-  ['canvas.guide', 'bg.canvas', 3, 'smart guide on canvas'],
+  // Canvas selection, smart guides and user guides keep the designed colours (owner, 2026-10-25): no contrast floor.
   ['canvas.handle', 'canvas.selection', 3, 'handle fill vs outline'],
   ['canvas.guide-on', 'canvas.guide', 4.5, 'measurement label'],
   ['canvas.selection-on', 'canvas.selection', 4.5, 'selection size label'],
   ['canvas.label', 'bg.canvas', 4.5, 'frame label'],
-  ...['coral', 'iris', 'mint', 'amber', 'slate'].map(k => ['identity.on', `identity.${k}`, 4.5, 'avatar initials']),
+  ...['coral', 'iris', 'mint', 'amber', 'slate'].map(k => [`identity.on-${k}`, `identity.${k}`, 4.5, 'avatar initials']),
+  ['category.component', 'surface.base', 4.5, 'main component label'],
+  ['category.component', 'category.component-soft', 4.5, 'main component tag'],
 ];
 
 /* ── Dimension & effect scales ───────────────────────────────────── */
@@ -504,38 +530,38 @@ export const type = {
 // Elevation: a short contact shadow + a long diffuse one. Values per theme.
 export const elevation = {
   light: {
-    1: '0 1px 2px oklch(0.2 0 0 / 0.06)',
-    2: '0 1px 2px oklch(0.2 0 0 / 0.05), 0 4px 12px -2px oklch(0.2 0 0 / 0.08)',
-    3: '0 2px 4px oklch(0.2 0 0 / 0.04), 0 12px 28px -6px oklch(0.2 0 0 / 0.12)',
-    4: '0 4px 8px oklch(0.2 0 0 / 0.05), 0 24px 48px -12px oklch(0.2 0 0 / 0.18)',
-    5: '0 8px 16px oklch(0.2 0 0 / 0.06), 0 40px 80px -16px oklch(0.2 0 0 / 0.28)',
+    1: '0 1px 2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06)',
+    2: '0 1px 2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.05), 0 4px 12px -2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.08)',
+    3: '0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 12px 28px -6px oklch(from var(--cs-color-shadow-ambient) l c h / 0.12)',
+    4: '0 4px 8px oklch(from var(--cs-color-shadow-ambient) l c h / 0.05), 0 24px 48px -12px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)',
+    5: '0 8px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06), 0 40px 80px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.28)',
     // Control thumbs (sliders, steppers): a hairline, a contact shadow and a short lift. Same in both themes.
-    thumb: '0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)',
-    'thumb-sm': '0 2px 6px oklch(0 0 0 / 0.2)',
-    'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25)',
+    thumb: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)',
+    'thumb-sm': '0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)',
+    'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25)',
     // Surfaces with their own depth: resting card, hover lift, inset well panel, agent glow.
-    card: '0 1px 2px oklch(0 0 0 / 0.05), 0 12px 32px -16px oklch(0.2 0 0 / 0.18)',
-    lift: '0 14px 30px -14px oklch(0.2 0 0 / 0.3)',
-    well: '0 1px 2px oklch(0 0 0 / 0.05), 0 6px 18px -10px oklch(0.2 0 0 / 0.25)',
+    card: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 12px 32px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)',
+    lift: '0 14px 30px -14px oklch(from var(--cs-color-shadow-ambient) l c h / 0.3)',
+    well: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 6px 18px -10px oklch(from var(--cs-color-shadow-ambient) l c h / 0.25)',
     agent: '0 8px 30px -12px var(--cs-color-agent-glow)',
-    artboard: '0 6px 20px -8px oklch(0 0 0 / 0.2)',
+    artboard: '0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)',
   },
   dark: {
-    1: '0 1px 2px oklch(0 0 0 / 0.3)',
-    2: '0 1px 2px oklch(0 0 0 / 0.3), 0 4px 12px -2px oklch(0 0 0 / 0.35)',
-    3: '0 2px 4px oklch(0 0 0 / 0.25), 0 12px 28px -6px oklch(0 0 0 / 0.45)',
-    4: '0 4px 8px oklch(0 0 0 / 0.25), 0 24px 48px -12px oklch(0 0 0 / 0.55)',
-    5: '0 8px 16px oklch(0 0 0 / 0.3), 0 40px 80px -16px oklch(0 0 0 / 0.65)',
+    1: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.3)',
+    2: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 4px 12px -2px oklch(from var(--cs-color-shadow-contact) l c h / 0.35)',
+    3: '0 2px 4px oklch(from var(--cs-color-shadow-contact) l c h / 0.25), 0 12px 28px -6px oklch(from var(--cs-color-shadow-contact) l c h / 0.45)',
+    4: '0 4px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25), 0 24px 48px -12px oklch(from var(--cs-color-shadow-contact) l c h / 0.55)',
+    5: '0 8px 16px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 40px 80px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.65)',
     // Control thumbs (sliders, steppers): a hairline, a contact shadow and a short lift. Same in both themes.
-    thumb: '0 1px 2px oklch(0 0 0 / 0.16), 0 3px 8px oklch(0 0 0 / 0.12)',
-    'thumb-sm': '0 2px 6px oklch(0 0 0 / 0.2)',
-    'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(0 0 0 / 0.25)',
+    thumb: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)',
+    'thumb-sm': '0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)',
+    'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25)',
     // Surfaces with their own depth: resting card, hover lift, inset well panel, agent glow.
-    card: '0 1px 2px oklch(0 0 0 / 0.4), 0 12px 32px -16px oklch(0 0 0 / 0.6)',
-    lift: '0 14px 30px -14px oklch(0 0 0 / 0.7)',
-    well: '0 1px 2px oklch(0 0 0 / 0.4), 0 6px 18px -10px oklch(0 0 0 / 0.55)',
+    card: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 12px 32px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.6)',
+    lift: '0 14px 30px -14px oklch(from var(--cs-color-shadow-contact) l c h / 0.7)',
+    well: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 6px 18px -10px oklch(from var(--cs-color-shadow-contact) l c h / 0.55)',
     agent: '0 8px 30px -12px var(--cs-color-agent-glow)',
-    artboard: '0 6px 20px -8px oklch(0 0 0 / 0.5)',
+    artboard: '0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.5)',
   },
 };
 

@@ -33,6 +33,9 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 :where(button, [role="button"], a, input, textarea, select, [tabindex]):focus-visible { outline: none; box-shadow: 0 0 0 1px var(--cs-focus-offset, var(--cs-color-focus-offset)), 0 0 0 3px var(--cs-color-focus-ring); }
 /* The focus gap takes the colour of the surface the element sits on: set --cs-focus-offset on the element or a container
    (e.g. var(--cs-color-surface-raised)); it defaults to focus.offset (= surface.base). Resolved here, per element. */
+/* --cs-focus is composed into other shadows (selection edge + focus); re-declared on the focused element so its gap
+   reads that element's --cs-focus-offset rather than the root's. */
+:where(:focus-visible, :focus-within) { --cs-focus: 0 0 0 1px var(--cs-focus-offset, var(--cs-color-focus-offset)), 0 0 0 3px var(--cs-color-focus-ring); }
 /* Field focus policy: a text field owns its focus. The field container swaps its
    own border for --cs-focus-field (1.5px, focus.ring); the inner control draws
    nothing, and no outer ring or halo is added. One edge, never three. */
@@ -42,7 +45,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 :where(:lang(ko)) { word-break: keep-all; overflow-wrap: anywhere; }
 
 /* Scrollbars: thin, quiet, theme-aware */
-* { scrollbar-width: thin; scrollbar-color: var(--cs-color-border-strong) transparent; }
+* { scrollbar-width: thin; scrollbar-color: var(--cs-color-neutral-track) transparent; }
 
 /* ── Type roles ── */
 .cs-display   { font: var(--cs-text-display);  letter-spacing: var(--cs-text-display-tracking); text-wrap: balance; }
@@ -74,6 +77,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   position: relative;
   background: var(--cs-material);
   box-shadow: var(--cs-shadow, var(--cs-elevation-3));
+  --cs-focus-offset: var(--cs-material);
 }
 .cs-glass.cs-ultrathin { --cs-material: var(--cs-color-material-ultrathin); }
 .cs-glass.cs-thin      { --cs-material: var(--cs-color-material-thin); }
