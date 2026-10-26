@@ -12,14 +12,14 @@ export const readingOrderItemVariants = cva('');
  */
 export const readingOrderRowVariants = cva([
   'group grid h-menu-item w-full cursor-grab touch-none select-none grid-cols-[var(--cs-icon-lg)_1fr_auto] items-center gap-2 rounded-md border-0 bg-transparent px-2 text-left font-ui text-ui-dense text-text-primary outline-none',
-  'transition-[background-color,opacity] duration-120 ease-out hover:bg-fill-hover focus-visible:shadow-focus',
-  'data-[dragging]:bg-fill-pressed data-[dragging]:opacity-64',
+  'transition-[background-color,opacity] duration-120 ease-out hover:bg-neutral-hover focus-visible:shadow-focus',
+  'data-[dragging]:bg-neutral-pressed data-[dragging]:opacity-64',
   'data-[drop=above]:shadow-[inset_0_2px_0_var(--cs-color-accent-solid)] data-[drop=below]:shadow-[inset_0_-2px_0_var(--cs-color-accent-solid)]',
 ]);
 
 /** Position badge: an 18px circle in mono; the warning tint flags a row that reads out of visual order. */
 export const readingOrderIndexVariants = cva(
-  'grid size-4.5 place-items-center rounded-full bg-fill-selected font-mono text-mono-sm font-semibold text-text-primary group-data-[warning]:bg-warning-soft group-data-[warning]:text-warning-text',
+  'grid size-4.5 place-items-center rounded-full bg-neutral-track font-mono text-mono-sm font-semibold text-text-primary group-data-[warning]:bg-warning-soft group-data-[warning]:text-warning-text',
 );
 
 export const readingOrderLabelVariants = cva('min-w-0 truncate text-text-primary');

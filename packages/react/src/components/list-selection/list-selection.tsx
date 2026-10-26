@@ -5,10 +5,10 @@ import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { listHeadingVariants, listVariants } from '../list/list.variants.ts';
 import {
-  listSelectionIndicatorVariants, listSelectionRowVariants, listSelectionTickVariants, listSelectionTitleVariants,
+  listSelectionDescriptionVariants, listSelectionIndicatorVariants, listSelectionRowVariants, listSelectionTickVariants, listSelectionTitleVariants,
   type ListSelectionVariantProps,
 } from './list-selection.variants.ts';
-import { listDescriptionVariants, listTextVariants } from '../list/list.variants.ts';
+import { listTextVariants } from '../list/list.variants.ts';
 
 type Mode = NonNullable<ListSelectionVariantProps['mode']>;
 
@@ -125,7 +125,7 @@ export function ListSelectionItem({ title, description, itemValue, disabled, cla
       )}
       <span data-slot="list-selection-text" className={listTextVariants()}>
         <span data-slot="list-selection-title" className={listSelectionTitleVariants()}>{title}</span>
-        {description != null && <span data-slot="list-selection-description" id={descId} className={listDescriptionVariants()}>{description}</span>}
+        {description != null && <span data-slot="list-selection-description" id={descId} className={listSelectionDescriptionVariants()}>{description}</span>}
       </span>
       {ctx.mode === 'single' && <Check data-slot="list-selection-tick" aria-hidden className={listSelectionTickVariants()} />}
     </button>

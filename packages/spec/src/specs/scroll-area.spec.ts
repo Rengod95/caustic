@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'structure',
   status: 'ready',
   purpose: 'A scroll container with a token-styled thin scrollbar, optional edge fade and overflow state attributes. It keeps native scrolling (wheel, touch, keyboard, find-in-page) and replaces the Studio overlay that tracked arbitrary scroll containers.',
-  description: 'One wrapper plus one native scrolling viewport; no Radix and no custom scrollbar thumb. The scrollbar is the browser\'s thin scrollbar coloured with border.strong (the same rule as the global base layer), shown on hover and focus or always. The viewport reports whether more content lies before or after the visible window through data attributes, which the edge fade and the consumer (for example a sticky shadow) read. The viewport is a keyboard-focusable region only while it actually overflows.',
+  description: 'One wrapper plus one native scrolling viewport; no Radix and no custom scrollbar thumb. The scrollbar is the browser\'s thin scrollbar with a neutral.track thumb (a fill slot, PROPOSAL §4 E15; the global base layer still uses border.strong until it follows), shown on hover and focus or always. The viewport reports whether more content lies before or after the visible window through data attributes, which the edge fade and the consumer (for example a sticky shadow) read. The viewport is a keyboard-focusable region only while it actually overflows.',
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Relative, min-height 0 and min-width 0 so it can shrink inside a flex or grid parent; fills the space the parent gives it (the parent sets the bounded size). overflow hidden, inherits the parent\'s corner radius.' },

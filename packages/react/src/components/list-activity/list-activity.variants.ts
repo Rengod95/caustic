@@ -8,7 +8,7 @@ export const listActivityItem = cva(
 
 export const listActivityMarker = cva('inline-grid size-control-md place-items-center rounded-full');
 
-export const listActivityIcon = cva('grid size-control-md place-items-center rounded-full bg-fill-pressed text-text-secondary [&>svg]:size-icon-md');
+export const listActivityIcon = cva('grid size-control-md place-items-center rounded-full bg-neutral-track text-text-secondary [&>svg]:size-icon-md');
 
 export const listActivityBody = cva('min-w-0 pb-[1px] pt-1.5 font-ui text-ui-relaxed text-text-secondary');
 

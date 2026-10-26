@@ -5,37 +5,44 @@ export const layerTreeVariants = cva('relative grid gap-[1px] font-ui text-ui-de
 
 /**
  * One layer row. 28px, 6px inline padding; the depth indent is a margin on the twisty (--depth x tree indent).
- * Primary selection is accent soft, the rest of a multi-selection a pressed fill. data-drop="inside" outlines the row.
+ * Selection is neutral (decision 3): every selected row takes neutral-selected (neutral-selected-hover under the pointer) and the
+ * check glyph in the end cluster; the primary row also carries the selection edge and primary text, and focus keeps that edge.
+ * data-drop="inside" outlines the row.
+ * A main component reads in one category hue (info text) on the row, its glyph, its label and its tag.
  */
 export const layerTreeRowVariants = cva([
   'group relative flex h-control-sm cursor-default select-none items-center gap-1.5 rounded-md px-1.5 text-ui-dense text-text-secondary outline-none',
-  'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-fill-hover focus-visible:shadow-focus',
-  'data-[component]:text-identity-iris',
-  'data-[secondary]:bg-fill-pressed',
-  'data-[primary]:bg-accent-soft data-[primary]:text-text-primary',
+  'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover focus-visible:shadow-focus',
+  'data-[component]:text-category-component',
+  'data-[secondary]:bg-neutral-selected data-[secondary]:hover:bg-neutral-selected-hover',
+  'data-[primary]:bg-neutral-selected data-[primary]:text-text-primary data-[primary]:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)] data-[primary]:hover:bg-neutral-selected-hover',
+  'data-[primary]:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge),var(--cs-focus)]',
   'data-[drop=inside]:bg-accent-soft data-[drop=inside]:shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-solid)]',
 ]);
 
 /** Chevron box: 12px; a leaf renders it empty so labels align. */
-export const layerTreeTwistyVariants = cva('ms-[calc(var(--depth)*var(--cs-size-tree-indent))] inline-flex size-icon-xs flex-none items-center justify-center text-text-disabled [&_svg]:size-full [&_svg]:stroke-[1.75]');
+export const layerTreeTwistyVariants = cva('ms-[calc(var(--depth)*var(--cs-size-tree-indent))] inline-flex size-icon-xs flex-none items-center justify-center text-neutral-graphic [&_svg]:size-full [&_svg]:stroke-[1.75]');
 
-/** Kind glyph: 14px, tertiary; accent on the primary row, component tint, disabled when hidden. */
+/** Kind glyph: 14px, tertiary; primary text on the primary row, the component hue, disabled colour when hidden. */
 export const layerTreeIconVariants = cva([
   'inline-flex size-icon-sm flex-none items-center justify-center text-text-tertiary [&_svg]:size-full [&_svg]:stroke-[1.75]',
-  'group-data-[component]:text-identity-iris group-data-[primary]:text-accent-text group-data-[hidden]:text-text-disabled',
+  'group-data-[component]:text-category-component group-data-[primary]:text-text-primary group-data-[hidden]:text-disabled-text',
 ]);
 
-export const layerTreeLabelVariants = cva('min-w-0 flex-1 truncate group-data-[component]:text-info-text group-data-[hidden]:text-text-disabled');
+export const layerTreeLabelVariants = cva('min-w-0 flex-1 truncate group-data-[component]:text-category-component group-data-[hidden]:text-disabled-text');
 
 /** Type tag after the name: 18px, info tint. */
-export const layerTreeTagVariants = cva('inline-flex h-control-compact-2xs flex-none items-center rounded-xs bg-info-soft px-1.25 text-micro text-info-text');
+export const layerTreeTagVariants = cva('inline-flex h-control-compact-2xs flex-none items-center rounded-xs bg-category-component-soft px-1.25 text-micro text-category-component');
 
-/** Trailing cluster. Any svg a consumer puts here is 14px and tertiary (accent on the primary row, disabled on a hidden row). */
+/** Trailing cluster. Any svg a consumer puts here is 14px and tertiary (primary on the primary row, disabled colour on a hidden row). */
 export const layerTreeEndVariants = cva([
   'ms-auto flex flex-none items-center gap-1',
   '[&_svg]:size-icon-sm [&_svg]:flex-none [&_svg]:stroke-[1.75] [:where(&)_svg]:text-text-tertiary',
-  'group-data-[primary]:[&_svg]:text-accent-text group-data-[hidden]:[&_svg]:text-text-disabled',
+  'group-data-[primary]:[&_svg]:text-text-primary group-data-[hidden]:[&_svg]:text-disabled-text',
 ]);
+
+/** Selection check on every selected row: 14px, primary text (disabled colour on a hidden row). Its svg follows the span colour, not the end cluster's tertiary. */
+export const layerTreeCheckVariants = cva('inline-flex size-icon-sm flex-none items-center justify-center text-text-primary group-data-[hidden]:text-disabled-text [&_svg]:size-full [&_svg]:stroke-[1.75] [&_svg]:text-current');
 
 export const layerTreeCaptionVariants = cva('text-ui-xs font-medium text-text-tertiary');
 
@@ -51,13 +58,13 @@ export const layerTreeToggleVariants = cva(
     'relative inline-flex size-icon-sm flex-none cursor-default items-center justify-center rounded-xs text-text-tertiary opacity-0 outline-none',
     'transition-[opacity,color] duration-120 ease-out before:absolute before:-inset-1.25 [&_svg]:size-full [&_svg]:stroke-[1.75]',
     'group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 focus-visible:shadow-focus',
-    'group-data-[primary]:text-accent-text',
+    'group-data-[primary]:text-text-primary',
   ],
   {
     variants: {
       kind: {
-        visibility: 'group-data-[hidden]:text-text-disabled group-data-[hidden]:opacity-100',
-        lock: 'group-data-[locked]:text-text-disabled group-data-[locked]:opacity-100',
+        visibility: 'group-data-[hidden]:text-disabled-text group-data-[hidden]:opacity-100',
+        lock: 'group-data-[locked]:text-disabled-text group-data-[locked]:opacity-100',
       },
     },
     defaultVariants: { kind: 'visibility' },

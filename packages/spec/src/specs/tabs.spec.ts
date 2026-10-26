@@ -20,6 +20,7 @@ export default defineSpec({
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'trigger' },
     selected: { props: { defaultValue: 'tokens' } },
     disabled: { props: { disabled: true } },
+    'selected-disabled': { props: { defaultValue: 'tokens', disabled: true } },
   },
   props: {
     value: { type: 'string', description: 'Controlled value.' },
@@ -34,8 +35,11 @@ export default defineSpec({
     { slot: 'trigger', when: { state: 'hover' }, expect: { fg: 'text.primary' } },
     { slot: 'trigger', when: { state: 'selected' }, expect: { fg: 'text.primary' } },
     { slot: 'trigger', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
-    { slot: 'trigger', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
-    { slot: 'indicator', when: { state: 'selected' }, expect: { bg: 'text.primary', height: 2, radius: 'xs' } },
+    { slot: 'trigger', when: { state: 'disabled' }, expect: { fg: 'disabled.text' }, note: 'Disabled is colour, not opacity; the count follows.' },
+    { slot: 'indicator', when: { state: 'selected' }, expect: { bg: 'accent.solid', height: 2, radius: 'xs' }, note: 'A fill, so a fill slot (accent.solid), not the text.primary text token (PROPOSAL §4 E14).' },
+    { slot: 'trigger', when: { state: 'selected-disabled' }, expect: { fg: 'disabled.text' }, note: 'The active trigger also drops to disabled.text.' },
+    { slot: 'indicator', when: { state: 'selected-disabled' }, expect: { bg: 'disabled.text', height: 2, radius: 'xs', opacity: 1 }, note: 'Disabled drops the tone: the accent bar takes disabled.text (a grey 2px bar stays on the active tab), like slider and step-slider marks.' },
+    { slot: 'count', when: { state: 'selected-disabled' }, expect: { fg: 'disabled.text' } },
     { slot: 'count', expect: { fg: 'text.tertiary', text: 'ui-xs' } },
   ],
   behavior: {

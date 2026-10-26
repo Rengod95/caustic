@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'Own component because the semantics and layout differ from List: a native description list (dl, dt, dd) with a three-column grid per row instead of a leading and trailing layout. It shares the List surface. Below 480px the term sits on its own line above the value.',
   role: null,
   slots: [
-    { name: 'root', el: 'dl', description: 'Description list and the frosted surface (same as List root): translucent fill over the control frost, hairline edge, elevation 1, 2xl radius, clips its rows. Margin 0.' },
+    { name: 'root', el: 'dl', description: 'Description list and the list surface (same as List root): translucent fill, a 1px inset border.subtle hairline (one depth cue, no elevation), 2xl radius, clips its rows. Margin 0.' },
     { name: 'row', el: 'div', parent: 'root', description: 'One term/value group (a div wrapper is valid inside dl). Grid: 140px term, flexible value, auto action; 12px gap; 14px inline padding; 44px minimum height. A 1px border.subtle line on its top edge except the first row.' },
     { name: 'term', el: 'dt', parent: 'row', description: 'The label. Tertiary text; one line.' },
     { name: 'value', el: 'dd', parent: 'row', description: 'The value. Primary text, margin 0, one line, truncates. Mono for identifiers (mono prop) or any node (a TokenChip).' },
@@ -29,7 +29,7 @@ export default defineSpec({
     onCopy: { payload: 'string', when: 'the copy button is activated; the argument is copyValue. The component also writes it to the clipboard when the API is available (ListDescriptionRow prop)' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'surface.translucent', edge: 'border.subtle', shadow: '1', frost: true, radius: '2xl' }, note: 'Identical to List root.' },
+    { slot: 'root', expect: { bg: 'surface.translucent', edge: 'border.subtle', radius: '2xl' }, note: 'Identical to List root: one depth cue (d8f79e8), the 1px inset hairline and no elevation; no frost (542df1d).' },
     { slot: 'row', expect: { minHeight: 'control-compact-xl', padX: 14, padY: 6, gap: 12, text: 'ui', fg: 'text.primary' }, note: 'Grid columns: size-list-term (140), minmax(0, 1fr), auto. At 480px and narrower: columns 1fr and auto, the term spans the first row.' },
     { slot: 'term', expect: { fg: 'text.tertiary', text: 'ui' } },
     { slot: 'value', expect: { fg: 'text.primary', text: 'ui' } },

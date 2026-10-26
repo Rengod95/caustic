@@ -72,7 +72,7 @@ export default defineFixture({
         <LayerTreeItem itemId="pro" depth={2} icon={<Square />} label="Pro" expandable open />
         <LayerTreeItem itemId="button-primary" depth={3} icon={<Component />} label="Button / Primary" selected end={<Eye />} />
         <LayerTreeItem itemId="team" depth={2} icon={<Square />} label="Team" expandable agent />
-        <LayerTreeItem itemId="header" depth={1} icon={<Component />} label="Header" component end={<Lock className="text-text-disabled" />} />
+        <LayerTreeItem itemId="header" depth={1} icon={<Component />} label="Header" component end={<Lock className="text-disabled-text" />} />
       </LayerTree>
     ),
   },

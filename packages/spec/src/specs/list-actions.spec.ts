@@ -11,10 +11,10 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'div', description: 'Row wrapper. Relative; in swipe mode it clips the row and the tray (overflow hidden). Takes the List row separator on its top edge (except the first row).' },
     { name: 'tray', el: 'div', parent: 'root', required: false, description: 'Swipe mode only: the action tray under the row, flex, pinned to the end edge, as wide as its actions (72px each). Revealed when the row slides left.' },
-    { name: 'action', el: 'button', parent: 'tray', required: false, role: 'button', description: 'One tray action: icon over a short label, 72px wide, full row height, solid fill. The fill names the intent: neutral (identity slate), warning, danger.' },
+    { name: 'action', el: 'button', parent: 'tray', required: false, role: 'button', description: 'One tray action: icon over a short label, 72px wide, full row height, solid fill. The fill names the intent: neutral, warning, danger (the solid slot of each tone). Hover takes its solid-hover; press takes solid-hover plus a 1px inner edge of the tone text slot (step 11).' },
     { name: 'action-icon', el: 'any', parent: 'action', required: false, description: 'Action glyph, 16px.' },
     { name: 'action-label', el: 'span', parent: 'action', required: false, description: 'One-word label, 11px semibold.' },
-    { name: 'row', el: 'div', parent: 'root', description: 'The visible row: a List row (leading, text, end). In swipe mode it has an opaque surface.base fill, sits above the tray and translates by the tray width when open; touch-action pan-y. In hover mode it fills with fill.hover on hover.' },
+    { name: 'row', el: 'div', parent: 'root', description: 'The visible row: a List row (leading, text, end). In swipe mode it has an opaque surface.base fill, sits above the tray and translates by the tray width when open; touch-action pan-y. In hover mode it fills with neutral.hover on hover.' },
     { name: 'tools', el: 'div', parent: 'row', required: false, description: 'Hover mode only: the icon button group at the end of the row, 2px gap. Opacity 0 until the row is hovered or has focus inside; always visible on devices without hover.' },
   ],
   variants: {
@@ -22,6 +22,7 @@ export default defineSpec({
   },
   states: {
     hover: { pseudo: ['hover'], target: 'row' },
+    pressed: { pseudo: ['active'], target: 'action' },
   },
   props: {
     reveal: { type: "'hover' | 'swipe'", default: 'hover', description: 'Which actions UI the row carries.' },
@@ -39,11 +40,14 @@ export default defineSpec({
   styles: [
     { slot: 'row', expect: { minHeight: 'size-list-row', padX: 14, padY: 8, gap: 12, fg: 'text.primary', text: 'ui' }, note: 'Same box as a List row; title, description and end are the List slots.' },
     { slot: 'row', when: { reveal: 'swipe' }, expect: { bg: 'surface.base', cursor: 'grab' }, note: 'Opaque so the tray is hidden behind it. Transition: the gentle duration with the spring easing.' },
-    { slot: 'row', when: { reveal: 'hover', state: 'hover' }, expect: { bg: 'fill.hover' } },
+    { slot: 'row', when: { reveal: 'hover', state: 'hover' }, expect: { bg: 'neutral.hover' } },
     { slot: 'tray', when: { reveal: 'swipe' }, expect: { width: 216 }, note: 'Three actions x 72. The row translates by exactly this width when open.' },
-    { slot: 'action', when: { reveal: 'swipe' }, expect: { bg: 'identity.slate', fg: 'identity.on', width: 72, gap: 2, text: 'micro' }, note: 'Specimen neutral action fill is a literal oklch(.6 .02 260); identity.slate is the nearest token. Full row height.' },
+    { slot: 'action', when: { reveal: 'swipe' }, expect: { bg: 'neutral.solid', fg: 'neutral.on', width: 72, gap: 2, text: 'micro' }, note: 'Specimen neutral action fill is a literal oklch(.6 .02 260); the neutral solid slot replaces it (identity colours are categories, not a neutral solid). Full row height. Hover: the tone\'s solid-hover; press adds the 1px inner edge (see the pressed rules).' },
     { slot: 'action', when: { reveal: 'swipe', tone: 'warning' }, expect: { bg: 'warning.solid', fg: 'warning.on' } },
     { slot: 'action', when: { reveal: 'swipe', tone: 'danger' }, expect: { bg: 'danger.solid', fg: 'danger.on' } },
+    { slot: 'action', when: { reveal: 'swipe', state: 'pressed' }, expect: { bg: 'neutral.solid-hover', edge: 'neutral.text' }, note: 'Solid pressed: step 10 plus a 1px inner edge at step 11 (§2 matrix). Focus draws the ring next to the edge.' },
+    { slot: 'action', when: { reveal: 'swipe', tone: 'warning', state: 'pressed' }, expect: { bg: 'warning.solid-hover', edge: 'warning.text' } },
+    { slot: 'action', when: { reveal: 'swipe', tone: 'danger', state: 'pressed' }, expect: { bg: 'danger.solid-hover', edge: 'danger.text' } },
     { slot: 'action-icon', when: { reveal: 'swipe' }, expect: { height: 'icon-md', width: 'icon-md' } },
     { slot: 'tools', expect: { gap: 2, opacity: 0 }, note: 'Hover mode. IconButton xs, ghost, 24px.' },
     { slot: 'tools', when: { state: 'hover' }, expect: { opacity: 1 } },
@@ -74,7 +78,7 @@ export default defineSpec({
       'Icon buttons in tools need aria-label ("Copy", "Download", "Delete"); tray actions have a visible label, and the icon is decorative.',
       'The open state is exposed with data-state="open" on the row; a closed tray is moved out of view but its buttons stay in the DOM so assistive technology still reaches them.',
       'Destructive actions use the danger fill and a label that names the outcome (Delete); confirm irreversible ones in the product with an alert dialog.',
-      'Contrast: white-on-slate and the warning and danger fills pass 4.5:1 with their on colors.',
+      'Contrast: neutral.on on neutral.solid and the warning and danger fills pass their floors with their on colors.',
       'Reduced motion: the row jumps to its open position without the slide.',
     ],
   },
@@ -87,6 +91,6 @@ export default defineSpec({
     'The example is a two-column grid (cc-grid two): left, a List headed "Swipe left" with two swipe rows (the second is defaultOpen); right, a List headed "Hover" with two hover rows (tokens.css, PricingCard.tsx; descriptions 112 lines, 48 lines). Rows: Mina commented / Total should be bold, not the label. (coral Avatar MK, 2m); Caustic needs approval / Edit the shared Button component? (agent Avatar, 5m).',
     'In the specimen a tap toggles the row open; that is the demo behavior. The product rule is above (a tap on a closed row runs its action).',
     'Opacity of the tools is a hover or focus-within reveal; on devices without hover they stay visible.',
-    'The specimen tray action fills are literal; the tone variants use identity.slate, warning.solid and danger.solid.',
+    'The specimen tray action fills are literal; the tone variants use neutral.solid, warning.solid and danger.solid, with neutral.solid-hover, warning.solid-hover and danger.solid-hover on hover and press (the emphasis stays solid); press adds a 1px inner edge of the tone text slot (neutral.text, warning.text, danger.text).',
   ],
 });

@@ -12,7 +12,7 @@ export default defineSpec({
     { name: 'root', el: 'ol', role: 'list', description: 'The feed. Ordered list, newest first; grid, no gap (each entry carries its own bottom padding).' },
     { name: 'item', el: 'li', parent: 'root', description: 'One entry: a 32px marker column and a content column, 12px gap, 16px bottom padding. Except for the last entry, a 1px border.default line runs down the marker column from just below the marker (34px from the top) to 2px above the entry end, centered under the marker.' },
     { name: 'marker', el: 'span', parent: 'item', description: 'The 32px marker column: an Avatar md (person or agent) or the icon disc.' },
-    { name: 'icon', el: 'span', parent: 'marker', required: false, description: 'Icon disc for system events (publish, join): 32px circle, pressed fill, secondary glyph, 16px.' },
+    { name: 'icon', el: 'span', parent: 'marker', required: false, description: 'Icon disc for system events (publish, join): 32px circle, neutral track fill, secondary glyph, 16px.' },
     { name: 'body', el: 'div', parent: 'item', description: 'Content column. 6px top padding so the first line centers on the marker.' },
     { name: 'strong', el: 'strong', parent: 'body', required: false, description: 'The actor and the object inside the sentence: medium weight, primary text. A link when the entry navigates.' },
     { name: 'quote', el: 'div', parent: 'body', required: false, description: 'A quoted comment or message under the sentence: translucent surface, hairline edge, xl radius, 10px / 12px padding, 8px above.' },
@@ -30,7 +30,7 @@ export default defineSpec({
   styles: [
     { slot: 'item', expect: { gap: 12 }, note: 'Grid of 32px and 1fr. The separator line is a pseudo-element: 1px, border.default, left 15.5px (centered under the marker), top 34px, bottom 2px; absent on the last entry.' },
     { slot: 'marker', expect: { height: 'control-md', width: 'control-md', radius: 'full' } },
-    { slot: 'icon', expect: { bg: 'fill.pressed', fg: 'text.secondary', radius: 'full', height: 'control-md', width: 'control-md' }, note: 'Specimen glyph is 15px; icon-md (16) is used, within 1px.' },
+    { slot: 'icon', expect: { bg: 'neutral.track', fg: 'text.secondary', radius: 'full', height: 'control-md', width: 'control-md' }, note: 'Specimen glyph is 15px; icon-md (16) is used, within 1px.' },
     { slot: 'body', expect: { fg: 'text.secondary', text: 'ui-relaxed' }, note: 'Padding-top is 6px.' },
     { slot: 'strong', expect: { fg: 'text.primary', text: 'ui-relaxed', weight: 500 } },
     { slot: 'quote', expect: { bg: 'surface.translucent', edge: 'border.subtle', radius: 'xl', padX: 12, padY: 10, fg: 'text.primary', text: 'ui-dense-relaxed' }, note: 'Margin-top 8px.' },

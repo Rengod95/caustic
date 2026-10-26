@@ -39,7 +39,7 @@ export interface ListProps extends ComponentProps<'div'> {
 }
 
 /**
- * The grouped list surface: frosted rows that read like an inset-grouped list.
+ * The grouped list surface: translucent rows with a hairline edge that read like an inset-grouped list.
  */
 export function List({
   size = 'md', heading, headingEnd, 'aria-label': ariaLabel, className, children, ...props

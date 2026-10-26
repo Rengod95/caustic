@@ -29,7 +29,7 @@ export const listActionsRowVariants = cva(
   {
     variants: {
       reveal: {
-        hover: 'transition-[background-color] duration-120 ease-out hover:bg-fill-hover',
+        hover: 'transition-[background-color] duration-120 ease-out hover:bg-neutral-hover',
         swipe: 'z-10 translate-x-[var(--row-x,0px)] cursor-grab touch-pan-y bg-surface-base transition-[translate] duration-320 ease-spring outline-none motion-reduce:transition-none data-[dragging]:cursor-grabbing data-[dragging]:transition-none',
       },
     },
@@ -40,15 +40,19 @@ export const listActionsRowVariants = cva(
 /** The tray under the row, pinned to the end edge. */
 export const listActionsTrayVariants = cva('absolute inset-y-0 right-0 flex');
 
-/** One tray action: icon over a short label, 72px wide, full row height, solid fill that names the intent. */
+/**
+ * One tray action: icon over a short label, 72px wide, full row height, solid fill that names the intent. Hover takes
+ * solid-hover; press takes solid-hover plus a 1px inner edge of the tone's text slot (step 11, §2 solid row), and
+ * pressed + focus draws the ring next to that edge.
+ */
 export const listActionsActionVariants = cva(
   'grid w-18 flex-none cursor-pointer place-content-center place-items-center gap-0.5 border-0 text-micro font-semibold outline-none focus-visible:shadow-focus',
   {
     variants: {
       tone: {
-        neutral: 'bg-identity-slate text-identity-on',
-        warning: 'bg-warning-solid text-warning-on',
-        danger: 'bg-danger-solid text-danger-on',
+        neutral: 'bg-neutral-solid text-neutral-on hover:bg-neutral-solid-hover active:bg-neutral-solid-hover active:shadow-[inset_0_0_0_1px_var(--cs-color-neutral-text)] active:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-neutral-text),var(--cs-focus)]',
+        warning: 'bg-warning-solid text-warning-on hover:bg-warning-solid-hover active:bg-warning-solid-hover active:shadow-[inset_0_0_0_1px_var(--cs-color-warning-text)] active:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-warning-text),var(--cs-focus)]',
+        danger: 'bg-danger-solid text-danger-on hover:bg-danger-solid-hover active:bg-danger-solid-hover active:shadow-[inset_0_0_0_1px_var(--cs-color-danger-text)] active:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-danger-text),var(--cs-focus)]',
       },
     },
     defaultVariants: { tone: 'neutral' },

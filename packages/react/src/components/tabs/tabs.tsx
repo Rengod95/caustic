@@ -41,14 +41,15 @@ export function TabsTrigger({ count, disabled, className, children, ...props }: 
       className={cn(
         'group relative inline-flex h-tab-h items-center gap-1 whitespace-nowrap font-ui text-ui-strong text-text-tertiary',
         'transition-colors duration-base ease-out outline-none hover:text-text-primary focus-visible:shadow-focus',
-        'data-[state=active]:text-text-primary disabled:pointer-events-none disabled:opacity-42',
+        // Disabled is colour and the tone drops: the stacked disabled + active rule (0,3,0) beats the active text, and the bar greys out.
+        'data-[state=active]:text-text-primary disabled:pointer-events-none disabled:text-disabled-text disabled:data-[state=active]:text-disabled-text',
         className,
       )}
       {...props}
     >
       {children}
-      {count != null && <span data-slot="tabs-count" className="text-ui-xs tabular-nums text-text-tertiary">{count}</span>}
-      <span data-slot="tabs-indicator" aria-hidden="true" className="absolute inset-x-0 -bottom-px h-0.5 rounded-xs bg-text-primary opacity-0 transition-opacity duration-base ease-out group-data-[state=active]:opacity-100" />
+      {count != null && <span data-slot="tabs-count" className="text-ui-xs tabular-nums text-text-tertiary group-disabled:text-disabled-text">{count}</span>}
+      <span data-slot="tabs-indicator" aria-hidden="true" className="absolute inset-x-0 -bottom-px h-0.5 rounded-xs bg-accent-solid opacity-0 transition-opacity duration-base ease-out group-data-[state=active]:opacity-100 group-disabled:bg-disabled-text" />
     </T.Trigger>
   );
 }

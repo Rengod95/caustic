@@ -11,9 +11,9 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'nav', role: 'navigation', description: 'The landmark. Flex row, centred, 4px gap, wraps. aria-label supplied by the consumer.' },
     { name: 'list', el: 'ol', parent: 'root', description: 'Flex row that holds the entries (display contents is acceptable: the root owns the gap and wrapping).' },
-    { name: 'item', el: 'a', parent: 'list', required: false, description: 'An ancestor link: tertiary text, inline-flex, 6px gap, 3px 6px padding, sm radius. Hover lifts to primary text on fill.hover.' },
+    { name: 'item', el: 'a', parent: 'list', required: false, description: 'An ancestor link: tertiary text, inline-flex, 6px gap, 3px 6px padding, sm radius. Hover lifts to primary text on neutral.hover.' },
     { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Optional leading lucide icon, 14px (the home icon on the first item).' },
-    { name: 'separator', el: 'span', parent: 'list', description: 'A 14px chevron-right in text.disabled between entries. aria-hidden.' },
+    { name: 'separator', el: 'span', parent: 'list', description: 'A 14px chevron-right in neutral.graphic between entries. aria-hidden.' },
     { name: 'ellipsis', el: 'button', parent: 'list', required: false, description: 'Collapsed middle path: an xs IconButton with an ellipsis icon and an aria-label such as "Show 3 more". Press reveals the hidden entries (menu or expansion is the consumer’s).' },
     { name: 'current', el: 'span', parent: 'list', description: 'The current page: primary text, medium weight, 3px 6px padding, aria-current="page". Not a link.' },
   ],
@@ -29,15 +29,15 @@ export default defineSpec({
   styles: [
     { slot: 'root', expect: { gap: 4, text: 'ui' } },
     { slot: 'item', expect: { fg: 'text.tertiary', radius: 'sm', padX: 6, padY: 3, gap: 6, text: 'ui' } },
-    { slot: 'item', when: { state: 'hover' }, expect: { fg: 'text.primary', bg: 'fill.hover' } },
+    { slot: 'item', when: { state: 'hover' }, expect: { fg: 'text.primary', bg: 'neutral.hover' } },
     { slot: 'item', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'icon', expect: { height: 'icon-sm', width: 'icon-sm' } },
-    { slot: 'separator', expect: { fg: 'text.disabled', height: 'icon-sm', width: 'icon-sm' } },
+    { slot: 'separator', expect: { fg: 'neutral.graphic', height: 'icon-sm', width: 'icon-sm' } },
     { slot: 'current', expect: { fg: 'text.primary', padX: 6, padY: 3, text: 'ui', weight: 500 } },
   ],
   behavior: {
     keyboard: { Tab: 'moves through the links and the ellipsis control', Enter: 'follows the focused link' },
-    pointer: ['hover on an ancestor link fills it with fill.hover and raises the text to primary'],
+    pointer: ['hover on an ancestor link fills it with neutral.hover and raises the text to primary'],
     scenarios: [],
   },
   a11y: {

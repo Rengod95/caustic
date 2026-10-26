@@ -29,7 +29,7 @@ export function PageList({ label, addLabel, onAdd, className, children, ...props
 }
 
 export interface PageListRowProps extends ComponentProps<'button'> {
-  /** Marks the current page: aria-current="page", pressed fill, 500 weight. */
+  /** Marks the current page: aria-current="page", the segment thumb (control-raised fill + control edge, §4 B2/B3, as list-navigation), 500 weight. */
   current?: boolean;
   /** Trailing frame count. */
   count?: ReactNode;
@@ -47,7 +47,8 @@ export function PageListRow({ current = false, count, onSelect, onClick, classNa
       className={cn(
         'flex h-menu-item w-full items-center gap-2 rounded-md px-2 text-left font-ui text-ui-dense text-text-primary',
         'transition-[background-color,box-shadow] duration-120 ease-out outline-none',
-        'hover:bg-fill-hover focus-visible:shadow-focus aria-[current=page]:bg-fill-pressed aria-[current=page]:font-medium',
+        'hover:bg-neutral-hover focus-visible:shadow-focus aria-[current=page]:bg-control-raised aria-[current=page]:font-medium',
+        'aria-[current=page]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] aria-[current=page]:hover:bg-control-raised-hover aria-[current=page]:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]',
         className,
       )}
       onClick={e => { onClick?.(e); onSelect?.(e); }}

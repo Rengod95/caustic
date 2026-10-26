@@ -7,7 +7,8 @@ export const scrollAreaVariants = cva('relative grid size-full min-h-0 min-w-0 g
   defaultVariants: { scrollbar: 'hover' },
 });
 
-const THUMB = '[scrollbar-color:var(--cs-color-border-strong)_transparent]';
+/** Scrollbar thumb: the neutral track fill (a fill, not a border token). */
+const THUMB = '[scrollbar-color:var(--cs-color-neutral-track)_transparent]';
 
 export const scrollAreaViewportVariants = cva(
   'min-h-0 min-w-0 overscroll-contain scroll-auto rounded-[inherit] outline-none focus-visible:shadow-[var(--cs-focus-field),var(--cs-focus)]',
@@ -16,9 +17,9 @@ export const scrollAreaViewportVariants = cva(
       scrollbar: {
         hover: [
           '[scrollbar-color:transparent_transparent]',
-          'group-hover/scroll-area:[scrollbar-color:var(--cs-color-border-strong)_transparent]',
-          'focus-within:[scrollbar-color:var(--cs-color-border-strong)_transparent]',
-          'data-[scrolling=true]:[scrollbar-color:var(--cs-color-border-strong)_transparent]',
+          'group-hover/scroll-area:[scrollbar-color:var(--cs-color-neutral-track)_transparent]',
+          'focus-within:[scrollbar-color:var(--cs-color-neutral-track)_transparent]',
+          'data-[scrolling=true]:[scrollbar-color:var(--cs-color-neutral-track)_transparent]',
         ],
         always: THUMB,
       },

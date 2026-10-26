@@ -1,5 +1,5 @@
 'use client';
-import { ChevronDown, ChevronRight, Eye, EyeOff, Lock, LockOpen } from 'lucide-react';
+import { Check, ChevronDown, ChevronRight, Eye, EyeOff, Lock, LockOpen } from 'lucide-react';
 import {
   Children, createContext, isValidElement, useContext, useId, useRef, useState,
   type ComponentProps, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactElement, type ReactNode,
@@ -7,7 +7,7 @@ import {
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import {
-  layerTreeCaptionVariants, layerTreeDropVariants, layerTreeEndVariants, layerTreeGhostIconVariants, layerTreeGhostVariants, layerTreeIconVariants,
+  layerTreeCaptionVariants, layerTreeCheckVariants, layerTreeDropVariants, layerTreeEndVariants, layerTreeGhostIconVariants, layerTreeGhostVariants, layerTreeIconVariants,
   layerTreeLabelVariants, layerTreeMarkVariants, layerTreeRowVariants, layerTreeTagVariants, layerTreeLockVariants, layerTreeTwistyVariants, layerTreeVisibilityVariants, layerTreeVariants,
 } from './layer-tree.variants.ts';
 
@@ -37,7 +37,7 @@ export interface LayerTreeItemProps extends Omit<ComponentProps<'div'>, 'childre
   open?: boolean;
   /** State hook for fixtures; normally derived from the tree-level selection. */
   selected?: boolean;
-  /** Selected but not the primary selection (pressed fill instead of accent soft). */
+  /** Selected but not the primary selection (neutral-selected and the check, without the selection edge). */
   secondary?: boolean;
   /** The layer is hidden on the canvas. */
   invisible?: boolean;
@@ -68,7 +68,7 @@ export interface LayerTreeProps extends Omit<ComponentProps<'div'>, 'defaultValu
   lockLabel?: ((name: string, locked: boolean) => string) | undefined;
   /** Words of the hidden row description; required when a row can be invisible, locked or agent-marked. */
   stateLabels?: LayerTreeStateLabels | undefined;
-  /** Controlled selection: the last id is the primary (accent) selection. */
+  /** Controlled selection: the last id is the primary selection (it also carries the selection edge). */
   value?: string[];
   defaultValue?: string[];
   /** Controlled set of expanded row ids. */
@@ -468,7 +468,7 @@ export function LayerTreeItem({
   const dropPos = dropProp ?? (ctx.drop?.id === itemId ? ctx.drop.position : undefined);
   const name = textOf(label, itemId);
   const notes = [invisible && ctx.stateLabels?.hidden, locked && ctx.stateLabels?.locked, agent && ctx.stateLabels?.agent].filter(Boolean).join(', ');
-  const showEnd = caption != null || agent || end != null || ctx.hasVisibility || ctx.hasLock;
+  const showEnd = isSelected || caption != null || agent || end != null || ctx.hasVisibility || ctx.hasLock;
   return (
     <div
       data-slot="layer-tree-row" role="treeitem" data-item-id={itemId}
@@ -499,6 +499,7 @@ export function LayerTreeItem({
           {caption != null && <span data-slot="layer-tree-caption" className={layerTreeCaptionVariants()}>{caption}</span>}
           {agent && <span data-slot="layer-tree-mark" aria-hidden className={layerTreeMarkVariants()} />}
           {end}
+          {isSelected && <span data-slot="layer-tree-check" aria-hidden="true" className={layerTreeCheckVariants()}><Check /></span>}
           {ctx.hasVisibility && (
             <button
               type="button" tabIndex={-1} data-slot="layer-tree-visibility" aria-label={ctx.visibilityLabel?.(name, invisible)} aria-pressed={invisible}

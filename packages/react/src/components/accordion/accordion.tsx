@@ -74,15 +74,28 @@ export function AccordionTrigger({ icon, accessory, className, children, ...prop
         data-slot="accordion-trigger"
         className={cn(
           'group flex min-h-control-xl w-full cursor-pointer items-center gap-2.5 px-0.5 py-1 text-left font-ui text-ui-md text-text-primary',
-          'outline-none focus-visible:rounded-md focus-visible:shadow-focus disabled:pointer-events-none disabled:opacity-42',
+          'outline-none focus-visible:rounded-md focus-visible:shadow-focus disabled:pointer-events-none disabled:text-disabled-text',
           className,
         )}
         {...props}
       >
-        {icon ? <span data-slot="accordion-icon" aria-hidden className="inline-flex size-icon-sm shrink-0 text-text-tertiary [&_svg]:size-full">{icon}</span> : null}
+        {icon ? <span data-slot="accordion-icon" aria-hidden className="inline-flex size-icon-sm shrink-0 text-text-tertiary group-disabled:text-disabled-text [&_svg]:size-full">{icon}</span> : null}
         {children}
-        {accessory ? <span data-slot="accordion-accessory" className="ml-1.5 inline-flex">{accessory}</span> : null}
-        <ChevronDown data-slot="accordion-chevron" aria-hidden className="ml-auto size-icon-md shrink-0 text-text-tertiary transition-transform duration-base ease-out group-data-[state=open]:rotate-180" />
+        {/* A Badge accessory drops its fill and tone with the disabled trigger: filled tones take disabled fill and text, the outline
+            tone keeps no fill and takes the disabled border, the agent badge loses its rim and its orb stops in the disabled colour. */}
+        {accessory ? (
+          <span
+            data-slot="accordion-accessory"
+            className={cn(
+              'ml-1.5 inline-flex',
+              'group-disabled:[&_[data-slot=badge]]:bg-disabled-fill group-disabled:[&_[data-slot=badge]]:text-disabled-text',
+              'group-disabled:[&_[data-slot=badge][data-tone=outline]]:bg-transparent group-disabled:[&_[data-slot=badge][data-tone=outline]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+              'group-disabled:[&_[data-slot=badge][data-tone=agent]]:after:hidden',
+              'group-disabled:[&_[data-slot=badge-orb]]:[animation:none] group-disabled:[&_[data-slot=badge-orb]]:[background:var(--cs-color-disabled-text)]',
+            )}
+          >{accessory}</span>
+        ) : null}
+        <ChevronDown data-slot="accordion-chevron" aria-hidden className="ml-auto size-icon-md shrink-0 text-text-tertiary group-disabled:text-disabled-text transition-transform duration-base ease-out group-data-[state=open]:rotate-180" />
       </A.Trigger>
     </A.Header>
   );

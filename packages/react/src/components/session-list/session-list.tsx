@@ -12,7 +12,7 @@ export type SessionStatus = 'running' | 'review' | 'failed' | 'done';
 export interface SessionListItemProps extends Omit<ComponentProps<'button'>, 'title'> {
   /** Session status. */
   status?: SessionStatus;
-  /** The open session: pressed fill, medium weight, aria-current. */
+  /** The open session: the raised control thumb (control-raised + control edge), medium weight, aria-current. */
   current?: boolean;
   /** Title. */
   title: ReactNode;

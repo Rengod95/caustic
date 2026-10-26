@@ -46,8 +46,9 @@ export interface TableProps extends Omit<ComponentProps<'div'>, 'children'> {
   pagerLabel?: string;
 }
 
-const pageButton = 'inline-flex h-control-md min-w-control-md items-center justify-center gap-1 rounded-md px-2 text-ui tabular-nums text-text-secondary outline-none hover:bg-fill-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm';
-const pageCurrent = 'bg-control-raised font-semibold text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover';
+const pageButton = 'inline-flex h-control-md min-w-control-md items-center justify-center gap-1 rounded-md px-2 text-ui tabular-nums text-text-secondary outline-none hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm';
+/** The current page is the segment thumb (control family, §4 B2): control-raised fill and the control edge, control-raised-hover under the pointer; focus keeps the edge. */
+const pageCurrent = 'bg-control-raised font-semibold text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]';
 
 /** Data table: toolbar, row selection, sortable columns, row actions and a footer with summary and pager. */
 export function Table({
@@ -114,7 +115,7 @@ export function Table({
               return (
                 <tr
                   key={row.id} data-slot="table-row" aria-selected={selectable ? on : undefined}
-                  className="h-12 border-b border-border-subtle last:border-b-0 hover:bg-fill-hover aria-selected:bg-accent-soft"
+                  className="h-12 border-b border-border-subtle last:border-b-0 hover:bg-neutral-hover aria-selected:bg-neutral-selected aria-selected:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)] aria-selected:hover:bg-neutral-selected-hover"
                 >
                   {selectable && (
                     <td data-slot="table-cell" className="h-12 px-3 text-ui text-text-primary">

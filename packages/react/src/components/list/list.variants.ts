@@ -9,7 +9,7 @@ export const listGroupHeadingVariants = cva('px-3.5 font-ui text-caption upperca
 /** Note below a list, outside the surface. */
 export const listGroupFooterVariants = cva('px-3.5 pb-[1px] font-ui text-footnote text-text-tertiary');
 
-/** The frosted inline surface. Translucent, never glass (P1); every list component imports it. */
+/** The inline surface: translucent fill and one depth cue, the 1px inset hairline (no elevation). Never glass (P1); every list component imports it. */
 export const listVariants = cva(
   'w-full overflow-hidden rounded-2xl bg-surface-translucent font-ui text-ui text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
 );
@@ -32,7 +32,7 @@ export const listRowVariants = cva(
     'before:absolute before:right-0 before:top-0 before:h-[1px] before:bg-border-subtle',
     'before:left-[calc(var(--spacing)*3.5+var(--li-lead,0px)+var(--spacing)*3)] first:before:hidden',
     'data-[lead=none]:before:left-3.5 [[data-lead=none]+&]:before:left-3.5',
-    'has-[[data-slot=list-trigger]]:hover:bg-fill-hover has-[[data-slot=list-trigger]:active]:bg-fill-pressed',
+    'has-[[data-slot=list-trigger]]:hover:bg-neutral-hover has-[[data-slot=list-trigger]:active]:bg-neutral-pressed',
   ],
   {
     variants: {
@@ -66,12 +66,14 @@ export const listTriggerVariants = cva(
 
 export const listLeadWrapVariants = cva('flex flex-none items-center');
 
+/** Icon tile: an identity colour (solid 9 per mode) with its own on colour for the glyph. */
 export const listTileVariants = cva(
-  'grid size-list-tile flex-none place-items-center rounded-md text-identity-on [&_svg]:size-icon-md',
+  'grid size-list-tile flex-none place-items-center rounded-md [&_svg]:size-icon-md',
   {
     variants: {
       tint: {
-        coral: 'bg-identity-coral', iris: 'bg-identity-iris', mint: 'bg-identity-mint', amber: 'bg-identity-amber', slate: 'bg-identity-slate',
+        coral: 'bg-identity-coral text-identity-on-coral', iris: 'bg-identity-iris text-identity-on-iris', mint: 'bg-identity-mint text-identity-on-mint',
+        amber: 'bg-identity-amber text-identity-on-amber', slate: 'bg-identity-slate text-identity-on-slate',
       },
     },
     defaultVariants: { tint: 'iris' },
@@ -106,7 +108,7 @@ export const listOrbVariants = cva('', {
   defaultVariants: { status: 'idle' },
 });
 
-export const listChevronVariants = cva('size-icon-md flex-none text-text-disabled');
+export const listChevronVariants = cva('size-icon-md flex-none text-neutral-graphic');
 
 export type ListVariantProps = VariantProps<typeof listRowVariants>;
 export type ListTint = NonNullable<VariantProps<typeof listTileVariants>['tint']>;

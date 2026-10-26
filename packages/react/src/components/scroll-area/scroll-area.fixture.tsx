@@ -11,7 +11,7 @@ function Frame(props: ScrollAreaProps) {
       <ScrollArea {...props}>
         {horizontal ? (
           <div className="flex items-center gap-2 whitespace-nowrap px-3 py-3 font-ui text-ui-md text-text-primary">
-            {tokens.map(t => <span key={t} className="flex-none rounded-md bg-fill-pressed px-2 py-1">{t}</span>)}
+            {tokens.map(t => <span key={t} className="flex-none rounded-md bg-neutral-track px-2 py-1">{t}</span>)}
           </div>
         ) : (
           <div className="grid">
