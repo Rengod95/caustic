@@ -1,8 +1,9 @@
 'use client';
+import { Check } from 'lucide-react';
 import { createContext, useContext, useRef, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
-import { optionTilesCaptionVariants, optionTilesIconVariants, optionTilesItemVariants, optionTilesVariants } from './option-tiles.variants.ts';
+import { optionTilesCaptionVariants, optionTilesCheckVariants, optionTilesIconVariants, optionTilesItemVariants, optionTilesVariants } from './option-tiles.variants.ts';
 
 type Layout = 'caption' | 'icon';
 type Columns = '3' | '4' | '5';
@@ -77,6 +78,7 @@ export function OptionTilesItem({ itemId, label, caption, icon, checked, disable
       {icon != null && <span data-slot="option-tiles-icon" aria-hidden="true" className={optionTilesIconVariants()}>{icon}</span>}
       <span data-slot="option-tiles-label">{label}</span>
       {caption != null && <span data-slot="option-tiles-caption" className={optionTilesCaptionVariants()}>{caption}</span>}
+      {selected && <span data-slot="option-tiles-check" aria-hidden="true" className={optionTilesCheckVariants()}><Check /></span>}
     </button>
   );
 }

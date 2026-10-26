@@ -5,7 +5,7 @@ export default defineSpec({
   name: 'OptionTiles',
   category: 'form',
   status: 'ready',
-  purpose: 'Picks one option from a small grid of equal tiles: an export format (a name over a short caption) or an import source (a glyph over a name). The chosen tile gets an accent edge and a soft accent fill.',
+  purpose: 'Picks one option from a small grid of equal tiles: an export format (a name over a short caption) or an import source (a glyph over a name). The chosen tile gets the neutral selection: selected fill, a 1.5px selection edge and a check.',
   description: 'A single-choice radio group laid out as a grid of 3, 4 or 5 columns. Tiles are bordered, flat and equal in size. Use it when the options are few, short and worth showing at once; for many options use Select, for lengthy descriptions ChoiceCards.',
   role: 'radiogroup',
   slots: [
@@ -13,7 +13,8 @@ export default defineSpec({
     { name: 'item', el: 'button', parent: 'root', role: 'radio', description: 'One option. Grid, content centered, lg radius, 1px default border drawn inside. aria-checked, roving tabindex. Hover fills.' },
     { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Glyph above the label (icon layout): 18px, primary text. Decorative.' },
     { name: 'label', el: 'span', parent: 'item', description: 'Option name ("PNG", "URL").' },
-    { name: 'caption', el: 'span', parent: 'item', required: false, description: 'Short qualifier under the name (caption layout): "vector", "2×", "quality", "print", "selection", "React", "DTCG". 11px regular, tertiary; accent text when the tile is chosen.' },
+    { name: 'caption', el: 'span', parent: 'item', required: false, description: 'Short qualifier under the name (caption layout): "vector", "2×", "quality", "print", "selection", "React", "DTCG". 11px regular, tertiary; secondary when the tile is chosen.' },
+    { name: 'check', el: 'span', parent: 'item', required: false, description: 'Check glyph in the top-right corner of the chosen tile (14px, icon-sm, primary text; neutral, not accent). Decorative, aria-hidden; the tile carries aria-checked. Rendered only when checked.' },
   ],
   variants: {
     layout: { values: ['caption', 'icon'], default: 'caption', description: 'caption = name over a caption (54px tiles); icon = glyph over a name (62px tiles).' },
@@ -23,6 +24,7 @@ export default defineSpec({
     hover: { pseudo: ['hover'], target: 'item' },
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'item' },
     checked: { props: { checked: true } },
+    disabled: { props: { disabled: true } },
   },
   props: {
     value: { type: 'string', description: 'Controlled id of the chosen option.' },
@@ -35,6 +37,7 @@ export default defineSpec({
     caption: { type: 'ReactNode', description: 'OptionTilesItem prop. Short qualifier (caption layout).' },
     icon: { type: 'ReactNode', description: 'OptionTilesItem prop. Glyph (icon layout).' },
     checked: { type: 'boolean', default: false, description: 'OptionTilesItem prop. State hook for fixtures; normally derived from value.' },
+    disabled: { type: 'boolean', default: false, description: 'OptionTilesItem prop. Disables the option: disabled fill, edge and text.' },
   },
   events: {
     onValueChange: { payload: 'string', when: 'a different option is chosen (click, Space, Enter or an arrow key)' },
@@ -43,12 +46,15 @@ export default defineSpec({
     { slot: 'root', expect: { gap: 6 } },
     { slot: 'item', expect: { edge: 'border.default', radius: 'lg', height: 'size-option-tile-h', gap: 2, fg: 'text.primary', text: 'ui-sm', weight: 600 }, },
     { slot: 'item', when: { layout: 'icon' }, expect: { height: 'size-option-tile-icon-h', gap: 4, fg: 'text.secondary', text: 'hint', weight: 400 }, note: 'Specimen text is 11.5px regular.' },
-    { slot: 'item', when: { state: 'hover' }, expect: { bg: 'fill.hover' } },
-    { slot: 'item', when: { state: 'checked' }, expect: { edge: 'focus.ring', bg: 'accent.soft' }, note: 'The chosen edge is 1.5px (specimen); icon layout also turns the text primary.' },
+    { slot: 'item', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
+    { slot: 'item', when: { state: 'checked' }, expect: { edge: 'selection.edge', bg: 'neutral.selected' }, note: 'Neutral selection: neutral.selected fill, a 1.5px selection edge (specimen width) and the check glyph; icon layout also turns the text primary. Never the focus ring, so a focused chosen tile shows both; hover on it is neutral.selected-hover.' },
+    { slot: 'item', when: { state: 'disabled' }, expect: { bg: 'disabled.fill', edge: 'disabled.border', fg: 'disabled.text' }, note: 'Disabled is a colour, not opacity.' },
     { slot: 'item', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'icon', expect: { fg: 'text.primary', height: 18, width: 18 }, note: '18px is the check size (size-check).' },
     { slot: 'caption', expect: { fg: 'text.tertiary', text: 'ui-xs', weight: 400 } },
-    { slot: 'caption', when: { state: 'checked' }, expect: { fg: 'accent.text' } },
+    { slot: 'caption', when: { state: 'checked' }, expect: { fg: 'text.secondary' }, note: 'The caption steps up in neutral, not accent.' },
+    { slot: 'check', when: { state: 'checked' }, expect: { fg: 'text.primary', width: 'icon-sm', height: 'icon-sm' }, note: 'Neutral selection = selected fill + selection edge + check (decision 3, §4 G); the edge alone is only 1.5:1.' },
+    { slot: 'check', when: { state: 'checked', disabled: true }, expect: { fg: 'disabled.text' }, note: 'A disabled chosen tile greys the check with its other parts.' },
   ],
   behavior: {
     keyboard: {
@@ -61,6 +67,7 @@ export default defineSpec({
     scenarios: [
       { name: 'click chooses the tile', steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onValueChange', calls: 1, args: ['svg'] }] },
       { name: 'chosen tile is checked', steps: [], expect: [{ slot: 'item', attr: { role: 'radio' } }] },
+      { name: 'the chosen tile shows the check', props: { checked: true }, steps: [], expect: [{ visible: 'check' }] },
     ],
   },
   a11y: {
@@ -69,15 +76,15 @@ export default defineSpec({
     attrs: { root: ['aria-label'], item: ['aria-checked'] },
     notes: [
       'Radio group of buttons with roving tabindex. The name of a tile is its label plus caption ("PNG 2×"); the glyph is decorative.',
-      'The chosen tile differs by aria-checked, an accent edge and a soft fill, not color alone.',
-      'The caption is tertiary text on the base surface (4.5:1); on the accent soft fill it uses accent text, which also meets 4.5:1.',
+      'The chosen tile differs by aria-checked, the selection edge, the selected fill and a check, not colour alone.',
+      'The caption is tertiary text on the base surface (4.5:1); on the neutral selected fill it steps up to secondary text.',
     ],
   },
   policies: ['P6'],
   composition: {},
   examples: [],
   usage: [
-    'Fixture render(props): aria-label "Export format", defaultValue "png", layout caption, columns 4, eight tiles (itemId, label, caption): svg "SVG" "vector"; png "PNG" "2×"; jpg "JPG" "quality"; webp "WebP" "quality"; pdf "PDF" "print"; fig "FIG" "selection"; jsx "JSX" "React"; tokens "Tokens" "DTCG". Item-level props (checked) apply to the FIRST tile in probes.',
+    'Fixture render(props): aria-label "Export format", defaultValue "png", layout caption, columns 4, eight tiles (itemId, label, caption): svg "SVG" "vector"; png "PNG" "2×"; jpg "JPG" "quality"; webp "WebP" "quality"; pdf "PDF" "print"; fig "FIG" "selection"; jsx "JSX" "React"; tokens "Tokens" "DTCG". Item-level props (checked, disabled) apply to the FIRST tile in probes.',
     'Icon layout fixture-in-docs (used by ImportPanel): columns 5, tiles "URL" (link), "File" (file-up), "HTML" (code-xml), "JSX" (file-code), "Workspace" (braces); default "url".',
     'No example of its own: it appears inside the export and import sections (import-export#export, import-export#import), which are ExportControls and ImportPanel.',
     'On narrow screens (480px and below) the specimen collapses both grids to 3 columns; pass columns accordingly or use a container query.',

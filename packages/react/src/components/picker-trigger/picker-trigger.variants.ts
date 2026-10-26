@@ -6,6 +6,10 @@ export const pickerTriggerVariants = cva([
   'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-[box-shadow,background-color] duration-120 ease-out',
   'hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
   'focus-visible:shadow-[var(--cs-focus-field)] hover:focus-visible:shadow-[var(--cs-focus-field)]',
-  'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]',
-  'disabled:pointer-events-none disabled:opacity-42',
+  // Invalid is the danger border-strong edge; invalid + focus keeps it and adds the outer focus ring.
+  // It is for an enabled trigger: the invalid danger edge drops while disabled (the tone drops out).
+  'data-[invalid]:not-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
+  // Disabled is a colour, not opacity: fill, text and edge from the disabled axis; the glyphs follow.
+  'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'disabled:[&_[data-slot^=picker-trigger-]]:text-disabled-text',
 ]);

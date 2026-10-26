@@ -42,7 +42,7 @@ export function Input({ size, appearance, prefix, suffix, invalid, disabled, rea
         aria-required={field?.required || undefined}
         disabled={isDisabled}
         readOnly={readOnly}
-        className={cn('h-full w-full min-w-0 flex-1 border-0 bg-transparent px-0.5 text-text-primary outline-none placeholder:text-text-placeholder in-data-[readonly]:text-text-secondary', className)}
+        className={cn('h-full w-full min-w-0 flex-1 border-0 bg-transparent px-0.5 text-text-primary outline-none placeholder:text-text-placeholder in-data-[readonly]:not-disabled:text-text-secondary disabled:text-disabled-text disabled:placeholder:text-disabled-text', className)}
         onChange={e => { onChange?.(e); onValueChange?.(e.target.value); }}
         {...props}
       />

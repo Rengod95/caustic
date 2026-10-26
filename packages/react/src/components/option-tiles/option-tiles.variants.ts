@@ -5,13 +5,19 @@ export const optionTilesVariants = cva('grid w-full gap-1.5', {
   defaultVariants: { columns: '4' },
 });
 
-/** One tile: flat, bordered inside; the chosen tile takes a 1.5px focus-colored edge and the soft accent fill. */
+/**
+ * One tile: flat, bordered inside. The chosen tile is the neutral selection: the selected fill, a 1.5px
+ * selection edge and a check in the top-right corner, never the focus ring, so a focused chosen tile shows both.
+ * Disabled is a colour, not opacity.
+ */
 export const optionTilesItemVariants = cva(
   [
-    'group grid content-center place-items-center rounded-lg bg-transparent font-ui outline-none',
-    'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] hover:bg-fill-hover',
-    'aria-checked:bg-accent-soft aria-checked:shadow-[inset_0_0_0_1.5px_var(--cs-color-focus-ring)]',
-    'focus-visible:shadow-focus disabled:pointer-events-none disabled:opacity-42',
+    'group relative grid content-center place-items-center rounded-lg bg-transparent font-ui outline-none',
+    'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] hover:bg-neutral-hover',
+    'aria-checked:bg-neutral-selected aria-checked:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge)] aria-checked:hover:bg-neutral-selected-hover',
+    'focus-visible:shadow-focus aria-checked:focus-visible:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-focus)]',
+    'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'disabled:[&_[data-slot^=option-tiles-]]:text-disabled-text',
   ],
   {
     variants: {
@@ -25,6 +31,8 @@ export const optionTilesItemVariants = cva(
 );
 
 export const optionTilesIconVariants = cva('inline-grid size-check place-items-center text-text-primary [&_svg]:size-full');
-export const optionTilesCaptionVariants = cva('text-ui-xs font-normal text-text-tertiary group-aria-checked:text-accent-text');
+export const optionTilesCaptionVariants = cva('text-ui-xs font-normal text-text-tertiary group-aria-checked:text-text-secondary');
+/** Check of the chosen tile, top-right, 14px in primary text (neutral, not accent); a disabled tile greys it with its other parts. */
+export const optionTilesCheckVariants = cva('pointer-events-none absolute top-1 right-1 inline-grid size-icon-sm place-items-center text-text-primary [&_svg]:size-full');
 
 export type OptionTilesVariantProps = VariantProps<typeof optionTilesVariants> & VariantProps<typeof optionTilesItemVariants>;

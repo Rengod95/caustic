@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'form',
   status: 'ready',
   purpose: 'Chooses one value from a short list (up to 7). A field-looking trigger opens a thick-glass listbox that uses the Menu surface and item anatomy.',
-  description: 'The trigger is a PickerTrigger (chevrons-up-down indicator, placeholder in the placeholder color). The popup is the Menu surface with role="listbox" and role="option" items; the chosen option takes the accent.soft fill. More than 7 options: use Combobox.',
+  description: 'The trigger is a PickerTrigger (chevrons-up-down indicator, placeholder in the placeholder color). The popup is the Menu surface with role="listbox" and role="option" items; the chosen option takes the neutral selection (neutral.selected fill, selection edge, trailing check). More than 7 options: use Combobox.',
   role: 'listbox',
   slots: [
     { name: 'root', el: 'div', role: 'listbox', description: 'The floating listbox surface (Radix Select Content in popper mode). Rendered only while open, or in place with inline. Its height is bounded by the available viewport height (max-height var(--radix-select-content-available-height)) and the options scroll inside it (overflow-y auto); inline is not bounded.' },
@@ -14,6 +14,7 @@ export default defineSpec({
     { name: 'group', el: 'div', parent: 'root', required: false, role: 'group', description: 'Optional option group.' },
     { name: 'heading', el: 'div', parent: 'group', required: false, description: 'Group heading (menu heading style).' },
     { name: 'option', el: 'div', parent: 'root', role: 'option', description: 'One choice (menu item anatomy, role option). aria-selected on the chosen one.' },
+    { name: 'check', el: 'span', parent: 'option', required: false, description: 'Trailing check on the chosen option (16px, aria-hidden).' },
     { name: 'separator', el: 'div', parent: 'root', required: false, role: 'separator', description: '1px line between groups.' },
   ],
   states: {
@@ -41,8 +42,9 @@ export default defineSpec({
   styles: [
     { slot: 'root', expect: { material: 'thick', radius: '2xl', padX: 6, padY: 6, shadow: '4' }, note: 'Identical to the menu surface; min-width is the trigger width.' },
     { slot: 'option', expect: { height: 'size-menu-item', padX: 8, gap: 8, radius: 'lg', text: 'ui', fg: 'text.primary' } },
-    { slot: 'option', when: { state: 'hover' }, expect: { bg: 'fill.pressed' } },
-    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'accent.soft' } },
+    { slot: 'option', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
+    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'neutral.selected', edge: 'selection.edge' }, note: 'Neutral list selection: selected fill, selection edge and a trailing check; never accent soft or the focus ring. Hover on it is neutral.selected-hover.' },
+    { slot: 'check', when: { state: 'selected' }, expect: { fg: 'text.secondary', width: 'icon-sm', height: 'icon-sm' } },
     { slot: 'heading', expect: { fg: 'text.tertiary', text: 'label', padX: 8, padY: 5 } },
     { slot: 'separator', expect: { bg: 'border.subtle', height: 1 } },
   ],
@@ -71,7 +73,7 @@ export default defineSpec({
     notes: [
       'Trigger role="combobox" aria-haspopup="listbox"; wrap in Field for the label (Radix wires aria-labelledby).',
       'The hidden native select keeps form posts and autofill working.',
-      'The chosen option is marked by aria-selected and the accent.soft fill together.',
+      'The chosen option is marked by aria-selected, the neutral selection fill and the trailing check together.',
     ],
   },
   policies: ['P1', 'P5', 'P6'],

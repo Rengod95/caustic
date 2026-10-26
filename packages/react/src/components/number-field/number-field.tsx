@@ -120,16 +120,18 @@ export function NumberField({
       data-invalid={invalidNow || undefined} data-locked={locked || undefined} data-mixed={mixed || undefined} data-scrubbing={scrubbing || undefined}
       data-reserved={reserved || undefined} data-disabled={disabled || undefined} data-dirty={(editing.current && dirtyText(draft)) || undefined}
       className={cn(
-        'relative flex h-control-md min-w-0 items-center rounded-lg bg-fill-hover transition-[background-color,box-shadow] duration-120 ease-out hover:bg-fill-pressed',
+        'relative flex h-control-md min-w-0 items-center rounded-lg bg-neutral-well transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover',
         'focus-within:bg-surface-base focus-within:shadow-focus-field',
-        'data-[invalid]:bg-danger-soft data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]',
-        'data-[locked]:pointer-events-none data-[locked]:bg-bg-inset data-[reserved]:bg-bg-inset data-[scrubbing]:bg-accent-soft data-[disabled]:pointer-events-none data-[disabled]:opacity-42',
+        // The invalid edge is for an enabled field: disabled drops the tone, so no danger edge while disabled.
+        'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
+        'data-[locked]:pointer-events-none data-[locked]:bg-bg-inset data-[reserved]:bg-bg-inset data-[scrubbing]:bg-neutral-pressed',
+        'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text',
         containerClassName,
       )}
     >
       {label != null && (
         <span data-slot="number-field-label" aria-hidden {...(locked || inert ? {} : { ...handlers, onPointerDown: (e: PointerEvent<HTMLElement>) => { onScrubStart?.(); handlers.onPointerDown(e); } })}
-          className="grid h-full min-w-6 shrink-0 cursor-ew-resize select-none place-items-center pl-1.5 pr-0.5 text-label text-text-tertiary hover:text-text-primary [&_svg]:size-icon-sm in-data-[scrubbing]:text-accent-text">
+          className="grid h-full min-w-6 shrink-0 cursor-ew-resize select-none place-items-center pl-1.5 pr-0.5 text-label text-text-tertiary hover:text-text-primary [&_svg]:size-icon-sm in-data-[scrubbing]:text-text-primary in-data-[disabled]:text-disabled-text">
           {label}
         </span>
       )}
@@ -147,11 +149,11 @@ export function NumberField({
         }}
         onKeyDown={keyDown}
         onBlur={e => { onBlur?.(e); if (editing.current && !inert) { if (release && draftError !== null) return; commit(draft); } }}
-        className={cn('h-full w-full min-w-0 flex-1 border-0 bg-transparent px-1 text-footnote tabular-nums text-text-primary outline-none placeholder:italic placeholder:text-text-secondary disabled:text-text-disabled', className)}
+        className={cn('h-full w-full min-w-0 flex-1 border-0 bg-transparent px-1 text-footnote tabular-nums text-text-primary outline-none placeholder:italic placeholder:text-text-secondary disabled:text-disabled-text disabled:placeholder:text-disabled-text', className)}
         {...props}
       />
-      {unit != null && <span data-slot="number-field-unit" className="shrink-0 pr-2 text-hint text-text-tertiary">{unit}</span>}
-      {trailing != null && <span data-slot="number-field-trailing" className="mr-0.5 inline-grid size-control-xs shrink-0 place-items-center rounded-sm text-text-tertiary [&_svg]:size-icon-sm">{trailing}</span>}
+      {unit != null && <span data-slot="number-field-unit" className="shrink-0 pr-2 text-hint text-text-tertiary in-data-[disabled]:text-disabled-text">{unit}</span>}
+      {trailing != null && <span data-slot="number-field-trailing" className="mr-0.5 inline-grid size-control-xs shrink-0 place-items-center rounded-sm text-text-tertiary in-data-[disabled]:text-disabled-text [&_svg]:size-icon-sm">{trailing}</span>}
       {locked && <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] outline-1 -outline-offset-1 outline-dashed outline-border-control" />}
     </div>
   );

@@ -15,14 +15,14 @@ const sources = [
   { id: 'workspace', label: 'Workspace', icon: <Braces /> },
 ];
 
-const Tiles = ({ checked, ...props }: Partial<OptionTilesProps> & { checked?: boolean }) =>
+const Tiles = ({ checked, disabled, ...props }: Partial<OptionTilesProps> & { checked?: boolean; disabled?: boolean }) =>
   props.layout === 'icon' ? (
     <OptionTiles aria-label="Import source" defaultValue="file" columns="5" {...props}>
-      {sources.map((s, i) => <OptionTilesItem key={s.id} itemId={s.id} label={s.label} icon={s.icon} checked={i === 0 ? checked : undefined} />)}
+      {sources.map((s, i) => <OptionTilesItem key={s.id} itemId={s.id} label={s.label} icon={s.icon} checked={i === 0 ? checked : undefined} disabled={i === 0 ? disabled : undefined} />)}
     </OptionTiles>
   ) : (
     <OptionTiles aria-label="Export format" defaultValue="png" {...props}>
-      {formats.map(([id, label, caption], i) => <OptionTilesItem key={id} itemId={id} label={label} caption={caption} icon={i === 0 ? <FileImage /> : undefined} checked={i === 0 ? checked : undefined} />)}
+      {formats.map(([id, label, caption], i) => <OptionTilesItem key={id} itemId={id} label={label} caption={caption} icon={i === 0 ? <FileImage /> : undefined} checked={i === 0 ? checked : undefined} disabled={i === 0 ? disabled : undefined} />)}
     </OptionTiles>
   );
 

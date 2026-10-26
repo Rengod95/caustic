@@ -22,7 +22,7 @@ export interface StepperInputProps extends Omit<ComponentProps<'input'>, 'value'
 const clamp = (v: number, min = -Infinity, max = Infinity) => Math.min(max, Math.max(min, v));
 const round = (v: number) => Math.round(v * 1000) / 1000;
 const show = (v: number | null) => (v === null ? '' : String(v));
-const button = 'grid h-full w-10 shrink-0 place-items-center text-text-secondary transition-[background-color,color] duration-120 ease-out hover:bg-fill-hover hover:text-text-primary disabled:pointer-events-none disabled:text-text-disabled [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]';
+const button = 'grid h-full w-10 shrink-0 place-items-center text-text-secondary transition-[background-color,color] duration-120 ease-out hover:bg-neutral-hover hover:text-text-primary disabled:pointer-events-none disabled:text-disabled-text [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]';
 
 /** Form quantity input: − and + around a centred number. Arrow keys step, Enter commits a typed value. */
 export function StepperInput({ value, defaultValue = null, step = 1, min, max, invalid, disabled, id, onValueChange, onKeyDown, onBlur, className, containerClassName, ...props }: StepperInputProps) {
@@ -54,8 +54,9 @@ export function StepperInput({ value, defaultValue = null, step = 1, min, max, i
         'inline-flex h-field-md items-stretch overflow-hidden rounded-xl bg-surface-translucent text-ui transition-[box-shadow] duration-120 ease-out',
         'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
         'focus-within:shadow-[var(--cs-focus-field)]',
-        'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-42',
+        // The invalid edge is for an enabled field: disabled drops the tone, so a disabled invalid field shows the disabled edge.
+        'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
+        'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
         containerClassName,
       )}
     >
@@ -72,7 +73,7 @@ export function StepperInput({ value, defaultValue = null, step = 1, min, max, i
         aria-describedby={field?.describedBy}
         aria-required={field?.required || undefined}
         disabled={isDisabled}
-        className={cn('h-full w-16 min-w-0 border-0 border-x border-border-subtle bg-transparent text-center tabular-nums text-text-primary outline-none', className)}
+        className={cn('h-full w-16 min-w-0 border-0 border-x border-border-subtle bg-transparent text-center tabular-nums text-text-primary outline-none disabled:text-disabled-text in-data-[disabled]:border-disabled-border', className)}
         {...props}
         value={draft}
         onChange={e => { editing.current = true; setDraft(e.target.value); }}

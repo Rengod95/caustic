@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-/** Floating thick-glass panel. */
+/** Floating thick-glass panel. The glass utility gives its days' focus gap the panel material, not surface.base. */
 export const calendarVariants = cva('glass glass-thick glass-shadow-4 grid w-calendar max-w-full gap-2 rounded-2xl p-3 text-text-primary');
 
 export const calendarHeaderVariants = cva('flex items-center justify-between px-0.5');
@@ -10,16 +10,17 @@ export const calendarGridVariants = cva('grid grid-cols-7 gap-0.5 text-center');
 export const calendarWeekdayVariants = cva('grid h-control-xs place-items-center text-label text-text-tertiary');
 
 /**
- * A day cell. Selected endpoints fill with accent.solid; the days between fill with accent.soft and are
- * square; the endpoints of a complete range are square on the inner side.
+ * A day cell. Selected endpoints fill with accent.solid (the on state; hover moves to solid-hover); the days
+ * between take the neutral selection fill and are square; the endpoints of a complete range are square on the
+ * inner side. Focus is the focus-ring utility, so its gap follows the panel (--cs-focus-offset).
  */
 export const calendarDayVariants = cva([
   'group relative h-calendar-day rounded-md text-ui tabular-nums text-text-primary outline-none',
-  'hover:bg-fill-hover focus-visible:shadow-focus',
-  'data-[in-range]:rounded-none data-[in-range]:bg-accent-soft',
-  'data-[selected]:bg-accent-solid data-[selected]:font-semibold data-[selected]:text-accent-on',
+  'hover:bg-neutral-hover focus-visible:focus-ring',
+  'data-[in-range]:rounded-none data-[in-range]:bg-neutral-selected data-[in-range]:hover:bg-neutral-selected-hover',
+  'data-[selected]:bg-accent-solid data-[selected]:font-semibold data-[selected]:text-accent-on data-[selected]:hover:bg-accent-solid-hover',
   'data-[range-start]:rounded-r-none data-[range-end]:rounded-l-none',
-  'disabled:pointer-events-none disabled:text-text-disabled',
+  'disabled:pointer-events-none disabled:text-disabled-text',
 ]);
 
 export const calendarTodayMarkVariants = cva('pointer-events-none absolute bottom-1.25 left-1/2 size-1 -translate-x-1/2 rounded-full bg-accent-solid group-data-[selected]:bg-accent-on');

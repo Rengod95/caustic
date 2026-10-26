@@ -1,5 +1,6 @@
 'use client';
 import * as RS from '@radix-ui/react-select';
+import { Check } from 'lucide-react';
 import { Children, createContext, isValidElement, useContext, useId, useRef, useState, type ComponentProps, type ReactElement, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { defined } from '../../lib/defined.ts';
@@ -7,7 +8,7 @@ import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useRovingItems } from '../../hooks/use-roving-items.ts';
 import { menuHeadingVariants, menuItemVariants, menuSeparatorVariants, menuSurfaceVariants } from '../menu/menu.variants.ts';
 import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
-import { selectOptionVariants } from './select.variants.ts';
+import { selectCheckVariants, selectOptionVariants } from './select.variants.ts';
 
 interface SelectContextValue { inline: boolean; value: string; choose: (value: string) => void }
 const SelectContext = createContext<SelectContextValue>({ inline: false, value: '', choose: () => {} });
@@ -122,11 +123,14 @@ export function SelectOption({ value, selected, disabled = false, className, chi
   const ctx = useContext(SelectContext);
   const [highlighted, setHighlighted] = useState(false);
   const chosen = selected ?? (ctx.value !== '' && ctx.value === value);
-  const classes = cn(selectOptionVariants(), menuItemVariants(), className);
+  const classes = cn(menuItemVariants(), selectOptionVariants(), className);
   if (!ctx.inline) {
     return (
       <RS.Item data-slot="select-option" value={value} disabled={disabled} onClick={onClick} onKeyDown={onKeyDown} onFocus={onFocus} onBlur={onBlur} onPointerMove={onPointerMove} data-selected={chosen ? '' : undefined} className={cn(classes, 'group')} {...props}>
         <RS.ItemText>{children}</RS.ItemText>
+        {selected
+          ? <span data-slot="select-check" aria-hidden="true" className={selectCheckVariants()}><Check /></span>
+          : <RS.ItemIndicator data-slot="select-check" aria-hidden="true" className={selectCheckVariants()}><Check /></RS.ItemIndicator>}
       </RS.Item>
     );
   }
@@ -145,6 +149,7 @@ export function SelectOption({ value, selected, disabled = false, className, chi
       {...props}
     >
       <span className="min-w-0 truncate">{children}</span>
+      {chosen && <span data-slot="select-check" aria-hidden="true" className={selectCheckVariants()}><Check /></span>}
     </div>
   );
 }

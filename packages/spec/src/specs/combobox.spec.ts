@@ -16,6 +16,7 @@ export default defineSpec({
     { name: 'label', el: 'span', parent: 'option', description: 'Option text with the matched fragment wrapped in match.' },
     { name: 'match', el: 'mark', parent: 'label', required: false, description: 'Highlighted fragment: accent text, 600 weight, no background.' },
     { name: 'meta', el: 'span', parent: 'option', required: false, description: 'Right-aligned type or hint (color, dimension).' },
+    { name: 'check', el: 'span', parent: 'option', required: false, description: 'Trailing check on the chosen option (16px, aria-hidden); after the meta when there is one.' },
     { name: 'empty', el: 'div', parent: 'listbox', required: false, description: 'Message shown instead of options when nothing matches.' },
   ],
   states: {
@@ -47,11 +48,13 @@ export default defineSpec({
     { slot: 'root', expect: { gap: 6 } },
     { slot: 'listbox', expect: { material: 'thick', radius: '2xl', padX: 6, padY: 6, shadow: '4' }, note: 'Identical to the menu surface. max-height 220px (token request size-listbox-max) with overflow-y auto; min-width 0 (it follows the input width).' },
     { slot: 'option', expect: { height: 'size-menu-item', padX: 8, gap: 8, radius: 'lg', text: 'ui', fg: 'text.primary' } },
-    { slot: 'option', when: { state: 'hover' }, expect: { bg: 'fill.pressed' } },
-    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'accent.soft' } },
+    { slot: 'option', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
+    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'neutral.selected', edge: 'selection.edge' }, note: 'Neutral list selection: selected fill, selection edge and a trailing check; never accent soft or the focus ring. Hover on it is neutral.selected-hover.' },
+    { slot: 'check', when: { state: 'selected' }, expect: { fg: 'text.secondary', width: 'icon-sm', height: 'icon-sm' } },
     { slot: 'leading', expect: { fg: 'text.tertiary' } },
     { slot: 'match', expect: { fg: 'accent.text', text: 'ui', weight: 600 } },
     { slot: 'meta', expect: { fg: 'text.tertiary', text: 'hint' } },
+    { slot: 'meta', when: { state: 'selected' }, expect: { fg: 'text.tertiary' }, note: 'Meta keeps tertiary on hover, highlight and the neutral selected fill (owner: design over contrast; G3 treats combobox-meta contrast as a warning).' },
   ],
   behavior: {
     keyboard: {

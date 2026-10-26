@@ -19,7 +19,8 @@ export interface InputGroupProps extends Omit<ComponentProps<'input'>, 'size' | 
   containerClassName?: string;
 }
 
-const addon = 'flex shrink-0 items-center whitespace-nowrap bg-surface-raised px-3 text-ui text-text-tertiary';
+// Add-ons are raised segments set off by a subtle divider; in a disabled group they go flat, the text and divider take the disabled axis.
+const addon = 'flex shrink-0 items-center whitespace-nowrap border-border-subtle bg-surface-raised px-3 text-ui text-text-tertiary in-data-[disabled]:border-disabled-border in-data-[disabled]:bg-transparent in-data-[disabled]:text-disabled-text';
 
 export function InputGroup({ size, start, end, invalid, disabled, value, defaultValue = '', id, onChange, onValueChange, className, containerClassName, ...props }: InputGroupProps) {
   const field = useFieldContext();
@@ -37,7 +38,7 @@ export function InputGroup({ size, start, end, invalid, disabled, value, default
       className={cn(inputGroupVariants({ size }), containerClassName)}
       onMouseDown={e => { if (e.target !== ref.current && !(e.target as HTMLElement).closest('button,a,input,select,textarea,[role=button]')) { e.preventDefault(); ref.current?.focus(); } }}
     >
-      {start != null && <span data-slot="input-group-start" className={cn(addon, 'border-e border-border-subtle')}>{start}</span>}
+      {start != null && <span data-slot="input-group-start" className={cn(addon, 'border-e')}>{start}</span>}
       <input
         ref={ref}
         data-slot="input-group-control"
@@ -46,12 +47,12 @@ export function InputGroup({ size, start, end, invalid, disabled, value, default
         aria-describedby={field?.describedBy}
         aria-required={field?.required || undefined}
         disabled={isDisabled}
-        className={cn('min-w-0 flex-1 border-0 bg-transparent px-3 text-text-primary outline-none placeholder:text-text-placeholder', className)}
+        className={cn('min-w-0 flex-1 border-0 bg-transparent px-3 text-text-primary outline-none placeholder:text-text-placeholder disabled:text-disabled-text disabled:placeholder:text-disabled-text', className)}
         {...props}
         value={text}
         onChange={e => { onChange?.(e); setText(e.target.value); }}
       />
-      {end != null && <span data-slot="input-group-end" className={cn(addon, 'border-s border-border-subtle')}>{end}</span>}
+      {end != null && <span data-slot="input-group-end" className={cn(addon, 'border-s')}>{end}</span>}
     </div>
   );
 }

@@ -79,7 +79,7 @@ export function ChoiceCardsItem({ value, title, description, price, priceUnit, d
       <span data-slot="choice-cards-indicator" aria-hidden="true" className={choiceCardIndicator({ type: ctx.type })}>
         {multiple
           ? checked && <Check className="size-icon-sm stroke-3" />
-          : checked && <span className="size-radio-dot rounded-full bg-accent-on" />}
+          : checked && <span className="size-radio-dot rounded-full bg-accent-on group-disabled:bg-disabled-text" />}
       </span>
       {description != null && <span data-slot="choice-cards-description" className="col-start-1 text-ui-sm font-normal text-text-tertiary group-data-[state=checked]:text-text-secondary">{description}</span>}
       {price != null && (

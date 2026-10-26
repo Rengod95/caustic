@@ -68,8 +68,12 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
         'flex min-h-field-md min-w-0 cursor-text flex-wrap items-center gap-1.5 rounded-xl bg-surface-translucent px-2 py-1.5 text-ui transition-[box-shadow] duration-120 ease-out',
         'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
         'focus-within:shadow-[var(--cs-focus-field)]',
-        'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-42',
+        // The invalid edge is for an enabled field: disabled drops the tone, so a disabled invalid field shows the disabled edge.
+        'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
+        'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+        // Tags in a disabled field drop their colour with it (the chips are inert, not disabled), the remove glyph included.
+        'data-[disabled]:[&_[data-slot=chip]]:text-disabled-text data-[disabled]:[&_[data-slot=chip]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+        'data-[disabled]:[&_[data-slot=chip-remove]]:text-disabled-text',
         containerClassName,
       )}
       onMouseDown={e => { if (e.target !== control.current && !(e.target as HTMLElement).closest('button')) { e.preventDefault(); control.current?.focus(); } }}
@@ -86,7 +90,7 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
         aria-required={field?.required || undefined}
         disabled={isDisabled}
         value={draft}
-        className={cn('h-chip-h min-w-tag-input-min flex-1 border-0 bg-transparent px-1 text-text-primary outline-none placeholder:text-text-placeholder', className)}
+        className={cn('h-chip-h min-w-tag-input-min flex-1 border-0 bg-transparent px-1 text-text-primary outline-none placeholder:text-text-placeholder disabled:text-disabled-text disabled:placeholder:text-disabled-text', className)}
         onChange={e => setDraft(e.target.value)}
         onKeyDown={keyDown}
         onPaste={paste}

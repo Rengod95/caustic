@@ -71,11 +71,11 @@ export function HexInput({ value, defaultValue = '', onValueChange, token, mixed
   const invalidNow = invalid || draftError !== null;
   const bound = token != null;
   return (
-    <label data-slot="hex-input" aria-busy={reserved || undefined} data-reserved={reserved || undefined} data-dirty={(editing.current && dirtyText(draft)) || undefined} data-bound={bound || undefined} data-invalid={invalidNow || undefined} data-mixed={mixed || undefined} data-disabled={disabled || undefined} className={cn(hexInputVariants(), className)} {...props}>
+    <label data-slot="hex-input" aria-busy={reserved || undefined} aria-disabled={disabled || undefined} data-reserved={reserved || undefined} data-dirty={(editing.current && dirtyText(draft)) || undefined} data-bound={bound || undefined} data-invalid={invalidNow || undefined} data-mixed={mixed || undefined} data-disabled={disabled || undefined} className={cn(hexInputVariants(), className)} {...props}>
       {bound ? (
         <>
-          <span data-slot="hex-input-icon" aria-hidden className="inline-grid size-icon-sm shrink-0 place-items-center text-accent-text [&_svg]:size-full [&_svg]:stroke-[1.75]"><Link2 /></span>
-          <span data-slot="hex-input-token" className="min-w-0 truncate text-accent-text">{token}</span>
+          <span data-slot="hex-input-icon" aria-hidden className="inline-grid size-icon-sm shrink-0 place-items-center text-accent-text in-data-[disabled]:text-disabled-text [&_svg]:size-full [&_svg]:stroke-[1.75]"><Link2 /></span>
+          <span data-slot="hex-input-token" className="min-w-0 truncate text-accent-text in-data-[disabled]:text-disabled-text">{token}</span>
         </>
       ) : (
         <input
@@ -92,7 +92,7 @@ export function HexInput({ value, defaultValue = '', onValueChange, token, mixed
           }}
           onKeyDown={keyDown}
           onBlur={() => { if (editing.current && !reserved) { if (release && draftError !== null) return; commit(); } }}
-          className="h-full w-full min-w-0 flex-1 border-0 bg-transparent font-mono text-mono-md font-normal text-text-primary uppercase outline-none placeholder:text-text-secondary disabled:text-text-disabled"
+          className="h-full w-full min-w-0 flex-1 border-0 bg-transparent font-mono text-mono-md font-normal text-text-primary uppercase outline-none placeholder:text-text-secondary disabled:text-disabled-text disabled:placeholder:text-disabled-text"
         />
       )}
     </label>

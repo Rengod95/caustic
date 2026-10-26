@@ -16,7 +16,9 @@ export default defineSpec({
   states: {
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'cell' },
     invalid: { props: { invalid: true } },
+    'invalid-focus': { props: { invalid: true }, pseudo: ['focus', 'focus-visible'], target: 'cell' },
     disabled: { props: { disabled: true } },
+    'invalid-disabled': { props: { invalid: true, disabled: true } },
   },
   props: {
     length: { type: 'number', default: 6, description: 'Number of cells.' },
@@ -24,8 +26,8 @@ export default defineSpec({
     defaultValue: { type: 'string', default: '', description: 'Uncontrolled initial code.' },
     separatorAfter: { type: 'number', description: 'Insert the dash after this many cells (3 for a 3–3 split). No dash when omitted.' },
     inputMode: { type: "'numeric' | 'text'", default: 'numeric', description: 'numeric accepts digits only; text accepts letters and digits.' },
-    invalid: { type: 'boolean', default: false, description: 'Danger edge on every cell; also taken from an enclosing Field with an error.' },
-    disabled: { type: 'boolean', default: false, description: 'Disables every cell; 0.42 opacity.' },
+    invalid: { type: 'boolean', default: false, description: 'Danger border-strong edge on every cell; also taken from an enclosing Field with an error. Dropped while disabled.' },
+    disabled: { type: 'boolean', default: false, description: 'Disables every cell; disabled fill, edge and text.' },
     autoFocus: { type: 'boolean', default: false, description: 'Focuses the first empty cell on mount.' },
   },
   events: {
@@ -34,11 +36,14 @@ export default defineSpec({
   },
   styles: [
     { slot: 'root', expect: { gap: 8 } },
-    { slot: 'cell', expect: { bg: 'surface.translucent', fg: 'text.primary', edge: 'border.default', shadow: '1', frost: true, radius: 'xl', width: 'size-otp-w', height: 'size-otp-h', font: 'mono', text: 'mono-lg', outline: 'none' } },
-    { slot: 'cell', when: { defaultValue: '42' }, expect: { edge: 'border.strong' }, note: 'A cell holding a character draws the stronger edge.' },
+    { slot: 'cell', expect: { bg: 'surface.translucent', fg: 'text.primary', edge: 'border.default', radius: 'xl', width: 'size-otp-w', height: 'size-otp-h', font: 'mono', text: 'mono-lg', outline: 'none' }, note: 'One depth cue: the translucent fill and a 1px border.default hairline, no elevation.' },
+    { slot: 'cell', when: { defaultValue: '42' }, expect: { edge: 'border.default' }, note: 'A cell holding a character keeps the resting hairline.' },
     { slot: 'cell', when: { state: 'focus-visible' }, expect: { ring: 'focus-field' } },
-    { slot: 'cell', when: { state: 'invalid' }, expect: { edge: 'danger.solid' } },
-    { slot: 'cell', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'cell', when: { state: 'invalid' }, expect: { edge: 'danger.border-strong' } },
+    { slot: 'cell', when: { state: 'invalid-focus' }, expect: { edge: 'danger.border-strong', ring: 'focus' }, note: 'Invalid + focus shows both: the danger edge stays and the outer focus ring is added.' },
+    { slot: 'cell', when: { state: 'disabled' }, expect: { bg: 'disabled.fill', fg: 'disabled.text', edge: 'disabled.border' }, note: 'Disabled is a colour, not opacity.' },
+    { slot: 'cell', when: { state: 'invalid-disabled' }, expect: { bg: 'disabled.fill', fg: 'disabled.text', edge: 'disabled.border' }, note: 'Disabled drops the tone: an invalid disabled cell shows the disabled edge, not the danger edge.' },
+    { slot: 'cell', when: { state: 'disabled', defaultValue: '42' }, expect: { bg: 'disabled.fill', fg: 'disabled.text', edge: 'disabled.border' }, note: 'A disabled cell holding a character keeps the disabled edge.' },
     { slot: 'separator', when: { separatorAfter: 3 }, expect: { bg: 'border.strong', width: 10, height: 2 } },
   ],
   behavior: {

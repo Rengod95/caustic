@@ -10,10 +10,11 @@ import { dropzoneVariants, fileItemVariants } from './file-upload.variants.ts';
 export interface FileUploadItem {
   id: string;
   name: string;
-  status: 'uploading' | 'done' | 'error';
+  /** warning: uploaded with a caveat (the description says what); error: the upload failed. */
+  status: 'uploading' | 'done' | 'warning' | 'error';
   /** 0–100 while uploading; omit when unknown (the bar becomes indeterminate). */
   progress?: number;
-  /** Size, remaining time, "Uploaded" or the failure reason. */
+  /** Size, remaining time, "Uploaded", the caveat or the failure reason. */
   description?: ReactNode;
   /** Overrides the file-type icon. */
   icon?: ReactNode;
@@ -79,7 +80,7 @@ export function FileUpload({
         onDragLeave={e => drag(e, false)}
         onDrop={drop}
       >
-        <span data-slot="file-upload-dropzone-icon" aria-hidden className="grid size-control-lg place-items-center rounded-xl bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] [&_svg]:size-icon-md [&_svg]:stroke-[1.75]"><Upload /></span>
+        <span data-slot="file-upload-dropzone-icon" aria-hidden className="grid size-control-lg place-items-center rounded-xl bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] group-data-[disabled]:bg-disabled-fill group-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] [&_svg]:size-icon-md [&_svg]:stroke-[1.75]"><Upload /></span>
         <b data-slot="file-upload-dropzone-label" className="text-ui-strong text-text-primary">{label}{' '}<u data-slot="file-upload-dropzone-browse" className="text-accent-text no-underline">{browseLabel}</u></b>
         {hint != null && <span data-slot="file-upload-dropzone-hint" className="text-ui-sm font-normal text-text-tertiary group-hover:text-text-secondary group-data-[dragging]:text-text-secondary">{hint}</span>}
         <input ref={picker} type="file" hidden accept={accept} multiple={multiple} disabled={disabled} onChange={change} onClick={e => e.stopPropagation()} />
@@ -88,15 +89,15 @@ export function FileUpload({
         <ul data-slot="file-upload-list" className="grid gap-2">
           {files.map(f => (
             <li key={f.id} data-slot="file-upload-item" data-status={f.status} className={fileItemVariants({ status: f.status })}>
-              <span data-slot="file-upload-item-icon" aria-hidden className="grid size-control-md place-items-center rounded-md bg-fill-pressed text-text-secondary [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]">{rowIcon(f)}</span>
+              <span data-slot="file-upload-item-icon" aria-hidden className="grid size-control-md place-items-center rounded-md bg-neutral-track text-text-secondary [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]">{rowIcon(f)}</span>
               <div data-slot="file-upload-item-text" className="grid min-w-0 gap-1">
                 <b data-slot="file-upload-item-name" className="truncate text-ui-strong">{f.name}</b>
                 {f.status === 'uploading' && <Progress data-slot="file-upload-item-progress" value={f.progress} aria-label={`Uploading ${f.name}`} />}
-                {f.description != null && <span data-slot="file-upload-item-meta" className={cn('text-hint', f.status === 'error' ? 'text-danger-text' : 'text-text-tertiary')}>{f.description}</span>}
+                {f.description != null && <span data-slot="file-upload-item-meta" className={cn('text-hint', f.status === 'error' ? 'text-danger-text' : f.status === 'warning' ? 'text-warning-text' : 'text-text-tertiary')}>{f.description}</span>}
               </div>
               {f.status === 'uploading' ? (
                 <IconButton data-slot="file-upload-item-action" label="Cancel upload" size="xs" onClick={() => onRemove?.(f.id)}><X /></IconButton>
-              ) : f.status === 'done' ? (
+              ) : f.status === 'done' || f.status === 'warning' ? (
                 <IconButton data-slot="file-upload-item-action" label="Remove" size="xs" onClick={() => onRemove?.(f.id)}><Trash2 /></IconButton>
               ) : (
                 <Button data-slot="file-upload-item-action" tone="ghost" size="xs" onClick={() => onRemove?.(f.id)}>Remove</Button>

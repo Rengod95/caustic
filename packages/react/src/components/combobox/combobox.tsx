@@ -1,12 +1,12 @@
 'use client';
 import * as Popover from '@radix-ui/react-popover';
-import { Search } from 'lucide-react';
+import { Check, Search } from 'lucide-react';
 import { Children, isValidElement, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Input, type InputProps } from '../input/input.tsx';
 import { menuItemVariants, menuSurfaceVariants } from '../menu/menu.variants.ts';
-import { comboboxEmptyVariants, comboboxListboxVariants, comboboxMetaVariants } from './combobox.variants.ts';
+import { comboboxCheckVariants, comboboxEmptyVariants, comboboxListboxVariants, comboboxMetaVariants, comboboxOptionVariants } from './combobox.variants.ts';
 
 export interface ComboboxOptionData { value: string; label: string; meta?: string; leading?: ReactNode }
 export interface ComboboxOptionProps extends ComboboxOptionData { disabled?: boolean }
@@ -128,7 +128,7 @@ export function Combobox({
             <button
               key={o.value} id={optionId(i)} type="button" role="option" tabIndex={-1} aria-selected={chosen} aria-disabled={disabled || undefined}
               data-slot="combobox-option" data-selected={chosen ? '' : undefined} data-highlighted={active === i ? '' : undefined} data-disabled={disabled ? '' : undefined}
-              className={cn('group', menuItemVariants())}
+              className={cn('group', menuItemVariants(), comboboxOptionVariants())}
               onMouseDown={e => e.preventDefault()}
               onMouseMove={() => setActive(i)}
               onClick={() => { if (!disabled) { choose(o); focusInput(); } }}
@@ -136,6 +136,7 @@ export function Combobox({
               {o.leading != null && <span data-slot="combobox-leading" aria-hidden="true" className="inline-flex shrink-0 items-center text-text-tertiary [&_svg]:size-icon-md">{o.leading}</span>}
               <span data-slot="combobox-label" className="min-w-0 truncate">{highlight(o.label, text)}</span>
               {o.meta != null && <span data-slot="combobox-meta" className={comboboxMetaVariants()}>{o.meta}</span>}
+              {chosen && <span data-slot="combobox-check" aria-hidden="true" className={comboboxCheckVariants({ end: o.meta == null })}><Check /></span>}
             </button>
           );
         })}
