@@ -3,17 +3,19 @@ import { cva } from 'class-variance-authority';
 export const themeGalleryVariants = cva('grid grid-cols-[repeat(auto-fill,minmax(var(--cs-size-theme-card-min),1fr))] gap-3');
 
 /**
- * One theme card. The checked card draws the focus ring (outer) over elevation 2 and 3; hover lifts 2px over the base
- * duration with the spring easing and swaps the hairline for the default edge and elevation 3.
+ * One theme card. At rest a hairline, no elevation (one depth cue); hover lifts 2px over the base duration with the spring easing and
+ * swaps the hairline for elevation 3. The checked card draws the 1.5px selection edge (neutral 7, inset) over elevation 3 and a check
+ * in the meta row, never the focus ring.
  */
 export const themeGalleryItemVariants = cva([
   'grid overflow-hidden rounded-2xl bg-surface-base text-left font-ui text-ui text-text-primary outline-none',
   'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
   'transition-[transform,box-shadow] duration-base ease-spring motion-reduce:transition-none',
   'hover:-translate-y-0.5 hover:shadow-[var(--cs-elevation-3)] motion-reduce:hover:translate-y-0',
-  'aria-checked:shadow-[var(--cs-focus),var(--cs-elevation-3)]',
-  'aria-checked:hover:shadow-[var(--cs-focus),var(--cs-elevation-3)]',
+  'aria-checked:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-elevation-3)]',
+  'aria-checked:hover:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-elevation-3)]',
   'focus-visible:shadow-[var(--cs-focus),var(--cs-elevation-3)]',
+  'aria-checked:focus-visible:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-edge),var(--cs-focus),var(--cs-elevation-3)]',
 ]);
 
 export const themeGalleryPreviewVariants = cva(
@@ -31,5 +33,7 @@ export const themeGalleryActionVariants = cva('h-3 rounded-(--m-r) first:w-8 fir
 export const themeGalleryMetaVariants = cva('flex items-center gap-2 px-3 pt-0.5 pb-3');
 export const themeGalleryNameVariants = cva('text-ui-dense font-semibold text-text-primary');
 export const themeGalleryCaptionVariants = cva('text-footnote font-normal text-text-tertiary');
+/** The check of the checked card (row G): the solid check mark of choice-cards and card-action, before the dots. */
+export const themeGalleryCheckVariants = cva('pointer-events-none inline-grid size-check shrink-0 place-items-center rounded-full bg-accent-solid text-accent-on [&_svg]:size-icon-sm [&_svg]:stroke-3');
 export const themeGallerySwatchesVariants = cva('flex');
 export const themeGallerySwatchVariants = cva('size-3 rounded-full shadow-[0_0_0_1.5px_var(--cs-color-surface-base)] not-first:-ml-0.75');

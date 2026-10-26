@@ -102,8 +102,8 @@ export function FontPicker({
       onKeyDown={e => { if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !isOpen && !blocked) { e.preventDefault(); setOpen(true); } }}
     >
       <span data-slot="font-picker-sample" aria-hidden data-italic={current?.italic || undefined} className={fontPickerSampleVariants()} style={face(current?.cssFamily ?? '')}>{sampleText}</span>
-      <span data-slot="font-picker-name" data-mixed={mixed || undefined} className="min-w-0 flex-1 truncate text-ui-strong data-[mixed]:italic data-[mixed]:text-text-secondary">{mixed ? mixedLabel : current ? current.label ?? current.family : ''}</span>
-      <span data-slot="font-picker-chevron" aria-hidden className="inline-flex size-icon-sm shrink-0 text-text-tertiary [&_svg]:size-full [&_svg]:stroke-[1.75]"><ChevronDown /></span>
+      <span data-slot="font-picker-name" data-mixed={mixed || undefined} className="min-w-0 flex-1 truncate text-ui-strong data-[mixed]:italic data-[mixed]:text-text-secondary in-disabled:data-[mixed]:text-disabled-text">{mixed ? mixedLabel : current ? current.label ?? current.family : ''}</span>
+      <span data-slot="font-picker-chevron" aria-hidden className="inline-flex size-icon-sm shrink-0 text-text-tertiary in-disabled:text-disabled-text [&_svg]:size-full [&_svg]:stroke-[1.75]"><ChevronDown /></span>
     </button>
   );
 
@@ -134,7 +134,7 @@ export function FontPicker({
               <span data-slot="font-picker-option-name" data-italic={o.italic || undefined} className={fontPickerOptionNameVariants()} style={face(o.cssFamily)}>{o.label ?? o.family}</span>
               <span data-slot="font-picker-option-meta" className="block text-ui-xs text-text-tertiary">{o.meta}</span>
             </span>
-            {selected ? <span data-slot="font-picker-check" aria-hidden className="inline-flex size-icon-sm text-accent-text [&_svg]:size-full [&_svg]:stroke-[1.75]"><Check /></span> : null}
+            {selected ? <span data-slot="font-picker-check" aria-hidden className="inline-flex size-icon-sm text-text-primary [&_svg]:size-full [&_svg]:stroke-[1.75]"><Check /></span> : null}
             {!selected && o.missing ? <Badge data-slot="font-picker-badge" tone="warning" icon={<TriangleAlert />}>{missingLabel}</Badge> : null}
             {!selected && !o.missing && o.project ? <Badge data-slot="font-picker-badge" shape="square">{projectLabel}</Badge> : null}
           </div>

@@ -1,7 +1,8 @@
 'use client';
+import { Check } from 'lucide-react';
 import { cloneElement, isValidElement, type ComponentProps, type CSSProperties, type KeyboardEvent, type ReactElement, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
-import { colorWellPaintVariants, colorWellVariants, type ColorWellVariantProps } from './color-well.variants.ts';
+import { colorWellCheckVariants, colorWellPaintVariants, colorWellSolidVariants, colorWellVariants, type ColorWellVariantProps } from './color-well.variants.ts';
 
 export interface ColorWellProps extends Omit<ComponentProps<'span'>, 'color'>, Omit<ColorWellVariantProps, 'interactive'> {
   /** CSS color or gradient to paint. Runtime data, set as a custom property. */
@@ -12,7 +13,7 @@ export interface ColorWellProps extends Omit<ComponentProps<'span'>, 'color'>, O
   split?: boolean | undefined;
   /** Multi-selection with differing paints: a hatch instead of a color. */
   mixed?: boolean;
-  /** This swatch is the active one. */
+  /** This swatch is the active one: the selection edge and a check badge. */
   selected?: boolean;
   /** Render the child (a popover trigger) with swatch styling. */
   asChild?: boolean;
@@ -25,7 +26,8 @@ export function ColorWell({ size, appearance, color, solidColor, split = false, 
   const inner: ReactNode = (
     <>
       <span data-slot="color-well-paint" aria-hidden className={colorWellPaintVariants({ split: split && !mixed, mixed })} />
-      {split && !mixed ? <span data-slot="color-well-solid" aria-hidden className="absolute inset-0 z-10 [background:var(--well-solid,var(--well-color))] [clip-path:polygon(0_0,100%_0,0_100%)]" /> : null}
+      {split && !mixed ? <span data-slot="color-well-solid" aria-hidden className={colorWellSolidVariants()} /> : null}
+      {selected && !mixed ? <span data-slot="color-well-check" aria-hidden className={colorWellCheckVariants({ size })}><Check /></span> : null}
     </>
   );
   const className2 = cn(colorWellVariants({ size, appearance, interactive }), className);

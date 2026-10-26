@@ -33,7 +33,7 @@ export default defineSpec({
     { slot: 'root', expect: { radius: 'xl', height: 'size-color-plane-h', edge: 'swatch.edge', cursor: 'crosshair' }, note: 'Layers: linear-gradient(0deg, black, transparent) over linear-gradient(90deg, white, hue). Black is the media.shade color token, white is media.on.' },
     { slot: 'thumb', expect: { radius: 'full', height: 'icon-md', width: 'icon-md', shadow: 'thumb-sm' }, note: 'Fill = pickedColor; 2.5px border in media.on (white); specimen shadow is 0 0 0 .5px black/.3 and 0 2px 6px black/.35 (thumb-sm is .12 / .2).' },
     { slot: 'thumb', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
-    { slot: 'root', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'root', when: { state: 'disabled' }, expect: { edge: 'disabled.border' }, note: 'Disabled is colour, not opacity: the plane is user paint and keeps its colours; its edge and the thumb ring take disabled.border.' },
   ],
   behavior: {
     keyboard: { ArrowRight: 'saturation +1 %', ArrowLeft: 'saturation −1 %', ArrowUp: 'brightness +1 %', ArrowDown: 'brightness −1 %', 'Shift+Arrow': 'steps of 10 %', Home: 'saturation 0', End: 'saturation 100 %' },

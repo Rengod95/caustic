@@ -24,7 +24,7 @@ export function SectionHeader({ size, title, headingLevel = 2, eyebrow, descript
   return (
     <div data-slot="section-header" data-size={size ?? 'md'} data-divided={divided || undefined} className={cn(sectionHeaderVariants({ divided }), className)} {...props}>
       <div data-slot="section-header-text" className="grid min-w-section-text-min flex-1 gap-0.75">
-        {eyebrow != null && <span data-slot="section-header-eyebrow" className="font-ui text-caption uppercase text-accent-text">{eyebrow}</span>}
+        {eyebrow != null && <span data-slot="section-header-eyebrow" className="font-ui text-caption uppercase text-text-tertiary">{eyebrow}</span>}
         <Heading data-slot="section-header-title" className={sectionHeaderTitle({ size })}>{title}</Heading>
         {description != null && <span data-slot="section-header-description" className={cn(sectionHeaderDescription({ size }), 'max-w-[60ch]')}>{description}</span>}
       </div>
@@ -38,12 +38,12 @@ export interface SectionHeaderLinkProps extends ComponentProps<'a'> {
   chevron?: boolean;
 }
 
-/** Accent text link for the SectionHeader action. */
+/** Text link (text.link) for the SectionHeader action. */
 export function SectionHeaderLink({ chevron = true, className, children, ...props }: SectionHeaderLinkProps) {
   return (
     <a
       data-slot="section-header-link"
-      className={cn('inline-flex items-center gap-0.5 whitespace-nowrap font-ui text-ui-dense font-medium text-accent-text no-underline outline-none hover:underline focus-visible:shadow-focus', className)}
+      className={cn('inline-flex items-center gap-0.5 whitespace-nowrap font-ui text-ui-dense font-medium text-text-link no-underline outline-none hover:underline focus-visible:shadow-focus', className)}
       {...props}
     >
       {children}

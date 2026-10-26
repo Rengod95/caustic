@@ -1,9 +1,10 @@
 'use client';
+import { Check } from 'lucide-react';
 import { useRef, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { clamp } from '../../lib/color-math.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
-import { gradientBarVariants, gradientStemVariants, gradientStopVariants, gradientStripVariants, gradientSwatchVariants } from './gradient-strip.variants.ts';
+import { gradientBarVariants, gradientCheckVariants, gradientStemVariants, gradientStopVariants, gradientStripVariants, gradientSwatchVariants } from './gradient-strip.variants.ts';
 
 export interface GradientStop { position: number; color: string }
 
@@ -12,7 +13,7 @@ export interface GradientStripProps extends Omit<ComponentProps<'div'>, 'onChang
   stopLabel: (index: number) => string;
   /** Color stops: position 0-100 (whole percent) and a CSS color. */
   stops: GradientStop[];
-  /** Index of the selected stop. */
+  /** Index of the selected stop: the selection edge and a check on its swatch. */
   selected?: number;
   disabled?: boolean;
   onStopsChange?: (stops: GradientStop[]) => void;
@@ -88,7 +89,9 @@ export function GradientStrip({ stopLabel, stops, selected, disabled = false, on
           className={gradientStopVariants()} style={{ '--stop-pos': `${stop.position}%`, '--stop-color': stop.color } as CSSProperties}
         >
           <span data-slot="gradient-strip-stem" aria-hidden className={gradientStemVariants()} />
-          <span data-slot="gradient-strip-swatch" aria-hidden className={gradientSwatchVariants()} />
+          <span data-slot="gradient-strip-swatch" aria-hidden className={gradientSwatchVariants()}>
+            {current === index ? <Check aria-hidden data-slot="gradient-strip-check" className={gradientCheckVariants()} /> : null}
+          </span>
         </button>
       ))}
     </div>

@@ -18,8 +18,8 @@ export const colorPickerTypeVariants = cva(
   [
     'grid size-control-sm shrink-0 cursor-pointer place-items-center rounded-md text-text-tertiary outline-none',
     'transition-[background-color,color,box-shadow] duration-120 ease-out',
-    'hover:bg-fill-pressed hover:text-text-primary focus-visible:shadow-focus',
-    'aria-checked:bg-fill-selected aria-checked:text-text-primary',
+    'hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
+    'aria-checked:bg-neutral-selected aria-checked:text-text-primary aria-checked:hover:bg-neutral-selected-hover',
     '[&_svg]:size-icon-sm [&_svg]:stroke-[1.75]',
   ],
 );
@@ -59,8 +59,8 @@ export const colorPickerFieldsVariants = cva(
 
 export const colorPickerFormatVariants = cva(
   [
-    'flex h-control-md w-picker-format-w cursor-pointer items-center justify-between rounded-md bg-fill-hover pr-1.5 pl-2 text-ui-sm font-normal text-text-primary outline-none',
-    'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-fill-pressed focus-visible:shadow-focus',
+    'flex h-control-md w-picker-format-w cursor-pointer items-center justify-between rounded-md bg-neutral-well pr-1.5 pl-2 text-ui-sm font-normal text-text-primary outline-none',
+    'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover focus-visible:shadow-focus',
     '[&_svg]:size-icon-xs [&_svg]:text-text-tertiary [&_svg]:stroke-[1.75]',
   ],
 );
@@ -71,7 +71,7 @@ export const colorPickerFootVariants = cva('grid gap-1.5 border-t border-border-
 export const colorPickerPreviewFillVariants = cva('absolute inset-0', {
   variants: {
     mixed: {
-      true: 'bg-[repeating-linear-gradient(135deg,var(--cs-color-fill-selected)_0_calc(var(--spacing)*0.75),transparent_calc(var(--spacing)*0.75)_calc(var(--spacing)*1.5))]',
+      true: 'bg-[repeating-linear-gradient(135deg,var(--cs-color-neutral-selected)_0_calc(var(--spacing)*0.75),transparent_calc(var(--spacing)*0.75)_calc(var(--spacing)*1.5))]',
       false: 'bg-(--picked)',
     },
   },

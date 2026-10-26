@@ -1,5 +1,5 @@
 'use client';
-import { ChevronRight, FlipHorizontal2, Minus, Plus, RotateCw } from 'lucide-react';
+import { Check, ChevronRight, FlipHorizontal2, Minus, Plus, RotateCw } from 'lucide-react';
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent, type SyntheticEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { clamp } from '../../lib/color-math.ts';
@@ -17,7 +17,7 @@ import { IconButton } from '../icon-button/icon-button.tsx';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import {
-  gradientCanvasVariants, gradientControlsVariants, gradientDotVariants, gradientEditorVariants, gradientGuideVariants, gradientHandleVariants,
+  gradientCanvasVariants, gradientControlsVariants, gradientDotCheckVariants, gradientDotVariants, gradientEditorVariants, gradientGuideVariants, gradientHandleVariants,
   gradientPreviewVariants, gradientReadoutVariants, gradientRowVariants, gradientStopsVariants, gradientSummaryVariants,
 } from './gradient-editor.variants.ts';
 
@@ -124,7 +124,7 @@ const gestureKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 
 const types: GradientType[] = ['linear', 'radial', 'angular'];
 const radialLike = (t: GradientEditorType) => t === 'radial' || t === 'diamond';
 const paintable = (v: GradientEditorValue): GradientValue => ({ ...v, type: v.type === 'diamond' ? 'radial' : v.type });
-const hatch = 'repeating-linear-gradient(135deg, var(--cs-color-fill-selected) 0 6px, transparent 6px 12px)';
+const hatch = 'repeating-linear-gradient(135deg, var(--cs-color-neutral-selected) 0 6px, transparent 6px 12px)';
 
 const flagged = (flags: boolean | GradientEditorFieldFlags | undefined, field: GradientEditorField) => flags === true || (typeof flags === 'object' && flags[field] === true);
 /** Attributes of a control whose field is being written elsewhere. */
@@ -336,7 +336,9 @@ export function GradientEditor({
               onPointerDown={dotDown(i)} onPointerMove={dotMove(i)} onPointerUp={dotUp} onPointerCancel={dotCancel}
               className={gradientDotVariants()}
               style={{ '--dx': `${start.x + ((end.x - start.x) * s.position) / 100}%`, '--dy': `${start.y + ((end.y - start.y) * s.position) / 100}%`, '--stop-color': s.color } as CSSProperties}
-            />
+            >
+              {sel === i ? <Check aria-hidden data-slot="gradient-editor-dot-check" className={gradientDotCheckVariants()} /> : null}
+            </span>
           ))}
           <button
             type="button" role="slider" data-slot="gradient-editor-handle-start" data-disabled={isDisabled('start') || undefined} data-mixed={startMixed || undefined}

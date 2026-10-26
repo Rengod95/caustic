@@ -58,9 +58,9 @@ export default defineSpec({
     { slot: 'binding', expect: { gap: 8, border: 'border.subtle' }, note: 'Bottom hairline only (like Tabs); border-color is asserted, the side is part of the example baseline.' },
     { slot: 'path', expect: { font: 'mono', text: 'mono-sm', fg: 'text.tertiary' } },
     { slot: 'raw-toggle', expect: { height: 'control-sm', padX: 8, radius: 'md', text: 'ui-sm', fg: 'text.secondary', gap: 4, cursor: 'pointer' } },
-    { slot: 'raw-toggle', when: { state: 'hover' }, expect: { bg: 'fill.hover', fg: 'text.primary' } },
+    { slot: 'raw-toggle', when: { state: 'hover' }, expect: { bg: 'neutral.hover', fg: 'text.primary' } },
     { slot: 'raw-toggle', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
-    { slot: 'raw-toggle', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'raw-toggle', when: { state: 'disabled' }, expect: { fg: 'disabled.text' } },
     { slot: 'error', when: { state: 'invalid' }, expect: { fg: 'danger.text', text: 'hint' } },
   ],
   behavior: {

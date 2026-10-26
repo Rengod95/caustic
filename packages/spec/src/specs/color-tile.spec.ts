@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'The atlas tile of a color ramp. The swatch fill and the text color on it are data (the token\'s value and whichever of white or black contrasts more); the audit is data too. Read-only; the tile does not choose colors.',
   role: 'group',
   slots: [
-    { name: 'root', el: 'div', role: 'group', description: 'The tile: xl radius, overflow hidden, base surface with a hairline edge and elevation 1, grid. aria-label = the token name.' },
+    { name: 'root', el: 'div', role: 'group', description: 'The tile: xl radius, overflow hidden, base surface with a hairline edge and no elevation (one depth cue), grid. aria-label = the token name.' },
     { name: 'swatch', el: 'div', parent: 'root', description: 'The color area, 74px tall, 8px padding, flex with space between, aligned to the start. Full-bleed: flush with the tile top and sides, corners clipped by the tile radius. Fill from --tile-bg and text from --tile-fg (custom properties set from the color and onColor props).' },
     { name: 'sample', el: 'span', parent: 'swatch', description: 'The "Aa" sample: 18px semibold, in the on-color.' },
     { name: 'value', el: 'span', parent: 'swatch', description: 'The color value as written ("#B4532A"): mono small, in the on-color.' },
@@ -30,7 +30,7 @@ export default defineSpec({
     audit: { type: '{ against: string; ratio: number; pass: boolean }[]', required: true, description: 'Contrast results: against = label ("White"), ratio, pass = ratio >= 4.5.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', shadow: '1', radius: 'xl' } },
+    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', radius: 'xl' }, note: 'One depth cue: a resting tile has the hairline, no elevation.' },
     { slot: 'swatch', expect: { height: 'size-tile-swatch-h', padX: 8, padY: 8 }, note: 'No radius of its own: it is flush with the tile edges and the tile radius (overflow hidden) rounds its top corners. Fill and text color come from --tile-bg / --tile-fg.' },
     { slot: 'sample', expect: { text: 'title-overlay' }, note: 'Specimen is 18px semibold with the inherited 18px line-height; title-overlay is 18 / 22 / 600 with -0.015em tracking.' },
     { slot: 'value', expect: { font: 'mono', text: 'mono-sm' }, note: 'Specimen sets opacity .8; no opacity token matches (muted is .64 and would drop below the contrast of the on-color), so none is applied.' },

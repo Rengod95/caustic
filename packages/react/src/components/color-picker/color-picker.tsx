@@ -388,7 +388,7 @@ export function ColorPicker({
             </div>
             <div
               data-slot="color-picker-swatches" data-mixed={isMixed('swatches') || undefined} data-disabled={isDisabled('swatches') || undefined}
-              className="data-[disabled]:pointer-events-none data-[disabled]:opacity-42" inert={isDisabled('swatches') || undefined} {...wrap('swatches')}
+              className="data-[disabled]:pointer-events-none data-[disabled]:[&_[role=radio]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] data-[disabled]:[&_[data-slot=swatch-strip-token-dot]]:bg-disabled-text" inert={isDisabled('swatches') || undefined} {...wrap('swatches')}
             >
               <SwatchStrip items={items} columns={9} value={picked} onValueChange={pickSwatch} aria-label={labels.swatchesTitle} />
             </div>

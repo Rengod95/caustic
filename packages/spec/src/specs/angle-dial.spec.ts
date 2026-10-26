@@ -9,9 +9,9 @@ export default defineSpec({
   description: 'The compact direction control beside an Angle field. It carries no number itself; pair it with a NumberField (unit °) and, for a gradient, rotate and flip buttons. The needle rotates from the center; a hub dot marks the pivot.',
   role: null,
   slots: [
-    { name: 'root', el: 'span', description: 'The dial: 32px circle, fill.hover with a 1px inset border.default ring, grab cursor, touch-action none, never shrinks. role="slider", tabindex 0.' },
-    { name: 'needle', el: 'span', parent: 'root', description: 'A 10px × 2px bar from the center towards the angle (its transform origin is the left end), text.primary, 2px radius. Rotated by (angle − 90)°: 0° up, 90° right, 180° down.' },
-    { name: 'hub', el: 'span', parent: 'root', description: 'Center dot, 4px, text.primary.' },
+    { name: 'root', el: 'span', description: 'The dial: 32px circle, neutral.well with a 1px inset border.default ring, grab cursor, touch-action none, never shrinks. role="slider", tabindex 0.' },
+    { name: 'needle', el: 'span', parent: 'root', description: 'A 10px × 2px bar from the center towards the angle (its transform origin is the left end), neutral.graphic, 2px radius. Rotated by (angle − 90)°: 0° up, 90° right, 180° down.' },
+    { name: 'hub', el: 'span', parent: 'root', description: 'Center dot, 4px, neutral.graphic.' },
   ],
   states: {
     'focus-visible': { pseudo: ['focus', 'focus-visible'] },
@@ -31,12 +31,12 @@ export default defineSpec({
     onValueCommit: { payload: 'number', when: 'the pointer is released or a key step ends' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'fill.hover', edge: 'border.default', radius: 'full', height: 'control-md', width: 'control-md', cursor: 'grab' } },
+    { slot: 'root', expect: { bg: 'neutral.well', edge: 'border.default', radius: 'full', height: 'control-md', width: 'control-md', cursor: 'grab' } },
     { slot: 'root', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'root', when: { state: 'dragging' }, expect: { cursor: 'grabbing' } },
-    { slot: 'root', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
-    { slot: 'needle', expect: { bg: 'text.primary', radius: '2xs', width: 10, height: 2 } },
-    { slot: 'hub', expect: { bg: 'text.primary', radius: 'full', width: 4, height: 4 } },
+    { slot: 'root', when: { state: 'disabled' }, expect: { bg: 'disabled.fill', edge: 'disabled.border' }, note: 'Needle and hub turn disabled.text.' },
+    { slot: 'needle', expect: { bg: 'neutral.graphic', radius: '2xs', width: 10, height: 2 } },
+    { slot: 'hub', expect: { bg: 'neutral.graphic', radius: 'full', width: 4, height: 4 } },
   ],
   behavior: {
     keyboard: { ArrowRight: '+step', ArrowUp: '+step', ArrowLeft: '−step', ArrowDown: '−step', 'Shift+Arrow': '±15°', PageUp: '+15°', PageDown: '−15°', Home: '0°', End: '359°' },

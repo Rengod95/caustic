@@ -11,8 +11,8 @@ export const expressionEditorPathVariants = cva('font-mono text-mono-sm text-tex
 
 export const expressionEditorToggleVariants = cva([
   'inline-flex h-control-sm w-fit cursor-pointer items-center gap-1 rounded-md px-2 text-left font-ui text-ui-sm text-text-secondary outline-none',
-  'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-fill-hover hover:text-text-primary focus-visible:shadow-focus',
-  'disabled:pointer-events-none disabled:opacity-42',
+  'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
+  'disabled:pointer-events-none disabled:text-disabled-text',
 ]);
 
 export const expressionEditorChevronVariants = cva('size-icon-sm shrink-0 transition-transform duration-120 ease-out', {

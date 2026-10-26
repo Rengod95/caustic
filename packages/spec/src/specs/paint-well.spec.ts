@@ -21,6 +21,7 @@ export default defineSpec({
     bound: { props: { token: 'accent/solid' } },
     mixed: { props: { mixed: true } },
     invalid: { props: { invalid: true } },
+    disabled: { props: { disabled: true } },
   },
   props: {
     describedBy: { type: "Partial<Record<'hex' | 'alpha', string>>", description: 'K2e: id of the owner error or hint text per field (aria-describedby on the field input).' },
@@ -35,7 +36,7 @@ export default defineSpec({
     mixed: { type: "boolean | Partial<Record<'hex' | 'alpha' | 'well', boolean>>", default: false, description: 'Differing paints in the selection: true marks the well, hex and alpha; a record marks only the named parts (differing hex with the same alpha).' },
     invalid: { type: "boolean | Partial<Record<'hex' | 'alpha', boolean>>", default: false, description: 'true marks the hex field (the typed hex is not 3, 4, 6 or 8 digits, as before). K2e: a record marks the named field only; aria-invalid, data-invalid and the danger edge on that field.' },
     message: { type: 'ReactNode', description: 'Error text for an invalid row.' },
-    disabled: { type: "boolean | Partial<Record<'hex' | 'alpha' | 'well' | 'detach', boolean>>", default: false, description: 'true disables the row; a record disables the named parts.' },
+    disabled: { type: "boolean | Partial<Record<'hex' | 'alpha' | 'well' | 'detach', boolean>>", default: false, description: 'true disables the row; a record disables the named parts. Disabled is colour, not opacity: the well keeps the user paint and takes the disabled.border edge (ColorWell aria-disabled), the hex and alpha fields take disabled.fill and disabled.text.' },
     commitMode: { type: "'live' | 'release'", default: 'live', description: 'live (default): the behavior before K2d. release: the NumberField value model for every numeric field of this part, and one commit per continuous gesture. The hex field keeps an invalid draft and reports it; the alpha field follows NumberField.' },
     reserved: { type: "Partial<Record<'hex' | 'alpha' | 'well' | 'detach', boolean>>", description: 'Fields that are being written or held by another window: read-only, aria-busy="true", data-reserved, focus and draft kept, no event while reserved.' },
     invalidMessage: { type: 'ReactNode', description: 'Message shown under the row (the existing message slot, danger.text, aria-describedby of the hex input) while the hex draft is invalid in commitMode release. message stays the owner message for invalid set from outside; invalidMessage is owned by the draft condition so the owner does not have to track it.' },
@@ -54,6 +55,7 @@ export default defineSpec({
     { slot: 'root', expect: { gap: 8 } },
     { slot: 'row', expect: { gap: 6, height: 'control-md' } },
     { slot: 'alpha', expect: { width: 'size-field-alpha-w' } },
+    { slot: 'well', when: { state: 'disabled' }, expect: { opacity: 1 }, note: 'Disabled is colour, not opacity: the user paint keeps its colours; the disabled.border edge is drawn by the ColorWell paint and solid layers inside this wrapper (color-well spec, state disabled).' },
     { slot: 'message', when: { invalid: true }, expect: { fg: 'danger.text', text: 'hint' } },
   ],
   behavior: {

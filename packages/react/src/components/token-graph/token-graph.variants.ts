@@ -19,8 +19,10 @@ export const tokenGraphNodeVariants = cva(
   ],
   {
     variants: {
-      traced: { true: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-solid)]', false: '' },
-      missing: { true: 'bg-danger-soft shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)]', false: '' },
+      // Traced keeps its accent ring inside the outer focus ring, so a focused traced node shows both.
+      traced: { true: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-solid)] data-[traced]:focus-visible:shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-solid),var(--cs-focus)]', false: '' },
+      // Missing is the danger subtle error container (D5, same as tool-call failed): tint 2 fill, danger border 6 edge, kept inside the focus ring.
+      missing: { true: 'bg-danger-tint shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)] data-[missing]:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border),var(--cs-focus)]', false: '' },
     },
     defaultVariants: { traced: false, missing: false },
   },

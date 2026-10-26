@@ -10,7 +10,7 @@ export const strokeEditorPreviewVariants = cva('grid h-5 items-center');
 
 /** The dash and gap (px) arrive as runtime variables: --dash and --period (dash + gap). */
 export const strokeEditorPreviewLineVariants = cva(
-  'block h-0.5 rounded-2xs [background:repeating-linear-gradient(90deg,var(--cs-color-text-primary)_0_var(--dash),transparent_var(--dash)_var(--period))]',
+  'block h-0.5 rounded-2xs [background:repeating-linear-gradient(90deg,var(--cs-color-neutral-graphic)_0_var(--dash),transparent_var(--dash)_var(--period))]',
 );
 
 export const strokeEditorIndependentVariants = cva('flex items-center justify-between gap-2 text-footnote text-text-primary');
@@ -31,7 +31,7 @@ export const strokeEditorSideVariants = cva('flex w-16', {
 
 /** The frame picture: each edge is an inset shadow as wide as that side (runtime --l, --t, --rn, --bn). */
 export const strokeEditorBoxVariants = cva(
-  'col-start-2 row-start-2 block size-field-sm rounded-xs shadow-[inset_var(--l)_0_0_var(--cs-color-text-primary),inset_0_var(--t)_0_var(--cs-color-text-primary),inset_var(--rn)_0_0_var(--cs-color-text-primary),inset_0_var(--bn)_0_var(--cs-color-text-primary)]',
+  'col-start-2 row-start-2 block size-field-sm rounded-xs shadow-[inset_var(--l)_0_0_var(--cs-color-neutral-graphic),inset_0_var(--t)_0_var(--cs-color-neutral-graphic),inset_var(--rn)_0_0_var(--cs-color-neutral-graphic),inset_0_var(--bn)_0_var(--cs-color-neutral-graphic)]',
 );
 
 export type StrokeEditorVariantProps = VariantProps<typeof strokeEditorVariants>;

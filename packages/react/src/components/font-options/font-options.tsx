@@ -1,5 +1,5 @@
 'use client';
-import { Plus } from 'lucide-react';
+import { Check, Plus } from 'lucide-react';
 import type { ComponentProps, CSSProperties, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
@@ -7,7 +7,7 @@ import { Chip } from '../chip/chip.tsx';
 import { NumberField } from '../number-field/number-field.tsx';
 import { Slider } from '../slider/slider.tsx';
 import {
-  fontOptionsAxesVariants, fontOptionsAxisTagVariants, fontOptionsAxisVariants, fontOptionsFeatureCodeVariants, fontOptionsFeatureVariants,
+  fontOptionsAxesVariants, fontOptionsAxisTagVariants, fontOptionsAxisVariants, fontOptionsFeatureCheckVariants, fontOptionsFeatureCodeVariants, fontOptionsFeatureVariants,
   fontOptionsFeaturesVariants, fontOptionsSampleVariants, fontOptionsStageVariants, fontOptionsVariants,
 } from './font-options.variants.ts';
 
@@ -63,7 +63,7 @@ export function FontOptions({
               min={a.min} max={a.max} step={1} value={axisValue(a)} disabled={disabled} onValueChange={v => setAxis(a.tag, v)}
             />
             <span data-slot="font-options-axis-field" className="flex w-axis-field-w">
-              <NumberField aria-label={`${a.label} axis`} min={a.min} max={a.max} step={1} value={axisValue(a)} locked={disabled} containerClassName="w-full" onValueChange={v => setAxis(a.tag, v)} />
+              <NumberField aria-label={`${a.label} axis`} min={a.min} max={a.max} step={1} value={axisValue(a)} disabled={disabled} containerClassName="w-full" onValueChange={v => setAxis(a.tag, v)} />
             </span>
           </div>
         ))}
@@ -74,6 +74,7 @@ export function FontOptions({
             key={f.tag} type="button" data-slot="font-options-feature" aria-pressed={current.features.includes(f.tag)} disabled={disabled}
             className={fontOptionsFeatureVariants()} onClick={() => toggle(f.tag)}
           >
+            {current.features.includes(f.tag) && <Check aria-hidden data-slot="font-options-feature-check" className={fontOptionsFeatureCheckVariants()} />}
             {f.label}
             <span data-slot="font-options-feature-code" className={fontOptionsFeatureCodeVariants()}>{f.tag}</span>
           </button>

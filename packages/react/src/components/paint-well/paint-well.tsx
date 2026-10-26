@@ -128,7 +128,7 @@ export function PaintWell({
         <div
           data-slot="paint-well-well" aria-busy={isReserved('well') || undefined} data-disabled={isDisabled('well') || undefined} data-reserved={isReserved('well') || undefined}
           {...contract.wrapAttrs('well')}
-          className="flex data-[disabled]:pointer-events-none data-[disabled]:opacity-42"
+          className="flex data-[disabled]:pointer-events-none"
         >
           <ColorWell
             aria-label={labels.well}

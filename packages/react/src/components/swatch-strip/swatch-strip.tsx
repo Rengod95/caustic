@@ -1,8 +1,9 @@
 'use client';
+import { Check } from 'lucide-react';
 import { useRef, type ComponentProps, type CSSProperties, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
-import { swatchDotVariants, swatchItemVariants, swatchStripVariants } from './swatch-strip.variants.ts';
+import { swatchCheckVariants, swatchDotVariants, swatchItemVariants, swatchStripVariants } from './swatch-strip.variants.ts';
 
 export interface SwatchItem {
   id: string;
@@ -24,7 +25,7 @@ export interface SwatchStripProps extends Omit<ComponentProps<'div'>, 'defaultVa
   columns?: number;
 }
 
-/** A radio group of equal palette swatches; token swatches carry an accent dot. */
+/** A radio group of equal palette swatches; the checked one has the selection edge and a check, token swatches carry an accent dot. */
 export function SwatchStrip({ items, value, defaultValue = '', onValueChange, columns = 9, className, style, onKeyDown, ...props }: SwatchStripProps) {
   const [current, setCurrent] = useControllableState<string>({ value, defaultValue, onChange: onValueChange });
   const ref = useRef<HTMLDivElement>(null);
@@ -59,6 +60,7 @@ export function SwatchStrip({ items, value, defaultValue = '', onValueChange, co
             className={swatchItemVariants()}
             style={{ '--swatch': item.color } as CSSProperties}
           >
+            {checked ? <span data-slot="swatch-strip-check" aria-hidden className={swatchCheckVariants()}><Check /></span> : null}
             {item.token ? <span data-slot="swatch-strip-token-dot" aria-hidden className={swatchDotVariants()} /> : null}
           </button>
         );

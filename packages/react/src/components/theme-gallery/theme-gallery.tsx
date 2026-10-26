@@ -1,9 +1,10 @@
 'use client';
+import { Check } from 'lucide-react';
 import { createContext, useContext, useRef, type ComponentProps, type CSSProperties, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import {
-  themeGalleryActionsVariants, themeGalleryActionVariants, themeGalleryCaptionVariants, themeGalleryHeadingBarVariants,
+  themeGalleryActionsVariants, themeGalleryActionVariants, themeGalleryCaptionVariants, themeGalleryCheckVariants, themeGalleryHeadingBarVariants,
   themeGalleryItemVariants, themeGalleryMainVariants, themeGalleryMetaVariants, themeGalleryNameVariants,
   themeGalleryPanelLineVariants, themeGalleryPanelVariants, themeGalleryPreviewVariants, themeGallerySidebarItemVariants,
   themeGallerySidebarVariants, themeGallerySwatchesVariants, themeGallerySwatchVariants, themeGalleryVariants,
@@ -98,6 +99,7 @@ export function ThemeGalleryItem({ themeId, name, description, preview, checked,
           <b data-slot="theme-gallery-name" className={themeGalleryNameVariants()}>{name}</b>
           {description != null && <span data-slot="theme-gallery-caption" className={themeGalleryCaptionVariants()}>{description}</span>}
         </div>
+        {selected && <span data-slot="theme-gallery-check" aria-hidden="true" className={themeGalleryCheckVariants()}><Check /></span>}
         <span data-slot="theme-gallery-swatches" aria-hidden="true" className={themeGallerySwatchesVariants()}>
           <i data-slot="theme-gallery-swatch" className={cn(themeGallerySwatchVariants(), 'bg-(--m-acc)')} />
           <i data-slot="theme-gallery-swatch" className={cn(themeGallerySwatchVariants(), 'bg-(--m-ink)')} />

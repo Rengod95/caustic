@@ -15,20 +15,20 @@ export const gradientPreviewVariants = cva([
 
 export const gradientGuideVariants = cva([
   'pointer-events-none absolute inset-0 size-full overflow-visible',
-  '[&_line]:stroke-canvas-handle [&_line]:stroke-[1.5px] [&_line]:[filter:drop-shadow(0_0_1px_color-mix(in_oklab,var(--cs-color-media-shade)_50%,transparent))]',
-  '[&_circle]:fill-none [&_circle]:stroke-canvas-handle [&_circle]:stroke-1 [&_circle]:[stroke-dasharray:4_4] [&_circle]:[filter:drop-shadow(0_0_1px_color-mix(in_oklab,var(--cs-color-media-shade)_50%,transparent))]',
+  '[&_line]:stroke-canvas-handle [&_line]:stroke-[1.5px] [&_line]:[filter:drop-shadow(0_0_1px_var(--cs-color-media-scrim))]',
+  '[&_circle]:fill-none [&_circle]:stroke-canvas-handle [&_circle]:stroke-1 [&_circle]:[stroke-dasharray:4_4] [&_circle]:[filter:drop-shadow(0_0_1px_var(--cs-color-media-scrim))]',
 ]);
 
 export const gradientHandleVariants = cva(
   [
     'absolute top-(--hy) left-(--hx) z-10 size-icon-md -translate-1/2 cursor-grab touch-none rounded-full outline-none active:cursor-grabbing',
-    'data-[disabled]:pointer-events-none data-[disabled]:opacity-42',
+    'data-[disabled]:pointer-events-none',
   ],
   {
     variants: {
       end: {
-        false: 'bg-canvas-handle shadow-thumb-sm focus-visible:shadow-focus',
-        true: 'bg-transparent shadow-[inset_0_0_0_3px_var(--cs-color-canvas-handle),var(--cs-elevation-thumb-sm)] focus-visible:shadow-[inset_0_0_0_3px_var(--cs-color-canvas-handle),var(--cs-focus)]',
+        false: 'bg-canvas-handle shadow-thumb-sm focus-visible:shadow-focus data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+        true: 'bg-transparent shadow-[inset_0_0_0_3px_var(--cs-color-canvas-handle),var(--cs-elevation-thumb-sm)] focus-visible:shadow-[inset_0_0_0_3px_var(--cs-color-canvas-handle),var(--cs-focus)] data-[disabled]:shadow-[inset_0_0_0_3px_var(--cs-color-disabled-fill),inset_0_0_0_4px_var(--cs-color-disabled-border)]',
       },
       // A mixed handle has no position to show; it stays reachable and appears while focused.
       mixed: { true: 'opacity-0 focus-visible:opacity-100', false: '' },
@@ -40,9 +40,14 @@ export const gradientHandleVariants = cva(
 export const gradientDotVariants = cva([
   'absolute top-(--dy) left-(--dx) size-3.5 -translate-1/2 rotate-45 cursor-grab touch-none rounded-xs bg-(--stop-color) active:cursor-grabbing',
   'shadow-[0_0_0_2px_var(--cs-color-canvas-handle),var(--cs-elevation-thumb-sm)]',
-  'data-[selected]:shadow-[0_0_0_2px_var(--cs-color-canvas-handle),0_0_0_4px_var(--cs-color-focus-ring),var(--cs-elevation-thumb-sm),var(--cs-focus)]',
+  'data-[selected]:shadow-[0_0_0_2px_var(--cs-color-canvas-handle),0_0_0_3.5px_var(--cs-color-selection-edge),var(--cs-elevation-thumb-sm)]',
   'data-[disabled]:pointer-events-none',
 ]);
+
+/** The check on the selected stop dot: counter-rotated upright inside the diamond, in the stage's mark colour with the guide's small shadow. */
+export const gradientDotCheckVariants = cva(
+  'pointer-events-none absolute inset-0 m-auto size-2.5 -rotate-45 stroke-3 text-canvas-handle [filter:drop-shadow(0_0_1px_var(--cs-color-media-scrim))]',
+);
 
 export const gradientReadoutVariants = cva(
   'glass glass-thick pointer-events-none absolute top-(--ry) left-(--rx) -translate-x-1/2 -translate-y-[calc(100%+var(--spacing)*3)] rounded-sm px-2 py-0.75 text-center font-mono text-mono-sm whitespace-nowrap text-text-primary',
@@ -53,7 +58,7 @@ export const gradientControlsVariants = cva('flex items-center justify-between g
 export const gradientStopsVariants = cva('grid min-w-0 gap-2');
 
 export const gradientRowVariants = cva(
-  'grid grid-cols-[calc(var(--spacing)*16)_auto_1fr_auto] items-center gap-1.5 rounded-md p-0.5 data-[selected]:bg-accent-soft',
+  'grid grid-cols-[calc(var(--spacing)*16)_auto_1fr_auto] items-center gap-1.5 rounded-md p-0.5 data-[selected]:bg-neutral-selected data-[selected]:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)]',
 );
 
 export const gradientSummaryVariants = cva(
