@@ -23,12 +23,18 @@ setup:
 typecheck:
     pnpm typecheck
 
+# 기기에서 한 번에 하나(슬롯 1), 메모리 상한 3G(scripts/guard.sh). 게이트 샤드 2개가 그 안에 들어간다.
 # 완료 기준: 의존성, 타입, 토큰, 게이트(--no-specimens: 명세→특정 링크 검사만 뺀다, 로컬 gate-all이 한다), ws check (ws help justfile)
 [group('quality')]
-verify: setup typecheck
-    pnpm tokens:check
-    pnpm gate:all --no-specimens
+verify:
+    WS_GUARD_SLOTS=1 WS_GUARD_VERIFY_MAX=3G scripts/guard.sh verify -- just _verify-steps
     ws check
+
+# verify 단계 묶음: setup typecheck, 토큰 대비, 전체 게이트(샤드 2개: 샤드 하나가 node와 브라우저로 약 1.5G)
+[private]
+_verify-steps: setup typecheck
+    pnpm tokens:check
+    pnpm gate:all --no-specimens --shards=2
 
 # 생성 파일 갱신: 토큰 빌드(dist)와 레지스트리(index, fixtures, specs index)
 [group('build')]
