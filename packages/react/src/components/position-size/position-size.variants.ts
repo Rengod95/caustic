@@ -8,14 +8,25 @@ export const positionSizeRow = cva('grid items-center gap-1.5', {
 });
 
 // The sizing-mode pill sits in the field's unit slot; the negative end margin lands it 4px from the field edge.
+// Every mode is the neutral subtle emphasis (PROPOSAL E6): tint 2 with neutral hover / pressed washes over it (alpha,
+// decision 2), border 6 -> 6 -> 7, glyph and chevron at graphic 8. A mode glyph and the label name the mode; no hue
+// encodes it. The edge is one custom property so pressed steps it to 7 without dropping the focus ring.
 export const positionSizeMode = cva(
-  '-mr-1 inline-flex h-control-compact-2xs cursor-pointer items-center gap-0.5 rounded-xs px-1.25 text-ui-xs font-semibold outline-none focus-visible:shadow-focus disabled:pointer-events-none data-[reserved]:cursor-default',
+  [
+    '-mr-1 inline-flex h-control-compact-2xs cursor-pointer items-center gap-0.5 rounded-xs px-1.25 text-ui-xs font-semibold outline-none',
+    'bg-neutral-tint hover:wash-neutral-hover active:wash-neutral-pressed',
+    '[--mode-edge:var(--cs-color-neutral-border)] active:[--mode-edge:var(--cs-color-neutral-border-strong)] shadow-[inset_0_0_0_1px_var(--mode-edge)]',
+    'focus-visible:shadow-[inset_0_0_0_1px_var(--mode-edge),var(--cs-focus)]',
+    '[&_svg]:text-neutral-graphic disabled:[&_svg]:text-disabled-text',
+    'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'data-[reserved]:cursor-default',
+  ],
   {
     variants: {
       mode: {
-        fill: 'bg-accent-soft text-accent-text',
-        hug: 'bg-info-soft text-info-text',
-        mixed: 'bg-fill-hover text-text-secondary',
+        fill: 'text-neutral-text',
+        hug: 'text-neutral-text',
+        mixed: 'text-text-secondary',
       },
     },
   },

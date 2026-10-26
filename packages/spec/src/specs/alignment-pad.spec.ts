@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'A radio group of nine cells. The value is a position, not a number: top-left … bottom-right. The pad does not know the flow; the owner passes orientation so the selected glyph runs along the main axis (vertical bars for a row, horizontal bars for a column).',
   role: 'radiogroup',
   slots: [
-    { name: 'root', el: 'div', role: 'radiogroup', description: '96px square, 3×3 grid, 6px padding, 2px gap; fill.hover with a hairline inset edge and an lg radius.' },
+    { name: 'root', el: 'div', role: 'radiogroup', description: '96px square, 3×3 grid, 6px padding, 2px gap; neutral.well with a hairline inset edge and an lg radius.' },
     { name: 'cell', el: 'button', parent: 'root', role: 'radio', description: 'One position (nine per pad). aria-checked, roving tabindex. xs radius.' },
     { name: 'mark', el: 'span', parent: 'cell', description: 'Decorative glyph centered in the cell: a 4px dot when off; when on, three 2px bars (12px long, 4px apart) in accent.solid, vertical for orientation row and horizontal for column.' },
   ],
@@ -32,14 +32,15 @@ export default defineSpec({
   },
   events: { onValueChange: { payload: 'string', when: 'a cell is chosen by click or arrow key' } },
   styles: [
-    { slot: 'root', expect: { bg: 'fill.hover', edge: 'border.subtle', radius: 'lg', height: 'size-pad-box', width: 'size-pad-box', padX: 6, padY: 6, gap: 2 } },
+    { slot: 'root', expect: { bg: 'neutral.well', edge: 'border.subtle', radius: 'lg', height: 'size-pad-box', width: 'size-pad-box', padX: 6, padY: 6, gap: 2 } },
     { slot: 'cell', expect: { radius: 'xs', bg: 'transparent' } },
-    { slot: 'mark', expect: { bg: 'text.disabled', radius: 'full', height: 4, width: 4 } },
+    { slot: 'mark', expect: { bg: 'neutral.graphic', radius: 'full', height: 4, width: 4 }, note: 'The off dot is a graphic mark (neutral graphic, step 8), not the disabled colour.' },
     { slot: 'mark', when: { state: 'hover' }, expect: { bg: 'text.secondary' } },
     { slot: 'mark', when: { state: 'selected' }, expect: { bg: 'accent.solid', radius: '2xs', width: 2, height: 12 }, note: 'orientation row: 2px × 12px bar plus two copies 4px to either side (box-shadow or siblings). orientation column: 12px × 2px, copies 4px above and below.' },
     { slot: 'mark', when: { state: 'selected', orientation: 'column' }, expect: { width: 12, height: 2 } },
     { slot: 'cell', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
-    { slot: 'root', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'root', when: { state: 'disabled' }, expect: { bg: 'disabled.fill', edge: 'disabled.border', opacity: 1 }, note: 'Disabled is a colour, not opacity: disabled fill and edge; off dots take disabled.border, on bars disabled.text.' },
+    { slot: 'mark', when: { state: 'disabled' }, expect: { bg: 'disabled.border' } },
   ],
   behavior: {
     keyboard: { ArrowRight: 'select the cell to the right', ArrowLeft: 'select the cell to the left', ArrowDown: 'select the cell below', ArrowUp: 'select the cell above', Tab: 'moves focus to the selected cell, then out (roving tabindex)' },

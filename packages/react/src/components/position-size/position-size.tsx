@@ -1,5 +1,5 @@
 'use client';
-import { Check, ChevronDown, FlipHorizontal2, FlipVertical2, Link, Minimize2, MoveHorizontal, MoveVertical, RotateCw, SlidersHorizontal } from 'lucide-react';
+import { ChevronDown, FlipHorizontal2, FlipVertical2, Link, Maximize2, Minimize2, MoveHorizontal, MoveVertical, RotateCw, SlidersHorizontal } from 'lucide-react';
 import { useState, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
@@ -171,6 +171,8 @@ export function PositionSize({
         onClick={() => { if (!isReserved) onModeOpen?.(axis); }}
         {...(isReserved ? busy : {})}
       >
+        {shownMode === 'fill' ? <Maximize2 data-slot="position-size-mode-icon" aria-hidden className="size-icon-xs" /> : null}
+        {shownMode === 'hug' ? <Minimize2 data-slot="position-size-mode-icon" aria-hidden className="size-icon-xs" /> : null}
         {isMixed || m === null ? labels.mixed : labels.mode[m]}
         <ChevronDown aria-hidden className="size-chevron-xs" />
       </button>
@@ -180,7 +182,7 @@ export function PositionSize({
       <Menu trigger={pill} aria-label={labels[axis]} align="end">
         {offers('fixed') && <MenuItem icon={fixedIcon} end={<span className="font-mono">{geo[axis]}</span>} onSelect={pick('fixed')}>{labels.mode.fixed}</MenuItem>}
         {offers('hug') && <MenuItem icon={<Minimize2 />} onSelect={pick('hug')}>{labels.mode.hug}</MenuItem>}
-        {offers('fill') && <MenuItem icon={<Check />} onSelect={pick('fill')}>{labels.mode.fill}</MenuItem>}
+        {offers('fill') && <MenuItem icon={<Maximize2 />} onSelect={pick('fill')}>{labels.mode.fill}</MenuItem>}
       </Menu>
     );
   };

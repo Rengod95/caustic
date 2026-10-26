@@ -9,9 +9,9 @@ export default defineSpec({
   description: 'Compound: AlignBar (track), AlignBarItem (an IconButton) and AlignBarSeparator. It holds actions, not state: pressing an item fires its own onClick. Used in a section header (tight) and above the multi-selection tools (regular).',
   role: 'group',
   slots: [
-    { name: 'root', el: 'div', role: 'group', description: 'Inline-flex track: fill.hover, lg radius, 1px gap between items.' },
+    { name: 'root', el: 'div', role: 'group', description: 'Inline-flex track: neutral.track, lg radius, 1px gap between items.' },
     { name: 'item', el: 'button', parent: 'root', description: 'One IconButton, 32px square with an md radius (track radius minus its padding, 10 − 2). Needs aria-label ("Align left", "Align horizontal centers", …).' },
-    { name: 'separator', el: 'span', parent: 'root', required: false, description: 'Vertical hairline between the horizontal and the vertical group: 1px wide, 24px tall, border.default, margin 4px 2px.' },
+    { name: 'separator', el: 'span', parent: 'root', required: false, description: 'Vertical hairline between the horizontal and the vertical group: 1px wide, 24px tall, divider.line (the divider role, E15; same look as border.default), margin 4px 2px.' },
   ],
   variants: {
     density: { values: ['regular', 'tight'], default: 'regular', description: 'regular = 2px padding (36px track); tight = 1px padding (34px track) for a section header, where it must not push the heading row taller.' },
@@ -22,10 +22,10 @@ export default defineSpec({
   },
   events: { onClick: { payload: 'React.MouseEvent<HTMLDivElement>', when: 'an item is pressed (the click bubbles from the item to the group; the item handler is the consumer action)' } },
   styles: [
-    { slot: 'root', expect: { bg: 'fill.hover', radius: 'lg', padX: 2, padY: 2, gap: 1 } },
+    { slot: 'root', expect: { bg: 'neutral.track', radius: 'lg', padX: 2, padY: 2, gap: 1 } },
     { slot: 'root', when: { density: 'tight' }, expect: { padX: 1, padY: 1 } },
     { slot: 'item', expect: { height: 'control-md', width: 'control-md', radius: 'md', fg: 'text.secondary' } },
-    { slot: 'separator', expect: { bg: 'border.default', width: 1, height: 24 } },
+    { slot: 'separator', expect: { bg: 'divider.line', width: 1, height: 24 }, note: 'A divider is its own role (E15), not a border token used as a fill.' },
   ],
   behavior: {
     keyboard: { Tab: 'each item is a tab stop', Enter: 'activate the focused item', Space: 'activate the focused item' },

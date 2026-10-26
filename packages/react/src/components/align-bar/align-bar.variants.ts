@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
-export const alignBarVariants = cva('inline-flex items-stretch gap-px rounded-lg bg-fill-hover font-ui', {
+export const alignBarVariants = cva('inline-flex items-stretch gap-px rounded-lg bg-neutral-track font-ui', {
   variants: { density: { regular: 'p-0.5', tight: 'p-px' } },
   defaultVariants: { density: 'regular' },
 });

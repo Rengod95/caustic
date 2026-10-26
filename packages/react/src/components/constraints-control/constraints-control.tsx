@@ -1,5 +1,5 @@
 'use client';
-import { MoveHorizontal, MoveVertical } from 'lucide-react';
+import { Check, MoveHorizontal, MoveVertical } from 'lucide-react';
 import { useId, useState, type ComponentProps, type FocusEvent, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
@@ -103,7 +103,7 @@ export function ConstraintsControl({
           slot="vertical" label={labels.vertical} icon={<MoveVertical />} options={vOptions} value={v} mixed={vMixed} mixedLabel={labels.mixed}
           disabled={flagged(disabled, 'vertical')} reserved={flagged(reserved, 'vertical')} onPick={x => setCurrent({ horizontal: h, vertical: x })}
         />
-        {note != null && <p data-slot="constraints-control-note" className="-mb-px m-0 text-hint text-text-tertiary">{note}</p>}
+        {note != null && <p data-slot="constraints-control-note" className="-mb-px m-0 text-hint text-text-tertiary group-aria-disabled/constraints:text-disabled-text">{note}</p>}
       </div>
     </div>
   );
@@ -140,17 +140,19 @@ function ConstraintSelect<T extends string>({ slot, label, icon, options, value,
         {text}
       </InspectorSelect>
       {isOpen && (
-        <div id={listId} role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2">
+        <div id={listId} data-slot="constraints-control-listbox" role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2">
           {options.map(([v, name]) => (
             <button
               key={v}
               type="button"
+              data-slot="constraints-control-option"
               role="option"
               aria-selected={!mixed && v === value}
-              className="flex h-control-sm cursor-pointer items-center rounded-md bg-transparent px-2 text-left outline-none hover:bg-fill-pressed focus-visible:shadow-focus aria-selected:bg-accent-soft aria-selected:text-accent-text"
+              className="flex h-control-sm cursor-pointer items-center justify-between gap-2 rounded-md bg-transparent px-2 text-left outline-none hover:bg-neutral-hover focus-visible:shadow-focus aria-selected:bg-neutral-selected aria-selected:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)] aria-selected:hover:bg-neutral-selected-hover aria-selected:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge),var(--cs-focus)]"
               onClick={() => { onPick(v); setOpen(false); }}
             >
               {name}
+              {!mixed && v === value && <Check data-slot="constraints-control-option-check" aria-hidden className="size-icon-xs shrink-0 stroke-[1.75]" />}
             </button>
           ))}
         </div>

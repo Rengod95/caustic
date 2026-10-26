@@ -59,10 +59,10 @@ export default defineSpec({
     { slot: 'add', expect: { height: 'control-xs', width: 'control-xs', radius: 'sm', fg: 'text.secondary' } },
     { slot: 'domains', expect: { gap: 2, padX: 2, padY: 2 } },
     { slot: 'domain', expect: { bg: 'transparent', fg: 'text.secondary', radius: 'md', minHeight: 'control-xl', padX: 6, padY: 6, gap: 4, text: 'label' } },
-    { slot: 'domain', when: { state: 'hover' }, expect: { bg: 'fill.pressed', fg: 'text.primary' } },
-    { slot: 'domain', when: { state: 'pressed' }, expect: { bg: 'fill.selected', fg: 'text.primary' }, note: 'The chosen domain: aria-pressed. The state sets defaultDomain "color", the FIRST domain of the fixture.' },
+    { slot: 'domain', when: { state: 'hover' }, expect: { bg: 'neutral.hover', fg: 'text.primary' } },
+    { slot: 'domain', when: { state: 'pressed' }, expect: { bg: 'neutral.selected', fg: 'text.primary' }, note: 'The chosen domain: aria-pressed, the neutral selection (hover on it is neutral.selected-hover). The state sets defaultDomain "color", the FIRST domain of the fixture.' },
     { slot: 'domain', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
-    { slot: 'domain', when: { state: 'disabled' }, expect: { opacity: 0.42 } },
+    { slot: 'domain', when: { state: 'disabled' }, expect: { bg: 'transparent', fg: 'disabled.text', opacity: 1 }, note: 'Disabled is a colour, not opacity. A disabled chosen domain is disabled.fill with disabled.text.' },
     { slot: 'domain-icon', expect: { height: 'icon-lg', width: 'icon-lg' } },
   ],
   behavior: {

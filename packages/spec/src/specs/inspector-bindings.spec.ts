@@ -59,8 +59,8 @@ export default defineSpec({
     { slot: 'root', expect: { gap: 8 } },
     { slot: 'row', expect: { bg: 'surface.base', edge: 'border.subtle', radius: 'lg', padX: 8, padY: 8, gap: 4 }, note: 'Column gap is 6px. The specimen is not concentric (selector radius 8 inside a 10px row with 8px padding); P5 is not claimed.' },
     { slot: 'property', expect: { fg: 'text.secondary', gap: 6, text: 'hint', weight: 500 } },
-    { slot: 'selector', expect: { bg: 'accent.soft', edge: 'accent.border', fg: 'text.primary', radius: 'md', height: 'control-md', gap: 6, padStart: 4, padEnd: 6, font: 'mono', text: 'mono-md', weight: 400 }, note: 'Specimen text is the mono role at 11.5px regular.' },
-    { slot: 'selector', when: { binding: 'mixed' }, expect: { bg: 'warning.soft', edge: 'warning.solid' } },
+    { slot: 'selector', expect: { bg: 'accent.soft', fg: 'text.primary', radius: 'md', height: 'control-md', gap: 6, padStart: 4, padEnd: 6, font: 'mono', text: 'mono-md', weight: 400 }, note: 'Specimen text is the mono role at 11.5px regular.' },
+    { slot: 'selector', when: { binding: 'mixed' }, expect: { bg: 'warning.soft', edge: 'warning.border-strong' }, note: 'The edge is the warning border-strong slot (step 7), not the solid colour borrowed as a 1px border.' },
     { slot: 'selector', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'link', expect: { fg: 'accent.text', height: 'icon-xs', width: 'icon-xs' } },
     { slot: 'link', when: { binding: 'mixed' }, expect: { fg: 'warning.text' } },
@@ -68,7 +68,7 @@ export default defineSpec({
     { slot: 'chevron', expect: { fg: 'accent.text', height: 'icon-xs', width: 'icon-xs' } },
     { slot: 'context', expect: { fg: 'text.tertiary', gap: 8, text: 'ui-xs' } },
     { slot: 'add', expect: { fg: 'text.secondary', border: 'border.strong', radius: 'lg', padX: 12, padY: 9, gap: 6, text: 'ui-dense' }, note: 'Dashed 1px border all round. ' },
-    { slot: 'add', when: { state: 'hover' }, expect: { bg: 'fill.hover', fg: 'text.primary' } },
+    { slot: 'add', when: { state: 'hover' }, expect: { bg: 'neutral.hover', fg: 'text.primary' } },
   ],
   behavior: {
     keyboard: {

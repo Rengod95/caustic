@@ -18,7 +18,8 @@ export const motionTimelineLaneLabelVariants = cva('flex items-center gap-1.5 ov
 
 export const motionTimelineTrackVariants = cva('relative h-full cursor-col-resize touch-none');
 
-export const motionTimelineBarVariants = cva('absolute top-2.25 left-(--l) h-3.5 w-(--w) rounded-xs bg-accent-soft');
+/** The animated range: a chart-family series colour (PROPOSAL E9), not accent; the chart family has no edge. */
+export const motionTimelineBarVariants = cva('absolute top-2.25 left-(--l) h-3.5 w-(--w) rounded-xs bg-chart-1');
 
 export const motionTimelineKeyframeVariants = cva([
   'absolute top-2.5 left-(--l) size-2.5 -translate-x-1/2 rotate-45 cursor-pointer rounded-2xs bg-surface-base outline-none',

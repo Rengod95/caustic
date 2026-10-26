@@ -1,14 +1,16 @@
 import { cva } from 'class-variance-authority';
 
-export const autoLayoutVariants = cva('grid grid-cols-[repeat(auto-fit,minmax(min(100%,var(--cs-size-popover-md)),1fr))] gap-4 font-ui aria-disabled:opacity-42');
+// Disabled is a colour, not opacity: every control draws its own disabled colours; the quiet labels take disabled text.
+export const autoLayoutVariants = cva('group/auto-layout grid grid-cols-[repeat(auto-fit,minmax(min(100%,var(--cs-size-popover-md)),1fr))] gap-4 font-ui');
 
-export const autoLayoutHeading = cva('text-ui-xs font-semibold text-text-tertiary');
+export const autoLayoutHeading = cva('text-ui-xs font-semibold text-text-tertiary group-aria-disabled/auto-layout:text-disabled-text');
 
-export const autoLayoutRow = cva('flex items-center justify-between text-footnote text-text-primary');
+export const autoLayoutRow = cva('flex items-center justify-between text-footnote text-text-primary group-aria-disabled/auto-layout:text-disabled-text');
 
-// A live illustration: flow, alignment and gap come from the value (--gap is data).
+// A live illustration: flow, alignment and gap come from the value (--gap is data). Disabled drops the accent tone:
+// the dashed outline takes disabled-border; the items are neutral and keep their fill and edge.
 export const autoLayoutPreview = cva(
-  'relative flex h-layout-preview gap-(--gap) rounded-xl bg-bg-inset p-2.5 outline outline-1 outline-dashed outline-accent-border -outline-offset-1 transition-all duration-gentle ease-spring',
+  'relative flex h-layout-preview gap-(--gap) rounded-xl bg-bg-inset p-2.5 outline outline-1 outline-dashed outline-accent-border-strong -outline-offset-1 transition-all duration-gentle ease-spring group-aria-disabled/auto-layout:outline-disabled-border',
   {
     variants: {
       flow: { row: 'flex-row', column: 'flex-col', grid: 'flex-row flex-wrap content-start', free: '' },

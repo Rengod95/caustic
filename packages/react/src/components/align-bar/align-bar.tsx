@@ -39,7 +39,7 @@ export function AlignBarItem({ className, ...props }: AlignBarItemProps) {
 
 export type AlignBarSeparatorProps = ComponentProps<'span'>;
 
-/** Vertical hairline between the horizontal and the vertical group. */
+/** Vertical hairline between the horizontal and the vertical group: the divider role (PROPOSAL E15), not a border token used as a fill. */
 export function AlignBarSeparator({ className, ...props }: AlignBarSeparatorProps) {
-  return <span data-slot="align-bar-separator" aria-hidden className={cn('mx-0.5 my-1 h-6 w-px self-center bg-border-default', className)} {...props} />;
+  return <span data-slot="align-bar-separator" aria-hidden className={cn('mx-0.5 my-1 h-6 w-px self-center bg-divider-line', className)} {...props} />;
 }

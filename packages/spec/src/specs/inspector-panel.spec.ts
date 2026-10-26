@@ -9,7 +9,7 @@ export default defineSpec({
   description: 'Compound: InspectorPanel (frame), InspectorSection (padded block with a hairline under it), InspectorSectionHeader (title left, actions right). The panel is opaque (never glass): it sits inline in the studio shell. Every inspector page of the specimen (position, auto layout, fill, effects) is a panel of sections.',
   role: null,
   slots: [
-    { name: 'root', el: 'div', description: 'Opaque panel: surface.base, panel radius, hairline edge and elevation 3, overflow hidden. Full width of its column (the studio inspector is 272px; specimens let it fill).' },
+    { name: 'root', el: 'div', description: 'Opaque panel: surface.base, panel radius and elevation 3 (one depth cue: no hairline edge), overflow hidden. Full width of its column (the studio inspector is 272px; specimens let it fill).' },
     { name: 'section', el: 'section', parent: 'root', description: 'A block of controls: 12px padding, 8px gap, a 1px border.subtle line at the bottom (not on the last section).' },
     { name: 'header', el: 'div', parent: 'section', required: false, description: 'Heading row: flex, space between, items centered. Takes the height of its tallest action (24px with xs icon buttons).' },
     { name: 'title', el: 'span', parent: 'header', description: 'Section name, 11.5px semibold, secondary.' },
@@ -19,7 +19,7 @@ export default defineSpec({
     children: { type: 'ReactNode', required: true, description: 'InspectorSection elements.' },
   },
   styles: [
-    { slot: 'root', expect: { bg: 'surface.base', edge: 'border.subtle', shadow: '3', radius: 'panel' } },
+    { slot: 'root', expect: { bg: 'surface.base', shadow: '3', radius: 'panel' }, note: 'One depth cue (d8f79e8): the elevation, no hairline edge.' },
     { slot: 'section', expect: { padX: 12, padY: 12, gap: 8 } },
     { slot: 'header', expect: { fg: 'text.secondary', text: 'hint', weight: 600 } },
     { slot: 'title', expect: { fg: 'text.secondary', text: 'hint', weight: 600 } },

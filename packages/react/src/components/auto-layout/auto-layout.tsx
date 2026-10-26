@@ -1,5 +1,5 @@
 'use client';
-import { ArrowDown, ArrowRight, LayoutGrid, Move, MoveHorizontal, MoveVertical, Space } from 'lucide-react';
+import { ArrowDown, ArrowRight, Check, LayoutGrid, Move, MoveHorizontal, MoveVertical, Space } from 'lucide-react';
 import { useId, useState, type ComponentProps, type CSSProperties, type FocusEvent, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
@@ -190,6 +190,7 @@ export function AutoLayout({
   const flowIcons = { free: <Move />, row: <ArrowRight />, column: <ArrowDown />, grid: <LayoutGrid /> } as const;
   const padMixed = isMixed('align');
   const padInert = isDisabled('align') || v.flow === 'free';
+  const tracksInert = isDisabled('tracks');
 
   return (
     <div data-slot="auto-layout" aria-disabled={disabled === true || undefined} className={cn(autoLayoutVariants(), className)} {...props}>
@@ -309,7 +310,7 @@ export function AutoLayout({
           </div>
         )}
         <div data-slot="auto-layout-tracks" data-mixed={isMixed('tracks') || undefined} className="grid gap-1.5" {...wrap('tracks', true)}>
-          {isMixed('tracks') && <span className="text-hint italic text-text-secondary">{labels.mixed}</span>}
+          {isMixed('tracks') && <span className={cn('text-hint italic text-text-secondary group-aria-disabled/auto-layout:text-disabled-text', tracksInert && 'text-disabled-text')}>{labels.mixed}</span>}
           <GridTracks
             heading={labels.tracksHeading}
             addLabel={labels.addTrack}
@@ -359,17 +360,19 @@ function LayoutChoice<T extends string>({ label, options, value, mixed, mixedLab
         {text}
       </InspectorSelect>
       {isOpen && (
-        <div id={listId} role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2">
+        <div id={listId} data-slot="auto-layout-listbox" role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2">
           {options.map(([v, name]) => (
             <button
               key={v}
               type="button"
+              data-slot="auto-layout-option"
               role="option"
               aria-selected={!mixed && v === value}
-              className="flex h-control-sm cursor-pointer items-center rounded-md bg-transparent px-2 text-left outline-none hover:bg-fill-pressed focus-visible:shadow-focus aria-selected:bg-accent-soft aria-selected:text-accent-text"
+              className="flex h-control-sm cursor-pointer items-center justify-between gap-2 rounded-md bg-transparent px-2 text-left outline-none hover:bg-neutral-hover focus-visible:shadow-focus aria-selected:bg-neutral-selected aria-selected:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge)] aria-selected:hover:bg-neutral-selected-hover aria-selected:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-selection-edge),var(--cs-focus)]"
               onClick={() => { onValueChange(v); setOpen(false); }}
             >
               {name}
+              {!mixed && v === value && <Check data-slot="auto-layout-option-check" aria-hidden className="size-icon-xs shrink-0 stroke-[1.75]" />}
             </button>
           ))}
         </div>

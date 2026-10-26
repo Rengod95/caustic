@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 /**
- * Alignment aids: smart guide and measurement are coral (canvas.guide), a user-placed guide is iris (canvas.guide-user).
+ * Alignment aids: smart guide and measurement are the canvas guide magenta (canvas.guide), a user-placed guide is info blue (canvas.guide-user).
  * Position comes from the rect custom properties (--rect-*); the snap mark is centered on its point.
  */
 export const canvasGuideVariants = cva('pointer-events-none absolute top-(--rect-t) right-(--rect-r) bottom-(--rect-b) left-(--rect-l) z-10', {

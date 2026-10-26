@@ -1,6 +1,7 @@
 import { cva } from 'class-variance-authority';
 
-export const cornerRadiusVariants = cva('grid gap-3.5 font-ui aria-disabled:opacity-42');
+// Disabled is a colour, not opacity: the fields draw their own disabled colours; the corner glyphs take disabled text.
+export const cornerRadiusVariants = cva('group/corner-radius grid gap-3.5 font-ui');
 
 export const cornerRadiusStage = cva('flex items-center justify-center gap-3.5 rounded-xl bg-bg-inset px-3.5 py-5');
 
@@ -15,7 +16,7 @@ export const cornerRadiusCorners = cva('grid grid-cols-2 gap-1.5');
 
 // Top and left edges only, with a 6px top-left radius. The other corners mirror it.
 export const cornerRadiusGlyph = cva(
-  'block size-icon-xs rounded-tl-sm border-t-[1.5px] border-l-[1.5px] border-current text-text-tertiary',
+  'block size-icon-xs rounded-tl-sm border-t-[1.5px] border-l-[1.5px] border-current text-text-tertiary group-aria-disabled/corner-radius:text-disabled-text',
   {
     variants: { corner: { tl: '', tr: '-scale-x-100', bl: '-scale-y-100', br: '-scale-100' } },
     defaultVariants: { corner: 'tl' },

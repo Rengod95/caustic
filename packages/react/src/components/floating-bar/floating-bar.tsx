@@ -87,7 +87,7 @@ export interface FloatingBarItemProps extends Omit<ComponentProps<'button'>, 'ch
   icon?: ReactNode | undefined;
   /** One-letter shortcut hint. */
   shortcut?: string | undefined;
-  /** The current tool: ink fill. */
+  /** The current tool: the neutral selection (same look as a pressed toggle). */
   active?: boolean | undefined;
   /** A toggle that is on (controlled). */
   pressed?: boolean | undefined;
@@ -120,7 +120,7 @@ export function FloatingBarItem({
       {...props}
     >
       {icon != null && <span data-slot="floating-bar-icon" aria-hidden className={floatingBarIconVariants({ size })}>{icon}</span>}
-      {shortcut != null && <span data-slot="floating-bar-shortcut" aria-hidden className="pointer-events-none absolute right-0.75 bottom-0.5 font-mono text-mono-micro text-text-disabled">{shortcut}</span>}
+      {shortcut != null && <span data-slot="floating-bar-shortcut" aria-hidden className={cn('pointer-events-none absolute right-0.75 bottom-0.5 font-mono text-mono-micro', disabled ? 'text-disabled-text' : 'text-text-tertiary')}>{shortcut}</span>}
     </button>
   );
 }

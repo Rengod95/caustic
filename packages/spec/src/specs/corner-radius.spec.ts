@@ -11,7 +11,7 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'div', description: 'Vertical stack, 14px gap (stage, fields, corners).' },
     { name: 'stage', el: 'div', parent: 'root', required: false, description: 'Preview stage: bg.inset, xl radius, 20px / 14px padding, 14px gap, content centered.' },
-    { name: 'shape', el: 'div', parent: 'stage', required: false, description: 'The previewed shape: 120 × 84, surface.base, a 1.5px text.primary inset ring and elevation 2. Its border-radius is the value ("16px" or "tl tr br bl"); it transitions the radius with duration-gentle and ease-spring.' },
+    { name: 'shape', el: 'div', parent: 'stage', required: false, description: 'The previewed shape: 120 × 84, surface.base and a 1.5px text.primary inset ring (one depth cue: no elevation). Its border-radius is the value ("16px" or "tl tr br bl"); it transitions the radius with duration-gentle and ease-spring.' },
     { name: 'fields', el: 'div', parent: 'root', description: 'Row: two equal columns and an auto column, 6px gap, items centered.' },
     { name: 'radius', el: 'any', parent: 'fields', description: 'NumberField, label is the corner glyph, aria-label "Corner radius", min 0.' },
     { name: 'smoothing', el: 'any', parent: 'fields', description: 'NumberField, spline icon label, unit "%", aria-label "Corner smoothing", 0–100.' },
@@ -51,7 +51,7 @@ export default defineSpec({
   styles: [
     { slot: 'root', expect: { gap: 14 } },
     { slot: 'stage', when: { preview: true }, expect: { bg: 'bg.inset', radius: 'xl', padX: 14, padY: 20, gap: 14 } },
-    { slot: 'shape', when: { preview: true }, expect: { bg: 'surface.base', edge: 'text.primary', shadow: '2', width: 'size-radius-preview-w', height: 'size-radius-preview-h' }, note: 'Edge is a 1.5px inset ring. Radius is data (a CSS custom property or inline border-radius derived from value).' },
+    { slot: 'shape', when: { preview: true }, expect: { bg: 'surface.base', edge: 'text.primary', width: 'size-radius-preview-w', height: 'size-radius-preview-h' }, note: 'Edge is a 1.5px inset ring, the only depth cue (no elevation). Radius is data (a CSS custom property or inline border-radius derived from value).' },
     { slot: 'fields', expect: { gap: 6 } },
     { slot: 'glyph', expect: { fg: 'text.tertiary', height: 'icon-xs', width: 'icon-xs', radius: 'sm' }, note: 'Top-left radius only (6px); 1.5px top and left edges in the label color.' },
     { slot: 'corners', when: { independent: true }, expect: { gap: 6 } },

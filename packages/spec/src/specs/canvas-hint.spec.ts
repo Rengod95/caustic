@@ -19,7 +19,7 @@ export default defineSpec({
   },
   styles: [
     { slot: 'root', expect: { material: 'thick', radius: 'xl', height: 'control-md', padX: 12, gap: 10, shadow: '3', fg: 'text.secondary', text: 'footnote' } },
-    { slot: 'key', expect: { bg: 'fill.hover', fg: 'text.tertiary', radius: 'xs', height: 'icon-md', text: 'ui-xs', weight: 500 }, note: 'The Kbd cap with a 16px height (Kbd default 18) and 10.5px type (ui-xs is 11).' },
+    { slot: 'key', expect: { bg: 'neutral.well', fg: 'text.tertiary', radius: 'xs', height: 'icon-md', text: 'ui-xs', weight: 500 }, note: 'The Kbd cap with a 16px height (Kbd default 18) and 10.5px type (ui-xs is 11).' },
   ],
   a11y: { notes: ['Hints are text next to key caps; the strip is aria-hidden when it only repeats the shortcut list, and role="status" is not used (it appears with the gesture, not as news).', 'Keys use words as well as glyphs where the glyph is ambiguous ("esc").'] },
   policies: ['P1', 'P5', 'P6'],

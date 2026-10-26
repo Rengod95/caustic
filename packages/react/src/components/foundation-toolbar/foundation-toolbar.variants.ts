@@ -17,9 +17,10 @@ export const foundationToolbarDomainsVariants = cva('flex max-w-full gap-0.5 ove
 export const foundationToolbarDomainVariants = cva([
   'inline-flex min-h-control-xl min-w-control-xl shrink-0 cursor-pointer select-none flex-col items-center justify-center gap-1 whitespace-nowrap rounded-md p-1.5 font-ui text-label text-text-secondary outline-none',
   'transition-[background-color,color,box-shadow] duration-120 ease-out',
-  'hover:bg-fill-pressed hover:text-text-primary focus-visible:shadow-focus',
-  'aria-pressed:bg-fill-selected aria-pressed:text-text-primary',
-  'disabled:pointer-events-none disabled:opacity-42',
+  'hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
+  'aria-pressed:bg-neutral-selected aria-pressed:text-text-primary aria-pressed:hover:bg-neutral-selected-hover',
+  // Disabled is a colour, not opacity.
+  'disabled:pointer-events-none disabled:text-disabled-text disabled:aria-pressed:bg-disabled-fill disabled:aria-pressed:text-disabled-text',
 ]);
 
 export const foundationToolbarDomainIconVariants = cva('inline-grid size-icon-lg shrink-0 place-items-center [&_svg]:size-full [&_svg]:stroke-[1.75]');

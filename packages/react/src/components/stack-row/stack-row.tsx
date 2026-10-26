@@ -22,7 +22,7 @@ export interface StackRowProps extends Omit<ComponentProps<'div'>, 'title' | 'hi
   meta?: ReactNode;
   /** Compact field in the third column. */
   control?: ReactNode;
-  /** The layer is hidden: dimmed, and the visibility action shows eye-off. */
+  /** The layer is hidden: name, detail and icon take the disabled colour, and the visibility action shows eye-off. */
   hidden?: boolean | undefined;
   /** Accessible-name suffix for the actions ("Hide" + suffix), e.g. the row name as text. */
   actionLabel?: string | undefined;
@@ -67,7 +67,7 @@ export function StackRow({
       data-state={hidden ? 'hidden' : undefined}
       aria-busy={reserved || undefined}
       data-reserved={reserved || undefined}
-      className={cn(stackRowVariants({ hidden }), className)}
+      className={cn(stackRowVariants(), className)}
       {...props}
     >
       {lead === 'icon' ? (
@@ -84,7 +84,7 @@ export function StackRow({
         {onMoveUp ? (
           <IconButton
             data-slot="stack-row-move-up" size="xs" disabled={disabled} label={`${moveUpLabel ?? ''}${suffix}`}
-            aria-disabled={moveUpDisabled || undefined} className="aria-disabled:pointer-events-none aria-disabled:opacity-42" {...busy}
+            aria-disabled={moveUpDisabled || undefined} className="aria-disabled:pointer-events-none aria-disabled:text-disabled-text" {...busy}
             onClick={() => { if (!moveUpDisabled && !reserved) onMoveUp(); }}
           >
             <ChevronUp />
@@ -93,7 +93,7 @@ export function StackRow({
         {onMoveDown ? (
           <IconButton
             data-slot="stack-row-move-down" size="xs" disabled={disabled} label={`${moveDownLabel ?? ''}${suffix}`}
-            aria-disabled={moveDownDisabled || undefined} className="aria-disabled:pointer-events-none aria-disabled:opacity-42" {...busy}
+            aria-disabled={moveDownDisabled || undefined} className="aria-disabled:pointer-events-none aria-disabled:text-disabled-text" {...busy}
             onClick={() => { if (!moveDownDisabled && !reserved) onMoveDown(); }}
           >
             <ChevronDown />

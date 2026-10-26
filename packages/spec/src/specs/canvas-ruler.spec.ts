@@ -11,7 +11,7 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'div', description: 'The strip (or corner). Absolutely placed by the canvas host: horizontal left 20 / right 0 / top 0 / height 20; vertical top 20 / bottom 0 / left 0 / width 20; corner left 0 / top 0 / 20 × 20. Corner sits above the strips.' },
     { name: 'mark', el: 'span', parent: 'root', required: false, description: 'A number label at a position along the strip (0, 100, 200…). Vertical labels are rotated to read bottom-to-top (vertical-rl, 180°).' },
-    { name: 'band', el: 'span', parent: 'root', required: false, description: 'The selection range: accent.soft fill, 1px canvas.selection line on both ends.' },
+    { name: 'band', el: 'span', parent: 'root', required: false, description: 'The selection range: canvas.marquee fill (the marquee tint), 1px canvas.selection line on both ends.' },
   ],
   variants: {
     orientation: { values: ['horizontal', 'vertical', 'corner'], default: 'horizontal', description: 'Which strip.' },
@@ -27,7 +27,7 @@ export default defineSpec({
     { slot: 'root', when: { orientation: 'vertical' }, expect: { width: 'control-2xs' } },
     { slot: 'root', when: { orientation: 'corner' }, expect: { height: 'control-2xs', width: 'control-2xs' } },
     { slot: 'mark', expect: { fg: 'text.tertiary', font: 'mono', text: 'mono-ruler' }, note: 'Horizontal labels sit 2px from the top edge; vertical labels 2px from the left edge. Ticks: 1px lines in border.strong (every 10) and text.tertiary (every 100).' },
-    { slot: 'band', expect: { bg: 'accent.soft' }, note: 'Inset 1px lines in canvas.selection on the two ends (box-shadow), so the band reads as the same range as the selection outline.' },
+    { slot: 'band', expect: { bg: 'canvas.marquee' }, note: 'Inset 1px lines in canvas.selection on the two ends (box-shadow), so the band reads as the same range as the selection outline.' },
   ],
   a11y: { notes: ['Decorative: the rulers are drawn for sighted pointer users and are aria-hidden. Exact positions and sizes are available in the inspector.'] },
   policies: ['P1', 'P6'],

@@ -43,7 +43,8 @@ export default defineSpec({
   styles: [
     { slot: 'root', when: { orientation: 'vertical' }, expect: { width: 8, cursor: 'col-resize' }, note: 'Hit strip 8px (space step 2), matching the Studio sidebar handle. See the open question on the 24px target size.' },
     { slot: 'root', when: { orientation: 'horizontal' }, expect: { height: 8, cursor: 'row-resize' } },
-    { slot: 'root', when: { disabled: true }, expect: { opacity: 0.42, cursor: 'default' } },
+    { slot: 'root', when: { disabled: true }, expect: { opacity: 1, cursor: 'default' }, note: 'Disabled is not opacity: a disabled handle draws no line on hover, focus or drag (line stays transparent) and is out of the tab order.' },
+    { slot: 'line', when: { disabled: true, state: 'hover' }, expect: { bg: 'transparent' } },
     { slot: 'root', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'line', when: { orientation: 'vertical' }, expect: { width: 2, radius: 'full' } },
     { slot: 'line', when: { orientation: 'horizontal' }, expect: { height: 2, radius: 'full' } },

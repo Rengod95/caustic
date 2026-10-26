@@ -15,7 +15,7 @@ export const inspectorBindingsPropertyIconVariants = cva('inline-flex size-icon-
 /** End of the first line: Unbind or the count badge. */
 export const inspectorBindingsActionVariants = cva('ms-1.5 flex items-center justify-self-end');
 
-/** The bound token as a button across the full row: accent soft with an accent edge, mono; mixed is the warning tint. */
+/** The bound token as a button across the full row: accent soft, mono; mixed is warning soft with the warning border-strong edge. */
 export const inspectorBindingsSelectorVariants = cva(
   [
     'col-span-full flex h-control-md w-full min-w-0 cursor-pointer items-center gap-1.5 rounded-md border-0 ps-1 pe-1.5 text-left font-mono text-mono-md font-normal text-text-primary outline-none',
@@ -25,7 +25,7 @@ export const inspectorBindingsSelectorVariants = cva(
     variants: {
       binding: {
         bound: 'bg-accent-soft',
-        mixed: 'bg-warning-soft shadow-[inset_0_0_0_1px_var(--cs-color-warning-solid)]',
+        mixed: 'bg-warning-soft shadow-[inset_0_0_0_1px_var(--cs-color-warning-border-strong)]',
       },
     },
     defaultVariants: { binding: 'bound' },
@@ -55,7 +55,7 @@ export const inspectorBindingsContextVariants = cva('col-span-full flex flex-wra
 export const inspectorBindingsAddVariants = cva(
   [
     'flex w-full cursor-pointer items-center gap-1.5 rounded-lg border border-dashed border-border-strong bg-transparent px-3 py-2.25 text-left font-ui text-ui-dense text-text-secondary outline-none',
-    'transition-[background-color,color] duration-120 ease-out hover:bg-fill-hover hover:text-text-primary focus-visible:shadow-focus',
+    'transition-[background-color,color] duration-120 ease-out hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
     '[&_svg]:size-icon-sm [&_svg]:flex-none [&_svg]:stroke-[1.75]',
   ],
 );

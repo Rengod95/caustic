@@ -5,7 +5,7 @@ import { overlayRectStyle, type OverlayRect } from '../../lib/overlay-rect.ts';
 import { canvasGuideLabelVariants, canvasGuideVariants } from './canvas-guide.variants.ts';
 
 export interface CanvasGuideProps extends Omit<ComponentProps<'div'>, 'children'> {
-  /** smart = coral snap guide, user = iris guide placed by the person, measure = distance with a value, snap = mark at a snapped corner. */
+  /** smart = canvas guide magenta snap guide, user = info blue guide placed by the person, measure = distance with a value, snap = mark at a snapped corner. */
   kind?: 'smart' | 'user' | 'measure' | 'snap';
   orientation?: 'horizontal' | 'vertical';
   /** Position and length in px from the canvas host origin. */

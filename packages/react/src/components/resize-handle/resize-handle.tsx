@@ -139,7 +139,7 @@ export function ResizeHandle({
       onDoubleClick={e => { onDoubleClick?.(e); if (!disabled && resetValue !== undefined) set(resetValue); }}
       {...props}
     >
-      <span data-slot="resize-handle-line" aria-hidden className={resizeHandleLineVariants({ orientation: axis })} />
+      <span data-slot="resize-handle-line" aria-hidden className={resizeHandleLineVariants({ orientation: axis, disabled })} />
     </div>
   );
 }

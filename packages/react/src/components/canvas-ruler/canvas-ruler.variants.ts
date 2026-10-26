@@ -29,8 +29,8 @@ export const canvasRulerMarkVariants = cva('absolute', {
   defaultVariants: { orientation: 'horizontal' },
 });
 
-/** Selection range: soft accent fill bounded by two selection-colored lines. */
-export const canvasRulerBandVariants = cva('absolute bg-accent-soft', {
+/** Selection range: the canvas marquee tint (the same range fill as the marquee) bounded by two selection-colored lines. */
+export const canvasRulerBandVariants = cva('absolute bg-canvas-marquee', {
   variants: {
     orientation: {
       horizontal: 'inset-y-0 left-(--at) w-(--size) shadow-[inset_1px_0_var(--cs-color-canvas-selection),inset_-1px_0_var(--cs-color-canvas-selection)]',

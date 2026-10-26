@@ -22,10 +22,10 @@ export const effectEditorCardVariants = cva(
   },
 );
 
-/** The striped backdrop that a background blur is seen against. */
-export const effectEditorBackdropVariants = cva('absolute inset-0 bg-accent-soft');
+/** The two-tone backdrop that a background blur is seen against: the checker pattern pair, not status hues. */
+export const effectEditorBackdropVariants = cva('absolute inset-0 bg-canvas-checker-a');
 
-export const effectEditorBackdropHalfVariants = cva('absolute inset-y-0 right-0 w-1/2 bg-info-soft');
+export const effectEditorBackdropHalfVariants = cva('absolute inset-y-0 right-0 w-1/2 bg-canvas-checker-b');
 
 export const effectEditorFieldsVariants = cva('grid grid-cols-2 gap-1.5');
 
