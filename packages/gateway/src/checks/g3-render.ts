@@ -44,7 +44,10 @@ export async function g3(c: Collector, spec: ComponentSpec, rt: Runtime) {
         // Design over contrast (src/color-language.json): colour-contrast nodes inside an owner-approved slot are reported, not blocking.
         const waive = loadColorConfig().designOverContrast[spec.id];
         const violations: any[] = await page.evaluate(async (slots: string[]) => {
-          const found = (await (window as any).axe.run('.cases', { resultTypes: ['violations'] })).violations;
+          // The case page renders one instance per style row side by side, so landmarks (banner, main, a named nav) repeat by
+          // construction; uniqueness of landmarks is a page-level property and is not judged on the case page.
+          const pageLevel = ['landmark-unique', 'landmark-no-duplicate-banner', 'landmark-no-duplicate-main', 'landmark-no-duplicate-contentinfo'];
+          const found = (await (window as any).axe.run('.cases', { resultTypes: ['violations'], rules: Object.fromEntries(pageLevel.map(r => [r, { enabled: false }])) })).violations;
           for (const v of found) for (const n of v.nodes) {
             const el = v.id === 'color-contrast' && n.target.length === 1 ? document.querySelector(n.target[0]) : null;
             const slot = el?.closest('[data-slot]')?.getAttribute('data-slot');

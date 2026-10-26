@@ -56,7 +56,9 @@ export async function g5Runtime(c: Collector, spec: ComponentSpec, rt: Runtime) 
   for (const ex of spec.examples) {
     const page = await openPage(rt, { c: spec.id, mode: 'example', ex: ex.id, theme: 'light', w: '800' });
     try {
-      const accents = await page.locator('[data-tone="accent"]').count();
+      // Actionable accents only: every component carries a tone now (progress, checkbox …), but P3 is about the one
+      // accent action per view.
+      const accents = await page.locator(':is(button, a, [role="button"])[data-tone="accent"]').count();
       if (accents > 1) c.fail({ gate: 'G5', check: 'P3 accent once', where: ex.id, message: `${accents} accent buttons in one view.`, expected: '≤ 1' });
       const nested: { child: string; parent: string; rc: number; rp: number; inset: number }[] = await page.evaluate(() => {
         const out: any[] = []; const frame = document.querySelector('.frame')!;
