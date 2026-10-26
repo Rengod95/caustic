@@ -47,7 +47,7 @@ export const solids = {
 export const rampRule = {
   fixedL: { light: [0.985, 0.965, 0.935, 0.905, 0.87, 0.8], dark: [0.225, 0.255, 0.29, 0.32, 0.355, 0.42] },
   chromaShare: { light: [0.14, 0.28, 0.46, 0.58, 0.7, 0.8, 0.9, 1], dark: [0.22, 0.32, 0.46, 0.56, 0.66, 0.76, 0.88, 1] },
-  graphicMin: 3,   // step 8 on surface.base
+  graphicMin: 3,   // step 8 on surface.base: reported as a warning only; step 8 is not pushed to it
   textMin: 4.5,    // step 11 on surface.base and on steps 3–5
 };
 
@@ -152,7 +152,8 @@ export const themes = {
     // Tone slots: accent, neutral, success, warning, danger, info, agent × tint … text, on.
     ...toneSlots(),
 
-    // Neutral interaction slots stay alpha (decision 2): the same difference over app, surface, raised and glass.
+    // Neutral interaction slots are authored as alpha (the same difference over app, surface, raised and glass) but are
+    // emitted opaque per surface (decision 9, 2026-10-26; build.mjs FILLS / UNDER): nothing paints them translucent.
     'neutral.hover': 'neutral.11/0.045',
     'neutral.pressed': 'neutral.11/0.075',
     'neutral.selected': 'neutral.11/0.11',
@@ -164,6 +165,13 @@ export const themes = {
     'focus.ring': 'accent.9',
     'focus.offset': '=surface.base',
     'selection.edge': 'neutral.7',
+    // Selected items invert like the solid chip (owner 2026-10-26, proposal B): ink fill, paper text, no edge.
+    // Secondary and tertiary text on the fill are opaque steps, not alpha.
+    'selection.fill': '=ink.solid',
+    'selection.fill-hover': '=ink.solid-hover',
+    'selection.on': '=ink.on',
+    'selection.on-secondary': 'neutral-light.4',
+    'selection.on-tertiary': 'neutral-light.5',
     'disabled.fill': 'neutral.3',
     'disabled.text': 'neutral.6',
     'disabled.border': 'neutral.4',
@@ -287,6 +295,11 @@ export const themes = {
     'focus.ring': 'accent.9',
     'focus.offset': '=surface.base',
     'selection.edge': 'neutral.7',
+    'selection.fill': '=ink.solid',
+    'selection.fill-hover': '=ink.solid-hover',
+    'selection.on': '=ink.on',
+    'selection.on-secondary': 'neutral-dark.11',
+    'selection.on-tertiary': 'neutral-dark.10',
     'disabled.fill': 'neutral.4',
     'disabled.text': 'neutral.6',
     'disabled.border': 'neutral.5',
@@ -360,7 +373,8 @@ const slotRules = tone => [
   [`${tone}.text`, `${tone}.soft-pressed`, 4.5, 'slot: text 11 on soft-pressed 5'],
   [`${tone}.on`, `${tone}.solid`, tone === 'accent' || tone === 'danger' ? 4.5 : 3, 'slot: on vs solid 9'],
   [`${tone}.on`, `${tone}.solid-hover`, tone === 'accent' || tone === 'danger' ? 4.5 : 3, 'slot: on vs solid-hover 10'],
-  [`${tone}.graphic`, 'surface.base', 3, 'slot: graphic 8 on surface'],
+  // Step 8 follows the authored solid (owner 2026-10-26: design over contrast), so a light solid gives a light graphic.
+  [`${tone}.graphic`, 'surface.base', 3, 'slot: graphic 8 on surface', 'warn'],
 ];
 export const contrastRules = [
   // §6 dark neutral table (and the same table in light).
@@ -384,6 +398,11 @@ export const contrastRules = [
   ['text.tertiary', 'surface.translucent', 4.5, 'meta text on translucent surface'],
   ['control.off', 'surface.base', 3, 'switch off track (1.4.11)'],
   ['selection.edge', 'surface.base', 1.5, 'selected edge is visible on surface (paired with a check mark)'],
+  ['selection.on', 'selection.fill', 4.5, 'selected item: label on the inverted fill'],
+  ['selection.on', 'selection.fill-hover', 4.5, 'selected item hovered'],
+  ['selection.on-secondary', 'selection.fill', 4.5, 'selected item: secondary text'],
+  ['selection.on-secondary', 'selection.fill-hover', 4.5, 'selected item hovered: secondary text'],
+  ['selection.on-tertiary', 'selection.fill', 3, 'selected item: meta, shortcut, icon'],
   ['ink.on', 'ink.solid', 7, 'primary button'],
   ['ink.on', 'ink.solid-hover', 4.5, 'primary button hover'],
   ['ink.on-muted', 'ink.kbd@ink.solid', 4.5, 'tooltip shortcut'],
@@ -411,7 +430,8 @@ export const contrastRules = [
     [s, 'diff.add-bg', 4.5, 'syntax on an added line'],
     [s, 'diff.remove-bg', 4.5, 'syntax on a removed line'],
   ]),
-  ...[1, 2, 3, 4, 5, 6].map(i => [`chart.${i}`, 'surface.base', 3, 'chart series']),
+  // Series read graphic 8, which follows the authored solid (owner 2026-10-26), so light solids give light series: reported only.
+  ...[1, 2, 3, 4, 5, 6].map(i => [`chart.${i}`, 'surface.base', 3, 'chart series', 'warn']),
 
   // Canvas selection, smart guides and user guides keep the designed colours (owner, 2026-10-25): no contrast floor.
   ['canvas.handle', 'canvas.selection', 3, 'handle fill vs outline'],

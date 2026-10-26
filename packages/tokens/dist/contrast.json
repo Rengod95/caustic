@@ -9,6 +9,7 @@
       "min": 7,
       "ratio": 20.01,
       "pass": true,
+      "warn": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -20,6 +21,7 @@
       "min": 7,
       "ratio": 20.01,
       "pass": true,
+      "warn": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -31,6 +33,7 @@
       "min": 7,
       "ratio": 18.88,
       "pass": true,
+      "warn": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -42,6 +45,7 @@
       "min": 7,
       "ratio": 16.52,
       "pass": true,
+      "warn": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -53,6 +57,7 @@
       "min": 4.5,
       "ratio": 13.91,
       "pass": true,
+      "warn": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -64,6 +69,7 @@
       "min": 4.5,
       "ratio": 13.91,
       "pass": true,
+      "warn": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -75,6 +81,7 @@
       "min": 4.5,
       "ratio": 13.13,
       "pass": true,
+      "warn": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -86,6 +93,7 @@
       "min": 4.5,
       "ratio": 11.48,
       "pass": true,
+      "warn": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -97,6 +105,7 @@
       "min": 4.5,
       "ratio": 7.66,
       "pass": true,
+      "warn": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -108,6 +117,7 @@
       "min": 4.5,
       "ratio": 7.66,
       "pass": true,
+      "warn": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -119,6 +129,7 @@
       "min": 4.5,
       "ratio": 7.23,
       "pass": true,
+      "warn": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -130,6 +141,7 @@
       "min": 4.5,
       "ratio": 6.32,
       "pass": true,
+      "warn": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -141,6 +153,7 @@
       "min": 4.5,
       "ratio": 5.91,
       "pass": true,
+      "warn": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -152,6 +165,7 @@
       "min": 4.5,
       "ratio": 5.91,
       "pass": true,
+      "warn": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -163,6 +177,7 @@
       "min": 4.5,
       "ratio": 5.58,
       "pass": true,
+      "warn": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -174,6 +189,7 @@
       "min": 4.5,
       "ratio": 4.88,
       "pass": true,
+      "warn": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -185,6 +201,7 @@
       "min": 3,
       "ratio": 3.89,
       "pass": true,
+      "warn": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -196,6 +213,7 @@
       "min": 3,
       "ratio": 3.89,
       "pass": true,
+      "warn": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -207,6 +225,7 @@
       "min": 3,
       "ratio": 3.67,
       "pass": true,
+      "warn": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -218,6 +237,7 @@
       "min": 3,
       "ratio": 3.21,
       "pass": true,
+      "warn": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -229,6 +249,7 @@
       "min": 4.5,
       "ratio": 6.56,
       "pass": true,
+      "warn": false,
       "note": "meta text on a hover fill",
       "sweep": false,
       "worstHue": null
@@ -240,6 +261,7 @@
       "min": 4.5,
       "ratio": 6.14,
       "pass": true,
+      "warn": false,
       "note": "meta text on a pressed fill",
       "sweep": false,
       "worstHue": null
@@ -251,6 +273,7 @@
       "min": 4.5,
       "ratio": 5.18,
       "pass": true,
+      "warn": false,
       "note": "placeholder in a sunken field",
       "sweep": false,
       "worstHue": null
@@ -262,6 +285,7 @@
       "min": 7,
       "ratio": 15.68,
       "pass": true,
+      "warn": false,
       "note": "selected row",
       "sweep": false,
       "worstHue": null
@@ -273,6 +297,7 @@
       "min": 7,
       "ratio": 14.44,
       "pass": true,
+      "warn": false,
       "note": "selected row hover",
       "sweep": false,
       "worstHue": null
@@ -284,6 +309,7 @@
       "min": 3,
       "ratio": 3.89,
       "pass": true,
+      "warn": false,
       "note": "disabled, non-essential",
       "sweep": false,
       "worstHue": null
@@ -295,6 +321,7 @@
       "min": 4.5,
       "ratio": 13.91,
       "pass": true,
+      "warn": false,
       "note": "panel text over canvas",
       "sweep": false,
       "worstHue": null
@@ -306,6 +333,7 @@
       "min": 4.5,
       "ratio": 7.66,
       "pass": true,
+      "warn": false,
       "note": "menu meta over canvas",
       "sweep": false,
       "worstHue": null
@@ -317,6 +345,7 @@
       "min": 4.5,
       "ratio": 20.01,
       "pass": true,
+      "warn": false,
       "note": "panel over saturated content",
       "sweep": false,
       "worstHue": null
@@ -328,6 +357,7 @@
       "min": 7,
       "ratio": 20.01,
       "pass": true,
+      "warn": false,
       "note": "secondary button, segmented thumb",
       "sweep": false,
       "worstHue": null
@@ -339,6 +369,7 @@
       "min": 7,
       "ratio": 18.88,
       "pass": true,
+      "warn": false,
       "note": "secondary button hover",
       "sweep": false,
       "worstHue": null
@@ -350,6 +381,7 @@
       "min": 7,
       "ratio": 20.01,
       "pass": true,
+      "warn": false,
       "note": "translucent list, field, card",
       "sweep": false,
       "worstHue": null
@@ -361,6 +393,7 @@
       "min": 4.5,
       "ratio": 7.66,
       "pass": true,
+      "warn": false,
       "note": "meta text on translucent surface",
       "sweep": false,
       "worstHue": null
@@ -372,6 +405,7 @@
       "min": 3,
       "ratio": 3.89,
       "pass": true,
+      "warn": false,
       "note": "switch off track (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -383,7 +417,68 @@
       "min": 1.5,
       "ratio": 4.78,
       "pass": true,
+      "warn": false,
       "note": "selected edge is visible on surface (paired with a check mark)",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
+      "fg": "selection.on",
+      "bg": "selection.fill",
+      "min": 4.5,
+      "ratio": 20.01,
+      "pass": true,
+      "warn": false,
+      "note": "selected item: label on the inverted fill",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
+      "fg": "selection.on",
+      "bg": "selection.fill-hover",
+      "min": 4.5,
+      "ratio": 13.91,
+      "pass": true,
+      "warn": false,
+      "note": "selected item hovered",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
+      "fg": "selection.on-secondary",
+      "bg": "selection.fill",
+      "min": 4.5,
+      "ratio": 13.92,
+      "pass": true,
+      "warn": false,
+      "note": "selected item: secondary text",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
+      "fg": "selection.on-secondary",
+      "bg": "selection.fill-hover",
+      "min": 4.5,
+      "ratio": 9.68,
+      "pass": true,
+      "warn": false,
+      "note": "selected item hovered: secondary text",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
+      "fg": "selection.on-tertiary",
+      "bg": "selection.fill",
+      "min": 3,
+      "ratio": 10.5,
+      "pass": true,
+      "warn": false,
+      "note": "selected item: meta, shortcut, icon",
       "sweep": false,
       "worstHue": null
     },
@@ -394,6 +489,7 @@
       "min": 7,
       "ratio": 20.01,
       "pass": true,
+      "warn": false,
       "note": "primary button",
       "sweep": false,
       "worstHue": null
@@ -405,6 +501,7 @@
       "min": 4.5,
       "ratio": 13.91,
       "pass": true,
+      "warn": false,
       "note": "primary button hover",
       "sweep": false,
       "worstHue": null
@@ -416,6 +513,7 @@
       "min": 4.5,
       "ratio": 9.86,
       "pass": true,
+      "warn": false,
       "note": "tooltip shortcut",
       "sweep": false,
       "worstHue": null
@@ -427,6 +525,7 @@
       "min": 4.5,
       "ratio": 4.81,
       "pass": true,
+      "warn": false,
       "note": "badge over media",
       "sweep": false,
       "worstHue": null
@@ -438,6 +537,7 @@
       "min": 4.5,
       "ratio": 20.56,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -449,6 +549,7 @@
       "min": 4.5,
       "ratio": 17.23,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -460,6 +561,7 @@
       "min": 4.5,
       "ratio": 15.72,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -471,6 +573,7 @@
       "min": 4.5,
       "ratio": 14.07,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -482,6 +585,7 @@
       "min": 4.5,
       "ratio": 20.16,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -493,6 +597,7 @@
       "min": 4.5,
       "ratio": 16.65,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -504,6 +609,7 @@
       "min": 3,
       "ratio": 12.65,
       "pass": true,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -515,6 +621,7 @@
       "min": 4.5,
       "ratio": 6.49,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -526,6 +633,7 @@
       "min": 4.5,
       "ratio": 5.61,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -537,6 +645,7 @@
       "min": 4.5,
       "ratio": 5.17,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -548,6 +657,7 @@
       "min": 4.5,
       "ratio": 4.67,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -559,6 +669,7 @@
       "min": 3,
       "ratio": 10.56,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -570,6 +681,7 @@
       "min": 3,
       "ratio": 8.81,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -579,8 +691,9 @@
       "fg": "success.graphic",
       "bg": "surface.base",
       "min": 3,
-      "ratio": 3.04,
-      "pass": true,
+      "ratio": 1.76,
+      "pass": false,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -592,6 +705,7 @@
       "min": 4.5,
       "ratio": 6.72,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -603,6 +717,7 @@
       "min": 4.5,
       "ratio": 5.65,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -614,6 +729,7 @@
       "min": 4.5,
       "ratio": 5.15,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -625,6 +741,7 @@
       "min": 4.5,
       "ratio": 4.62,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -636,6 +753,7 @@
       "min": 3,
       "ratio": 6.54,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -647,6 +765,7 @@
       "min": 3,
       "ratio": 5.37,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -656,8 +775,9 @@
       "fg": "warning.graphic",
       "bg": "surface.base",
       "min": 3,
-      "ratio": 3.03,
-      "pass": true,
+      "ratio": 2.61,
+      "pass": false,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -669,6 +789,7 @@
       "min": 4.5,
       "ratio": 6.92,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -680,6 +801,7 @@
       "min": 4.5,
       "ratio": 5.74,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -691,6 +813,7 @@
       "min": 4.5,
       "ratio": 5.2,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -702,6 +825,7 @@
       "min": 4.5,
       "ratio": 4.62,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -713,6 +837,7 @@
       "min": 4.5,
       "ratio": 11.2,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -724,6 +849,7 @@
       "min": 4.5,
       "ratio": 9.42,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -733,8 +859,9 @@
       "fg": "danger.graphic",
       "bg": "surface.base",
       "min": 3,
-      "ratio": 3.03,
-      "pass": true,
+      "ratio": 1.72,
+      "pass": false,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -746,6 +873,7 @@
       "min": 4.5,
       "ratio": 6.74,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -757,6 +885,7 @@
       "min": 4.5,
       "ratio": 5.69,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -768,6 +897,7 @@
       "min": 4.5,
       "ratio": 5.21,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -779,6 +909,7 @@
       "min": 4.5,
       "ratio": 4.68,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -790,6 +921,7 @@
       "min": 3,
       "ratio": 10.36,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -801,6 +933,7 @@
       "min": 3,
       "ratio": 8.68,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -810,8 +943,9 @@
       "fg": "info.graphic",
       "bg": "surface.base",
       "min": 3,
-      "ratio": 3.05,
-      "pass": true,
+      "ratio": 1.81,
+      "pass": false,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -823,6 +957,7 @@
       "min": 4.5,
       "ratio": 6.94,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -834,6 +969,7 @@
       "min": 4.5,
       "ratio": 5.77,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -845,6 +981,7 @@
       "min": 4.5,
       "ratio": 5.24,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -856,6 +993,7 @@
       "min": 4.5,
       "ratio": 4.68,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -867,6 +1005,7 @@
       "min": 3,
       "ratio": 9.91,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -878,6 +1017,7 @@
       "min": 3,
       "ratio": 8.29,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -887,8 +1027,9 @@
       "fg": "agent.graphic",
       "bg": "surface.base",
       "min": 3,
-      "ratio": 3.02,
-      "pass": true,
+      "ratio": 1.88,
+      "pass": false,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -900,6 +1041,7 @@
       "min": 4.5,
       "ratio": 20.01,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -911,6 +1053,7 @@
       "min": 3,
       "ratio": 7.66,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -922,6 +1065,7 @@
       "min": 3,
       "ratio": 5.91,
       "pass": true,
+      "warn": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -933,6 +1077,7 @@
       "min": 4.5,
       "ratio": 20.56,
       "pass": true,
+      "warn": false,
       "note": "AA link",
       "sweep": false,
       "worstHue": null
@@ -944,6 +1089,7 @@
       "min": 4.5,
       "ratio": 11.66,
       "pass": true,
+      "warn": false,
       "note": "selected choice card text",
       "sweep": false,
       "worstHue": null
@@ -955,6 +1101,7 @@
       "min": 4.5,
       "ratio": 12.75,
       "pass": true,
+      "warn": false,
       "note": "selected action card",
       "sweep": false,
       "worstHue": null
@@ -966,6 +1113,7 @@
       "min": 3,
       "ratio": 20.16,
       "pass": true,
+      "warn": false,
       "note": "focus indicator (2.4.11)",
       "sweep": false,
       "worstHue": null
@@ -977,6 +1125,7 @@
       "min": 3,
       "ratio": 20.16,
       "pass": true,
+      "warn": false,
       "note": "focus indicator on raised",
       "sweep": false,
       "worstHue": null
@@ -988,6 +1137,7 @@
       "min": 3,
       "ratio": 16.64,
       "pass": true,
+      "warn": false,
       "note": "focus indicator on canvas",
       "sweep": false,
       "worstHue": null
@@ -999,6 +1149,7 @@
       "min": 4.5,
       "ratio": 7.66,
       "pass": true,
+      "warn": false,
       "note": "required mark",
       "sweep": false,
       "worstHue": null
@@ -1010,6 +1161,7 @@
       "min": 7,
       "ratio": 17.3,
       "pass": true,
+      "warn": false,
       "note": "diff line",
       "sweep": false,
       "worstHue": null
@@ -1021,6 +1173,7 @@
       "min": 7,
       "ratio": 16.59,
       "pass": true,
+      "warn": false,
       "note": "diff line",
       "sweep": false,
       "worstHue": null
@@ -1032,6 +1185,7 @@
       "min": 4.5,
       "ratio": 5.61,
       "pass": true,
+      "warn": false,
       "note": "diff sign",
       "sweep": false,
       "worstHue": null
@@ -1043,6 +1197,7 @@
       "min": 4.5,
       "ratio": 5.74,
       "pass": true,
+      "warn": false,
       "note": "diff sign",
       "sweep": false,
       "worstHue": null
@@ -1054,6 +1209,7 @@
       "min": 4.5,
       "ratio": 6.74,
       "pass": true,
+      "warn": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -1065,6 +1221,7 @@
       "min": 4.5,
       "ratio": 5.83,
       "pass": true,
+      "warn": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -1076,6 +1233,7 @@
       "min": 4.5,
       "ratio": 5.59,
       "pass": true,
+      "warn": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -1087,6 +1245,7 @@
       "min": 4.5,
       "ratio": 6.49,
       "pass": true,
+      "warn": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -1098,6 +1257,7 @@
       "min": 4.5,
       "ratio": 5.61,
       "pass": true,
+      "warn": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -1109,6 +1269,7 @@
       "min": 4.5,
       "ratio": 5.38,
       "pass": true,
+      "warn": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -1120,6 +1281,7 @@
       "min": 4.5,
       "ratio": 6.9,
       "pass": true,
+      "warn": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -1131,6 +1293,7 @@
       "min": 4.5,
       "ratio": 5.97,
       "pass": true,
+      "warn": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -1142,6 +1305,7 @@
       "min": 4.5,
       "ratio": 5.72,
       "pass": true,
+      "warn": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -1153,6 +1317,7 @@
       "min": 4.5,
       "ratio": 13.91,
       "pass": true,
+      "warn": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -1164,6 +1329,7 @@
       "min": 4.5,
       "ratio": 12.03,
       "pass": true,
+      "warn": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -1175,6 +1341,7 @@
       "min": 4.5,
       "ratio": 11.54,
       "pass": true,
+      "warn": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -1186,6 +1353,7 @@
       "min": 3,
       "ratio": 12.65,
       "pass": true,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1195,8 +1363,9 @@
       "fg": "chart.2",
       "bg": "surface.base",
       "min": 3,
-      "ratio": 3.05,
-      "pass": true,
+      "ratio": 1.81,
+      "pass": false,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1206,8 +1375,9 @@
       "fg": "chart.3",
       "bg": "surface.base",
       "min": 3,
-      "ratio": 3.04,
-      "pass": true,
+      "ratio": 1.76,
+      "pass": false,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1217,8 +1387,9 @@
       "fg": "chart.4",
       "bg": "surface.base",
       "min": 3,
-      "ratio": 3.03,
-      "pass": true,
+      "ratio": 2.61,
+      "pass": false,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1228,8 +1399,9 @@
       "fg": "chart.5",
       "bg": "surface.base",
       "min": 3,
-      "ratio": 3.03,
-      "pass": true,
+      "ratio": 2.86,
+      "pass": false,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1241,6 +1413,7 @@
       "min": 3,
       "ratio": 3.03,
       "pass": true,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1252,6 +1425,7 @@
       "min": 3,
       "ratio": 20.16,
       "pass": true,
+      "warn": false,
       "note": "handle fill vs outline",
       "sweep": false,
       "worstHue": null
@@ -1263,6 +1437,7 @@
       "min": 4.5,
       "ratio": 4.61,
       "pass": true,
+      "warn": false,
       "note": "measurement label",
       "sweep": false,
       "worstHue": null
@@ -1274,6 +1449,7 @@
       "min": 4.5,
       "ratio": 20.16,
       "pass": true,
+      "warn": false,
       "note": "selection size label",
       "sweep": false,
       "worstHue": null
@@ -1285,6 +1461,7 @@
       "min": 4.5,
       "ratio": 6.32,
       "pass": true,
+      "warn": false,
       "note": "frame label",
       "sweep": false,
       "worstHue": null
@@ -1296,6 +1473,7 @@
       "min": 4.5,
       "ratio": 11.2,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1307,6 +1485,7 @@
       "min": 4.5,
       "ratio": 10.36,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1318,6 +1497,7 @@
       "min": 4.5,
       "ratio": 10.56,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1329,6 +1509,7 @@
       "min": 4.5,
       "ratio": 6.54,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1340,6 +1521,7 @@
       "min": 4.5,
       "ratio": 7.66,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1351,6 +1533,7 @@
       "min": 4.5,
       "ratio": 6.74,
       "pass": true,
+      "warn": false,
       "note": "main component label",
       "sweep": false,
       "worstHue": null
@@ -1362,6 +1545,7 @@
       "min": 4.5,
       "ratio": 5.69,
       "pass": true,
+      "warn": false,
       "note": "main component tag",
       "sweep": false,
       "worstHue": null
@@ -1373,6 +1557,7 @@
       "min": 7,
       "ratio": 16.74,
       "pass": true,
+      "warn": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -1384,6 +1569,7 @@
       "min": 7,
       "ratio": 15.23,
       "pass": true,
+      "warn": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -1395,6 +1581,7 @@
       "min": 7,
       "ratio": 17.82,
       "pass": true,
+      "warn": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -1406,6 +1593,7 @@
       "min": 7,
       "ratio": 18.43,
       "pass": true,
+      "warn": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -1417,6 +1605,7 @@
       "min": 4.5,
       "ratio": 9.9,
       "pass": true,
+      "warn": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -1428,6 +1617,7 @@
       "min": 4.5,
       "ratio": 9,
       "pass": true,
+      "warn": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -1439,6 +1629,7 @@
       "min": 4.5,
       "ratio": 10.53,
       "pass": true,
+      "warn": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -1450,6 +1641,7 @@
       "min": 4.5,
       "ratio": 10.89,
       "pass": true,
+      "warn": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -1461,6 +1653,7 @@
       "min": 4.5,
       "ratio": 7.04,
       "pass": true,
+      "warn": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -1472,6 +1665,7 @@
       "min": 4.5,
       "ratio": 6.4,
       "pass": true,
+      "warn": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -1483,6 +1677,7 @@
       "min": 4.5,
       "ratio": 7.49,
       "pass": true,
+      "warn": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -1494,6 +1689,7 @@
       "min": 4.5,
       "ratio": 7.75,
       "pass": true,
+      "warn": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -1505,6 +1701,7 @@
       "min": 4.5,
       "ratio": 5.7,
       "pass": true,
+      "warn": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -1516,6 +1713,7 @@
       "min": 4.5,
       "ratio": 5.19,
       "pass": true,
+      "warn": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -1527,6 +1725,7 @@
       "min": 4.5,
       "ratio": 6.07,
       "pass": true,
+      "warn": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -1538,6 +1737,7 @@
       "min": 4.5,
       "ratio": 6.28,
       "pass": true,
+      "warn": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -1549,6 +1749,7 @@
       "min": 3,
       "ratio": 3.64,
       "pass": true,
+      "warn": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1560,6 +1761,7 @@
       "min": 3,
       "ratio": 3.31,
       "pass": true,
+      "warn": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1571,6 +1773,7 @@
       "min": 3,
       "ratio": 3.87,
       "pass": true,
+      "warn": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1582,6 +1785,7 @@
       "min": 3,
       "ratio": 4,
       "pass": true,
+      "warn": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1593,6 +1797,7 @@
       "min": 4.5,
       "ratio": 6.87,
       "pass": true,
+      "warn": false,
       "note": "meta text on a hover fill",
       "sweep": false,
       "worstHue": null
@@ -1604,6 +1809,7 @@
       "min": 4.5,
       "ratio": 6.39,
       "pass": true,
+      "warn": false,
       "note": "meta text on a pressed fill",
       "sweep": false,
       "worstHue": null
@@ -1615,6 +1821,7 @@
       "min": 4.5,
       "ratio": 5.68,
       "pass": true,
+      "warn": false,
       "note": "placeholder in a sunken field",
       "sweep": false,
       "worstHue": null
@@ -1626,6 +1833,7 @@
       "min": 7,
       "ratio": 12.09,
       "pass": true,
+      "warn": false,
       "note": "selected row",
       "sweep": false,
       "worstHue": null
@@ -1637,6 +1845,7 @@
       "min": 7,
       "ratio": 10.52,
       "pass": true,
+      "warn": false,
       "note": "selected row hover",
       "sweep": false,
       "worstHue": null
@@ -1648,6 +1857,7 @@
       "min": 3,
       "ratio": 3.64,
       "pass": true,
+      "warn": false,
       "note": "disabled, non-essential",
       "sweep": false,
       "worstHue": null
@@ -1659,6 +1869,7 @@
       "min": 4.5,
       "ratio": 9,
       "pass": true,
+      "warn": false,
       "note": "panel text over canvas",
       "sweep": false,
       "worstHue": null
@@ -1670,6 +1881,7 @@
       "min": 4.5,
       "ratio": 6.4,
       "pass": true,
+      "warn": false,
       "note": "menu meta over canvas",
       "sweep": false,
       "worstHue": null
@@ -1681,6 +1893,7 @@
       "min": 4.5,
       "ratio": 15.23,
       "pass": true,
+      "warn": false,
       "note": "panel over saturated content",
       "sweep": false,
       "worstHue": null
@@ -1692,6 +1905,7 @@
       "min": 7,
       "ratio": 15.23,
       "pass": true,
+      "warn": false,
       "note": "secondary button, segmented thumb",
       "sweep": false,
       "worstHue": null
@@ -1703,6 +1917,7 @@
       "min": 7,
       "ratio": 10.26,
       "pass": true,
+      "warn": false,
       "note": "secondary button hover",
       "sweep": false,
       "worstHue": null
@@ -1714,6 +1929,7 @@
       "min": 7,
       "ratio": 16.74,
       "pass": true,
+      "warn": false,
       "note": "translucent list, field, card",
       "sweep": false,
       "worstHue": null
@@ -1725,6 +1941,7 @@
       "min": 4.5,
       "ratio": 7.04,
       "pass": true,
+      "warn": false,
       "note": "meta text on translucent surface",
       "sweep": false,
       "worstHue": null
@@ -1736,6 +1953,7 @@
       "min": 3,
       "ratio": 3.64,
       "pass": true,
+      "warn": false,
       "note": "switch off track (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1747,7 +1965,68 @@
       "min": 1.5,
       "ratio": 4.67,
       "pass": true,
+      "warn": false,
       "note": "selected edge is visible on surface (paired with a check mark)",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "selection.on",
+      "bg": "selection.fill",
+      "min": 4.5,
+      "ratio": 11.37,
+      "pass": true,
+      "warn": false,
+      "note": "selected item: label on the inverted fill",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "selection.on",
+      "bg": "selection.fill-hover",
+      "min": 4.5,
+      "ratio": 5.1,
+      "pass": true,
+      "warn": false,
+      "note": "selected item hovered",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "selection.on-secondary",
+      "bg": "selection.fill",
+      "min": 4.5,
+      "ratio": 10.26,
+      "pass": true,
+      "warn": false,
+      "note": "selected item: secondary text",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "selection.on-secondary",
+      "bg": "selection.fill-hover",
+      "min": 4.5,
+      "ratio": 4.6,
+      "pass": true,
+      "warn": false,
+      "note": "selected item hovered: secondary text",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "selection.on-tertiary",
+      "bg": "selection.fill",
+      "min": 3,
+      "ratio": 6.07,
+      "pass": true,
+      "warn": false,
+      "note": "selected item: meta, shortcut, icon",
       "sweep": false,
       "worstHue": null
     },
@@ -1758,6 +2037,7 @@
       "min": 7,
       "ratio": 11.37,
       "pass": true,
+      "warn": false,
       "note": "primary button",
       "sweep": false,
       "worstHue": null
@@ -1769,6 +2049,7 @@
       "min": 4.5,
       "ratio": 5.1,
       "pass": true,
+      "warn": false,
       "note": "primary button hover",
       "sweep": false,
       "worstHue": null
@@ -1780,6 +2061,7 @@
       "min": 4.5,
       "ratio": 5.7,
       "pass": true,
+      "warn": false,
       "note": "tooltip shortcut",
       "sweep": false,
       "worstHue": null
@@ -1791,6 +2073,7 @@
       "min": 4.5,
       "ratio": 20.04,
       "pass": true,
+      "warn": false,
       "note": "badge over media",
       "sweep": false,
       "worstHue": null
@@ -1802,6 +2085,7 @@
       "min": 4.5,
       "ratio": 17.24,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -1813,6 +2097,7 @@
       "min": 4.5,
       "ratio": 12.94,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -1824,6 +2109,7 @@
       "min": 4.5,
       "ratio": 11.63,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -1835,6 +2121,7 @@
       "min": 4.5,
       "ratio": 10.16,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -1846,6 +2133,7 @@
       "min": 4.5,
       "ratio": 18.61,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -1857,6 +2145,7 @@
       "min": 4.5,
       "ratio": 14.59,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -1868,6 +2157,7 @@
       "min": 3,
       "ratio": 10.24,
       "pass": true,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -1879,6 +2169,7 @@
       "min": 4.5,
       "ratio": 11.07,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -1890,6 +2181,7 @@
       "min": 4.5,
       "ratio": 8.14,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -1901,6 +2193,7 @@
       "min": 4.5,
       "ratio": 7.27,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -1912,6 +2205,7 @@
       "min": 4.5,
       "ratio": 6.31,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -1923,6 +2217,7 @@
       "min": 3,
       "ratio": 8.74,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -1934,6 +2229,7 @@
       "min": 3,
       "ratio": 10.43,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -1945,6 +2241,7 @@
       "min": 3,
       "ratio": 5.74,
       "pass": true,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -1956,6 +2253,7 @@
       "min": 4.5,
       "ratio": 15.69,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -1967,6 +2265,7 @@
       "min": 4.5,
       "ratio": 11.64,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -1978,6 +2277,7 @@
       "min": 4.5,
       "ratio": 10.43,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -1989,6 +2289,7 @@
       "min": 4.5,
       "ratio": 9.08,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2000,6 +2301,7 @@
       "min": 3,
       "ratio": 12.76,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2011,6 +2313,7 @@
       "min": 3,
       "ratio": 14.98,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2022,6 +2325,7 @@
       "min": 3,
       "ratio": 7.63,
       "pass": true,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2033,6 +2337,7 @@
       "min": 4.5,
       "ratio": 7.53,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2044,6 +2349,7 @@
       "min": 4.5,
       "ratio": 5.81,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -2055,6 +2361,7 @@
       "min": 4.5,
       "ratio": 5.27,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -2066,6 +2373,7 @@
       "min": 4.5,
       "ratio": 4.64,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2077,6 +2385,7 @@
       "min": 4.5,
       "ratio": 5.61,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2088,6 +2397,7 @@
       "min": 4.5,
       "ratio": 6.83,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2099,6 +2409,7 @@
       "min": 3,
       "ratio": 3.97,
       "pass": true,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2110,6 +2421,7 @@
       "min": 4.5,
       "ratio": 7.75,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2121,6 +2433,7 @@
       "min": 4.5,
       "ratio": 5.88,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -2132,6 +2445,7 @@
       "min": 4.5,
       "ratio": 5.31,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -2143,6 +2457,7 @@
       "min": 4.5,
       "ratio": 4.66,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2154,6 +2469,7 @@
       "min": 3,
       "ratio": 5.54,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2165,6 +2481,7 @@
       "min": 3,
       "ratio": 6.75,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2176,6 +2493,7 @@
       "min": 3,
       "ratio": 3.97,
       "pass": true,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2187,6 +2505,7 @@
       "min": 4.5,
       "ratio": 10.9,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2198,6 +2517,7 @@
       "min": 4.5,
       "ratio": 8.27,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -2209,6 +2529,7 @@
       "min": 4.5,
       "ratio": 7.46,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -2220,6 +2541,7 @@
       "min": 4.5,
       "ratio": 6.54,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2231,6 +2553,7 @@
       "min": 3,
       "ratio": 8.6,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2242,6 +2565,7 @@
       "min": 3,
       "ratio": 10.27,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2253,6 +2577,7 @@
       "min": 3,
       "ratio": 5.53,
       "pass": true,
+      "warn": true,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2264,6 +2589,7 @@
       "min": 4.5,
       "ratio": 16.74,
       "pass": true,
+      "warn": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2275,6 +2601,7 @@
       "min": 3,
       "ratio": 7.6,
       "pass": true,
+      "warn": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2286,6 +2613,7 @@
       "min": 3,
       "ratio": 5.7,
       "pass": true,
+      "warn": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2297,6 +2625,7 @@
       "min": 4.5,
       "ratio": 17.24,
       "pass": true,
+      "warn": false,
       "note": "AA link",
       "sweep": false,
       "worstHue": null
@@ -2308,6 +2637,7 @@
       "min": 4.5,
       "ratio": 7.43,
       "pass": true,
+      "warn": false,
       "note": "selected choice card text",
       "sweep": false,
       "worstHue": null
@@ -2319,6 +2649,7 @@
       "min": 4.5,
       "ratio": 8.3,
       "pass": true,
+      "warn": false,
       "note": "selected action card",
       "sweep": false,
       "worstHue": null
@@ -2330,6 +2661,7 @@
       "min": 3,
       "ratio": 17.24,
       "pass": true,
+      "warn": false,
       "note": "focus indicator (2.4.11)",
       "sweep": false,
       "worstHue": null
@@ -2341,6 +2673,7 @@
       "min": 3,
       "ratio": 15.68,
       "pass": true,
+      "warn": false,
       "note": "focus indicator on raised",
       "sweep": false,
       "worstHue": null
@@ -2352,6 +2685,7 @@
       "min": 3,
       "ratio": 18.98,
       "pass": true,
+      "warn": false,
       "note": "focus indicator on canvas",
       "sweep": false,
       "worstHue": null
@@ -2363,6 +2697,7 @@
       "min": 4.5,
       "ratio": 7.04,
       "pass": true,
+      "warn": false,
       "note": "required mark",
       "sweep": false,
       "worstHue": null
@@ -2374,6 +2709,7 @@
       "min": 7,
       "ratio": 12.31,
       "pass": true,
+      "warn": false,
       "note": "diff line",
       "sweep": false,
       "worstHue": null
@@ -2385,6 +2721,7 @@
       "min": 7,
       "ratio": 12.92,
       "pass": true,
+      "warn": false,
       "note": "diff line",
       "sweep": false,
       "worstHue": null
@@ -2396,6 +2733,7 @@
       "min": 4.5,
       "ratio": 8.14,
       "pass": true,
+      "warn": false,
       "note": "diff sign",
       "sweep": false,
       "worstHue": null
@@ -2407,6 +2745,7 @@
       "min": 4.5,
       "ratio": 5.81,
       "pass": true,
+      "warn": false,
       "note": "diff sign",
       "sweep": false,
       "worstHue": null
@@ -2418,6 +2757,7 @@
       "min": 4.5,
       "ratio": 7.75,
       "pass": true,
+      "warn": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -2429,6 +2769,7 @@
       "min": 4.5,
       "ratio": 5.7,
       "pass": true,
+      "warn": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -2440,6 +2781,7 @@
       "min": 4.5,
       "ratio": 5.98,
       "pass": true,
+      "warn": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -2451,6 +2793,7 @@
       "min": 4.5,
       "ratio": 11.07,
       "pass": true,
+      "warn": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -2462,6 +2805,7 @@
       "min": 4.5,
       "ratio": 8.14,
       "pass": true,
+      "warn": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -2473,6 +2817,7 @@
       "min": 4.5,
       "ratio": 8.55,
       "pass": true,
+      "warn": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -2484,6 +2829,7 @@
       "min": 4.5,
       "ratio": 10.1,
       "pass": true,
+      "warn": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -2495,6 +2841,7 @@
       "min": 4.5,
       "ratio": 7.43,
       "pass": true,
+      "warn": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -2506,6 +2853,7 @@
       "min": 4.5,
       "ratio": 7.8,
       "pass": true,
+      "warn": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -2517,6 +2865,7 @@
       "min": 4.5,
       "ratio": 9.9,
       "pass": true,
+      "warn": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -2528,6 +2877,7 @@
       "min": 4.5,
       "ratio": 7.28,
       "pass": true,
+      "warn": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -2539,6 +2889,7 @@
       "min": 4.5,
       "ratio": 7.64,
       "pass": true,
+      "warn": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -2550,6 +2901,7 @@
       "min": 3,
       "ratio": 10.24,
       "pass": true,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2561,6 +2913,7 @@
       "min": 3,
       "ratio": 3.97,
       "pass": true,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2572,6 +2925,7 @@
       "min": 3,
       "ratio": 5.74,
       "pass": true,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2583,6 +2937,7 @@
       "min": 3,
       "ratio": 7.63,
       "pass": true,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2594,6 +2949,7 @@
       "min": 3,
       "ratio": 5.18,
       "pass": true,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2605,6 +2961,7 @@
       "min": 3,
       "ratio": 5.43,
       "pass": true,
+      "warn": true,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2616,6 +2973,7 @@
       "min": 3,
       "ratio": 18.98,
       "pass": true,
+      "warn": false,
       "note": "handle fill vs outline",
       "sweep": false,
       "worstHue": null
@@ -2627,6 +2985,7 @@
       "min": 4.5,
       "ratio": 7.54,
       "pass": true,
+      "warn": false,
       "note": "measurement label",
       "sweep": false,
       "worstHue": null
@@ -2638,6 +2997,7 @@
       "min": 4.5,
       "ratio": 18.61,
       "pass": true,
+      "warn": false,
       "note": "selection size label",
       "sweep": false,
       "worstHue": null
@@ -2649,6 +3009,7 @@
       "min": 4.5,
       "ratio": 7.75,
       "pass": true,
+      "warn": false,
       "note": "frame label",
       "sweep": false,
       "worstHue": null
@@ -2660,6 +3021,7 @@
       "min": 4.5,
       "ratio": 5.61,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -2671,6 +3033,7 @@
       "min": 4.5,
       "ratio": 5.54,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -2682,6 +3045,7 @@
       "min": 4.5,
       "ratio": 8.74,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -2693,6 +3057,7 @@
       "min": 4.5,
       "ratio": 12.76,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -2704,6 +3069,7 @@
       "min": 4.5,
       "ratio": 7.6,
       "pass": true,
+      "warn": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -2715,6 +3081,7 @@
       "min": 4.5,
       "ratio": 7.75,
       "pass": true,
+      "warn": false,
       "note": "main component label",
       "sweep": false,
       "worstHue": null
@@ -2726,6 +3093,7 @@
       "min": 4.5,
       "ratio": 5.88,
       "pass": true,
+      "warn": false,
       "note": "main component tag",
       "sweep": false,
       "worstHue": null

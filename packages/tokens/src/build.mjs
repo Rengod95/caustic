@@ -74,14 +74,19 @@ const hoverOf = (solid, mode) => {
 };
 /** A hued ramp for one mode, anchored so step 9 is the authored solid. */
 function hueRamp(pick, mode, surface) {
-  const { fixedL, chromaShare, graphicMin, textMin } = T.rampRule;
+  const { fixedL, chromaShare, textMin } = T.rampRule;
   const solid = gamutMap(pick);
   const [L9, C9, H] = solid;
   const out = [];
-  for (let i = 0; i < 6; i++) out.push(gamutMap([fixedL[mode][i], C9 * chromaShare[mode][i], H]));
-  const L6 = fixedL[mode][5];
+  for (let i = 0; i < 5; i++) out.push(gamutMap([fixedL[mode][i], C9 * chromaShare[mode][i], H]));
+  // The ramp runs one way from the authored solid: steps 6–8 sit in order between step 5 and step 9. Step 6 keeps its
+  // fixed lightness unless the solid is at or past it (a light solid such as danger L .82), then it moves between 5 and 9.
+  const L5 = fixedL[mode][4], F6 = fixedL[mode][5];
+  const L6 = (mode === 'light' ? F6 > L9 + 0.03 : F6 < L9 - 0.03) ? F6 : L5 + (L9 - L5) * 0.26;
+  out.push(gamutMap([L6, C9 * chromaShare[mode][5], H]));
   out.push(gamutMap([L6 + (L9 - L6) * 0.4, C9 * chromaShare[mode][6], H]));
-  out.push(ensure(gamutMap([L6 + (L9 - L6) * 0.7, C9 * chromaShare[mode][7], H]), surface, graphicMin));
+  // Step 8 follows the solid too (owner 2026-10-26): it is no longer pushed to 3:1, which made it darker than 9.
+  out.push(gamutMap([L6 + (L9 - L6) * 0.7, C9 * chromaShare[mode][7], H]));
   out.push(solid);
   out.push(hoverOf(solid, mode));
   const hover = out[9];
@@ -168,10 +173,34 @@ function layer(theme, expr) {
   for (let i = parts.length - 2; i >= 0; i--) { const top = resolveRgb(theme, parts[i]); rgb = over(top.rgb, top.alpha, rgb); }
   return rgb;
 }
+/* Surface-relative opaque fills (owner 2026-10-26: no translucent backgrounds). The neutral interaction fills are
+   authored as alpha in tokens.mjs, but never painted as alpha: each is emitted as the opaque colour it makes over a
+   surface. Per theme, --<fill>--on-<surface> holds that composite; the fill token itself defaults to the composite over
+   bg.app, and an element carrying a surface background class re-points the fill tokens at its own surface (SURFACE_RULE
+   below), so a hover inside a raised card is the hover-over-raised colour, opaque. */
+const FILLS = ['neutral.hover', 'neutral.pressed', 'neutral.selected', 'neutral.selected-hover', 'neutral.track', 'neutral.well', 'bg.inset'];
+const UNDER = {
+  'bg.app': ['bg-bg-app'], 'bg.canvas': ['bg-bg-canvas'],
+  'surface.base': ['bg-surface-base', 'cs-solid'], 'surface.raised': ['bg-surface-raised'],
+  'surface.translucent': ['bg-surface-translucent'], 'surface.raised-translucent': ['bg-surface-raised-translucent'],
+  'material.regular': ['bg-material-regular', 'glass', 'cs-glass'], 'material.thin': ['bg-material-thin', 'glass-thin', 'cs-thin'],
+  'material.thick': ['bg-material-thick', 'glass-thick', 'cs-thick'], 'material.ultrathin': ['bg-material-ultrathin', 'glass-ultrathin', 'cs-ultrathin'],
+  'control.raised': ['bg-control-raised'],
+  // the inverted selected item (the selected utility re-points the fills itself; no static class)
+  'selection.fill': [],
+};
+const fillAliases = f => Object.entries(T.aliases).filter(([, to]) => to === f).map(([from]) => from);
+const onVar = (f, u) => `${P}-color-${kebab(f)}--on-${kebab(u)}`;
+// Over the inverted selection the fill direction flips too: it reads the dark theme's fill (paper alpha) on the ink.
+const opaqueOver = (theme, f, u) => {
+  const rgb = u === 'selection.fill' ? (fd => over(fd.rgb, fd.alpha, layer(theme, u)))(resolveRgb('dark', f)) : layer(theme, `${f}@${u}`);
+  const [r, g, b] = rgb.map(x => Math.round(Math.min(1, Math.max(0, x)) * 255)); return `rgb(${r} ${g} ${b})`;
+};
+
 const results = [];
 let failures = 0;
 for (const theme of MODES) {
-  for (const [fg, bg, min, note] of T.contrastRules) {
+  for (const [fg, bg, min, note, level] of T.contrastRules) {
     let worst = Infinity;
     for (const mode of ['map', 'clip']) {
       GAMUT = mode;
@@ -181,17 +210,19 @@ for (const theme of MODES) {
       worst = Math.min(worst, ratio(fgRgb, bgRgb));
     }
     GAMUT = 'map';
+    // level 'warn': a design-over-contrast pair the owner chose; reported, never failing.
+    const warn = level === 'warn';
     const pass = worst >= min;
-    if (!pass) failures++;
-    results.push({ theme, fg, bg, min, ratio: +worst.toFixed(2), pass, note, sweep: false, worstHue: null });
+    if (!pass && !warn) failures++;
+    results.push({ theme, fg, bg, min, ratio: +worst.toFixed(2), pass, warn, note, sweep: false, worstHue: null });
   }
 }
 
 /* ── Report ── */
 const pad = (s, n) => String(s).padEnd(n);
 for (const r of results.filter(r => !r.pass || process.argv.includes('--verbose')))
-  console.log(`${r.pass ? 'ok  ' : 'FAIL'} ${pad(r.theme, 6)} ${pad(r.fg, 22)} on ${pad(r.bg, 34)} ${r.ratio.toFixed(2).padStart(6)} ≥ ${r.min}`);
-console.log(`contrast: ${results.length - failures}/${results.length} rules pass across ${MODES.length} themes (${RAMP_NAMES.length} ramps per mode, ${Object.keys(T.themes.light).length} semantic colors)`);
+  console.log(`${r.pass ? 'ok  ' : r.warn ? 'WARN' : 'FAIL'} ${pad(r.theme, 6)} ${pad(r.fg, 22)} on ${pad(r.bg, 34)} ${r.ratio.toFixed(2).padStart(6)} ≥ ${r.min}`);
+console.log(`contrast: ${results.length - failures}/${results.length} rules pass (${results.filter(r => r.warn && !r.pass).length} design-over-contrast warnings) across ${MODES.length} themes (${RAMP_NAMES.length} ramps per mode, ${Object.keys(T.themes.light).length} semantic colors)`);
 if (failures) { console.error(`${failures} contrast rule(s) failed.`); process.exit(1); }
 if (checkOnly) process.exit(0);
 
@@ -249,7 +280,9 @@ const themeBlock = theme => {
   out.push('  /* agent spectrum (the agent.stop-* tokens) */');
   for (const i of [1, 2, 3]) out.push(v(`spectrum-${i}`, `var(--${P}-color-agent-stop-${i})`));
   out.push(`  /* semantic: ${theme} */`);
-  for (const [name, spec] of Object.entries(T.themes[theme])) out.push(v(`color-${kebab(name)}`, cssColor(theme, spec)));
+  for (const [name, spec] of Object.entries(T.themes[theme])) out.push(v(`color-${kebab(name)}`, FILLS.includes(name) ? `var(--${onVar(name, 'bg.app')})` : cssColor(theme, spec)));
+  out.push('  /* opaque interaction fills over each surface (see FILLS) */');
+  for (const f of FILLS) for (const u of Object.keys(UNDER)) out.push(`  --${onVar(f, u)}: ${opaqueOver(theme, f, u)};`);
   for (const [k, s] of Object.entries(T.elevation[theme])) out.push(v(`elevation-${k}`, s));
   out.push(v('focus-field', `inset 0 0 0 1.5px var(--${P}-color-focus-ring)`));
   out.push(v('focus', `0 0 0 1px var(--${P}-color-focus-offset), 0 0 0 3px var(--${P}-color-focus-ring)`));
@@ -266,6 +299,12 @@ const cornerScaled = [
   ...Object.entries(T.radius).filter(([k]) => k !== 'none' && k !== 'full').map(([k, px]) => v(`radius-${k}`, `calc(${px}px * var(--${P}-corner-scale))`)),
   ...Object.entries(T.studio).filter(([k]) => k.includes('radius')).map(([k, px]) => v(`studio-${k}`, `calc(${px}px * var(--${P}-corner-scale))`)),
 ].join('\n');
+
+const fillDecls = u => FILLS.flatMap(f => [f, ...fillAliases(f)].flatMap(name => [`--${P}-color-${kebab(name)}`, `--color-${kebab(name)}`].map(k => `  ${k}: var(--${onVar(f, u)});`)));
+const SURFACE_RULE = Object.entries(UNDER).filter(([, classes]) => classes.length).map(([u, classes]) => {
+  const decl = FILLS.flatMap(f => [f, ...fillAliases(f)].flatMap(name => [`--${P}-color-${kebab(name)}`, `--color-${kebab(name)}`].map(k => `  ${k}: var(--${onVar(f, u)});`)));
+  return `:where(${classes.map(c => `[class~="${c}"]`).join(', ')}) {\n${decl.join('\n')}\n}`;
+}).join('\n');
 
 const css = `/* ${T.meta.name} foundation ${T.meta.version} — tokens. Generated; edit foundation/tokens.mjs. */
 @property --${P}-spin { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
@@ -301,6 +340,10 @@ ${themeBlock('dark')}
 ${Object.entries(T.size['control-compact']).map(([k, px]) => v(`control-${k}`, `${px}px`)).join('\n')}
 ${Object.entries(T.size['field-compact']).map(([k, px]) => v(`field-${k}`, `${px}px`)).join('\n')}
 }
+
+/* Surface-relative opaque fills: a surface re-points the interaction fills (and their aliases and the Tailwind
+   --color-* twins) at the composite over itself. Static surface classes only; zero specificity. */
+${SURFACE_RULE}
 `;
 
 
@@ -447,16 +490,30 @@ function tailwindTheme() {
 @utility glass-thin { --${P}-material: var(--${P}-color-material-thin); }
 @utility glass-thick { --${P}-material: var(--${P}-color-material-thick); }
 @utility glass-shadow-* { --${P}-shadow: --value(--shadow-*); }
-/* A neutral interaction fill laid over an opaque surface (a selected card, a pressed surface chip): the alpha fill
-   paints on top of the surface colour instead of replacing it, so the surface stays opaque. */
-@utility wash-* { background-image: linear-gradient(--value(--color-*), --value(--color-*)); }
+/* The rim is the host's own outer 1.5px (inset 0, same radius and corner shape), so it stays concentric with the fill. */
 @utility agent-rim {
   position: relative;
-  &::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  &::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
     background: var(--${P}-spectrum-conic);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
     mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
     animation: cs-spin var(--${P}-duration-agent) linear infinite; }
+}
+/* A selected item (owner 2026-10-26, proposal B): the ink fill with paper text, no edge. Descendants invert with it:
+   text roles, the accent pair (a check box or tick inside reads paper on ink) and the control border are re-pointed,
+   in both the --${P}-color-* and the Tailwind --color-* names. */
+@utility selected {
+  background-color: var(--${P}-color-selection-fill); background-image: none; color: var(--${P}-color-selection-on);
+  --${P}-focus-offset: var(--${P}-color-selection-fill);
+${[['text-primary', 'selection-on'], ['text-secondary', 'selection-on-secondary'], ['text-tertiary', 'selection-on-tertiary']]
+  .flatMap(([k, to]) => [`  --${P}-color-${k}: var(--${P}-color-${to});`, `  --color-${k}: var(--${P}-color-${to});`]).join('\n')}
+  /* controls inside (checks, ticks, boxes) read the Tailwind twins; the raw --${P}-color-* stay, so a swatch that shows a
+     token's colour as content keeps the real colour */
+${[['accent-text', 'selection-on'], ['accent-solid', 'selection-on'], ['accent-on', 'selection-fill'], ['border-control', 'selection-on-secondary'],
+  ['surface-base', 'selection-fill']]
+  .map(([k, to]) => `  --color-${k}: var(--${P}-color-${to});`).join('\n')}
+  /* fields and wells inside a selected item read the fills composited over the ink */
+${fillDecls('selection.fill').join('\n')}
 }
 @utility agent-glow { box-shadow: 0 8px 30px -6px var(--${P}-color-agent-glow); }
 @utility orb {

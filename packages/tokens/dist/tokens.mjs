@@ -657,18 +657,18 @@ export default {
           155
         ],
         [
-          0.8,
+          0.844,
           0.1524,
           155
         ],
         [
-          0.788,
+          0.8144,
           0.1715,
           155
         ],
         [
-          0.644,
-          0.1595,
+          0.7922,
+          0.1905,
           155
         ],
         [
@@ -751,9 +751,9 @@ export default {
           "#bbfcd0",
           "#a3f6c0",
           "#87eead",
-          "#5eda92",
-          "#43d988",
-          "#00a960",
+          "#6ee99f",
+          "#4ee290",
+          "#1ede83",
           "#00d67c",
           "#00c471",
           "#006b3b"
@@ -816,7 +816,7 @@ export default {
           95
         ],
         [
-          0.662,
+          0.702,
           0.1,
           95
         ],
@@ -902,7 +902,7 @@ export default {
           "#e2d4a0",
           "#cebe82",
           "#beac68",
-          "#a69245",
+          "#b29e52",
           "#a59145",
           "#968234",
           "#6c5900"
@@ -955,18 +955,18 @@ export default {
           30
         ],
         [
-          0.8,
-          0.0812,
+          0.857,
+          0.0778,
           30
         ],
         [
-          0.808,
-          0.0913,
+          0.8422,
+          0.0871,
           30
         ],
         [
-          0.674,
-          0.1015,
+          0.8311,
+          0.0942,
           30
         ],
         [
@@ -1049,9 +1049,9 @@ export default {
           "#ffe2dd",
           "#ffd4cd",
           "#ffc4b9",
-          "#edab9f",
-          "#f6aa9d",
-          "#cd7e71",
+          "#ffbeb2",
+          "#ffb6aa",
+          "#ffb1a3",
           "#ffab9d",
           "#ee9c8e",
           "#8c4339"
@@ -1104,18 +1104,18 @@ export default {
           235
         ],
         [
+          0.8466,
+          0.0894,
+          235
+        ],
+        [
+          0.82,
+          0.106,
+          235
+        ],
+        [
           0.8,
-          0.1052,
-          235
-        ],
-        [
-          0.792,
-          0.1183,
-          235
-        ],
-        [
-          0.656,
-          0.1276,
+          0.1186,
           235
         ],
         [
@@ -1198,9 +1198,9 @@ export default {
           "#d3eeff",
           "#bee6ff",
           "#a4ddff",
-          "#76c9f8",
-          "#66c7fc",
-          "#289cd3",
+          "#92d7ff",
+          "#7bcfff",
+          "#69caff",
           "#54c4ff",
           "#41b4ee",
           "#006188"
@@ -1253,17 +1253,17 @@ export default {
           55
         ],
         [
-          0.8,
+          0.8466,
           0.072,
           55
         ],
         [
-          0.792,
+          0.82,
           0.081,
           55
         ],
         [
-          0.671,
+          0.8,
           0.09,
           55
         ],
@@ -1347,9 +1347,9 @@ export default {
           "#ffe3d2",
           "#fcd7bf",
           "#f6caad",
-          "#e3b292",
-          "#e5ae89",
-          "#c1875f",
+          "#f2c1a0",
+          "#eeb792",
+          "#ebaf86",
           "#e5a880",
           "#d49970",
           "#814c24"
@@ -1402,17 +1402,17 @@ export default {
           235
         ],
         [
-          0.8,
+          0.8466,
           0.048,
           235
         ],
         [
-          0.792,
+          0.82,
           0.054,
           235
         ],
         [
-          0.661,
+          0.8,
           0.06,
           235
         ],
@@ -1496,9 +1496,9 @@ export default {
           "#d9edfa",
           "#cae4f4",
           "#bbd9ec",
-          "#a1c3d9",
-          "#9ac1d9",
-          "#6e99b2",
+          "#afd2e8",
+          "#a3cae3",
+          "#99c5df",
           "#92bed9",
           "#83aec8",
           "#365f76"
@@ -1551,17 +1551,17 @@ export default {
           150
         ],
         [
-          0.8,
+          0.8518,
           0.064,
           150
         ],
         [
-          0.8,
+          0.8311,
           0.072,
           150
         ],
         [
-          0.655,
+          0.8155,
           0.08,
           150
         ],
@@ -1645,9 +1645,9 @@ export default {
           "#d9f1dd",
           "#cbe9d0",
           "#bbdfc1",
-          "#a1caa8",
-          "#9dcba6",
-          "#6d9f77",
+          "#b1dbb9",
+          "#a7d5af",
+          "#9ed2a8",
           "#99cda3",
           "#8abd93",
           "#366641"
@@ -1710,7 +1710,7 @@ export default {
           50
         ],
         [
-          0.673,
+          0.688,
           0.12,
           50
         ],
@@ -1796,7 +1796,7 @@ export default {
           "#ffc6a7",
           "#f0ac86",
           "#e0956a",
-          "#d17f4e",
+          "#d68353",
           "#c67544",
           "#b56535",
           "#90440b"
@@ -2288,6 +2288,11 @@ export default {
       "focus.ring": "accent.9",
       "focus.offset": "=surface.base",
       "selection.edge": "neutral.7",
+      "selection.fill": "=ink.solid",
+      "selection.fill-hover": "=ink.solid-hover",
+      "selection.on": "=ink.on",
+      "selection.on-secondary": "neutral-light.4",
+      "selection.on-tertiary": "neutral-light.5",
       "disabled.fill": "neutral.3",
       "disabled.text": "neutral.6",
       "disabled.border": "neutral.4",
@@ -2481,6 +2486,11 @@ export default {
       "focus.ring": "accent.9",
       "focus.offset": "=surface.base",
       "selection.edge": "neutral.7",
+      "selection.fill": "=ink.solid",
+      "selection.fill-hover": "=ink.solid-hover",
+      "selection.on": "=ink.on",
+      "selection.on-secondary": "neutral-dark.11",
+      "selection.on-tertiary": "neutral-dark.10",
       "disabled.fill": "neutral.4",
       "disabled.text": "neutral.6",
       "disabled.border": "neutral.5",
@@ -2830,15 +2840,15 @@ export default {
         "alpha": 1
       },
       "success.border": {
-        "hex": "#5eda92",
+        "hex": "#6ee99f",
         "alpha": 1
       },
       "success.border-strong": {
-        "hex": "#43d988",
+        "hex": "#4ee290",
         "alpha": 1
       },
       "success.graphic": {
-        "hex": "#00a960",
+        "hex": "#1ede83",
         "alpha": 1
       },
       "success.solid": {
@@ -2882,7 +2892,7 @@ export default {
         "alpha": 1
       },
       "warning.graphic": {
-        "hex": "#a69245",
+        "hex": "#b29e52",
         "alpha": 1
       },
       "warning.solid": {
@@ -2918,15 +2928,15 @@ export default {
         "alpha": 1
       },
       "danger.border": {
-        "hex": "#edab9f",
+        "hex": "#ffbeb2",
         "alpha": 1
       },
       "danger.border-strong": {
-        "hex": "#f6aa9d",
+        "hex": "#ffb6aa",
         "alpha": 1
       },
       "danger.graphic": {
-        "hex": "#cd7e71",
+        "hex": "#ffb1a3",
         "alpha": 1
       },
       "danger.solid": {
@@ -2962,15 +2972,15 @@ export default {
         "alpha": 1
       },
       "info.border": {
-        "hex": "#76c9f8",
+        "hex": "#92d7ff",
         "alpha": 1
       },
       "info.border-strong": {
-        "hex": "#66c7fc",
+        "hex": "#7bcfff",
         "alpha": 1
       },
       "info.graphic": {
-        "hex": "#289cd3",
+        "hex": "#69caff",
         "alpha": 1
       },
       "info.solid": {
@@ -3006,15 +3016,15 @@ export default {
         "alpha": 1
       },
       "agent.border": {
-        "hex": "#e3b292",
+        "hex": "#f2c1a0",
         "alpha": 1
       },
       "agent.border-strong": {
-        "hex": "#e5ae89",
+        "hex": "#eeb792",
         "alpha": 1
       },
       "agent.graphic": {
-        "hex": "#c1875f",
+        "hex": "#ebaf86",
         "alpha": 1
       },
       "agent.solid": {
@@ -3069,6 +3079,26 @@ export default {
         "hex": "#717171",
         "alpha": 1
       },
+      "selection.fill": {
+        "hex": "#060606",
+        "alpha": 1
+      },
+      "selection.fill-hover": {
+        "hex": "#2b2b2b",
+        "alpha": 1
+      },
+      "selection.on": {
+        "hex": "#fdfdfd",
+        "alpha": 1
+      },
+      "selection.on-secondary": {
+        "hex": "#d6d6d6",
+        "alpha": 1
+      },
+      "selection.on-tertiary": {
+        "hex": "#bababa",
+        "alpha": 1
+      },
       "disabled.fill": {
         "hex": "#e8e8e8",
         "alpha": 1
@@ -3090,19 +3120,19 @@ export default {
         "alpha": 1
       },
       "chart.2": {
-        "hex": "#289cd3",
+        "hex": "#69caff",
         "alpha": 1
       },
       "chart.3": {
-        "hex": "#00a960",
+        "hex": "#1ede83",
         "alpha": 1
       },
       "chart.4": {
-        "hex": "#a69245",
+        "hex": "#b29e52",
         "alpha": 1
       },
       "chart.5": {
-        "hex": "#d17f4e",
+        "hex": "#d68353",
         "alpha": 1
       },
       "chart.6": {
@@ -3835,6 +3865,26 @@ export default {
         "hex": "#7f7f7f",
         "alpha": 1
       },
+      "selection.fill": {
+        "hex": "#393939",
+        "alpha": 1
+      },
+      "selection.fill-hover": {
+        "hex": "#6d6d6d",
+        "alpha": 1
+      },
+      "selection.on": {
+        "hex": "#fdfdfd",
+        "alpha": 1
+      },
+      "selection.on-secondary": {
+        "hex": "#f2f2f2",
+        "alpha": 1
+      },
+      "selection.on-tertiary": {
+        "hex": "#bcbcbc",
+        "alpha": 1
+      },
       "disabled.fill": {
         "hex": "#1c1c1c",
         "alpha": 1
@@ -4110,9 +4160,9 @@ export default {
       "3": "#bbfcd0",
       "4": "#a3f6c0",
       "5": "#87eead",
-      "6": "#5eda92",
-      "7": "#43d988",
-      "8": "#00a960",
+      "6": "#6ee99f",
+      "7": "#4ee290",
+      "8": "#1ede83",
       "9": "#00d67c",
       "10": "#00c471",
       "11": "#006b3b"
@@ -4125,7 +4175,7 @@ export default {
       "5": "#e2d4a0",
       "6": "#cebe82",
       "7": "#beac68",
-      "8": "#a69245",
+      "8": "#b29e52",
       "9": "#a59145",
       "10": "#968234",
       "11": "#6c5900"
@@ -4136,9 +4186,9 @@ export default {
       "3": "#ffe2dd",
       "4": "#ffd4cd",
       "5": "#ffc4b9",
-      "6": "#edab9f",
-      "7": "#f6aa9d",
-      "8": "#cd7e71",
+      "6": "#ffbeb2",
+      "7": "#ffb6aa",
+      "8": "#ffb1a3",
       "9": "#ffab9d",
       "10": "#ee9c8e",
       "11": "#8c4339"
@@ -4149,9 +4199,9 @@ export default {
       "3": "#d3eeff",
       "4": "#bee6ff",
       "5": "#a4ddff",
-      "6": "#76c9f8",
-      "7": "#66c7fc",
-      "8": "#289cd3",
+      "6": "#92d7ff",
+      "7": "#7bcfff",
+      "8": "#69caff",
       "9": "#54c4ff",
       "10": "#41b4ee",
       "11": "#006188"
@@ -4162,9 +4212,9 @@ export default {
       "3": "#ffe3d2",
       "4": "#fcd7bf",
       "5": "#f6caad",
-      "6": "#e3b292",
-      "7": "#e5ae89",
-      "8": "#c1875f",
+      "6": "#f2c1a0",
+      "7": "#eeb792",
+      "8": "#ebaf86",
       "9": "#e5a880",
       "10": "#d49970",
       "11": "#814c24"
@@ -4175,9 +4225,9 @@ export default {
       "3": "#d9edfa",
       "4": "#cae4f4",
       "5": "#bbd9ec",
-      "6": "#a1c3d9",
-      "7": "#9ac1d9",
-      "8": "#6e99b2",
+      "6": "#afd2e8",
+      "7": "#a3cae3",
+      "8": "#99c5df",
       "9": "#92bed9",
       "10": "#83aec8",
       "11": "#365f76"
@@ -4188,9 +4238,9 @@ export default {
       "3": "#d9f1dd",
       "4": "#cbe9d0",
       "5": "#bbdfc1",
-      "6": "#a1caa8",
-      "7": "#9dcba6",
-      "8": "#6d9f77",
+      "6": "#b1dbb9",
+      "7": "#a7d5af",
+      "8": "#9ed2a8",
       "9": "#99cda3",
       "10": "#8abd93",
       "11": "#366641"
@@ -4203,7 +4253,7 @@ export default {
       "5": "#ffc6a7",
       "6": "#f0ac86",
       "7": "#e0956a",
-      "8": "#d17f4e",
+      "8": "#d68353",
       "9": "#c67544",
       "10": "#b56535",
       "11": "#90440b"
@@ -5033,6 +5083,36 @@ export default {
       "selected edge is visible on surface (paired with a check mark)"
     ],
     [
+      "selection.on",
+      "selection.fill",
+      4.5,
+      "selected item: label on the inverted fill"
+    ],
+    [
+      "selection.on",
+      "selection.fill-hover",
+      4.5,
+      "selected item hovered"
+    ],
+    [
+      "selection.on-secondary",
+      "selection.fill",
+      4.5,
+      "selected item: secondary text"
+    ],
+    [
+      "selection.on-secondary",
+      "selection.fill-hover",
+      4.5,
+      "selected item hovered: secondary text"
+    ],
+    [
+      "selection.on-tertiary",
+      "selection.fill",
+      3,
+      "selected item: meta, shortcut, icon"
+    ],
+    [
       "ink.on",
       "ink.solid",
       7,
@@ -5096,7 +5176,8 @@ export default {
       "accent.graphic",
       "surface.base",
       3,
-      "slot: graphic 8 on surface"
+      "slot: graphic 8 on surface",
+      "warn"
     ],
     [
       "success.text",
@@ -5138,7 +5219,8 @@ export default {
       "success.graphic",
       "surface.base",
       3,
-      "slot: graphic 8 on surface"
+      "slot: graphic 8 on surface",
+      "warn"
     ],
     [
       "warning.text",
@@ -5180,7 +5262,8 @@ export default {
       "warning.graphic",
       "surface.base",
       3,
-      "slot: graphic 8 on surface"
+      "slot: graphic 8 on surface",
+      "warn"
     ],
     [
       "danger.text",
@@ -5222,7 +5305,8 @@ export default {
       "danger.graphic",
       "surface.base",
       3,
-      "slot: graphic 8 on surface"
+      "slot: graphic 8 on surface",
+      "warn"
     ],
     [
       "info.text",
@@ -5264,7 +5348,8 @@ export default {
       "info.graphic",
       "surface.base",
       3,
-      "slot: graphic 8 on surface"
+      "slot: graphic 8 on surface",
+      "warn"
     ],
     [
       "agent.text",
@@ -5306,7 +5391,8 @@ export default {
       "agent.graphic",
       "surface.base",
       3,
-      "slot: graphic 8 on surface"
+      "slot: graphic 8 on surface",
+      "warn"
     ],
     [
       "neutral.text",
@@ -5468,37 +5554,43 @@ export default {
       "chart.1",
       "surface.base",
       3,
-      "chart series"
+      "chart series",
+      "warn"
     ],
     [
       "chart.2",
       "surface.base",
       3,
-      "chart series"
+      "chart series",
+      "warn"
     ],
     [
       "chart.3",
       "surface.base",
       3,
-      "chart series"
+      "chart series",
+      "warn"
     ],
     [
       "chart.4",
       "surface.base",
       3,
-      "chart series"
+      "chart series",
+      "warn"
     ],
     [
       "chart.5",
       "surface.base",
       3,
-      "chart series"
+      "chart series",
+      "warn"
     ],
     [
       "chart.6",
       "surface.base",
       3,
-      "chart series"
+      "chart series",
+      "warn"
     ],
     [
       "canvas.handle",

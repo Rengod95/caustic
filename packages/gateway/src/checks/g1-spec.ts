@@ -40,7 +40,7 @@ export async function g1(c: Collector, input: SpecInput, fixture: Fixture | unde
       if (spec.variants[k] && !spec.variants[k]!.values.includes(String(v))) c.fail({ gate: 'G1', check: 'styles', where, message: `Unknown ${k} value "${v}".` });
     }
     const e = rule.expect;
-    for (const key of ['bg', 'wash', 'fg', 'border', 'edge'] as const) {
+    for (const key of ['bg', 'fg', 'border', 'edge'] as const) {
       const v = e[key]; if (v && v !== 'transparent' && !t.colors.has(v)) c.fail({ gate: 'G1', check: 'token-ref', where, message: `${key}: "${v}" is not a semantic color token.` });
     }
     if (e.frost) c.fail({ gate: 'G1', check: 'styles', where, message: 'frost was removed with solid surfaces (542df1d); no component draws it.', fix: 'Drop frost from the rule; describe the surface with bg / edge / shadow.' });

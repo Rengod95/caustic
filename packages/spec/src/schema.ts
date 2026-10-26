@@ -20,7 +20,6 @@ const StateDef = z.object({
  */
 export const StyleExpect = z.object({
   bg: z.string().optional().describe('background-color = color token'),
-  wash: z.string().optional().describe('background-image is a flat layer of this color token over the bg (a neutral interaction fill on an opaque surface: wash-* utility)'),
   fg: z.string().optional().describe('color = color token'),
   border: z.string().optional().describe('border-color = color token'),
   edge: z.string().optional().describe('box-shadow contains a 1px ring of this color token'),

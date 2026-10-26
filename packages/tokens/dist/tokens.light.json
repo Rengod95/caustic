@@ -846,6 +846,26 @@
     "edge": {
       "$type": "color",
       "$value": "{color.neutral-light.7}"
+    },
+    "fill": {
+      "$type": "color",
+      "$value": "{ink.solid}"
+    },
+    "fill-hover": {
+      "$type": "color",
+      "$value": "{ink.solid-hover}"
+    },
+    "on": {
+      "$type": "color",
+      "$value": "{ink.on}"
+    },
+    "on-secondary": {
+      "$type": "color",
+      "$value": "{color.neutral-light.4}"
+    },
+    "on-tertiary": {
+      "$type": "color",
+      "$value": "{color.neutral-light.5}"
     }
   },
   "disabled": {

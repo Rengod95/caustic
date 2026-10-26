@@ -97,7 +97,7 @@ Deep Black의 라이트 danger를 예로 들면 다음과 같다(빌더가 만�
 | | | `on` | solid 위 글자 |
 
 **뉴트럴 인터랙션 슬롯:** `--cs-neutral-hover`, `-pressed`, `-selected`, `-selected-hover`, `-track`, `-well`.
-이 슬롯들은 어떤 표면(app, surface, raised, glass) 위에서도 같은 차이를 내야 하므로 **투명도를 유지**한다. 불투명으로 바꾸는 건 색이 있는 톤의 soft뿐이다.
+이 슬롯들은 어떤 표면(app, surface, raised, glass) 위에서도 같은 차이를 내야 한다. ~~투명도를 유지한다~~ → 2026-10-26 결정 9: 알파로 적어 두되 **표면별 불투명 값**으로 내보낸다(아래 결정 표).
 
 **축 토큰:** `--cs-focus-ring`, `--cs-focus-offset`, `--cs-selection-edge`(= 뉴트럴 7, 결정 3), `--cs-disabled-fill`, `-text`, `-border`, `--cs-required-mark`(= `text-tertiary`, 결정 6).
 
@@ -311,7 +311,15 @@ card-action (card-action.variants.ts:12-13) · choice-cards (choice-cards.varian
 | 4 | 캔버스 가이드 색 | **캔버스 전용 마젠타** | `canvas-guide` 라이트 oklch(.60 .20 345), 다크 oklch(.72 .17 345), `canvas-guide-on`은 잉크/종이 중 대비가 큰 쪽 |
 | 5 | 다크 surface | **연결은 그대로, `neutral-dark` 2–11을 조금 어둡게 (A bit more)** | §6 표. 안 A는 채택하지 않음 |
 | 6 | 필수 입력 별표 | **뉴트럴** | `required-mark` = `text-tertiary`. danger는 실제 오류에만 |
-| 7 | 라이트의 밝은 solid (L > .7) | **허용** | solid 상한 없음. graphic 8이 solid보다 어두울 수 있다 |
+| 7 | 라이트의 밝은 solid (L > .7) | **허용** | solid 상한 없음. ~~graphic 8이 solid보다 어두울 수 있다~~ (결정 10: 8은 9를 따른다) |
+
+## 결정 (2026-10-26)
+
+| # | 질문 | 결정 | 반영 |
+|---|---|---|---|
+| 8 | 선택된 항목 (결정 3을 바꿈) | **반전 채움, 칩 solid(ink)와 같은 색 (안 B)** | `selected` 유틸리티: `selection.fill`(= ink.solid) 바탕, `selection.on` 글자, 테두리 없음. 안쪽 보조 글자·아이콘·체크도 불투명 단계로 함께 뒤집힌다. 사이드바·페이지 번호 같은 "현재 위치" 썸은 그대로 |
+| 9 | 반투명 배경 (결정 2를 바꿈) | **표면별 불투명 값** | 뉴트럴 hover·pressed·selected·selected-hover·track·well과 `bg.inset`은 표면마다 그 위에 합성한 불투명 색으로 나간다(`--…--on-<surface>`). 표면 클래스가 자기 위 값으로 바꿔 끼운다. scrim·이미지 위 칩·캔버스 표시·테두리는 알파로 남는다 |
+| 10 | 램프 순서 (결정 7을 바꿈) | **고른 색(9) 기준으로 한 방향** | 8은 3:1로 끌어내리지 않는다. 9가 6보다 밝으면 6–8이 5와 9 사이에 놓인다. graphic 8·차트 대비는 경고로만 보고 |
 
 빌더의 Proposed language는 결정 2·3·4·6을 반영한다: 매트릭스의 뉴트럴 hover·pressed·selected가 알파 채움이고, "List and menu selection" 줄이 뉴트럴 선택을 보여주며, 가이드는 마젠타, 필수 별표는 text-tertiary다.
 

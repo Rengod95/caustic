@@ -49,7 +49,8 @@
   "designAllow": {
     "$comment": "Owner-approved design exceptions to a CL rule (owner, 2026-10-25: follow the design and update or ignore the gate; never bend the design to the gate). rule -> component id -> reason. Hits stay visible as warnings.",
     "CL3": {
-      "resize-handle": "The 2px hover line appears from nothing (transparent -> accent solid). It is an affordance mark, not a fill changing emphasis."
+      "resize-handle": "The 2px hover line appears from nothing (transparent -> accent solid). It is an affordance mark, not a fill changing emphasis.",
+      "position-size": "Hover and pressed take the opaque interaction fills over the tint field (owner 2026-10-26: no translucent backgrounds, the old wash becomes neutral-hover / neutral-pressed). Same steady emphasis, now opaque."
     }
   },
   "designOverContrast": {

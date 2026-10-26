@@ -150,6 +150,11 @@
   --color-focus-ring: var(--cs-color-focus-ring);
   --color-focus-offset: var(--cs-color-focus-offset);
   --color-selection-edge: var(--cs-color-selection-edge);
+  --color-selection-fill: var(--cs-color-selection-fill);
+  --color-selection-fill-hover: var(--cs-color-selection-fill-hover);
+  --color-selection-on: var(--cs-color-selection-on);
+  --color-selection-on-secondary: var(--cs-color-selection-on-secondary);
+  --color-selection-on-tertiary: var(--cs-color-selection-on-tertiary);
   --color-disabled-fill: var(--cs-color-disabled-fill);
   --color-disabled-text: var(--cs-color-disabled-text);
   --color-disabled-border: var(--cs-color-disabled-border);
@@ -604,16 +609,55 @@
 @utility glass-thin { --cs-material: var(--cs-color-material-thin); }
 @utility glass-thick { --cs-material: var(--cs-color-material-thick); }
 @utility glass-shadow-* { --cs-shadow: --value(--shadow-*); }
-/* A neutral interaction fill laid over an opaque surface (a selected card, a pressed surface chip): the alpha fill
-   paints on top of the surface colour instead of replacing it, so the surface stays opaque. */
-@utility wash-* { background-image: linear-gradient(--value(--color-*), --value(--color-*)); }
+/* The rim is the host's own outer 1.5px (inset 0, same radius and corner shape), so it stays concentric with the fill. */
 @utility agent-rim {
   position: relative;
-  &::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  &::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
     background: var(--cs-spectrum-conic);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
     mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
     animation: cs-spin var(--cs-duration-agent) linear infinite; }
+}
+/* A selected item (owner 2026-10-26, proposal B): the ink fill with paper text, no edge. Descendants invert with it:
+   text roles, the accent pair (a check box or tick inside reads paper on ink) and the control border are re-pointed,
+   in both the --cs-color-* and the Tailwind --color-* names. */
+@utility selected {
+  background-color: var(--cs-color-selection-fill); background-image: none; color: var(--cs-color-selection-on);
+  --cs-focus-offset: var(--cs-color-selection-fill);
+  --cs-color-text-primary: var(--cs-color-selection-on);
+  --color-text-primary: var(--cs-color-selection-on);
+  --cs-color-text-secondary: var(--cs-color-selection-on-secondary);
+  --color-text-secondary: var(--cs-color-selection-on-secondary);
+  --cs-color-text-tertiary: var(--cs-color-selection-on-tertiary);
+  --color-text-tertiary: var(--cs-color-selection-on-tertiary);
+  /* controls inside (checks, ticks, boxes) read the Tailwind twins; the raw --cs-color-* stay, so a swatch that shows a
+     token's colour as content keeps the real colour */
+  --color-accent-text: var(--cs-color-selection-on);
+  --color-accent-solid: var(--cs-color-selection-on);
+  --color-accent-on: var(--cs-color-selection-fill);
+  --color-border-control: var(--cs-color-selection-on-secondary);
+  --color-surface-base: var(--cs-color-selection-fill);
+  /* fields and wells inside a selected item read the fills composited over the ink */
+  --cs-color-neutral-hover: var(--cs-color-neutral-hover--on-selection-fill);
+  --color-neutral-hover: var(--cs-color-neutral-hover--on-selection-fill);
+  --cs-color-fill-hover: var(--cs-color-neutral-hover--on-selection-fill);
+  --color-fill-hover: var(--cs-color-neutral-hover--on-selection-fill);
+  --cs-color-neutral-pressed: var(--cs-color-neutral-pressed--on-selection-fill);
+  --color-neutral-pressed: var(--cs-color-neutral-pressed--on-selection-fill);
+  --cs-color-fill-pressed: var(--cs-color-neutral-pressed--on-selection-fill);
+  --color-fill-pressed: var(--cs-color-neutral-pressed--on-selection-fill);
+  --cs-color-neutral-selected: var(--cs-color-neutral-selected--on-selection-fill);
+  --color-neutral-selected: var(--cs-color-neutral-selected--on-selection-fill);
+  --cs-color-fill-selected: var(--cs-color-neutral-selected--on-selection-fill);
+  --color-fill-selected: var(--cs-color-neutral-selected--on-selection-fill);
+  --cs-color-neutral-selected-hover: var(--cs-color-neutral-selected-hover--on-selection-fill);
+  --color-neutral-selected-hover: var(--cs-color-neutral-selected-hover--on-selection-fill);
+  --cs-color-neutral-track: var(--cs-color-neutral-track--on-selection-fill);
+  --color-neutral-track: var(--cs-color-neutral-track--on-selection-fill);
+  --cs-color-neutral-well: var(--cs-color-neutral-well--on-selection-fill);
+  --color-neutral-well: var(--cs-color-neutral-well--on-selection-fill);
+  --cs-color-bg-inset: var(--cs-color-bg-inset--on-selection-fill);
+  --color-bg-inset: var(--cs-color-bg-inset--on-selection-fill);
 }
 @utility agent-glow { box-shadow: 0 8px 30px -6px var(--cs-color-agent-glow); }
 @utility orb {
