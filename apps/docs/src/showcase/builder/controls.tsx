@@ -1,7 +1,8 @@
 import { TriangleAlert } from 'lucide-react';
 import { Checkbox, ContrastChip, NumberField, Slider } from '@caustic/react';
 import { contrast, gamutMap, hex, isInGamut, label, type LCH } from '../color.ts';
-import { report, surfaceFor, type Palette, type Theme } from '../palettes.ts';
+import type { Theme } from '../palettes.ts';
+import { SHIPPED } from '../shipped.ts';
 import { linkedDark, round, valueOf, type ColorDef, type ColorState } from './state.ts';
 
 const ok = (c: LCH) => `oklch(${c[0]} ${c[1]} ${c[2]})`;
@@ -48,24 +49,6 @@ export function LchEditor({ value, onChange, disabled = false, name }: { value: 
 
 export interface Check { label: string; ratio: number; need: number | null }
 
-/** Contrast pairs for one colour in one theme, with report()'s thresholds. */
-export function checksFor(key: ColorDef['key'], p: Palette, t: Theme): Check[] {
-  const roleName = { accent: 'Accent', success: 'Success', warning: 'Warning', danger: 'Danger', info: 'Info' } as const;
-  if (key in roleName) {
-    const n = roleName[key as keyof typeof roleName];
-    const short: Record<string, string> = { 'label on solid fill': 'label on fill', 'text on surface': 'text on surface', 'text on its soft badge': 'text on soft', 'solid vs surface (graphic)': 'fill vs surface' };
-    return report(p, t).filter(r => r.label.startsWith(`${n}:`)).map(r => {
-      const k = r.label.slice(n.length + 2);
-      return { label: short[k] ?? k, ratio: r.ratio, need: r.need };
-    });
-  }
-  const surface = surfaceFor(p, t);
-  const c = key === 'agent1' ? p.spectrum[0] : key === 'agent2' ? p.spectrum[1] : key === 'agent3' ? p.spectrum[2] : key === 'extra1' ? p.extras[0] : p.extras[1];
-  const ratio = contrast(c[t], surface);
-  // the agent gradient is a rim around labelled content; the extras draw chart lines and marks
-  return [{ label: 'vs surface', ratio, need: key.startsWith('extra') ? 3 : null }];
-}
-
 export function Checks({ checks }: { checks: Check[] }) {
   return (
     <div className="flex flex-wrap gap-1">
@@ -85,10 +68,11 @@ export function Swatch({ c, className = 'size-8' }: { c: LCH; className?: string
   return <span aria-hidden className={`${className} shrink-0 rounded-md shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]`} style={{ background: ok(gamutMap(c)) }} />;
 }
 
-const STEP_ROLE = ['tint', 'tint', 'soft', 'soft hover', 'pressed', 'border', 'border strong', 'graphic', 'solid', 'solid hover', 'text'];
+/** Slot name per step (tokens.mjs slotSteps); step 1 is the background end and has no slot. */
+const STEP_ROLE = Array.from({ length: 11 }, (_, i) => Object.entries(SHIPPED.slotSteps).find(([, n]) => n === i + 1)?.[0] ?? 'background end');
 
-/** The generated 1–11 ramp of the proposed language, step 9 (the pick) marked. */
-export function RampStrip({ ramp, name }: { ramp: LCH[]; name: string }) {
+/** The generated 1–11 ramp, step 9 (the pick) marked. */
+export function RampStrip({ ramp, name }: { ramp: readonly LCH[]; name: string }) {
   return (
     <div className="grid gap-0.5" aria-label={`${name} ramp 1–11`} role="group">
       <div className="grid grid-cols-11 overflow-hidden rounded-sm shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]">
@@ -106,10 +90,10 @@ export function RampStrip({ ramp, name }: { ramp: LCH[]; name: string }) {
 }
 
 /** One editable colour for the active theme. */
-export function ColorControl({ def, state, theme, palette, onChange, ramp, rampChecks }: {
-  def: ColorDef; state: ColorState; theme: Theme; palette: Palette; onChange: (next: ColorState) => void;
-  /** Proposed language: the generated ramp for this theme, and its slot checks (replace the current checks). */
-  ramp?: LCH[]; rampChecks?: Check[];
+export function ColorControl({ def, state, theme, onChange, ramp, checks }: {
+  def: ColorDef; state: ColorState; theme: Theme; onChange: (next: ColorState) => void;
+  /** The generated ramp for this theme, and the contrast of the slots it feeds. */
+  ramp: readonly LCH[]; checks: Check[];
 }) {
   const value = valueOf(state, theme);
   const linkedHere = theme === 'dark' && state.link;
@@ -132,9 +116,9 @@ export function ColorControl({ def, state, theme, palette, onChange, ramp, rampC
         </p>
       )}
       <LchEditor name={`${def.name} ${theme}`} value={value} disabled={linkedHere} onChange={v => onChange({ ...state, [theme]: v })} />
-      {ramp && <RampStrip ramp={ramp} name={`${def.name} ${theme}`} />}
+      <RampStrip ramp={ramp} name={`${def.name} ${theme}`} />
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <Checks checks={rampChecks ?? checksFor(def.key, palette, theme)} />
+        <Checks checks={checks} />
         <label className="flex items-center gap-1.5 text-footnote text-text-secondary">
           <Checkbox
             aria-label={`${def.name}: dark follows light`} checked={state.link}

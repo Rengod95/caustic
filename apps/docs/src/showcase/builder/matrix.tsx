@@ -1,5 +1,6 @@
-// Emphasis × tone matrix of the proposed colour language, drawn straight from the --lang-* slot variables
-// (components do not have the new slots yet). Each recipe below is the table in PROPOSAL-color-language.md.
+// Emphasis × tone matrix of the colour language, drawn from the --lang-* ramp copies the builder writes next to the
+// --cs-color-{tone}-{slot} tokens (same values); neutral interaction, selection and disabled read the shipped tokens.
+// Each recipe below is the table in PROPOSAL-color-language.md.
 import type { CSSProperties } from 'react';
 import { Check } from 'lucide-react';
 import type { Theme } from '../palettes.ts';
@@ -37,15 +38,14 @@ export const RECIPES: Record<Emphasis, { note: string; rest: Look; hover: Look; 
 
 const v = (k: LangTone, n: number | 'on') => `var(--lang-${k}-${n})`;
 
-function styleFor(k: LangTone, e: Emphasis, s: State, theme: Theme): CSSProperties {
+function styleFor(k: LangTone, e: Emphasis, s: State): CSSProperties {
   if (s === 'disabled') {
-    // disabled is a colour, not opacity: neutral fill and neutral step 6 text, the tone drops out
-    const fill = theme === 'light' ? 3 : 4;
+    // disabled is a colour, not opacity: disabled-fill / -text / -border (neutral 3/4, 6, 4/5), the tone drops out
     const filled = e === 'solid' || e === 'soft' || e === 'subtle';
     return {
-      background: filled ? v('neutral', fill) : 'transparent',
-      color: v('neutral', 6),
-      boxShadow: e === 'outline' || e === 'subtle' ? `inset 0 0 0 1px ${v('neutral', theme === 'light' ? 4 : 5)}` : undefined,
+      background: filled ? 'var(--cs-color-disabled-fill)' : 'transparent',
+      color: 'var(--cs-color-disabled-text)',
+      boxShadow: e === 'outline' || e === 'subtle' ? 'inset 0 0 0 1px var(--cs-color-disabled-border)' : undefined,
     };
   }
   const look = RECIPES[e][s === 'focus' ? 'rest' : s];
@@ -61,18 +61,18 @@ function styleFor(k: LangTone, e: Emphasis, s: State, theme: Theme): CSSProperti
   return { background, color: v(k, look.fg), boxShadow: shadows.length ? shadows.join(', ') : undefined };
 }
 
-/** Decision 2 (2026-10-25): neutral hover, pressed and selected are the alpha fills, not ramp steps. */
+/** Decision 2 (2026-10-25): neutral hover, pressed and selected are the alpha slots, not ramp steps. */
 const NEUTRAL_FILL: Partial<Record<State, string>> = {
-  hover: 'var(--cs-color-fill-hover)', pressed: 'var(--cs-color-fill-pressed)', selected: 'var(--cs-color-fill-selected)',
+  hover: 'var(--cs-color-neutral-hover)', pressed: 'var(--cs-color-neutral-pressed)', selected: 'var(--cs-color-neutral-selected)',
 };
 
 const NAME: Record<LangTone, string> = { accent: 'Accent', neutral: 'Neutral', success: 'Success', warning: 'Warning', danger: 'Danger', info: 'Info', agent: 'Agent' };
 
-function Cell({ k, e, s, theme }: { k: LangTone; e: Emphasis; s: State; theme: Theme }) {
+function Cell({ k, e, s }: { k: LangTone; e: Emphasis; s: State }) {
   return (
     <span
       className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md px-2.5 font-ui text-ui-sm"
-      style={styleFor(k, e, s, theme)}
+      style={styleFor(k, e, s)}
       aria-label={`${NAME[k]} ${e} ${s}`}
     >
       {s === 'selected' && <Check aria-hidden className="size-icon-sm" />}
@@ -115,7 +115,7 @@ export function EmphasisMatrix({ theme }: { theme: Theme }) {
                 {LANG_TONES.map(k => (
                   <tr key={k}>
                     <th scope="row" className="pr-2 text-left text-ui-sm font-normal text-text-secondary">{NAME[k]}</th>
-                    {STATES.map(s => <td key={s}><Cell k={k} e={e} s={s} theme={theme} /></td>)}
+                    {STATES.map(s => <td key={s}><Cell k={k} e={e} s={s} /></td>)}
                   </tr>
                 ))}
               </tbody>
@@ -133,30 +133,30 @@ export function EmphasisMatrix({ theme }: { theme: Theme }) {
   );
 }
 
-/** Decision 3 (2026-10-25): list and menu selection is neutral: fill-selected, a check mark and a neutral edge 7. */
+/** Decision 3 (2026-10-25): list and menu selection is neutral: neutral-selected, a check mark and selection-edge (neutral 7). */
 function ListSelection() {
   const rows: { name: string; state: 'rest' | 'hover' | 'selected' | 'selected-hover' }[] = [
     { name: 'Frame / Header', state: 'rest' }, { name: 'Frame / Hero', state: 'hover' },
     { name: 'Button / Primary', state: 'selected' }, { name: 'Button / Ghost', state: 'selected-hover' },
   ];
   const bgOf = (st: string) => {
-    if (st === 'hover') return 'var(--cs-color-fill-hover)';
-    if (st === 'selected') return 'var(--cs-color-fill-selected)';
-    if (st === 'selected-hover') return 'linear-gradient(var(--cs-color-fill-hover), var(--cs-color-fill-hover)), var(--cs-color-fill-selected)';
+    if (st === 'hover') return 'var(--cs-color-neutral-hover)';
+    if (st === 'selected') return 'var(--cs-color-neutral-selected)';
+    if (st === 'selected-hover') return 'var(--cs-color-neutral-selected-hover)';
     return 'transparent';
   };
   return (
     <div className="grid gap-1.5">
       <div className="flex flex-wrap items-baseline gap-x-3">
         <span className="font-ui text-ui-strong text-text-primary">List and menu selection</span>
-        <span className="font-mono text-mono-sm text-text-tertiary">fill-selected · mark · edge neutral 7 · selected + hover adds fill-hover</span>
+        <span className="font-mono text-mono-sm text-text-tertiary">neutral-selected · mark · selection-edge · selected + hover is neutral-selected-hover</span>
       </div>
       <div className="grid max-w-[24rem] gap-0.5 rounded-lg bg-surface-raised p-1 shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]">
         {rows.map(r => {
           const sel = r.state.startsWith('selected');
           return (
             <span key={r.name} className="flex h-7 items-center gap-2 rounded-md px-2 font-ui text-ui-sm text-text-primary"
-              style={{ background: bgOf(r.state), boxShadow: sel ? `inset 0 0 0 1px ${v('neutral', 7)}` : undefined }}>
+              style={{ background: bgOf(r.state), boxShadow: sel ? 'inset 0 0 0 1px var(--cs-color-selection-edge)' : undefined }}>
               <span className="grid size-icon-sm place-items-center">{sel && <Check aria-hidden className="size-icon-sm" />}</span>
               {r.name}
               <span className="ml-auto font-mono text-mono-micro text-text-tertiary">{r.state}</span>

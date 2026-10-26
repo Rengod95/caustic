@@ -18,14 +18,14 @@ const BASELINE_KEYS = Object.keys(paletteVars(palettes[1]!, 'light'));
 const peakChroma = (p: Palette) => Math.max(...[p.accent, p.success, p.warning, p.danger, p.info].map(s => s.light[1]));
 
 function PalettePoster({ id, name }: { id: string; name: string }) {
-  const INK = 'var(--cs-color-accent-solid)', X1 = 'var(--sc-extra-1, var(--cs-color-chart-2))';
+  const INK = 'var(--cs-color-accent-solid)', X1 = 'var(--cs-color-chart-5)';
   const W = 'var(--cs-color-warning-solid)', S = 'var(--cs-color-success-solid)', D = 'var(--cs-color-danger-solid)', I = 'var(--cs-color-info-solid)';
   const bg = 'var(--cs-color-bg-canvas)', line = 'var(--cs-color-border-strong)';
-  const sp = ['var(--cs-spectrum-1)', 'var(--cs-spectrum-2)', 'var(--cs-spectrum-3)'];
+  const sp = ['var(--cs-color-agent-stop-1)', 'var(--cs-color-agent-stop-2)', 'var(--cs-color-agent-stop-3)'];
   const common = { viewBox: '0 0 720 150', preserveAspectRatio: 'xMidYMid meet', className: 'block h-[120px] w-full rounded-xl bg-bg-canvas min-[700px]:h-[150px]', role: 'img', 'aria-label': `${name}: palette in an illustration` } as const;
   if (id !== 'current') {
-    const X2 = 'var(--sc-extra-2, var(--cs-color-chart-3))';
-    const pads = [sp[0], 'var(--cs-color-fill-pressed)', W, 'var(--cs-color-fill-pressed)', sp[1], X1, 'var(--cs-color-fill-pressed)', sp[2], 'var(--cs-color-fill-pressed)', X2, S, 'var(--cs-color-fill-pressed)'];
+    const X2 = 'var(--cs-color-chart-6)';
+    const pads = [sp[0], 'var(--cs-color-neutral-pressed)', W, 'var(--cs-color-neutral-pressed)', sp[1], X1, 'var(--cs-color-neutral-pressed)', sp[2], 'var(--cs-color-neutral-pressed)', X2, S, 'var(--cs-color-neutral-pressed)'];
     return (
       <svg {...common}>
         {[0, 1, 2, 3].map(i => <g key={i}><circle cx={90 + i * 100} cy="75" r="36" fill="var(--cs-color-surface-base)" stroke={INK} strokeWidth="2" /><line x1={90 + i * 100} y1="75" x2={90 + i * 100 + 20 * Math.cos(i * 1.4 - 1)} y2={75 + 20 * Math.sin(i * 1.4 - 1)} stroke={INK} strokeWidth="4" strokeLinecap="round" /></g>)}
@@ -36,7 +36,7 @@ function PalettePoster({ id, name }: { id: string; name: string }) {
   }
   return (
     <svg {...common}>
-      <circle cx="140" cy="75" r="48" fill="var(--cs-spectrum-1)" /><circle cx="230" cy="75" r="48" fill="var(--cs-spectrum-2)" /><circle cx="320" cy="75" r="48" fill="var(--cs-spectrum-3)" />
+      <circle cx="140" cy="75" r="48" fill="var(--cs-color-agent-stop-1)" /><circle cx="230" cy="75" r="48" fill="var(--cs-color-agent-stop-2)" /><circle cx="320" cy="75" r="48" fill="var(--cs-color-agent-stop-3)" />
       <rect x="420" y="40" width="240" height="14" rx="7" fill="var(--cs-color-accent-solid)" /><rect x="420" y="66" width="190" height="14" rx="7" fill={S} /><rect x="420" y="92" width="140" height="14" rx="7" fill={W} />
     </svg>
   );
@@ -109,7 +109,7 @@ function ContrastMatrix({ p, theme }: { p: Palette; theme: Theme }) {
                   const fillOnly = !x.pass && Boolean(x.note);
                   return (
                     <td key={r} className="px-2 py-1.5 text-right">
-                      <Ratio value={x.ratio} pass={x.pass || fillOnly} mark={fillOnly ? <span aria-label="fill plus ink" className="inline-block size-3.5 rounded-full bg-fill-pressed text-center font-ui text-[9px] leading-[14px] text-text-secondary">i</span> : undefined} />
+                      <Ratio value={x.ratio} pass={x.pass || fillOnly} mark={fillOnly ? <span aria-label="fill plus ink" className="inline-block size-3.5 rounded-full bg-neutral-pressed text-center font-ui text-[9px] leading-[14px] text-text-secondary">i</span> : undefined} />
                     </td>
                   );
                 })}
@@ -238,7 +238,7 @@ function Cell({ title, children, className = '' }: { title: string; children: Re
 function ChartDemo() {
   const cols = [[40, 28, 18, 10], [52, 30, 22, 12], [46, 36, 20, 16], [64, 34, 26, 14], [58, 42, 30, 20], [74, 40, 28, 22]];
   const fills = ['var(--cs-color-chart-1)', 'var(--cs-color-chart-2)', 'var(--cs-color-chart-3)', 'var(--cs-color-chart-4)'];
-  const X1 = 'var(--sc-extra-1, var(--cs-color-chart-2))', X2 = 'var(--sc-extra-2, var(--cs-color-chart-3))';
+  const X1 = 'var(--cs-color-chart-5)', X2 = 'var(--cs-color-chart-6)';
   const total = (c: number[]) => c.reduce((a, b) => a + b, 0);
   return (
     <div className="grid max-w-[36rem] grid-cols-[minmax(0,1fr)_96px] items-end gap-6">
@@ -333,7 +333,7 @@ function InComponents({ p }: { p: Palette }) {
           <div className="grid min-w-0 flex-1 gap-2"><Progress aria-label="Agent progress" tone="agent" value={72} /><div className="spectrum-line h-2 rounded-full" /></div>
         </div>
         <div className="flex flex-wrap gap-3">
-          {p.spectrum.map((s, i) => <span key={i} className="inline-flex items-center gap-1.5 text-footnote text-text-secondary"><i className="size-3 rounded-full" style={{ background: `var(--cs-spectrum-${i + 1})` }} />{s.name}</span>)}
+          {p.spectrum.map((s, i) => <span key={i} className="inline-flex items-center gap-1.5 text-footnote text-text-secondary"><i className="size-3 rounded-full" style={{ background: `var(--cs-color-agent-stop-${i + 1})` }} />{s.name}</span>)}
         </div>
       </Cell>
     </div>
@@ -430,7 +430,7 @@ export default function PalettesPage() {
         </p>
         <p className="m-0 max-w-[72ch] text-ui text-text-tertiary">
           Each block renders with its own palette scoped to a wrapper. The switcher above recolours this docs app and the
-          <a className="text-text-link" href="#/samples/editor"> sample pages</a> through semantic variables only. Contrast is computed in the page from the sRGB-mapped values. Colour direction, round 3.
+          <a className="text-accent-text" href="#/samples/editor"> sample pages</a> through semantic variables only. Contrast is computed in the page from the sRGB-mapped values. Colour direction, round 3.
         </p>
       </header>
 
@@ -474,7 +474,7 @@ export default function PalettesPage() {
         <h2 className="m-0 font-ui text-title-2 text-text-primary">Adopting one</h2>
         <p className="m-0 max-w-[72ch] text-ui text-text-secondary">
           Everything above is expressed as overrides of the semantic variables (<code className={mono}>--cs-color-accent-*</code>, <code className={mono}>--cs-color-success|warning|danger|info-*</code>,
-          <code className={mono}> --cs-color-chart-1..4</code>, <code className={mono}>--cs-spectrum-1..3</code>, and every neutral text, border, fill, surface and bg variable). In tokens this becomes two primitive ramps, <code className={mono}>--cs-neutral-light-1..11</code> and <code className={mono}>--cs-neutral-dark-1..11</code>, with the semantic layer reading a step from each.
+          <code className={mono}> --cs-color-chart-1..6</code>, <code className={mono}>--cs-color-agent-stop-1..3</code>, and every neutral text, border, fill, surface and bg variable). In tokens this becomes two primitive ramps, <code className={mono}>--cs-neutral-light-1..11</code> and <code className={mono}>--cs-neutral-dark-1..11</code>, with the semantic layer reading a step from each.
           The generator is <code className={mono}>apps/docs/src/showcase/palettes.ts</code>; the contrast maths lives in <code className={mono}>color.ts</code>.
         </p>
       </section>

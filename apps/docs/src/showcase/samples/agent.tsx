@@ -69,10 +69,10 @@ function PreviewArtboard() {
   return (
     <div className="relative h-42 overflow-hidden rounded-xl border border-border-subtle bg-bg-canvas">
       <div className="absolute inset-x-4 top-3 h-6 rounded-md bg-surface-base shadow-1" />
-      <div className="absolute left-4 top-[42px] h-2.5 w-28 rounded-full bg-fill-pressed" />
+      <div className="absolute left-4 top-[42px] h-2.5 w-28 rounded-full bg-neutral-track" />
       <div className="absolute left-4 top-[58px] h-[78px] w-[264px] rounded-lg bg-surface-base shadow-1">
-        <div className="absolute left-3 top-3 h-2 w-20 rounded-full bg-fill-pressed" />
-        <div className="absolute left-3 top-7 h-2 w-36 rounded-full bg-fill-pressed" />
+        <div className="absolute left-3 top-3 h-2 w-20 rounded-full bg-neutral-track" />
+        <div className="absolute left-3 top-7 h-2 w-36 rounded-full bg-neutral-track" />
         <div className="absolute inset-x-3 bottom-3 h-6 rounded-md bg-ink-solid" />
       </div>
       <AgentWorkArea radius={14} rect={{ left: 12, top: 54, width: 272, height: 86 }} />

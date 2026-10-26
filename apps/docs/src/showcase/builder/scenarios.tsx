@@ -312,7 +312,7 @@ export function LibrarySettings() {
             <EmptyState icon={<Blocks />} title="No webhooks yet" description="Send release events to CI or your chat." actions={<Button tone="secondary" size="sm">Add webhook</Button>} />
           </section>
         </div>
-        <section className="grid gap-3 rounded-lg p-4 shadow-[inset_0_0_0_1px_var(--cs-color-danger-soft)]">
+        <section className="grid gap-3 rounded-lg p-4 shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)]">
           <SectionHeader title={<span className="text-danger-text">Danger zone</span>} description="These actions cannot be undone." />
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="m-0 text-ui text-text-secondary">Unpublish every release of <b className="text-text-primary">@caustic/tokens</b>.</p>
@@ -352,8 +352,8 @@ const SERIES = [
   { name: 'Info', color: 'var(--cs-color-chart-2)', d: [8, 9, 12, 11, 14, 16, 15, 19] },
   { name: 'Success', color: 'var(--cs-color-chart-3)', d: [5, 7, 6, 9, 8, 12, 14, 13] },
   { name: 'Warning', color: 'var(--cs-color-chart-4)', d: [3, 4, 6, 5, 7, 6, 8, 10] },
-  { name: 'Extra 1', color: 'var(--sc-extra-1)', d: [10, 8, 9, 7, 9, 11, 10, 12] },
-  { name: 'Extra 2', color: 'var(--sc-extra-2)', d: [2, 3, 2, 4, 5, 4, 6, 7] },
+  { name: 'Extra 1', color: 'var(--cs-color-chart-5)', d: [10, 8, 9, 7, 9, 11, 10, 12] },
+  { name: 'Extra 2', color: 'var(--cs-color-chart-6)', d: [2, 3, 2, 4, 5, 4, 6, 7] },
 ];
 
 function LineChart() {
@@ -450,8 +450,9 @@ export function GateDashboard() {
 // ---------- 5. state matrix ----------
 
 const BTN_HOVER: Record<string, string> = {
-  ink: 'bg-ink-hover', accent: 'bg-accent-fill-hover', secondary: 'bg-control-raised-hover', ghost: 'bg-fill-pressed text-text-primary',
-  danger: 'bg-danger-solid text-danger-on', destructive: '', agent: '',
+  // the hover each tone has in button.variants.ts, drawn statically
+  ink: 'bg-ink-solid-hover', accent: 'bg-accent-solid-hover', secondary: 'bg-control-raised-hover', ghost: 'bg-neutral-hover text-text-primary',
+  danger: 'bg-danger-soft-hover', destructive: 'bg-danger-solid-hover', agent: '',
 };
 const STATES = ['Default', 'Hover', 'Focus', 'Disabled'] as const;
 

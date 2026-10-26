@@ -320,7 +320,7 @@ export default function Sample() {
             <section className={panel}>
               <SectionHeader title="Payment method" action={<Button tone="secondary" size="sm">Update</Button>} />
               <div className="flex items-center gap-3">
-                <span className="grid size-control-lg flex-none place-items-center rounded-lg bg-fill-pressed text-text-primary [&_svg]:size-icon-md">
+                <span className="grid size-control-lg flex-none place-items-center rounded-lg bg-neutral-well text-text-primary [&_svg]:size-icon-md">
                   <CreditCard />
                 </span>
                 <div className="min-w-0 flex-1">

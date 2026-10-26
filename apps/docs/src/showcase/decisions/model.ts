@@ -1,15 +1,15 @@
 // Lab: decisions for the colour language (PROPOSAL-color-language.md §8). Temporary; removed once the owner has decided.
-// Every option card renders the same scene under its own scoped variables, computed from the builder's saved colours
-// with the proposed language on, so the page follows whatever the owner tuned in #/lab/builder.
+// Every option card renders the same scene under its own scoped variables, computed from the builder's saved colours,
+// so the page follows whatever the owner tuned in #/lab/builder.
 import type { CSSProperties } from 'react';
 import { contrast, css, gamutMap, type LCH } from '../color.ts';
 import { neutralsFor, roleStepOf, scopeVars, type DarkRamp, type Palette, type Theme } from '../palettes.ts';
 import { GUIDE_MAGENTA, rampFor } from '../builder/language.ts';
 import { builderVars, load, toPalette, valueOf, type BuilderState } from '../builder/state.ts';
 
-/** The builder's saved state (read only) with the proposed language switched on. */
+/** The builder's saved state (read only). */
 export function decisionBase(): BuilderState {
-  return { ...load(), language: 'proposed' };
+  return load();
 }
 
 /** Scoped style for a wrapper: the builder's variables for one theme, plus option overrides, with the Tailwind twins restated. */
@@ -25,7 +25,7 @@ export function mergeInk(s: BuilderState, t: Theme): Record<string, string> {
   const v = builderVars(s, t);
   return {
     '--cs-color-ink-solid': v['--cs-color-accent-solid']!,
-    '--cs-color-ink-hover': v['--cs-color-accent-hover']!,
+    '--cs-color-ink-solid-hover': v['--cs-color-accent-solid-hover']!,
     '--cs-color-ink-on': v['--cs-color-accent-on']!,
     '--cs-color-ink-on-muted': `color-mix(in oklab, ${v['--cs-color-accent-on']!} 75%, transparent)`,
   };
@@ -42,7 +42,7 @@ export const OPAQUE_STEPS: Record<Theme, { hover: number; pressed: number; selec
 export function opaqueNeutral(t: Theme): Record<string, string> {
   const o = OPAQUE_STEPS[t];
   const n = (k: number) => `var(--cs-neutral-${t}-${k})`;
-  return { '--cs-color-fill-hover': n(o.hover), '--cs-color-fill-pressed': n(o.pressed), '--cs-color-fill-selected': n(o.selected) };
+  return { '--cs-color-neutral-hover': n(o.hover), '--cs-color-neutral-pressed': n(o.pressed), '--cs-color-neutral-selected': n(o.selected) };
 }
 
 /** Lightness of a neutral role and of a fixed step, for the "hover vs its background" readout. */

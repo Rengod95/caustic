@@ -1,23 +1,19 @@
 // Lab: palette builder. An internal tool for tuning Caustic's colour tokens live; it is not a product page and nothing here ships.
 import { useEffect, useMemo, useState } from 'react';
 import { Copy, FlaskConical, RotateCcw, Upload } from 'lucide-react';
-import { Alert, Badge, Button, Checkbox, NumberField, SegmentedControl, SegmentedControlItem, Textarea } from '@caustic/react';
+import { Alert, Badge, Button, Checkbox, SegmentedControl, SegmentedControlItem, Textarea } from '@caustic/react';
 import { useSettings } from '../../settings.tsx';
 import { label } from '../color.ts';
 import { usePalette } from '../palette-state.tsx';
 import { NEUTRAL_ROLES, neutralsFor, paletteVars, roleStepOf, type DarkRamp, type Theme } from '../palettes.ts';
-import { ColorControl, LchEditor, Swatch, type Check } from './controls.tsx';
-import { langChecks, rampFor } from './language.ts';
+import { ColorControl, LchEditor, Swatch } from './controls.tsx';
+import { rampChecks } from './language.ts';
 import { EmphasisMatrix } from './matrix.tsx';
 import { AgentSession, GateDashboard, LibrarySettings, PublishForm, Scenario, StateMatrix } from './scenarios.tsx';
 import {
-  BASE, builderVars, COLORS, derivedHover, exportCss, exportJson, initialState, load, parse, save, toPalette, valueOf, type BuilderState, type ColorKey,
+  builderRamps, builderVars, COLORS, derivedHover, exportCss, exportJson, initialState, langInput, load, parse, save, SOLID_OF, toPalette,
+  type BuilderState,
 } from './state.ts';
-
-/** Slot checks of the proposed language for the colours that map onto a tone. */
-const LANG_TONE: Partial<Record<ColorKey, 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'>> = {
-  accent: 'accent', success: 'success', warning: 'warning', danger: 'danger', info: 'info', agent1: 'agent',
-};
 
 const SECTIONS = [
   { id: 'lab-matrix', label: 'Matrix' },
@@ -93,7 +89,7 @@ function TokenInspector({ state, theme }: { state: BuilderState; theme: Theme })
     // read after the vars land (they are written on the next frame)
     const raf = requestAnimationFrame(() => requestAnimationFrame(() => {
       const cs = getComputedStyle(document.documentElement);
-      const names = Array.from(cs).filter(n => n.startsWith('--cs-color-') || n.startsWith('--cs-spectrum-') && !n.endsWith('conic') && !n.endsWith('linear') || n.startsWith('--sc-extra-')).sort();
+      const names = Array.from(cs).filter(n => n.startsWith('--cs-color-')).sort();
       setRows(names.map(name => ({ name, value: cs.getPropertyValue(name).trim() })));
     }));
     return () => cancelAnimationFrame(raf);
@@ -101,7 +97,7 @@ function TokenInspector({ state, theme }: { state: BuilderState; theme: Theme })
   const ours = rows.filter(r => driven.has(r.name)).length;
   return (
     <div className="grid gap-2">
-      <p className="m-0 text-ui-sm text-text-secondary">{rows.length} colour variables on this page · {ours} written by the builder · the rest are shipped values it does not touch (materials, media scrims, syntax).</p>
+      <p className="m-0 text-ui-sm text-text-secondary">{rows.length} colour variables on this page · {ours} written by the builder · the rest are references (old alias names, focus-offset, required-mark, syntax-comment) that read a written variable.</p>
       <div className="grid gap-x-6 min-[900px]:grid-cols-2 min-[1300px]:grid-cols-3">
         {rows.map(r => (
           <div key={r.name} className="flex min-w-0 items-center gap-2 border-b border-border-subtle py-1">
@@ -121,7 +117,8 @@ export default function BuilderPage() {
   const [io, setIo] = useState<{ mode: 'none' | 'import' | 'copied'; text: string; error?: string }>({ mode: 'none', text: '' });
   useEffect(() => save(state), [state]);
   useApplyVars(state, theme);
-  const palette = useMemo(() => toPalette(state), [state]);
+  const ramps = useMemo(() => builderRamps(state), [state]);
+  const neutral = useMemo(() => langInput(state).neutral, [state]);
 
   const copy = async (text: string, what: string) => {
     try { await navigator.clipboard.writeText(text); setIo({ mode: 'copied', text: `${what} copied to the clipboard.` }); }
@@ -131,8 +128,6 @@ export default function BuilderPage() {
 
   return (
     <div className="min-w-0 font-ui text-text-primary" data-lab="builder">
-      {/* decision 6 (2026-10-25): the required mark is neutral; previewed here until field.tsx moves */}
-      {state.language === 'proposed' && <style>{'[data-lab="builder"] [data-slot="field-required-mark"]{color:var(--cs-color-text-tertiary)}'}</style>}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border-default bg-bg-inset px-4 py-2.5 min-[900px]:px-5">
         <Badge tone="solid" shape="square" icon={<FlaskConical />}>Lab</Badge>
         <p className="m-0 min-w-0 flex-1 text-ui-sm text-text-secondary">
@@ -147,15 +142,11 @@ export default function BuilderPage() {
           <SegmentedControlItem value="light">Light</SegmentedControlItem>
           <SegmentedControlItem value="dark">Dark</SegmentedControlItem>
         </SegmentedControl>
-        <SegmentedControl size="xs" aria-label="Colour language" value={state.language} onValueChange={v => setState(s => ({ ...s, language: v as BuilderState['language'] }))}>
-          <SegmentedControlItem value="current">Current</SegmentedControlItem>
-          <SegmentedControlItem value="proposed">Proposed language</SegmentedControlItem>
-        </SegmentedControl>
         <nav aria-label="Scenarios" className="flex flex-wrap gap-0.5 max-[1535px]:hidden">
-          {SECTIONS.map(s => <a key={s.id} href={`#/lab/builder`} onClick={e => { e.preventDefault(); document.getElementById(s.id)?.scrollIntoView({ block: 'start' }); }} className="rounded-sm px-2 py-1 text-ui-sm text-text-secondary outline-none hover:bg-fill-hover hover:text-text-primary focus-visible:shadow-focus">{s.label}</a>)}
+          {SECTIONS.map(s => <a key={s.id} href={`#/lab/builder`} onClick={e => { e.preventDefault(); document.getElementById(s.id)?.scrollIntoView({ block: 'start' }); }} className="rounded-sm px-2 py-1 text-ui-sm text-text-secondary outline-none hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus">{s.label}</a>)}
         </nav>
         <span className="flex-1" />
-        <Button tone="ghost" size="xs" iconStart={<RotateCcw />} onClick={() => { setState(initialState()); setIo({ mode: 'none', text: '' }); }}>Reset to Deep Black</Button>
+        <Button tone="ghost" size="xs" iconStart={<RotateCcw />} onClick={() => { setState(initialState()); setIo({ mode: 'none', text: '' }); }}>Reset to shipped</Button>
         <Button tone="secondary" size="xs" iconStart={<Copy />} onClick={() => void copy(exportJson(state), 'JSON')}>Copy JSON</Button>
         <Button tone="secondary" size="xs" iconStart={<Copy />} onClick={() => void copy(exportCss(state), 'CSS variables (light and dark)')}>Copy CSS vars</Button>
         <Button tone="secondary" size="xs" iconStart={<Upload />} onClick={() => setIo({ mode: 'import', text: '' })}>Import JSON</Button>
@@ -187,18 +178,16 @@ export default function BuilderPage() {
             Editing <b className="text-text-primary">{theme}</b>. Switch the theme above to edit the other mode; each colour keeps separate light and dark values.
           </div>
           <NeutralRamps theme={theme} state={state} onDarkRamp={v => setState(s => ({ ...s, darkRamp: v }))} />
-          {(['Accent', 'Status', 'Agent gradient', 'Extra chart / illustration'] as const).map(g => (
+          {(['Accent', 'Status', 'Agent gradient', 'Extra chart / illustration', 'Canvas'] as const).map(g => (
             <div key={g}>
               <h2 className="m-0 border-b border-border-subtle bg-bg-app px-3 py-1.5 text-caption uppercase text-text-tertiary">{g}</h2>
               {COLORS.filter(c => c.group === g).map(def => (
                 <div key={def.key}>
                   <ColorControl
-                    def={def} state={state.colors[def.key]} theme={theme} palette={palette}
+                    def={def} state={state.colors[def.key]} theme={theme}
                     onChange={next => setState(s => ({ ...s, colors: { ...s.colors, [def.key]: next } }))}
-                    {...(state.language === 'proposed' ? {
-                      ramp: rampFor(valueOf(state.colors[def.key], theme), palette, theme),
-                      ...(LANG_TONE[def.key] ? { rampChecks: langChecks(palette, theme, LANG_TONE[def.key]!).map((c): Check => ({ label: c.label, ratio: c.ratio, need: c.need })) } : {}),
-                    } : {})}
+                    ramp={ramps[SOLID_OF[def.key]]![theme].steps}
+                    checks={rampChecks(ramps, neutral, theme, SOLID_OF[def.key])}
                   />
                   {def.key === 'accent' && (
                     <div className="grid gap-2 border-b border-border-subtle px-3 pb-3">
@@ -218,21 +207,11 @@ export default function BuilderPage() {
               ))}
             </div>
           ))}
-          <h2 className="m-0 border-b border-border-subtle bg-bg-app px-3 py-1.5 text-caption uppercase text-text-tertiary">Diff tints ({theme})</h2>
-          <div className="grid grid-cols-2 gap-2 px-3 py-3">
-            <NumberField aria-label={`Added line alpha ${theme}`} label="+" value={state.diffAlpha.add[theme]} step={0.01} min={0} max={1} onValueChange={n => setState(s => ({ ...s, diffAlpha: { ...s.diffAlpha, add: { ...s.diffAlpha.add, [theme]: n } } }))} />
-            <NumberField aria-label={`Removed line alpha ${theme}`} label="−" value={state.diffAlpha.remove[theme]} step={0.01} min={0} max={1} onValueChange={n => setState(s => ({ ...s, diffAlpha: { ...s.diffAlpha, remove: { ...s.diffAlpha.remove, [theme]: n } } }))} />
-            <p className="col-span-2 m-0 text-footnote text-text-tertiary">
-              Alpha of success and danger over the surface on added and removed code lines.{state.language === 'proposed' && ' Not used by the proposed language: diff lines read the opaque step 3 of success and danger.'}
-            </p>
-          </div>
         </aside>
 
         <main className="grid min-w-0 content-start gap-8 bg-bg-app px-4 py-5 min-[900px]:px-6">
-          <Scenario id="lab-matrix" title="Emphasis × tone matrix (proposal)" note="Every tone in every emphasis and state, drawn from the generated ramps. Components below read the same slots through the shipped semantic variables (solid 9, soft 3, text 11, accent border 7).">
-            {state.language === 'proposed'
-              ? <EmphasisMatrix theme={theme} />
-              : <p className="m-0 text-ui-sm text-text-secondary">Switch the toolbar to <b className="text-text-primary">Proposed language</b> to generate the 1–11 ramps and draw the matrix. The current derivation has no ramps: soft is an alpha tint of the solid.</p>}
+          <Scenario id="lab-matrix" title="Emphasis × tone matrix" note="Every tone in every emphasis and state, drawn from the generated ramps. Components below read the same steps through the slot tokens (--cs-color-{tone}-tint … -text, -on).">
+            <EmphasisMatrix theme={theme} />
           </Scenario>
           <Scenario id="lab-form" title="Complex form · publish a token release" note="Inputs, combobox, date range, number and slider fields, checkbox tree, radios, segmented, toggle group, switches, required, read-only, disabled and errors.">
             <PublishForm />

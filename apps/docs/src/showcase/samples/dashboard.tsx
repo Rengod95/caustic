@@ -276,7 +276,7 @@ function RegionDonut() {
         {regions.map((g, i) => (
           <li
             key={g.name} onPointerEnter={() => setHot(i)} onPointerLeave={() => setHot(null)}
-            className="flex items-center gap-2 rounded-md px-2 py-1.5 text-ui-sm hover:bg-fill-hover"
+            className="flex items-center gap-2 rounded-md px-2 py-1.5 text-ui-sm hover:bg-neutral-hover"
           >
             <span aria-hidden className="size-2.5 flex-none rounded-xs" style={{ background: REGION_COLOR[i] }} />
             <span className="flex-1 text-text-secondary">{g.name}</span>
@@ -336,7 +336,7 @@ export default function Dashboard() {
       case 'name':
         return (
           <div className="flex items-center gap-2.5">
-            <span aria-hidden className="grid size-7 flex-none place-items-center rounded-md bg-fill-pressed font-ui text-ui-sm font-semibold text-text-secondary">{initials(a.name)}</span>
+            <span aria-hidden className="grid size-7 flex-none place-items-center rounded-md bg-neutral-track font-ui text-ui-sm font-semibold text-text-secondary">{initials(a.name)}</span>
             <div className="min-w-0">
               <b className="block truncate font-medium">{a.name}</b>
               <span className="block truncate text-ui-sm font-normal text-text-tertiary">{a.domain}</span>

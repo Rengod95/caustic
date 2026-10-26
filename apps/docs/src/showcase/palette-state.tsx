@@ -81,7 +81,7 @@ export function ShowcaseBar() {
               onClick={() => setPalette(p.id)}
               className={[
                 'inline-flex h-7 shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 font-ui text-ui-sm outline-none focus-visible:shadow-focus',
-                on ? 'border-text-primary bg-text-primary text-text-inverse' : 'border-border-strong bg-surface-base text-text-secondary hover:bg-fill-hover',
+                on ? 'border-text-primary bg-text-primary text-text-inverse' : 'border-border-strong bg-surface-base text-text-secondary hover:bg-neutral-hover',
               ].join(' ')}
             >
               <span aria-hidden className="flex">

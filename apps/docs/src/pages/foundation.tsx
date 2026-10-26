@@ -57,7 +57,6 @@ function ColorPage() {
       <Section title="Usage">
         <Bullets items={[
           <>Components read semantic tokens (<Mono>bg-surface-base</Mono>), never ramp steps.</>,
-          <>The accent hue is one custom property on the root: <Mono>--cs-accent-hue</Mono>. Setting it on a descendant does not reach the semantic tokens.</>,
           'Mint, Amber, Coral and Iris mean status. Do not use them as decoration.',
         ]} />
       </Section>
@@ -161,7 +160,7 @@ function ContrastPage() {
 
 // ───────────────────────── Typography
 
-const samples = { ui: 'Design with the agent beside you', voice: 'I tried a calmer layout first, then tightened the spacing.', mono: '--cs-accent-hue: 205;' } as const;
+const samples = { ui: 'Design with the agent beside you', voice: 'I tried a calmer layout first, then tightened the spacing.', mono: '--cs-color-accent-solid' } as const;
 
 function TypographyPage() {
   return (

@@ -1,4 +1,5 @@
 import { contrast, css, ensure, gamutMap, label, over, contrastLin, linRgb, type LCH } from './color.ts';
+import { cssVar, parseSpec, REFS, resolveSpec, SHIPPED, type RampSet } from './shipped.ts';
 
 export type Theme = 'light' | 'dark';
 export type Swatch = { name: string; light: LCH; dark: LCH };
@@ -27,7 +28,7 @@ const s = (name: string, light: LCH, dark: LCH = light): Swatch => ({ name, ligh
 /** Neutral chroma ceiling: a neutral may carry at most one drop of hue. */
 export const NEUTRAL_MAX_C = 0.004;
 
-const ramp = (ls: number[], c = 0, h = 0): Ramp => ls.map(l => [l, c, h] as LCH) as unknown as Ramp;
+const ramp = (ls: readonly number[], c = 0, h = 0): Ramp => ls.map(l => [l, c, h] as LCH) as unknown as Ramp;
 const LIGHT_L = [0.995, 0.975, 0.93, 0.875, 0.79, 0.6, 0.55, 0.5, 0.44, 0.32, 0.15];
 const DARK_L = [0.105, 0.175, 0.23, 0.285, 0.4, 0.56, 0.62, 0.67, 0.72, 0.81, 0.965];
 
@@ -51,13 +52,14 @@ export const NEUTRAL_ROLES: { role: string; light: number; dark: number }[] = [
 
 /**
  * Deep Black's dark ramp. The owner kept the role links (canvas 1, app 2, surface 3, raised 4) and asked for steps 2–11
- * a little darker instead; 'more' is the default (owner, 2026-10-25), the other two stay for comparison in the lab.
+ * a little darker instead; 'more' is the shipped one (owner, 2026-10-25; read from tokens.mjs `neutral.dark`),
+ * the other two stay for comparison in the lab.
  */
-export const DARK_RAMPS = {
+export const DARK_RAMPS: Record<'subtle' | 'more' | 'previous', readonly number[]> = {
   subtle: [0.09, 0.145, 0.195, 0.245, 0.365, 0.545, 0.605, 0.655, 0.71, 0.8, 0.965],
-  more: [0.09, 0.135, 0.18, 0.225, 0.345, 0.535, 0.595, 0.645, 0.7, 0.795, 0.96],
+  more: SHIPPED.neutral.dark,
   previous: [0.09, 0.16, 0.215, 0.27, 0.39, 0.56, 0.62, 0.67, 0.72, 0.81, 0.97],
-} as const;
+};
 export type DarkRamp = keyof typeof DARK_RAMPS;
 export const darkRamp = (k: DarkRamp): Ramp => ramp([...DARK_RAMPS[k]]);
 
@@ -92,7 +94,7 @@ export const palettes: Palette[] = [
   {
     id: 'deep', name: 'Signal Grey · Deep Black',
     concept: 'The original with denser ink: near-pure black accent and darker strong text, a slightly deeper dark canvas.',
-    neutralLight: ramp([0.995, 0.975, 0.93, 0.875, 0.79, 0.6, 0.55, 0.5, 0.44, 0.29, 0.12]),
+    neutralLight: ramp(SHIPPED.neutral.light),
     neutralDark: darkRamp('more'),
     accent: s('Deep Black', [0.11, 0, 0], [0.97, 0, 0]), ...SIGNAL_STATUS,
     spectrum: [s('Signal', [0.78, 0.09, 55], [0.74, 0.09, 55]), s('Panel', [0.78, 0.06, 235], [0.75, 0.06, 235]), s('Pad', [0.8, 0.08, 150], [0.76, 0.08, 150])],
@@ -210,21 +212,24 @@ function neutralVars(p: Palette, t: Theme, v: Record<string, string>) {
   v['--cs-color-text-tertiary'] = n('text tertiary');
   v['--cs-color-text-placeholder'] = n('text placeholder');
   const six = n('control off · border control · text disabled');
-  v['--cs-color-text-disabled'] = six;
+  v['--cs-color-disabled-text'] = six;
   v['--cs-color-border-control'] = six;
   v['--cs-color-control-off'] = six;
   v['--cs-color-text-inverse'] = t === 'light' ? at(1) : at(2);
   v['--cs-color-border-subtle'] = a(0.05);
   v['--cs-color-border-default'] = a(t === 'light' ? 0.08 : 0.07);
   v['--cs-color-border-strong'] = a(t === 'light' ? 0.13 : 0.12);
-  v['--cs-color-fill-hover'] = a(t === 'light' ? 0.045 : 0.05);
-  v['--cs-color-fill-pressed'] = a(t === 'light' ? 0.075 : 0.08);
-  v['--cs-color-fill-selected'] = a(t === 'light' ? 0.11 : 0.12);
+  v['--cs-color-neutral-hover'] = a(t === 'light' ? 0.045 : 0.05);
+  v['--cs-color-neutral-pressed'] = a(t === 'light' ? 0.075 : 0.08);
+  v['--cs-color-neutral-selected'] = a(t === 'light' ? 0.11 : 0.12);
+  v['--cs-color-neutral-selected-hover'] = a(t === 'light' ? 0.145 : 0.16);
+  v['--cs-color-neutral-track'] = a(t === 'light' ? 0.075 : 0.08);
+  v['--cs-color-neutral-well'] = a(t === 'light' ? 0.035 : 0.04);
   v['--cs-color-control-thumb'] = css(paper);
   v['--cs-color-control-raised-hover'] = t === 'light' ? at(2) : at(5);
   v['--cs-color-control-edge'] = a(t === 'light' ? 0.07 : 0.06);
   v['--cs-color-ink-solid'] = n('ink button');
-  v['--cs-color-ink-hover'] = t === 'light' ? at(10) : at(6);
+  v['--cs-color-ink-solid-hover'] = t === 'light' ? at(10) : at(6);
   v['--cs-color-ink-on'] = css(paper);
   v['--cs-color-ink-on-muted'] = css(paper, 0.75);
   v['--cs-color-canvas-dot'] = a(t === 'light' ? 0.13 : 0.08);
@@ -235,6 +240,16 @@ function neutralVars(p: Palette, t: Theme, v: Record<string, string>) {
   v['--cs-color-canvas-artboard'] = css(paper);
   v['--cs-color-identity-slate'] = t === 'light' ? at(9) : at(6);
   v['--cs-color-identity-on'] = css(paper);
+  // Every other neutral token (the neutral tone slots tint … text and on, disabled-*, selection-edge …) reads the
+  // palette's own neutral ramps with the shipped step mapping (tokens.mjs `themes`).
+  const lr = neutralsFor(p, 'light'), dr = neutralsFor(p, 'dark');
+  const set: RampSet = { neutral: { light: { steps: lr, on: bestOn(lr[8], p) }, dark: { steps: dr, on: bestOn(dr[8], p) } } };
+  for (const [name, spec] of Object.entries(SHIPPED.themes[t])) {
+    const key = cssVar(name), ramp = parseSpec(spec).ramp;
+    if (key in v || !(ramp === 'neutral' || ramp === 'neutral-light' || ramp === 'neutral-dark')) continue;
+    const r = resolveSpec(spec, t, set)!;
+    v[key] = css(r.c, r.alpha < 1 ? r.alpha : undefined);
+  }
 }
 
 /** CSS variable overrides: semantic tokens only, so ramp renames underneath cannot break them. */
@@ -245,17 +260,15 @@ export function paletteVars(p: Palette, t: Theme): Record<string, string> {
   neutralVars(p, t, v);
   const A = r.role.accent;
   const a = (c: LCH, al: number) => css(c, al);
+  // Shipped names only: the old names (accent-fill, accent-hover, text-link, fill-*, diff-add …) are aliases that read these.
   v['--cs-color-accent-solid'] = css(A.solid);
-  v['--cs-color-accent-hover'] = css(A.hover);
+  v['--cs-color-accent-solid-hover'] = css(A.hover);
   v['--cs-color-accent-on'] = css(A.on);
   v['--cs-color-accent-text'] = css(A.text);
-  v['--cs-color-text-link'] = css(A.text);
   v['--cs-color-accent-soft'] = a(A.solid, A.softAlpha);
   v['--cs-color-accent-tint'] = a(A.solid, 0.09);
-  v['--cs-color-accent-border'] = a(A.solid, 0.5);
-  v['--cs-color-accent-glow'] = a(A.solid, 0.3);
-  v['--cs-color-accent-fill'] = css(A.solid);
-  v['--cs-color-accent-fill-hover'] = css(A.hover);
+  // the old alpha accent border is the border-strong slot now (border is the uniform step-6 slot)
+  v['--cs-color-accent-border-strong'] = a(A.solid, 0.5);
   v['--cs-color-focus-ring'] = css(contrast(A.solid, r.surface) >= 3 ? A.solid : A.text);
   v['--cs-color-canvas-selection'] = css(A.solid);
   v['--cs-color-canvas-selection-on'] = css(A.on);
@@ -268,8 +281,10 @@ export function paletteVars(p: Palette, t: Theme): Record<string, string> {
     v[`--cs-color-${k}-text`] = css(x.text);
     v[`--cs-color-${k}-soft`] = a(x.solid, x.softAlpha);
   }
-  v['--cs-color-diff-add'] = a(r.role.success.solid, t === 'light' ? 0.22 : 0.2);
-  v['--cs-color-diff-remove'] = a(r.role.danger.solid, t === 'light' ? 0.18 : 0.2);
+  v['--cs-color-diff-add-bg'] = a(r.role.success.solid, t === 'light' ? 0.22 : 0.2);
+  v['--cs-color-diff-remove-bg'] = a(r.role.danger.solid, t === 'light' ? 0.18 : 0.2);
+  v['--cs-color-diff-add-text'] = css(r.role.success.text);
+  v['--cs-color-diff-remove-text'] = css(r.role.danger.text);
   v['--cs-color-canvas-guide'] = css(r.role.danger.solid);
   v['--cs-color-canvas-guide-on'] = css(r.role.danger.on);
   v['--cs-color-canvas-guide-user'] = css(r.role.info.solid);
@@ -277,16 +292,16 @@ export function paletteVars(p: Palette, t: Theme): Record<string, string> {
   v['--cs-color-chart-2'] = css(r.role.info.solid);
   v['--cs-color-chart-3'] = css(r.role.success.solid);
   v['--cs-color-chart-4'] = css(r.role.warning.solid);
+  v['--cs-color-chart-5'] = css(p.extras[0][t]);
+  v['--cs-color-chart-6'] = css(p.extras[1][t]);
   v['--cs-color-identity-coral'] = css(r.role.danger.text);
   v['--cs-color-identity-iris'] = css(r.role.info.text);
   v['--cs-color-identity-mint'] = css(r.role.success.text);
   v['--cs-color-identity-amber'] = css(r.role.warning.text);
   v['--cs-color-agent-glow'] = a(p.spectrum[0][t], 0.45);
-  v['--cs-spectrum-1'] = css(p.spectrum[0][t]);
-  v['--cs-spectrum-2'] = css(p.spectrum[1][t]);
-  v['--cs-spectrum-3'] = css(p.spectrum[2][t]);
-  v['--sc-extra-1'] = css(p.extras[0][t]);
-  v['--sc-extra-2'] = css(p.extras[1][t]);
+  v['--cs-color-agent-stop-1'] = css(p.spectrum[0][t]);
+  v['--cs-color-agent-stop-2'] = css(p.spectrum[1][t]);
+  v['--cs-color-agent-stop-3'] = css(p.spectrum[2][t]);
   return v;
 }
 
@@ -347,14 +362,21 @@ export function bestOn(c: LCH, p: Palette): LCH {
   return contrast(lr[10], c) >= contrast(lr[0], c) ? lr[10] : lr[0];
 }
 
-/** Tailwind utilities read `--color-*` twins resolved at :root, so a scoped wrapper must restate them (plus the derived focus/spectrum vars). */
+/**
+ * Variables that read other variables resolve where they are declared (:root), so a scoped wrapper must restate them:
+ * the `--color-*` twins Tailwind utilities read, the "=" references (old alias names such as text-link and fill-hover,
+ * focus-offset, required-mark) unless the wrapper sets them itself, and the derived focus / spectrum / agent vars.
+ */
 export function scopeVars(vars: Record<string, string>): Record<string, string> {
   const out: Record<string, string> = { ...vars };
-  for (const [k, val] of Object.entries(vars)) if (k.startsWith('--cs-color-')) out[`--color-${k.slice('--cs-color-'.length)}`] = val;
-  out['--cs-spectrum-conic'] = 'conic-gradient(from var(--cs-spin, 0deg), var(--cs-spectrum-1), var(--cs-spectrum-2), var(--cs-spectrum-3), var(--cs-spectrum-1))';
-  out['--cs-spectrum-linear'] = 'linear-gradient(90deg, var(--cs-spectrum-1), var(--cs-spectrum-2), var(--cs-spectrum-3), var(--cs-spectrum-1))';
+  for (const [k, target] of Object.entries(REFS)) if (!(k in out)) out[k] = `var(${target})`;
+  for (const i of [1, 2, 3]) out[`--cs-spectrum-${i}`] ??= `var(--cs-color-agent-stop-${i})`;
+  for (const [k, val] of Object.entries(out)) if (k.startsWith('--cs-color-')) out[`--color-${k.slice('--cs-color-'.length)}`] = val;
+  const stop = (i: number) => `var(--cs-color-agent-stop-${i})`;
+  out['--cs-spectrum-conic'] = `conic-gradient(from var(--cs-spin, 0deg), ${stop(1)}, ${stop(2)}, ${stop(3)}, ${stop(1)})`;
+  out['--cs-spectrum-linear'] = `linear-gradient(90deg, ${stop(1)}, ${stop(2)}, ${stop(3)}, ${stop(1)})`;
   out['--cs-focus-field'] = 'inset 0 0 0 1.5px var(--cs-color-focus-ring)';
-  out['--cs-focus'] = '0 0 0 1px var(--cs-color-surface-base), 0 0 0 3px var(--cs-color-focus-ring)';
+  out['--cs-focus'] = '0 0 0 1px var(--cs-color-focus-offset), 0 0 0 3px var(--cs-color-focus-ring)';
   out['--cs-elevation-agent'] = '0 8px 30px -12px var(--cs-color-agent-glow)';
   out['--shadow-focus-field'] = 'var(--cs-focus-field)';
   out['--shadow-focus'] = 'var(--cs-focus)';

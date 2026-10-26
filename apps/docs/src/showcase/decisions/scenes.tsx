@@ -49,7 +49,7 @@ export function InkScene() {
 
 // ---------- Q2 ----------
 
-const ROWS = [['Rest', null], ['Hover', 'var(--cs-color-fill-hover)'], ['Pressed', 'var(--cs-color-fill-pressed)'], ['Selected', 'var(--cs-color-fill-selected)']] as const;
+const ROWS = [['Rest', null], ['Hover', 'var(--cs-color-neutral-hover)'], ['Pressed', 'var(--cs-color-neutral-pressed)'], ['Selected', 'var(--cs-color-neutral-selected)']] as const;
 
 function StateList() {
   return (
@@ -86,16 +86,16 @@ export function NeutralScene({ panels }: { panels: { cls: string; name: string; 
 export type SelMode = 'accent' | 'neutral';
 type RowState = 'rest' | 'hover' | 'selected' | 'selhover';
 
-const HOVER_OVER = 'linear-gradient(var(--cs-color-fill-hover), var(--cs-color-fill-hover))';
+const HOVER_OVER = 'linear-gradient(var(--cs-color-neutral-hover), var(--cs-color-neutral-hover))';
 
 function rowStyle(mode: SelMode, st: RowState): CSSProperties {
   if (st === 'rest') return {};
-  if (st === 'hover') return { background: 'var(--cs-color-fill-hover)' };
+  if (st === 'hover') return { background: 'var(--cs-color-neutral-hover)' };
   const base = mode === 'accent'
-    ? { bg: 'var(--lang-accent-5)', fg: 'var(--lang-accent-11)', edge: 'inset 0 0 0 1px var(--lang-accent-7)' }
-    : { bg: 'var(--cs-color-fill-selected)', fg: 'var(--cs-color-text-primary)', edge: undefined };
+    ? { bg: 'var(--lang-accent-5)', hoverBg: `${HOVER_OVER}, var(--lang-accent-5)`, fg: 'var(--lang-accent-11)', edge: 'inset 0 0 0 1px var(--lang-accent-7)' }
+    : { bg: 'var(--cs-color-neutral-selected)', hoverBg: 'var(--cs-color-neutral-selected-hover)', fg: 'var(--cs-color-text-primary)', edge: undefined };
   return {
-    background: st === 'selhover' ? `${HOVER_OVER}, ${base.bg}` : base.bg,
+    background: st === 'selhover' ? base.hoverBg : base.bg,
     color: base.fg,
     boxShadow: base.edge,
   };
@@ -188,7 +188,7 @@ export function DarkShellScene({ tags }: { tags: Record<string, string> }) {
       <aside className="grid content-start gap-0.5 p-1.5">
         <Tag>{tags.app}</Tag>
         {['Pages', 'Layers', 'Assets', 'Tokens'].map((n, i) => (
-          <span key={n} className={`rounded-md px-2 py-1 ${i === 1 ? 'bg-fill-selected text-text-primary' : 'text-text-secondary'}`}>{n}</span>
+          <span key={n} className={`rounded-md px-2 py-1 ${i === 1 ? 'bg-control-raised text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]' : 'text-text-secondary'}`}>{n}</span>
         ))}
       </aside>
       <main className="relative bg-bg-canvas" style={dots}>
@@ -200,7 +200,7 @@ export function DarkShellScene({ tags }: { tags: Record<string, string> }) {
         </div>
         <div className="absolute top-8 right-3 grid w-36 gap-0.5 rounded-lg border border-border-default bg-surface-raised p-1 shadow-3">
           <div className="flex justify-end"><Tag>{tags.raised}</Tag></div>
-          {['Rename', 'Duplicate', 'Delete'].map((n, i) => <span key={n} className={`rounded-md px-2 py-1 ${i === 0 ? 'bg-fill-hover' : ''} ${i === 2 ? 'text-danger-text' : ''}`}>{n}</span>)}
+          {['Rename', 'Duplicate', 'Delete'].map((n, i) => <span key={n} className={`rounded-md px-2 py-1 ${i === 0 ? 'bg-neutral-hover' : ''} ${i === 2 ? 'text-danger-text' : ''}`}>{n}</span>)}
         </div>
       </main>
       <aside className="grid content-start gap-2 border-l border-border-default bg-surface-base p-2">
