@@ -33,10 +33,20 @@ export const SOLID_OF: Record<ColorKey, string> = {
   agent1: 'agent-1', agent2: 'agent-2', agent3: 'agent-3', extra1: 'extra-1', extra2: 'extra-2', guide: 'canvas-guide',
 };
 
-export interface ColorState { light: LCH; dark: LCH; /** dark follows light with this lightness shift */ link: boolean; shift: number }
+/**
+ * How the two modes of one colour relate.
+ * - off: light and dark are edited separately.
+ * - same: one value in both modes (stored in light; editing either mode edits it).
+ * - light: dark is derived from light: L + shift, C × chroma, H + hue.
+ * - dark: light is derived from dark by the inverse: L − shift, C ÷ chroma, H − hue.
+ */
+export type LinkMode = 'off' | 'same' | 'light' | 'dark';
+export const LINK_MODES: LinkMode[] = ['off', 'same', 'light', 'dark'];
 
-/** Version of the saved state; saved state of another version is ignored once (it predates the shipped defaults). */
-export const STATE_VERSION = 2;
+export interface ColorState { light: LCH; dark: LCH; link: LinkMode; /** dark L − light L */ shift: number; /** dark C ÷ light C */ chroma: number; /** dark H − light H, degrees */ hue: number }
+
+/** Version of the saved state; v1 state is ignored once (it predates the shipped defaults), v2 is converted. */
+export const STATE_VERSION = 3;
 
 export interface BuilderState {
   v: typeof STATE_VERSION;
@@ -51,7 +61,7 @@ export function initialState(): BuilderState {
   const colors = {} as Record<ColorKey, ColorState>;
   for (const { key } of COLORS) {
     const sw = SHIPPED.solids[SOLID_OF[key]]!;
-    colors[key] = { light: sw.light, dark: sw.dark, link: false, shift: round(sw.dark[0] - sw.light[0]) };
+    colors[key] = { light: sw.light, dark: sw.dark, link: 'off', ...relationOf(sw.light, sw.dark) };
   }
   return { v: STATE_VERSION, colors, accentHover: { light: null, dark: null }, darkRamp: 'more' };
 }
@@ -59,12 +69,38 @@ export function initialState(): BuilderState {
 export const round = (n: number, d = 3) => Math.round(n * 10 ** d) / 10 ** d;
 const clampL = (l: number) => Math.min(1, Math.max(0, l));
 
-/** The dark value a linked colour gets from its light value. */
-export const linkedDark = (c: ColorState): LCH => [round(clampL(c.light[0] + c.shift)), c.light[1], c.light[2]];
+/** The shift and chroma ratio that turn `light` into `dark` (what a link starts from, so nothing jumps). */
+export const relationOf = (light: LCH, dark: LCH) => ({ shift: round(dark[0] - light[0]), chroma: light[1] > 0.001 ? round(dark[1] / light[1], 2) : 1, hue: round(hueDelta(light[2], dark[2]), 1) });
+const hueDelta = (a: number, b: number) => ((b - a + 540) % 360) - 180;
+const wrapH = (h: number) => round(((h % 360) + 360) % 360, 1);
 
-/** Effective value for a theme (a linked dark follows light). */
+/** The dark value derived from light: L + shift, C × chroma, H + hue. */
+export const linkedDark = (c: ColorState): LCH => [round(clampL(c.light[0] + c.shift)), round(Math.max(0, c.light[1] * c.chroma)), wrapH(c.light[2] + c.hue)];
+/** The light value derived from dark: the inverse, L − shift, C ÷ chroma, H − hue. */
+export const linkedLight = (c: ColorState): LCH => [round(clampL(c.dark[0] - c.shift)), round(Math.max(0, c.dark[1] / (c.chroma || 1))), wrapH(c.dark[2] - c.hue)];
+
+/** Effective value for a theme under the colour's link mode. */
 export function valueOf(c: ColorState, t: Theme): LCH {
-  return t === 'dark' && c.link ? linkedDark(c) : c[t];
+  if (c.link === 'same') return c.light;
+  if (c.link === 'light' && t === 'dark') return linkedDark(c);
+  if (c.link === 'dark' && t === 'light') return linkedLight(c);
+  return c[t];
+}
+
+/** Whether a theme's value is derived (not editable directly) under the link mode. */
+export const isDerived = (c: ColorState, t: Theme) => (c.link === 'light' && t === 'dark') || (c.link === 'dark' && t === 'light');
+
+/** Edit the value shown for a theme: in "same" both modes change; a derived mode is not edited here. */
+export function setValue(c: ColorState, t: Theme, v: LCH): ColorState {
+  if (c.link === 'same') return { ...c, light: v, dark: v };
+  return { ...c, [t]: v };
+}
+
+/** Change the link mode, freezing the values on screen so nothing jumps. */
+export function setLink(c: ColorState, link: LinkMode, t: Theme): ColorState {
+  const light = valueOf(c, 'light'), dark = valueOf(c, 'dark');
+  if (link === 'same') { const v = t === 'dark' ? dark : light; return { ...c, link, light: v, dark: v }; }
+  return { ...c, link, light, dark, ...relationOf(light, dark) };
 }
 
 /** The state as a palette (neutral ramps and the palette-shaped colours), for the neutral panel and the decision page. */
@@ -112,7 +148,9 @@ export function load(): BuilderState {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     // state saved before v2 previewed the retired "current" language with older colours: start from the shipped solids
-    if (raw && (JSON.parse(raw) as { v?: unknown } | null)?.v === STATE_VERSION) return parse(raw);
+    // v2 (boolean link) loads too: parse turns link true into 'light', so saved picks survive the v3 link modes
+    const v = raw ? (JSON.parse(raw) as { v?: unknown } | null)?.v : undefined;
+    if (raw && (v === 2 || v === STATE_VERSION)) return parse(raw);
   } catch { /* storage unavailable or bad JSON: start from the shipped solids */ }
   return initialState();
 }
@@ -136,8 +174,15 @@ export function parse(raw: string): BuilderState {
     if (!c) continue;
     if (isLch(c.light)) base.colors[key].light = c.light;
     if (isLch(c.dark)) base.colors[key].dark = c.dark;
-    if (typeof c.link === 'boolean') base.colors[key].link = c.link;
+    // v2 exports carried link: boolean (true = dark follows light)
+    const link = c.link as unknown;
+    // v2 links kept chroma and hue: dark = light with only L shifted
+    if (link === true) Object.assign(base.colors[key], { link: 'light', chroma: 1, hue: 0 });
+    else if (typeof link === 'string' && (LINK_MODES as string[]).includes(link)) base.colors[key].link = link as LinkMode;
+    else Object.assign(base.colors[key], relationOf(base.colors[key].light, base.colors[key].dark));
     if (typeof c.shift === 'number') base.colors[key].shift = c.shift;
+    if (typeof c.chroma === 'number' && c.chroma > 0) base.colors[key].chroma = c.chroma;
+    if (typeof c.hue === 'number') base.colors[key].hue = c.hue;
   }
   if (j.accentHover) {
     base.accentHover.light = isLch(j.accentHover.light) ? j.accentHover.light : null;
@@ -149,10 +194,10 @@ export function parse(raw: string): BuilderState {
 
 /** Export for handing back: authored values per theme (linked darks resolved) plus the knobs. Paste the solids into tokens.mjs. */
 export function exportJson(s: BuilderState): string {
-  const colors = {} as Record<ColorKey, { light: LCH; dark: LCH; link: boolean; shift: number }>;
+  const colors = {} as Record<ColorKey, { light: LCH; dark: LCH; link: LinkMode; shift: number; chroma: number; hue: number }>;
   for (const { key } of COLORS) {
     const c = s.colors[key];
-    colors[key] = { light: c.light, dark: valueOf(c, 'dark'), link: c.link, shift: c.shift };
+    colors[key] = { light: valueOf(c, 'light'), dark: valueOf(c, 'dark'), link: c.link, shift: c.shift, chroma: c.chroma, hue: c.hue };
   }
   return JSON.stringify({ v: STATE_VERSION, base: 'Signal Grey · Deep Black neutrals', language: 'proposed', colors, accentHover: s.accentHover,
     darkRamp: s.darkRamp, neutralDark: darkRamp(s.darkRamp).map(c => c[0]) }, null, 2);

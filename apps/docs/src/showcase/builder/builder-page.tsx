@@ -175,7 +175,7 @@ export default function BuilderPage() {
       <div className="grid min-[1100px]:grid-cols-[23rem_minmax(0,1fr)]">
         <aside aria-label="Colour controls" className="border-border-default bg-surface-base min-[1100px]:sticky min-[1100px]:top-[6.5rem] min-[1100px]:max-h-[calc(100vh-6.5rem)] min-[1100px]:self-start min-[1100px]:overflow-y-auto min-[1100px]:border-r">
           <div className="border-b border-border-default px-3 py-2 text-footnote text-text-tertiary">
-            Editing <b className="text-text-primary">{theme}</b>. Switch the theme above to edit the other mode; each colour keeps separate light and dark values.
+            Editing <b className="text-text-primary">{theme}</b>. Switch the theme above to edit the other mode. Each colour chooses how its modes relate: separate, the same value, or one mode derived from the other by the rule shown under it.
           </div>
           <NeutralRamps theme={theme} state={state} onDarkRamp={v => setState(s => ({ ...s, darkRamp: v }))} />
           {(['Accent', 'Status', 'Agent gradient', 'Extra chart / illustration', 'Canvas'] as const).map(g => (

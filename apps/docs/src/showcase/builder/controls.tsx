@@ -1,9 +1,9 @@
 import { TriangleAlert } from 'lucide-react';
-import { Checkbox, ContrastChip, NumberField, Slider } from '@caustic/react';
+import { ContrastChip, NumberField, SegmentedControl, SegmentedControlItem, Slider } from '@caustic/react';
 import { contrast, gamutMap, hex, isInGamut, label, type LCH } from '../color.ts';
 import type { Theme } from '../palettes.ts';
 import { SHIPPED } from '../shipped.ts';
-import { linkedDark, round, valueOf, type ColorDef, type ColorState } from './state.ts';
+import { isDerived, round, setLink, setValue, valueOf, type ColorDef, type ColorState, type LinkMode } from './state.ts';
 
 const ok = (c: LCH) => `oklch(${c[0]} ${c[1]} ${c[2]})`;
 
@@ -89,6 +89,39 @@ export function RampStrip({ ramp, name }: { ramp: readonly LCH[]; name: string }
   );
 }
 
+const LINK_LABEL: Record<LinkMode, string> = { off: 'Separate', same: 'Same', light: 'Light → dark', dark: 'Dark → light' };
+
+/**
+ * How this colour's light and dark values relate, with the rule written out and editable.
+ * The solid (step 9) is the only value that crosses modes; steps 1–8, 10 and 11 are always rebuilt per mode
+ * from that mode's solid and neutrals (see the ramp strip).
+ */
+function LinkControl({ name, state, theme, onChange }: { name: string; state: ColorState; theme: Theme; onChange: (next: ColorState) => void }) {
+  const derived = state.link === 'light' || state.link === 'dark';
+  const rule = state.link === 'off' ? 'Light and dark are edited separately.'
+    : state.link === 'same' ? 'One value for both modes: editing either mode changes both.'
+    : state.link === 'light' ? `dark = light · L ${state.shift >= 0 ? '+' : '−'} ${Math.abs(state.shift).toFixed(3)} · C × ${state.chroma.toFixed(2)} · H ${state.hue >= 0 ? '+' : '−'} ${Math.abs(state.hue).toFixed(1)}°`
+    : `light = dark · L ${state.shift >= 0 ? '−' : '+'} ${Math.abs(state.shift).toFixed(3)} · C ÷ ${state.chroma.toFixed(2)} · H ${state.hue >= 0 ? '−' : '+'} ${Math.abs(state.hue).toFixed(1)}°`;
+  return (
+    <div className="grid gap-2 rounded-lg bg-surface-raised p-2.5">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-footnote text-text-secondary">Light ↔ dark</span>
+        <SegmentedControl size="xs" aria-label={`${name}: how light and dark relate`} value={state.link} onValueChange={v => onChange(setLink(state, v as LinkMode, theme))}>
+          {(Object.keys(LINK_LABEL) as LinkMode[]).map(m => <SegmentedControlItem key={m} value={m}>{LINK_LABEL[m]}</SegmentedControlItem>)}
+        </SegmentedControl>
+      </div>
+      <p className="m-0 font-mono text-mono-sm text-text-tertiary">{rule}</p>
+      {derived && (
+        <div className="grid grid-cols-3 gap-2">
+          <NumberField aria-label={`${name} lightness shift`} label="ΔL" value={state.shift} step={0.005} min={-1} max={1} onValueChange={n => onChange({ ...state, shift: round(n) })} />
+          <NumberField aria-label={`${name} chroma ratio`} label="C×" value={state.chroma} step={0.05} min={0.05} max={4} onValueChange={n => onChange({ ...state, chroma: round(n, 2) })} />
+          <NumberField aria-label={`${name} hue offset`} label="ΔH" value={state.hue} step={1} min={-180} max={180} onValueChange={n => onChange({ ...state, hue: round(n, 1) })} />
+        </div>
+      )}
+    </div>
+  );
+}
+
 /** One editable colour for the active theme. */
 export function ColorControl({ def, state, theme, onChange, ramp, checks }: {
   def: ColorDef; state: ColorState; theme: Theme; onChange: (next: ColorState) => void;
@@ -96,7 +129,7 @@ export function ColorControl({ def, state, theme, onChange, ramp, checks }: {
   ramp: readonly LCH[]; checks: Check[];
 }) {
   const value = valueOf(state, theme);
-  const linkedHere = theme === 'dark' && state.link;
+  const linkedHere = isDerived(state, theme);
   const inGamut = isInGamut(value);
   return (
     <section aria-label={def.name} className="grid gap-2 border-b border-border-subtle px-3 py-3 last:border-b-0">
@@ -115,22 +148,11 @@ export function ColorControl({ def, state, theme, onChange, ramp, checks }: {
           <TriangleAlert aria-hidden className="size-icon-sm" /> Outside sRGB: chroma is clipped to {gamutMap(value)[1].toFixed(3)} on screen.
         </p>
       )}
-      <LchEditor name={`${def.name} ${theme}`} value={value} disabled={linkedHere} onChange={v => onChange({ ...state, [theme]: v })} />
+      <LchEditor name={`${def.name} ${theme}`} value={value} disabled={linkedHere} onChange={v => onChange(setValue(state, theme, v))} />
       <RampStrip ramp={ramp} name={`${def.name} ${theme}`} />
+      <LinkControl name={def.name} state={state} theme={theme} onChange={onChange} />
       <div className="flex flex-wrap items-center justify-between gap-2">
         <Checks checks={checks} />
-        <label className="flex items-center gap-1.5 text-footnote text-text-secondary">
-          <Checkbox
-            aria-label={`${def.name}: dark follows light`} checked={state.link}
-            onCheckedChange={v => {
-              const link = v === true;
-              // freeze the current dark when unlinking, so nothing jumps
-              onChange(link ? { ...state, link, shift: round(state.dark[0] - state.light[0]) } : { ...state, link, dark: linkedDark(state) });
-            }}
-          />
-          dark follows light
-          {state.link && <span className="font-mono text-mono-sm text-text-tertiary">L{state.shift >= 0 ? '+' : ''}{state.shift.toFixed(2)}</span>}
-        </label>
       </div>
     </section>
   );

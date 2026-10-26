@@ -29,11 +29,14 @@ export function hueRamp(pick: LCH, t: Theme, surface: LCH): Ramp11 {
   const solid = gamutMap(pick);
   const [L9, C9, H] = solid;
   const out: LCH[] = [];
-  for (let i = 0; i < 6; i++) out.push(gamutMap([fixedL[t][i]!, C9 * chromaShare[t][i]!, H]));
-  const L6 = fixedL[t][5]!;
+  for (let i = 0; i < 5; i++) out.push(gamutMap([fixedL[t][i]!, C9 * chromaShare[t][i]!, H]));
+  // steps 6–8 run in order between step 5 and the solid; 6 keeps its fixed lightness unless the solid is at or past it
+  const L5 = fixedL[t][4]!, F6 = fixedL[t][5]!;
+  const L6 = (t === 'light' ? F6 > L9 + 0.03 : F6 < L9 - 0.03) ? F6 : L5 + (L9 - L5) * 0.26;
+  out.push(gamutMap([L6, C9 * chromaShare[t][5]!, H]));
   out.push(gamutMap([L6 + (L9 - L6) * 0.4, C9 * chromaShare[t][6]!, H]));
-  // graphic marks (icons, chart lines, 1px status edges) need 3:1 on the surface even for light solids
-  out.push(ensure(gamutMap([L6 + (L9 - L6) * 0.7, C9 * chromaShare[t][7]!, H]), surface, graphicMin));
+  // graphic 8 follows the solid (not pushed to 3:1); the check below still reports its contrast
+  out.push(gamutMap([L6 + (L9 - L6) * 0.7, C9 * chromaShare[t][7]!, H]));
   out.push(solid);
   out.push(hoverOf(solid, t));
   // text is the far end of the ramp: a little past the solid and its hover, then pushed until it reads on every soft step
@@ -84,10 +87,14 @@ export function langRampSet(x: LangInput): RampSet {
 
 /**
  * Variable overrides for one mode: every semantic colour of tokens.mjs `themes` that is not a reference
- * (tone slots, neutral alpha slots, disabled-*, focus, chart-1..6, agent-stop-1..3, diff-*-bg/-text, syntax, canvas, identity …),
+ * (tone slots, disabled-*, focus, chart-1..6, agent-stop-1..3, diff-*-bg/-text, syntax, canvas, identity …),
  * plus the --lang-* tone ramps for the matrix. References (old alias names, focus-offset, required-mark) are not written:
  * the token CSS declares them on :root as var(--cs-color-<target>), so they follow these values.
  */
+/** Neutral interaction fills: the token CSS emits them opaque and surface-relative (build.mjs FILLS), so the builder
+ * leaves them alone instead of writing their authored alpha over the whole preview. */
+const OPAQUE_FILLS = new Set(['neutral.hover', 'neutral.pressed', 'neutral.selected', 'neutral.selected-hover', 'neutral.track', 'neutral.well', 'bg.inset']);
+
 export function langVars(x: LangInput, t: Theme, set: RampSet = langRampSet(x)): Record<string, string> {
   const v: Record<string, string> = {};
   for (const k of LANG_TONES) {
@@ -96,6 +103,7 @@ export function langVars(x: LangInput, t: Theme, set: RampSet = langRampSet(x)):
     v[`--lang-${k}-on`] = emit(r.on);
   }
   for (const [name, spec] of Object.entries(SHIPPED.themes[t])) {
+    if (OPAQUE_FILLS.has(name)) continue;
     const r = resolveSpec(spec, t, set);
     if (r) v[cssVar(name)] = emit(r.c, r.alpha);
   }
