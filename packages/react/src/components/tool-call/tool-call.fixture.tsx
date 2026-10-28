@@ -21,9 +21,9 @@ export default defineFixture({
             {diff.map(([k, a, b]) => (
               <Fragment key={k}>
                 <span className="truncate text-text-secondary">{k}</span>
-                <del className="rounded-xs bg-diff-remove px-1 text-danger-text">{a}</del>
-                <span className="text-text-disabled">→</span>
-                <ins className="rounded-xs bg-diff-add px-1 text-success-text no-underline">{b}</ins>
+                <del className="rounded-xs bg-diff-remove-bg px-1 text-diff-remove-text">{a}</del>
+                <span className="text-text-tertiary">→</span>
+                <ins className="rounded-xs bg-diff-add-bg px-1 text-diff-add-text no-underline">{b}</ins>
               </Fragment>
             ))}
           </div>

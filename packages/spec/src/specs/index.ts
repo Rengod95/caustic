@@ -3,68 +3,49 @@ import type { SpecInput } from '../schema.ts';
 import accordion from './accordion.spec.ts';
 import activityTree from './activity-tree.spec.ts';
 import agentCursor from './agent-cursor.spec.ts';
+import agentRequest from './agent-request.spec.ts';
 import agentWorkArea from './agent-work-area.spec.ts';
 import alert from './alert.spec.ts';
 import aliasChain from './alias-chain.spec.ts';
-import alignBar from './align-bar.spec.ts';
 import alignmentPad from './alignment-pad.spec.ts';
 import angleDial from './angle-dial.spec.ts';
 import appShell from './app-shell.spec.ts';
-import appendList from './append-list.spec.ts';
 import autoLayout from './auto-layout.spec.ts';
 import avatar from './avatar.spec.ts';
 import badge from './badge.spec.ts';
-import banner from './banner.spec.ts';
 import breadcrumb from './breadcrumb.spec.ts';
 import button from './button.spec.ts';
+import buttonGroup from './button-group.spec.ts';
 import calendar from './calendar.spec.ts';
 import canvasArtboard from './canvas-artboard.spec.ts';
-import canvasEmpty from './canvas-empty.spec.ts';
+import canvasComment from './canvas-comment.spec.ts';
 import canvasGuide from './canvas-guide.spec.ts';
 import canvasHint from './canvas-hint.spec.ts';
-import canvasMarquee from './canvas-marquee.spec.ts';
 import canvasRuler from './canvas-ruler.spec.ts';
 import canvasSelection from './canvas-selection.spec.ts';
-import canvasSizeLabel from './canvas-size-label.spec.ts';
 import card from './card.spec.ts';
-import cardAction from './card-action.spec.ts';
-import cardAgent from './card-agent.spec.ts';
-import cardFeature from './card-feature.spec.ts';
-import cardGlass from './card-glass.spec.ts';
-import cardMedia from './card-media.spec.ts';
-import cardOutline from './card-outline.spec.ts';
-import cardSpotlight from './card-spotlight.spec.ts';
 import cardStat from './card-stat.spec.ts';
-import cardSurface from './card-surface.spec.ts';
-import cardWell from './card-well.spec.ts';
 import changeDetail from './change-detail.spec.ts';
 import channelSlider from './channel-slider.spec.ts';
 import checkbox from './checkbox.spec.ts';
-import checkpointTimeline from './checkpoint-timeline.spec.ts';
 import chip from './chip.spec.ts';
-import choiceCards from './choice-cards.spec.ts';
-import clarification from './clarification.spec.ts';
+import choiceGroup from './choice-group.spec.ts';
 import codeDiff from './code-diff.spec.ts';
 import codeRealization from './code-realization.spec.ts';
 import colorPicker from './color-picker.spec.ts';
-import colorPlane from './color-plane.spec.ts';
 import colorTile from './color-tile.spec.ts';
 import colorWell from './color-well.spec.ts';
 import combobox from './combobox.spec.ts';
-import commentBubble from './comment-bubble.spec.ts';
-import commentPin from './comment-pin.spec.ts';
 import compareView from './compare-view.spec.ts';
 import composer from './composer.spec.ts';
 import constraintsControl from './constraints-control.spec.ts';
 import contextAnalytics from './context-analytics.spec.ts';
-import contrastChip from './contrast-chip.spec.ts';
 import contrastInsight from './contrast-insight.spec.ts';
 import cornerRadius from './corner-radius.spec.ts';
 import datePicker from './date-picker.spec.ts';
 import dialog from './dialog.spec.ts';
 import easingCurve from './easing-curve.spec.ts';
 import effectEditor from './effect-editor.spec.ts';
-import effectsStack from './effects-stack.spec.ts';
 import emptyState from './empty-state.spec.ts';
 import exportControls from './export-controls.spec.ts';
 import expressionEditor from './expression-editor.spec.ts';
@@ -72,76 +53,53 @@ import field from './field.spec.ts';
 import fileUpload from './file-upload.spec.ts';
 import floatingBar from './floating-bar.spec.ts';
 import fontOptions from './font-options.spec.ts';
-import fontPicker from './font-picker.spec.ts';
 import formLayout from './form-layout.spec.ts';
 import foundationToolbar from './foundation-toolbar.spec.ts';
 import frameLabel from './frame-label.spec.ts';
 import gradientEditor from './gradient-editor.spec.ts';
-import gradientStrip from './gradient-strip.spec.ts';
 import gridTracks from './grid-tracks.spec.ts';
 import hexInput from './hex-input.spec.ts';
 import iconButton from './icon-button.spec.ts';
-import iconToggle from './icon-toggle.spec.ts';
 import imageFill from './image-fill.spec.ts';
 import importPanel from './import-panel.spec.ts';
 import input from './input.spec.ts';
-import inputGroup from './input-group.spec.ts';
 import inspectorBindings from './inspector-bindings.spec.ts';
 import inspectorPanel from './inspector-panel.spec.ts';
-import inspectorSelect from './inspector-select.spec.ts';
 import kbd from './kbd.spec.ts';
 import layerTree from './layer-tree.spec.ts';
 import list from './list.spec.ts';
-import listActions from './list-actions.spec.ts';
-import listActivity from './list-activity.spec.ts';
 import listDescription from './list-description.spec.ts';
 import listNavigation from './list-navigation.spec.ts';
-import listReorder from './list-reorder.spec.ts';
-import listSelection from './list-selection.spec.ts';
 import menu from './menu.spec.ts';
 import message from './message.spec.ts';
-import modal from './modal.spec.ts';
-import modelMenu from './model-menu.spec.ts';
 import motionTimeline from './motion-timeline.spec.ts';
 import numberField from './number-field.spec.ts';
-import optionTiles from './option-tiles.spec.ts';
 import otpInput from './otp-input.spec.ts';
-import pageList from './page-list.spec.ts';
 import pagination from './pagination.spec.ts';
-import paintStack from './paint-stack.spec.ts';
 import paintWell from './paint-well.spec.ts';
-import permissionRequest from './permission-request.spec.ts';
 import pickerTrigger from './picker-trigger.spec.ts';
 import plan from './plan.spec.ts';
 import policyFindings from './policy-findings.spec.ts';
 import popover from './popover.spec.ts';
 import positionSize from './position-size.spec.ts';
 import progress from './progress.spec.ts';
-import proposal from './proposal.spec.ts';
+import propertyStack from './property-stack.spec.ts';
 import radioGroup from './radio-group.spec.ts';
 import readingOrder from './reading-order.spec.ts';
 import resizeHandle from './resize-handle.spec.ts';
-import reviewRequest from './review-request.spec.ts';
-import revisionHistory from './revision-history.spec.ts';
 import scrollArea from './scroll-area.spec.ts';
 import sectionHeader from './section-header.spec.ts';
 import segmentedControl from './segmented-control.spec.ts';
 import select from './select.spec.ts';
 import separator from './separator.spec.ts';
-import sessionList from './session-list.spec.ts';
 import sheet from './sheet.spec.ts';
 import sidePanel from './side-panel.spec.ts';
 import skeleton from './skeleton.spec.ts';
 import slider from './slider.spec.ts';
-import sliderField from './slider-field.spec.ts';
-import spinner from './spinner.spec.ts';
 import stackRow from './stack-row.spec.ts';
-import stepSlider from './step-slider.spec.ts';
 import stepper from './stepper.spec.ts';
-import stepperInput from './stepper-input.spec.ts';
 import strokeEditor from './stroke-editor.spec.ts';
 import suggestions from './suggestions.spec.ts';
-import swatchStrip from './swatch-strip.spec.ts';
 import switch_ from './switch.spec.ts';
 import table from './table.spec.ts';
 import tabs from './tabs.spec.ts';
@@ -150,9 +108,9 @@ import textProperties from './text-properties.spec.ts';
 import textarea from './textarea.spec.ts';
 import themeGallery from './theme-gallery.spec.ts';
 import thinking from './thinking.spec.ts';
+import timeline from './timeline.spec.ts';
 import toast from './toast.spec.ts';
 import toggleGroup from './toggle-group.spec.ts';
-import tokenChip from './token-chip.spec.ts';
 import tokenDiff from './token-diff.spec.ts';
 import tokenGraph from './token-graph.spec.ts';
 import toolCall from './tool-call.spec.ts';
@@ -163,68 +121,49 @@ export const registry: Record<string, SpecInput> = {
   'accordion': accordion,
   'activity-tree': activityTree,
   'agent-cursor': agentCursor,
+  'agent-request': agentRequest,
   'agent-work-area': agentWorkArea,
   'alert': alert,
   'alias-chain': aliasChain,
-  'align-bar': alignBar,
   'alignment-pad': alignmentPad,
   'angle-dial': angleDial,
   'app-shell': appShell,
-  'append-list': appendList,
   'auto-layout': autoLayout,
   'avatar': avatar,
   'badge': badge,
-  'banner': banner,
   'breadcrumb': breadcrumb,
   'button': button,
+  'button-group': buttonGroup,
   'calendar': calendar,
   'canvas-artboard': canvasArtboard,
-  'canvas-empty': canvasEmpty,
+  'canvas-comment': canvasComment,
   'canvas-guide': canvasGuide,
   'canvas-hint': canvasHint,
-  'canvas-marquee': canvasMarquee,
   'canvas-ruler': canvasRuler,
   'canvas-selection': canvasSelection,
-  'canvas-size-label': canvasSizeLabel,
   'card': card,
-  'card-action': cardAction,
-  'card-agent': cardAgent,
-  'card-feature': cardFeature,
-  'card-glass': cardGlass,
-  'card-media': cardMedia,
-  'card-outline': cardOutline,
-  'card-spotlight': cardSpotlight,
   'card-stat': cardStat,
-  'card-surface': cardSurface,
-  'card-well': cardWell,
   'change-detail': changeDetail,
   'channel-slider': channelSlider,
   'checkbox': checkbox,
-  'checkpoint-timeline': checkpointTimeline,
   'chip': chip,
-  'choice-cards': choiceCards,
-  'clarification': clarification,
+  'choice-group': choiceGroup,
   'code-diff': codeDiff,
   'code-realization': codeRealization,
   'color-picker': colorPicker,
-  'color-plane': colorPlane,
   'color-tile': colorTile,
   'color-well': colorWell,
   'combobox': combobox,
-  'comment-bubble': commentBubble,
-  'comment-pin': commentPin,
   'compare-view': compareView,
   'composer': composer,
   'constraints-control': constraintsControl,
   'context-analytics': contextAnalytics,
-  'contrast-chip': contrastChip,
   'contrast-insight': contrastInsight,
   'corner-radius': cornerRadius,
   'date-picker': datePicker,
   'dialog': dialog,
   'easing-curve': easingCurve,
   'effect-editor': effectEditor,
-  'effects-stack': effectsStack,
   'empty-state': emptyState,
   'export-controls': exportControls,
   'expression-editor': expressionEditor,
@@ -232,76 +171,53 @@ export const registry: Record<string, SpecInput> = {
   'file-upload': fileUpload,
   'floating-bar': floatingBar,
   'font-options': fontOptions,
-  'font-picker': fontPicker,
   'form-layout': formLayout,
   'foundation-toolbar': foundationToolbar,
   'frame-label': frameLabel,
   'gradient-editor': gradientEditor,
-  'gradient-strip': gradientStrip,
   'grid-tracks': gridTracks,
   'hex-input': hexInput,
   'icon-button': iconButton,
-  'icon-toggle': iconToggle,
   'image-fill': imageFill,
   'import-panel': importPanel,
   'input': input,
-  'input-group': inputGroup,
   'inspector-bindings': inspectorBindings,
   'inspector-panel': inspectorPanel,
-  'inspector-select': inspectorSelect,
   'kbd': kbd,
   'layer-tree': layerTree,
   'list': list,
-  'list-actions': listActions,
-  'list-activity': listActivity,
   'list-description': listDescription,
   'list-navigation': listNavigation,
-  'list-reorder': listReorder,
-  'list-selection': listSelection,
   'menu': menu,
   'message': message,
-  'modal': modal,
-  'model-menu': modelMenu,
   'motion-timeline': motionTimeline,
   'number-field': numberField,
-  'option-tiles': optionTiles,
   'otp-input': otpInput,
-  'page-list': pageList,
   'pagination': pagination,
-  'paint-stack': paintStack,
   'paint-well': paintWell,
-  'permission-request': permissionRequest,
   'picker-trigger': pickerTrigger,
   'plan': plan,
   'policy-findings': policyFindings,
   'popover': popover,
   'position-size': positionSize,
   'progress': progress,
-  'proposal': proposal,
+  'property-stack': propertyStack,
   'radio-group': radioGroup,
   'reading-order': readingOrder,
   'resize-handle': resizeHandle,
-  'review-request': reviewRequest,
-  'revision-history': revisionHistory,
   'scroll-area': scrollArea,
   'section-header': sectionHeader,
   'segmented-control': segmentedControl,
   'select': select,
   'separator': separator,
-  'session-list': sessionList,
   'sheet': sheet,
   'side-panel': sidePanel,
   'skeleton': skeleton,
   'slider': slider,
-  'slider-field': sliderField,
-  'spinner': spinner,
   'stack-row': stackRow,
-  'step-slider': stepSlider,
   'stepper': stepper,
-  'stepper-input': stepperInput,
   'stroke-editor': strokeEditor,
   'suggestions': suggestions,
-  'swatch-strip': swatchStrip,
   'switch': switch_,
   'table': table,
   'tabs': tabs,
@@ -310,9 +226,9 @@ export const registry: Record<string, SpecInput> = {
   'textarea': textarea,
   'theme-gallery': themeGallery,
   'thinking': thinking,
+  'timeline': timeline,
   'toast': toast,
   'toggle-group': toggleGroup,
-  'token-chip': tokenChip,
   'token-diff': tokenDiff,
   'token-graph': tokenGraph,
   'tool-call': toolCall,

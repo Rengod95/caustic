@@ -8,7 +8,7 @@ import { Bullets, Chip, Mono, Page, PageHeader, Section } from '../ui.tsx';
 
 const T = tokens;
 const grid = 'grid grid-cols-[repeat(auto-fill,minmax(min(100%,calc(var(--spacing)*50)),1fr))] gap-3';
-const card = 'rounded-2xl bg-surface-base p-3.5 shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]';
+const card = 'rounded-2xl bg-surface-base p-3.5 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]';
 
 /** A color from resolved token data, drawn over a checker so alpha stays visible. */
 const rgba = (c: { hex: string; alpha: number }) => `color-mix(in srgb, ${c.hex} ${Math.round(c.alpha * 100)}%, transparent)`;
@@ -40,10 +40,10 @@ function ColorPage() {
   );
   return (
     <>
-      <Section id="ramps" title="Ramps" description="Five chromatic ramps share one lightness and chroma curve, so changing the accent hue keeps contrast. Hex values are the defaults (accent at hue 205).">
+      <Section id="ramps" title="Ramps" description="Six ramps of 11 steps each, 1 (lightest) to 11 (darkest). The five chromatic ramps share one lightness and chroma curve, so changing the accent hue keeps contrast. Hex values are the defaults (accent at hue 205).">
         <div className="grid gap-6">
           {Object.entries(T.hues).map(([key, h]) => ramp(key, h.name, `${h.role} · hue ${h.hue}`, Boolean(h.live), steps))}
-          {ramp('neutral', T.neutral.name, `Surfaces, text and borders · hue ${T.neutral.hue}`, false, Object.keys(T.primitiveHex.neutral ?? {}))}
+          {ramp('neutral', T.neutral.name, 'Surfaces, text and borders · true neutral, chroma 0', false, Object.keys(T.primitiveHex.neutral ?? {}))}
         </div>
       </Section>
       <Section id="spectrum" title="Agent spectrum" description="Three stops that only mark agent presence, work or provenance (P2). Never decoration.">
@@ -57,7 +57,6 @@ function ColorPage() {
       <Section title="Usage">
         <Bullets items={[
           <>Components read semantic tokens (<Mono>bg-surface-base</Mono>), never ramp steps.</>,
-          <>The accent hue is one custom property on the root: <Mono>--cs-accent-hue</Mono>. Setting it on a descendant does not reach the semantic tokens.</>,
           'Mint, Amber, Coral and Iris mean status. Do not use them as decoration.',
         ]} />
       </Section>
@@ -161,7 +160,7 @@ function ContrastPage() {
 
 // ───────────────────────── Typography
 
-const samples = { ui: 'Design with the agent beside you', voice: 'I tried a calmer layout first, then tightened the spacing.', mono: '--cs-accent-hue: 205;' } as const;
+const samples = { ui: 'Design with the agent beside you', voice: 'I tried a calmer layout first, then tightened the spacing.', mono: '--cs-color-accent-solid' } as const;
 
 function TypographyPage() {
   return (
@@ -210,7 +209,7 @@ function SpacePage() {
           <div key={k} className="grid grid-cols-[6rem_3.5rem_1fr] items-center gap-3 max-[520px]:grid-cols-[4.5rem_3rem_1fr]">
             <Mono>space-{k}</Mono>
             <span className="font-mono text-mono-sm text-text-tertiary">{px}px</span>
-            <span aria-hidden className="h-3 max-w-full rounded-xs bg-accent-fill" style={{ width: Math.max(px, 1) }} />
+            <span aria-hidden className="h-3 max-w-full rounded-xs bg-border-control" style={{ width: Math.max(px, 1) }} />
           </div>
         ))}
       </div>
@@ -228,13 +227,13 @@ function RadiusPage() {
   const studio = Object.entries(T.studio).filter(([k]) => k.endsWith('radius'));
   const tile = (name: string, px: number, varName: string) => (
     <div key={name} className="grid justify-items-start gap-1.5">
-      <span aria-hidden className="size-18 bg-accent-soft shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-border)]" style={{ borderRadius: `var(${varName})` }} />
+      <span aria-hidden className="size-18 bg-fill-selected" style={{ borderRadius: `var(${varName})`, cornerShape: px === 999 ? undefined : 'squircle' } as CSSProperties} />
       <Mono>{name}</Mono><span className="font-mono text-mono-sm text-text-tertiary">{px === 999 ? 'full' : `${px}px`}</span>
     </div>
   );
   return (
     <>
-      <Section id="scale" title="Scale" description="Concentric corners (P5): an inner radius never exceeds its parent radius minus the parent padding.">
+      <Section id="scale" title="Scale" description="Concentric corners (P5): an inner radius never exceeds its parent radius minus the parent padding. Where the browser supports CSS corner-shape (Chromium 139+), corners are squircles and the radii are scaled 1.2x so they do not look smaller; the values shown are the nominal radii.">
         <div className="grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-4">{scale.map(([k, px]) => tile(`rounded-${k}`, px, `--cs-radius-${k}`))}</div>
       </Section>
       <Section id="shell" title="Studio shell" description="Named radii for the app shell.">
@@ -315,7 +314,7 @@ function MaterialsPage() {
   ];
   return (
     <>
-      <Section id="glass" title="Glass" description="Glass is for what floats (P1): menus, popovers, toolbars, dialogs. It refracts what is behind it, so it needs something behind it.">
+      <Section id="glass" title="Floating surfaces" description="Anything that floats (menus, popovers, toolbars, dialogs) is a solid fill with one elevation shadow. No blur, no translucency, no rim. The glass* class names are kept as aliases.">
         <div className="canvas-grid relative isolate overflow-hidden rounded-3xl p-5">
           <span aria-hidden className="absolute left-[8%] top-12 size-28 rounded-full bg-accent-solid" />
           <span aria-hidden className="absolute left-[34%] top-20 size-24 rounded-full bg-success-solid" />
@@ -325,18 +324,18 @@ function MaterialsPage() {
             {tiles.map(t => (
               <div key={t.name} className={`${t.cls} grid h-32 content-end gap-0.5 rounded-2xl p-3`}>
                 <span className="font-ui text-ui-strong text-text-primary">{t.name}</span>
-                <span className="font-mono text-mono-sm text-text-secondary">blur {t.blur}px</span>
+                <span className="font-mono text-mono-sm text-text-secondary">solid</span>
               </div>
             ))}
           </div>
         </div>
       </Section>
-      <Section id="blur" title="Blur & frost">
+      <Section id="blur" title="Blur (retired)">
         <div className="flex flex-wrap gap-1.5">{Object.entries(T.blur).map(([k, px]) => <Chip key={k}>blur-{k} · {px}px</Chip>)}</div>
         <Bullets items={[
-          <>Menus and forms with text over glass use <Mono>glass-thick</Mono> or heavier.</>,
-          <><Mono>frost</Mono> is the light control blur and is allowed on any control.</>,
-          'With prefers-reduced-transparency the glass becomes a solid surface.',
+          'The blur scale is kept only so existing specs resolve. No component uses it.',
+          <>The <Mono>frost</Mono> utility was removed. Controls are solid.</>,
+          'One depth cue per surface: a hairline for things that rest, a shadow for things that float. Never both.',
         ]} />
       </Section>
     </>
@@ -408,7 +407,7 @@ const bodies: Record<string, { lead: string; view: () => ReactNode }> = {
   radius: { lead: 'Concentric corners from xs to full, plus the studio shell radii.', view: RadiusPage },
   sizes: { lead: 'Control, field, icon and component dimensions in two densities.', view: SizesPage },
   elevation: { lead: 'Five levels plus named shadows for cards, thumbs and artboards.', view: ElevationPage },
-  materials: { lead: 'Glass thicknesses and the light control frost.', view: MaterialsPage },
+  materials: { lead: 'Solid floating surfaces. The old glass classes remain as aliases.', view: MaterialsPage },
   motion: { lead: 'Durations and easings, with a demo that honors reduced motion.', view: MotionPage },
 };
 

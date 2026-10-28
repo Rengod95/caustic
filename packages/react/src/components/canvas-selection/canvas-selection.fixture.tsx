@@ -7,7 +7,6 @@ import { Button } from '../button/index.ts';
 import { CanvasArtboard } from '../canvas-artboard/index.ts';
 import { CanvasGuide } from '../canvas-guide/index.ts';
 import { CanvasHint, CanvasHintItem } from '../canvas-hint/index.ts';
-import { CanvasMarquee } from '../canvas-marquee/index.ts';
 import { CanvasRuler } from '../canvas-ruler/index.ts';
 import { FloatingBar, FloatingBarItem, FloatingBarSeparator } from '../floating-bar/index.ts';
 import { FrameLabel } from '../frame-label/index.ts';
@@ -24,18 +23,20 @@ export default defineFixture({
   frame: children => <div className="relative h-32 w-64 overflow-hidden rounded-xl bg-bg-canvas">{children}</div>,
   render: props => <CanvasSelection rect={{ left: 40, top: 30, width: 180, height: 44 }} label="180 × 44" {...(props as CanvasSelectionProps)} />,
   examples: {
-    // The canvas host is scaffolding (like a frame): a positioned box over the canvas grid.
+    // The canvas host is scaffolding (like a frame): a positioned box over the canvas grid. Every child is absolutely
+    // placed, so the host needs its own width: 848 (the recorded example width). Without it the host collapsed to 0px
+    // wide in any shrink-to-fit parent (the review page's grid with justify-items-start) and the example disappeared.
     'overlay-set': () => (
-      <div className="canvas-grid relative h-105 overflow-hidden rounded-2xl">
+      <div className="canvas-grid relative h-105 w-212 overflow-hidden rounded-2xl">
         <CanvasRuler orientation="corner" />
-        <CanvasRuler orientation="horizontal" marks={marksH} band={{ start: 338, size: 180 }} />
-        <CanvasRuler orientation="vertical" marks={marksV} band={{ start: 168, size: 44 }} />
+        <CanvasRuler orientation="horizontal" marks={marksH} band={{ start: 338, size: 180, startLabel: '258', endLabel: '438' }} />
+        <CanvasRuler orientation="vertical" marks={marksV} band={{ start: 168, size: 44, startLabel: '108', endLabel: '152' }} />
         <CanvasGuide kind="user" orientation="vertical" rect={{ left: 600, top: 20, bottom: 0 }} />
         <FrameLabel kind="artboard" name="Checkout / Desktop" size="960 × 600" rect={{ left: 100, top: 46 }} />
         <CanvasArtboard rect={{ left: 100, top: 64, width: 560, height: 300 }}>
           <CanvasArtboardSample swatches={artboardSwatches} />
         </CanvasArtboard>
-        <CanvasSelection mode="hover" radius={14} rect={{ left: 128, top: 168, width: 210, height: 150 }} />
+        <CanvasSelection mode="hover" objectRadius={14} rect={{ left: 128, top: 168, width: 210, height: 150 }} />
         <CanvasSelection handles="all" rotate label="180 × 44" rect={{ left: 338, top: 168, width: 180, height: 44 }} />
         <CanvasGuide kind="smart" orientation="horizontal" rect={{ left: 128, top: 168, width: 400 }} />
         <CanvasGuide kind="snap" rect={{ left: 338, top: 168 }} />
@@ -51,8 +52,8 @@ export default defineFixture({
             <FloatingBarItem aria-label="More" icon={<Ellipsis />} />
           </FloatingBar>
         </div>
-        <CanvasMarquee kind="marquee" rect={{ left: 700, top: 250, width: 120, height: 90 }} />
-        <CanvasMarquee kind="draw" label="150 × 96" rect={{ left: 720, top: 84, width: 150, height: 96 }} />
+        <CanvasSelection mode="marquee" rect={{ left: 700, top: 250, width: 120, height: 90 }} />
+        <CanvasSelection mode="draw" label="150 × 96" rect={{ left: 720, top: 84, width: 150, height: 96 }} />
         <div className="absolute top-8.5 right-3.5 z-20">
           <ZoomControl value="100%" appearance="glass" label="Zoom" zoomOutLabel="Zoom out" zoomInLabel="Zoom in" />
         </div>

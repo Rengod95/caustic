@@ -4,9 +4,11 @@ import { IconButton, Input, ListNavigation, ListNavigationGroup, ListNavigationI
 import { componentGroups, foundationPages, specs, componentIds } from './data.ts';
 import { hrefFor, type Route } from './router.ts';
 import { Controls } from './settings.tsx';
+import { labPages, showcasePages } from './showcase/index.tsx';
 
 const isCurrent = (route: Route, key: string) =>
   (route.page === 'home' && key === 'home') ||
+  (route.page === 'showcase' && key === `s:${route.slug}`) ||
   (route.page === 'foundation' && key === `f:${route.slug}`) ||
   (route.page === 'component' && key === `c:${route.id}`);
 
@@ -21,6 +23,20 @@ function Nav({ route, query }: { route: Route; query: string }) {
       {!q ? (
         <ListNavigationGroup>
           <ListNavigationItem icon={<House />} href={hrefFor.home} current={isCurrent(route, 'home')}>Introduction</ListNavigationItem>
+        </ListNavigationGroup>
+      ) : null}
+      {!q ? (
+        <ListNavigationGroup heading="Showcase">
+          {showcasePages.map(p => (
+            <ListNavigationItem key={p.slug} icon={p.icon} href={`#/${p.slug}`} current={isCurrent(route, `s:${p.slug}`)}>{p.title}</ListNavigationItem>
+          ))}
+        </ListNavigationGroup>
+      ) : null}
+      {!q ? (
+        <ListNavigationGroup heading="Lab · internal tools">
+          {labPages.map(p => (
+            <ListNavigationItem key={p.slug} icon={p.icon} href={`#/${p.slug}`} current={isCurrent(route, `s:${p.slug}`)}>{p.title}</ListNavigationItem>
+          ))}
         </ListNavigationGroup>
       ) : null}
       {showFoundation ? (
@@ -55,7 +71,7 @@ export function Shell({ route, children }: { route: Route; children: ReactNode }
 
   return (
     <div className="min-h-screen bg-bg-app font-ui text-text-primary">
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border-subtle bg-material-regular px-3 backdrop-blur-regular min-[900px]:px-5">
+      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border-subtle bg-material-regular px-3 min-[900px]:px-5">
         <div className="min-[900px]:hidden">
           <IconButton label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} aria-controls="docs-nav" onClick={() => setOpen(o => !o)}>{open ? <X /> : <Menu />}</IconButton>
         </div>
@@ -64,7 +80,7 @@ export function Shell({ route, children }: { route: Route; children: ReactNode }
           Caustic
           <span className="font-ui text-ui-sm text-text-tertiary max-[520px]:hidden">docs · {componentIds.length} components</span>
         </a>
-        <div className="ml-auto max-[1099px]:hidden"><Controls /></div>
+        <div className="ml-auto flex items-center gap-4 max-[1099px]:hidden"><Controls /></div>
       </header>
 
       {open ? <div aria-hidden className="fixed inset-0 z-30 bg-bg-scrim min-[900px]:hidden" onClick={() => setOpen(false)} /> : null}
@@ -76,12 +92,12 @@ export function Shell({ route, children }: { route: Route; children: ReactNode }
           className={[
             'z-40 grid content-start gap-4 overflow-y-auto p-3 scrollbar-none',
             'min-[900px]:sticky min-[900px]:top-14 min-[900px]:h-[calc(100vh-3.5rem)] min-[900px]:border-r min-[900px]:border-border-subtle',
-            'max-[899px]:fixed max-[899px]:inset-y-0 max-[899px]:left-0 max-[899px]:top-14 max-[899px]:w-[min(20rem,calc(100%-2.5rem))] max-[899px]:bg-material-thick max-[899px]:backdrop-blur-thick max-[899px]:shadow-5 max-[899px]:transition-transform max-[899px]:duration-300 max-[899px]:ease-spring',
+            'max-[899px]:fixed max-[899px]:inset-y-0 max-[899px]:left-0 max-[899px]:top-14 max-[899px]:w-[min(20rem,calc(100%-2.5rem))] max-[899px]:bg-material-thick max-[899px]:shadow-5 max-[899px]:transition-transform max-[899px]:duration-300 max-[899px]:ease-spring',
             open ? '' : 'max-[899px]:-translate-x-[110%] max-[899px]:invisible',
           ].join(' ')}
         >
           <Input aria-label="Search components" placeholder="Search components" prefix={<Search />} value={query} onValueChange={setQuery} />
-          <div className="min-[1100px]:hidden"><Controls stacked /></div>
+          <div className="grid gap-3 min-[1100px]:hidden"><Controls stacked /></div>
           <Nav route={route} query={query} />
           <p className="m-0 px-2 font-ui text-footnote text-text-tertiary">{Object.keys(specs).length} components · spec-first, gated</p>
         </aside>

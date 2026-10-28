@@ -5,6 +5,7 @@ import {
   type ComponentProps, type KeyboardEvent, type PointerEvent, type ReactElement, type ReactNode,
 } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Badge } from '../badge/badge.tsx';
 import {
@@ -16,6 +17,7 @@ export interface ReadingOrderEvent { id: string; from: number; to: number; order
 type Drop = { id: string; edge: 'above' | 'below' };
 
 interface Ctx {
+  common: CommonProps;
   shown: string[];
   host: string | undefined;
   picked: string | null;
@@ -46,7 +48,8 @@ export interface ReadingOrderItemProps extends Omit<ComponentProps<'li'>, 'child
   dragging?: boolean;
 }
 
-export interface ReadingOrderProps extends Omit<ComponentProps<'ol'>, 'defaultValue'> {
+/** The five common props apply to every row: see readingOrderRowVariants. */
+export interface ReadingOrderProps extends Omit<ComponentProps<'ol'>, 'defaultValue'>, CommonProps {
   /** Controlled order: the item ids from first to last. */
   order?: string[];
   /** Uncontrolled initial order. Defaults to the order of the children. */
@@ -63,7 +66,7 @@ const text = (children: ReactNode, id: string) => (typeof children === 'string' 
  * The order in which a screen reader reads the elements of a frame, as a numbered list that can be reordered
  * by pointer drag or from the keyboard (the model of ListReorder). A flagged row says where it lands.
  */
-export function ReadingOrder({ order, defaultOrder, onReorder, className, children, ...props }: ReadingOrderProps) {
+export function ReadingOrder({ order, defaultOrder, onReorder, tone, variant, radius, shadow, size, className, children, ...props }: ReadingOrderProps) {
   const instructionId = useId();
   const root = useRef<HTMLOListElement>(null);
 
@@ -209,7 +212,7 @@ export function ReadingOrder({ order, defaultOrder, onReorder, className, childr
   };
 
   const ctx: Ctx = {
-    shown, host: ids[0], picked, dragId: drag?.id ?? null, drop: drag?.drop ?? null, instructionId, message,
+    common: { tone, variant, radius, shadow, size }, shown, host: ids[0], picked, dragId: drag?.id ?? null, drop: drag?.drop ?? null, instructionId, message,
     startPointer, movePointer, endPointer, cancelPointer, handleKey, handleClick, handleBlur,
   };
   const sorted = [...nodes].sort((a, b) => shown.indexOf(a.props.itemId) - shown.indexOf(b.props.itemId));
@@ -234,7 +237,7 @@ export function ReadingOrderItem({ itemId, children, warning = false, note, drag
       <button
         type="button" data-slot="reading-order-row" aria-pressed={ctx.picked === itemId} aria-describedby={ctx.instructionId}
         data-warning={warning || undefined} data-dragging={active || undefined} data-drop={drop}
-        className={readingOrderRowVariants()}
+        className={cn(readingOrderRowVariants({ tone: ctx.common.tone, variant: ctx.common.variant, size: ctx.common.size, radius: ctx.common.radius ?? null, shadow: ctx.common.shadow ?? null }))}
         onKeyDown={e => ctx.handleKey(e, itemId)} onClick={() => ctx.handleClick(itemId)} onBlur={e => ctx.handleBlur(itemId, e.currentTarget)}
         onPointerDown={e => ctx.startPointer(e, itemId)} onPointerMove={ctx.movePointer} onPointerUp={ctx.endPointer} onPointerCancel={ctx.cancelPointer}
       >

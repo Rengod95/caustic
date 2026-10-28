@@ -1,11 +1,13 @@
 'use client';
 import { useRef, useState, type ClipboardEvent, type ComponentProps, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Chip } from '../chip/chip.tsx';
 import { useFieldContext } from '../field/field-context.ts';
+import { tagInputVariants } from './tag-input.variants.ts';
 
-export interface TagInputProps extends Omit<ComponentProps<'input'>, 'value' | 'defaultValue' | 'onChange' | 'size' | 'type'> {
+export interface TagInputProps extends Omit<ComponentProps<'input'>, 'value' | 'defaultValue' | 'onChange' | 'size' | 'type'>, CommonProps {
   /** Controlled tags. */
   value?: string[];
   /** Uncontrolled initial tags. */
@@ -25,7 +27,7 @@ type Delimiter = 'Enter' | ',';
 const DEFAULT_DELIMITERS: readonly Delimiter[] = ['Enter', ','];
 
 /** Enters a list of short strings as removable tags (Chips). */
-export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS, allowDuplicates = false, invalid, disabled, id, onValueChange, onKeyDown, className, containerClassName, ...props }: TagInputProps) {
+export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS, allowDuplicates = false, invalid, disabled, tone, variant, radius, shadow, size, id, onValueChange, onKeyDown, className, containerClassName, ...props }: TagInputProps) {
   const field = useFieldContext();
   const control = useRef<HTMLInputElement>(null);
   const [tags, setTags] = useControllableState<string[]>({ value, defaultValue: defaultValue ?? [], onChange: onValueChange });
@@ -64,18 +66,13 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
       data-slot="tag-input"
       data-invalid={isInvalid || undefined}
       data-disabled={isDisabled || undefined}
-      className={cn(
-        'frost flex min-h-field-md min-w-0 cursor-text flex-wrap items-center gap-1.5 rounded-xl bg-surface-translucent px-2 py-1.5 text-ui transition-[box-shadow] duration-120 ease-out',
-        'shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-1)]',
-        'focus-within:shadow-[var(--cs-focus-field),var(--cs-elevation-1)]',
-        'data-[invalid]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-solid)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1.5px_var(--cs-color-danger-solid)]',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-42',
-        containerClassName,
-      )}
+      data-size={size ?? 'md'}
+      className={cn(tagInputVariants({ tone, variant, size, radius, shadow }), containerClassName)}
       onMouseDown={e => { if (e.target !== control.current && !(e.target as HTMLElement).closest('button')) { e.preventDefault(); control.current?.focus(); } }}
     >
+      {/* Tags take radius sm, one step under the token chip, so they sit concentric in the radius xl field (P5). */}
       {tags.map((tag, i) => (
-        <Chip key={`${tag}-${i}`} shape="rounded" appearance="surface" inert={isDisabled || undefined} onRemove={() => { remove(i); control.current?.focus(); }}>{tag}</Chip>
+        <Chip key={`${tag}-${i}`} shape="rounded" appearance="surface" className="rounded-sm" inert={isDisabled || undefined} onRemove={() => { remove(i); control.current?.focus(); }}>{tag}</Chip>
       ))}
       <input
         ref={control}
@@ -86,7 +83,7 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
         aria-required={field?.required || undefined}
         disabled={isDisabled}
         value={draft}
-        className={cn('h-chip-h min-w-tag-input-min flex-1 border-0 bg-transparent px-1 text-text-primary outline-none placeholder:text-text-placeholder', className)}
+        className={cn('h-chip-h min-w-tag-input-min flex-1 border-0 bg-transparent px-1 text-text-primary outline-none placeholder:text-text-placeholder disabled:text-disabled-text disabled:placeholder:text-disabled-text', className)}
         onChange={e => setDraft(e.target.value)}
         onKeyDown={keyDown}
         onPaste={paste}

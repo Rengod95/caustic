@@ -4,11 +4,24 @@ import { ChevronDown } from 'lucide-react';
 import { createContext, useContext, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { defined } from '../../lib/defined.ts';
-import { accordionItemVariants, accordionVariants, type AccordionVariantProps } from './accordion.variants.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
+import { accordionContentVariants, accordionGlyphVariants, accordionHeaderVariants, accordionItemVariants, accordionTriggerVariants, accordionVariants } from './accordion.variants.ts';
 
-const VariantCtx = createContext<NonNullable<AccordionVariantProps['variant']>>('flush');
+type AccordionVariant = 'flush' | 'separated' | Variant;
+interface AccordionLook { variant: AccordionVariant; tone?: Tone | undefined; size?: Size | undefined; radius?: Radius | undefined; shadow?: Shadow | undefined }
+const LookCtx = createContext<AccordionLook>({ variant: 'flush' });
 
-export interface AccordionProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'dir' | 'onChange'>, AccordionVariantProps {
+export interface AccordionProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'dir' | 'onChange'> {
+  /** flush = hairline rows (default); separated = one card per item; solid / soft / outline / ghost = cards in that emphasis. */
+  variant?: AccordionVariant;
+  /** Colour family: the card fill and text in solid / soft / outline / ghost, the icon and chevron graphic otherwise. */
+  tone?: Tone;
+  /** Item corner radius (the items are the visible boxes). Unset keeps xl on cards and none on flush rows. */
+  radius?: Radius;
+  /** Item elevation. Unset keeps none. */
+  shadow?: Shadow;
+  /** Header row height and type: xs 28 · sm 32 · md 48 (default) · lg 48 with larger type. */
+  size?: Size;
   /** single keeps at most one item open; multiple allows any number. */
   type?: 'single' | 'multiple';
   /** Controlled open item value(s): string for single, string[] for multiple. */
@@ -23,11 +36,11 @@ export interface AccordionProps extends Omit<ComponentProps<'div'>, 'defaultValu
 }
 
 /** Collapsible sections: flush hairline rows or separated cards. Compose with AccordionItem/Trigger/Content. */
-export function Accordion({ type = 'single', variant, value, defaultValue, onValueChange, collapsible = true, disabled = false, className, children, ...props }: AccordionProps) {
+export function Accordion({ type = 'single', variant, tone, radius, shadow, size, value, defaultValue, onValueChange, collapsible = true, disabled = false, className, children, ...props }: AccordionProps) {
   const v = variant ?? 'flush';
   const root = cn(accordionVariants({ variant: v }), className);
   return (
-    <VariantCtx.Provider value={v}>
+    <LookCtx.Provider value={{ variant: v, tone, size, radius, shadow }}>
       {type === 'multiple' ? (
         <A.Root
           type="multiple" data-slot="accordion" data-variant={v} className={root} disabled={disabled}
@@ -49,15 +62,15 @@ export function Accordion({ type = 'single', variant, value, defaultValue, onVal
           {...props}
         >{children}</A.Root>
       )}
-    </VariantCtx.Provider>
+    </LookCtx.Provider>
   );
 }
 
 export interface AccordionItemProps extends ComponentProps<typeof A.Item> {}
 
 export function AccordionItem({ className, ...props }: AccordionItemProps) {
-  const variant = useContext(VariantCtx);
-  return <A.Item data-slot="accordion-item" className={cn(accordionItemVariants({ variant }), className)} {...props} />;
+  const { variant, tone, radius, shadow } = useContext(LookCtx);
+  return <A.Item data-slot="accordion-item" className={cn(accordionItemVariants({ variant, tone, radius, shadow }), className)} {...props} />;
 }
 
 export interface AccordionTriggerProps extends ComponentProps<typeof A.Trigger> {
@@ -68,21 +81,31 @@ export interface AccordionTriggerProps extends ComponentProps<typeof A.Trigger> 
 }
 
 export function AccordionTrigger({ icon, accessory, className, children, ...props }: AccordionTriggerProps) {
+  const { tone, size, variant } = useContext(LookCtx);
   return (
-    <A.Header className="m-0">
+    <A.Header className={accordionHeaderVariants({ variant })}>
       <A.Trigger
         data-slot="accordion-trigger"
-        className={cn(
-          'group flex min-h-control-xl w-full cursor-pointer items-center gap-2.5 px-0.5 py-1 text-left font-ui text-ui-md text-text-primary',
-          'outline-none focus-visible:rounded-md focus-visible:shadow-focus disabled:pointer-events-none disabled:opacity-42',
-          className,
-        )}
+        className={cn(accordionTriggerVariants({ size, variant }), (tone ?? 'neutral') === 'neutral' && variant !== 'solid' && 'hover:[&_[data-slot=accordion-chevron]]:text-text-secondary', className)}
         {...props}
       >
-        {icon ? <span data-slot="accordion-icon" aria-hidden className="inline-flex size-icon-sm shrink-0 text-text-tertiary [&_svg]:size-full">{icon}</span> : null}
+        {icon ? <span data-slot="accordion-icon" aria-hidden className={cn('inline-flex size-icon-sm [&_svg]:size-full', accordionGlyphVariants({ tone }))}>{icon}</span> : null}
         {children}
-        {accessory ? <span data-slot="accordion-accessory" className="ml-1.5 inline-flex">{accessory}</span> : null}
-        <ChevronDown data-slot="accordion-chevron" aria-hidden className="ml-auto size-icon-md shrink-0 text-text-tertiary transition-transform duration-base ease-out group-data-[state=open]:rotate-180" />
+        {/* A Badge accessory drops its fill and tone with the disabled trigger: filled tones take disabled fill and text, the outline
+            tone keeps no fill and takes the disabled border, the agent badge loses its rim and its orb stops in the disabled colour. */}
+        {accessory ? (
+          <span
+            data-slot="accordion-accessory"
+            className={cn(
+              'ml-1.5 inline-flex',
+              'group-disabled:[&_[data-slot=badge]]:bg-disabled-fill group-disabled:[&_[data-slot=badge]]:text-disabled-text',
+              'group-disabled:[&_[data-slot=badge][data-variant=outline]]:bg-transparent group-disabled:[&_[data-slot=badge][data-variant=outline]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+              'group-disabled:[&_[data-slot=badge][data-tone=agent]]:after:hidden',
+              'group-disabled:[&_[data-slot=badge-orb]]:[animation:none] group-disabled:[&_[data-slot=badge-orb]]:[background:var(--cs-color-disabled-text)]',
+            )}
+          >{accessory}</span>
+        ) : null}
+        <ChevronDown data-slot="accordion-chevron" aria-hidden className={cn('ml-auto size-icon-md transition-transform duration-base ease-out group-data-[state=open]:rotate-180', accordionGlyphVariants({ tone }))} />
       </A.Trigger>
     </A.Header>
   );
@@ -92,5 +115,6 @@ export interface AccordionContentProps extends ComponentProps<typeof A.Content> 
 
 /** Stays in the DOM (hidden) while closed so its text remains searchable and measurable. */
 export function AccordionContent({ className, ...props }: AccordionContentProps) {
-  return <A.Content forceMount data-slot="accordion-content" className={cn('max-w-[64ch] data-[state=closed]:hidden px-0.5 pb-3.5 text-ui-relaxed text-text-secondary', className)} {...props} />;
+  const { variant } = useContext(LookCtx);
+  return <A.Content forceMount data-slot="accordion-content" className={cn(accordionContentVariants({ variant }), className)} {...props} />;
 }

@@ -2,11 +2,14 @@
 import { useEffect, useRef, type ComponentProps, type KeyboardEvent, type PointerEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
-import { resizeHandleLineVariants, resizeHandleVariants, type ResizeHandleVariantProps } from './resize-handle.variants.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
+import { resizeHandleLineVariants, resizeHandleVariants } from './resize-handle.variants.ts';
 
 export interface ResizeHandleProps
   extends Omit<ComponentProps<'div'>, 'role' | 'children' | 'defaultValue' | 'aria-label' | 'aria-controls'>,
-    ResizeHandleVariantProps {
+    CommonProps {
+  /** vertical = a column splitter (drag left / right), horizontal = a row splitter. */
+  orientation?: 'vertical' | 'horizontal';
   /** Controlled size in px. */
   value?: number;
   /** Uncontrolled initial size in px. Defaults to min. */
@@ -47,7 +50,7 @@ const preventSelect = (e: Event) => e.preventDefault();
 
 /** Window splitter: a focusable separator that owns one size in px and reports every change. The consumer positions it on the panel edge. */
 export function ResizeHandle({
-  orientation, value, defaultValue, min, max, step = 8, largeStep = 32, resetValue, reverse = false, label, formatValueText, controls,
+  orientation, tone, variant, radius, shadow, size, value, defaultValue, min, max, step = 8, largeStep = 32, resetValue, reverse = false, label, formatValueText, controls,
   disabled = false, onValueChange, onResizeStart, onResizeEnd, className, onKeyDown, onPointerDown, onPointerMove, onPointerUp, onPointerCancel, onLostPointerCapture, onDoubleClick, ...props
 }: ResizeHandleProps) {
   const axis = orientation ?? 'vertical';
@@ -129,7 +132,7 @@ export function ResizeHandle({
       aria-controls={controls}
       aria-disabled={disabled ? true : undefined}
       tabIndex={disabled ? undefined : 0}
-      className={cn(resizeHandleVariants({ orientation: axis }), className)}
+      className={cn(resizeHandleVariants({ orientation: axis, size }), className)}
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -139,7 +142,7 @@ export function ResizeHandle({
       onDoubleClick={e => { onDoubleClick?.(e); if (!disabled && resetValue !== undefined) set(resetValue); }}
       {...props}
     >
-      <span data-slot="resize-handle-line" aria-hidden className={resizeHandleLineVariants({ orientation: axis })} />
+      <span data-slot="resize-handle-line" aria-hidden className={cn(resizeHandleLineVariants({ orientation: axis, disabled, tone, variant, size, radius: radius ?? null, shadow: shadow ?? null }))} />
     </div>
   );
 }

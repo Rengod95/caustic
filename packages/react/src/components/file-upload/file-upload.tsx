@@ -2,18 +2,20 @@
 import { FileText, FileX, Image, Trash2, Upload, X } from 'lucide-react';
 import { useRef, useState, type ChangeEvent, type ComponentProps, type DragEvent, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { Button } from '../button/button.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { Progress } from '../progress/progress.tsx';
-import { dropzoneVariants, fileItemVariants } from './file-upload.variants.ts';
+import { dropzoneIconVariants, dropzoneVariants, fileItemIconVariants, fileItemVariants, fileUploadVariants } from './file-upload.variants.ts';
 
 export interface FileUploadItem {
   id: string;
   name: string;
-  status: 'uploading' | 'done' | 'error';
+  /** warning: uploaded with a caveat (the description says what); error: the upload failed. */
+  status: 'uploading' | 'done' | 'warning' | 'error';
   /** 0–100 while uploading; omit when unknown (the bar becomes indeterminate). */
   progress?: number;
-  /** Size, remaining time, "Uploaded" or the failure reason. */
+  /** Size, remaining time, "Uploaded", the caveat or the failure reason. */
   description?: ReactNode;
   /** Overrides the file-type icon. */
   icon?: ReactNode;
@@ -39,6 +41,16 @@ export interface FileUploadProps extends Omit<ComponentProps<'div'>, 'children' 
   onFilesSelected?: (files: File[]) => void;
   /** A row action was pressed: cancel while uploading, remove otherwise. */
   onRemove?: (id: string) => void;
+  /** Colour family of the dropzone (dashes, hover tint, browse word). */
+  tone?: Tone | undefined;
+  /** Emphasis of the dropzone; outline (default) is the dashed target. */
+  variant?: Variant | undefined;
+  /** Corner radius of the root; unset = none. */
+  radius?: Radius | undefined;
+  /** Elevation of the root; unset = none. */
+  shadow?: Shadow | undefined;
+  /** Gap between the dropzone and the list: xs 8, sm 12, md 16, lg 20. */
+  size?: Size | undefined;
 }
 
 const IMAGE = /\.(png|jpe?g|gif|avif|webp|svg|heic|bmp)$/i;
@@ -47,7 +59,7 @@ const rowIcon = (f: FileUploadItem) => f.icon ?? (f.status === 'error' ? <FileX 
 /** Dashed dropzone plus the file list. The host app uploads and feeds the rows back through `files`. */
 export function FileUpload({
   files = [], label = 'Drop files or', browseLabel = 'browse', hint, accept, multiple = true, disabled = false, dragOver, uploadLabel = 'Upload files',
-  onFilesSelected, onRemove, className, ...props
+  onFilesSelected, onRemove, tone, variant, radius, shadow, size, className, ...props
 }: FileUploadProps) {
   const picker = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
@@ -62,7 +74,7 @@ export function FileUpload({
   const drop = (e: DragEvent<HTMLDivElement>) => { if (disabled) return; e.preventDefault(); setDragging(false); report(e.dataTransfer.files); };
   const change = (e: ChangeEvent<HTMLInputElement>) => { report(e.target.files); e.target.value = ''; };
   return (
-    <div data-slot="file-upload" className={cn('grid min-w-0 gap-4', className)} {...props}>
+    <div data-slot="file-upload" className={cn(fileUploadVariants({ radius, shadow, size }), className)} {...props}>
       <div
         data-slot="file-upload-dropzone"
         role="button"
@@ -71,7 +83,7 @@ export function FileUpload({
         aria-disabled={disabled || undefined}
         data-dragging={over || undefined}
         data-disabled={disabled || undefined}
-        className={dropzoneVariants()}
+        className={cn(dropzoneVariants({ tone, variant }))}
         onClick={open}
         onKeyDown={keyDown}
         onDragEnter={e => drag(e, true)}
@@ -79,24 +91,24 @@ export function FileUpload({
         onDragLeave={e => drag(e, false)}
         onDrop={drop}
       >
-        <span data-slot="file-upload-dropzone-icon" aria-hidden className="grid size-control-lg place-items-center rounded-xl bg-control-raised shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)] [&_svg]:size-icon-md [&_svg]:stroke-[1.75]"><Upload /></span>
-        <b data-slot="file-upload-dropzone-label" className="text-ui-strong text-text-primary">{label}{' '}<u data-slot="file-upload-dropzone-browse" className="text-accent-text no-underline">{browseLabel}</u></b>
-        {hint != null && <span data-slot="file-upload-dropzone-hint" className="text-ui-sm font-normal text-text-tertiary group-hover:text-text-secondary group-data-[dragging]:text-text-secondary">{hint}</span>}
+        <span data-slot="file-upload-dropzone-icon" aria-hidden className={dropzoneIconVariants()}><Upload /></span>
+        <b data-slot="file-upload-dropzone-label" className="text-ui-lg text-text-primary">{label}{' '}<u data-slot="file-upload-dropzone-browse" className="text-accent-text no-underline">{browseLabel}</u></b>
+        {hint != null && <span data-slot="file-upload-dropzone-hint" className="mt-1 text-ui-sm font-normal text-text-tertiary group-hover:text-text-secondary group-data-[dragging]:text-text-secondary">{hint}</span>}
         <input ref={picker} type="file" hidden accept={accept} multiple={multiple} disabled={disabled} onChange={change} onClick={e => e.stopPropagation()} />
       </div>
       {files.length > 0 && (
         <ul data-slot="file-upload-list" className="grid gap-2">
           {files.map(f => (
             <li key={f.id} data-slot="file-upload-item" data-status={f.status} className={fileItemVariants({ status: f.status })}>
-              <span data-slot="file-upload-item-icon" aria-hidden className="grid size-control-md place-items-center rounded-md bg-fill-pressed text-text-secondary [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]">{rowIcon(f)}</span>
+              <span data-slot="file-upload-item-icon" aria-hidden className={fileItemIconVariants({ status: f.status })}>{rowIcon(f)}</span>
               <div data-slot="file-upload-item-text" className="grid min-w-0 gap-1">
                 <b data-slot="file-upload-item-name" className="truncate text-ui-strong">{f.name}</b>
                 {f.status === 'uploading' && <Progress data-slot="file-upload-item-progress" value={f.progress} aria-label={`Uploading ${f.name}`} />}
-                {f.description != null && <span data-slot="file-upload-item-meta" className={cn('text-hint', f.status === 'error' ? 'text-danger-text' : 'text-text-tertiary')}>{f.description}</span>}
+                {f.description != null && <span data-slot="file-upload-item-meta" className={cn('text-hint', f.status === 'error' ? 'text-danger-text' : f.status === 'warning' ? 'text-warning-text' : 'text-text-tertiary')}>{f.description}</span>}
               </div>
               {f.status === 'uploading' ? (
                 <IconButton data-slot="file-upload-item-action" label="Cancel upload" size="xs" onClick={() => onRemove?.(f.id)}><X /></IconButton>
-              ) : f.status === 'done' ? (
+              ) : f.status === 'done' || f.status === 'warning' ? (
                 <IconButton data-slot="file-upload-item-action" label="Remove" size="xs" onClick={() => onRemove?.(f.id)}><Trash2 /></IconButton>
               ) : (
                 <Button data-slot="file-upload-item-action" tone="ghost" size="xs" onClick={() => onRemove?.(f.id)}>Remove</Button>

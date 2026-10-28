@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { Collector } from '../report.ts';
 import { root, tokensDist } from '../paths.ts';
 import { tokenIndex } from '../tokens.ts';
+import { colorContrast } from './color-language.ts';
 
 export async function g0(c: Collector) {
   // 1. Contrast gate and build integrity: rebuilding must succeed and leave dist unchanged.
@@ -27,7 +28,7 @@ export async function g0(c: Collector) {
   }
   // 3. Semantic layer references primitives only.
   for (const theme of Object.keys(t.raw.themes)) for (const [name, spec] of Object.entries<string>(t.raw.themes[theme])) {
-    if (!/^(neutral|accent|mint|amber|coral|iris)\.\d+(\/[\d.]+)?$|^(white|black)\/[\d.]+$/.test(spec)) c.fail({ gate: 'G0', check: 'semantic-refs', message: `${theme}.${name} = "${spec}" does not reference a primitive.` });
+    if (!/^(neutral|accent|success|warning|danger|info|agent-[123]|extra-[12]|canvas-guide)(-light|-dark)?\.(\d+|on)(\/[\d.]+)?$|^(white|black)\/[\d.]+$|^=[a-z]+\.[a-z0-9-]+$/.test(spec)) c.fail({ gate: 'G0', check: 'semantic-refs', message: `${theme}.${name} = "${spec}" does not reference a primitive, a mode ramp or another semantic token.` });
   }
   // 4. Concentric studio chain: window − inset = panel; panel − 6 = composer (2xl); 2xl − 6 = lg.
   const s = t.studio, r = t.radius as Record<string, number>;
@@ -37,4 +38,6 @@ export async function g0(c: Collector) {
   const doc = readFileSync(join(root, 'FOUNDATION.md'), 'utf8');
   const fields = Object.values(t.field).join(' · ');
   if (!doc.includes(Object.values(t.field).join(' · ')) && !doc.includes(`${t.field.sm} · ${t.field.md} · ${t.field.lg}`)) c.warn({ gate: 'G0', check: 'doc-sync', message: `FOUNDATION.md does not list field heights ${fields}.` });
+  // 6. Colour language CL7: slot contrast pairs (warnings unless contrastBlocking in src/color-language.json).
+  colorContrast(c);
 }

@@ -17,9 +17,30 @@ body {
   font-feature-settings: "cv11", "ss01";
 }
 [hidden] { display: none !important; }
+
+/* ── Corner smoothing ─────────────────────────────────────────────
+   Progressive enhancement: with CSS corner-shape (Chromium 139+) every rounded-* element gets squircle
+   corners; Safari and Firefox ignore this and keep circular arcs. The radius tokens are scaled by
+   --cs-corner-scale in the token file (inside the same @supports) so corners do not look smaller.
+   Circles and pills (rounded-full) stay circular; overlays that inherit their parent's radius inherit
+   the shape too. corner-shape is not inherited, so pseudo-element rings, rims and glows (agent-rim, spotlight) take
+   their host's shape explicitly; without that they paint circular arcs around a squircle fill. Exclusions match
+   whole class tokens: a variant-prefixed rounded-full (before:rounded-full, data-[x]:rounded-none) must not turn the
+   host itself round. */
+@supports (corner-shape: squircle) {
+  :where([class*="rounded-"]):not([class~="rounded-full"], [class~="rounded-none"]) { corner-shape: squircle; }
+  [class~="rounded-[inherit]"] { corner-shape: inherit; }
+  ::before, ::after { corner-shape: inherit; }
+  [class*="before:rounded-full"]::before, [class*="after:rounded-full"]::after { corner-shape: round; }
+}
 button, input, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
 button { cursor: pointer; background: none; border: 0; padding: 0; }
-:where(button, [role="button"], a, input, textarea, select, [tabindex]):focus-visible { outline: none; box-shadow: var(--cs-focus); }
+:where(button, [role="button"], a, input, textarea, select, [tabindex]):focus-visible { outline: none; box-shadow: 0 0 0 1px var(--cs-focus-offset, var(--cs-color-focus-offset)), 0 0 0 3px var(--cs-color-focus-ring); }
+/* The focus gap takes the colour of the surface the element sits on: set --cs-focus-offset on the element or a container
+   (e.g. var(--cs-color-surface-raised)); it defaults to focus.offset (= surface.base). Resolved here, per element. */
+/* --cs-focus is composed into other shadows (selection edge + focus); re-declared on the focused element so its gap
+   reads that element's --cs-focus-offset rather than the root's. */
+:where(:focus-visible, :focus-within) { --cs-focus: 0 0 0 1px var(--cs-focus-offset, var(--cs-color-focus-offset)), 0 0 0 3px var(--cs-color-focus-ring); }
 /* Field focus policy: a text field owns its focus. The field container swaps its
    own border for --cs-focus-field (1.5px, focus.ring); the inner control draws
    nothing, and no outer ring or halo is added. One edge, never three. */
@@ -29,7 +50,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 :where(:lang(ko)) { word-break: keep-all; overflow-wrap: anywhere; }
 
 /* Scrollbars: thin, quiet, theme-aware */
-* { scrollbar-width: thin; scrollbar-color: var(--cs-color-border-strong) transparent; }
+* { scrollbar-width: thin; scrollbar-color: var(--cs-color-neutral-track) transparent; }
 
 /* ── Type roles ── */
 .cs-display   { font: var(--cs-text-display);  letter-spacing: var(--cs-text-display-tracking); text-wrap: balance; }
@@ -52,44 +73,27 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 :lang(ko) :is(.cs-display, .cs-title-1, .cs-title-2, .cs-title-3) { letter-spacing: -0.01em; }
 :lang(ko) .cs-caption { letter-spacing: 0.02em; }
 
-/* ── Materials ──────────────────────────────────────────────────────
-   Glass is for layers that float above content. Thin/regular for chrome,
-   thick for anything carrying menu or form text. */
+/* ── Surfaces ───────────────────────────────────────────────────────
+   Floating layers are solid: a flat fill plus one elevation shadow. No blur,
+   no hairline, no specular rim. Class names keep the cs-glass prefix so
+   existing markup resolves. */
 .cs-glass {
   --cs-material: var(--cs-color-material-regular);
-  --cs-material-blur: var(--cs-blur-regular);
   position: relative;
   background: var(--cs-material);
-  -webkit-backdrop-filter: blur(var(--cs-material-blur)) saturate(1.8);
-  backdrop-filter: blur(var(--cs-material-blur)) saturate(1.8);
-  box-shadow:
-    inset 0 1px 0 var(--cs-color-material-specular),
-    inset 0 0 0 1px var(--cs-color-material-rim),
-    0 0 0 0.5px var(--cs-color-material-edge),
-    var(--cs-shadow, var(--cs-elevation-3));
+  box-shadow: var(--cs-shadow, var(--cs-elevation-3));
+  --cs-focus-offset: var(--cs-material);
 }
-.cs-glass::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
-  background: linear-gradient(155deg, var(--cs-color-material-specular), transparent 28%, transparent 66%, var(--cs-color-material-sheen));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-}
-.cs-glass.cs-ultrathin { --cs-material: var(--cs-color-material-ultrathin); --cs-material-blur: var(--cs-blur-ultrathin); }
-.cs-glass.cs-thin      { --cs-material: var(--cs-color-material-thin);      --cs-material-blur: var(--cs-blur-thin); }
-.cs-glass.cs-thick     { --cs-material: var(--cs-color-material-thick);     --cs-material-blur: var(--cs-blur-thick); }
-.cs-solid { background: var(--cs-color-surface-base); box-shadow: 0 0 0 1px var(--cs-color-border-subtle), var(--cs-shadow, var(--cs-elevation-1)); }
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .cs-glass { background: var(--cs-color-material-thick); }
-}
-@media (prefers-reduced-transparency: reduce) {
-  .cs-glass { background: var(--cs-color-surface-base); -webkit-backdrop-filter: none; backdrop-filter: none; }
-}
+.cs-glass.cs-ultrathin { --cs-material: var(--cs-color-material-ultrathin); }
+.cs-glass.cs-thin      { --cs-material: var(--cs-color-material-thin); }
+.cs-glass.cs-thick     { --cs-material: var(--cs-color-material-thick); }
+.cs-solid { background: var(--cs-color-surface-base); box-shadow: inset 0 0 0 1px var(--cs-color-border-subtle); }
 
 /* ── Agent signature ────────────────────────────────────────────────
    Spectrum light marks agent presence, work or provenance. Never decoration. */
 .cs-agent { position: relative; }
 .cs-agent::after {
-  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
   background: var(--cs-spectrum-conic);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);

@@ -1,10 +1,10 @@
 'use client';
 import { createContext, useContext, useEffect, useRef, type ComponentProps, type FocusEvent, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
-import { floatingBarGroupVariants, floatingBarIconVariants, floatingBarItemVariants, floatingBarSeparatorVariants, floatingBarVariants } from './floating-bar.variants.ts';
+import { floatingBarGroupVariants, floatingBarIconVariants, floatingBarItemVariants, floatingBarSeparatorVariants, floatingBarShortcutVariants, floatingBarVariants } from './floating-bar.variants.ts';
 
-type Size = 'lg' | 'md' | 'sm';
 const SizeContext = createContext<Size>('lg');
 const OrientationContext = createContext<'horizontal' | 'vertical'>('horizontal');
 
@@ -13,15 +13,23 @@ const FOCUSABLE = 'button:not(:disabled)';
 export interface FloatingBarProps extends Omit<ComponentProps<'div'>, 'aria-label'> {
   /** Accessible name of the toolbar. */
   label: string;
-  /** Item size 34, 30, 28; capsule padding 4, 4, 3. */
+  /** Item size 34, 30, 28, 24 (lg, md, sm, xs); capsule padding 4, 4, 3, 2. */
   size?: Size | undefined;
+  /** Colour family of the capsule material (solid: the tone tint; soft: the soft fill; outline: the edge). */
+  tone?: Tone | undefined;
+  /** solid (default) = regular glass; soft = soft fill; outline = glass with a 1px edge; ghost = no fill. */
+  variant?: Variant | undefined;
+  /** Corner radius of the capsule; unset = the toolbar radius. */
+  radius?: Radius | 'toolbar' | undefined;
+  /** Elevation of the capsule; unset (4) follows the size: 3 at md, 4 otherwise. */
+  shadow?: Shadow | undefined;
   /** Layout axis, arrow-key axis and aria-orientation. */
   orientation?: 'horizontal' | 'vertical' | undefined;
   children: ReactNode;
 }
 
 /** A capsule toolbar floating on glass over the canvas. Compose with FloatingBarGroup, FloatingBarItem and FloatingBarSeparator. */
-export function FloatingBar({ label, size = 'lg', orientation = 'horizontal', className, children, onKeyDown, onFocus, ...props }: FloatingBarProps) {
+export function FloatingBar({ label, size = 'lg', orientation = 'horizontal', tone, variant, radius, shadow, className, children, onKeyDown, onFocus, ...props }: FloatingBarProps) {
   const ref = useRef<HTMLDivElement>(null);
   const stop = useRef<HTMLElement | null>(null);
 
@@ -62,7 +70,7 @@ export function FloatingBar({ label, size = 'lg', orientation = 'horizontal', cl
         role="toolbar"
         aria-label={label}
         aria-orientation={orientation}
-        className={cn(floatingBarVariants({ size, orientation }), className)}
+        className={cn(floatingBarVariants({ size, orientation, tone, variant, radius, shadow }), className)}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         {...props}
@@ -87,7 +95,7 @@ export interface FloatingBarItemProps extends Omit<ComponentProps<'button'>, 'ch
   icon?: ReactNode | undefined;
   /** One-letter shortcut hint. */
   shortcut?: string | undefined;
-  /** The current tool: ink fill. */
+  /** The current tool: inverted, ink fill and paper icon (same look as a pressed toggle). */
   active?: boolean | undefined;
   /** A toggle that is on (controlled). */
   pressed?: boolean | undefined;
@@ -120,7 +128,7 @@ export function FloatingBarItem({
       {...props}
     >
       {icon != null && <span data-slot="floating-bar-icon" aria-hidden className={floatingBarIconVariants({ size })}>{icon}</span>}
-      {shortcut != null && <span data-slot="floating-bar-shortcut" aria-hidden className="pointer-events-none absolute right-0.75 bottom-0.5 font-mono text-mono-micro text-text-disabled">{shortcut}</span>}
+      {shortcut != null && <span data-slot="floating-bar-shortcut" aria-hidden className={floatingBarShortcutVariants({ disabled })}>{shortcut}</span>}
     </button>
   );
 }

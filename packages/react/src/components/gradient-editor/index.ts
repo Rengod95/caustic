@@ -1,5 +1,5 @@
 export {
-  GradientEditor,
+  GradientEditor, GradientEditorStrip,
   type GradientEditorProps, type GradientEditorLabels, type GradientEditorDraft, type GradientEditorField, type GradientEditorFieldFlags,
-  type GradientValue, type GradientType, type GradientPoint, type GradientStopData,
+  type GradientEditorStripProps, type GradientStop, type GradientValue, type GradientType, type GradientPoint, type GradientStopData,
 } from './gradient-editor.tsx';

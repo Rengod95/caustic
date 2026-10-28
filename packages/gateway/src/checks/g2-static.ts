@@ -7,6 +7,7 @@ import { Collector } from '../report.ts';
 import { componentsDir, root, tokensDist } from '../paths.ts';
 import { tokenIndex } from '../tokens.ts';
 import { unknownClasses } from '../tw.ts';
+import { colorLanguage } from './color-language.ts';
 
 const LITERAL_COLOR = /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?|oklch|oklab|lab|lch|hwb|color-mix)\(/;
 const BASE_IMPORTS = new Set(['react', 'react/jsx-runtime', 'lucide-react', 'class-variance-authority']);
@@ -178,6 +179,9 @@ export async function g2(c: Collector, spec: ComponentSpec) {
     if (missing.length || extra.length) c.fail({ gate: 'G2', check: 'variants', message: `cva "${axis}" values differ from the spec.`, expected: def.values.join(' | '), actual: got.join(' | ') });
     if (defaults[axis] !== def.default) c.fail({ gate: 'G2', check: 'variants', message: `defaultVariants.${axis} differs from the spec.`, expected: def.default, actual: defaults[axis] ?? '(none)' });
   }
+
+  // Colour language CL1–CL6 (warnings until the component id is listed in src/color-language.json)
+  colorLanguage(c, spec.id);
 
   // Props interface vs spec (type checker)
   checkProps(c, spec, main);

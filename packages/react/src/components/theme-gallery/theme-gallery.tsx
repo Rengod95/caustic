@@ -1,18 +1,20 @@
 'use client';
-import { createContext, useContext, useRef, type ComponentProps, type CSSProperties, type KeyboardEvent } from 'react';
+import { Check } from 'lucide-react';
+import { createContext, useContext, useId, useRef, type ComponentProps, type CSSProperties, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps, Radius, Shadow, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import {
-  themeGalleryActionsVariants, themeGalleryActionVariants, themeGalleryCaptionVariants, themeGalleryHeadingBarVariants,
+  themeGalleryActionsVariants, themeGalleryActionVariants, themeGalleryCaptionVariants, themeGalleryCheckVariants, themeGalleryHeadingBarVariants,
   themeGalleryItemVariants, themeGalleryMainVariants, themeGalleryMetaVariants, themeGalleryNameVariants,
   themeGalleryPanelLineVariants, themeGalleryPanelVariants, themeGalleryPreviewVariants, themeGallerySidebarItemVariants,
   themeGallerySidebarVariants, themeGallerySwatchesVariants, themeGallerySwatchVariants, themeGalleryVariants,
 } from './theme-gallery.variants.ts';
 
-interface Ctx { value: string; select: (id: string) => void }
+interface Ctx { value: string; select: (id: string) => void; variant?: Variant | undefined; radius?: Radius | undefined; shadow?: Shadow | undefined }
 const GalleryCtx = createContext<Ctx | null>(null);
 
-export interface ThemeGalleryProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
+export interface ThemeGalleryProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'>, CommonProps {
   value?: string;
   defaultValue?: string;
   /** Called when a different theme is picked. It previews; the consumer applies. */
@@ -20,7 +22,7 @@ export interface ThemeGalleryProps extends Omit<ComponentProps<'div'>, 'defaultV
 }
 
 /** A radiogroup of theme cards: each is a miniature app drawn from the theme's own colors and radius. */
-export function ThemeGallery({ value, defaultValue = '', onValueChange, onKeyDown, className, ...props }: ThemeGalleryProps) {
+export function ThemeGallery({ value, defaultValue = '', onValueChange, tone, variant, radius, shadow, size, onKeyDown, className, ...props }: ThemeGalleryProps) {
   const [current, setCurrent] = useControllableState({ value, defaultValue, onChange: onValueChange });
   const ref = useRef<HTMLDivElement>(null);
   // Arrow keys and Home/End select synchronously and move focus, so selection never lags behind roving focus.
@@ -38,8 +40,8 @@ export function ThemeGallery({ value, defaultValue = '', onValueChange, onKeyDow
     if (next?.dataset.value !== undefined) setCurrent(next.dataset.value);
   };
   return (
-    <GalleryCtx.Provider value={{ value: current, select: setCurrent }}>
-      <div ref={ref} role="radiogroup" data-slot="theme-gallery" className={cn(themeGalleryVariants(), className)} onKeyDown={handleKeyDown} {...props} />
+    <GalleryCtx.Provider value={{ value: current, select: setCurrent, variant, radius, shadow }}>
+      <div ref={ref} role="radiogroup" data-slot="theme-gallery" className={cn(themeGalleryVariants({ tone, size }), className)} onKeyDown={handleKeyDown} {...props} />
     </GalleryCtx.Provider>
   );
 }
@@ -69,11 +71,14 @@ export interface ThemeGalleryItemProps extends Omit<ComponentProps<'button'>, 'v
 export function ThemeGalleryItem({ themeId, name, description, preview, checked, disabled, className, onClick, ...props }: ThemeGalleryItemProps) {
   const ctx = useContext(GalleryCtx);
   const selected = checked ?? ctx?.value === themeId;
+  // The name names the card and the caption describes it (the mini app and the dots are aria-hidden).
+  const nameId = useId();
+  const captionId = useId();
   return (
     <button
       type="button" role="radio" data-slot="theme-gallery-item" data-value={themeId} data-state={selected ? 'checked' : 'unchecked'}
-      aria-checked={selected} tabIndex={selected || !ctx?.value ? 0 : -1} disabled={disabled}
-      className={cn(themeGalleryItemVariants(), className)} style={{ '--m-bg': preview.background, '--m-surf': preview.surface, '--m-acc': preview.accent, '--m-ink': preview.ink, '--m-muted': preview.muted, '--m-r': preview.radius } as CSSProperties}
+      aria-checked={selected} aria-labelledby={nameId} aria-describedby={description != null ? captionId : undefined} tabIndex={selected || !ctx?.value ? 0 : -1} disabled={disabled}
+      className={cn(themeGalleryItemVariants({ variant: ctx?.variant, radius: ctx?.radius, shadow: ctx?.shadow }), className)} style={{ '--m-bg': preview.background, '--m-surf': preview.surface, '--m-acc': preview.accent, '--m-ink': preview.ink, '--m-muted': preview.muted, '--m-r': preview.radius } as CSSProperties}
       onClick={e => { onClick?.(e); if (!e.defaultPrevented) ctx?.select(themeId); }}
       {...props}
     >
@@ -95,9 +100,10 @@ export function ThemeGalleryItem({ themeId, name, description, preview, checked,
       </div>
       <div data-slot="theme-gallery-meta" className={themeGalleryMetaVariants()}>
         <div className="grid flex-1">
-          <b data-slot="theme-gallery-name" className={themeGalleryNameVariants()}>{name}</b>
-          {description != null && <span data-slot="theme-gallery-caption" className={themeGalleryCaptionVariants()}>{description}</span>}
+          <b id={nameId} data-slot="theme-gallery-name" className={themeGalleryNameVariants()}>{name}</b>
+          {description != null && <span id={captionId} data-slot="theme-gallery-caption" className={themeGalleryCaptionVariants()}>{description}</span>}
         </div>
+        {selected && <span data-slot="theme-gallery-check" aria-hidden="true" className={themeGalleryCheckVariants()}><Check /></span>}
         <span data-slot="theme-gallery-swatches" aria-hidden="true" className={themeGallerySwatchesVariants()}>
           <i data-slot="theme-gallery-swatch" className={cn(themeGallerySwatchVariants(), 'bg-(--m-acc)')} />
           <i data-slot="theme-gallery-swatch" className={cn(themeGallerySwatchVariants(), 'bg-(--m-ink)')} />

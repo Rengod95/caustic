@@ -1,6 +1,7 @@
 'use client';
 import { useRef, type ComponentProps, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { alignmentPadCell, alignmentPadMark, alignmentPadVariants } from './alignment-pad.variants.ts';
 
@@ -16,7 +17,8 @@ const POSITIONS: AlignmentPosition[] = [
   'top-left', 'top-center', 'top-right', 'middle-left', 'middle-center', 'middle-right', 'bottom-left', 'bottom-center', 'bottom-right',
 ];
 
-export interface AlignmentPadProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'dir'> {
+/** Common props: variant / radius / shadow style the well, tone the well and the selected bars, size the pad box. */
+export interface AlignmentPadProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'dir'>, CommonProps {
   /** aria-label of the group ("Alignment"). Required; no built-in default. */
   label: string;
   /** aria-label of each cell ("Top left" ...). Required; no built-in default. */
@@ -33,7 +35,7 @@ export interface AlignmentPadProps extends Omit<ComponentProps<'div'>, 'defaultV
 
 /** 3×3 radio grid that picks where children sit inside an auto-layout frame. */
 export function AlignmentPad({
-  label, cellLabels, value, defaultValue = 'middle-left', onValueChange, orientation = 'row', disabled = false, className, onKeyDown, ...props
+  label, cellLabels, value, defaultValue = 'middle-left', onValueChange, orientation = 'row', disabled = false, tone, variant, radius, shadow, size, className, onKeyDown, ...props
 }: AlignmentPadProps) {
   const [current, setCurrent] = useControllableState<AlignmentPosition>({ value, defaultValue, onChange: onValueChange });
   const cells = useRef<(HTMLButtonElement | null)[]>([]);
@@ -57,7 +59,7 @@ export function AlignmentPad({
       aria-label={label}
       aria-disabled={disabled || undefined}
       data-orientation={orientation}
-      className={cn(alignmentPadVariants(), className)}
+      className={cn(alignmentPadVariants({ tone, variant, radius, shadow, size }), className)}
       onKeyDown={move}
       {...props}
     >
@@ -78,7 +80,7 @@ export function AlignmentPad({
             className={alignmentPadCell()}
             onClick={() => setCurrent(position)}
           >
-            <span data-slot="alignment-pad-mark" aria-hidden className={alignmentPadMark({ checked, orientation })} />
+            <span data-slot="alignment-pad-mark" aria-hidden className={cn(alignmentPadMark({ checked, orientation, tone }))} />
           </button>
         );
       })}

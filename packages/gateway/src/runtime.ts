@@ -87,24 +87,33 @@ export function expectPayload(t: TokenIndex, e: StyleExpect) {
 const MEASURER = `
 window.__gate = {
   probe() { let p = document.getElementById('__probe'); if (!p) { p = document.createElement('div'); p.id = '__probe'; p.style.cssText = 'position:absolute;left:-9999px;top:0;width:10px;height:10px;visibility:hidden'; document.body.appendChild(p); } return p; },
-  color(name, prop) { if (name === 'transparent') return 'rgba(0, 0, 0, 0)'; const p = this.probe(); p.style.backgroundColor = 'var(--cs-color-' + name.replace('.', '-') + ')'; return getComputedStyle(p).backgroundColor; },
+  // Resolved where the element sits: interaction fills are surface-relative (a surface class re-points them), so the
+  // probe inherits the element's own custom properties. Elements that cannot hold a child probe use their parent.
+  color(name, el) {
+    if (name === 'transparent') return 'rgba(0, 0, 0, 0)';
+    const host = el && el.namespaceURI === 'http://www.w3.org/1999/xhtml' && !/^(INPUT|TEXTAREA|SELECT|IMG|BR|HR|IFRAME|VIDEO|CANVAS|OPTION)$/.test(el.tagName) ? el : (el && el.parentElement && el.parentElement.namespaceURI === 'http://www.w3.org/1999/xhtml' ? el.parentElement : (el && el.closest('div')) || document.body);
+    const p = document.createElement('div'); p.style.cssText = 'position:absolute;left:-9999px;top:0;width:10px;height:10px;visibility:hidden;background-color:var(--cs-color-' + name.replace('.', '-') + ')';
+    host.appendChild(p); const v = getComputedStyle(p).backgroundColor; p.remove(); return v;
+  },
   resolve(prop, value) { const p = this.probe(); p.style.cssText += ';' + prop + ':' + value; const v = getComputedStyle(p).getPropertyValue(prop); p.removeAttribute('style'); p.style.cssText = 'position:absolute;left:-9999px;top:0;width:10px;height:10px;visibility:hidden'; return v; },
   measure(el, e) {
     const cs = getComputedStyle(el); const bad = [];
     const px = v => parseFloat(v);
     const near = (a, b, tol = 0.6) => Math.abs(a - b) <= tol;
     const push = (key, expected, actual) => bad.push({ key, expected: String(expected), actual: String(actual) });
-    if (e.bg !== undefined) { const x = this.color(e.bg); if (cs.backgroundColor !== x) push('bg ' + e.bg, x, cs.backgroundColor); }
-    if (e.fg !== undefined) { const x = this.color(e.fg); if (cs.color !== x) push('fg ' + e.fg, x, cs.color); }
-    if (e.border !== undefined) { const x = this.color(e.border); if (cs.borderTopColor !== x) push('border ' + e.border, x, cs.borderTopColor); }
-    if (e.edge !== undefined) { const x = this.color(e.edge) + ' 0px 0px 0px '; if (!cs.boxShadow.includes(x)) push('edge ' + e.edge, x, cs.boxShadow); }
+    if (e.bg !== undefined) { const x = this.color(e.bg, el); if (cs.backgroundColor !== x) push('bg ' + e.bg, x, cs.backgroundColor); }
+    if (e.fg !== undefined) { const x = this.color(e.fg, el); if (cs.color !== x) push('fg ' + e.fg, x, cs.color); }
+    if (e.border !== undefined) { const x = this.color(e.border, el); if (cs.borderTopColor !== x) push('border ' + e.border, x, cs.borderTopColor); }
+    if (e.edge !== undefined) { const x = this.color(e.edge, el) + ' 0px 0px 0px '; if (!cs.boxShadow.includes(x)) push('edge ' + e.edge, x, cs.boxShadow); }
     if (e.shadow !== undefined) { const x = this.resolve('box-shadow', 'var(--cs-elevation-' + e.shadow + ')'); if (!cs.boxShadow.includes(x)) push('shadow elevation-' + e.shadow, x, cs.boxShadow); }
     if (e.ring !== undefined) {
-      const focus = this.resolve('box-shadow', 'var(--cs-focus)'), field = this.resolve('box-shadow', 'var(--cs-focus-field)');
+      // The focus gap follows the surface the element sits on (--cs-focus-offset), so the ring is resolved in the element's context.
+      const own = cs.getPropertyValue('--cs-focus').trim();
+      const focus = this.resolve('box-shadow', own || 'var(--cs-focus)'), field = this.resolve('box-shadow', 'var(--cs-focus-field)');
       if (e.ring === 'focus' && !cs.boxShadow.includes(focus)) push('ring focus', focus, cs.boxShadow);
       if (e.ring === 'focus-field' && !cs.boxShadow.includes(field)) push('ring focus-field', field, cs.boxShadow);
       if (e.ring === 'focus-field' && cs.boxShadow.includes(focus)) push('ring focus-field (no outer ring)', 'no var(--cs-focus)', cs.boxShadow);
-      if (e.ring === 'none' && (cs.boxShadow.includes(this.color('focus.ring')) || (cs.outlineStyle !== 'none' && px(cs.outlineWidth) > 0))) push('ring none', 'no focus ring or outline', cs.boxShadow + ' / outline ' + cs.outline);
+      if (e.ring === 'none' && (cs.boxShadow.includes(this.color('focus.ring', el)) || (cs.outlineStyle !== 'none' && px(cs.outlineWidth) > 0))) push('ring none', 'no focus ring or outline', cs.boxShadow + ' / outline ' + cs.outline);
     }
     if (e.radius !== undefined) { const x = this.resolve('border-top-left-radius', 'var(' + e.radiusVar + ')'); if (cs.borderTopLeftRadius !== x) push('radius ' + e.radius, x, cs.borderTopLeftRadius); }
     // Layout size, not the transformed box: a 14px square rotated 45° is still 14px wide by spec.
@@ -128,9 +137,9 @@ window.__gate = {
     }
     if (e.font !== undefined) { const x = this.resolve('font-family', 'var(--cs-font-' + e.font + ')'); if (cs.fontFamily !== x) push('font ' + e.font, x, cs.fontFamily); }
     if (e.material !== undefined) {
-      const bg = this.color('material.' + e.material); if (cs.backgroundColor !== bg) push('material ' + e.material + ' fill', bg, cs.backgroundColor);
-      const blurName = { ultrathin: 'ultrathin', thin: 'thin', regular: 'regular', thick: 'thick' }[e.material];
-      const bf = this.resolve('backdrop-filter', 'blur(var(--cs-blur-' + blurName + ')) saturate(1.8)'); if (cs.backdropFilter !== bf) push('material ' + e.material + ' blur', bf, cs.backdropFilter);
+      const bg = this.color('material.' + e.material, el); if (cs.backgroundColor !== bg) push('material ' + e.material + ' fill', bg, cs.backgroundColor);
+      // Floating surfaces are solid since 542df1d (one depth cue: fill + elevation, no backdrop blur).
+      if (cs.backdropFilter !== 'none') push('material ' + e.material + ' solid (no blur)', 'none', cs.backdropFilter);
     }
     if (e.frost) { const bf = this.resolve('backdrop-filter', 'blur(var(--cs-blur-control)) saturate(1.6)'); if (cs.backdropFilter !== bf) push('frost', bf, cs.backdropFilter); }
     if (e.opacity != null && !near(Number(cs.opacity), e.opacity, 0.005)) push('opacity', e.opacity, cs.opacity);

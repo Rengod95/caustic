@@ -20,5 +20,11 @@ export default defineFixture({
         <Pagination layout="compact" total={236} pageSize={20} itemLabel="tokens" value={2} />
       </>
     ),
+    'pagination-icon-steps': () => (
+      <>
+        <Pagination aria-label="Pagination, text steps" pageCount={12} value={2} />
+        <Pagination aria-label="Pagination, icon steps" pageCount={12} value={2} stepLabel="icon" />
+      </>
+    ),
   },
 });

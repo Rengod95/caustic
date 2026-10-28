@@ -9,5 +9,16 @@ export default defineFixture({
   render: props => <ImageFill src={placeholder} fileName="hero-photo.avif" fileMeta="· 2400 × 1600 · 412 KB" {...props} />,
   examples: {
     'image-fill': () => <ImageFill src={placeholder} fileName="hero-photo.avif" fileMeta="· 2400 × 1600 · 412 KB" />,
+    // A real file name is longer than the specimen one: it truncates, the facts stay whole.
+    // Crop in a popover (owner 2026-10-28, option 2): crop mode with the editor open in place under the stage.
+    'crop-popover': () => (
+      <div className="w-68">
+        <ImageFill
+          src={placeholder} fileName="hero-photo.avif" fileMeta="· 2400 × 1600 · 412 KB" defaultMode="crop"
+          defaultCrop={{ x: 0.18, y: 0.12, w: 0.6, h: 0.7, zoom: 1.25 }} cropPopover={{ inline: true, defaultOpen: true }}
+        />
+      </div>
+    ),
+    'long-file-name': () => <div className="w-68"><ImageFill src={placeholder} fileName="2026-10-27-hero-photo-final-export@2x.avif" fileMeta="· 2400 × 1600 · 412 KB" /></div>,
   },
 });

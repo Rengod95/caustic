@@ -32,7 +32,7 @@ Never edit `dist/` by hand.
 
 ## Layers
 
-1. **Primitive.** Raw OKLCH values and dimension scales: `--cs-accent-600`, `--cs-radius-3xl`. Components never read them directly.
+1. **Primitive.** Raw OKLCH values and dimension scales: `--cs-accent-7`, `--cs-radius-3xl`. Components never read them directly.
 2. **Semantic.** Role names, defined per theme: `--cs-color-accent-solid`, `--cs-color-text-tertiary`. This is the only color layer components read.
 3. **Component and studio.** Composes semantic tokens and owns layout and state, never color decisions. Studio shell metrics live in `--cs-studio-*`.
 
@@ -43,8 +43,8 @@ Naming:
 ## Color
 
 **Ramps**
-- One neutral ramp (Graphite, 16 steps, hue 260, chroma ≤ 0.012).
-- Five hued ramps with 12 steps each: Lagoon (accent), Mint (success), Amber (warning), Coral (danger), Iris (info).
+- One neutral ramp (Graphite, 11 steps named 1 to 11, 1 = lightest, 11 = darkest). It is a true neutral gray (chroma 0), in both themes.
+- Five hued ramps with 11 steps each, named 1 to 11 (1 = lightest, 11 = darkest): Lagoon (accent), Mint (success), Amber (warning), Coral (danger), Iris (info).
 - All hued ramps share one lightness/chroma profile; only the hue changes. A given step therefore has nearly the same contrast in every hue.
 
 **Gamut.** Out-of-sRGB values are mapped the CSS Color 4 way: lightness is kept and chroma is reduced. The validator uses the same mapping.
@@ -79,7 +79,7 @@ Naming:
 | Labels on accent, status and guide fills | 4.5 : 1 |
 
 - Alpha tokens are composited over their real background before measuring.
-- Text over glass is measured over both the canvas and saturated content.
+- Text on floating surfaces is measured on the solid fill.
 - **Adding a new pairing to the UI means adding a rule to `contrastRules`.** Currently 84/84 rules pass.
 
 ## Typography
@@ -138,13 +138,13 @@ Naming:
 | Form fields | 36 · 40 · 44 (`--cs-field-*`) |
 | Segmented container | 4px padding; container radius 12, segment radius 8 |
 | Toolbars (capsule, zoom, context bar) | radius 14, items 10 (`--cs-studio-toolbar-radius`, `-item-radius`); never a full pill |
-| Toast | min height 60, radius 22 (`--cs-studio-toast-radius`), regular glass so content reads through |
+| Toast | min height 60, radius 22 (`--cs-studio-toast-radius`), solid `material.regular`, one elevation shadow |
 | Tool call header | 40 |
 | Switch | iOS proportions: 46 × 28, thumb 24; stretches while pressed. Small 38 × 23 |
 | Checkbox, radio | 18 |
 | List row, accordion header, table row | 48 (table header 38) |
 
-**Frosted controls:** buttons, tooltips, list containers and rows, fields and chips use a translucent fill (`control.raised`, `ink.solid` and `surface.translucent` carry the alpha) over a 12px backdrop blur (`--cs-blur-control`). On a plain surface they read as solid; over imagery they soften it. Contrast is measured on the composited result.
+**Solid controls:** buttons, tooltips, list containers and rows, fields and chips use opaque fills (`control.raised`, `ink.solid`, `surface.translucent` are now solid; the names are kept). No backdrop blur.
 
 **Field radius:** one step above the control scale. Fields 12 (sm 10, lg 16), inspector fields 10.
 
@@ -154,26 +154,18 @@ Naming:
 
 ## Depth and materials
 
-**Elevation:** levels 1–5. Each pairs a short contact shadow with a long diffuse one, defined per theme. Dark mode uses deeper shadows and fainter rims.
+**Elevation:** levels 1–5. Each pairs a short contact shadow with a long diffuse one, defined per theme. Dark mode uses deeper shadows; its floating surfaces are one step lighter than the base surface. A surface carries a hairline or a shadow, never both.
 
-**Glass recipe (`.cs-glass`):**
-- translucent fill;
-- `backdrop-filter: blur() saturate(1.8)`;
-- a 1px top specular highlight;
-- an inner rim and a 0.5px outer edge;
-- a diagonal sheen mask on the border.
+**Floating recipe (`.cs-glass`, alias kept):**
+- solid `material.*` fill;
+- one elevation shadow;
+- no backdrop blur, no specular highlight, no rim, no edge, no sheen.
 
 **Materials:**
-- ultrathin (30%, blur 14)
-- thin (48%, blur 20)
-- regular (66%, blur 24)
-- thick (84%, blur 36)
-- solid
+- ultrathin, thin, regular, thick: all solid and equal (`neutral.1` light, `neutral.8` dark); kept as names for spec compatibility
+- rim, edge, specular, sheen: zero alpha
 
-**Fallbacks:**
-- Without `backdrop-filter`, glass falls back to thick.
-- Under `prefers-reduced-transparency`, glass becomes a solid surface.
-
+**Fallbacks:** none needed; nothing is translucent.
 ## Motion
 
 **Durations:** quick 120, base 200, gentle 320, slow 480, shimmer 2200, agent 4800 (ms).
@@ -199,17 +191,18 @@ Naming:
 
 ## Policies
 
-1. **Glass only for what floats.**
-   - Glass: rail, panels, toolbars, popovers, toasts, cursor tags.
-   - Solid: reading text, lists and inputs. Menu and form text needs `cs-thick` or solid.
+1. **Solid surfaces, one depth cue.** (replaces "Glass only for what floats")
+   - Floating (rail, panels, toolbars, popovers, toasts, cursor tags): solid fill plus one elevation shadow.
+   - Resting (lists, inputs, cards): solid fill plus a 1px hairline, no shadow.
+   - No `backdrop-filter`, no translucent fills, no border plus shadow, no accent fill plus accent border.
 2. **Light means agent.**
    - The spectrum (`.cs-agent` rim, `.cs-orb`, `.cs-shimmer`, agent cursor) appears only where the agent is present, working, or left provenance.
    - It is never decoration.
 3. **Ink first, accent once.**
    - Primary actions use ink.
-   - Buttons are flat, the iOS way: a solid fill, a 1px `control.edge` hairline and a short contact shadow (`elevation-1`). No sheen, no specular top edge, no bevel.
-   - Ink is near-black in light mode and a lifted graphite (`neutral.700`) in dark mode, never white.
-   - Secondary buttons, segmented thumbs and the current nav item use `control.raised`, one step lighter than the surface (white in light mode, `neutral.850` in dark).
+   - Buttons are flat, the iOS way: a solid fill and a 1px `control.edge` hairline, no shadow. No sheen, no specular top edge, no bevel.
+   - Ink is near-black in light mode and a lifted graphite (`neutral.7`) in dark mode, never white.
+   - Secondary buttons, segmented thumbs and the current nav item use `control.raised`, one step lighter than the surface (white in light mode, `neutral.8` in dark).
    - Selected indicators that are not buttons (step dots, slider fills, pucks) use `text.primary`, not ink.
    - The accent is for selection, focus, links, toggles and at most one confirming action per view.
    - Status colors only mean status.
@@ -221,7 +214,7 @@ Naming:
    - Agent: spectrum rim with a scan band, plus an agent cursor with a task tag.
 8. **Motion has a job.** Feedback is fast, movement springs, and loops belong to the agent.
 9. **A field owns its focus.**
-   - A focused text field (input, textarea, number, hex, search, composer) swaps its own border for `--cs-focus-field` (1.5px, `focus.ring`, ≥ 3:1).
+   - A focused text field (input, textarea, number, hex, search, composer) shows `--cs-focus-field` on its box: its resting 1px `border.default` hairline (owner 2026-10-28: no black 1.5px edge). The cue is the fill: a white field turns `neutral.well`, a field that rests on a grey fill turns `surface.base`. Design over contrast: the fill step is about 1.1:1, a waived 2.4.11 warning.
    - The inner control draws nothing, and no outer ring or halo is added. One edge, never three.
    - Invalid fields keep a danger border while focused.
    - Buttons and other non-field controls keep the 2px outer `--cs-focus` ring, shown on keyboard focus only.

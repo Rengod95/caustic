@@ -7,23 +7,31 @@ import { Collector } from '../report.ts';
 import { componentsDir, root } from '../paths.ts';
 import { caseFor, caseSelector, openPage, slotSelector, type Runtime } from '../runtime.ts';
 
-interface Use { cls: string; where: string; literal: string; variant?: string }
+interface Use { cls: string; where: string; literal: string; variant?: string; cva?: string }
 
-/** Class uses with the cva variant they belong to ("tone=agent"), for variant-scoped policies. */
+/** A flag is true, or scoped: { <axis>: [values] } matches classes in that cva variant, { cva: [names] } classes in that cva. */
+type Scoped = boolean | Record<string, string[]>;
+const inScope = (flag: Scoped, u: Use) => flag === true || (typeof flag === 'object' && Object.entries(flag).some(([axis, vals]) =>
+  axis === 'cva' ? !!u.cva && vals.includes(u.cva) : !!u.variant && vals.some(v => u.variant === `${axis}=${v}`)));
+
+/** Class uses with the cva variant ("tone=agent") and the cva constant they belong to, for scoped policies. */
 function classUses(spec: ComponentSpec): Use[] {
   const dir = join(componentsDir, spec.id); const out: Use[] = [];
   for (const f of readdirSync(dir).filter(f => /\.tsx?$/.test(f) && !f.includes('.fixture.'))) {
     const file = join(dir, f); const text = readFileSync(file, 'utf8'); const rel = relative(root, file).replace(/\\/g, '/');
     const sf = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true, f.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
-    const walk = (n: ts.Node, variant?: string) => {
+    const walk = (n: ts.Node, variant?: string, owner?: string) => {
+      if (ts.isVariableDeclaration(n) && ts.isIdentifier(n.name)) owner = n.name.text;
       if (ts.isPropertyAssignment(n) && ts.isObjectLiteralExpression(n.parent) && ts.isPropertyAssignment(n.parent.parent) && ts.isObjectLiteralExpression(n.parent.parent.parent) && ts.isPropertyAssignment(n.parent.parent.parent.parent) && n.parent.parent.parent.parent.name.getText(sf) === 'variants') {
         variant = `${n.parent.parent.name.getText(sf).replace(/['"]/g, '')}=${n.name.getText(sf).replace(/['"]/g, '')}`;
       }
-      if (ts.isStringLiteral(n) || ts.isNoSubstitutionTemplateLiteral(n)) {
+      // A literal type ('glass' in a union) or a comparison (v === 'glass') names a value, not classes.
+      const valueName = !!n.parent && (ts.isLiteralTypeNode(n.parent) || ts.isCaseClause(n.parent) || (ts.isBinaryExpression(n.parent) && [ts.SyntaxKind.EqualsEqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsEqualsToken].includes(n.parent.operatorToken.kind)));
+      if ((ts.isStringLiteral(n) || ts.isNoSubstitutionTemplateLiteral(n)) && !valueName) {
         const line = sf.getLineAndCharacterOfPosition(n.getStart()).line + 1;
-        for (const cls of n.text.split(/\s+/).filter(Boolean)) out.push({ cls, where: `${rel}:${line}`, literal: n.text, variant });
+        for (const cls of n.text.split(/\s+/).filter(Boolean)) out.push({ cls, where: `${rel}:${line}`, literal: n.text, variant, cva: owner });
       }
-      ts.forEachChild(n, m => walk(m, variant));
+      ts.forEachChild(n, m => walk(m, variant, owner));
     };
     walk(sf);
   }
@@ -38,16 +46,16 @@ export async function g5Static(c: Collector, spec: ComponentSpec) {
   const agent = spec.flags.agent;
   for (const u of uses) {
     const util = u.cls.split(':').pop()!;
-    if (GLASS.test(util) && !spec.flags.floating) c.fail({ gate: 'G5', check: 'P1 glass', where: u.where, message: `"${u.cls}" uses a glass material but the component does not float (flags.floating).`, fix: 'Use a solid surface, or the light frost utility for controls.' });
+    if (GLASS.test(util) && !inScope(spec.flags.floating, u) && !inScope(spec.flags.frost, u)) c.fail({ gate: 'G5', check: 'P1 glass', where: u.where, message: `"${u.cls}" uses a glass material but the component does not float (flags.floating).`, fix: 'Use a solid surface, or the light frost utility for controls.' });
     if (SPECTRUM.test(util)) {
-      const allowed = agent === true || (typeof agent === 'object' && !!u.variant && Object.entries(agent).some(([axis, vals]) => vals.some(v => u.variant === `${axis}=${v}`)));
-      if (!allowed) c.fail({ gate: 'G5', check: 'P2 spectrum', where: u.where, message: `"${u.cls}" is agent light outside an agent context${u.variant ? ` (variant ${u.variant})` : ''}.`, fix: 'Spectrum utilities belong only to components or variants listed in flags.agent.' });
+      if (!inScope(agent, u)) c.fail({ gate: 'G5', check: 'P2 spectrum', where: u.where, message: `"${u.cls}" is agent light outside an agent context${u.variant ? ` (variant ${u.variant})` : ''}.`, fix: 'Spectrum utilities belong only to components or variants listed in flags.agent.' });
     }
-    if (/^(bg-linear|bg-radial|bg-conic|inset-shadow|inset-ring|bg-gradient)/.test(util)) c.fail({ gate: 'G5', check: 'P3 flat', where: u.where, message: `"${u.cls}" adds a gradient or inset highlight. Controls are flat.` });
+    // Controls are flat; a card surface may carry a designed tint gradient (owner 2026-10-27: card-agent header tint).
+    if (/^(bg-linear|bg-radial|bg-conic|inset-shadow|inset-ring|bg-gradient)/.test(util) && !(spec.category === 'card' && /^bg-(linear|radial|conic)/.test(util))) c.fail({ gate: 'G5', check: 'P3 flat', where: u.where, message: `"${u.cls}" adds a gradient or inset highlight. Controls are flat.` });
     if (/^text-(voice|voice-sm|thought)$/.test(util) && !u.literal.split(/\s+/).includes('font-voice')) c.fail({ gate: 'G5', check: 'P4 voices', where: u.where, message: `"${u.cls}" needs font-voice in the same class list.` });
     if (/^text-(mono|mono-sm)$/.test(util) && !u.literal.split(/\s+/).includes('font-mono')) c.fail({ gate: 'G5', check: 'P4 voices', where: u.where, message: `"${u.cls}" needs font-mono in the same class list.` });
     if (/^font-voice$/.test(util) && !['agent', 'card', 'list'].includes(spec.category) && agent === false) c.warn({ gate: 'G5', check: 'P4 voices', where: u.where, message: 'font-voice outside an agent component. Agent prose only.' });
-    if (/^animate-/.test(util) && util !== 'animate-spinner' && !spec.flags.motionLoop && agent === false) c.fail({ gate: 'G5', check: 'P8 motion', where: u.where, message: `"${u.cls}" loops forever; only agent components may.` });
+    if (/^animate-/.test(util) && util !== 'animate-spinner' && util !== 'animate-none' && !spec.flags.motionLoop && agent === false) c.fail({ gate: 'G5', check: 'P8 motion', where: u.where, message: `"${u.cls}" loops forever; only agent components may.` });
   }
 }
 
@@ -56,7 +64,9 @@ export async function g5Runtime(c: Collector, spec: ComponentSpec, rt: Runtime) 
   for (const ex of spec.examples) {
     const page = await openPage(rt, { c: spec.id, mode: 'example', ex: ex.id, theme: 'light', w: '800' });
     try {
-      const accents = await page.locator('[data-tone="accent"]').count();
+      // Actionable accents only: every component carries a tone now (progress, checkbox …), but P3 is about the one
+      // accent action per view.
+      const accents = await page.locator(':is(button, a, [role="button"])[data-tone="accent"]').count();
       if (accents > 1) c.fail({ gate: 'G5', check: 'P3 accent once', where: ex.id, message: `${accents} accent buttons in one view.`, expected: '≤ 1' });
       const nested: { child: string; parent: string; rc: number; rp: number; inset: number }[] = await page.evaluate(() => {
         const out: any[] = []; const frame = document.querySelector('.frame')!;

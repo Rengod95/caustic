@@ -1,6 +1,6 @@
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';
-import { Spinner } from '../spinner/spinner.tsx';
+import { Progress } from '../progress/progress.tsx';
 import { Separator } from './separator.tsx';
 
 export default defineFixture({
@@ -17,7 +17,7 @@ export default defineFixture({
           <span className="text-footnote">Edited 2m ago</span>
         </div>
         <div className="flex flex-wrap items-center gap-4">
-          <Spinner size="sm" /><Spinner /><Spinner size="lg" /><Spinner tone="accent" />
+          <Progress shape="ring" size="sm" /><Progress shape="ring" /><Progress shape="ring" size="lg" /><Progress shape="ring" tone="accent" />
           <Button tone="secondary" size="sm" loading>Saving</Button>
         </div>
       </div>

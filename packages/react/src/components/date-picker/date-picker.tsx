@@ -3,11 +3,15 @@ import * as Popover from '@radix-ui/react-popover';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { useRef, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
-import { formatValue, type DateValue } from '../../lib/calendar-date.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
+import { formatValue, parseIso, type DateValue } from '../../lib/calendar-date.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Calendar, type CalendarProps, type CalendarShortcut } from '../calendar/calendar.tsx';
 import { useFieldContext } from '../field/field-context.ts';
 import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
+import { datePickerLengthVariants, datePickerVariants } from './date-picker.variants.ts';
+
+const defaultRangeLength = (days: number) => `${days} ${days === 1 ? 'day' : 'days'}`;
 
 export interface DatePickerProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'placeholder'> {
   /** One date or a start–end range. */
@@ -26,18 +30,33 @@ export interface DatePickerProps extends Omit<ComponentProps<'div'>, 'defaultVal
   today?: string;
   disabled?: boolean;
   invalid?: boolean;
+  /**
+   * Range length after a complete range in the trigger, in tertiary after a middle dot (“· 7 days”). Receives the day
+   * count (both ends included). Default: “N days” (“1 day”); false hides it.
+   */
+  formatRangeLength?: ((days: number) => ReactNode) | false | undefined;
   /** Form field name (ISO value; a range posts name-from / name-to). */
   name?: string;
   /** Render the Calendar in place under the trigger, open, without portal or positioning. */
   inline?: boolean;
   onValueChange?: (value: DateValue) => void;
   onOpenChange?: (open: boolean) => void;
+  /** Colour family of the trigger (PickerTrigger tone). */
+  tone?: Tone | undefined;
+  /** Emphasis of the trigger (PickerTrigger variant); outline is the field look. */
+  variant?: Variant | undefined;
+  /** Corner radius of the trigger; unset = xl. */
+  radius?: Radius | undefined;
+  /** Elevation of the trigger; unset = none. */
+  shadow?: Shadow | undefined;
+  /** Trigger height step (PickerTrigger size); also the gap to the inline panel (xs 8, sm 12, md and lg 16). */
+  size?: Size | undefined;
 }
 
 /** Field-looking trigger that opens a Calendar panel. Wrap in Field for the label. */
 export function DatePicker({
-  mode = 'range', value, defaultValue, open, defaultOpen, placeholder = 'Select a date', shortcuts, today, disabled, invalid, name, inline = false,
-  onValueChange, onOpenChange, className, onKeyDown, ...props
+  mode = 'range', value, defaultValue, open, defaultOpen, placeholder = 'Select a date', shortcuts, today, disabled, invalid, name, inline = false, formatRangeLength = defaultRangeLength,
+  onValueChange, onOpenChange, tone, variant, radius, shadow, size, className, onKeyDown, ...props
 }: DatePickerProps) {
   const field = useFieldContext();
   const [val, setVal] = useControllableState<DateValue | null>({ value, defaultValue: defaultValue ?? null, onChange: v => { if (v != null) onValueChange?.(v); } });
@@ -53,16 +72,18 @@ export function DatePicker({
   };
   const range = val != null && typeof val !== 'string' ? val : null;
   const single = typeof val === 'string' ? val : null;
+  const days = range?.to != null && range.to !== range.from ? Math.round((parseIso(range.to).getTime() - parseIso(range.from).getTime()) / 86_400_000) + 1 : null;
+  const length = days != null && formatRangeLength ? formatRangeLength(days) : null;
 
   const trigger = (
     <PickerTrigger
-      ref={triggerRef} data-slot="date-picker-trigger" indicator="dropdown" leading={<CalendarIcon />} placeholder={placeholder}
+      ref={triggerRef} data-slot="date-picker-trigger" tone={tone} variant={variant} radius={radius} shadow={shadow} size={size} indicator="dropdown" leading={<CalendarIcon />} placeholder={placeholder}
       open={isOpen} invalid={invalid ?? field?.invalid} disabled={disabled ?? field?.disabled} id={field?.id}
       aria-haspopup="dialog" aria-describedby={field?.describedBy}
       aria-labelledby={field ? `${field.id}-label ${field.id}` : undefined}
       onClick={inline ? () => setOpen(!isOpen) : undefined}
     >
-      {text || undefined}
+      {text ? <>{text}{length != null && <span data-slot="date-picker-length" className={datePickerLengthVariants()}>{' · '}{length}</span>}</> : undefined}
     </PickerTrigger>
   );
   const calendar = (extra: Partial<CalendarProps> = {}) => (
@@ -80,7 +101,7 @@ export function DatePicker({
 
   if (inline) {
     return (
-      <div data-slot="date-picker" className={cn('grid gap-4', className)} onKeyDown={onRootKeyDown} {...props}>
+      <div data-slot="date-picker" className={cn(datePickerVariants({ size }), className)} onKeyDown={onRootKeyDown} {...props}>
         {trigger}
         {isOpen && calendar({ role: 'dialog', 'aria-label': label })}
         {hidden}
@@ -88,7 +109,7 @@ export function DatePicker({
     );
   }
   return (
-    <div data-slot="date-picker" className={cn('grid gap-4', className)} {...props}>
+    <div data-slot="date-picker" className={cn(datePickerVariants({ size }), className)} {...props}>
       <Popover.Root open={isOpen} onOpenChange={setOpen}>
         <Popover.Trigger asChild>{trigger}</Popover.Trigger>
         <Popover.Portal>

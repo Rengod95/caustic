@@ -2,10 +2,13 @@
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
-import { Card } from '../card/index.ts';
+import type { CommonProps, Variant } from '../../lib/common-props.ts';
+import { Card, cardSize, type CardSize } from '../card/index.ts';
 import { cardStatDeltaVariants, cardStatSparkVariants, cardStatVariants, type CardStatDeltaVariantProps } from './card-stat.variants.ts';
 
-export interface CardStatProps extends Omit<ComponentProps<'div'>, 'children' | 'title'>, CardStatDeltaVariantProps {
+export interface CardStatProps extends Omit<ComponentProps<'div'>, 'children' | 'title'>, Omit<CommonProps, 'size' | 'variant'>, CardStatDeltaVariantProps {
+  /** surface = opaque surface with the hairline (default); solid / soft / outline / ghost repaint it in the tone slots. */
+  variant?: 'surface' | Variant;
   /** Metric name. */
   label: ReactNode;
   /** The figure. */
@@ -22,7 +25,8 @@ export interface CardStatProps extends Omit<ComponentProps<'div'>, 'children' | 
   trend?: number[];
   /** Accessible label of the sparkline. */
   trendLabel?: string;
-  size?: 'regular' | 'compact';
+  /** Passed to Card (inset and gap). regular and compact are deprecated names for md and sm. */
+  size?: CardSize;
   /** Extra sections, e.g. a divided CardFooter. */
   children?: ReactNode;
 }
@@ -34,15 +38,19 @@ const sparkPaths = (trend: number[]) => {
   return { line, area: `${line} L100 32 L0 32Z` };
 };
 
-/** One KPI: label, large tabular value, delta pill with a note and an optional edge-to-edge sparkline. */
+/** One KPI: label, large tabular value, a coloured delta with a note and an optional edge-to-edge sparkline. Renders on Card (variant surface by default). */
 export function CardStat({
-  label, value, unit, delta, deltaTone, deltaDirection = 'up', deltaNote, trend, trendLabel, size, className, children, ...props
+  label, value, unit, delta, deltaTone, deltaDirection = 'up', deltaNote, trend, trendLabel, tone, variant, radius, shadow, size, className, children, ...props
 }: CardStatProps) {
+  const s = cardSize(size);
   const gradId = useId();
   const Arrow = deltaDirection === 'down' ? ArrowDownRight : ArrowUpRight;
   const paths = trend && trend.length > 1 ? sparkPaths(trend) : null;
   return (
-    <Card data-slot="card-stat" size={size} className={cn(cardStatVariants(), className)} {...props}>
+    <Card
+      data-slot="card-stat" variant={variant ?? 'surface'} tone={tone} radius={radius} shadow={shadow} size={size}
+      className={cn(cardStatVariants({ tone, variant, size: s }), className)} {...props}
+    >
       <div className="grid gap-1">
         <span data-slot="card-stat-label" className="flex items-center gap-1.5 font-ui text-ui-sm font-normal text-text-tertiary">{label}</span>
         <span data-slot="card-stat-value" className={cn('font-ui text-stat tabular-nums text-text-primary', unit != null && 'pb-1.25')}>
@@ -51,7 +59,7 @@ export function CardStat({
         </span>
       </div>
       {(delta != null || deltaNote != null) && (
-        <span data-slot="card-stat-trend" className="flex items-center gap-1 pt-0.75">
+        <span data-slot="card-stat-trend" className="flex items-center gap-2 pt-0.75">
           {delta != null && (
             <span data-slot="card-stat-delta" data-tone={deltaTone ?? 'good'} className={cardStatDeltaVariants({ deltaTone })}>
               <Arrow aria-hidden />
@@ -62,15 +70,15 @@ export function CardStat({
         </span>
       )}
       {paths && (
-        <svg data-slot="card-stat-spark" viewBox="0 0 100 32" preserveAspectRatio="none" role="img" aria-label={trendLabel} className={cardStatSparkVariants({ size })}>
+        <svg data-slot="card-stat-spark" viewBox="0 0 100 32" preserveAspectRatio="none" role="img" aria-label={trendLabel} className={cn(cardStatSparkVariants({ size: s }))}>
           <defs>
             <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="var(--cs-color-accent-solid)" stopOpacity="0.28" />
-              <stop offset="1" stopColor="var(--cs-color-accent-solid)" stopOpacity="0" />
+              <stop offset="0" stopColor="var(--cs-color-chart-1)" stopOpacity="0.28" />
+              <stop offset="1" stopColor="var(--cs-color-chart-1)" stopOpacity="0" />
             </linearGradient>
           </defs>
           <path d={paths.area} fill={`url(#${gradId})`} />
-          <path d={paths.line} className="fill-none stroke-accent-solid stroke-2 [vector-effect:non-scaling-stroke]" />
+          <path d={paths.line} className="fill-none stroke-chart-1 stroke-2 [vector-effect:non-scaling-stroke]" />
         </svg>
       )}
       {children}

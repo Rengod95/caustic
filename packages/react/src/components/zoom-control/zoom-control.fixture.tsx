@@ -19,7 +19,7 @@ export default defineFixture({
           </SegmentedControl>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <ZoomControl value="64%" appearance="glass" readout="static" size="sm" label="Zoom" zoomOutLabel="Zoom out" zoomInLabel="Zoom in" />
+          <ZoomControl value="64%" variant="glass" readout="static" size="sm" label="Zoom" zoomOutLabel="Zoom out" zoomInLabel="Zoom in" />
           <Button tone="secondary" size="sm" shape="pill" iconStart={<Play />}>Preview</Button>
         </div>
       </>

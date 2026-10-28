@@ -8,9 +8,9 @@ const stage = 'canvas-grid flex flex-col items-center gap-3.5 rounded-xl py-7 [b
 export default defineFixture({
   id: 'floating-bar',
   render: props => {
-    const { size, label, orientation, children: _children, ...item } = props as Partial<FloatingBarProps> & FloatingBarItemProps;
+    const { size, label, orientation, tone, variant, radius, shadow, children: _children, ...item } = props as Partial<FloatingBarProps> & FloatingBarItemProps;
     return (
-      <FloatingBar label={label ?? 'Canvas tools'} size={size} orientation={orientation}>
+      <FloatingBar label={label ?? 'Canvas tools'} size={size} orientation={orientation} tone={tone} variant={variant} radius={radius} shadow={shadow}>
         <FloatingBarGroup>
           <FloatingBarItem aria-label="Move V" icon={<MousePointer2 />} shortcut="V" {...item} />
           <FloatingBarItem aria-label="Hand H" icon={<Hand />} shortcut="H" />

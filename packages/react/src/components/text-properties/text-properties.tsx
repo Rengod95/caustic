@@ -4,10 +4,11 @@ import {
 } from 'lucide-react';
 import { useRef, useState, type ComponentProps, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { Button } from '../button/button.tsx';
-import { InspectorSelect } from '../inspector-select/inspector-select.tsx';
+import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
 import { Select, SelectOption } from '../select/select.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
@@ -69,7 +70,7 @@ export interface TextPropertiesLabels {
   mixed: string;
 }
 
-export interface TextPropertiesProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
+export interface TextPropertiesProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'>, CommonProps {
   value?: TextPropertiesValue | undefined;
   defaultValue?: TextPropertiesValue | undefined;
   /** Number of style runs in the layer; the notice is shown when it is greater than 1. */
@@ -127,7 +128,7 @@ const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true }
 /** The text section of the inspector: weight, size, spacing, alignment, resize, case and Details. */
 export function TextProperties({
   value, defaultValue = DEFAULT_TEXT, styleRuns = 1, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onValueChange, onWeightClick, onDetailsClick, onDraftChange, onPreviewChange, invalid, describedBy, limits, units, clearable, weightOptions, showDetails = true, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
+  onValueChange, onWeightClick, onDetailsClick, onDraftChange, onPreviewChange, invalid, describedBy, limits, units, clearable, weightOptions, showDetails = true, onFieldFocus, onFieldBlur, onFieldCommit, tone, variant, radius, shadow, size, className, children, ...props
 }: TextPropertiesProps) {
   const contract = useFieldContract<TextPropertiesChange, TextPropertiesField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const typed = useRef<Record<string, string>>({});
@@ -169,7 +170,7 @@ export function TextProperties({
   const weightMixed = isMixed('weight');
 
   return (
-    <div data-slot="text-properties" className={cn(textPropertiesVariants(), className)} {...props}>
+    <div data-slot="text-properties" className={cn(textPropertiesVariants({ tone, variant, size, radius, shadow }), className)} {...props}>
       <div data-slot="text-properties-type-row" className={textPropertiesTwoColumnVariants()}>
         {weightOptions ? (
           <Select
@@ -182,14 +183,14 @@ export function TextProperties({
             {weightOptions.map(option => <SelectOption key={option.value} value={option.value}>{option.label}</SelectOption>)}
           </Select>
         ) : (
-          <InspectorSelect
-            data-slot="text-properties-weight" aria-label={labels.weight} disabled={isDisabled('weight')} data-mixed={weightMixed || undefined}
+          <PickerTrigger
+            variant="soft" indicator="dropdown" data-slot="text-properties-weight" aria-label={labels.weight} disabled={isDisabled('weight')} data-mixed={weightMixed || undefined}
             onClick={() => { if (!isReserved('weight')) onWeightClick?.(); }}
             {...contract.attrs('weight')}
             {...(isReserved('weight') ? busy : {})}
           >
             {weightMixed ? labels.mixed : v.weight}
-          </InspectorSelect>
+          </PickerTrigger>
         )}
         <span data-slot="text-properties-size" className="min-w-0" {...wrap('size')}>
           <NumberField label={<Type />} aria-label={labels.size} {...field('size')} />
@@ -221,7 +222,7 @@ export function TextProperties({
           {VALIGNS.map(a => <SegmentedControlItem key={a} value={a} aria-label={labels.valign[a]}>{valignIcons[a]}</SegmentedControlItem>)}
         </SegmentedControl>
       </div>
-      <div className={textPropertiesRowVariants()}>
+      <div data-slot="text-properties-resize-row" className={textPropertiesRowVariants()}>
         <SegmentedControl
           data-slot="text-properties-resize" size="xs" aria-label={labels.resizeGroup} disabled={isDisabled('resize')}
           value={isMixed('resize') ? '' : v.resize} onValueChange={guard('resize', resize => patch({ resize: resize as TextResize }))}
@@ -243,9 +244,9 @@ export function TextProperties({
         {showDetails && <Button data-slot="text-properties-details" tone="ghost" size="xs" aria-haspopup="dialog" disabled={disabled === true} iconStart={<SlidersHorizontal aria-hidden />} onClick={() => onDetailsClick?.()}>{labels.details}</Button>}
       </div>
       {v.italic !== undefined && labels.italic !== undefined && (
-        <div className={textPropertiesRowVariants()}>
+        <div data-slot="text-properties-italic-row" className={textPropertiesRowVariants()}>
           <Button
-            tone="secondary" size="xs" aria-pressed={isMixed('italic') ? 'mixed' : v.italic} disabled={isDisabled('italic')}
+            data-slot="text-properties-italic" tone="secondary" size="xs" aria-pressed={isMixed('italic') ? 'mixed' : v.italic} disabled={isDisabled('italic')}
             onClick={() => { if (!isReserved('italic')) contract.commit('italic', { field: 'italic', value: !v.italic }, () => patch({ italic: !v.italic })); }}
             {...disc('italic')} {...(isReserved('italic') ? busy : {})}
           >

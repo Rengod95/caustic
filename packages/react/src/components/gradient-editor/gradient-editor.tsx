@@ -2,6 +2,7 @@
 import { ChevronRight, FlipHorizontal2, Minus, Plus, RotateCw } from 'lucide-react';
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent, type SyntheticEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { clamp } from '../../lib/color-math.ts';
 import {
   axisAngle, axisLength, defaultGradient, gradientCss, newStopColor, positionOnAxis, rotateAxis, snapAxis,
@@ -11,15 +12,17 @@ import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { AngleDial } from '../angle-dial/angle-dial.tsx';
 import { ColorWell } from '../color-well/color-well.tsx';
-import { GradientStrip } from '../gradient-strip/gradient-strip.tsx';
 import { HexInput } from '../hex-input/hex-input.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import {
   gradientCanvasVariants, gradientControlsVariants, gradientDotVariants, gradientEditorVariants, gradientGuideVariants, gradientHandleVariants,
-  gradientPreviewVariants, gradientReadoutVariants, gradientRowVariants, gradientStopsVariants, gradientSummaryVariants,
+  gradientPreviewVariants, gradientReadoutVariants, gradientRowVariants, gradientSectionTitleVariants, gradientStopsVariants, gradientStripSlotVariants, gradientSummaryVariants,
 } from './gradient-editor.variants.ts';
+import { GradientEditorStrip } from './gradient-editor-strip.tsx';
+
+export { GradientEditorStrip, type GradientEditorStripProps, type GradientStop } from './gradient-editor-strip.tsx';
 
 export type { GradientValue, GradientType, GradientPoint, GradientStopData };
 /** K2e: diamond is painted like radial in the preview. */
@@ -115,6 +118,16 @@ export interface GradientEditorProps extends Omit<ComponentProps<'div'>, 'defaul
   onFieldBlur?: ((event: { field: GradientEditorField; index?: number; dirty: boolean }) => void) | undefined;
   /** K2e: one field commits; return false to reject. */
   onFieldCommit?: ((change: GradientChange) => boolean | void) | undefined;
+  /** Colour family of the preview frame. */
+  tone?: Tone | undefined;
+  /** Emphasis of the preview frame; outline (default) is the 1px swatch edge. */
+  variant?: Variant | undefined;
+  /** Corner radius of the root; unset = none. */
+  radius?: Radius | undefined;
+  /** Elevation of the root; unset = none. */
+  shadow?: Shadow | undefined;
+  /** Gap between the canvas and the stop list: xs 8, sm 12, md 16, lg 20; the controls keep their size. */
+  size?: Size | undefined;
 }
 
 const wrapAngle = (n: number) => ((Math.round(n) % 360) + 360) % 360;
@@ -124,16 +137,20 @@ const gestureKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 
 const types: GradientType[] = ['linear', 'radial', 'angular'];
 const radialLike = (t: GradientEditorType) => t === 'radial' || t === 'diamond';
 const paintable = (v: GradientEditorValue): GradientValue => ({ ...v, type: v.type === 'diamond' ? 'radial' : v.type });
-const hatch = 'repeating-linear-gradient(135deg, var(--cs-color-fill-selected) 0 6px, transparent 6px 12px)';
+const hatch = 'repeating-linear-gradient(135deg, var(--cs-color-neutral-selected) 0 6px, transparent 6px 12px)';
 
 const flagged = (flags: boolean | GradientEditorFieldFlags | undefined, field: GradientEditorField) => flags === true || (typeof flags === 'object' && flags[field] === true);
 /** Attributes of a control whose field is being written elsewhere. */
 const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true } as const;
 
-/** Edits a gradient the way a design tool does: handles and stops on the preview, a strip, type, angle and a stop list. */
+/**
+ * Edits a gradient the way a design tool does: handles and stops on the preview, a strip, type, angle and a stop list.
+ * The strip is its part GradientEditor.Strip (also exported as GradientEditorStrip).
+ */
 export function GradientEditor({
   value, defaultValue = defaultGradient, selected, defaultSelected = 1, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onValueChange, onSelectedChange, onDraftChange, onPreviewChange, invalid, describedBy, limits, showTypeSwitch = true, reorderStops = true, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
+  onValueChange, onSelectedChange, onDraftChange, onPreviewChange, invalid, describedBy, limits, showTypeSwitch = true, reorderStops = true, onFieldFocus, onFieldBlur, onFieldCommit,
+  tone, variant, radius, shadow, size, className, children, ...props
 }: GradientEditorProps) {
   const contract = useFieldContract<GradientChange, GradientEditorField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const [grad, setGrad] = useControllableState<GradientEditorValue>({ value, defaultValue, onChange: v => onValueChange?.(v) });
@@ -305,10 +322,10 @@ export function GradientEditor({
     onDraftChange: (d: NumberFieldDraft) => { contract.draft(fkey(name, index), d); onDraftChange?.({ ...d, field: draft, ...(index === undefined ? {} : { index }) }); },
   });
 
-  // Strip: a press on the bar adds a stop, a handle drag moves one. GradientStrip has no release callback, so the wrapper sees the pointer up.
+  // Strip: a press on the bar adds a stop, a handle drag moves one. GradientEditor.Strip has no release callback, so the editor sees the pointer up on its root.
   const stripBlock = (e: SyntheticEvent) => {
     stripDown.current = true;
-    const onStop = (e.target as HTMLElement).closest('[data-slot="gradient-strip-stop"]') !== null;
+    const onStop = (e.target as HTMLElement).closest('[data-slot="gradient-editor-strip-stop"]') !== null;
     if (isReserved('stopPosition') || (!onStop && inert('stops'))) e.stopPropagation();
   };
   const stripUp = () => { stripDown.current = false; finish(); };
@@ -319,13 +336,17 @@ export function GradientEditor({
   };
 
   const vars = (p: GradientPoint) => ({ '--hx': `${p.x}%`, '--hy': `${p.y}%` }) as CSSProperties;
+  // A stop at 0 % or 100 % sits exactly under the start or end handle. The handle then shrinks to a mark inside the
+  // stop diamond (its hit area stays 16px), so the two shapes no longer overlap into a broken outline.
+  const startOnStop = !stopsMixed && stops.some(s => s.position <= 0);
+  const endOnStop = !stopsMixed && stops.some(s => s.position >= 100);
   const a = { x: (start.x / 100) * box.w, y: (start.y / 100) * box.h };
   const b = { x: (end.x / 100) * box.w, y: (end.y / 100) * box.h };
 
   return (
-    <div data-slot="gradient-editor" data-disabled={disabled === true || undefined} className={cn(gradientEditorVariants(), className)} {...props}>
+    <div data-slot="gradient-editor" data-disabled={disabled === true || undefined} className={cn(gradientEditorVariants({ radius, shadow, size }), className)} {...props}>
       <div data-slot="gradient-editor-canvas" className={gradientCanvasVariants()}>
-        <div ref={previewRef} data-slot="gradient-editor-preview" data-type={type} data-mixed={stopsMixed || undefined} className={gradientPreviewVariants()} style={{ '--gradient': css } as CSSProperties}>
+        <div ref={previewRef} data-slot="gradient-editor-preview" data-type={type} data-mixed={stopsMixed || undefined} className={cn(gradientPreviewVariants({ tone, variant }))} style={{ '--gradient': css } as CSSProperties}>
           <svg data-slot="gradient-editor-guide" aria-hidden className={gradientGuideVariants()}>
             <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
             {radial ? <circle cx={a.x} cy={a.y} r={length} /> : null}
@@ -343,7 +364,7 @@ export function GradientEditor({
             aria-label={labels.handleStart} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(start.x)}
             aria-valuetext={startMixed ? labels.mixed : labels.handleValueText(Math.round(start.x), Math.round(start.y))}
             onPointerDown={handleDown('start')} onPointerMove={handleMove('start')} onPointerUp={handleUp} onPointerCancel={handleCancel} onKeyDown={handleKey('start')}
-            className={gradientHandleVariants({ end: false, mixed: startMixed })} style={vars(start)}
+            data-on-stop={startOnStop || undefined} className={gradientHandleVariants({ end: false, mixed: startMixed })} style={vars(start)}
             {...(isReserved('start') ? busy : {})}
           />
           <button
@@ -351,7 +372,7 @@ export function GradientEditor({
             aria-label={labels.handleEnd} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(end.x)}
             aria-valuetext={endMixed ? labels.mixed : labels.handleValueText(Math.round(end.x), Math.round(end.y))}
             onPointerDown={handleDown('end')} onPointerMove={handleMove('end')} onPointerUp={handleUp} onPointerCancel={handleCancel} onKeyDown={handleKey('end')}
-            className={gradientHandleVariants({ end: true, mixed: endMixed })} style={vars(end)}
+            data-on-stop={endOnStop || undefined} className={gradientHandleVariants({ end: true, mixed: endMixed })} style={vars(end)}
             {...(isReserved('end') ? busy : {})}
           />
           <span
@@ -361,16 +382,13 @@ export function GradientEditor({
             {angleMixed ? labels.mixed : radial ? labels.radiusReadout(Math.round(length)) : `${angleInt}°`}
           </span>
         </div>
-        <div
-          data-slot="gradient-editor-strip" data-mixed={stopsMixed || undefined} {...wrap('stopPosition')}
+        <GradientEditorStrip
+          data-mixed={stopsMixed || undefined} className={gradientStripSlotVariants()} {...wrap('stopPosition')}
           onPointerDownCapture={stripBlock} onPointerUp={stripUp} onPointerCancel={stripUp}
           onKeyDownCapture={e => { if (isReserved('stopPosition') && gestureKeys.includes(e.key)) e.stopPropagation(); }}
-        >
-          <GradientStrip
-            stopLabel={labels.stop} stops={stopsMixed ? [] : stops} selected={sel} disabled={isDisabled('stopPosition')}
-            onStopsChange={stripStops} onSelectedChange={select}
-          />
-        </div>
+          stopLabel={labels.stop} stops={stopsMixed ? [] : stops} selected={sel} disabled={isDisabled('stopPosition')}
+          onStopsChange={stripStops} onSelectedChange={select}
+        />
         <div data-slot="gradient-editor-controls" className={gradientControlsVariants()}>
           {showTypeSwitch ? (
             <div data-slot="gradient-editor-type" className="inline-flex" {...fwrap('type')}>
@@ -422,8 +440,8 @@ export function GradientEditor({
         </div>
       </div>
       <div data-slot="gradient-editor-stops" className={gradientStopsVariants()}>
-        <div data-slot="gradient-editor-stops-head" className="flex items-center justify-between gap-2">
-          <span data-slot="gradient-editor-stops-title" className="text-ui-xs font-semibold text-text-tertiary">{labels.stops}</span>
+        <div data-slot="gradient-editor-stops-head" className="flex items-center justify-between gap-2 pb-1">
+          <span data-slot="gradient-editor-stops-title" className={gradientSectionTitleVariants()}>{labels.stops}</span>
           <div data-slot="gradient-editor-add" className="inline-flex" {...wrap('stops')}>
             <IconButton label={labels.add} size="xs" disabled={isDisabled('stops')} onClick={addStop} {...(isReserved('stops') ? busy : {})}><Plus /></IconButton>
           </div>
@@ -431,7 +449,7 @@ export function GradientEditor({
         <div data-slot="gradient-editor-rows" className="grid gap-1" {...wrap('stops')}>
           {stopsMixed ? (
             <div data-slot="gradient-editor-row" data-mixed className={gradientRowVariants()}>
-              <span className="col-span-3 flex items-center gap-1.5 px-1.5 text-footnote italic text-text-secondary">
+              <span data-slot="gradient-editor-row-mixed" className="col-span-3 flex items-center gap-1.5 px-1.5 text-footnote italic text-text-secondary">
                 <ColorWell size="sm" mixed aria-hidden />
                 {labels.mixed}
               </span>
@@ -475,7 +493,7 @@ export function GradientEditor({
         </div>
         <details data-slot="gradient-editor-details" open className="group">
           <summary data-slot="gradient-editor-summary" className={gradientSummaryVariants()}>
-            <ChevronRight aria-hidden className="size-icon-sm shrink-0 stroke-[1.75] transition-transform duration-base ease-out group-open:rotate-90" />
+            <ChevronRight data-slot="gradient-editor-summary-chevron" aria-hidden className="size-icon-sm shrink-0 stroke-[1.75] transition-transform duration-base ease-out group-open:rotate-90" />
             {labels.details}
           </summary>
           <div data-slot="gradient-editor-details-body" className="mt-1.5 grid grid-cols-2 gap-1.5">
@@ -514,3 +532,5 @@ export function GradientEditor({
     </div>
   );
 }
+
+GradientEditor.Strip = GradientEditorStrip;

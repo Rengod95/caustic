@@ -2,12 +2,13 @@
 import { ChevronDown, ChevronUp, Eye, EyeOff, Minus } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import {
   stackRowActionsVariants, stackRowLeadVariants, stackRowLabelVariants, stackRowMetaVariants, stackRowTitleVariants, stackRowVariants,
 } from './stack-row.variants.ts';
 
-export interface StackRowProps extends Omit<ComponentProps<'div'>, 'title' | 'hidden'> {
+export interface StackRowProps extends Omit<ComponentProps<'div'>, 'title' | 'hidden'>, CommonProps {
   /** When the actions are visible. */
   actions?: 'hover' | 'always';
   /** Kind of the leading element. */
@@ -22,7 +23,7 @@ export interface StackRowProps extends Omit<ComponentProps<'div'>, 'title' | 'hi
   meta?: ReactNode;
   /** Compact field in the third column. */
   control?: ReactNode;
-  /** The layer is hidden: dimmed, and the visibility action shows eye-off. */
+  /** The layer is hidden: name, detail and icon take the disabled colour, and the visibility action shows eye-off. */
   hidden?: boolean | undefined;
   /** Accessible-name suffix for the actions ("Hide" + suffix), e.g. the row name as text. */
   actionLabel?: string | undefined;
@@ -55,7 +56,7 @@ export interface StackRowProps extends Omit<ComponentProps<'div'>, 'title' | 'hi
 export function StackRow({
   actions = 'hover', lead = 'swatch', leading, title, mono = false, meta, control, hidden = false, actionLabel, disabled = false,
   hideLabel, showLabel, removeLabel, moveUpLabel, moveDownLabel, onMoveUp, onMoveDown, moveUpDisabled = false, moveDownDisabled = false, reserved = false,
-  onHiddenChange, onRemove, className, ...props
+  onHiddenChange, onRemove, tone, variant, radius, shadow, size, className, ...props
 }: StackRowProps) {
   const suffix = actionLabel ? ` ${actionLabel}` : '';
   const busy = { 'aria-busy': reserved || undefined, 'data-reserved': reserved || undefined };
@@ -67,7 +68,7 @@ export function StackRow({
       data-state={hidden ? 'hidden' : undefined}
       aria-busy={reserved || undefined}
       data-reserved={reserved || undefined}
-      className={cn(stackRowVariants({ hidden }), className)}
+      className={cn(stackRowVariants({ tone, variant, size, radius: radius ?? null, shadow: shadow ?? null }), className)}
       {...props}
     >
       {lead === 'icon' ? (
@@ -75,16 +76,16 @@ export function StackRow({
       ) : leading !== undefined && leading !== null ? (
         <span data-slot="stack-row-leading" className={stackRowLeadVariants({ lead })}>{leading}</span>
       ) : <span aria-hidden />}
-      <span data-slot="stack-row-label" className={stackRowLabelVariants()}>
-        <span data-slot="stack-row-title" className={stackRowTitleVariants({ mono })}>{title}</span>
+      <span data-slot="stack-row-label" className={stackRowLabelVariants({ size })}>
+        <span data-slot="stack-row-title" className={stackRowTitleVariants({ mono, size })}>{title}</span>
         {meta !== undefined && meta !== null ? <span data-slot="stack-row-meta" className={stackRowMetaVariants()}>{meta}</span> : null}
       </span>
       {control !== undefined && control !== null ? <span data-slot="stack-row-control" className="inline-flex">{control}</span> : <span aria-hidden />}
-      <span data-slot="stack-row-actions" className={stackRowActionsVariants({ actions, pinned: hidden })}>
+      <span data-slot="stack-row-actions" className={cn(stackRowActionsVariants({ actions, pinned: hidden }))}>
         {onMoveUp ? (
           <IconButton
             data-slot="stack-row-move-up" size="xs" disabled={disabled} label={`${moveUpLabel ?? ''}${suffix}`}
-            aria-disabled={moveUpDisabled || undefined} className="aria-disabled:pointer-events-none aria-disabled:opacity-42" {...busy}
+            aria-disabled={moveUpDisabled || undefined} className="aria-disabled:pointer-events-none aria-disabled:text-disabled-text" {...busy}
             onClick={() => { if (!moveUpDisabled && !reserved) onMoveUp(); }}
           >
             <ChevronUp />
@@ -93,7 +94,7 @@ export function StackRow({
         {onMoveDown ? (
           <IconButton
             data-slot="stack-row-move-down" size="xs" disabled={disabled} label={`${moveDownLabel ?? ''}${suffix}`}
-            aria-disabled={moveDownDisabled || undefined} className="aria-disabled:pointer-events-none aria-disabled:opacity-42" {...busy}
+            aria-disabled={moveDownDisabled || undefined} className="aria-disabled:pointer-events-none aria-disabled:text-disabled-text" {...busy}
             onClick={() => { if (!moveDownDisabled && !reserved) onMoveDown(); }}
           >
             <ChevronDown />

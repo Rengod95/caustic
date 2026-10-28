@@ -23,12 +23,19 @@ setup:
 typecheck:
     pnpm typecheck
 
+# 기기에서 한 번에 하나(슬롯 1), 메모리 상한 3G(scripts/guard.sh). 전체 116개 검사는 just gate-all.
 # 완료 기준: 의존성, 타입, 토큰, 게이트(--no-specimens: 명세→특정 링크 검사만 뺀다, 로컬 gate-all이 한다), ws check (ws help justfile)
 [group('quality')]
-verify: setup typecheck
-    pnpm tokens:check
-    pnpm gate:all --no-specimens
+verify:
+    WS_GUARD_SLOTS=1 WS_GUARD_VERIFY_MAX=3G scripts/guard.sh verify -- just _verify-steps
     ws check
+
+# verify 단계 묶음: setup typecheck, 토큰 대비, 바뀐 범위의 게이트(--changed: main 이후와 작업 트리에서 바뀐 컴포넌트와
+# 그걸 쓰는 컴포넌트, 토큰·lib·gateway가 바뀌면 전체). 샤드 1개(node와 브라우저로 약 1.5G, 2개는 상한을 넘는다)
+[private]
+_verify-steps: setup typecheck
+    pnpm tokens:check
+    pnpm gate:all --no-specimens --changed --shards=1
 
 # 생성 파일 갱신: 토큰 빌드(dist)와 레지스트리(index, fixtures, specs index)
 [group('build')]

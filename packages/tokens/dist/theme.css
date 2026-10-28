@@ -39,23 +39,19 @@
   --color-text-secondary: var(--cs-color-text-secondary);
   --color-text-tertiary: var(--cs-color-text-tertiary);
   --color-text-placeholder: var(--cs-color-text-placeholder);
-  --color-text-disabled: var(--cs-color-text-disabled);
   --color-text-inverse: var(--cs-color-text-inverse);
-  --color-text-link: var(--cs-color-text-link);
   --color-border-subtle: var(--cs-color-border-subtle);
   --color-border-default: var(--cs-color-border-default);
+  --color-divider-line: var(--cs-color-divider-line);
   --color-border-strong: var(--cs-color-border-strong);
   --color-border-control: var(--cs-color-border-control);
-  --color-fill-hover: var(--cs-color-fill-hover);
-  --color-fill-pressed: var(--cs-color-fill-pressed);
-  --color-fill-selected: var(--cs-color-fill-selected);
   --color-control-off: var(--cs-color-control-off);
   --color-control-thumb: var(--cs-color-control-thumb);
   --color-control-raised: var(--cs-color-control-raised);
   --color-control-raised-hover: var(--cs-color-control-raised-hover);
   --color-control-edge: var(--cs-color-control-edge);
   --color-ink-solid: var(--cs-color-ink-solid);
-  --color-ink-hover: var(--cs-color-ink-hover);
+  --color-ink-solid-hover: var(--cs-color-ink-solid-hover);
   --color-ink-on: var(--cs-color-ink-on);
   --color-ink-on-muted: var(--cs-color-ink-on-muted);
   --color-ink-kbd: var(--cs-color-ink-kbd);
@@ -63,41 +59,124 @@
   --color-media-on: var(--cs-color-media-on);
   --color-media-on-muted: var(--cs-color-media-on-muted);
   --color-media-scrim: var(--cs-color-media-scrim);
+  --color-media-chip: var(--cs-color-media-chip);
   --color-media-scrim-strong: var(--cs-color-media-scrim-strong);
   --color-media-shade: var(--cs-color-media-shade);
+  --color-shadow-ambient: var(--cs-color-shadow-ambient);
+  --color-shadow-contact: var(--cs-color-shadow-contact);
+  --color-accent-tint: var(--cs-color-accent-tint);
+  --color-accent-soft: var(--cs-color-accent-soft);
+  --color-accent-soft-hover: var(--cs-color-accent-soft-hover);
+  --color-accent-soft-pressed: var(--cs-color-accent-soft-pressed);
+  --color-accent-border: var(--cs-color-accent-border);
+  --color-accent-border-strong: var(--cs-color-accent-border-strong);
+  --color-accent-graphic: var(--cs-color-accent-graphic);
+  --color-accent-solid: var(--cs-color-accent-solid);
+  --color-accent-solid-hover: var(--cs-color-accent-solid-hover);
+  --color-accent-text: var(--cs-color-accent-text);
+  --color-accent-on: var(--cs-color-accent-on);
+  --color-neutral-tint: var(--cs-color-neutral-tint);
+  --color-neutral-soft: var(--cs-color-neutral-soft);
+  --color-neutral-soft-hover: var(--cs-color-neutral-soft-hover);
+  --color-neutral-soft-pressed: var(--cs-color-neutral-soft-pressed);
+  --color-neutral-border: var(--cs-color-neutral-border);
+  --color-neutral-border-strong: var(--cs-color-neutral-border-strong);
+  --color-neutral-graphic: var(--cs-color-neutral-graphic);
+  --color-neutral-solid: var(--cs-color-neutral-solid);
+  --color-neutral-solid-hover: var(--cs-color-neutral-solid-hover);
+  --color-neutral-text: var(--cs-color-neutral-text);
+  --color-neutral-on: var(--cs-color-neutral-on);
+  --color-success-tint: var(--cs-color-success-tint);
+  --color-success-soft: var(--cs-color-success-soft);
+  --color-success-soft-hover: var(--cs-color-success-soft-hover);
+  --color-success-soft-pressed: var(--cs-color-success-soft-pressed);
+  --color-success-border: var(--cs-color-success-border);
+  --color-success-border-strong: var(--cs-color-success-border-strong);
+  --color-success-graphic: var(--cs-color-success-graphic);
+  --color-success-solid: var(--cs-color-success-solid);
+  --color-success-solid-hover: var(--cs-color-success-solid-hover);
+  --color-success-text: var(--cs-color-success-text);
+  --color-success-on: var(--cs-color-success-on);
+  --color-warning-tint: var(--cs-color-warning-tint);
+  --color-warning-soft: var(--cs-color-warning-soft);
+  --color-warning-soft-hover: var(--cs-color-warning-soft-hover);
+  --color-warning-soft-pressed: var(--cs-color-warning-soft-pressed);
+  --color-warning-border: var(--cs-color-warning-border);
+  --color-warning-border-strong: var(--cs-color-warning-border-strong);
+  --color-warning-graphic: var(--cs-color-warning-graphic);
+  --color-warning-solid: var(--cs-color-warning-solid);
+  --color-warning-solid-hover: var(--cs-color-warning-solid-hover);
+  --color-warning-text: var(--cs-color-warning-text);
+  --color-warning-on: var(--cs-color-warning-on);
+  --color-danger-tint: var(--cs-color-danger-tint);
+  --color-danger-soft: var(--cs-color-danger-soft);
+  --color-danger-soft-hover: var(--cs-color-danger-soft-hover);
+  --color-danger-soft-pressed: var(--cs-color-danger-soft-pressed);
+  --color-danger-border: var(--cs-color-danger-border);
+  --color-danger-border-strong: var(--cs-color-danger-border-strong);
+  --color-danger-graphic: var(--cs-color-danger-graphic);
+  --color-danger-solid: var(--cs-color-danger-solid);
+  --color-danger-solid-hover: var(--cs-color-danger-solid-hover);
+  --color-danger-text: var(--cs-color-danger-text);
+  --color-danger-on: var(--cs-color-danger-on);
+  --color-info-tint: var(--cs-color-info-tint);
+  --color-info-soft: var(--cs-color-info-soft);
+  --color-info-soft-hover: var(--cs-color-info-soft-hover);
+  --color-info-soft-pressed: var(--cs-color-info-soft-pressed);
+  --color-info-border: var(--cs-color-info-border);
+  --color-info-border-strong: var(--cs-color-info-border-strong);
+  --color-info-graphic: var(--cs-color-info-graphic);
+  --color-info-solid: var(--cs-color-info-solid);
+  --color-info-solid-hover: var(--cs-color-info-solid-hover);
+  --color-info-text: var(--cs-color-info-text);
+  --color-info-on: var(--cs-color-info-on);
+  --color-agent-tint: var(--cs-color-agent-tint);
+  --color-agent-soft: var(--cs-color-agent-soft);
+  --color-agent-soft-hover: var(--cs-color-agent-soft-hover);
+  --color-agent-soft-pressed: var(--cs-color-agent-soft-pressed);
+  --color-agent-border: var(--cs-color-agent-border);
+  --color-agent-border-strong: var(--cs-color-agent-border-strong);
+  --color-agent-graphic: var(--cs-color-agent-graphic);
+  --color-agent-solid: var(--cs-color-agent-solid);
+  --color-agent-solid-hover: var(--cs-color-agent-solid-hover);
+  --color-agent-text: var(--cs-color-agent-text);
+  --color-agent-on: var(--cs-color-agent-on);
+  --color-neutral-hover: var(--cs-color-neutral-hover);
+  --color-neutral-pressed: var(--cs-color-neutral-pressed);
+  --color-neutral-selected: var(--cs-color-neutral-selected);
+  --color-neutral-selected-hover: var(--cs-color-neutral-selected-hover);
+  --color-neutral-track: var(--cs-color-neutral-track);
+  --color-neutral-well: var(--cs-color-neutral-well);
+  --color-focus-ring: var(--cs-color-focus-ring);
+  --color-focus-offset: var(--cs-color-focus-offset);
+  --color-selection-edge: var(--cs-color-selection-edge);
+  --color-selection-fill: var(--cs-color-selection-fill);
+  --color-selection-fill-hover: var(--cs-color-selection-fill-hover);
+  --color-selection-on: var(--cs-color-selection-on);
+  --color-selection-on-secondary: var(--cs-color-selection-on-secondary);
+  --color-selection-on-tertiary: var(--cs-color-selection-on-tertiary);
+  --color-disabled-fill: var(--cs-color-disabled-fill);
+  --color-disabled-text: var(--cs-color-disabled-text);
+  --color-disabled-border: var(--cs-color-disabled-border);
+  --color-required-mark: var(--cs-color-required-mark);
   --color-chart-1: var(--cs-color-chart-1);
   --color-chart-2: var(--cs-color-chart-2);
   --color-chart-3: var(--cs-color-chart-3);
   --color-chart-4: var(--cs-color-chart-4);
-  --color-accent-solid: var(--cs-color-accent-solid);
-  --color-accent-hover: var(--cs-color-accent-hover);
-  --color-accent-on: var(--cs-color-accent-on);
-  --color-accent-text: var(--cs-color-accent-text);
-  --color-accent-soft: var(--cs-color-accent-soft);
-  --color-accent-tint: var(--cs-color-accent-tint);
-  --color-accent-border: var(--cs-color-accent-border);
-  --color-accent-glow: var(--cs-color-accent-glow);
-  --color-accent-fill: var(--cs-color-accent-fill);
-  --color-accent-fill-hover: var(--cs-color-accent-fill-hover);
-  --color-success-solid: var(--cs-color-success-solid);
-  --color-success-on: var(--cs-color-success-on);
-  --color-success-text: var(--cs-color-success-text);
-  --color-success-soft: var(--cs-color-success-soft);
-  --color-warning-solid: var(--cs-color-warning-solid);
-  --color-warning-on: var(--cs-color-warning-on);
-  --color-warning-text: var(--cs-color-warning-text);
-  --color-warning-soft: var(--cs-color-warning-soft);
-  --color-danger-solid: var(--cs-color-danger-solid);
-  --color-danger-on: var(--cs-color-danger-on);
-  --color-danger-text: var(--cs-color-danger-text);
-  --color-danger-soft: var(--cs-color-danger-soft);
-  --color-info-solid: var(--cs-color-info-solid);
-  --color-info-on: var(--cs-color-info-on);
-  --color-info-text: var(--cs-color-info-text);
-  --color-info-soft: var(--cs-color-info-soft);
-  --color-diff-add: var(--cs-color-diff-add);
-  --color-diff-remove: var(--cs-color-diff-remove);
-  --color-focus-ring: var(--cs-color-focus-ring);
+  --color-chart-5: var(--cs-color-chart-5);
+  --color-chart-6: var(--cs-color-chart-6);
+  --color-agent-stop-1: var(--cs-color-agent-stop-1);
+  --color-agent-stop-2: var(--cs-color-agent-stop-2);
+  --color-agent-stop-3: var(--cs-color-agent-stop-3);
+  --color-agent-glow: var(--cs-color-agent-glow);
+  --color-diff-add-bg: var(--cs-color-diff-add-bg);
+  --color-diff-remove-bg: var(--cs-color-diff-remove-bg);
+  --color-diff-add-text: var(--cs-color-diff-add-text);
+  --color-diff-remove-text: var(--cs-color-diff-remove-text);
+  --color-syntax-keyword: var(--cs-color-syntax-keyword);
+  --color-syntax-string: var(--cs-color-syntax-string);
+  --color-syntax-property: var(--cs-color-syntax-property);
+  --color-syntax-comment: var(--cs-color-syntax-comment);
   --color-canvas-dot: var(--cs-color-canvas-dot);
   --color-canvas-selection: var(--cs-color-canvas-selection);
   --color-canvas-handle: var(--cs-color-canvas-handle);
@@ -111,13 +190,31 @@
   --color-canvas-checker-a: var(--cs-color-canvas-checker-a);
   --color-canvas-checker-b: var(--cs-color-canvas-checker-b);
   --color-canvas-artboard: var(--cs-color-canvas-artboard);
-  --color-agent-glow: var(--cs-color-agent-glow);
+  --color-category-component: var(--cs-color-category-component);
+  --color-category-component-soft: var(--cs-color-category-component-soft);
   --color-identity-coral: var(--cs-color-identity-coral);
   --color-identity-iris: var(--cs-color-identity-iris);
   --color-identity-mint: var(--cs-color-identity-mint);
   --color-identity-amber: var(--cs-color-identity-amber);
   --color-identity-slate: var(--cs-color-identity-slate);
+  --color-identity-on-coral: var(--cs-color-identity-on-coral);
+  --color-identity-on-iris: var(--cs-color-identity-on-iris);
+  --color-identity-on-mint: var(--cs-color-identity-on-mint);
+  --color-identity-on-amber: var(--cs-color-identity-on-amber);
+  --color-identity-on-slate: var(--cs-color-identity-on-slate);
   --color-identity-on: var(--cs-color-identity-on);
+  --color-accent-hover: var(--cs-color-accent-hover);
+  --color-ink-hover: var(--cs-color-ink-hover);
+  --color-accent-fill: var(--cs-color-accent-fill);
+  --color-accent-fill-hover: var(--cs-color-accent-fill-hover);
+  --color-accent-glow: var(--cs-color-accent-glow);
+  --color-text-link: var(--cs-color-text-link);
+  --color-text-disabled: var(--cs-color-text-disabled);
+  --color-fill-hover: var(--cs-color-fill-hover);
+  --color-fill-pressed: var(--cs-color-fill-pressed);
+  --color-fill-selected: var(--cs-color-fill-selected);
+  --color-diff-add: var(--cs-color-diff-add);
+  --color-diff-remove: var(--cs-color-diff-remove);
 
   /* radius */
   --radius-none: var(--cs-radius-none);
@@ -172,16 +269,17 @@
   --spacing-radio-dot: var(--cs-size-radio-dot);
   --spacing-kbd-h: var(--cs-size-kbd-h);
   --spacing-progress-h: var(--cs-size-progress-h);
-  --spacing-tool-icon: var(--cs-size-tool-icon);
   --spacing-presence: var(--cs-size-presence);
   --spacing-switch-md-w: var(--cs-size-switch-md-w);
   --spacing-switch-md-h: var(--cs-size-switch-md-h);
   --spacing-switch-md-thumb: var(--cs-size-switch-md-thumb);
+  --spacing-switch-md-thumb-w: var(--cs-size-switch-md-thumb-w);
   --spacing-switch-md-travel: var(--cs-size-switch-md-travel);
   --spacing-switch-md-press: var(--cs-size-switch-md-press);
   --spacing-switch-sm-w: var(--cs-size-switch-sm-w);
   --spacing-switch-sm-h: var(--cs-size-switch-sm-h);
   --spacing-switch-sm-thumb: var(--cs-size-switch-sm-thumb);
+  --spacing-switch-sm-thumb-w: var(--cs-size-switch-sm-thumb-w);
   --spacing-switch-sm-travel: var(--cs-size-switch-sm-travel);
   --spacing-switch-sm-press: var(--cs-size-switch-sm-press);
   --spacing-avatar-xs: var(--cs-size-avatar-xs);
@@ -274,6 +372,7 @@
   --spacing-otp-h: var(--cs-size-otp-h);
   --spacing-slider-ruler-h: var(--cs-size-slider-ruler-h);
   --spacing-slider-label-w: var(--cs-size-slider-label-w);
+  --spacing-slider-field-w: var(--cs-size-slider-field-w);
   --spacing-menu-item: var(--cs-size-menu-item);
   --spacing-menu-min: var(--cs-size-menu-min);
   --spacing-listbox-max: var(--cs-size-listbox-max);
@@ -455,6 +554,14 @@
   --text-voice-lg--line-height: 26px;
   --text-voice-lg--letter-spacing: 0em;
   --text-voice-lg--font-weight: 400;
+  --text-voice-xl: 22px;
+  --text-voice-xl--line-height: 30px;
+  --text-voice-xl--letter-spacing: -0.01em;
+  --text-voice-xl--font-weight: 400;
+  --text-mono-dense: 11px;
+  --text-mono-dense--line-height: 16px;
+  --text-mono-dense--letter-spacing: -0.02em;
+  --text-mono-dense--font-weight: 400;
 
   /* depth, blur, motion */
   --shadow-1: var(--cs-elevation-1);
@@ -501,28 +608,66 @@
 
 /* Caustic utilities: materials, agent signature, focus policy */
 @utility glass {
+  /* Solid floating surface (name kept for spec compatibility): flat fill + one elevation shadow. No blur, no hairline, no specular. */
   position: relative;
   background: var(--cs-material, var(--cs-color-material-regular));
-  -webkit-backdrop-filter: blur(var(--cs-material-blur, var(--cs-blur-regular))) saturate(1.8);
-  backdrop-filter: blur(var(--cs-material-blur, var(--cs-blur-regular))) saturate(1.8);
-  box-shadow: inset 0 1px 0 var(--cs-color-material-specular), inset 0 0 0 1px var(--cs-color-material-rim), 0 0 0 0.5px var(--cs-color-material-edge), var(--cs-shadow, var(--cs-elevation-3));
-  &::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
-    background: linear-gradient(155deg, var(--cs-color-material-specular), transparent 28%, transparent 66%, var(--cs-color-material-sheen));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+  box-shadow: var(--cs-shadow, var(--cs-elevation-3));
+  /* Focus gaps and avatar rings inside take the material, not surface.base (F9). */
+  --cs-focus-offset: var(--cs-material, var(--cs-color-material-regular));
 }
-@utility glass-ultrathin { --cs-material: var(--cs-color-material-ultrathin); --cs-material-blur: var(--cs-blur-ultrathin); }
-@utility glass-thin { --cs-material: var(--cs-color-material-thin); --cs-material-blur: var(--cs-blur-thin); }
-@utility glass-thick { --cs-material: var(--cs-color-material-thick); --cs-material-blur: var(--cs-blur-thick); }
+@utility glass-ultrathin { --cs-material: var(--cs-color-material-ultrathin); }
+@utility glass-thin { --cs-material: var(--cs-color-material-thin); }
+@utility glass-thick { --cs-material: var(--cs-color-material-thick); }
 @utility glass-shadow-* { --cs-shadow: --value(--shadow-*); }
-@utility frost { -webkit-backdrop-filter: blur(var(--cs-blur-control)) saturate(1.6); backdrop-filter: blur(var(--cs-blur-control)) saturate(1.6); }
+/* The rim is the host's own outer 1.5px (inset 0, same radius and corner shape), so it stays concentric with the fill. */
 @utility agent-rim {
   position: relative;
-  &::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  &::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
     background: var(--cs-spectrum-conic);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
     mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
     animation: cs-spin var(--cs-duration-agent) linear infinite; }
+}
+/* A selected item (owner 2026-10-26, proposal B): the ink fill with paper text, no edge. Descendants invert with it:
+   text roles, the accent pair (a check box or tick inside reads paper on ink) and the control border are re-pointed,
+   in both the --cs-color-* and the Tailwind --color-* names. */
+@utility selected {
+  background-color: var(--cs-color-selection-fill); background-image: none; color: var(--cs-color-selection-on);
+  --cs-focus-offset: var(--cs-color-selection-fill);
+  --cs-color-text-primary: var(--cs-color-selection-on);
+  --color-text-primary: var(--cs-color-selection-on);
+  --cs-color-text-secondary: var(--cs-color-selection-on-secondary);
+  --color-text-secondary: var(--cs-color-selection-on-secondary);
+  --cs-color-text-tertiary: var(--cs-color-selection-on-tertiary);
+  --color-text-tertiary: var(--cs-color-selection-on-tertiary);
+  /* controls inside (checks, ticks, boxes) read the Tailwind twins; the raw --cs-color-* stay, so a swatch that shows a
+     token's colour as content keeps the real colour */
+  --color-accent-text: var(--cs-color-selection-on);
+  --color-accent-solid: var(--cs-color-selection-on);
+  --color-accent-on: var(--cs-color-selection-fill);
+  --color-border-control: var(--cs-color-selection-on-secondary);
+  --color-surface-base: var(--cs-color-selection-fill);
+  /* fields and wells inside a selected item read the fills composited over the ink */
+  --cs-color-neutral-hover: var(--cs-color-neutral-hover--on-selection-fill);
+  --color-neutral-hover: var(--cs-color-neutral-hover--on-selection-fill);
+  --cs-color-fill-hover: var(--cs-color-neutral-hover--on-selection-fill);
+  --color-fill-hover: var(--cs-color-neutral-hover--on-selection-fill);
+  --cs-color-neutral-pressed: var(--cs-color-neutral-pressed--on-selection-fill);
+  --color-neutral-pressed: var(--cs-color-neutral-pressed--on-selection-fill);
+  --cs-color-fill-pressed: var(--cs-color-neutral-pressed--on-selection-fill);
+  --color-fill-pressed: var(--cs-color-neutral-pressed--on-selection-fill);
+  --cs-color-neutral-selected: var(--cs-color-neutral-selected--on-selection-fill);
+  --color-neutral-selected: var(--cs-color-neutral-selected--on-selection-fill);
+  --cs-color-fill-selected: var(--cs-color-neutral-selected--on-selection-fill);
+  --color-fill-selected: var(--cs-color-neutral-selected--on-selection-fill);
+  --cs-color-neutral-selected-hover: var(--cs-color-neutral-selected-hover--on-selection-fill);
+  --color-neutral-selected-hover: var(--cs-color-neutral-selected-hover--on-selection-fill);
+  --cs-color-neutral-track: var(--cs-color-neutral-track--on-selection-fill);
+  --color-neutral-track: var(--cs-color-neutral-track--on-selection-fill);
+  --cs-color-neutral-well: var(--cs-color-neutral-well--on-selection-fill);
+  --color-neutral-well: var(--cs-color-neutral-well--on-selection-fill);
+  --cs-color-bg-inset: var(--cs-color-bg-inset--on-selection-fill);
+  --color-bg-inset: var(--cs-color-bg-inset--on-selection-fill);
 }
 @utility agent-glow { box-shadow: 0 8px 30px -6px var(--cs-color-agent-glow); }
 @utility orb {
@@ -542,7 +687,7 @@
 }
 @utility spectrum-fill { background: var(--cs-spectrum-conic); animation: cs-spin var(--cs-duration-agent) linear infinite; }
 @utility spectrum-line { background: var(--cs-spectrum-linear); background-size: 200% 100%; }
-@utility focus-ring { outline: none; box-shadow: var(--cs-focus); }
+@utility focus-ring { outline: none; box-shadow: 0 0 0 1px var(--cs-focus-offset, var(--cs-color-focus-offset)), 0 0 0 3px var(--cs-color-focus-ring); }
 @utility focus-field { box-shadow: var(--cs-focus-field); }
 @utility checker {
   background-color: var(--cs-color-canvas-checker-a);

@@ -1,13 +1,28 @@
 import { cva } from 'class-variance-authority';
 
+// Common props (lib/common-props.ts): variant = the surface (solid, the default dialog, is the thick floating material;
+// embedded pickers default to ghost: no surface), shadow = the material elevation (glass-shadow; ColorPicker adds
+// shadowClass for the non-glass variants), size = the body padding and gaps (body variants below; the width stays
+// size-color-picker-w), tone = the paint-type glyphs at rest (type variants below); radius is applied by ColorPicker
+// with radiusClass after these classes.
 export const colorPickerVariants = cva('relative grid max-w-full text-ui text-text-primary outline-none', {
   variants: {
     embedded: {
-      false: 'glass glass-thick glass-shadow-4 z-40 w-color-picker-w overflow-hidden rounded-2xl',
+      false: 'z-40 w-color-picker-w overflow-hidden rounded-2xl',
       true: 'w-full',
     },
+    variant: {
+      solid: 'glass glass-thick',
+      soft: 'bg-neutral-track',
+      outline: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+      ghost: '',
+    },
+    shadow: { none: '[--cs-shadow:none]', '1': 'glass-shadow-1', '2': 'glass-shadow-2', '3': 'glass-shadow-3', '4': 'glass-shadow-4', '5': 'glass-shadow-5' },
+    size: { xs: '', sm: '', md: '', lg: '' },
+    tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
+    radius: { none: '', '2xs': '', xs: '', sm: '', md: '', lg: '', xl: '', '2xl': '', '3xl': '', '4xl': '', full: '' },
   },
-  defaultVariants: { embedded: false },
+  defaultVariants: { embedded: false, variant: 'solid', shadow: '4', size: 'md', tone: 'neutral', radius: '2xl' },
 });
 
 export const colorPickerHeaderVariants = cva('flex items-center gap-1 px-2 pt-2');
@@ -16,12 +31,24 @@ export const colorPickerTypesVariants = cva('flex gap-0.5 px-2 pt-2');
 
 export const colorPickerTypeVariants = cva(
   [
-    'grid size-control-sm shrink-0 cursor-pointer place-items-center rounded-md text-text-tertiary outline-none',
+    'grid size-control-sm shrink-0 cursor-pointer place-items-center rounded-md outline-none',
     'transition-[background-color,color,box-shadow] duration-120 ease-out',
-    'hover:bg-fill-pressed hover:text-text-primary focus-visible:shadow-focus',
-    'aria-checked:bg-fill-selected aria-checked:text-text-primary',
+    'hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
+    // Checked inverts (selected utility: ink fill, paper glyph, no edge); disabled drops the inversion to disabled colour.
+    'aria-checked:not-disabled:selected aria-checked:not-disabled:hover:bg-selection-fill-hover',
+    'disabled:cursor-default disabled:text-disabled-text disabled:hover:bg-transparent disabled:aria-checked:bg-disabled-fill',
     '[&_svg]:size-icon-sm [&_svg]:stroke-[1.75]',
   ],
+  {
+    // The rest glyph colour by the picker tone (neutral = tertiary); hover and checked are the same in every tone.
+    variants: {
+      typeTone: {
+        neutral: 'text-text-tertiary', accent: 'text-accent-text', success: 'text-success-text', warning: 'text-warning-text',
+        danger: 'text-danger-text', info: 'text-info-text', agent: 'text-agent-text',
+      },
+    },
+    defaultVariants: { typeTone: 'neutral' },
+  },
 );
 
 export const colorPickerGlyphVariants = cva('block size-icon-sm rounded-xs shadow-[inset_0_0_0_1.5px_currentColor]', {
@@ -37,9 +64,19 @@ export const colorPickerGlyphVariants = cva('block size-icon-sm rounded-xs shado
   defaultVariants: { kind: 'solid' },
 });
 
-export const colorPickerBodyVariants = cva('grid gap-2.5', {
-  variants: { embedded: { false: 'p-2.5', true: '' } },
-  defaultVariants: { embedded: false },
+export const colorPickerBodyVariants = cva('grid', {
+  variants: {
+    embedded: { false: '', true: '' },
+    bodySize: { xs: 'gap-1.5', sm: 'gap-2', md: 'gap-2.5', lg: 'gap-3' },
+  },
+  // The dialog pads its body by the size; an embedded picker sits flush in its owner.
+  compoundVariants: [
+    { embedded: false, bodySize: 'xs', className: 'p-1.5' },
+    { embedded: false, bodySize: 'sm', className: 'p-2' },
+    { embedded: false, bodySize: 'md', className: 'p-2.5' },
+    { embedded: false, bodySize: 'lg', className: 'p-3' },
+  ],
+  defaultVariants: { embedded: false, bodySize: 'md' },
 });
 
 export const colorPickerSlidersVariants = cva('grid items-center gap-2', {
@@ -57,10 +94,11 @@ export const colorPickerFieldsVariants = cva(
   'grid h-control-md grid-cols-[var(--cs-size-picker-format-w)_1fr_var(--cs-size-picker-alpha-w)] gap-1',
 );
 
+// An inline select (owner 2026-10-27, proposal C): label and chevron only, no well until hover, so it does not read as a text field.
 export const colorPickerFormatVariants = cva(
   [
-    'flex h-control-md w-picker-format-w cursor-pointer items-center justify-between rounded-md bg-fill-hover pr-1.5 pl-2 text-ui-sm font-normal text-text-primary outline-none',
-    'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-fill-pressed focus-visible:shadow-focus',
+    'flex h-control-md w-picker-format-w cursor-pointer items-center justify-between rounded-md bg-transparent pr-1.5 pl-2 text-ui-sm font-normal text-text-primary outline-none',
+    'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover focus-visible:shadow-focus',
     '[&_svg]:size-icon-xs [&_svg]:text-text-tertiary [&_svg]:stroke-[1.75]',
   ],
 );
@@ -71,7 +109,7 @@ export const colorPickerFootVariants = cva('grid gap-1.5 border-t border-border-
 export const colorPickerPreviewFillVariants = cva('absolute inset-0', {
   variants: {
     mixed: {
-      true: 'bg-[repeating-linear-gradient(135deg,var(--cs-color-fill-selected)_0_calc(var(--spacing)*0.75),transparent_calc(var(--spacing)*0.75)_calc(var(--spacing)*1.5))]',
+      true: 'bg-[repeating-linear-gradient(135deg,var(--cs-color-neutral-selected)_0_calc(var(--spacing)*0.75),transparent_calc(var(--spacing)*0.75)_calc(var(--spacing)*1.5))]',
       false: 'bg-(--picked)',
     },
   },

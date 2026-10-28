@@ -1,6 +1,7 @@
 'use client';
 import { useState, type ComponentProps, type CSSProperties } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
@@ -94,6 +95,16 @@ export interface EffectEditorProps extends Omit<ComponentProps<'div'>, 'defaultV
   onFieldBlur?: ((event: { field: EffectEditorField; dirty: boolean }) => void) | undefined;
   /** K2e: one field commits; return false to reject. */
   onFieldCommit?: ((change: EffectEditorChange) => boolean | void) | undefined;
+  /** Colour family of the preview stage. */
+  tone?: Tone | undefined;
+  /** Emphasis of the preview stage; soft (default) is the bg.inset well. */
+  variant?: Variant | undefined;
+  /** Corner radius of the root; unset = none. */
+  radius?: Radius | undefined;
+  /** Elevation of the root; unset = none. */
+  shadow?: Shadow | undefined;
+  /** Stack gap step (xs 8, sm 12, md 14, lg 16); the fields keep their control size. */
+  size?: Size | undefined;
 }
 
 const DEFAULT_SHADOW: ShadowValue = { x: 0, y: 12, blur: 24, spread: -6, color: { hex: '1F2128', alpha: 20 } };
@@ -105,7 +116,8 @@ const busy = (on: boolean) => (on ? { 'aria-busy': true as const, 'data-reserved
 /** Edits one effect: a live stage, the numeric fields of its type and the shadow color with its opacity. */
 export function EffectEditor({
   value, defaultValue = DEFAULT_SHADOW, preview = false, disabled = false, commitMode = 'live', mixed, reserved, labels, onDraftChange, onPreviewChange, onValueChange,
-  types, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
+  types, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit,
+  tone, variant, radius, shadow: elevation, size, className, children, ...props
 }: EffectEditorProps) {
   const contract = useFieldContract<EffectEditorChange, EffectEditorField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const [committed, setShadow] = useControllableState<ShadowValue>({ value, defaultValue, onChange: onValueChange });
@@ -145,7 +157,7 @@ export function EffectEditor({
   const behindHeld = flagged(reserved, 'behindNode');
   const field = (key: 'x' | 'y' | 'blur' | 'spread') => ({ ...busy(flagged(reserved, key)), ...contract.wrapAttrs(key) });
   return (
-    <div data-slot="effect-editor" className={cn(effectEditorVariants(), className)} {...props}>
+    <div data-slot="effect-editor" className={cn(effectEditorVariants({ radius, shadow: elevation, size }), className)} {...props}>
       {showType && labels.types !== undefined ? (
         <Select
           data-slot="effect-editor-type" aria-label={labels.type} value={flagged(mixed, 'type') ? '' : type} placeholder={labels.mixed} disabled={flagged(disabled, 'type')}
@@ -159,8 +171,8 @@ export function EffectEditor({
         </Select>
       ) : null}
       {preview ? (
-        <div data-slot="effect-editor-stage" aria-hidden className={effectEditorStageVariants({ clip: kind !== 'shadow' })}>
-          {kind === 'backdrop' ? <><span className={effectEditorBackdropVariants()} /><span className={effectEditorBackdropHalfVariants()} /></> : null}
+        <div data-slot="effect-editor-stage" aria-hidden className={cn(effectEditorStageVariants({ clip: kind !== 'shadow', tone, variant }))}>
+          {kind === 'backdrop' ? <><span data-slot="effect-editor-backdrop" className={effectEditorBackdropVariants()} /><span data-slot="effect-editor-backdrop-half" className={effectEditorBackdropHalfVariants()} /></> : null}
           <div data-slot="effect-editor-card" className={effectEditorCardVariants({ kind })} style={{ ['--fx' as string]: fx, ['--blur' as string]: `${shadow.blur}px` } as CSSProperties} />
         </div>
       ) : null}
@@ -185,7 +197,7 @@ export function EffectEditor({
       ) : null}
       {type === 'drop-shadow' && shadow.behindNode !== undefined && labels.behindNode !== undefined ? (
         <div data-slot="effect-editor-behind" className={effectEditorBehindVariants()} {...busy(behindHeld)}>
-          <span>{labels.behindNode}</span>
+          <span data-slot="effect-editor-behind-label">{labels.behindNode}</span>
           <Switch
             size="sm" aria-label={labels.behindNode} checked={flagged(mixed, 'behindNode') ? false : shadow.behindNode} disabled={flagged(disabled, 'behindNode')}
             onCheckedChange={on => { if (!behindHeld) contract.commit('behindNode', { field: 'behindNode', value: on }, () => patch({ behindNode: on })); }}

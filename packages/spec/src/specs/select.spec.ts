@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'form',
   status: 'ready',
   purpose: 'Chooses one value from a short list (up to 7). A field-looking trigger opens a thick-glass listbox that uses the Menu surface and item anatomy.',
-  description: 'The trigger is a PickerTrigger (chevrons-up-down indicator, placeholder in the placeholder color). The popup is the Menu surface with role="listbox" and role="option" items; the chosen option takes the accent.soft fill. More than 7 options: use Combobox.',
+  description: 'The trigger is a PickerTrigger (chevrons-up-down indicator, placeholder in the placeholder color). The popup is the Menu surface with role="listbox" and role="option" items; the chosen option inverts (selection.fill, selection.on text, trailing check, no edge). More than 7 options: use Combobox.',
   role: 'listbox',
   slots: [
     { name: 'root', el: 'div', role: 'listbox', description: 'The floating listbox surface (Radix Select Content in popper mode). Rendered only while open, or in place with inline. Its height is bounded by the available viewport height (max-height var(--radix-select-content-available-height)) and the options scroll inside it (overflow-y auto); inline is not bounded.' },
@@ -14,8 +14,17 @@ export default defineSpec({
     { name: 'group', el: 'div', parent: 'root', required: false, role: 'group', description: 'Optional option group.' },
     { name: 'heading', el: 'div', parent: 'group', required: false, description: 'Group heading (menu heading style).' },
     { name: 'option', el: 'div', parent: 'root', role: 'option', description: 'One choice (menu item anatomy, role option). aria-selected on the chosen one.' },
+    { name: 'option-label', el: 'span', parent: 'option', required: false, description: 'Inline mode: the truncating label wrapper of an option (Radix mode renders its ItemText).' },
+    { name: 'check', el: 'span', parent: 'option', required: false, description: 'Trailing check on the chosen option (16px, aria-hidden).' },
     { name: 'separator', el: 'div', parent: 'root', required: false, role: 'separator', description: '1px line between groups.' },
   ],
+  variants: {
+    tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'neutral', description: 'Hue of the listbox surface (the Menu surface): neutral (default) has no rim; a hue on solid draws a 1px tone rim. The chosen option always inverts.' },
+    variant: { values: ['solid', 'soft', 'outline', 'ghost'], default: 'solid', description: 'Listbox surface: solid = thick material (default); soft = the tone soft material (opaque); outline = thick material with a 1px tone rim; ghost = thick material without elevation.' },
+    radius: { values: ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'], default: '2xl', description: 'Listbox corner; unset keeps 2xl (options keep lg).' },
+    shadow: { values: ['none', '1', '2', '3', '4', '5'], default: '4', description: 'Listbox elevation; unset keeps elevation 4.' },
+  },
+  sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   states: {
     hover: { pseudo: ['hover'], target: 'option' },
     selected: { props: { selected: true } },
@@ -23,6 +32,11 @@ export default defineSpec({
     disabled: { props: { disabled: true } },
   },
   props: {
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Hue of the listbox surface (the Menu surface): neutral (default) has no rim; a hue on solid draws a 1px tone rim. The chosen option always inverts.' },
+    variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'solid', description: 'Listbox surface: solid = thick material (default); soft = the tone soft material (opaque); outline = thick material with a 1px tone rim; ghost = thick material without elevation.' },
+    radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: '2xl', description: 'Listbox corner; unset keeps 2xl (options keep lg).' },
+    shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: '4', description: 'Listbox elevation; unset keeps elevation 4.' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Steps the trigger (xs control-md / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36).' },
     value: { type: 'string', description: 'Controlled value.' },
     defaultValue: { type: 'string', description: 'Uncontrolled initial value.' },
     open: { type: 'boolean', description: 'Controlled open state.' },
@@ -41,10 +55,16 @@ export default defineSpec({
   styles: [
     { slot: 'root', expect: { material: 'thick', radius: '2xl', padX: 6, padY: 6, shadow: '4' }, note: 'Identical to the menu surface; min-width is the trigger width.' },
     { slot: 'option', expect: { height: 'size-menu-item', padX: 8, gap: 8, radius: 'lg', text: 'ui', fg: 'text.primary' } },
-    { slot: 'option', when: { state: 'hover' }, expect: { bg: 'fill.pressed' } },
-    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'accent.soft' } },
+    { slot: 'option', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
+    { slot: 'option', when: { state: 'selected' }, expect: { bg: 'selection.fill', fg: 'selection.on' }, note: 'The chosen option inverts (owner 2026-10-26, proposal B): selection.fill (ink), selection.on text, no edge, and a trailing check; never accent soft or the focus ring. Hover or highlight on it is selection.fill-hover. A disabled chosen option drops the inversion: disabled.fill, disabled.text.' },
+    { slot: 'check', when: { state: 'selected' }, expect: { fg: 'selection.on-secondary', width: 'icon-sm', height: 'icon-sm' }, note: 'text.secondary, re-pointed by the inverted option.' },
     { slot: 'heading', expect: { fg: 'text.tertiary', text: 'label', padX: 8, padY: 5 } },
     { slot: 'separator', expect: { bg: 'border.subtle', height: 1 } },
+    { slot: 'root', when: { inline: true, defaultOpen: true, variant: 'soft', tone: 'accent' }, expect: { bg: 'accent.soft' } },
+    { slot: 'root', when: { inline: true, defaultOpen: true, radius: 'lg' }, expect: { radius: 'lg' } },
+    { slot: 'root', when: { inline: true, defaultOpen: true, shadow: '2' }, expect: { shadow: '2' } },
+    { slot: 'option', when: { inline: true, defaultOpen: true, size: 'lg' }, expect: { height: 'control-lg' } },
+    { slot: 'trigger', when: { size: 'lg' }, expect: { height: 'field-lg' } },
   ],
   behavior: {
     keyboard: {
@@ -71,7 +91,7 @@ export default defineSpec({
     notes: [
       'Trigger role="combobox" aria-haspopup="listbox"; wrap in Field for the label (Radix wires aria-labelledby).',
       'The hidden native select keeps form posts and autofill working.',
-      'The chosen option is marked by aria-selected and the accent.soft fill together.',
+      'The chosen option is marked by aria-selected, the inverted fill and the trailing check together.',
     ],
   },
   policies: ['P1', 'P5', 'P6'],

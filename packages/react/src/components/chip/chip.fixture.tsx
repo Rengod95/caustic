@@ -17,22 +17,23 @@ export default defineFixture({
       <>
         <div className="flex flex-wrap items-center gap-2">
           <Chip>Soft</Chip>
-          <Chip appearance="outline">Outline</Chip>
-          <Chip appearance="solid">Solid</Chip>
-          <Chip appearance="dashed" icon={<Plus />}>Dashed</Chip>
+          <Chip variant="outline">Outline</Chip>
+          <Chip variant="solid">Solid</Chip>
+          <Chip variant="dashed" icon={<Plus />}>Dashed</Chip>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Chip tone="info" dot>Review</Chip>
           <Chip tone="success" icon={<Check />}>Passed</Chip>
           <Chip tone="warning">Draft</Chip>
           <Chip tone="danger">Broken ref</Chip>
+          <Chip variant="outline" count="14">Frames</Chip>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Chip size="sm">sm</Chip>
           <Chip>md</Chip>
           <Chip size="lg">lg</Chip>
-          <Chip appearance="outline" defaultPressed>Toggle on</Chip>
-          <Chip appearance="outline" defaultPressed={false}>Toggle off</Chip>
+          <Chip variant="outline" defaultPressed>Toggle on</Chip>
+          <Chip variant="outline" defaultPressed={false}>Toggle off</Chip>
         </div>
         <div className="flex flex-wrap items-start gap-3">
           <div className="grid gap-2">

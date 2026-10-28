@@ -8,12 +8,21 @@ export default defineFixture({
   id: 'alert',
   render: props => (
     <div className="w-96">
-      <Alert {...(props as Partial<AlertProps>)}>
+      <Alert dismissLabel="Dismiss" {...(props as Partial<AlertProps>)}>
         <b>2 tokens fail AA in dark.</b> text/tertiary on surface is 3.9 : 1.
       </Alert>
     </div>
   ),
   examples: {
+    // All four tones in the subtle emphasis: tint fill, tone border, tone text, graphic icon.
+    'alert-tones': () => (
+      <>
+        <Alert tone="info">Theme changes apply to all 3 themes.</Alert>
+        <Alert tone="success"><b>Published v2.4.</b> 42 pairs still meet AA.</Alert>
+        <Alert tone="warning"><b>2 tokens fail AA in dark.</b> text/tertiary on surface is 3.9 : 1.</Alert>
+        <Alert tone="danger"><b>Export failed.</b> The token file could not be written.</Alert>
+      </>
+    ),
     feedback: () => (
       <>
         <Alert tone="warning" action={<Button tone="ghost" size="xs">Fix</Button>}>
@@ -32,6 +41,27 @@ export default defineFixture({
             <Skeleton height={10} width="45%" />
           </div>
         </div>
+      </>
+    ),
+    // The former Banner (round 3): layout page. Same content and order as the old banner example.
+    'banner-banner': () => (
+      <>
+        <Alert layout="page" tone="info" dismissible dismissLabel="Dismiss" actions={[{ label: 'Learn more' }]}>
+          <b>New:</b> themes can now inherit from another theme.
+        </Alert>
+        <Alert layout="page" tone="warning" actions={[{ label: 'Compare plans' }, { label: 'Upgrade', primary: true }]}>
+          Your trial ends in 3 days. Projects stay read-only after that.
+        </Alert>
+        <Alert layout="page" tone="danger" actions={[{ label: 'Retry' }]}>
+          Anthropic is not responding. Agent runs are paused.
+        </Alert>
+        <Alert layout="page" tone="success" dismissible dismissLabel="Dismiss">Published v2.4 to orbit-pay.caustic.app.</Alert>
+        <Alert layout="page" tone="info" placement="page" emphasis="lead" dismissible dismissLabel="Dismiss" actions={[{ label: 'Learn more' }]}>
+          <b>New:</b> themes can now inherit from another theme.
+        </Alert>
+        <Alert layout="page" tone="warning" variant="solid" actions={[{ label: 'Upgrade', primary: true }]}>
+          Your trial ends in 3 days. Projects stay read-only after that.
+        </Alert>
       </>
     ),
   },

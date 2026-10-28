@@ -1,6 +1,7 @@
 'use client';
 import { Children, createContext, isValidElement, useContext, useEffect, useId, useRef, useState, type ComponentProps, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps, Size } from '../../lib/common-props.ts';
 import {
   appShellBodyVariants, appShellEndVariants, appShellOverlayVariants, appShellSkipVariants, appShellStageVariants,
   appShellStartVariants, appShellTitlebarVariants, appShellVariants,
@@ -14,10 +15,11 @@ const COMPACT_MAX = 720;
 
 const measureLayout = (width: number): Layout => (width <= COMPACT_MAX ? 'compact' : width <= MEDIUM_MAX ? 'medium' : 'wide');
 
-interface ShellContext { layout: Layout; stageId: string }
+interface ShellContext { layout: Layout; stageId: string; size?: Size | undefined }
 const ShellContext = createContext<ShellContext>({ layout: 'wide', stageId: '' });
 
-export interface AppShellProps extends Omit<ComponentProps<'div'>, 'children'> {
+/** Common props: variant / tone the window ground, radius / shadow the window box, size the inset, gaps and titlebar. */
+export interface AppShellProps extends Omit<ComponentProps<'div'>, 'children'>, CommonProps {
   /** Pin the layout. When omitted the shell measures its own width: medium at 1100 and below, compact at 720 and below. */
   layout?: Layout;
   /** Text of the skip link to the stage. When omitted no link is rendered. Supplied by the app so it can be translated. */
@@ -27,7 +29,7 @@ export interface AppShellProps extends Omit<ComponentProps<'div'>, 'children'> {
 }
 
 /** The studio window frame: titlebar, start region, stage and end region. Slots only, no business logic. */
-export function AppShell({ layout, skipLabel, className, children, ...props }: AppShellProps) {
+export function AppShell({ layout, skipLabel, tone, variant, radius, shadow, size, className, children, ...props }: AppShellProps) {
   const stageId = useId();
   const ref = useRef<HTMLDivElement>(null);
   const [measured, setMeasured] = useState<Layout>('wide');
@@ -55,11 +57,11 @@ export function AppShell({ layout, skipLabel, className, children, ...props }: A
   const body = parts.filter(c => !titlebar.includes(c));
 
   return (
-    <ShellContext.Provider value={{ layout: current, stageId }}>
-      <div ref={ref} data-slot="app-shell" data-layout={current} className={cn(appShellVariants(), className)} {...props}>
+    <ShellContext.Provider value={{ layout: current, stageId, size }}>
+      <div ref={ref} data-slot="app-shell" data-layout={current} className={cn(appShellVariants({ tone, variant, radius, shadow, size }), className)} {...props}>
         {skipLabel !== undefined && <a data-slot="app-shell-skip" href={`#${stageId}`} className={appShellSkipVariants()} onClick={skip}>{skipLabel}</a>}
         {titlebar}
-        <div data-slot="app-shell-body" className={appShellBodyVariants()}>{body}</div>
+        <div data-slot="app-shell-body" className={appShellBodyVariants({ size })}>{body}</div>
       </div>
     </ShellContext.Provider>
   );
@@ -69,7 +71,8 @@ export interface AppShellTitlebarProps extends ComponentProps<'header'> {}
 
 /** Banner band on top: toolbars, project name, undo / redo, status. */
 export function AppShellTitlebar({ className, ...props }: AppShellTitlebarProps) {
-  return <header data-slot="app-shell-titlebar" className={cn(appShellTitlebarVariants(), className)} {...props} />;
+  const { size } = useContext(ShellContext);
+  return <header data-slot="app-shell-titlebar" className={cn(appShellTitlebarVariants({ size }), className)} {...props} />;
 }
 
 export interface AppShellStartProps extends ComponentProps<'div'> {}

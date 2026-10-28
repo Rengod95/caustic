@@ -1,6 +1,44 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
-export const motionTimelineVariants = cva('overflow-hidden rounded-xl bg-surface-base font-ui text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]');
+/**
+ * The player surface. Common props (owner 2026-10-26), unset = today: tone is the keyframe colour (--mt-key: the ring and
+ * the selected fill), accent by default; variant is the surface: solid (default) surface.base with the border.subtle
+ * hairline, soft the tone's soft 3 without edge, outline no fill with the tone's border 6 edge, ghost no fill or edge.
+ * radius replaces the xl corner; shadow adds an elevation (it replaces the hairline: one depth cue).
+ */
+export const motionTimelineVariants = cva('overflow-hidden rounded-xl bg-surface-base font-ui text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]', {
+  variants: {
+    tone: {
+      neutral: '[--mt-key:var(--cs-color-neutral-solid)]',
+      accent: '',
+      success: '[--mt-key:var(--cs-color-success-solid)]',
+      warning: '[--mt-key:var(--cs-color-warning-solid)]',
+      danger: '[--mt-key:var(--cs-color-danger-solid)]',
+      info: '[--mt-key:var(--cs-color-info-solid)]',
+      agent: '[--mt-key:var(--cs-color-agent-solid)]',
+    },
+    variant: { solid: '', soft: '', outline: '', ghost: 'bg-transparent shadow-none' },
+    radius: { none: 'rounded-none', '2xs': 'rounded-2xs', xs: 'rounded-xs', sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-lg', xl: '', '2xl': 'rounded-2xl', '3xl': 'rounded-3xl', '4xl': 'rounded-4xl', full: 'rounded-full' },
+    shadow: { none: '', '1': 'shadow-1', '2': 'shadow-2', '3': 'shadow-3', '4': 'shadow-4', '5': 'shadow-5' },
+  },
+  compoundVariants: [
+    { variant: 'soft', tone: 'neutral', className: 'bg-neutral-soft shadow-none' },
+    { variant: 'soft', tone: 'accent', className: 'bg-accent-soft shadow-none' },
+    { variant: 'soft', tone: 'success', className: 'bg-success-soft shadow-none' },
+    { variant: 'soft', tone: 'warning', className: 'bg-warning-soft shadow-none' },
+    { variant: 'soft', tone: 'danger', className: 'bg-danger-soft shadow-none' },
+    { variant: 'soft', tone: 'info', className: 'bg-info-soft shadow-none' },
+    { variant: 'soft', tone: 'agent', className: 'bg-agent-soft shadow-none' },
+    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
+    { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
+    { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
+    { variant: 'outline', tone: 'danger', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)]' },
+    { variant: 'outline', tone: 'info', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-info-border)]' },
+    { variant: 'outline', tone: 'agent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-agent-border)]' },
+  ],
+  defaultVariants: { tone: 'accent', variant: 'solid', radius: 'xl', shadow: 'none' },
+});
 
 export const motionTimelineBodyVariants = cva('relative');
 
@@ -12,18 +50,34 @@ export const motionTimelineRulerVariants = cva([
 
 export const motionTimelineRulerLabelVariants = cva('absolute top-1 left-(--x) -translate-x-1/2 font-mono text-mono-sm whitespace-nowrap text-text-tertiary');
 
-export const motionTimelineLaneVariants = cva('grid h-8 grid-cols-[var(--cs-size-timeline-label-w)_1fr] items-center border-b border-border-subtle last:border-b-0');
+/** One lane row; size steps its height (xs 24 · sm 28 · md 32 · lg 40). Bars and keyframes centre on it. */
+export const motionTimelineLaneVariants = cva('grid grid-cols-[var(--cs-size-timeline-label-w)_1fr] items-center border-b border-border-subtle last:border-b-0', {
+  variants: { size: { xs: 'h-6', sm: 'h-7', md: 'h-8', lg: 'h-10' } },
+  defaultVariants: { size: 'md' },
+});
 
-export const motionTimelineLaneLabelVariants = cva('flex items-center gap-1.5 overflow-hidden px-2.5 text-ui-sm font-normal whitespace-nowrap text-text-secondary [&_svg]:size-chip-icon [&_svg]:shrink-0 [&_svg]:stroke-[1.75]');
+/**
+ * Lane name. With onLaneSelect it is a toggle button: focus draws the ring and the selected lane inverts (selected utility).
+ * size steps the type (xs ui-xs · sm and md ui-sm · lg ui).
+ */
+export const motionTimelineLaneLabelVariants = cva([
+  'flex h-full items-center gap-1.5 overflow-hidden px-2.5 font-normal whitespace-nowrap text-text-secondary outline-none [&_svg]:size-chip-icon [&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
+  '[&[role=button]]:cursor-pointer [&[role=button]]:hover:bg-neutral-hover focus-visible:shadow-focus aria-pressed:selected aria-pressed:hover:bg-selection-fill-hover',
+], {
+  variants: { size: { xs: 'text-ui-xs', sm: 'text-ui-sm', md: 'text-ui-sm', lg: 'text-ui' } },
+  defaultVariants: { size: 'md' },
+});
 
 export const motionTimelineTrackVariants = cva('relative h-full cursor-col-resize touch-none');
 
-export const motionTimelineBarVariants = cva('absolute top-2.25 left-(--l) h-3.5 w-(--w) rounded-xs bg-accent-soft shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]');
+/** The animated range: a chart-family series colour (PROPOSAL E9), not accent; the chart family has no edge. Centred on the lane. */
+export const motionTimelineBarVariants = cva('absolute top-[calc(50%-var(--spacing)*1.75)] left-(--l) h-3.5 w-(--w) rounded-xs bg-chart-1');
 
+/** A keyframe, centred on the lane: its ring and selected fill read --mt-key (the root tone), accent by default. */
 export const motionTimelineKeyframeVariants = cva([
-  'absolute top-2.5 left-(--l) size-2.5 -translate-x-1/2 rotate-45 cursor-pointer rounded-2xs bg-surface-base outline-none',
-  'shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-solid)]',
-  'focus-visible:shadow-focus aria-pressed:bg-accent-solid',
+  'absolute top-[calc(50%-var(--spacing)*1.5)] left-(--l) size-2.5 -translate-x-1/2 rotate-45 cursor-pointer rounded-2xs bg-surface-base outline-none',
+  'shadow-[inset_0_0_0_1.5px_var(--mt-key,var(--cs-color-accent-solid))]',
+  'focus-visible:shadow-focus aria-pressed:bg-[color:var(--mt-key,var(--cs-color-accent-solid))]',
 ]);
 
 export const motionTimelinePlayheadVariants = cva([

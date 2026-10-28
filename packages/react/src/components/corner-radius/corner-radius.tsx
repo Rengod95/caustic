@@ -2,9 +2,10 @@
 import { Scan, Spline } from 'lucide-react';
 import { useState, type ComponentProps, type CSSProperties } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
-import { IconToggle } from '../icon-toggle/icon-toggle.tsx';
+import { IconButton } from '../icon-button/icon-button.tsx';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
 import { cornerRadiusCorners, cornerRadiusFields, cornerRadiusGlyph, cornerRadiusShape, cornerRadiusStage, cornerRadiusVariants } from './corner-radius.variants.ts';
 
@@ -66,6 +67,16 @@ export interface CornerRadiusProps extends Omit<ComponentProps<'div'>, 'defaultV
   onFieldBlur?: ((event: { field: CornerRadiusField; dirty: boolean }) => void) | undefined;
   /** K2e: one field commits; return false to reject. */
   onFieldCommit?: ((change: CornerRadiusChange) => boolean | void) | undefined;
+  /** Colour family of the preview shape. */
+  tone?: Tone | undefined;
+  /** Emphasis of the preview shape; outline (default) is surface.base with a 1.5px ring. */
+  variant?: Variant | undefined;
+  /** Corner radius of the root; unset = none. */
+  radius?: Radius | undefined;
+  /** Elevation of the root; unset = none. */
+  shadow?: Shadow | undefined;
+  /** Stack gap step (xs 8, sm 12, md 14, lg 16); the fields keep their control size. */
+  size?: Size | undefined;
 }
 
 const flagged = (flags: boolean | CornerRadiusFieldFlags | undefined, field: CornerRadiusField) => flags === true || (typeof flags === 'object' && flags[field] === true);
@@ -73,7 +84,8 @@ const flagged = (flags: boolean | CornerRadiusFieldFlags | undefined, field: Cor
 /** Corner radius of a shape: one value, smoothing and four independent corners. */
 export function CornerRadius({
   value, defaultValue = DEFAULT_VALUE, onValueChange, independent, defaultIndependent = false, onIndependentChange, preview = false, disabled = false,
-  commitMode = 'live', mixed, reserved, labels, onDraftChange, onPreviewChange, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
+  commitMode = 'live', mixed, reserved, labels, onDraftChange, onPreviewChange, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit,
+  tone, variant, radius: rootRadius, shadow, size, className, children, ...props
 }: CornerRadiusProps) {
   const contract = useFieldContract<CornerRadiusChange, CornerRadiusField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const [v, setV] = useControllableState<CornerRadiusValue>({ value, defaultValue, onChange: onValueChange });
@@ -82,6 +94,12 @@ export function CornerRadius({
   const shown = previewing ?? v;
   const { tl, tr, bl, br } = shown.corners;
   const radius = ind ? `${tl}px ${tr}px ${br}px ${bl}px` : `${shown.radius}px`;
+  // Smoothing is drawn: 0 % is a circular corner, more turns it into a superellipse (CSS corner-shape). 60 % (the iOS
+  // and canvas default) is superellipse(2), the system squircle; 100 % is superellipse(2.67). Without corner-shape support
+  // (Safari, Firefox) the corner stays circular.
+  const shape = shown.smoothing > 0 ? `superellipse(${Math.round((1 + shown.smoothing / 60) * 100) / 100})` : 'round';
+  // The corner field that has focus: the stage rings that corner in accent.
+  const [editing, setEditing] = useState<keyof CornerValues | null>(null);
   /** The props every numeric field shares: value model, mixed, reserved and the draft report. */
   const field = (name: CornerRadiusDraftField, build: (n: number) => CornerRadiusValue) => ({
     disabled: flagged(disabled, name),
@@ -103,10 +121,10 @@ export function CornerRadius({
   const indReserved = flagged(reserved, 'independent');
   const indMixed = flagged(mixed, 'independent');
   return (
-    <div data-slot="corner-radius" aria-disabled={disabled === true || undefined} className={cn(cornerRadiusVariants(), className)} {...props}>
+    <div data-slot="corner-radius" data-disabled={disabled === true || undefined} className={cn(cornerRadiusVariants({ radius: rootRadius, shadow, size }), className)} {...props}>
       {preview && (
         <div data-slot="corner-radius-stage" className={cornerRadiusStage()}>
-          <div data-slot="corner-radius-shape" aria-hidden className={cornerRadiusShape()} style={{ '--r': radius } as CSSProperties} />
+          <div data-slot="corner-radius-shape" aria-hidden data-editing={editing ?? undefined} className={cn(cornerRadiusShape({ tone, variant }))} style={{ '--r': radius, '--shape': shape } as CSSProperties} />
         </div>
       )}
       <div data-slot="corner-radius-fields" className={cornerRadiusFields()}>
@@ -130,9 +148,10 @@ export function CornerRadius({
             {...field('smoothing', n => ({ ...v, smoothing: n }))}
           />
         </div>
-        <IconToggle
+        <IconButton
           data-slot="corner-radius-independent"
-          aria-label={labels.independent}
+          label={labels.independent}
+          size="xs"
           pressed={ind}
           onPressedChange={p => { if (!indReserved) contract.commit('independent', { field: 'independent', value: p }, () => setInd(p)); }}
           disabled={flagged(disabled, 'independent')}
@@ -143,12 +162,15 @@ export function CornerRadius({
           {...(indReserved ? { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true } : {})}
         >
           <Scan />
-        </IconToggle>
+        </IconButton>
       </div>
       {ind && (
         <div data-slot="corner-radius-corners" className={cornerRadiusCorners()}>
           {corners.map(c => (
-            <div key={c.key} data-slot="corner-radius-corner" className="min-w-0" {...wrap(c.key)}>
+            <div
+              key={c.key} data-slot="corner-radius-corner" className="min-w-0" {...wrap(c.key)}
+              onFocus={() => setEditing(c.key)} onBlur={() => setEditing(e => (e === c.key ? null : e))}
+            >
               <NumberField
                 aria-label={c.label}
                 label={<span aria-hidden className={cornerRadiusGlyph({ corner: c.key })} />}

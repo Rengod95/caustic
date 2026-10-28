@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
-// Hash router: #/ (home), #/foundation/<slug>, #/c/<component-id>.
-export type Route = { page: 'home' } | { page: 'foundation'; slug: string } | { page: 'component'; id: string };
+// Hash router: #/ (home), #/foundation/<slug>, #/c/<component-id>, #/samples/<slug>, #/lab/<tool>.
+export type Route = { page: 'home' } | { page: 'showcase'; slug: string } | { page: 'foundation'; slug: string } | { page: 'component'; id: string };
 
 export function parseRoute(hash: string): Route {
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  if (parts[0] === 'samples' && parts[1]) return { page: 'showcase', slug: `samples/${parts[1]}` };
+  if (parts[0] === 'lab' && parts[1]) return { page: 'showcase', slug: `lab/${parts[1]}` };
   if (parts[0] === 'foundation' && parts[1]) return { page: 'foundation', slug: parts[1] };
   if (parts[0] === 'c' && parts[1]) return { page: 'component', id: parts[1] };
   return { page: 'home' };
@@ -12,6 +14,7 @@ export function parseRoute(hash: string): Route {
 
 export const hrefFor = {
   home: '#/',
+  sample: (slug: string) => `#/samples/${slug}`,
   foundation: (slug: string) => `#/foundation/${slug}`,
   component: (id: string) => `#/c/${id}`,
 };

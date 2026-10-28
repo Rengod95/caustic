@@ -23,6 +23,9 @@ export default defineFixture({
         <Field label="Workspace URL" error="Use lowercase letters, numbers and dashes.">
           <Input defaultValue="orbit pay" />
         </Field>
+        <Field label="Workspace URL" warning="Uppercase letters are lowered in the link.">
+          <Input defaultValue="Orbit-Pay" />
+        </Field>
         <Field label="Workspace URL" success="orbit-pay is available.">
           <Input defaultValue="orbit-pay" suffix={<CircleCheck className="size-icon-sm text-success-text" />} />
         </Field>

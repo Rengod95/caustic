@@ -3,7 +3,8 @@ import {
   AlignStartHorizontal, AlignStartVertical, AlignVerticalDistributeCenter, Scan,
 } from 'lucide-react';
 import { defineFixture } from '../../lib/fixture.ts';
-import { AlignBar, AlignBarItem, AlignBarSeparator } from '../align-bar/align-bar.tsx';
+import { ButtonGroup, ButtonGroupSeparator } from '../button-group/button-group.tsx';
+import { IconButton } from '../icon-button/icon-button.tsx';
 import { Badge } from '../badge/badge.tsx';
 import { Button } from '../button/button.tsx';
 import { ConstraintsControl, type ConstraintsControlLabels, type ConstraintsControlProps } from './constraints-control.tsx';
@@ -29,15 +30,15 @@ export default defineFixture({
     'alignment-and-constraints': () => (
       <>
         <div className="flex items-center justify-between gap-2">
-          <AlignBar aria-label="Align">
-            <AlignBarItem label="Align left"><AlignStartVertical /></AlignBarItem>
-            <AlignBarItem label="Align horizontal centers"><AlignCenterVertical /></AlignBarItem>
-            <AlignBarItem label="Align right"><AlignEndVertical /></AlignBarItem>
-            <AlignBarSeparator />
-            <AlignBarItem label="Align top"><AlignStartHorizontal /></AlignBarItem>
-            <AlignBarItem label="Align vertical centers"><AlignCenterHorizontal /></AlignBarItem>
-            <AlignBarItem label="Align bottom"><AlignEndHorizontal /></AlignBarItem>
-          </AlignBar>
+          <ButtonGroup aria-label="Align">
+            <IconButton label="Align left"><AlignStartVertical /></IconButton>
+            <IconButton label="Align horizontal centers"><AlignCenterVertical /></IconButton>
+            <IconButton label="Align right"><AlignEndVertical /></IconButton>
+            <ButtonGroupSeparator />
+            <IconButton label="Align top"><AlignStartHorizontal /></IconButton>
+            <IconButton label="Align vertical centers"><AlignCenterHorizontal /></IconButton>
+            <IconButton label="Align bottom"><AlignEndHorizontal /></IconButton>
+          </ButtonGroup>
           <Badge>3 frames</Badge>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -45,11 +46,14 @@ export default defineFixture({
           <Button tone="secondary" size="xs" iconStart={<AlignVerticalDistributeCenter />}>Distribute V</Button>
           <Button tone="ghost" size="xs" iconStart={<Scan />}>Fit to selection</Button>
         </div>
-        <ConstraintsControl
-          labels={labels}
-          defaultValue={{ horizontal: 'left-right', vertical: 'center' }}
-          note="Resizing the parent stretches width and keeps the frame centered vertically."
-        />
+        {/* The constraints are their own section: a divider and room above it (owner 2026-10-27). */}
+        <div className="mt-1.5 border-t border-divider-line pt-5">
+          <ConstraintsControl
+            labels={labels}
+            defaultValue={{ horizontal: 'left-right', vertical: 'center' }}
+            note="Resizing the parent stretches width and keeps the frame centered vertically."
+          />
+        </div>
       </>
     ),
   },

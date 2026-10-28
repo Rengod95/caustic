@@ -1,5 +1,5 @@
 import { defineFixture } from '../../lib/fixture.ts';
-import { ContextAnalytics, type ContextAnalyticsRoundData, type ContextAnalyticsTone } from './context-analytics.tsx';
+import { ContextAnalytics, type ContextAnalyticsRoundData, type ContextAnalyticsSeries } from './context-analytics.tsx';
 
 const ROUNDS: ContextAnalyticsRoundData[] = [
   { total: 22, out: 6 }, { total: 35, out: 8 }, { total: 41, out: 5 }, { total: 48, out: 12 },
@@ -7,22 +7,22 @@ const ROUNDS: ContextAnalyticsRoundData[] = [
   { total: 0, out: 0 }, { total: 0, out: 0 }, { total: 0, out: 0 }, { total: 0, out: 0 },
 ];
 
-const segments = (tone: ContextAnalyticsTone = 'scene') => [
-  { label: 'Scene', value: 34, tone },
-  { label: 'Tokens', value: 22, tone: 'tokens' as const },
-  { label: 'Transcript', value: 18, tone: 'transcript' as const },
-  { label: 'Tools', value: 10, tone: 'tools' as const },
+const segments = (series: ContextAnalyticsSeries = 'scene') => [
+  { label: 'Scene', value: 34, series },
+  { label: 'Tokens', value: 22, series: 'tokens' as const },
+  { label: 'Transcript', value: 18, series: 'transcript' as const },
+  { label: 'Tools', value: 10, series: 'tools' as const },
 ];
 
 export default defineFixture({
   id: 'context-analytics',
-  // Round / segment props (selected, tone) apply to the first round, segment and legend item.
-  render: ({ selected, tone, ...props }) => (
+  // Round / segment props (selected, series) apply to the first round, segment and legend item.
+  render: ({ selected, series, ...props }) => (
     <ContextAnalytics
       aria-label="Context usage"
       rounds={ROUNDS}
       selectedRound={selected ? 0 : 6}
-      segments={segments(tone as ContextAnalyticsTone | undefined)}
+      segments={segments(series as ContextAnalyticsSeries | undefined)}
       summary="Round 7 · 18.4k in · 1.2k out"
       share="42% of window"
       {...props}

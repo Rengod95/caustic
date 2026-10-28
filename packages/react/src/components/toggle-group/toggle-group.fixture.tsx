@@ -33,7 +33,7 @@ export default defineFixture({
           <ToggleGroupItem value="underline" aria-label="Underline" icon={<Underline />} />
           <ToggleGroupItem value="strikethrough" aria-label="Strikethrough" icon={<Strikethrough />} />
         </ToggleGroup>
-        <ToggleGroup type="single" appearance="outline" aria-label="Alignment" defaultValue="left">
+        <ToggleGroup type="single" variant="outline" aria-label="Alignment" defaultValue="left">
           <ToggleGroupItem value="left" aria-label="Left" icon={<AlignLeft />} />
           <ToggleGroupItem value="center" aria-label="Center" icon={<AlignCenter />} />
           <ToggleGroupItem value="right" aria-label="Right" icon={<AlignRight />} />

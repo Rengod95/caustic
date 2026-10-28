@@ -36,6 +36,16 @@ export default defineFixture({
   render: props => <GradientEditor defaultSelected={1} labels={labels} {...(props as Partial<GradientEditorProps>)} />,
   examples: {
     'gradient-editor': () => <GradientEditor defaultSelected={1} labels={labels} />,
+    // The removed GradientStrip, now a part used on its own (its old fixture render).
+    'gradient-strip-part': () => (
+      <div className="w-98">
+        <GradientEditor.Strip
+          stopLabel={labels.stop}
+          stops={[{ position: 0, color: '#E2763F' }, { position: 52, color: '#F4C26B' }, { position: 100, color: '#5F4994' }]}
+          selected={1}
+        />
+      </div>
+    ),
   },
   frame: children => <div className="w-200">{children}</div>,
 });

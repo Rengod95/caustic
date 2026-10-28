@@ -2,8 +2,10 @@
 import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown } from 'lucide-react';
 import type { ComponentProps, CSSProperties, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Checkbox } from '../checkbox/checkbox.tsx';
+import { tableCellVariants, tableHeadingVariants, tableRowVariants, tableVariants } from './table.variants.ts';
 
 export interface TableColumn {
   key: string;
@@ -17,7 +19,7 @@ export interface TableColumn {
 export type TableRow = { id: string } & Record<string, unknown>;
 export interface TableSort { key: string; direction: 'ascending' | 'descending' }
 
-export interface TableProps extends Omit<ComponentProps<'div'>, 'children'> {
+export interface TableProps extends Omit<ComponentProps<'div'>, 'children'>, CommonProps {
   columns: TableColumn[];
   rows: TableRow[];
   /** Custom cell content. Defaults to String(row[column.key]). */
@@ -44,15 +46,18 @@ export interface TableProps extends Omit<ComponentProps<'div'>, 'children'> {
   onPageChange?: (page: number) => void;
   /** Accessible name of the pager nav. Distinguish it when several tables share a page. */
   pagerLabel?: string;
+  /** Caps the scroll area height in px; the body then scrolls under the sticky header. Unset, the table grows with its rows. */
+  maxHeight?: number;
 }
 
-const pageButton = 'inline-flex h-control-md min-w-control-md items-center justify-center gap-1 rounded-md px-2 text-ui tabular-nums text-text-secondary outline-none hover:bg-fill-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm';
-const pageCurrent = 'frost bg-control-raised font-semibold text-text-primary shadow-[0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)] hover:bg-control-raised-hover';
+const pageButton = 'inline-flex h-control-md min-w-control-md items-center justify-center gap-1 rounded-md px-2 text-ui tabular-nums text-text-secondary outline-none hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm';
+/** The current page is the segment thumb (control family, §4 B2): control-raised fill and the control edge, control-raised-hover under the pointer; focus keeps the edge. */
+const pageCurrent = 'bg-control-raised font-semibold text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]';
 
 /** Data table: toolbar, row selection, sortable columns, row actions and a footer with summary and pager. */
 export function Table({
   columns, rows, renderCell, rowLabel, rowActions, toolbar, selectable = false, selectedKeys, defaultSelectedKeys = [], onSelectedKeysChange,
-  sort, onSortChange, summary, page, pageCount, onPageChange, pagerLabel = 'Pagination', className, ...props
+  sort, onSortChange, summary, page, pageCount, onPageChange, pagerLabel = 'Pagination', maxHeight, tone, variant, radius, shadow, size, className, ...props
 }: TableProps) {
   const [selected, setSelected] = useControllableState<string[]>({ value: selectedKeys, defaultValue: defaultSelectedKeys, onChange: onSelectedKeysChange });
   const allOn = rows.length > 0 && rows.every(r => selected.includes(r.id));
@@ -62,21 +67,28 @@ export function Table({
   const pager = page != null && pageCount != null;
   const footerSummary = summary ?? (selectable ? `${rows.filter(r => selected.includes(r.id)).length} of ${rows.length} selected` : null);
   const hasFooter = footerSummary != null || pager;
+  const heading = tableHeadingVariants({ size });
+  const cell = tableCellVariants({ size });
   const colWidth = (w?: number): CSSProperties | undefined => (w == null ? undefined : { '--col-w': `${w}px` } as CSSProperties);
 
   return (
     <div
       data-slot="table"
-      className={cn('frost w-full overflow-hidden rounded-2xl bg-surface-translucent font-ui text-text-primary shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--cs-elevation-1)]', className)}
+      data-size={size ?? 'md'}
+      className={cn(tableVariants({ tone, variant, radius, shadow }), className)}
       {...props}
     >
       {toolbar != null && <div data-slot="table-toolbar" className="flex flex-wrap items-center gap-2 border-b border-border-subtle px-3 py-2.5">{toolbar}</div>}
-      <div data-slot="table-scroll" className="overflow-x-auto">
+      <div
+        data-slot="table-scroll"
+        style={maxHeight == null ? undefined : { '--table-max-h': `${maxHeight}px` } as CSSProperties}
+        className={cn('overflow-x-auto', maxHeight != null && 'max-h-(--table-max-h) overflow-y-auto')}
+      >
         <table data-slot="table-grid" className="w-full min-w-table-min-w border-collapse text-ui">
           <thead data-slot="table-head">
             <tr>
               {selectable && (
-                <th data-slot="table-heading" scope="col" className="h-table-head-h w-table-select-w whitespace-nowrap border-b border-border-subtle bg-surface-raised-translucent px-3 text-start text-ui-sm text-text-tertiary">
+                <th data-slot="table-heading" scope="col" className={cn(heading, 'w-table-select-w text-start')}>
                   <Checkbox
                     data-slot="table-head-check" aria-label="Select all"
                     checked={allOn ? true : someOn ? 'indeterminate' : false}
@@ -91,7 +103,7 @@ export function Table({
                   <th
                     key={col.key} data-slot="table-heading" scope="col" aria-sort={active}
                     style={colWidth(col.width)}
-                    className={cn('h-table-head-h whitespace-nowrap border-b border-border-subtle bg-surface-raised-translucent px-3 text-ui-sm text-text-tertiary', col.align === 'end' ? 'text-end' : 'text-start', col.width != null && 'w-[var(--col-w)]')}
+                    className={cn(heading, col.align === 'end' ? 'text-end' : 'text-start', col.width != null && 'w-[var(--col-w)]')}
                   >
                     {col.sortable ? (
                       <button
@@ -105,7 +117,7 @@ export function Table({
                   </th>
                 );
               })}
-              {rowActions && <th data-slot="table-heading" scope="col" className="h-table-head-h w-10 border-b border-border-subtle bg-surface-raised-translucent px-3"><span className="sr-only">Actions</span></th>}
+              {rowActions && <th data-slot="table-heading" scope="col" className={cn(heading, 'w-10')}><span className="sr-only">Actions</span></th>}
             </tr>
           </thead>
           <tbody data-slot="table-body">
@@ -114,19 +126,19 @@ export function Table({
               return (
                 <tr
                   key={row.id} data-slot="table-row" aria-selected={selectable ? on : undefined}
-                  className="h-12 border-b border-border-subtle last:border-b-0 hover:bg-fill-hover aria-selected:bg-accent-soft"
+                  className={tableRowVariants({ size })}
                 >
                   {selectable && (
-                    <td data-slot="table-cell" className="h-12 px-3 text-ui text-text-primary">
+                    <td data-slot="table-cell" className={cell}>
                       <Checkbox data-slot="table-row-check" aria-label={`Select ${nameOf(row)}`} checked={on} onCheckedChange={() => toggleRow(row.id)} />
                     </td>
                   )}
                   {columns.map(col => (
-                    <td key={col.key} data-slot="table-cell" className={cn('h-12 px-3 text-ui text-text-primary', col.align === 'end' ? 'text-end tabular-nums' : 'text-start')}>
+                    <td key={col.key} data-slot="table-cell" className={cn(cell, col.align === 'end' ? 'text-end tabular-nums' : 'text-start')}>
                       {renderCell ? renderCell(row, col) : String(row[col.key] ?? '')}
                     </td>
                   ))}
-                  {rowActions && <td data-slot="table-cell" className="h-12 px-3 text-ui text-text-primary">{rowActions(row)}</td>}
+                  {rowActions && <td data-slot="table-cell" className={cell}>{rowActions(row)}</td>}
                 </tr>
               );
             })}

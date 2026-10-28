@@ -3,23 +3,27 @@ import * as R from '@radix-ui/react-radio-group';
 import { createContext, useContext, useRef, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import type { CommonProps, Radius, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { segmentedControlVariants, segmentedItemVariants } from './segmented-control.variants.ts';
 
 type Appearance = 'raised' | 'outline' | 'subtle';
 type Shape = 'rounded' | 'pill';
-type Size = 'xs' | 'md';
 type Content = 'label' | 'icon';
 type Orientation = 'horizontal' | 'vertical';
 
-interface Ctx { appearance: Appearance; shape: Shape; size: Size; content: Content; orientation: Orientation }
-const SegCtx = createContext<Ctx>({ appearance: 'raised', shape: 'rounded', size: 'md', content: 'label', orientation: 'horizontal' });
+/** The deprecated appearance names, mapped onto variant. */
+const APPEARANCE_VARIANT: Record<Appearance, Variant> = { raised: 'solid', outline: 'outline', subtle: 'ghost' };
 
-export interface SegmentedControlProps extends Omit<ComponentProps<typeof R.Root>, 'value' | 'defaultValue' | 'onValueChange' | 'orientation' | 'dir'> {
+interface Ctx { variant: Variant; tone: Tone; radius: Radius | undefined; size: Size; content: Content; orientation: Orientation }
+const SegCtx = createContext<Ctx>({ variant: 'solid', tone: 'neutral', radius: undefined, size: 'md', content: 'label', orientation: 'horizontal' });
+
+export interface SegmentedControlProps extends Omit<ComponentProps<typeof R.Root>, 'value' | 'defaultValue' | 'onValueChange' | 'orientation' | 'dir'>, CommonProps {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
-  size?: Size;
+  /** @deprecated use variant (raised = solid, outline = outline, subtle = ghost). */
   appearance?: Appearance;
+  /** @deprecated use radius (pill = radius full). */
   shape?: Shape;
   content?: Content;
   orientation?: Orientation;
@@ -28,9 +32,11 @@ export interface SegmentedControlProps extends Omit<ComponentProps<typeof R.Root
 
 /** A radio group drawn as a segmented track. Compose with SegmentedControlItem. */
 export function SegmentedControl({
-  value, defaultValue = '', onValueChange, onKeyDown, size = 'md', appearance = 'raised', shape = 'rounded', content = 'label',
-  orientation = 'horizontal', disabled = false, className, ...props
+  value, defaultValue = '', onValueChange, onKeyDown, size = 'md', variant: variantProp, tone = 'neutral', radius: radiusProp, shadow,
+  appearance, shape, content = 'label', orientation = 'horizontal', disabled = false, className, ...props
 }: SegmentedControlProps) {
+  const variant = variantProp ?? (appearance ? APPEARANCE_VARIANT[appearance] : 'solid');
+  const radius = radiusProp ?? (shape === 'pill' ? 'full' : undefined);
   const [current, setCurrent] = useControllableState({ value, defaultValue, onChange: onValueChange });
   const ref = useRef<HTMLDivElement>(null);
   // Arrow keys and Home/End select synchronously, so the selection never lags behind roving focus.
@@ -48,12 +54,12 @@ export function SegmentedControl({
     if (next?.dataset.value !== undefined) setCurrent(next.dataset.value);
   };
   return (
-    <SegCtx.Provider value={{ appearance, shape, size, content, orientation }}>
+    <SegCtx.Provider value={{ variant, tone, radius, size, content, orientation }}>
       <R.Root
         ref={ref} onKeyDown={handleKeyDown}
-        data-slot="segmented-control" data-size={size} data-appearance={appearance} data-shape={shape} data-content={content}
+        data-slot="segmented-control" data-size={size} data-variant={variant} data-tone={tone} data-content={content}
         value={current} onValueChange={setCurrent} orientation={orientation} disabled={disabled}
-        className={cn(segmentedControlVariants({ appearance, shape, size, orientation }), className)}
+        className={cn(segmentedControlVariants({ variant, tone, size, orientation, radius: radius ?? null, shadow: shadow ?? null }), className)}
         {...props}
       />
     </SegCtx.Provider>
@@ -71,8 +77,8 @@ export interface SegmentedControlItemProps extends Omit<ComponentProps<typeof R.
 export function SegmentedControlItem({ icon, count, className, children, ...props }: SegmentedControlItemProps) {
   const ctx = useContext(SegCtx);
   return (
-    <R.Item data-slot="segmented-control-item" data-value={props.value} className={cn(segmentedItemVariants(ctx), className)} {...props}>
-      {icon != null && <span data-slot="segmented-control-icon" className={cn('inline-grid place-items-center', ctx.orientation === 'vertical' ? 'size-icon-sm' : 'size-icon-md')}>{icon}</span>}
+    <R.Item data-slot="segmented-control-item" data-value={props.value} className={cn(segmentedItemVariants({ ...ctx, radius: ctx.radius ?? null }), className)} {...props}>
+      {icon != null && <span data-slot="segmented-control-icon" aria-hidden className={cn('inline-grid place-items-center', ctx.orientation === 'vertical' ? 'size-icon-sm' : 'size-icon-md')}>{icon}</span>}
       {children}
       {count != null && <span data-slot="segmented-control-count" className="ml-auto text-hint font-normal text-text-tertiary">{count}</span>}
     </R.Item>

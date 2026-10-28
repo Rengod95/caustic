@@ -1,0 +1,108 @@
+{
+  "$comment": "Colour language gate rules CL1-CL7 (PROPOSAL-color-language.md section 7). A component id in 'migrated' makes CL2-CL6 blocking for it; an id in 'slotOnlyBlocking' makes CL1 blocking for it. '*' means every component. Add a batch's ids when that batch is migrated. CL7 (slot contrast pairs) is foundation-wide and blocks only when 'contrastBlocking' is true. All 158 components were migrated on 2026-10-25, so CL1-CL6 block everywhere ('*').",
+  "migrated": [
+    "*"
+  ],
+  "slotOnlyBlocking": [
+    "*"
+  ],
+  "contrastBlocking": false,
+  "literalColorAllow": {
+    "$comment": "colourMath: component code that computes colours (hsl()/oklch() ramps, color-mix of user paint). contentFixtures: fixtures whose literal colours are user content (swatches, themes, images, artwork), not UI chrome.",
+    "colourMath": [
+      "channel-slider",
+      "color-picker",
+      "effect-editor",
+      "paint-well"
+    ],
+    "contentFixtures": [
+      "agent-work-area",
+      "badge",
+      "canvas-artboard",
+      "card",
+      "change-detail",
+      "channel-slider",
+      "color-picker",
+      "color-tile",
+      "color-well",
+      "compare-view",
+      "contrast-insight",
+      "expression-editor",
+      "gradient-editor",
+      "image-fill",
+      "paint-well",
+      "property-stack",
+      "slider",
+      "stack-row",
+      "theme-gallery"
+    ]
+  },
+  "designAllow": {
+    "$comment": "Owner-approved design exceptions to a CL rule (owner, 2026-10-25: follow the design and update or ignore the gate; never bend the design to the gate). rule -> component id -> reason. Hits stay visible as warnings.",
+    "CL3": {
+      "resize-handle": "The 2px hover line appears from nothing (transparent -> accent solid). It is an affordance mark, not a fill changing emphasis.",
+      "position-size": "Hover and pressed take the opaque interaction fills over the tint field (owner 2026-10-26: no translucent backgrounds, the old wash becomes neutral-hover / neutral-pressed). Same steady emphasis, now opaque."
+    }
+  },
+  "designOverContrast": {
+    "$comment": "Owner-approved design over contrast: axe colour-contrast on these slots is a G3 warning, not blocking. component id -> data-slot names + reason.",
+    "menu": {
+      "slots": [
+        "menu-end"
+      ],
+      "reason": "Selected rows keep tertiary meta text on the neutral selected fill as designed (owner, 2026-10-25: design over gate); dark mode measures below 4.5:1."
+    },
+    "combobox": {
+      "slots": [
+        "combobox-meta",
+        "combobox-description"
+      ],
+      "reason": "Selected rows keep tertiary meta text on the neutral selected fill as designed (owner, 2026-10-25: design over gate); dark mode measures below 4.5:1."
+    },
+    "stack-row": {
+      "slots": [
+        "stack-row-title",
+        "stack-row-label",
+        "stack-row-meta",
+        "stack-row-icon"
+      ],
+      "reason": "A hidden layer row takes the disabled colour (PROPOSAL A9), which measures below 4.5:1; owner, 2026-10-25: design over gate."
+    },
+    "radio-group": {
+      "slots": [
+        "radio-group-label"
+      ],
+      "reason": "A disabled option's label takes disabled.text (PROPOSAL §2: disabled is a colour, the tone drops out); WCAG 1.4.3 exempts inactive controls. Owner, 2026-10-25: design over gate."
+    },
+    "card-stat": {
+      "slots": [
+        "card-stat-delta"
+      ],
+      "reason": "The delta is text-only in the tone graphic colour, lighter than the text step, as the owner asked (2026-10-27: \"텍스트 색을 더 밝은걸로\"); light mode measures below 4.5:1."
+    },
+    "plan": {
+      "slots": [
+        "stepper-label"
+      ],
+      "reason": "Done steps are dimmed one step past tertiary (text.placeholder) as the owner asked (2026-10-28: \"한단계 더 흐리게\"); dark agent soft measures below 4.5:1."
+    },
+    "property-stack": {
+      "slots": [
+        "stack-row-title",
+        "stack-row-label",
+        "stack-row-meta",
+        "stack-row-icon"
+      ],
+      "reason": "Hidden paint layers are StackRow hidden rows (PROPOSAL A9, disabled colour); owner, 2026-10-25: design over gate."
+    },
+    "choice-group": {
+      "slots": [
+        "choice-group-title",
+        "choice-group-description",
+        "choice-group-price",
+        "choice-group-price-unit"
+      ],
+      "reason": "selectedFill=\"solid\" keeps paper text on neutral.solid as the owner chose (2026-10-28, choice-cards option E, light-oriented); dark mode measures about 2:1."
+    }
+  }
+}

@@ -6,17 +6,30 @@ export default defineSpec({
   category: 'form',
   status: 'ready',
   purpose: 'Chooses a date or a date range in a form. A field-looking trigger shows the chosen value; it opens a Calendar panel with quick-pick shortcuts.',
-  description: 'Composition: Field (label) > DatePicker root > PickerTrigger (calendar icon, formatted value, chevron-down) + Calendar panel. Range value is formatted “Oct 8 – Oct 14, 2026” (start without year, en dash with spaces, end with year; both with year when the years differ); a single date is “Oct 8, 2026”; a range with from = to is shown as a single date.',
+  description: 'Composition: Field (label) > DatePicker root > PickerTrigger (calendar icon, formatted value, chevron-down) + Calendar panel. Range value is formatted “Oct 8 – Oct 14, 2026” (start without year, en dash with spaces, end with year; both with year when the years differ); a single date is “Oct 8, 2026”; a range with from = to is shown as a single date. A complete range adds its length in tertiary: “Oct 8 – Oct 14, 2026 · 7 days”.',
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Stack: trigger, then (inline) the calendar panel 16px below it. In floating mode the panel is portaled and the root holds only the trigger.' },
     { name: 'trigger', el: 'button', parent: 'root', required: false, role: 'button', description: 'The PickerTrigger, rendered with data-slot="date-picker-trigger": leading calendar icon, value or placeholder, chevron-down indicator. aria-haspopup="dialog". Styles are those of picker-trigger.' },
+    { name: 'length', el: 'span', parent: 'trigger', required: false, description: 'Range length after the value, “ · 7 days” (both ends counted), tertiary text in the value’s type (owner 2026-10-27, proposal C). Only for a complete range with from ≠ to; the host formats it with formatRangeLength.' },
   ],
   states: {
     open: { props: { open: true } },
     disabled: { props: { disabled: true } },
   },
+  variants: {
+    tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'neutral', description: 'Forwarded to the PickerTrigger: the colour family of the trigger edge or fill (see picker-trigger).' },
+    variant: { values: ['solid', 'soft', 'outline', 'ghost'], default: 'outline', description: 'Forwarded to the PickerTrigger. outline = today: the field look (translucent fill, border.default hairline). solid, soft and ghost as PickerTrigger defines them.' },
+    radius: { values: ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'], default: 'xl', description: 'Forwarded to the PickerTrigger: corner radius of the trigger. Unset = xl.' },
+    shadow: { values: ['none', '1', '2', '3', '4', '5'], default: 'none', description: 'Forwarded to the PickerTrigger: elevation of the trigger. Unset = none.' },
+  },
+  sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   props: {
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Common prop. Forwarded to the PickerTrigger: the colour family of the trigger edge or fill (see picker-trigger).' },
+    variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'outline', description: 'Common prop. Forwarded to the PickerTrigger. outline = today: the field look (translucent fill, border.default hairline). solid, soft and ghost as PickerTrigger defines them.' },
+    radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", description: 'Common prop. Forwarded to the PickerTrigger: corner radius of the trigger. Unset = xl.' },
+    shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", description: 'Common prop. Forwarded to the PickerTrigger: elevation of the trigger. Unset = none.' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Common prop. Forwarded to the PickerTrigger (its height and type step); it also steps the gap between the trigger and the inline panel: xs 8, sm 12, md and lg 16 (today).' },
     mode: { type: "'single' | 'range'", default: 'range', description: 'One date or a start–end range.' },
     value: { type: 'string | { from: string; to?: string }', description: 'Controlled value: ISO date (single) or { from, to } (range).' },
     defaultValue: { type: 'string | { from: string; to?: string }', description: 'Uncontrolled initial value.' },
@@ -28,6 +41,7 @@ export default defineSpec({
     disabled: { type: 'boolean', description: 'Disables the trigger.' },
     invalid: { type: 'boolean', description: 'Danger trigger edge; also taken from an enclosing Field with an error.' },
     name: { type: 'string', description: 'Form field name (ISO value; range as from/to pair of hidden inputs name-from / name-to).' },
+    formatRangeLength: { type: '((days: number) => ReactNode) | false', description: 'Formats the range length shown after a complete range (“· 7 days”). Receives the day count, both ends included. Default “N days” (“1 day”); false hides it.' },
     inline: { type: 'boolean', default: false, description: 'Render the Calendar in place under the trigger, open, without portal or positioning. For docs and specimens.' },
   },
   events: {
@@ -35,6 +49,12 @@ export default defineSpec({
     onOpenChange: { payload: 'boolean', when: 'the trigger opens it; Escape, a completed choice or an outside press closes it' },
   },
   styles: [
+    { slot: 'length', expect: { fg: 'text.tertiary' } },
+    { slot: 'trigger', when: { tone: 'danger' }, expect: { edge: 'danger.border' }, note: 'PickerTrigger outline with a tone: the tone border hairline.' },
+    { slot: 'trigger', when: { variant: 'soft' }, expect: { bg: 'neutral.well' } },
+    { slot: 'trigger', when: { radius: 'md' }, expect: { radius: 'md' } },
+    { slot: 'trigger', when: { shadow: '2' }, expect: { shadow: '2' } },
+    { slot: 'root', when: { inline: true, size: 'xs' }, expect: { gap: 8 } },
     { slot: 'root', expect: { gap: 16 }, note: 'Inline only: the specimen form column stacks the trigger and the panel with 16px.' },
   ],
   behavior: {
@@ -67,11 +87,13 @@ export default defineSpec({
   composition: { uses: ['field', 'picker-trigger', 'calendar'], radix: ['@radix-ui/react-popover'] },
   examples: [{ id: 'range-calendar', title: 'Date picker', doc: 'date-picker#date-picker' }],
   usage: [
-    'The example reproduces: Field “Publish window”, a PickerTrigger (indicator="dropdown", calendar icon) reading “Oct 8 – Oct 14, 2026”, and, 16px below it, the inline Calendar (range, Oct 8–14 selected, today = Oct 1, shortcuts Today / Next 7 days / This month). The column is max 300px wide.',
+    'Common props (owner 2026-10-26): tone, variant, radius, shadow and size are forwarded to the PickerTrigger, which owns the trigger look; the date-picker cva mirrors those axes with no classes of its own, and size also steps the gap to the inline panel. Defaults (neutral, outline, xl, none, md) render today’s picker.',
+    'The example reproduces: Field “Publish window”, a PickerTrigger (indicator="dropdown", calendar icon) reading “Oct 8 – Oct 14, 2026 · 7 days” (the length in tertiary), and, 16px below it, the inline Calendar (range, Oct 8–14 selected, today = Oct 1, shortcuts Today / Next 7 days / This month). The column is max 300px wide.',
     'Radix Popover provides the floating behavior (focus return, Escape, outside press). inline renders the Calendar in place without it. The panel itself is the Calendar surface (thick glass); the Popover Content adds no chrome of its own.',
     'Fixture convention: render(props) renders the Field, trigger and inline panel with the specimen value and today = 2026-10-01.',
     'Trigger text is formatted with the English locale and en dash; the calendar title is “October 2026”. Other locales are out of scope for this spec.',
     'Range mode: choose the start, then the end; the panel stays open between them. Using a shortcut sets both at once.',
+    'The panel is the Calendar, so it follows the Calendar design (owner 2026-10-27, “calendar 와 동일하게”): the range span is one box per week, today is a grey fill, the shortcut row has 12px above and below, and the title opens the month/year picker.',
     'Min/max and disabled dates are not part of the approved design and are not specified.',
   ],
 });

@@ -15,9 +15,9 @@ export const artboardSwatches: CanvasArtboardSwatches = {
 export default defineFixture({
   id: 'canvas-artboard',
   // The canvas host positions the sheet; the frame stands in for it.
-  frame: children => <div className="relative h-80 w-160 overflow-hidden rounded-xl bg-bg-canvas">{children}</div>,
+  frame: children => <div className="relative h-84 w-160 overflow-hidden rounded-xl bg-bg-canvas">{children}</div>,
   render: props => (
-    <CanvasArtboard rect={{ left: 20, top: 10, width: 560, height: 300 }} {...props}>
+    <CanvasArtboard rect={{ left: 20, top: 28, width: 560, height: 300 }} label="Checkout / Desktop" {...props}>
       <CanvasArtboardSample swatches={artboardSwatches} />
     </CanvasArtboard>
   ),

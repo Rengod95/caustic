@@ -1,19 +1,17 @@
 'use client';
 import type { ComponentProps } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
+import { kbdFrameVariants, kbdVariants } from './kbd.variants.ts';
 
-export interface KbdProps extends ComponentProps<'kbd'> {}
+export interface KbdProps extends ComponentProps<'kbd'>, CommonProps {}
 
 /** A keyboard key or shortcut chord, e.g. <Kbd>⌘K</Kbd>. */
-export function Kbd({ className, ...props }: KbdProps) {
+export function Kbd({ tone, variant, radius, shadow, size, className, ...props }: KbdProps) {
   return (
     <kbd
       data-slot="kbd"
-      className={cn(
-        'frost inline-flex h-kbd-h min-w-kbd-h items-center justify-center gap-0.5 rounded-xs bg-fill-hover px-1 font-ui text-label text-text-tertiary',
-        'shadow-[inset_0_0_0_1px_var(--cs-color-border-default),inset_0_-1px_0_var(--cs-color-border-default)]',
-        className,
-      )}
+      className={cn(kbdVariants({ tone, variant, size }), kbdFrameVariants({ radius, shadow }), className)}
       {...props}
     />
   );

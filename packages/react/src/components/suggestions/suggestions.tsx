@@ -1,36 +1,56 @@
 'use client';
-import type { ComponentProps, ReactNode } from 'react';
+import { createContext, useContext, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps, Tone, Radius, Shadow, Size } from '../../lib/common-props.ts';
 import { suggestionsVariants, suggestionVariants } from './suggestions.variants.ts';
 
-export interface SuggestionsProps extends ComponentProps<'div'> {
+/** Card look: the common variants plus the own glass (the default). */
+export type SuggestionsVariant = 'glass' | 'solid' | 'soft' | 'outline' | 'ghost';
+
+interface Look { tone?: Tone | undefined; variant?: SuggestionsVariant | undefined; radius?: Radius | undefined; shadow?: Shadow | undefined; size?: Size | undefined }
+const LookCtx = createContext<Look>({});
+
+export interface SuggestionsProps extends ComponentProps<'div'>, Omit<CommonProps, 'variant'> {
   /** Accessible name of the group. */
   'aria-label'?: string;
+  /** Card look: glass (default) or one of the common variants. */
+  variant?: SuggestionsVariant;
   /** Suggestion items. */
   children: ReactNode;
 }
 
 /** A responsive row of quick prompts under the composer. */
-export function Suggestions({ 'aria-label': ariaLabel = 'Suggestions', className, ...props }: SuggestionsProps) {
-  return <div data-slot="suggestions" role="group" aria-label={ariaLabel} className={cn(suggestionsVariants(), className)} {...props} />;
+export function Suggestions({ 'aria-label': ariaLabel = 'Suggestions', tone, variant, radius, shadow, size, className, ...props }: SuggestionsProps) {
+  return (
+    <LookCtx.Provider value={{ tone, variant, radius, shadow, size }}>
+      <div data-slot="suggestions" role="group" aria-label={ariaLabel} className={cn(suggestionsVariants(), className)} {...props} />
+    </LookCtx.Provider>
+  );
 }
 
-export interface SuggestionsItemProps extends Omit<ComponentProps<'button'>, 'children'> {
+export interface SuggestionsItemProps extends Omit<ComponentProps<'button'>, 'children'>, Omit<CommonProps, 'variant'> {
   /** Leading icon. */
   icon?: ReactNode;
-  /** Context hint on its own line. */
+  /** Context hint on its own line, cut to one line with an ellipsis. */
   hint?: ReactNode;
+  /** Overrides the group look for this card. */
+  variant?: SuggestionsVariant;
   /** The action. */
   children: ReactNode;
 }
 
 /** One suggestion card: pressing it runs the prompt. */
-export function SuggestionsItem({ icon, hint, className, children, ...props }: SuggestionsItemProps) {
+export function SuggestionsItem({ icon, hint, tone, variant, radius, shadow, size, className, children, ...props }: SuggestionsItemProps) {
+  const look = useContext(LookCtx);
   return (
-    <button type="button" data-slot="suggestions-item" className={cn(suggestionVariants(), className)} {...props}>
-      {icon != null && <span data-slot="suggestions-icon" aria-hidden className="-mb-px inline-grid size-icon-md place-items-center text-accent-text [&_svg]:size-full">{icon}</span>}
+    <button
+      type="button" data-slot="suggestions-item"
+      className={cn(suggestionVariants({ tone: tone ?? look.tone, variant: variant ?? look.variant, radius: radius ?? look.radius, shadow: shadow ?? look.shadow, size: size ?? look.size }), className)}
+      {...props}
+    >
+      {icon != null && <span data-slot="suggestions-icon" aria-hidden className="-mb-px inline-grid size-icon-md place-items-center text-text-secondary [&_svg]:size-full">{icon}</span>}
       <span data-slot="suggestions-title">{children}</span>
-      {hint != null && <span data-slot="suggestions-hint" className="text-hint text-text-tertiary">{hint}</span>}
+      {hint != null && <span data-slot="suggestions-hint" className="min-w-0 truncate text-hint text-text-tertiary">{hint}</span>}
     </button>
   );
 }

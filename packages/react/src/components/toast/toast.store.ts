@@ -1,14 +1,19 @@
 import type { ReactNode } from 'react';
+import type { ToastTone } from './toast.variants.ts';
 
 export interface ToastOptions {
-  tone?: 'success' | 'agent';
+  tone?: ToastTone;
   title: ReactNode;
   description?: ReactNode;
   actionLabel?: string;
+  /** aria-label of a trailing close button; omit for none. */
+  dismissLabel?: string;
   onAction?: () => void;
   onDismiss?: () => void;
   /** Milliseconds before auto-dismiss; 0 keeps it until dismissed. */
   duration?: number;
+  /** Hidden status word read before the title, e.g. "Failed". */
+  statusLabel?: string;
 }
 
 export interface ToastItem extends ToastOptions {

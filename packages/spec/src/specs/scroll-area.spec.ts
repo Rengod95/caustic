@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'structure',
   status: 'ready',
   purpose: 'A scroll container with a token-styled thin scrollbar, optional edge fade and overflow state attributes. It keeps native scrolling (wheel, touch, keyboard, find-in-page) and replaces the Studio overlay that tracked arbitrary scroll containers.',
-  description: 'One wrapper plus one native scrolling viewport; no Radix and no custom scrollbar thumb. The scrollbar is the browser\'s thin scrollbar coloured with border.strong (the same rule as the global base layer), shown on hover and focus or always. The viewport reports whether more content lies before or after the visible window through data attributes, which the edge fade and the consumer (for example a sticky shadow) read. The viewport is a keyboard-focusable region only while it actually overflows.',
+  description: 'One wrapper plus one native scrolling viewport; no Radix and no custom scrollbar thumb. The scrollbar is the browser\'s thin scrollbar with a neutral.track thumb (a fill slot, PROPOSAL §4 E15; the global base layer still uses border.strong until it follows), shown on hover and focus or always. The scrollbar is thin at rest and widens to the platform width while the pointer is over the area, so the thumb is easier to grab. The viewport reports whether more content lies before or after the visible window through data attributes, which the edge fade and the consumer (for example a sticky shadow) read. The viewport is a keyboard-focusable region only while it actually overflows.',
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Relative, min-height 0 and min-width 0 so it can shrink inside a flex or grid parent; fills the space the parent gives it (the parent sets the bounded size). overflow hidden, inherits the parent\'s corner radius.' },
@@ -14,12 +14,22 @@ export default defineSpec({
     { name: 'content', el: 'div', parent: 'viewport', description: 'Plain wrapper for the children, min-width 0; with horizontal scrolling it is width max-content so it can exceed the viewport.' },
   ],
   variants: {
+    tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'neutral', description: 'Colour of the scrollbar thumb: neutral = neutral.track (default); another tone = its border-strong.' },
+    variant: { values: ['solid', 'soft', 'outline', 'ghost'], default: 'ghost', description: 'Surface of the area: ghost = none, the parent shows through (default); soft = the tone soft fill; outline = a 1px tone border edge; solid = surface.base.' },
+    radius: { values: ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'], default: 'none', description: 'Root radius. Unset inherits the parent radius (rounded-[inherit]); a value sets that radius token.' },
+    shadow: { values: ['none', '1', '2', '3', '4', '5'], default: 'none', description: 'Root elevation; unset is flat.' },
     scrollbar: { values: ['hover', 'always'], default: 'hover', description: 'hover: the thumb is transparent until the pointer is over the area, the viewport has focus within, or it is scrolling; always: the thumb is always visible (for long reference lists).' },
   },
+  sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   states: {
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'viewport' },
   },
   props: {
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Colour of the scrollbar thumb: neutral = neutral.track (default); another tone = its border-strong.' },
+    variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'ghost', description: 'Surface of the area: ghost = none, the parent shows through (default); soft = the tone soft fill; outline = a 1px tone border edge; solid = surface.base.' },
+    radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: 'none', description: 'Root radius. Unset inherits the parent radius (rounded-[inherit]); a value sets that radius token.' },
+    shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: 'none', description: 'Root elevation; unset is flat.' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Steps the edge-fade band of fade: xs space-3 (12px), sm space-4 (16px), md space-6 (24px, today), lg space-8 (32px). The scrollbar is thin at rest and the platform width on hover in every size.' },
     orientation: { type: "'vertical' | 'horizontal' | 'both'", default: 'vertical', description: 'Which axes scroll. The others are overflow hidden.' },
     scrollbar: { type: "'hover' | 'always'", default: 'hover', description: 'Scrollbar visibility.' },
     fade: { type: 'boolean', default: false, description: 'Fade the content out at the edges where more content continues (mask on the viewport, so it works on any surface colour).' },
@@ -33,6 +43,11 @@ export default defineSpec({
   styles: [
     { slot: 'viewport', when: { state: 'focus-visible' }, expect: { ring: 'focus' }, note: 'Focus ring is inset so the root\'s overflow hidden does not clip it.' },
     { slot: 'viewport', expect: { outline: 'none' } },
+    { slot: 'root', when: { variant: 'soft', tone: 'accent' }, expect: { bg: 'accent.soft' } },
+    { slot: 'root', when: { variant: 'solid' }, expect: { bg: 'surface.base' } },
+    { slot: 'root', when: { radius: 'lg' }, expect: { radius: 'lg' } },
+    { slot: 'root', when: { shadow: '2' }, expect: { shadow: '2' } },
+    { slot: 'root', when: { variant: 'outline', tone: 'info' }, expect: { edge: 'info.border' }, note: 'Size changes only the fade band (a mask), which a computed-style rule cannot read; see the size prop.' },
   ],
   behavior: {
     keyboard: {

@@ -1,8 +1,8 @@
 import { defineFixture } from '../../lib/fixture.ts';
-import { TokenChip } from '../token-chip/token-chip.tsx';
+import { Badge } from '../badge/badge.tsx';
 import { ListDescription, ListDescriptionRow, type ListDescriptionProps, type ListDescriptionRowProps } from './list-description.tsx';
 
-const theme = <TokenChip swatch="var(--cs-accent-500)">Lagoon</TokenChip>;
+const theme = <Badge mono size="md" swatch="var(--cs-accent-6)">Lagoon</Badge>;
 
 export default defineFixture({
   id: 'list-description',

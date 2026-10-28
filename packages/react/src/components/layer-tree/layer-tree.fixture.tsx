@@ -51,7 +51,7 @@ export default defineFixture({
   examples: {
     'layer-tree': () => (
       <>
-        <Input appearance="sunken" prefix={<Search aria-hidden className="size-icon-sm" />} placeholder="Filter layers" aria-label="Filter layers" />
+        <Input variant="sunken" prefix={<Search aria-hidden className="size-icon-sm" />} placeholder="Filter layers" aria-label="Filter layers" />
         <LayerTree {...labels} aria-label="Layers" dragLabel="Badge" dragIcon={<Component />} style={ghostAt}>
           <LayerTreeItem itemId="frame" depth={0} icon={<Frame />} label="Pricing / Desktop" expandable open />
           <LayerTreeItem itemId="cards" depth={1} icon={<Rows3 />} label="Cards" expandable open caption="auto · 12" />
@@ -72,7 +72,7 @@ export default defineFixture({
         <LayerTreeItem itemId="pro" depth={2} icon={<Square />} label="Pro" expandable open />
         <LayerTreeItem itemId="button-primary" depth={3} icon={<Component />} label="Button / Primary" selected end={<Eye />} />
         <LayerTreeItem itemId="team" depth={2} icon={<Square />} label="Team" expandable agent />
-        <LayerTreeItem itemId="header" depth={1} icon={<Component />} label="Header" component end={<Lock className="text-text-disabled" />} />
+        <LayerTreeItem itemId="header" depth={1} icon={<Component />} label="Header" component end={<Lock className="text-disabled-text" />} />
       </LayerTree>
     ),
   },
