@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Contrast, Ellipsis, FileCode, FlaskConical, Frame, GitBranch, Image, Pencil, Plus, Search, ShieldCheck } from 'lucide-react';
 import {
-  ActivityTree, AgentWorkArea, Button, ChangeDetail, ChangeDetailItem, Chip, CheckpointTimeline, CheckpointTimelineItem, Clarification,
-  ClarificationOption, CodeDiff, CodeDiffLine, CodeDiffToken as T, Composer, ContextAnalytics, type ActivityNode, type ContextAnalyticsRoundData,
-  type ContextAnalyticsSegmentData, IconButton, Message, MessageCode, ModelMenu, ModelMenuConnect, ModelMenuGroup, ModelMenuItem, PermissionRequest,
-  type PermissionDecision, Plan, type PlanStep, PolicyFindings, PolicyFindingsItem, Proposal, RevisionHistory, RevisionHistoryItem, ScrollArea,
-  SessionList, SessionListItem, SidePanel, Suggestions, SuggestionsItem, Thinking, ToolCall,
+  ActivityTree, AgentRequest, AgentRequestProse, AgentRequestSummary, AgentWorkArea, Button, ChangeDetail, ChangeDetailItem, Chip, ChoiceGroup,
+  ChoiceGroupItem, CodeDiff, CodeDiffLine, CodeDiffToken as T, Composer, ContextAnalytics, type ActivityNode, type ContextAnalyticsRoundData,
+  type ContextAnalyticsSegmentData, IconButton, Message, MessageCode, Combobox, ComboboxRow, ComboboxTile,
+  Plan, type PlanStep, PolicyFindings, PolicyFindingsItem, ScrollArea,
+  ListNavigation, ListNavigationGroup, ListNavigationItem, SidePanel, Suggestions, SuggestionsItem, Thinking, Timeline, TimelineItem, ToolCall,
 } from '@caustic/react';
 
 const noop = () => {};
@@ -81,7 +81,7 @@ function PreviewArtboard() {
 }
 
 export default function Sample() {
-  const [approval, setApproval] = useState<PermissionDecision | null>(null);
+  const [approval, setApproval] = useState<string | null>(null);
   const transcript = useRef<HTMLDivElement>(null);
 
   // Open the transcript at the latest turn, where the agent is working.
@@ -106,27 +106,31 @@ export default function Sample() {
           <div className="grid gap-4 p-2">
             <div>
               <p className="px-2 pb-1 pt-1 text-ui-xs text-text-tertiary">Today</p>
-              <SessionList aria-label="Today's sessions">
-                <SessionListItem status="running" current title="Checkout refactor" meta="now" />
-                <SessionListItem status="review" title="Saved cards list" meta="Review" />
-                <SessionListItem status="failed" title="Apple Pay sheet crash" meta="Failed" />
-              </SessionList>
+              <ListNavigation aria-label="Today's sessions" kind="sessions" as="div">
+                <ListNavigationGroup>
+                  <ListNavigationItem status="running" current meta="now">Checkout refactor</ListNavigationItem>
+                  <ListNavigationItem status="review" meta="Review">Saved cards list</ListNavigationItem>
+                  <ListNavigationItem status="failed" meta="Failed">Apple Pay sheet crash</ListNavigationItem>
+                </ListNavigationGroup>
+              </ListNavigation>
             </div>
             <div>
               <p className="px-2 pb-1 pt-1 text-ui-xs text-text-tertiary">Earlier</p>
-              <SessionList aria-label="Earlier sessions">
-                <SessionListItem status="done" title="Address autocomplete" meta="2h" />
-                <SessionListItem status="done" title="Order summary totals" meta="Mon" />
-              </SessionList>
+              <ListNavigation aria-label="Earlier sessions" kind="sessions" as="div">
+                <ListNavigationGroup>
+                  <ListNavigationItem status="done" meta="2h">Address autocomplete</ListNavigationItem>
+                  <ListNavigationItem status="done" meta="Mon">Order summary totals</ListNavigationItem>
+                </ListNavigationGroup>
+              </ListNavigation>
             </div>
             <div>
               <p className="px-2 pb-1 pt-1 text-ui-xs text-text-tertiary">Checkpoints</p>
-              <CheckpointTimeline aria-label="Project history">
-                <CheckpointTimelineItem author="agent" selected title="Before payment edit" detail="checkpoint 3 · 4 files" restoreLabel="Restore" onRestore={noop} />
-                <CheckpointTimelineItem title="Last green build" detail="checkout · 38 tests" time="13:58" dateTime="2026-10-24T13:58" />
-                <CheckpointTimelineItem title="Baseline before refactor" detail="main @ 9f3c2a1" time="12:10" dateTime="2026-10-24T12:10" />
-                <CheckpointTimelineItem author="agent" title="Preview deployed" detail="fieldnote-web-preview" time="Mon" />
-              </CheckpointTimeline>
+              <Timeline aria-label="Project history" restore="item" onRestore={noop}>
+                <TimelineItem author="agent" selected title="Before payment edit" detail="checkpoint 3 · 4 files" />
+                <TimelineItem title="Last green build" detail="checkout · 38 tests" time="13:58" dateTime="2026-10-24T13:58" />
+                <TimelineItem title="Baseline before refactor" detail="main @ 9f3c2a1" time="12:10" dateTime="2026-10-24T12:10" />
+                <TimelineItem author="agent" title="Preview deployed" detail="fieldnote-web-preview" time="Mon" />
+              </Timeline>
             </div>
             <div>
               <p className="px-2 pb-1 pt-1 text-ui-xs text-text-tertiary">Files changed</p>
@@ -168,13 +172,12 @@ export default function Sample() {
               <Message meta="Fieldnote Agent · 2 tool calls · 12s" onCopy={noop} copyLabel="Copy message" onRetry={noop} retryLabel="Retry">
                 <p>Here is the split I’d make. Each step gets its own route, and the cart moves into one provider so totals stay in sync.</p>
               </Message>
-              <Proposal
-                title="Split checkout into three steps" badge="Plan mode"
-                chips={<><Chip size="sm" appearance="soft">+ 2 components</Chip><Chip size="sm" appearance="soft">5 files</Chip></>}
-                onBuild={noop} onEdit={noop}
-              >
-                Shipping, payment and review become routes under <MessageCode>src/checkout</MessageCode>. Saved cards sit above the card form, with a limit of three.
-              </Proposal>
+              <AgentRequest kind="proposal" title="Split checkout into three steps" badge="Plan mode" onAction={noop}>
+                <AgentRequestProse>
+                  Shipping, payment and review become routes under <MessageCode>src/checkout</MessageCode>. Saved cards sit above the card form, with a limit of three.
+                </AgentRequestProse>
+                <AgentRequestSummary><Chip size="sm" appearance="soft">+ 2 components</Chip><Chip size="sm" appearance="soft">5 files</Chip></AgentRequestSummary>
+              </AgentRequest>
             </div>
 
             <Message author="user">Build it. Ask before touching the shared Button.</Message>
@@ -185,10 +188,10 @@ export default function Sample() {
                   Shipping is extracted and the cart lives in <MessageCode>cart-provider.tsx</MessageCode>. One question before the payment step:
                 </p>
               </Message>
-              <Clarification question="Should saved cards show the expiry date?" defaultValue="show">
-                <ClarificationOption value="show" label="Show expiry" hint="“Visa •••• 4242 · 08/27”" />
-                <ClarificationOption value="hide" label="Hide expiry" hint="Shorter rows, details on tap" />
-              </Clarification>
+              <ChoiceGroup appearance="answer" question="Should saved cards show the expiry date?" defaultValue="show">
+                <ChoiceGroupItem value="show" title="Show expiry" description="“Visa •••• 4242 · 08/27”" />
+                <ChoiceGroupItem value="hide" title="Hide expiry" description="Shorter rows, details on tap" />
+              </ChoiceGroup>
             </div>
 
             <div className="grid gap-3">
@@ -256,20 +259,22 @@ export default function Sample() {
               </CodeDiff>
 
               {approval === null && (
-                <PermissionRequest
+                <AgentRequest
+                  kind="permission"
                   title="Install @testing-library/user-event?"
-                  description="Adds one dev dependency to package.json. You can undo it from Revisions."
-                  onDecision={setApproval}
+                  subtitle="Adds one dev dependency to package.json. You can undo it from Revisions."
+                  onAction={setApproval}
                 />
               )}
               {approval === 'deny' && (
                 <p className="text-ui-sm text-text-tertiary">Denied. The agent continues without the dependency.</p>
               )}
               {approval !== null && approval !== 'deny' && (
-                <PermissionRequest
+                <AgentRequest
+                  kind="permission"
                   status="allowed"
-                  title={approval === 'allow-always' ? 'Allowed for this project' : 'Allowed once'}
-                  description="Dev dependency added · package.json"
+                  title={approval === 'always' ? 'Allowed for this project' : 'Allowed once'}
+                  subtitle="Dev dependency added · package.json"
                 />
               )}
             </div>
@@ -309,13 +314,13 @@ export default function Sample() {
 
             <section>
               <SectionTitle title="Revisions" meta="5" />
-              <RevisionHistory aria-label="Revisions" defaultValue="payment-draft" note="Restore waits until the running edit finishes." restoreDisabled>
-                <RevisionHistoryItem itemId="payment-draft" author="agent" title="Payment step draft" detail="PaymentStep.tsx · +7 −2" time="14:31" />
-                <RevisionHistoryItem itemId="shipping" author="agent" title="Shipping extracted" detail="routes/shipping.tsx" time="14:21" />
-                <RevisionHistoryItem itemId="cart" title="Cart moved to provider" detail="cart-provider.tsx · Mina" time="14:09" />
-                <RevisionHistoryItem itemId="copy" title="Copy pass" detail="3 strings" time="13:40" />
-                <RevisionHistoryItem itemId="scaffold" title="Scaffold routes" detail="5 files" time="13:12" />
-              </RevisionHistory>
+              <Timeline aria-label="Revisions" selectionMode="single" restore="footer" defaultValue="payment-draft" note="Restore waits until the running edit finishes." restoreDisabled>
+                <TimelineItem itemId="payment-draft" author="agent" title="Payment step draft" detail="PaymentStep.tsx · +7 −2" time="14:31" />
+                <TimelineItem itemId="shipping" author="agent" title="Shipping extracted" detail="routes/shipping.tsx" time="14:21" />
+                <TimelineItem itemId="cart" title="Cart moved to provider" detail="cart-provider.tsx · Mina" time="14:09" />
+                <TimelineItem itemId="copy" title="Copy pass" detail="3 strings" time="13:40" />
+                <TimelineItem itemId="scaffold" title="Scaffold routes" detail="5 files" time="13:12" />
+              </Timeline>
             </section>
 
             <section>
@@ -357,18 +362,20 @@ export default function Sample() {
 
             <section>
               <SectionTitle title="Model" meta="Claude" />
-              <ModelMenu
-                inline label="Models" searchLabel="Search models" searchPlaceholder="Search models" defaultValue="claude-opus"
-                groupLabel={(p, c) => `${p} · ${c ? 'connected' : 'not connected'}`}
-              >
-                <ModelMenuGroup provider="Anthropic" connected>
-                  <ModelMenuItem value="claude-opus" initial="A" name="Claude Opus" description="Deep · 1M context" />
-                  <ModelMenuItem value="claude-sonnet" initial="A" name="Claude Sonnet" description="Balanced · faster edits" />
-                </ModelMenuGroup>
-                <ModelMenuGroup provider="OpenAI" connected={false}>
-                  <ModelMenuConnect initial="O" onConnect={noop}>Connect provider…</ModelMenuConnect>
-                </ModelMenuGroup>
-              </ModelMenu>
+              <Combobox
+                mode="popup" inline trigger={null} popupWidth="lg" aria-label="Models" searchLabel="Search models" placeholder="Search models" defaultValue="claude-opus"
+                groups={[
+                  {
+                    label: 'Anthropic · connected',
+                    options: [
+                      { value: 'claude-opus', label: 'Claude Opus', description: 'Deep · 1M context', leading: <ComboboxTile tint="iris">A</ComboboxTile> },
+                      { value: 'claude-sonnet', label: 'Claude Sonnet', description: 'Balanced · faster edits', leading: <ComboboxTile tint="iris">A</ComboboxTile> },
+                    ],
+                  },
+                  { label: 'OpenAI · not connected', options: [] },
+                ]}
+                footer={<ComboboxRow shimmer onSelect={noop} leading={<ComboboxTile tint="neutral"><Plus /></ComboboxTile>}>Connect provider…</ComboboxRow>}
+              />
             </section>
           </div>
         </SidePanel>

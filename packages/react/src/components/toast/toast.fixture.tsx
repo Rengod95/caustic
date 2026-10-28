@@ -29,6 +29,13 @@ export default defineFixture({
         <Toast inline tone="danger" statusLabel="Failed" title="Publish failed" description="orbit-pay.caustic.app is unreachable" actionLabel="Retry" />
       </>
     ),
+    // The optional close button (dismissLabel): after the action, or alone at the end.
+    'toast-dismiss': () => (
+      <>
+        <Toast inline title="Published v2.4" description="orbit-pay.caustic.app" actionLabel="Open" dismissLabel="Dismiss" />
+        <Toast inline tone="info" title="Sync paused" description="Reconnects when you are back online" dismissLabel="Dismiss" />
+      </>
+    ),
     toasts: () => (
       <>
         <Toast inline title="Published v2.4" description="orbit-pay.caustic.app" actionLabel="Open" />

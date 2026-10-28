@@ -2,15 +2,25 @@
 import { ArrowUp, ChevronDown, Plus } from 'lucide-react';
 import { useRef, type ComponentProps, type FormEvent, type KeyboardEvent, type MouseEvent, type ReactNode, type Ref } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { radiusClass, type CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
-import { composerInputVariants, composerModelVariants, composerStopVariants, composerVariants } from './composer.variants.ts';
+import {
+  composerBarVariants, composerContextVariants, composerInputVariants, composerModelVariants, composerStopVariants, composerUsageVariants, composerVariants,
+} from './composer.variants.ts';
 
 const NO_MODES: string[] = [];
 const RING_C = 50.27;
+const USAGE_WARNING = 80;
+const USAGE_DANGER = 95;
 
-export interface ComposerProps extends Omit<ComponentProps<'form'>, 'onSubmit' | 'defaultValue' | 'children'> {
+/**
+ * Common props (lib/common-props.ts): variant = box surface (default solid: regular floating material), tone = usage
+ * ring arc below 80% (default accent; above 80% warning, above 95% danger), size = padding, gap and text (default md), radius = corners (default 2xl), shadow =
+ * elevation (default 3, kept under the focus ring).
+ */
+export interface ComposerProps extends Omit<ComponentProps<'form'>, 'onSubmit' | 'defaultValue' | 'children'>, CommonProps {
   /** Controlled text. */
   value?: string;
   /** Uncontrolled initial text. */
@@ -38,7 +48,7 @@ export interface ComposerProps extends Omit<ComponentProps<'form'>, 'onSubmit' |
   sendDisabled?: boolean | undefined;
   /** Context Chips shown above the text. */
   context?: ReactNode;
-  /** Mode labels; pass [] to hide the control. */
+  /** Optional mode labels (e.g. Ask / Plan / Build). Omitted or [] hides the control (the default composition has none). */
   modes?: string[];
   /** Controlled mode. */
   mode?: string;
@@ -46,7 +56,7 @@ export interface ComposerProps extends Omit<ComponentProps<'form'>, 'onSubmit' |
   defaultMode?: string;
   /** Text of the model trigger. */
   modelLabel?: ReactNode;
-  /** Context used, 0-100. Shows the ring. */
+  /** Context used, 0-100. Shows the ring; above 80 the arc turns warning, above 95 danger. */
   usage?: number;
   /** The agent is working: send becomes stop and Enter does not submit. */
   running?: boolean;
@@ -66,7 +76,7 @@ export function Composer({
   value, defaultValue = '', placeholder, rows = 3, maxLength, inputRef: inputRefProp, inputLabel, sendLabel, stopLabel, attachLabel, modeLabel, usageLabel,
   sendDisabled = false, context, modes = NO_MODES,
   mode, defaultMode, modelLabel, usage, running = false, disabled = false,
-  onValueChange, onSubmit, onStop, onModeChange, onAttach, onModelClick, className, onClick, ...props
+  onValueChange, onSubmit, onStop, onModeChange, onAttach, onModelClick, tone, variant, radius, shadow, size, className, onClick, ...props
 }: ComposerProps) {
   const [text, setText] = useControllableState({ value, defaultValue, onChange: onValueChange });
   const [currentMode, setMode] = useControllableState({ value: mode, defaultValue: defaultMode ?? '', onChange: onModeChange });
@@ -95,19 +105,22 @@ export function Composer({
     else if (inputRefProp) inputRefProp.current = el;
   };
   const pct = usage === undefined ? 0 : Math.min(100, Math.max(0, usage));
+  // A nearly full context window warns: the arc turns warning above 80% and danger above 95%, whatever the tone.
+  const usageTone = pct > USAGE_DANGER ? 'danger' : pct > USAGE_WARNING ? 'warning' : tone;
 
   return (
     <form
       data-slot="composer" data-disabled={disabled || undefined} data-running={running || undefined}
-      className={cn(composerVariants(), className)} onSubmit={handleSubmit} onClick={handleClick} {...props}
+      className={cn(composerVariants({ variant, shadow, size }), radius && radius !== '2xl' && radiusClass[radius], className)}
+      onSubmit={handleSubmit} onClick={handleClick} {...props}
     >
-      {context != null && <div data-slot="composer-context" inert={disabled || undefined} className="flex flex-wrap gap-1.5">{context}</div>}
+      {context != null && <div data-slot="composer-context" inert={disabled || undefined} className={composerContextVariants()}>{context}</div>}
       <textarea
         ref={setInput} data-slot="composer-input" aria-label={inputLabel} rows={rows} maxLength={maxLength} placeholder={placeholder}
-        value={text} disabled={disabled} className={composerInputVariants()}
+        value={text} disabled={disabled} className={composerInputVariants({ inputSize: size })}
         onChange={e => setText(e.target.value)} onKeyDown={handleKeyDown}
       />
-      <div data-slot="composer-bar" className="flex items-center gap-1">
+      <div data-slot="composer-bar" className={composerBarVariants()}>
         {onAttach !== undefined && <IconButton data-slot="composer-attach" size="xs" label={attachLabel ?? ''} disabled={disabled} onClick={() => onAttach()}><Plus /></IconButton>}
         {modes.length > 0 && (
           <SegmentedControl data-slot="composer-mode" size="xs" aria-label={modeLabel} value={currentMode} onValueChange={setMode} disabled={disabled}>
@@ -119,7 +132,7 @@ export function Composer({
           <button type="button" data-slot="composer-model" disabled={disabled} className={composerModelVariants()} onClick={onModelClick}>{modelLabel}<ChevronDown aria-hidden /></button>
         )}
         {usage !== undefined && (
-          <svg data-slot="composer-usage" role="img" aria-label={usageLabel?.(Math.round(pct))} viewBox="0 0 22 22" className="size-usage-ring shrink-0 fill-none stroke-3 text-accent-solid in-data-[disabled]:text-disabled-text">
+          <svg data-slot="composer-usage" data-level={usageTone === 'danger' || usageTone === 'warning' ? usageTone : undefined} role="img" aria-label={usageLabel?.(Math.round(pct))} viewBox="0 0 22 22" className={composerUsageVariants({ usageTone })}>
             <circle cx="11" cy="11" r="8" className="stroke-neutral-track" />
             <circle cx="11" cy="11" r="8" transform="rotate(-90 11 11)" strokeLinecap="round" strokeDasharray={RING_C} strokeDashoffset={RING_C * (1 - pct / 100)} className="stroke-current" />
           </svg>

@@ -5,12 +5,12 @@ import {
   Bell, Blocks, Bot, Boxes, FileCode, FlaskConical, FolderGit2, KeyRound, Package, Pencil, Search, Send, ShieldCheck, Trash2, Users, WandSparkles,
 } from 'lucide-react';
 import {
-  ActivityTree, type ActivityNode, Alert, Avatar, Badge, Banner, Button, CardStat, Checkbox, CheckpointTimeline, CheckpointTimelineItem, Chip,
+  ActivityTree, type ActivityNode, AgentRequest, AgentRequestProse, AgentRequestSummary, Alert, Avatar, Badge, Button, CardStat, Checkbox, Chip,
   CodeDiff, CodeDiffLine, CodeDiffToken as T, Combobox, type ComboboxOptionData, Composer, DatePicker, EmptyState, Field, FormLayout, FormLayoutFooter,
-  FormLayoutSection, IconButton, Input, InputGroup, Kbd, ListDescription, ListDescriptionRow, ListNavigation, ListNavigationGroup, ListNavigationItem,
-  Message, MessageCode, NumberField, PermissionRequest, Plan, type PlanStep, Progress, Proposal, RadioGroup, RadioGroupItem, SectionHeader,
-  SegmentedControl, SegmentedControlItem, Select, SelectOption, Skeleton, SliderField, Spinner, Switch, Table, type TableColumn, type TableRow,
-  Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Thinking, Toast, ToggleGroup, ToggleGroupItem, TokenChip, ToolCall,
+  FormLayoutSection, IconButton, Input, Kbd, ListDescription, ListDescriptionRow, ListNavigation, ListNavigationGroup, ListNavigationItem,
+  Message, MessageCode, NumberField, Plan, type PlanStep, Progress, RadioGroup, RadioGroupItem, SectionHeader,
+  SegmentedControl, SegmentedControlItem, Select, SelectOption, Skeleton, Slider, Switch, Table, type TableColumn, type TableRow,
+  Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Thinking, Timeline, TimelineItem, Toast, ToggleGroup, ToggleGroupItem, ToolCall,
 } from '@caustic/react';
 
 const noop = () => {};
@@ -31,9 +31,9 @@ export function Scenario({ id, title, note, children }: { id: string; title: str
 // ---------- 1. complex form: publish a token release ----------
 
 const THEMES: ComboboxOptionData[] = [
-  { value: 'signal-deep', label: 'Signal Grey · Deep Black', meta: 'theme', leading: <TokenChip size="sm" className="rounded-full" swatch="var(--cs-color-accent-solid)" /> },
-  { value: 'signal', label: 'Signal Grey', meta: 'theme', leading: <TokenChip size="sm" className="rounded-full" swatch="var(--cs-color-ink-solid)" /> },
-  { value: 'current', label: 'Current (shipped)', meta: 'theme', leading: <TokenChip size="sm" className="rounded-full" swatch="var(--cs-color-info-solid)" /> },
+  { value: 'signal-deep', label: 'Signal Grey · Deep Black', meta: 'theme', leading: <Badge mono size="sm" radius="full" swatch="var(--cs-color-accent-solid)" /> },
+  { value: 'signal', label: 'Signal Grey', meta: 'theme', leading: <Badge mono size="sm" radius="full" swatch="var(--cs-color-ink-solid)" /> },
+  { value: 'current', label: 'Current (shipped)', meta: 'theme', leading: <Badge mono size="sm" radius="full" swatch="var(--cs-color-info-solid)" /> },
 ];
 
 export function PublishForm() {
@@ -52,7 +52,7 @@ export function PublishForm() {
               <Input defaultValue="Signal Grey, deeper ink" />
             </Field>
             <Field label="Version" required error="0.4.0 is already published. Use 0.4.1 or higher.">
-              <InputGroup start="v" defaultValue="0.4.0" invalid />
+              <Input addons prefix="v" defaultValue="0.4.0" invalid />
             </Field>
             <Field label="Package" hint="Read only: set by the workspace.">
               <Input readOnly value="@caustic/tokens" />
@@ -114,7 +114,7 @@ export function PublishForm() {
             <Field label="Release window">
               <DatePicker today="2026-10-25" defaultValue={{ from: '2026-10-27', to: '2026-10-31' }} />
             </Field>
-            <SliderField label="Canary share" unit="%" defaultValue={25} />
+            <Slider label="Canary share" field unit="%" defaultValue={25} />
             <Field label="Rollout note" required error="Write one line for the changelog." count="0 / 200">
               <Textarea rows={3} invalid placeholder="What changed, in one line" />
             </Field>
@@ -161,9 +161,12 @@ export function AgentSession() {
         <Message meta="Caustic agent · 3 tool calls · 41s" onCopy={noop} copyLabel="Copy message" onRetry={noop} retryLabel="Retry">
           <p>Both ramps now start at the background end. I moved the role map into <MessageCode>NEUTRAL_ROLES</MessageCode> so each step is named once.</p>
         </Message>
-        <Proposal title="Split neutrals per mode" badge="Plan mode" chips={<><Chip size="sm" appearance="soft">22 steps</Chip><Chip size="sm" appearance="soft">3 files</Chip></>} onBuild={noop} onEdit={noop}>
-          <code className="font-mono text-mono">neutral-light-1..11</code> and <code className="font-mono text-mono">neutral-dark-1..11</code>, same role steps in both modes except the background ladder.
-        </Proposal>
+        <AgentRequest kind="proposal" title="Split neutrals per mode" badge="Plan mode" onAction={noop}>
+          <AgentRequestProse>
+            <code className="font-mono text-mono">neutral-light-1..11</code> and <code className="font-mono text-mono">neutral-dark-1..11</code>, same role steps in both modes except the background ladder.
+          </AgentRequestProse>
+          <AgentRequestSummary><Chip size="sm" appearance="soft">22 steps</Chip><Chip size="sm" appearance="soft">3 files</Chip></AgentRequestSummary>
+        </AgentRequest>
         <Plan title="Neutral ramps" steps={PLAN} countLabel={(d, t) => `${d} of ${t} done`} statusLabels={{ done: 'Done', now: 'In progress', todo: 'To do' }} />
         <Message streaming meta="Caustic agent · 4 tool calls · 12s">
           <p>Dark step 6 sits at L 0.56 so control borders hold 3:1 on raised surfaces. Running the contrast gate next…</p>
@@ -181,14 +184,14 @@ export function AgentSession() {
           <CodeDiffLine number={43}>{'  '}0.62, 0.67, 0.72, 0.81, 0.97];</CodeDiffLine>
         </CodeDiff>
         {decision === null ? (
-          <PermissionRequest title="Re-record 12 visual baselines?" description="Neutral steps changed in dark mode. Baselines need your approval." onDecision={d => setDecision(d)} />
+          <AgentRequest kind="permission" title="Re-record 12 visual baselines?" subtitle="Neutral steps changed in dark mode. Baselines need your approval." onAction={d => setDecision(d)} />
         ) : (
-          <PermissionRequest status="allowed" title="Allowed once" description="12 baselines re-recorded · gateway/baselines" />
+          <AgentRequest kind="permission" status="allowed" title="Allowed once" subtitle="12 baselines re-recorded · gateway/baselines" />
         )}
         <div className="grid gap-2">
           <Toast inline title="Contrast gate passed" description="96 pairs · lowest 4.53 : 1" />
           <Toast inline tone="agent" title="Agent finished the ramp" description="3 files changed · ready for review" actionLabel="Review" onAction={noop} />
-          <Alert tone="info">Toast ships success and agent tones only; info, warning and danger notices use Alert and Banner.</Alert>
+          <Alert tone="info">Toast ships success and agent tones only; info, warning and danger notices use Alert (inline or page layout).</Alert>
           <Alert tone="warning">Dark step 6 is 0.1 above the 3:1 floor on raised. Small moves will fail.</Alert>
           <Alert tone="danger">The gate blocked one pair. Publishing waits until it passes.</Alert>
         </div>
@@ -209,7 +212,7 @@ export function AgentSession() {
               <Progress aria-label="Gate progress" value={40} />
             </div>
           </div>
-          <div className="flex items-center gap-2 text-ui-sm text-text-secondary"><Spinner label="Loading" size="sm" /> Loading baselines…</div>
+          <div className="flex items-center gap-2 text-ui-sm text-text-secondary"><Progress shape="ring" label="Loading" size="sm" /> Loading baselines…</div>
           <div className="grid gap-2" aria-label="Loading preview">
             <Skeleton height={12} width="70%" />
             <Skeleton height={12} width="90%" />
@@ -218,11 +221,11 @@ export function AgentSession() {
         </div>
         <div className="grid gap-2">
           <h3 className="m-0 font-ui text-ui-sm font-semibold text-text-primary">Checkpoints</h3>
-          <CheckpointTimeline aria-label="Checkpoints">
-            <CheckpointTimelineItem author="agent" selected title="Before ramp split" detail="checkpoint 2 · 3 files" restoreLabel="Restore" onRestore={noop} />
-            <CheckpointTimelineItem title="Last green gate" detail="96 pairs" time="14:02" dateTime="2026-10-25T14:02" />
-            <CheckpointTimelineItem title="Token cleanup" detail="design/visual-cleanup" time="Fri" />
-          </CheckpointTimeline>
+          <Timeline aria-label="Checkpoints" restore="item" onRestore={noop}>
+            <TimelineItem author="agent" selected title="Before ramp split" detail="checkpoint 2 · 3 files" />
+            <TimelineItem title="Last green gate" detail="96 pairs" time="14:02" dateTime="2026-10-25T14:02" />
+            <TimelineItem title="Token cleanup" detail="design/visual-cleanup" time="Fri" />
+          </Timeline>
         </div>
         <div className="flex flex-wrap gap-1.5">
           <Badge tone="agent" dot>Agent</Badge><Badge tone="success" dot>Gate</Badge><Badge tone="warning" dot>Review</Badge><Badge tone="danger" dot>1 blocked</Badge>
@@ -260,7 +263,7 @@ export function LibrarySettings() {
         </ListNavigationGroup>
       </ListNavigation></div>
       <div className="grid min-w-0 gap-6">
-        <Banner tone="warning" action={<Button tone="secondary" size="xs">Review</Button>}>2 policy findings block the next release.</Banner>
+        <Alert layout="page" tone="warning" action={<Button tone="secondary" size="xs">Review</Button>}>2 policy findings block the next release.</Alert>
         <Tabs defaultValue="members">
           <TabsList aria-label="Members">
             <TabsTrigger value="members" count="5">Members</TabsTrigger>
@@ -509,7 +512,7 @@ export function StateMatrix() {
           <div className="flex flex-wrap items-center gap-3">
             {(['coral', 'iris', 'mint', 'amber', 'slate'] as const).map(c => <Avatar key={c} name={c} color={c} size="md" />)}
             <Avatar name="Agent" kind="agent" size="md" />
-            <Spinner label="Loading" /><Spinner label="Loading accent" tone="accent" />
+            <Progress shape="ring" label="Loading" /><Progress shape="ring" label="Loading accent" tone="accent" />
             <span className="flex items-center gap-1 text-ui-sm text-text-tertiary"><Kbd>⌘</Kbd><Kbd>K</Kbd></span>
             <IconButton label="Webhooks" size="sm"><FolderGit2 /></IconButton>
             <IconButton label="Library" size="sm" className="shadow-focus"><Boxes /></IconButton>
@@ -519,7 +522,7 @@ export function StateMatrix() {
         <div className="grid content-start gap-2">
           <h3 className="m-0 text-caption uppercase text-text-tertiary">Notices</h3>
           {(['info', 'warning', 'danger'] as const).map(t => <Alert key={t} tone={t} action={<Button tone="secondary" size="xs">Open</Button>}>Alert · {t}: one line about what happened.</Alert>)}
-          {(['info', 'success', 'warning', 'danger'] as const).map(t => <Banner key={t} tone={t}>Banner · {t}: page-level status.</Banner>)}
+          {(['info', 'success', 'warning', 'danger'] as const).map(t => <Alert key={t} layout="page" tone={t}>Banner · {t}: page-level status.</Alert>)}
           <Toast inline title="Toast · success" description="Saved 3 tokens" />
           <Toast inline tone="agent" title="Toast · agent" description="Agent is still working" />
           <div className="grid gap-1.5">

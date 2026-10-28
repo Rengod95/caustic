@@ -1,10 +1,11 @@
 'use client';
 import { type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useFieldContext } from '../field/field-context.ts';
-import { textareaControlVariants, textareaVariants, type TextareaVariantProps } from './textarea.variants.ts';
+import { textareaControlVariants, textareaVariants } from './textarea.variants.ts';
 
-export interface TextareaProps extends Omit<ComponentProps<'textarea'>, 'size' | 'value' | 'defaultValue'>, TextareaVariantProps {
+export interface TextareaProps extends Omit<ComponentProps<'textarea'>, 'size' | 'value' | 'defaultValue'>, CommonProps {
   value?: string;
   defaultValue?: string;
   invalid?: boolean;
@@ -19,7 +20,7 @@ export interface TextareaProps extends Omit<ComponentProps<'textarea'>, 'size' |
 }
 
 /** Multi-line text entry. The container owns the fill, edge and focus edge. Enter inserts a line break. */
-export function Textarea({ size, rows = 3, invalid, disabled, readOnly, actions, submit, id, onChange, onValueChange, className, containerClassName, ...props }: TextareaProps) {
+export function Textarea({ tone, variant, radius, shadow, size, rows = 3, invalid, disabled, readOnly, actions, submit, id, onChange, onValueChange, className, containerClassName, ...props }: TextareaProps) {
   const field = useFieldContext();
   const isInvalid = invalid ?? field?.invalid ?? false;
   const isDisabled = disabled ?? field?.disabled ?? false;
@@ -30,7 +31,7 @@ export function Textarea({ size, rows = 3, invalid, disabled, readOnly, actions,
       data-invalid={isInvalid || undefined}
       data-disabled={isDisabled || undefined}
       data-readonly={readOnly || undefined}
-      className={cn(textareaVariants({ size }), containerClassName)}
+      className={cn(textareaVariants({ tone, variant, size, radius, shadow }), containerClassName)}
     >
       <textarea
         data-slot="textarea-control"

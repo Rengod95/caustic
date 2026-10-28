@@ -3,23 +3,27 @@ import * as P from '@radix-ui/react-popover';
 import { ChevronDown, Image as ImageIcon, Pipette, Plus, X } from 'lucide-react';
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type ReactNode, type RefObject, type SyntheticEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { radiusClass, shadowClass, type CommonProps } from '../../lib/common-props.ts';
 import { defined } from '../../lib/defined.ts';
 import { cssColor, hsvToHex, parseHex, rgbToHsv } from '../../lib/color-math.ts';
 import { resolveCssColor } from '../../lib/color-resolve.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
-import { ColorPlane } from '../color-plane/color-plane.tsx';
 import { HexInput } from '../hex-input/hex-input.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { NumberField } from '../number-field/number-field.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import { Slider } from '../slider/slider.tsx';
-import { SwatchStrip, type SwatchItem } from '../swatch-strip/swatch-strip.tsx';
 import {
   colorPickerBodyVariants, colorPickerFieldsVariants, colorPickerFootVariants, colorPickerFormatVariants, colorPickerGlyphVariants, colorPickerHeaderVariants,
   colorPickerPreviewFillVariants, colorPickerPreviewVariants, colorPickerSlidersVariants, colorPickerTracksVariants, colorPickerTypesVariants, colorPickerTypeVariants,
   colorPickerVariants,
 } from './color-picker.variants.ts';
+import { ColorPickerPlane } from './color-picker-plane.tsx';
+import { ColorPickerSwatches, type SwatchItem } from './color-picker-swatches.tsx';
+
+export { ColorPickerPlane, type ColorPickerPlaneProps, type PlaneValue } from './color-picker-plane.tsx';
+export { ColorPickerSwatches, type ColorPickerSwatchesProps, type SwatchItem } from './color-picker-swatches.tsx';
 
 export interface ColorValue { h: number; s: number; v: number; a: number }
 export type PaintType = 'solid' | 'linear' | 'radial' | 'angular' | 'diamond' | 'image';
@@ -68,7 +72,13 @@ export interface ColorPickerLabels {
   mixed: string;
 }
 
-export interface ColorPickerProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'children'> {
+/**
+ * Common props (lib/common-props.ts): variant = the surface (default solid = the thick floating material; embedded
+ * pickers default to ghost), tone = the paint-type glyphs at rest (default neutral = tertiary), size = the body padding
+ * and gaps (xs 6 · sm 8 · md 10 · lg 12; the width stays 268), radius = the corners (default 2xl), shadow = the
+ * elevation (default 4).
+ */
+export interface ColorPickerProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'children'>, CommonProps {
   /** Controlled color: hue 0-360, saturation and brightness 0-1, alpha 0-1. null is a mixed selection. */
   value?: ColorValue | null | undefined;
   defaultValue?: ColorValue | undefined;
@@ -134,10 +144,15 @@ function useMixedValueText(ref: RefObject<HTMLElement | null>, mixed: boolean, t
   }, [ref, mixed, text]);
 }
 
-/** The popover that edits one paint: type row, plane, hue and alpha, hex and alpha fields and page swatches. */
+/**
+ * The popover that edits one paint: type row, plane, hue and alpha, hex and alpha fields and page swatches. The plane
+ * and the swatches are its parts, ColorPicker.Plane and ColorPicker.Swatches (also exported as ColorPickerPlane and
+ * ColorPickerSwatches); `sections` decides which parts render.
+ */
 export function ColorPicker({
   value, defaultValue = fallback, paintType, swatches = [], mode, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onValueChange, onPaintTypeChange, onModeChange, onDraftChange, onPreviewChange, onClose, embedded = false, sections, invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit, className, onKeyDown, ...props
+  onValueChange, onPaintTypeChange, onModeChange, onDraftChange, onPreviewChange, onClose, embedded = false, sections, invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit,
+  tone, variant, radius, shadow, size, className, onKeyDown, ...props
 }: ColorPickerProps) {
   const contract = useFieldContract<ColorPickerChange, 'hex' | 'alphaField' | 'hsvH' | 'hsvS' | 'hsvV'>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const has = (s: ColorPickerSection) => (sections ?? (embedded ? EMBEDDED_SECTIONS : DIALOG_SECTIONS)).includes(s);
@@ -242,11 +257,16 @@ export function ColorPicker({
   const typeMixed = isMixed('paintType');
   const previewMixed = isMixed('plane') || isMixed('hex');
   const tabbable = typeMixed ? 'solid' : type ?? 'solid';
+  const surface = variant ?? (embedded ? 'ghost' : 'solid');
+  const rootClass = cn(
+    colorPickerVariants({ embedded, variant: surface, shadow, size }),
+    surface !== 'solid' && shadow && shadow !== '4' && shadowClass[shadow], radius && radius !== '2xl' && radiusClass[radius], className,
+  );
 
   return (
     <div
       ref={rootRef} data-slot="color-picker" role={embedded ? 'group' : 'dialog'} aria-label={labels.dialog} data-embedded={embedded || undefined}
-      {...(embedded ? {} : { tabIndex: -1, onKeyDown: keyDown })} className={cn(colorPickerVariants({ embedded }), className)} {...props}
+      {...(embedded ? {} : { tabIndex: -1, onKeyDown: keyDown })} className={rootClass} {...props}
     >
       {!embedded && (
       <div data-slot="color-picker-header" className={colorPickerHeaderVariants()}>
@@ -277,27 +297,26 @@ export function ColorPicker({
                 aria-checked={!typeMixed && type === t} aria-label={labels.types[t]} tabIndex={t === tabbable ? 0 : -1}
                 disabled={isDisabled('paintType')}
                 onClick={() => { if (!isReserved('paintType')) contract.commit('paintType', { field: 'paintType', value: t }, () => setType(t)); }}
-                className={colorPickerTypeVariants()}
+                className={colorPickerTypeVariants({ typeTone: tone })}
                 {...(isReserved('paintType') ? busy : {})}
               >
                 {t === 'image' ? <ImageIcon aria-hidden /> : <span data-slot="color-picker-glyph" aria-hidden className={colorPickerGlyphVariants({ kind: t })} />}
               </button>
             ))}
           </div>}
-          <div data-slot="color-picker-body" className={colorPickerBodyVariants({ embedded })}>
-            {has('plane') && <div
-              data-slot="color-picker-plane" data-mixed={isMixed('plane') || undefined}
-              className="data-[mixed]:[&_[role=slider]]:opacity-0 data-[mixed]:[&_[role=slider]:focus-visible]:opacity-100"
-              {...wrap('plane')} {...block('plane')}
-            >
-              <ColorPlane
+          <div data-slot="color-picker-body" className={colorPickerBodyVariants({ embedded, bodySize: size })}>
+            {has('plane') && (
+              <ColorPickerPlane
+                data-mixed={isMixed('plane') || undefined}
+                className="data-[mixed]:[&_[role=slider]]:opacity-0 data-[mixed]:[&_[role=slider]:focus-visible]:opacity-100"
+                {...wrap('plane')} {...block('plane')}
                 label={labels.plane}
                 valueText={isMixed('plane') ? () => labels.mixed : labels.planeValueText}
                 hue={shown.h} value={{ s: shown.s, v: shown.v }} pickedColor={opaque} disabled={isDisabled('plane')}
                 onValueChange={sv => step('plane', { ...color, ...sv })}
                 onValueCommit={sv => finish('plane', { ...color, ...sv })}
               />
-            </div>}
+            )}
             {showSliders && <div data-slot="color-picker-sliders" className={colorPickerSlidersVariants({ picker: withDropper })}>
               {withDropper && <div data-slot="color-picker-eyedropper" className="inline-flex" {...wrap('eyedropper')}>
                 <IconButton
@@ -353,7 +372,7 @@ export function ColorPicker({
               </div>
             </div>}
             {has('hsv') && labels.hsv !== undefined && (
-              <div data-part="hsv" className="grid grid-cols-3 gap-1">
+              <div data-slot="color-picker-hsv" className="grid grid-cols-3 gap-1">
                 {([
                   ['hsvH', labels.hsv.h, labels.hsv.hShort, shown.h, 360, '°', (n: number) => ({ ...color, h: n })],
                   ['hsvS', labels.hsv.s, labels.hsv.sShort, shown.s * 100, 100, '%', (n: number) => ({ ...color, s: n / 100 })],
@@ -386,18 +405,20 @@ export function ColorPicker({
                 </IconButton>
               </div>
             </div>
-            <div
-              data-slot="color-picker-swatches" data-mixed={isMixed('swatches') || undefined} data-disabled={isDisabled('swatches') || undefined}
-              className="data-[disabled]:pointer-events-none data-[disabled]:[&_[role=radio]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] data-[disabled]:[&_[data-slot=swatch-strip-token-dot]]:bg-disabled-text" inert={isDisabled('swatches') || undefined} {...wrap('swatches')}
-            >
-              <SwatchStrip items={items} columns={9} value={picked} onValueChange={pickSwatch} aria-label={labels.swatchesTitle} />
-            </div>
+            <ColorPickerSwatches
+              data-mixed={isMixed('swatches') || undefined} data-disabled={isDisabled('swatches') || undefined}
+              className="data-[disabled]:pointer-events-none data-[disabled]:[&_[role=radio]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] data-[disabled]:[&_[data-slot=color-picker-swatch-dot]]:bg-disabled-text" inert={isDisabled('swatches') || undefined} {...wrap('swatches')}
+              items={items} columns={9} value={picked} onValueChange={pickSwatch} aria-label={labels.swatchesTitle}
+            />
           </div>}
         </>
       ) : null}
     </div>
   );
 }
+
+ColorPicker.Plane = ColorPickerPlane;
+ColorPicker.Swatches = ColorPickerSwatches;
 
 export interface ColorPickerPopoverProps extends ColorPickerProps {
   /** The element the picker hangs from, usually a ColorWell (rendered with asChild). */

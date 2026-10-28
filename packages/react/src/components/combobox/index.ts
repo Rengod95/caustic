@@ -1,2 +1,5 @@
-export { Combobox, ComboboxOption, type ComboboxProps, type ComboboxOptionProps, type ComboboxOptionData } from './combobox.tsx';
-export { comboboxListboxVariants, comboboxMetaVariants, comboboxEmptyVariants } from './combobox.variants.ts';
+export {
+  Combobox, ComboboxOption, ComboboxRow, ComboboxTile,
+  type ComboboxProps, type ComboboxOptionProps, type ComboboxOptionData, type ComboboxGroupData, type ComboboxOptionState, type ComboboxRowProps, type ComboboxTileProps,
+} from './combobox.tsx';
+export { comboboxListboxVariants, comboboxMetaVariants, comboboxEmptyVariants, comboboxTileVariants } from './combobox.variants.ts';

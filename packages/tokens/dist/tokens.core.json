@@ -721,12 +721,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.465,
-            0.1155,
+            0.5,
+            0.1241,
             155
           ],
           "alpha": 1,
-          "hex": "#006b3b"
+          "hex": "#007742"
         }
       },
       "$description": "Pad Green — Success, diff add, light (step 9 is the authored solid)"
@@ -1305,12 +1305,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.475,
-            0.1416,
-            43
+            0.52,
+            0.16,
+            38
           ],
           "alpha": 1,
-          "hex": "#9a3900"
+          "hex": "#b13c11"
         }
       },
       "$description": "Signal Orange — Danger, diff remove, light (step 9 is the authored solid)"
@@ -1597,12 +1597,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.475,
-            0.145,
+            0.5,
+            0.19,
             266
           ],
           "alpha": 1,
-          "hex": "#3555ad"
+          "hex": "#3056cd"
         }
       },
       "$description": "Panel Blue — Info, review, user guides, light (step 9 is the authored solid)"
@@ -4543,6 +4543,38 @@
         "fontWeight": 400,
         "letterSpacing": {
           "value": 0,
+          "unit": "em"
+        }
+      }
+    },
+    "voice-xl": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.voice}",
+        "fontSize": {
+          "value": 22,
+          "unit": "px"
+        },
+        "lineHeight": 1.3636363636363635,
+        "fontWeight": 400,
+        "letterSpacing": {
+          "value": -0.01,
+          "unit": "em"
+        }
+      }
+    },
+    "mono-dense": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontSize": {
+          "value": 11,
+          "unit": "px"
+        },
+        "lineHeight": 1.4545454545454546,
+        "fontWeight": 400,
+        "letterSpacing": {
+          "value": -0.02,
           "unit": "em"
         }
       }

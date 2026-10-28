@@ -6,6 +6,8 @@ export interface ToastOptions {
   title: ReactNode;
   description?: ReactNode;
   actionLabel?: string;
+  /** aria-label of a trailing close button; omit for none. */
+  dismissLabel?: string;
   onAction?: () => void;
   onDismiss?: () => void;
   /** Milliseconds before auto-dismiss; 0 keeps it until dismissed. */

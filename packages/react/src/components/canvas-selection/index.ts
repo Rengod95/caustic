@@ -1,2 +1,4 @@
-export { CanvasSelection, type CanvasSelectionProps, type CanvasSelectionHandleName } from './canvas-selection.tsx';
-export { canvasSelectionVariants } from './canvas-selection.variants.ts';
+export {
+  CanvasSelection, CanvasSelectionLabel, type CanvasSelectionProps, type CanvasSelectionLabelProps, type CanvasSelectionHandleName, type CanvasSelectionMode,
+} from './canvas-selection.tsx';
+export { canvasSelectionVariants, canvasSelectionLabelVariants } from './canvas-selection.variants.ts';

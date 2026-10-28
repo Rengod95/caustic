@@ -1,15 +1,15 @@
 import {
   AlignCenterVertical, AlignEndVertical, AlignStartVertical, BatteryFull, Camera, Check, ChevronLeft, ChevronRight, ClipboardCheck, Component,
-  Droplet, Ellipsis, FileText, Frame, Hand, Image as ImageIcon, Mic, MessageCircle, Minus, MousePointer2, NotebookPen,
+  Droplet, Ellipsis, File as FileIcon, FileText, Frame, Hand, Image as ImageIcon, Mic, MessageCircle, Minus, MousePointer2, NotebookPen,
   PenTool, Plus, Redo2, Rows3, Scan, Search, Share2, Signal, Square, SquareStack, Type, Undo2, WandSparkles, Wifi,
 } from 'lucide-react';
 import {
-  AgentCursor, AlignBar, AlignBarItem, AppShell, AppShellEnd, AppShellOverlay, AppShellStage, AppShellStart, AppShellTitlebar, AutoLayout,
-  Avatar, Badge, Button, CanvasArtboard, CanvasGuide, CanvasHint, CanvasHintItem, CanvasRuler, CanvasSelection, CommentBubble, CommentPin,
-  CornerRadius, EffectsStack, FloatingBar, FloatingBarItem, FloatingBarSeparator, FrameLabel, IconButton, Input, InspectorPanel, InspectorSection,
-  InspectorSectionHeader, LayerTree, LayerTreeItem, NumberField, PageList, PageListRow, PaintStack, PositionSize, SectionHeader, SegmentedControl,
-  SegmentedControlItem, SidePanel, SliderField, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Tooltip, ZoomControl, defaultAutoLayout,
-  type AutoLayoutLabels, type CornerRadiusLabels, type EffectsStackLabels, type LayerTreeAnnouncement, type PaintStackLabels, type PositionSizeLabels,
+  AgentCursor, AppShell, AppShellEnd, AppShellOverlay, AppShellStage, AppShellStart, AppShellTitlebar, AutoLayout,
+  Avatar, Badge, Button, ButtonGroup, CanvasArtboard, CanvasGuide, CanvasHint, CanvasHintItem, CanvasRuler, CanvasSelection, CanvasComment, CanvasCommentBubble,
+  CornerRadius, FloatingBar, FloatingBarItem, FloatingBarSeparator, FrameLabel, IconButton, Input, InspectorPanel, InspectorSection,
+  InspectorSectionHeader, LayerTree, LayerTreeItem, ListNavigation, ListNavigationGroup, ListNavigationItem, NumberField, PositionSize, PropertyStack, SectionHeader, SegmentedControl,
+  SegmentedControlItem, SidePanel, Slider, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Tooltip, ZoomControl, defaultAutoLayout,
+  type AutoLayoutLabels, type CornerRadiusLabels, type LayerTreeAnnouncement, type PositionSizeLabels, type PropertyStackLabels,
 } from '@caustic/react';
 import type { ReactNode } from 'react';
 
@@ -74,11 +74,11 @@ const ccLabels: CornerRadiusLabels = {
   topLeft: 'Top left', topRight: 'Top right', bottomLeft: 'Bottom left', bottomRight: 'Bottom right', mixed: 'Mixed',
 };
 
-const esLabels: EffectsStackLabels = {
+const esLabels: PropertyStackLabels = {
   list: 'Effects', hide: n => `Hide ${n}`, show: n => `Show ${n}`, remove: n => `Remove ${n}`, moveUp: n => `Move ${n} up`, moveDown: n => `Move ${n} down`,
 };
 
-const paintLabels: PaintStackLabels = {
+const paintLabels: PropertyStackLabels = {
   list: 'Fill layers', styles: 'Styles', add: 'Add fill', mixedPaints: 'Mixed paints', replaceAll: 'Replace all',
   hide: 'Hide', show: 'Show', remove: 'Remove', moveUp: 'Move up', moveDown: 'Move down', opacity: 'Opacity', mixed: 'Mixed',
 };
@@ -289,11 +289,13 @@ export default function Sample() {
               )}
             >
               <TabsContent value="layers" className="flex flex-col gap-3 p-2">
-                <PageList label="Pages" addLabel="Add page">
-                  <PageListRow current count="3 frames">Onboarding</PageListRow>
-                  <PageListRow count="18 parts">Components</PageListRow>
-                  <PageListRow count="6 frames">Explorations</PageListRow>
-                </PageList>
+                <ListNavigation aria-label="Pages" kind="pages">
+                  <ListNavigationGroup heading="Pages" addLabel="Add page">
+                    <ListNavigationItem icon={<FileIcon />} current count="3 frames">Onboarding</ListNavigationItem>
+                    <ListNavigationItem icon={<FileIcon />} count="18 parts">Components</ListNavigationItem>
+                    <ListNavigationItem icon={<FileIcon />} count="6 frames">Explorations</ListNavigationItem>
+                  </ListNavigationGroup>
+                </ListNavigation>
                 <Input appearance="sunken" prefix={<Search aria-hidden className="size-icon-sm" />} placeholder="Filter layers" aria-label="Filter layers" />
                 <LayerTree
                   aria-label="Layers"
@@ -348,8 +350,10 @@ export default function Sample() {
           <CanvasGuide kind="measure" orientation="horizontal" rect={{ left: X1 + FW, top: TOP + 200, width: X2 - X1 - FW }}>72</CanvasGuide>
           <CanvasGuide kind="smart" orientation="vertical" rect={{ left: X2 + FW / 2, top: TOP, height: FH }} />
 
-          <CommentPin label="Comment by Mina Kim" initials="MK" rect={{ left: X2 + 168, top: TOP + 272 }} />
-          <CommentBubble author="Mina" rect={{ left: X2 + 14, top: TOP + 298 }}>Can Continue move lower for thumbs?</CommentBubble>
+          <CanvasComment label="Comment by Mina Kim" initials="MK" rect={{ left: X2 + 168, top: TOP + 272 }} open>
+            {/* The bubble sits below-left of the pin here: rect is relative to the pin (X2 + 14, TOP + 298 on the canvas). */}
+            <CanvasCommentBubble authorName="Mina" rect={{ left: -154, top: 26 }}>Can Continue move lower for thumbs?</CanvasCommentBubble>
+          </CanvasComment>
           <AgentCursor name="Caustic" rect={{ left: X2 + FW + 6, top: TOP + 214 }} />
           <div
             className="absolute flex w-44 flex-col gap-1.5 rounded-md bg-warning-soft p-3 text-[13px] leading-snug text-text-primary shadow-2"
@@ -419,11 +423,11 @@ export default function Sample() {
                 <InspectorSectionHeader
                   title="Frame"
                   actions={(
-                    <AlignBar density="tight" aria-label="Align">
-                      <AlignBarItem label="Align left"><AlignStartVertical /></AlignBarItem>
-                      <AlignBarItem label="Align center"><AlignCenterVertical /></AlignBarItem>
-                      <AlignBarItem label="Align right"><AlignEndVertical /></AlignBarItem>
-                    </AlignBar>
+                    <ButtonGroup density="tight" aria-label="Align">
+                      <IconButton label="Align left"><AlignStartVertical /></IconButton>
+                      <IconButton label="Align center"><AlignCenterVertical /></IconButton>
+                      <IconButton label="Align right"><AlignEndVertical /></IconButton>
+                    </ButtonGroup>
                   )}
                 />
                 <PositionSize
@@ -443,7 +447,7 @@ export default function Sample() {
                   defaultValue={{ ...defaultAutoLayout, flow: 'column', align: 'top-center', gap: 16, distribution: 'space-between', paddingMode: 'sides', padding: { top: 56, right: 24, bottom: 36, left: 24 } }}
                 />
               </InspectorSection>
-              <PaintStack
+              <PropertyStack
                 title="Fill"
                 labels={paintLabels}
                 items={[
@@ -460,7 +464,8 @@ export default function Sample() {
                   title="Effects"
                   actions={<IconButton size="xs" label="Add effect"><Plus /></IconButton>}
                 />
-                <EffectsStack
+                <PropertyStack
+                  kind="effect"
                   labels={esLabels}
                   items={[
                     { id: 'shadow', icon: <SquareStack />, label: 'Drop shadow', meta: '24 px' },
@@ -471,7 +476,7 @@ export default function Sample() {
               <InspectorSection>
                 <InspectorSectionHeader title="Layer" />
                 <div className="grid gap-3">
-                  <SliderField label="Opacity" unit="%" defaultValue={100} />
+                  <Slider label="Opacity" field unit="%" defaultValue={100} />
                 </div>
               </InspectorSection>
               <InspectorSection>

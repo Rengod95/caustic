@@ -214,7 +214,7 @@ Naming:
    - Agent: spectrum rim with a scan band, plus an agent cursor with a task tag.
 8. **Motion has a job.** Feedback is fast, movement springs, and loops belong to the agent.
 9. **A field owns its focus.**
-   - A focused text field (input, textarea, number, hex, search, composer) swaps its own border for `--cs-focus-field` (1.5px, `focus.ring`, ≥ 3:1).
+   - A focused text field (input, textarea, number, hex, search, composer) shows `--cs-focus-field` on its box: its resting 1px `border.default` hairline (owner 2026-10-28: no black 1.5px edge). The cue is the fill: a white field turns `neutral.well`, a field that rests on a grey fill turns `surface.base`. Design over contrast: the fill step is about 1.1:1, a waived 2.4.11 warning.
    - The inner control draws nothing, and no outer ring or halo is added. One edge, never three.
    - Invalid fields keep a danger border while focused.
    - Buttons and other non-field controls keep the 2px outer `--cs-focus` ring, shown on keyboard focus only.

@@ -51,7 +51,7 @@ export default defineFixture({
   examples: {
     'layer-tree': () => (
       <>
-        <Input appearance="sunken" prefix={<Search aria-hidden className="size-icon-sm" />} placeholder="Filter layers" aria-label="Filter layers" />
+        <Input variant="sunken" prefix={<Search aria-hidden className="size-icon-sm" />} placeholder="Filter layers" aria-label="Filter layers" />
         <LayerTree {...labels} aria-label="Layers" dragLabel="Badge" dragIcon={<Component />} style={ghostAt}>
           <LayerTreeItem itemId="frame" depth={0} icon={<Frame />} label="Pricing / Desktop" expandable open />
           <LayerTreeItem itemId="cards" depth={1} icon={<Rows3 />} label="Cards" expandable open caption="auto · 12" />

@@ -4,6 +4,7 @@ import {
   type ComponentProps, type CSSProperties, type KeyboardEvent, type ReactNode,
 } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps, Size, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import {
   tokenGraphMetaVariants, tokenGraphNameVariants, tokenGraphNodeVariants, tokenGraphPortVariants, tokenGraphSwatchVariants,
@@ -17,12 +18,14 @@ interface Ctx {
   nodes: Map<string, NodeInfo>;
   register: (id: string, info: NodeInfo) => () => void;
   press: (id: string) => void;
+  variant?: Variant | undefined;
+  size?: Size | undefined;
 }
 const GraphCtx = createContext<Ctx | null>(null);
 
-interface Wire { key: string; d: string; traced: boolean }
+interface Wire { key: string; d: string; traced: boolean; dimmed: boolean }
 
-export interface TokenGraphProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
+export interface TokenGraphProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'>, CommonProps {
   /** [source id, target id] of each edge. */
   edges: [string, string][];
   /** Controlled id of the traced node. */
@@ -45,7 +48,7 @@ const reach = (start: string, edges: [string, string][], dir: 'up' | 'down') => 
 };
 
 /** A three-tier token dependency graph on a dot-grid canvas. Press a node to trace its sources and consumers. */
-export function TokenGraph({ edges, value, defaultValue = null, onValueChange, className, children, onKeyDown, ...props }: TokenGraphProps) {
+export function TokenGraph({ edges, value, defaultValue = null, onValueChange, tone, variant, radius, shadow, size, className, children, onKeyDown, ...props }: TokenGraphProps) {
   const [current, setCurrent] = useControllableState<string | null>({ value, defaultValue, onChange: onValueChange as ((v: string | null) => void) | undefined });
   const [nodes, setNodes] = useState<Map<string, NodeInfo>>(() => new Map());
   const [wires, setWires] = useState<Wire[]>([]);
@@ -85,7 +88,7 @@ export function TokenGraph({ edges, value, defaultValue = null, onValueChange, c
       const A = ea.getBoundingClientRect(), B = eb.getBoundingClientRect();
       const x1 = A.right - r.left, y1 = A.top - r.top + A.height / 2, x2 = B.left - r.left, y2 = B.top - r.top + B.height / 2;
       const mx = (x1 + x2) / 2;
-      next.push({ key: `${a}>${b}`, d: `M${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`, traced: traced.has(a) && traced.has(b) });
+      next.push({ key: `${a}>${b}`, d: `M${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`, traced: traced.has(a) && traced.has(b), dimmed: traced.size > 0 && !(traced.has(a) && traced.has(b)) });
     }
     setBox(prev => (prev.w === r.width && prev.h === r.height ? prev : { w: r.width, h: r.height }));
     setWires(prev => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
@@ -122,13 +125,13 @@ export function TokenGraph({ edges, value, defaultValue = null, onValueChange, c
     if (target) Array.from(rootRef.current?.querySelectorAll<HTMLElement>('[data-item-id]') ?? []).find(el => el.dataset.itemId === target)?.focus();
   };
 
-  const ctx = useMemo<Ctx>(() => ({ edges, traced, nodes, register, press: id => setCurrent(id) }), [edges, traced, nodes, register, setCurrent]);
+  const ctx = useMemo<Ctx>(() => ({ edges, traced, nodes, register, press: id => setCurrent(id), variant, size }), [edges, traced, nodes, register, setCurrent, variant, size]);
 
   return (
     <GraphCtx.Provider value={ctx}>
-      <div ref={rootRef} role="group" data-slot="token-graph" className={cn(tokenGraphVariants(), className)} onKeyDown={handleKeyDown} {...props}>
+      <div ref={rootRef} role="group" data-slot="token-graph" className={cn(tokenGraphVariants({ tone, radius, shadow }), className)} onKeyDown={handleKeyDown} {...props}>
         <svg data-slot="token-graph-wires" aria-hidden="true" viewBox={`0 0 ${box.w} ${box.h}`} className={tokenGraphWiresVariants()}>
-          {wires.map(w => <path key={w.key} data-slot="token-graph-wire" data-traced={w.traced ? '' : undefined} d={w.d} className={tokenGraphWireVariants()} />)}
+          {wires.map(w => <path key={w.key} data-slot="token-graph-wire" data-traced={w.traced ? '' : undefined} data-dimmed={w.dimmed ? '' : undefined} d={w.d} className={tokenGraphWireVariants()} />)}
         </svg>
         {children}
       </div>
@@ -172,6 +175,8 @@ export function TokenGraphNode({ itemId, x, y, title, description, swatch, trace
   const register = ctx?.register;
   useEffect(() => register?.(itemId, { title, x, y, missing }), [register, itemId, title, x, y, missing]);
   const isTraced = !missing && (traced || (ctx?.traced.has(itemId) ?? false));
+  // Off the trace while the graph traces something: the node steps back so the traced path stands out.
+  const dimmed = !isTraced && !missing && (ctx?.traced.size ?? 0) > 0;
   const names = (ids: string[]) => ids.map(i => ctx?.nodes.get(i)?.title ?? i).join(', ');
   const edges = ctx?.edges ?? [];
   const sources = edges.filter(([, b]) => b === itemId).map(([a]) => a);
@@ -187,9 +192,9 @@ export function TokenGraphNode({ itemId, x, y, title, description, swatch, trace
   return (
     <>
       <button
-        type="button" data-slot="token-graph-node" data-item-id={itemId} data-traced={isTraced ? '' : undefined} data-missing={missing ? '' : undefined}
+        type="button" data-slot="token-graph-node" data-item-id={itemId} data-traced={isTraced ? '' : undefined} data-missing={missing ? '' : undefined} data-dimmed={dimmed ? '' : undefined}
         aria-pressed={isTraced} aria-describedby={descId}
-        className={cn(tokenGraphNodeVariants({ traced: isTraced, missing }), className)}
+        className={cn(tokenGraphNodeVariants({ variant: ctx?.variant, size: ctx?.size, traced: isTraced, missing, dimmed }), className)}
         style={{ '--x': `${x}%`, '--y': `${y}%`, ...style } as CSSProperties}
         onClick={e => { onClick?.(e); if (!e.defaultPrevented) ctx?.press(itemId); }}
         {...props}

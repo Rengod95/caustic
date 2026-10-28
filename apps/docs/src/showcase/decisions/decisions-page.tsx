@@ -4,19 +4,17 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Copy, FlaskConical } from 'lucide-react';
 import { Badge, Button, SegmentedControl, SegmentedControlItem } from '@caustic/react';
 import { contrast, gamutMap } from '../color.ts';
-import { neutralsFor, roleStepOf, surfaceFor, type Theme } from '../palettes.ts';
+import { neutralsFor, roleStepOf, surfaceFor, type Theme } from '../palette.ts';
 import { toPalette, valueOf, type BuilderState } from '../builder/state.ts';
 import {
   dangerGuide, decisionBase, GUIDE_OWN, huedAccent, ladder, mergeInk, onOf, opaqueNeutral, OPAQUE_STEPS, ownGuide, roleL, scope, stepL, withDark,
+  type Option, type Question,
 } from './model.ts';
+import { OPEN_CSS, openQuestions } from './open-questions.tsx';
 import { CanvasScene, DarkShellScene, Frame, InkScene, LightSolidScene, NeutralScene, RequiredScene, SelectionScene } from './scenes.tsx';
 
-type QId = 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'q6' | 'q7';
-interface Option { id: string; title: string; consequence: ReactNode; recommended?: boolean; scene: ReactNode }
-interface Question { id: QId; title: string; question: ReactNode; affects: string[]; why: ReactNode; options: Option[] }
-
 const STORE = 'caustic-lab-decisions';
-type Choices = Partial<Record<QId, string>>;
+type Choices = Partial<Record<string, string>>;
 function loadChoices(): Choices {
   try { const raw = window.localStorage.getItem(STORE); if (raw) return JSON.parse(raw) as Choices; } catch { /* storage unavailable */ }
   return {};
@@ -221,14 +219,44 @@ const label = (q: Question, id: string | undefined) => {
   return o ? `${o.id === 'current' ? '지금' : o.id} · ${o.title}` : '미정';
 };
 
+function QuestionBlock({ q, n, choice, onChoose }: { q: Question; n: string; choice: string | undefined; onChoose: (v: string | undefined) => void }) {
+  return (
+    <section id={`dq-${q.id}`} aria-labelledby={`dq-${q.id}-h`} className="grid min-w-0 scroll-mt-36 gap-3 border-t border-border-default pt-6 first:border-t-0 first:pt-0">
+      <header className="grid max-w-[72ch] gap-1.5">
+        <h2 id={`dq-${q.id}-h`} className="m-0 font-ui text-title-4 text-text-primary"><span className={`${mono} mr-2 text-text-tertiary`}>{n}</span>{q.title}</h2>
+        <p className="m-0 text-ui text-text-secondary">{q.question}</p>
+        <div className="grid gap-0.5 text-ui-sm text-text-tertiary">
+          <span>영향 범위</span>
+          <ul className="m-0 grid gap-0.5 pl-4">{q.affects.map(a => <li key={a}>{a}</li>)}</ul>
+        </div>
+      </header>
+      <div className={`grid min-w-0 gap-3 ${q.options.length === 3 ? 'min-[1600px]:grid-cols-3' : 'min-[1100px]:grid-cols-2'}`}>
+        {q.options.map(o => <OptionColumn key={o.id} o={o} chosen={choice === o.id} />)}
+      </div>
+      <div className="grid max-w-[72ch] gap-2">
+        {q.why ? <p className="m-0 text-ui-sm text-text-secondary"><b className="text-text-primary">{q.whyLabel ?? '권장 이유.'}</b> {q.why}</p> : null}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-ui-strong text-text-primary">내 선택</span>
+          <SegmentedControl size="xs" aria-label={`${n}번 선택`} value={choice ?? 'none'} onValueChange={v => onChoose(v === 'none' ? undefined : v)}>
+            {q.options.map(o => <SegmentedControlItem key={o.id} value={o.id}>{o.id === 'current' ? '지금' : o.id}{o.recommended ? ' (권장)' : ''}</SegmentedControlItem>)}
+            <SegmentedControlItem value="none">미정</SegmentedControlItem>
+          </SegmentedControl>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function DecisionsPage() {
   const [s] = useState<BuilderState>(decisionBase);
   const [choices, setChoices] = useState<Choices>(loadChoices);
   const [copied, setCopied] = useState<string | null>(null);
   useEffect(() => saveChoices(choices), [choices]);
   const qs = useQuestions(s);
+  const open = useMemo(() => openQuestions(s), [s]);
+  const choose = (id: string) => (v: string | undefined) => setChoices(c => { const n = { ...c }; if (v === undefined) delete n[id]; else n[id] = v; return n; });
 
-  const text = ['컬러 랭귀지 결정 (#/lab/decisions)', ...qs.map((q, i) => `${i + 1}. ${q.title}: ${label(q, choices[q.id])}`)].join('\n');
+  const text = ['컬러 랭귀지 결정 (#/lab/decisions)', ...open.map((q, i) => `O${i + 1}. ${q.title}: ${label(q, choices[q.id])}`), ...qs.map((q, i) => `${i + 1}. ${q.title}: ${label(q, choices[q.id])}`)].join('\n');
   const copy = async () => {
     try { await navigator.clipboard.writeText(text); setCopied('복사했습니다. 대화창에 붙여 넣어 주세요.'); }
     catch { setCopied(`클립보드를 쓸 수 없습니다. 아래를 선택해 복사해 주세요.\n\n${text}`); }
@@ -236,7 +264,7 @@ export default function DecisionsPage() {
 
   return (
     <div className="min-w-0 font-ui text-text-primary" data-lab="decisions">
-      <style>{'.dq-mark-neutral [data-slot="field-required-mark"]{color:var(--cs-color-text-tertiary)}'}</style>
+      <style>{`.dq-mark-neutral [data-slot="field-required-mark"]{color:var(--cs-color-text-tertiary)}\n${OPEN_CSS}`}</style>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border-default bg-bg-inset px-4 py-2.5 min-[900px]:px-5">
         <Badge tone="solid" shape="square" icon={<FlaskConical />}>Lab</Badge>
         <p className="m-0 min-w-0 flex-1 text-ui-sm text-text-secondary">
@@ -247,16 +275,16 @@ export default function DecisionsPage() {
 
       <div className="sticky top-14 z-20 grid gap-2 border-b border-border-subtle bg-surface-base px-4 py-2 min-[900px]:px-5">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="m-0 mr-2 font-ui text-title-4">색 결정 7가지</h1>
+          <h1 className="m-0 mr-2 font-ui text-title-4">색 결정: 열린 질문 5 · 결정 7</h1>
           <span className="flex-1" />
           <Button tone="secondary" size="xs" iconStart={<Copy />} onClick={() => void copy()}>Copy decisions</Button>
         </div>
         <ol className="m-0 flex list-none flex-wrap gap-1.5 p-0">
-          {qs.map((q, i) => (
+          {[...open.map((q, i) => ({ q, n: `O${i + 1}` })), ...qs.map((q, i) => ({ q, n: String(i + 1) }))].map(({ q, n }) => (
             <li key={q.id}>
               <a href="#/lab/decisions" onClick={e => { e.preventDefault(); document.getElementById(`dq-${q.id}`)?.scrollIntoView({ block: 'start' }); }}
                 className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-ui-sm text-text-secondary outline-none shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] hover:bg-fill-hover focus-visible:shadow-focus">
-                <span className={mono}>{i + 1}</span>
+                <span className={mono}>{n}</span>
                 <span className={choices[q.id] ? 'text-text-primary' : 'text-text-tertiary'}>{choices[q.id] ? (choices[q.id] === 'current' ? '지금' : choices[q.id]) : '미정'}</span>
               </a>
             </li>
@@ -271,31 +299,14 @@ export default function DecisionsPage() {
       </div>
 
       <main className="grid min-w-0 content-start gap-10 bg-bg-app px-4 py-6 min-[900px]:px-6">
-        {qs.map((q, i) => (
-          <section key={q.id} id={`dq-${q.id}`} aria-labelledby={`dq-${q.id}-h`} className="grid min-w-0 scroll-mt-36 gap-3 border-t border-border-default pt-6 first:border-t-0 first:pt-0">
-            <header className="grid max-w-[72ch] gap-1.5">
-              <h2 id={`dq-${q.id}-h`} className="m-0 font-ui text-title-4 text-text-primary"><span className={`${mono} mr-2 text-text-tertiary`}>{i + 1}</span>{q.title}</h2>
-              <p className="m-0 text-ui text-text-secondary">{q.question}</p>
-              <div className="grid gap-0.5 text-ui-sm text-text-tertiary">
-                <span>영향 범위</span>
-                <ul className="m-0 grid gap-0.5 pl-4">{q.affects.map(a => <li key={a}>{a}</li>)}</ul>
-              </div>
-            </header>
-            <div className={`grid min-w-0 gap-3 ${q.options.length === 3 ? 'min-[1600px]:grid-cols-3' : 'min-[1100px]:grid-cols-2'}`}>
-              {q.options.map(o => <OptionColumn key={o.id} o={o} chosen={choices[q.id] === o.id} />)}
-            </div>
-            <div className="grid max-w-[72ch] gap-2">
-              <p className="m-0 text-ui-sm text-text-secondary"><b className="text-text-primary">권장 이유.</b> {q.why}</p>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-ui-strong text-text-primary">내 선택</span>
-                <SegmentedControl size="xs" aria-label={`${i + 1}번 선택`} value={choices[q.id] ?? 'none'} onValueChange={v => setChoices(c => { const n = { ...c }; if (v === 'none') delete n[q.id]; else n[q.id] = v; return n; })}>
-                  {q.options.map(o => <SegmentedControlItem key={o.id} value={o.id}>{o.id === 'current' ? '지금' : o.id}{o.recommended ? ' (권장)' : ''}</SegmentedControlItem>)}
-                  <SegmentedControlItem value="none">미정</SegmentedControlItem>
-                </SegmentedControl>
-              </div>
-            </div>
-          </section>
-        ))}
+        <section id="dq-open" aria-labelledby="dq-open-h" className="grid min-w-0 scroll-mt-36 gap-6 rounded-xl bg-bg-inset p-4 min-[900px]:p-5">
+          <header className="grid max-w-[72ch] gap-1">
+            <h2 id="dq-open-h" className="m-0 font-ui text-title-3 text-text-primary">Open questions (2026-10-26)</h2>
+            <p className="m-0 text-ui text-text-secondary">아직 정하지 않은 다섯 가지. 각 옵션은 @caustic/react 컴포넌트를 그대로 그린다. A는 지금 코드이고, B는 이 페이지에서만 슬롯을 바꿔 그린 모습이다(컴포넌트 코드는 그대로).</p>
+          </header>
+          {open.map((q, i) => <QuestionBlock key={q.id} q={q} n={`O${i + 1}`} choice={choices[q.id]} onChoose={choose(q.id)} />)}
+        </section>
+        {qs.map((q, i) => <QuestionBlock key={q.id} q={q} n={String(i + 1)} choice={choices[q.id]} onChoose={choose(q.id)} />)}
       </main>
     </div>
   );

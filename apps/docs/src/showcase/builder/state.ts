@@ -3,11 +3,11 @@
 // Neutrals stay locked to Deep Black's ramps (only the dark ramp variant is selectable); everything else is derived
 // from the picks by the token build's own rule (language.ts), so the default state reproduces the shipped tokens.
 import { gamutMap, type LCH } from '../color.ts';
-import { darkRamp, neutralsFor, paletteById, type DarkRamp, type Palette, type Swatch, type Theme } from '../palettes.ts';
+import { darkRamp, DEEP_BLACK, neutralsFor, type DarkRamp, type Palette, type Swatch, type Theme } from '../palette.ts';
 import { emitLch, SHIPPED, type RampSet } from '../shipped.ts';
 import { hueRamp, langRampSet, langVars, surfaceOf, type LangInput } from './language.ts';
 
-export const BASE = paletteById('deep');
+export const BASE = DEEP_BLACK;
 
 export type ColorKey = 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent1' | 'agent2' | 'agent3' | 'extra1' | 'extra2' | 'guide';
 

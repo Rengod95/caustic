@@ -35,5 +35,16 @@ export default defineFixture({
         <ColorPicker defaultValue={orange} paintType="solid" swatches={specimenSwatches} labels={labels} />
       </div>
     ),
+    // The removed ColorPlane and SwatchStrip, now parts used on their own (their old fixture renders).
+    'color-plane-part': () => (
+      <div className="w-62">
+        <ColorPicker.Plane label={labels.plane} valueText={labels.planeValueText} hue={22} pickedColor="#E2763F" defaultValue={{ s: 0.72, v: 0.89 }} />
+      </div>
+    ),
+    'swatch-strip-part': () => (
+      <div className="w-62">
+        <ColorPicker.Swatches items={specimenSwatches} defaultValue="orange" aria-label={labels.swatchesTitle} />
+      </div>
+    ),
   },
 });

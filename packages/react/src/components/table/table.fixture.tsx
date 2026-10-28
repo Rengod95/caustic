@@ -22,7 +22,11 @@ const rows: TableRow[] = [
   { id: 'dahee', member: 'Dahee Han', email: 'dahee@orbit.co', role: 'Viewer', status: 'Suspended', edits: '56' },
 ];
 
+// A longer roster for the sticky-header example: the four members repeated so the body scrolls under the heading.
+const longRows: TableRow[] = Array.from({ length: 3 }, (_, i) => rows.map(r => ({ ...r, id: `${r.id}-${i}` }))).flat();
+
 const avatarOf = (id: string): ReactNode => {
+  id = id.replace(/-\d+$/, '');
   const name = String(rows.find(r => r.id === id)?.member);
   if (id === 'caustic') return <Avatar name={name} kind="agent" />;
   return <Avatar name={name} color={id === 'mina' ? 'coral' : id === 'jun' ? 'iris' : 'mint'} />;
@@ -79,6 +83,13 @@ export default defineFixture({
         columns={columns} rows={rows} renderCell={renderCell} rowActions={rowActions} toolbar={toolbar}
         selectable defaultSelectedKeys={['mina']} sort={{ key: 'member', direction: 'descending' }} page={1} pageCount={2}
         rowLabel={row => String(row.member).split(' ')[0]!}
+      />
+    ),
+    // maxHeight caps the scroll area: the body scrolls and the heading stays at the top with its raised fill.
+    'sticky-header': () => (
+      <Table
+        columns={columns} rows={longRows} renderCell={renderCell} rowActions={rowActions} maxHeight={280}
+        summary={`${longRows.length} members`}
       />
     ),
   },

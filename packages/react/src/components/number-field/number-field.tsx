@@ -1,31 +1,51 @@
 'use client';
-import { useEffect, useRef, useState, type ComponentProps, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
+import { Link2, Minus, Plus } from 'lucide-react';
+import { useRef, useState, type ComponentProps, type FocusEvent, type HTMLAttributes, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
-import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useScrub } from '../../hooks/use-scrub.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
+import { useFieldContext } from '../field/field-context.ts';
+import { useCommittedValue, type CommittedValueDraft } from './use-committed-value.ts';
+import {
+  numberFieldControlVariants, numberFieldHexControlVariants, numberFieldHexFrameVariants, numberFieldHexIconVariants, numberFieldHexTokenVariants,
+  numberFieldHexVariants, numberFieldStepButtonVariants, numberFieldStepperControlVariants, numberFieldStepperVariants, numberFieldUnitVariants,
+  numberFieldVariants,
+} from './number-field.variants.ts';
 
-/** What the owner is told about the text of the field (K2d inspector value model). */
-export interface NumberFieldDraft {
-  text: string;
-  /** The parsed number, or null when the text is not a usable number. */
-  value: number | null;
-  /** empty: blank text on a field that is not mixed; syntax: not a finite number; range: outside min and max (release mode only). */
-  error: 'empty' | 'syntax' | 'range' | null;
-  /** True while the text differs from the committed value. */
-  dirty: boolean;
-}
+/** What the owner is told about the text of the field (K2d inspector value model). error range is release mode only. */
+export type NumberFieldDraft = CommittedValueDraft<number>;
+/** The hex draft: value is the normalized uppercase digits; there is no range error. */
+export interface NumberFieldHexDraft extends Omit<CommittedValueDraft<string>, 'error'> { error: 'empty' | 'syntax' | null }
 
-export interface NumberFieldProps extends Omit<ComponentProps<'input'>, 'value' | 'defaultValue' | 'onChange' | 'prefix' | 'size' | 'disabled'> {
+/** scrub: the inspector field (drag the label). stepper: the form quantity field (− value +). */
+export type NumberFieldAppearance = 'scrub' | 'stepper';
+/** number: a finite number. hex: 3, 4, 6 or 8 hex digits without #, uppercase mono, with the bound token chip. */
+export type NumberFieldFormat = 'number' | 'hex';
+
+/** Attributes for the root element (data-*, focus and blur, a ref); a preset passes the rest of its own props here. */
+export type NumberFieldContainerProps = HTMLAttributes<HTMLElement> & { [key: `data-${string}`]: string | number | boolean | undefined };
+
+export interface NumberFieldProps extends Omit<ComponentProps<'input'>, 'value' | 'defaultValue' | 'onChange' | 'prefix' | 'size' | 'disabled'>, CommonProps {
+  /** scrub (default): the inspector field. stepper: − and + buttons around a centred value (the form quantity field). */
+  appearance?: NumberFieldAppearance | undefined;
+  /** number (default) or hex (a string value; HexInput is the preset). */
+  format?: NumberFieldFormat | undefined;
   value?: number | null | undefined;
   defaultValue?: number | null | undefined;
   /** The commit: a step, a scrub (live: every step, release: once on release) or a committed edit. */
   onValueChange?: ((value: number) => void) | undefined;
-  /** Scrub handle: a short label ("X", "W") or an icon. */
+  /** Text to value, replacing the format's parser; return null for unreadable text. */
+  parse?: ((text: string) => number | null) | undefined;
+  /** Value to text, replacing the format's formatter. */
+  formatValue?: ((value: number) => string) | undefined;
+  /** Optional scrub handle: a short label ("X", "W") or an icon. Scrub appearance only; a stepper or hex field is named by Field or aria-label. */
   label?: ReactNode;
-  /** Unit shown after the value (px, %, °). */
+  /** Unit shown after the value (px, %, °). Scrub appearance only. */
   unit?: ReactNode;
-  /** Trailing control, e.g. a clear button. */
+  /** Trailing control, e.g. a clear button. Scrub appearance only. */
   trailing?: ReactNode;
+  /** hex only: the token path the paint is bound to; replaces the input by the bound chip. */
+  token?: string | undefined;
   step?: number | undefined;
   min?: number | undefined;
   max?: number | undefined;
@@ -49,112 +69,156 @@ export interface NumberFieldProps extends Omit<ComponentProps<'input'>, 'value' 
   onScrubStart?: (() => void) | undefined;
   /** Class names for the outer container. */
   containerClassName?: string | undefined;
+  /** Attributes for the outer container. */
+  containerProps?: NumberFieldContainerProps | undefined;
+  /** Root slot name of a preset built on NumberField (HexInput passes "hex-input"); the parts keep their number-field names. */
+  'data-slot'?: string | undefined;
+}
+
+/** format="hex": the value is a string of hex digits. */
+export interface NumberFieldHexProps extends Omit<NumberFieldProps, 'format' | 'value' | 'defaultValue' | 'onValueChange' | 'onDraftChange' | 'parse' | 'formatValue'> {
+  format: 'hex';
+  /** Hex digits without #, uppercase ("E2763F"). */
+  value?: string | null | undefined;
+  defaultValue?: string | null | undefined;
+  /** Committed with Enter or blur when the value is 3, 4, 6 or 8 hex digits (uppercase). */
+  onValueChange?: ((value: string) => void) | undefined;
+  onDraftChange?: ((draft: NumberFieldHexDraft) => void) | undefined;
+  parse?: ((text: string) => string | null) | undefined;
+  formatValue?: ((value: string) => string) | undefined;
 }
 
 const clamp = (v: number, min = -Infinity, max = Infinity) => Math.min(max, Math.max(min, v));
-const show = (v: number | null) => (v === null ? '' : String(v));
+const parseNumber = (text: string) => { const n = Number(text); return Number.isFinite(n) ? n : null; };
+const parseHex = (text: string) => (/^[0-9a-fA-F]+$/.test(text) && [3, 4, 6, 8].includes(text.length) ? text.toUpperCase() : null);
+const sanitizeHex = (text: string) => text.replace(/^#/, '').replace(/[^0-9a-fA-F]/g, '').slice(0, 8);
 
-/** Inspector number field: drag the label to scrub, arrows step, Enter commits, Escape reverts. */
+/** Value field: the inspector scrub field (default), the form stepper (appearance="stepper") or hex digits (format="hex", see HexInput). */
+export function NumberField(props: NumberFieldProps): ReactNode;
+export function NumberField(props: NumberFieldHexProps): ReactNode;
 export function NumberField({
-  value, defaultValue = null, onValueChange, label, unit, trailing, step = 1, min, max, commitMode = 'live', mixed = false, mixedLabel, locked = false, reserved = false, disabled = false, invalid = false,
-  onDraftChange, onPreviewChange, onScrubStart, className, containerClassName, onKeyDown, onBlur, ...props
-}: NumberFieldProps) {
-  const release = commitMode === 'release';
-  const [current, setCurrent] = useControllableState<number | null>({ value, defaultValue, onChange: v => { if (v !== null) onValueChange?.(v); } });
-  const [draft, setDraft] = useState(show(current));
-  const [draftError, setDraftError] = useState<NumberFieldDraft['error']>(null);
+  appearance = 'scrub', format = 'number', value, defaultValue = null, onValueChange, parse, formatValue, label, unit, trailing, token, step = 1, min, max, commitMode = 'live',
+  mixed = false, mixedLabel, locked = false, reserved = false, disabled, invalid, onDraftChange, onPreviewChange, onScrubStart, tone, variant, radius, shadow, size, id,
+  className, containerClassName, containerProps, 'data-slot': rootSlot, onKeyDown, onBlur, ...props
+}: NumberFieldProps | NumberFieldHexProps): ReactNode {
+  const hex = format === 'hex';
+  const stepper = !hex && appearance === 'stepper';
+  // The Field context (label, hint and error wiring) is read by the form stepper only; the inspector path is unchanged.
+  const fieldContext = useFieldContext();
+  const field = stepper ? fieldContext : null;
+  const isDisabled = disabled ?? field?.disabled ?? false;
+  const cv = useCommittedValue<number | string>({
+    value, defaultValue,
+    onValueChange: onValueChange as ((v: number | string) => void) | undefined,
+    onDraftChange: onDraftChange as ((d: CommittedValueDraft<number | string>) => void) | undefined,
+    parse: (parse ?? (hex ? parseHex : parseNumber)) as (text: string) => number | string | null,
+    format: (formatValue ?? String) as (v: number | string) => string,
+    sanitize: hex ? sanitizeHex : undefined,
+    check: hex ? undefined : v => !((min !== undefined && (v as number) < min) || (max !== undefined && (v as number) > max)),
+    normalize: hex ? undefined : v => clamp(v as number, min, max),
+    commitMode, mixed, reserved, disabled: isDisabled, invalid: invalid ?? field?.invalid ?? false,
+  });
+  const current = typeof cv.current === 'number' ? cv.current : null;
   const [preview, setPreview] = useState<number | null>(null);
-  const editing = useRef(false);
   const latest = useRef<number | null>(null);
-  const committedText = mixed ? '' : show(current);
-  useEffect(() => { if (!editing.current) { setDraft(show(current)); setDraftError(null); } }, [current]);
 
-  /** Reads text the way the commit does. A blank draft on a mixed field keeps the mixed value and is not an error. */
-  const read = (raw: string): { value: number | null; error: NumberFieldDraft['error'] } => {
-    if (raw.trim() === '') return { value: null, error: mixed ? null : 'empty' };
-    const n = Number(raw);
-    if (!Number.isFinite(n)) return { value: null, error: 'syntax' };
-    if (release && ((min !== undefined && n < min) || (max !== undefined && n > max))) return { value: n, error: 'range' };
-    return { value: n, error: null };
-  };
-  const dirtyText = (text: string) => text !== committedText && !(mixed && text.trim() === '');
-  const clear = () => { editing.current = false; setDraftError(null); onDraftChange?.({ text: committedText, value: mixed ? null : current, error: null, dirty: false }); };
-  const inert = disabled || reserved;
-
-  const commit = (raw: string) => {
-    const { value: parsed, error } = read(raw);
-    if (release) {
-      if (parsed !== null && error === null) { setCurrent(parsed); setDraft(String(parsed)); clear(); }
-      else if (mixed && raw.trim() === '') { setDraft(''); clear(); }
-      else setDraftError(error); // the draft stays
-      return;
-    }
-    if (parsed !== null) { const n = clamp(parsed, min, max); setCurrent(n); setDraft(String(n)); } else setDraft(show(current));
-    clear();
-  };
   const { scrubbing, handlers } = useScrub(() => current ?? 0, v => {
     const n = clamp(v, min, max);
-    if (release) { latest.current = n; setPreview(n); onPreviewChange?.(n); } else setCurrent(n);
+    if (cv.release) { latest.current = n; setPreview(n); onPreviewChange?.(n); } else cv.setCurrent(n);
   }, step, {
     onEnd: moved => {
-      if (!release) return;
+      if (!cv.release) return;
       const n = latest.current; latest.current = null;
       setPreview(null);
-      if (moved && n !== null) { setCurrent(n); setDraft(String(n)); }
+      if (moved && n !== null) { cv.setCurrent(n); cv.setDraft(String(n)); }
       onPreviewChange?.(null);
     },
-    onCancel: () => { latest.current = null; setPreview(null); if (release) onPreviewChange?.(null); },
+    onCancel: () => { latest.current = null; setPreview(null); if (cv.release) onPreviewChange?.(null); },
   });
+  /** A discrete step (arrow key or stepper button); the stepper starts an empty field from min. */
+  const stepBy = (by: number) => cv.commitValue(clamp(Math.round(((current ?? (stepper ? min ?? 0 : 0)) + by) * 1000) / 1000, min, max));
   const keyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     onKeyDown?.(e);
-    if (inert) return;
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); const d = (e.key === 'ArrowUp' ? 1 : -1) * step * (e.shiftKey ? 10 : e.altKey ? 0.1 : 1); const n = clamp(Math.round(((current ?? 0) + d) * 1000) / 1000, min, max); setCurrent(n); setDraft(String(n)); clear(); }
-    if (e.key === 'Enter') commit(draft);
-    if (e.key === 'Escape') { setDraft(show(current)); clear(); }
+    if (cv.inert) return;
+    if (!hex && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) { e.preventDefault(); stepBy((e.key === 'ArrowUp' ? 1 : -1) * step * (e.shiftKey ? 10 : e.altKey ? 0.1 : 1)); }
+    cv.keyDown(e);
   };
-  const invalidNow = invalid || draftError !== null;
-  const shown = preview !== null ? String(preview) : mixed && !editing.current ? '' : draft;
+  // The value model's props for the input, the same in every appearance and format.
+  const control = {
+    id: stepper ? id ?? field?.id : id,
+    'aria-invalid': cv.invalid ? ('true' as const) : ('false' as const),
+    readOnly: reserved, 'aria-readonly': reserved || undefined,
+    placeholder: mixed ? mixedLabel : undefined,
+    value: preview !== null ? String(preview) : cv.text,
+    onChange: (e: { target: { value: string } }) => cv.change(e.target.value),
+    onKeyDown: keyDown,
+    onBlur: (e: FocusEvent<HTMLInputElement>) => { onBlur?.(e); cv.blur(); },
+  };
+  const bound = hex && token != null;
+  const Root = hex ? 'label' : 'div';
+  const rootClass = hex
+    ? cn(numberFieldHexVariants({ tone, variant, size }), numberFieldHexFrameVariants({ radius, shadow }), containerClassName)
+    : stepper
+      ? cn(numberFieldStepperVariants({ tone, variant: variant ?? 'outline', size, radius, shadow }), containerClassName)
+      : cn(numberFieldVariants({ tone, variant, radius, shadow, size }), containerClassName);
+  const button = numberFieldStepButtonVariants({ size });
+
   return (
-    <div
-      data-slot="number-field" aria-busy={reserved || undefined} aria-disabled={disabled || undefined}
-      data-invalid={invalidNow || undefined} data-locked={locked || undefined} data-mixed={mixed || undefined} data-scrubbing={scrubbing || undefined}
-      data-reserved={reserved || undefined} data-disabled={disabled || undefined} data-dirty={(editing.current && dirtyText(draft)) || undefined}
-      className={cn(
-        'relative flex h-control-md min-w-0 items-center rounded-lg bg-neutral-well transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover',
-        'focus-within:bg-surface-base focus-within:shadow-focus-field',
-        // The invalid edge is for an enabled field: disabled drops the tone, so no danger edge while disabled.
-        'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
-        'data-[locked]:pointer-events-none data-[locked]:bg-bg-inset data-[reserved]:bg-bg-inset data-[scrubbing]:bg-neutral-pressed',
-        'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text',
-        containerClassName,
-      )}
+    <Root
+      data-slot="number-field" {...(rootSlot ? { 'data-slot': rootSlot } : null)}
+      role={stepper ? 'group' : undefined} data-appearance={stepper ? 'stepper' : undefined} data-format={hex ? 'hex' : undefined} data-size={stepper ? size ?? 'md' : undefined}
+      aria-busy={reserved || undefined} aria-disabled={(!stepper && isDisabled) || undefined}
+      data-invalid={cv.invalid || undefined} data-locked={locked || undefined} data-mixed={mixed || undefined} data-scrubbing={scrubbing || undefined}
+      data-reserved={reserved || undefined} data-disabled={isDisabled || undefined} data-dirty={cv.dirty || undefined} data-bound={bound || undefined}
+      className={rootClass}
+      {...containerProps}
     >
-      {label != null && (
-        <span data-slot="number-field-label" aria-hidden {...(locked || inert ? {} : { ...handlers, onPointerDown: (e: PointerEvent<HTMLElement>) => { onScrubStart?.(); handlers.onPointerDown(e); } })}
-          className="grid h-full min-w-6 shrink-0 cursor-ew-resize select-none place-items-center pl-1.5 pr-0.5 text-label text-text-tertiary hover:text-text-primary [&_svg]:size-icon-sm in-data-[scrubbing]:text-text-primary in-data-[disabled]:text-disabled-text">
-          {label}
-        </span>
+      {hex ? (bound ? (
+        <>
+          <span data-slot="number-field-icon" aria-hidden className={numberFieldHexIconVariants()}><Link2 /></span>
+          <span data-slot="number-field-token" className={numberFieldHexTokenVariants()}>{token}</span>
+        </>
+      ) : (
+        <input
+          data-slot="number-field-control" type="text" spellCheck={false} autoComplete="off" disabled={isDisabled}
+          className={cn(numberFieldHexControlVariants({ size }), className)}
+          {...props} {...control}
+        />
+      )) : stepper ? (
+        <>
+          <button type="button" tabIndex={-1} data-slot="number-field-decrement" aria-label="Decrease" disabled={isDisabled || (min !== undefined && current !== null && current <= min)} className={button} onClick={() => stepBy(-step)}><Minus aria-hidden /></button>
+          <input
+            data-slot="number-field-control" role="spinbutton" inputMode="numeric"
+            aria-valuenow={current ?? undefined} aria-valuemin={min} aria-valuemax={max}
+            aria-describedby={field?.describedBy} aria-required={field?.required || undefined} disabled={isDisabled}
+            className={cn(numberFieldStepperControlVariants({ size }), className)}
+            {...props} {...control}
+          />
+          <button type="button" tabIndex={-1} data-slot="number-field-increment" aria-label="Increase" disabled={isDisabled || (max !== undefined && current !== null && current >= max)} className={button} onClick={() => stepBy(step)}><Plus aria-hidden /></button>
+        </>
+      ) : (
+        <>
+          {label != null && (
+            <span data-slot="number-field-label" aria-hidden {...(locked || cv.inert ? {} : { ...handlers, onPointerDown: (e: PointerEvent<HTMLElement>) => { onScrubStart?.(); handlers.onPointerDown(e); } })}
+              className={cn(
+                'grid h-full min-w-6 shrink-0 cursor-ew-resize select-none place-items-center pl-1.5 pr-0.5 text-label text-text-tertiary hover:text-text-primary [&_svg]:size-icon-sm in-data-[scrubbing]:text-text-primary in-data-[disabled]:text-disabled-text',
+                // The drag cue: a 2px dotted border.control underline under a live label on hover (not while locked, reserved or disabled).
+                !(locked || cv.inert) && 'decoration-border-control decoration-dotted decoration-2 underline-offset-3 hover:underline in-data-[scrubbing]:underline',
+              )}>
+              {label}
+            </span>
+          )}
+          <input
+            data-slot="number-field-control" inputMode="decimal" disabled={locked || isDisabled}
+            {...control}
+            className={cn(numberFieldControlVariants({ size }), className)}
+            {...props}
+          />
+          {unit != null && <span data-slot="number-field-unit" className={numberFieldUnitVariants({ size })}>{unit}</span>}
+          {trailing != null && <span data-slot="number-field-trailing" className="mr-0.5 inline-grid size-control-xs shrink-0 place-items-center rounded-sm text-text-tertiary in-data-[disabled]:text-disabled-text [&_svg]:size-icon-sm">{trailing}</span>}
+          {locked && <span data-slot="number-field-lock" aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] outline-1 -outline-offset-1 outline-dashed outline-border-control" />}
+        </>
       )}
-      <input
-        data-slot="number-field-control" inputMode="decimal" aria-invalid={invalidNow ? 'true' : 'false'} disabled={locked || disabled}
-        readOnly={reserved} aria-readonly={reserved || undefined}
-        placeholder={mixed ? mixedLabel : undefined}
-        value={shown}
-        onChange={e => {
-          if (inert) return;
-          editing.current = true; const text = e.target.value; setDraft(text);
-          const { value: parsed, error } = read(text);
-          setDraftError(release ? error : null);
-          onDraftChange?.({ text, value: parsed, error, dirty: dirtyText(text) });
-        }}
-        onKeyDown={keyDown}
-        onBlur={e => { onBlur?.(e); if (editing.current && !inert) { if (release && draftError !== null) return; commit(draft); } }}
-        className={cn('h-full w-full min-w-0 flex-1 border-0 bg-transparent px-1 text-footnote tabular-nums text-text-primary outline-none placeholder:italic placeholder:text-text-secondary disabled:text-disabled-text disabled:placeholder:text-disabled-text', className)}
-        {...props}
-      />
-      {unit != null && <span data-slot="number-field-unit" className="shrink-0 pr-2 text-hint text-text-tertiary in-data-[disabled]:text-disabled-text">{unit}</span>}
-      {trailing != null && <span data-slot="number-field-trailing" className="mr-0.5 inline-grid size-control-xs shrink-0 place-items-center rounded-sm text-text-tertiary in-data-[disabled]:text-disabled-text [&_svg]:size-icon-sm">{trailing}</span>}
-      {locked && <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] outline-1 -outline-offset-1 outline-dashed outline-border-control" />}
-    </div>
+    </Root>
   );
 }

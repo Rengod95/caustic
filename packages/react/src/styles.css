@@ -4,3 +4,5 @@
 @import "@caustic/tokens/caustic.css" layer(base);
 @import "@caustic/tokens/theme.css";
 @source "./components";
+/* the common props (lib/common-props.ts) map radius and shadow to classes no component may spell out itself */
+@source "./lib";

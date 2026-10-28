@@ -37,5 +37,17 @@ export default defineFixture({
         />
       </div>
     ),
+    'section-header-eyebrow': () => (
+      <div className="grid w-full gap-7">
+        <SectionHeader
+          eyebrow="Recommended" title="Start from a theme" description="Prebuilt themes pass AA in light and dark."
+          action={<SectionHeaderLink href="#">See all</SectionHeaderLink>}
+        />
+        <SectionHeader
+          eyebrowStyle="accent" eyebrow="Recommended" title="Start from a theme" description="Prebuilt themes pass AA in light and dark."
+          action={<SectionHeaderLink href="#">See all</SectionHeaderLink>}
+        />
+      </div>
+    ),
   },
 });

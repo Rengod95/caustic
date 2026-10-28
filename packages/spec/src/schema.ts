@@ -132,11 +132,12 @@ export const ComponentSpec = z.object({
   }).default({ labelRequired: false, minHit: 24, attrs: {}, notes: [] }),
   policies: z.array(z.enum(policyIds)).default([]),
   flags: z.object({
-    floating: z.boolean().default(false).describe('may use glass materials (P1)'),
-    agent: z.union([z.boolean(), z.record(z.string(), z.array(z.string()))]).default(false).describe('may use the spectrum (P2); true or { axis: [values] }'),
+    floating: z.union([z.boolean(), z.record(z.string(), z.array(z.string()))]).default(false).describe('may use glass materials (P1); true, { axis: [values] } or { cva: [names] }'),
+    agent: z.union([z.boolean(), z.record(z.string(), z.array(z.string()))]).default(false).describe('may use the spectrum (P2); true, { axis: [values] } or { cva: [names] }'),
     field: z.boolean().default(false).describe('field focus policy applies (P9)'),
     motionLoop: z.boolean().default(false).describe('may run infinite animations (agent only, P8)'),
-  }).default({ floating: false, agent: false, field: false, motionLoop: false }),
+    frost: z.union([z.boolean(), z.record(z.string(), z.array(z.string()))]).default(false).describe('owner-approved backdrop blur on a resting surface, e.g. the card cover content panel over its picture (P1 exception); true, { axis: [values] } or { cva: [names] }'),
+  }).default({ floating: false, agent: false, field: false, motionLoop: false, frost: false }),
   composition: z.object({
     uses: z.array(z.string()).default([]).describe('other Caustic components rendered inside'),
     radix: z.array(z.string()).default([]).describe('@radix-ui packages this component may import'),

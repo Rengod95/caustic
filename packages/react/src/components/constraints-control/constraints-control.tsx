@@ -2,9 +2,13 @@
 import { Check, MoveHorizontal, MoveVertical } from 'lucide-react';
 import { useId, useState, type ComponentProps, type FocusEvent, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { radiusClass, shadowClass, type CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
-import { InspectorSelect } from '../inspector-select/inspector-select.tsx';
-import { constraintsBoxVariants, constraintsControlVariants, constraintsFrameVariants, constraintsPinVariants } from './constraints-control.variants.ts';
+import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
+import {
+  constraintsBoxVariants, constraintsColumnVariants, constraintsControlVariants, constraintsFrameVariants, constraintsGlyphVariants, constraintsListboxVariants,
+  constraintsNoteVariants, constraintsOptionVariants, constraintsPinVariants,
+} from './constraints-control.variants.ts';
 
 export type HorizontalConstraint = 'left' | 'right' | 'left-right' | 'center' | 'scale';
 export type VerticalConstraint = 'top' | 'bottom' | 'top-bottom' | 'center' | 'scale';
@@ -36,7 +40,12 @@ const flagged = (flags: boolean | ConstraintsAxisFlags | undefined, axis: Constr
 /** Attributes of a control whose axis is being written elsewhere. */
 const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true } as const;
 
-export interface ConstraintsControlProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'children'> {
+/**
+ * Common props (lib/common-props.ts): variant = the box (default soft: the sunken well with the subtle hairline), tone =
+ * the on pins (default accent), size = the edge pin stroke (xs 2 · sm 3 · md 4 · lg 5), radius = box corners (default
+ * lg), shadow = box elevation (default none).
+ */
+export interface ConstraintsControlProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'children'>, CommonProps {
   /** Controlled constraints. */
   value?: Constraints | undefined;
   /** Uncontrolled initial constraints. */
@@ -56,7 +65,8 @@ export interface ConstraintsControlProps extends Omit<ComponentProps<'div'>, 'de
 
 /** Pins a frame to its parent: six pins in a 96px box plus two selects that name the same choice. */
 export function ConstraintsControl({
-  value, defaultValue = { horizontal: 'scale', vertical: 'scale' }, onValueChange, note, disabled = false, mixed, reserved, labels, className, ...props
+  value, defaultValue = { horizontal: 'scale', vertical: 'scale' }, onValueChange, note, disabled = false, mixed, reserved, labels,
+  tone, variant, radius, shadow, size, className, ...props
 }: ConstraintsControlProps) {
   const [current, setCurrent] = useControllableState<Constraints>({ value, defaultValue, onChange: onValueChange });
   const { horizontal: h, vertical: v } = current;
@@ -74,7 +84,10 @@ export function ConstraintsControl({
   const vOptions = Object.entries(labels.verticalOptions) as [VerticalConstraint, string][];
   return (
     <div data-slot="constraints-control" role="group" aria-label={labels.group} aria-disabled={disabled === true || undefined} className={cn(constraintsControlVariants(), className)} {...props}>
-      <div data-slot="constraints-control-box" className={constraintsBoxVariants()}>
+      <div
+        data-slot="constraints-control-box"
+        className={cn(constraintsBoxVariants({ variant }), radius && radius !== 'lg' && radiusClass[radius], shadow && shadow !== 'none' && shadowClass[shadow])}
+      >
         <span data-slot="constraints-control-frame" aria-hidden className={constraintsFrameVariants()} />
         {pins.map(p => {
           const isReserved = flagged(reserved, p.axis);
@@ -87,23 +100,23 @@ export function ConstraintsControl({
               aria-label={p.label}
               aria-pressed={(p.axis === 'horizontal' ? hMixed : vMixed) ? 'mixed' : p.on}
               disabled={flagged(disabled, p.axis)}
-              className={constraintsPinVariants({ pin: p.pin })}
+              className={constraintsPinVariants({ pin: p.pin, stroke: size, pinTone: tone })}
               onClick={() => { if (!isReserved) setCurrent(p.next); }}
               {...(isReserved ? busy : {})}
             />
           );
         })}
       </div>
-      <div data-slot="constraints-control-column" className="grid gap-2">
+      <div data-slot="constraints-control-column" className={constraintsColumnVariants()}>
         <ConstraintSelect
-          slot="horizontal" label={labels.horizontal} icon={<MoveHorizontal />} options={hOptions} value={h} mixed={hMixed} mixedLabel={labels.mixed}
+          slot="horizontal" label={labels.horizontal} icon={<MoveHorizontal className={constraintsGlyphVariants()} />} options={hOptions} value={h} mixed={hMixed} mixedLabel={labels.mixed}
           disabled={flagged(disabled, 'horizontal')} reserved={flagged(reserved, 'horizontal')} onPick={x => setCurrent({ horizontal: x, vertical: v })}
         />
         <ConstraintSelect
-          slot="vertical" label={labels.vertical} icon={<MoveVertical />} options={vOptions} value={v} mixed={vMixed} mixedLabel={labels.mixed}
+          slot="vertical" label={labels.vertical} icon={<MoveVertical className={constraintsGlyphVariants()} />} options={vOptions} value={v} mixed={vMixed} mixedLabel={labels.mixed}
           disabled={flagged(disabled, 'vertical')} reserved={flagged(reserved, 'vertical')} onPick={x => setCurrent({ horizontal: h, vertical: x })}
         />
-        {note != null && <p data-slot="constraints-control-note" className="-mb-px m-0 text-hint text-text-tertiary group-aria-disabled/constraints:text-disabled-text">{note}</p>}
+        {note != null && <p data-slot="constraints-control-note" className={constraintsNoteVariants()}>{note}</p>}
       </div>
     </div>
   );
@@ -122,25 +135,34 @@ interface ConstraintSelectProps<T extends string> {
   onPick: (value: T) => void;
 }
 
-/** An InspectorSelect with a small in-place listbox. */
+/** A soft (inspector) PickerTrigger with a small in-place listbox. */
 function ConstraintSelect<T extends string>({ slot, label, icon, options, value, mixed, mixedLabel, disabled, reserved, onPick }: ConstraintSelectProps<T>) {
   const [open, setOpen] = useState(false);
   const listId = useId();
   const text = mixed ? mixedLabel : options.find(([v]) => v === value)?.[1] ?? '';
   const isOpen = open && !reserved;
   const blur = (e: FocusEvent<HTMLDivElement>) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); };
-  const key = (e: KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Escape') setOpen(false); };
+  const key = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') { setOpen(false); return; }
+    // Listbox pattern: the arrow keys move between the options of the open list.
+    const step = { ArrowDown: 1, ArrowUp: -1 }[e.key];
+    const items = [...e.currentTarget.querySelectorAll<HTMLButtonElement>('[role="option"]')];
+    if (!step || !items.length) return;
+    e.preventDefault();
+    const at = items.findIndex(el => el === document.activeElement);
+    items[at < 0 ? (step > 0 ? 0 : items.length - 1) : (at + step + items.length) % items.length]?.focus();
+  };
   const shell = { className: 'relative', onBlur: blur, onKeyDown: key, ...(reserved ? busy : {}) };
   const body = (
     <>
-      <InspectorSelect
-        aria-label={`${label}, ${text}`} aria-controls={isOpen ? listId : undefined} leading={icon} open={isOpen} disabled={disabled}
+      <PickerTrigger
+        variant="soft" indicator="dropdown" aria-label={`${label}, ${text}`} aria-controls={isOpen ? listId : undefined} leading={icon} open={isOpen} disabled={disabled}
         onClick={() => { if (!reserved) setOpen(o => !o); }}
       >
         {text}
-      </InspectorSelect>
+      </PickerTrigger>
       {isOpen && (
-        <div id={listId} data-slot="constraints-control-listbox" role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2">
+        <div id={listId} data-slot="constraints-control-listbox" role="listbox" aria-label={label} className={constraintsListboxVariants()}>
           {options.map(([v, name]) => (
             <button
               key={v}
@@ -148,7 +170,7 @@ function ConstraintSelect<T extends string>({ slot, label, icon, options, value,
               data-slot="constraints-control-option"
               role="option"
               aria-selected={!mixed && v === value}
-              className="flex h-control-sm cursor-pointer items-center justify-between gap-2 rounded-md bg-transparent px-2 text-left outline-none hover:bg-neutral-hover focus-visible:shadow-focus aria-selected:not-disabled:selected aria-selected:not-disabled:hover:bg-selection-fill-hover"
+              className={constraintsOptionVariants()}
               onClick={() => { onPick(v); setOpen(false); }}
             >
               {name}

@@ -1,6 +1,7 @@
 import { AlignCenterVertical, AlignEndVertical, AlignStartVertical, Check, Minimize2, MoveHorizontal, Plus } from 'lucide-react';
 import { defineFixture } from '../../lib/fixture.ts';
-import { AlignBar, AlignBarItem } from '../align-bar/align-bar.tsx';
+import { ButtonGroup } from '../button-group/button-group.tsx';
+import { IconButton } from '../icon-button/icon-button.tsx';
 import { InspectorPanel, InspectorSection, InspectorSectionHeader } from '../inspector-panel/inspector-panel.tsx';
 import { Menu, MenuItem, MenuSeparator } from '../menu/menu.tsx';
 import { PositionSize, type PositionSizeLabels, type PositionSizeProps } from './position-size.tsx';
@@ -43,11 +44,11 @@ export default defineFixture({
           <InspectorSectionHeader
             title="Frame"
             actions={(
-              <AlignBar density="tight" aria-label="Align">
-                <AlignBarItem label="Align left"><AlignStartVertical /></AlignBarItem>
-                <AlignBarItem label="Align center"><AlignCenterVertical /></AlignBarItem>
-                <AlignBarItem label="Align right"><AlignEndVertical /></AlignBarItem>
-              </AlignBar>
+              <ButtonGroup density="tight" aria-label="Align">
+                <IconButton label="Align left"><AlignStartVertical /></IconButton>
+                <IconButton label="Align center"><AlignCenterVertical /></IconButton>
+                <IconButton label="Align right"><AlignEndVertical /></IconButton>
+              </ButtonGroup>
             )}
           />
           <PositionSize defaultValue={value} labels={labels} widthMode="fill" heightMode="hug" lockRatio />

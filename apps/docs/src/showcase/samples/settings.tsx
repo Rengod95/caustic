@@ -3,8 +3,8 @@ import {
 } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
 import {
-  Avatar, Badge, Banner, Button, CardFeature, CardFeatureHeadline, Checkbox, Dialog, DialogClose, DialogDescription, DialogFooter, DialogHeader,
-  DialogTitle, Field, FileUpload, type FileUploadItem, FormLayout, FormLayoutFooter, FormLayoutSection, IconButton, Input, InputGroup,
+  Alert, Avatar, Badge, Button, Card, CardHeadline, Checkbox, Dialog, DialogClose, DialogDescription, DialogFooter, DialogHeader,
+  DialogTitle, Field, FileUpload, type FileUploadItem, FormLayout, FormLayoutFooter, FormLayoutSection, IconButton, Input,
   ListDescription, ListDescriptionRow, ListNavigation, ListNavigationGroup, ListNavigationItem, Menu, MenuItem, MenuSeparator, Progress,
   RadioGroup, RadioGroupItem, SectionHeader, Select, SelectOption, Switch, Table, TagInput, Toast, ToggleGroup, ToggleGroupItem,
   type TableColumn, type TableRow,
@@ -202,7 +202,8 @@ export default function Sample() {
 
         <div className="grid min-w-0 content-start gap-8">
           {seatWarning && (
-            <Banner
+            <Alert
+              layout="page"
               tone="warning"
               dismissible
               dismissLabel="Dismiss seat warning"
@@ -210,7 +211,7 @@ export default function Sample() {
               action={<Button tone="secondary" size="xs">Add seats</Button>}
             >
               <b>Seat limit reached.</b> All 10 seats on Team are in use. Remove a member or add seats before you invite more people.
-            </Banner>
+            </Alert>
           )}
 
           <FormLayout
@@ -239,7 +240,7 @@ export default function Sample() {
                 <Input defaultValue="Fieldnote Studio" />
               </Field>
               <Field label="Workspace URL" error="Use lowercase letters, numbers and dashes. Try fieldnote-studio.">
-                <InputGroup start="fieldnote.app/" defaultValue="fieldnote studio" />
+                <Input addons prefix="fieldnote.app/" defaultValue="fieldnote studio" />
               </Field>
             </FormLayoutSection>
             <FormLayoutFooter />
@@ -293,11 +294,11 @@ export default function Sample() {
 
           <div className="grid min-w-0 gap-4">
             <SectionHeader title="Plan" description="Billing is per seat. Changes apply on the next invoice." />
-            <CardFeature>
+            <Card variant="feature">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="grid min-w-0 gap-1.5">
                   <div><Badge tone="accent">Current plan</Badge></div>
-                  <CardFeatureHeadline>Team</CardFeatureHeadline>
+                  <CardHeadline>Team</CardHeadline>
                   <p className="text-ui text-text-secondary">$24 per seat a month, billed yearly. Renews Jan 9, 2027.</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -313,7 +314,7 @@ export default function Sample() {
                 <Progress aria-label="Seats used" value={100} />
                 <p className="text-ui-sm text-text-tertiary">Business adds seats at $18 each, with no minimum.</p>
               </div>
-            </CardFeature>
+            </Card>
           </div>
 
           <div className="grid gap-6 @min-[40rem]:grid-cols-2">

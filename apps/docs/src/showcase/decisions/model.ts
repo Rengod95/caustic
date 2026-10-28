@@ -1,20 +1,50 @@
 // Lab: decisions for the colour language (PROPOSAL-color-language.md §8). Temporary; removed once the owner has decided.
 // Every option card renders the same scene under its own scoped variables, computed from the builder's saved colours,
 // so the page follows whatever the owner tuned in #/lab/builder.
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { contrast, css, gamutMap, type LCH } from '../color.ts';
-import { neutralsFor, roleStepOf, scopeVars, type DarkRamp, type Palette, type Theme } from '../palettes.ts';
+import { neutralsFor, roleStepOf, scopeVars, type DarkRamp, type Palette, type Theme } from '../palette.ts';
 import { GUIDE_MAGENTA, rampFor } from '../builder/language.ts';
-import { builderVars, load, toPalette, valueOf, type BuilderState } from '../builder/state.ts';
+import { builderRamps, builderVars, load, toPalette, valueOf, type BuilderState } from '../builder/state.ts';
+import { cssVar, emit, resolveSpec, SHIPPED } from '../shipped.ts';
+
+/** One option of a question: its scene and the one-line consequence under it. */
+export interface Option { id: string; title: string; consequence: ReactNode; recommended?: boolean; scene: ReactNode }
+/** A decision question; `why` is the recommendation (decided questions) or the background (open questions). */
+export interface Question { id: string; title: string; question: ReactNode; affects: string[]; why?: ReactNode; whyLabel?: string; options: Option[] }
 
 /** The builder's saved state (read only). */
 export function decisionBase(): BuilderState {
   return load();
 }
 
-/** Scoped style for a wrapper: the builder's variables for one theme, plus option overrides, with the Tailwind twins restated. */
+/** Neutral fills the token build composites per background (--<fill>--on-<surface>), and those backgrounds. */
+const COMPOSITE_FILLS = ['neutral.hover', 'neutral.pressed', 'neutral.selected', 'neutral.selected-hover', 'neutral.track', 'neutral.well', 'bg.inset'];
+const COMPOSITE_ON = [
+  'bg-app', 'bg-canvas', 'control-raised', 'material-regular', 'material-thick', 'material-thin', 'material-ultrathin', 'selection-fill',
+  'surface-base', 'surface-raised', 'surface-raised-translucent', 'surface-translucent',
+];
+
+/**
+ * Scoped style for a wrapper: the builder's variables for one theme, plus option overrides, with the Tailwind twins restated.
+ * The shipped CSS re-points the neutral fills to opaque composites under each background (bg-surface-base and the like),
+ * and builderVars leaves them out. Those composites belong to the page theme, so the wrapper writes each fill as its
+ * authored alpha for this mode, and hands every composite that alpha (the alpha over the real background is the same
+ * colour); without it a dark frame on a light page shows light-theme fills.
+ */
 export function scope(s: BuilderState, t: Theme, extra: Record<string, string> = {}): CSSProperties {
-  return scopeVars({ ...builderVars(s, t), ...extra }) as CSSProperties;
+  const vars = { ...builderVars(s, t) };
+  const ramps = builderRamps(s);
+  for (const f of COMPOSITE_FILLS) {
+    const r = resolveSpec(SHIPPED.themes[t][f]!, t, ramps);
+    if (r) vars[cssVar(f)] = emit(r.c, r.alpha);
+  }
+  Object.assign(vars, extra);
+  for (const f of COMPOSITE_FILLS) {
+    const v = vars[cssVar(f)];
+    if (v) for (const on of COMPOSITE_ON) vars[`${cssVar(f)}--on-${on}`] ??= v;
+  }
+  return scopeVars(vars) as CSSProperties;
 }
 
 export const withDark = (s: BuilderState, darkRamp: DarkRamp): BuilderState => ({ ...s, darkRamp });

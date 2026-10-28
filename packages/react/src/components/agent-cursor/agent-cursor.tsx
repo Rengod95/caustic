@@ -1,23 +1,28 @@
 'use client';
 import { useId, type ComponentProps } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { overlayRectStyle, type OverlayRect } from '../../lib/overlay-rect.ts';
+import { agentCursorTagVariants, agentCursorVariants } from './agent-cursor.variants.ts';
 
-export interface AgentCursorProps extends Omit<ComponentProps<'div'>, 'children'> {
+/** Common props (lib/common-props.ts) style the name tag: tone and variant its fill, radius, shadow and size its box. */
+export interface AgentCursorProps extends Omit<ComponentProps<'div'>, 'children'>, CommonProps {
   /** The agent name shown in the tag. */
   name?: string;
   /** Position in px from the canvas host origin: { left | right, top | bottom }. */
   rect?: OverlayRect;
 }
 
-/** The agent presence on the canvas: a spectrum pointer and a glass name tag. Decorative; the activity list states what the agent does. */
-export function AgentCursor({ name = 'Caustic', rect, className, style, ...props }: AgentCursorProps) {
+/** The agent presence on the canvas: a spectrum pointer and a spectrum-filled name tag hanging off it. Decorative; the activity list states what the agent does. */
+export function AgentCursor({ name = 'Caustic', rect, tone, variant, radius, shadow, size, className, style, ...props }: AgentCursorProps) {
   const gradient = useId();
+  // The own tag (soft + agent, the defaults) is filled with the pointer's gradient, so arrow and tag read as one piece.
+  const own = (variant ?? 'soft') === 'soft' && (tone ?? 'agent') === 'agent';
   return (
     <div
       aria-hidden
       data-slot="agent-cursor"
-      className={cn('pointer-events-none absolute top-(--rect-t) right-(--rect-r) bottom-(--rect-b) left-(--rect-l) z-20 flex items-start gap-0.5', className)}
+      className={cn(agentCursorVariants(), className)}
       style={overlayRectStyle(rect, style)}
       {...props}
     >
@@ -29,13 +34,19 @@ export function AgentCursor({ name = 'Caustic', rect, className, style, ...props
             <stop offset="1" className="[stop-color:var(--cs-color-agent-stop-3)]" />
           </linearGradient>
         </defs>
-        <path d="M4 2.5 20 11l-7 1.8L9.5 20z" fill={`url(#${gradient})`} strokeWidth="1.5" strokeLinejoin="round" className="stroke-canvas-handle" />
+        {/* No outline stroke (owner 2026-10-27): the gradient fill and the soft agent drop shadow carry the arrow. */}
+        <path d="M4 2.5 20 11l-7 1.8L9.5 20z" fill={`url(#${gradient})`} />
       </svg>
       <span
         data-slot="agent-cursor-tag"
-        className="glass glass-thick agent-rim mt-3.5 inline-flex h-control-compact-xs items-center gap-1.5 rounded-full px-2 text-label whitespace-nowrap text-text-primary"
+        // The corner nearest the pointer stays 2xs on every radius but none, so the tag hangs off the arrow (owner A).
+        className={cn(agentCursorTagVariants({ tone, variant, radius, shadow, size }), radius !== 'none' && 'rounded-ss-2xs')}
       >
-        <span data-slot="agent-cursor-orb" className="orb orb-sm" />
+        {own && (
+          <svg data-slot="agent-cursor-fill" aria-hidden preserveAspectRatio="none" viewBox="0 0 1 1" className="absolute inset-0 -z-10 size-full">
+            <rect width="1" height="1" fill={`url(#${gradient})`} />
+          </svg>
+        )}
         <span data-slot="agent-cursor-label">{name}</span>
       </span>
     </div>

@@ -6,8 +6,8 @@ import { Composer } from './composer.tsx';
 
 const noop = () => {};
 const labels = {
-  placeholder: 'Ask Caustic to design, refine or explain…', modes: ['Ask', 'Plan', 'Build'], inputLabel: 'Message Caustic', sendLabel: 'Send', stopLabel: 'Stop',
-  attachLabel: 'Add context', modeLabel: 'Mode', usageLabel: (p: number) => `Context ${p}%`,
+  placeholder: 'Ask Caustic to design, refine or explain…', inputLabel: 'Message Caustic', sendLabel: 'Send', stopLabel: 'Stop',
+  attachLabel: 'Add context', usageLabel: (p: number) => `Context ${p}%`,
 };
 const text = 'Add a saved-cards list above the form, max 3, with an "Add card" row';
 const chips = (
@@ -22,19 +22,23 @@ export default defineFixture({
   id: 'composer',
   render: props => (
     <div className="w-150">
-      <Composer {...labels} context={chips} defaultValue={text} defaultMode="Plan" modelLabel="Claude · Deep" usage={42} onAttach={noop} {...props} />
+      <Composer {...labels} context={chips} defaultValue={text} modelLabel="Claude · Deep" usage={42} onAttach={noop} {...props} />
     </div>
   ),
   examples: {
     composer: () => (
       <div className="grid gap-3.5">
-        <Composer {...labels} context={chips} defaultValue={text} defaultMode="Plan" modelLabel="Claude · Deep" usage={42} onAttach={noop} />
+        <Composer {...labels} context={chips} defaultValue={text} modelLabel="Claude · Deep" usage={42} onAttach={noop} />
         <Suggestions>
           <SuggestionsItem icon={<WandSparkles />} hint="from current theme">Generate 3 hero variants</SuggestionsItem>
           <SuggestionsItem icon={<Contrast />} hint="all frames · 3 themes">Audit contrast</SuggestionsItem>
           <SuggestionsItem icon={<FileCode />} hint="Tailwind tokens">Export to React</SuggestionsItem>
         </Suggestions>
       </div>
+    ),
+    // Optional parts that the default composition leaves out: the mode control, and the usage ring near the limit.
+    'modes-and-limit': () => (
+      <Composer {...labels} context={chips} defaultValue={text} modes={['Ask', 'Plan', 'Build']} modeLabel="Mode" defaultMode="Plan" modelLabel="Claude · Deep" usage={88} onAttach={noop} />
     ),
   },
 });

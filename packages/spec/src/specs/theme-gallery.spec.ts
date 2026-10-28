@@ -27,6 +27,13 @@ export default defineSpec({
     { name: 'swatches', el: 'span', parent: 'meta', description: 'Three overlapping dots (accent, ink, page): decorative.' },
     { name: 'swatch', el: 'i', parent: 'swatches', description: 'A 12px circle with a 1.5px ring in the card\'s base surface; each dot overlaps the previous by 3px. Fill from the theme color.' },
   ],
+  variants: {
+    tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'accent', description: 'Colour of the check mark of the checked card (tone.solid disc, tone.on glyph). The selection ring stays the ink ring; the preview colours are theme data.' },
+    variant: { values: ['outline', 'solid', 'soft', 'ghost'], default: 'outline', description: 'Card look, set on ThemeGallery for every card: outline = surface.base with a border.subtle hairline (the specimen); solid = surface.raised, no hairline; soft = neutral.well, no hairline; ghost = no fill, no hairline. Hover, checked and focus are the same in every variant.' },
+    radius: { values: ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'], default: '2xl', description: 'Card corner; 2xl is the own radius.' },
+    shadow: { values: ['none', '1', '2', '3', '4', '5'], default: 'none', description: 'Card elevation at rest; none is the specimen (the hairline is the one depth cue); hover still lifts to elevation 3.' },
+  },
+  sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   states: {
     hover: { pseudo: ['hover'], target: 'item' },
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'item' },
@@ -41,6 +48,11 @@ export default defineSpec({
     description: { type: 'string', description: 'ThemeGalleryItem prop. One-line description.' },
     preview: { type: '{ background: string; surface: string; accent: string; ink: string; muted: string; radius: string }', required: true, description: 'ThemeGalleryItem prop. The theme\'s colors and button radius, as CSS values.' },
     checked: { type: 'boolean', default: false, description: 'ThemeGalleryItem prop. State hook for fixtures; normally derived from value.' },
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'accent', description: 'Colour of the check mark.' },
+    variant: { type: "'outline' | 'solid' | 'soft' | 'ghost'", default: 'outline', description: 'Card look (see variants).' },
+    radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: '2xl', description: 'Card corner by radius token.' },
+    shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: 'none', description: 'Card elevation by elevation token.' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Grid gap: 6 / 8 / 12 / 16px for xs / sm / md / lg; the card size follows the column minimum.' },
   },
   events: {
     onValueChange: { payload: 'string', when: 'a different theme is picked (click, Space, Enter or an arrow key). It previews; the consumer applies.' },
@@ -65,6 +77,12 @@ export default defineSpec({
     { slot: 'name', expect: { fg: 'text.primary', text: 'ui-dense', weight: 600 } },
     { slot: 'caption', expect: { fg: 'text.tertiary', text: 'footnote' } },
     { slot: 'swatch', expect: { height: 12, width: 12, radius: 'full' }, note: '1.5px ring in surface.base; overlap -3px.' },
+    { slot: 'check', when: { state: 'checked', tone: 'success' }, expect: { bg: 'success.solid', fg: 'success.on' } },
+    { slot: 'item', when: { checked: false, variant: 'soft' }, expect: { bg: 'neutral.well' } },
+    { slot: 'item', when: { checked: false, variant: 'solid' }, expect: { bg: 'surface.raised' } },
+    { slot: 'root', when: { size: 'lg' }, expect: { gap: 16 } },
+    { slot: 'item', when: { checked: false, radius: 'md' }, expect: { radius: 'md' } },
+    { slot: 'item', when: { checked: false, shadow: '2' }, expect: { shadow: '2' } },
   ],
   behavior: {
     keyboard: {
@@ -85,7 +103,7 @@ export default defineSpec({
     minHit: 24,
     attrs: { root: ['aria-label'], item: ['aria-checked'] },
     notes: [
-      'A radio group of buttons: role radiogroup > role radio with aria-checked and roving tabindex. The accessible name of a card is the theme name; the caption is its description.',
+      'A radio group of buttons: role radiogroup > role radio with aria-checked and roving tabindex. The accessible name of a card is the theme name (aria-labelledby the name); the caption is its description (aria-describedby).',
       'The mini app and the color dots are decorative (aria-hidden): the colors are not described, so do not rely on them to tell themes apart; the name does.',
       'Selection is the 1.5px selection-ink ring plus a check mark and aria-checked, never the focus ring and not only a lift.',
       'Hover lift is 2px over a base duration and is removed under reduced motion.',

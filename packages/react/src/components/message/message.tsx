@@ -2,10 +2,11 @@
 import { Copy, RotateCcw } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
-import { messageOrbVariants, messageVariants, type MessageVariantProps } from './message.variants.ts';
+import { messageActionsVariants, messageBodyVariants, messageOrbVariants, messageVariants, type MessageVariantProps } from './message.variants.ts';
 
-export interface MessageProps extends Omit<ComponentProps<'div'>, 'children'>, MessageVariantProps {
+export interface MessageProps extends Omit<ComponentProps<'div'>, 'children'>, Omit<MessageVariantProps, keyof CommonProps>, CommonProps {
   /** The agent is still writing this message: aria-busy while true. */
   streaming?: boolean;
   /** Agent only. Summary text of the meta row. */
@@ -23,22 +24,24 @@ export interface MessageProps extends Omit<ComponentProps<'div'>, 'children'>, M
 }
 
 /** One turn of the transcript: a grey bubble for a person, serif prose with a meta row for the agent. */
-export function Message({ author, streaming = false, meta, onCopy, onRetry, copyLabel, retryLabel, className, children, ...props }: MessageProps) {
+export function Message({ author, tone, variant, radius, shadow, size, streaming = false, meta, onCopy, onRetry, copyLabel, retryLabel, className, children, ...props }: MessageProps) {
   const a = author ?? 'agent';
   const busy = streaming ? true : undefined;
+  // Unset variant keeps each voice's own look: the user bubble is soft, the agent prose has no panel (ghost).
+  const look = { tone, variant: variant ?? (a === 'user' ? 'soft' : 'ghost'), radius, shadow, size };
   if (a === 'user') {
-    return <div data-slot="message" data-author={a} aria-busy={busy} className={cn(messageVariants({ author: a }), className)} {...props}>{children}</div>;
+    return <div data-slot="message" data-author={a} aria-busy={busy} className={cn(messageVariants({ author: a, ...look }), className)} {...props}>{children}</div>;
   }
   const hasMeta = meta != null || onCopy !== undefined || onRetry !== undefined;
   return (
-    <div data-slot="message" data-author="agent" aria-busy={busy} className={cn(messageVariants({ author: 'agent' }), className)} {...props}>
-      <div data-slot="message-body" className="font-voice text-voice text-text-primary [&_p]:mb-2">{children}</div>
+    <div data-slot="message" data-author="agent" aria-busy={busy} className={cn('group/message', messageVariants({ author: 'agent', ...look }), className)} {...props}>
+      <div data-slot="message-body" className={messageBodyVariants({ size })}>{children}</div>
       {hasMeta && (
         <div data-slot="message-meta" className="flex items-center gap-1.5 text-hint tracking-[var(--cs-text-voice-tracking)] text-text-tertiary">
           <span data-slot="message-orb" aria-hidden className={messageOrbVariants({ author: 'agent' })} />
           {meta != null && <span data-slot="message-summary">{meta}</span>}
           {(onCopy !== undefined || onRetry !== undefined) && (
-            <span data-slot="message-actions" className="ml-auto flex items-center gap-2">
+            <span data-slot="message-actions" className={messageActionsVariants()}>
               {onCopy !== undefined && <IconButton data-slot="message-copy" size="xs" label={copyLabel ?? ''} onClick={() => onCopy()}><Copy /></IconButton>}
               {onRetry !== undefined && <IconButton data-slot="message-retry" size="xs" label={retryLabel ?? ''} onClick={() => onRetry()}><RotateCcw /></IconButton>}
             </span>

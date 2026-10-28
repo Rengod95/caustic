@@ -3,9 +3,10 @@ import { Slot } from '@radix-ui/react-slot';
 import { ChevronDown, ChevronsUpDown } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
-import { pickerTriggerVariants } from './picker-trigger.variants.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
+import { pickerTriggerFrameVariants, pickerTriggerVariants } from './picker-trigger.variants.ts';
 
-export interface PickerTriggerProps extends Omit<ComponentProps<'button'>, 'placeholder'> {
+export interface PickerTriggerProps extends Omit<ComponentProps<'button'>, 'placeholder'>, CommonProps {
   /** select = chevrons-up-down, dropdown = chevron-down. */
   indicator?: 'select' | 'dropdown';
   /** Content before the value. */
@@ -19,8 +20,11 @@ export interface PickerTriggerProps extends Omit<ComponentProps<'button'>, 'plac
   asChild?: boolean;
 }
 
-/** The field-looking button that opens a picker. It carries no popup logic. */
-export function PickerTrigger({ indicator = 'select', leading, placeholder, open = false, invalid, disabled, asChild = false, id, className, children, type, ...props }: PickerTriggerProps) {
+/**
+ * The field-looking button that opens a picker. It carries no popup logic. variant="soft" is the inspector appearance
+ * (the sunken 32px well of an inspector row; was InspectorSelect).
+ */
+export function PickerTrigger({ tone, variant, radius, shadow, size, indicator = 'select', leading, placeholder, open = false, invalid, disabled, asChild = false, id, className, children, type, ...props }: PickerTriggerProps) {
   const Comp = asChild ? Slot : 'button';
   const Indicator = indicator === 'dropdown' ? ChevronDown : ChevronsUpDown;
   const hasValue = children != null && children !== false && children !== '';
@@ -35,7 +39,7 @@ export function PickerTrigger({ indicator = 'select', leading, placeholder, open
       aria-haspopup={props['aria-haspopup'] ?? 'listbox'}
       aria-invalid={invalid || undefined}
       disabled={disabled}
-      className={cn(pickerTriggerVariants(), className)}
+      className={cn(pickerTriggerVariants({ tone, variant, size }), pickerTriggerFrameVariants({ radius, shadow }), className)}
       {...props}
     >
       {leading != null && <span data-slot="picker-trigger-leading" aria-hidden="true" className="inline-flex shrink-0 items-center text-text-tertiary [&_svg]:size-icon-md">{leading}</span>}

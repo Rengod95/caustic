@@ -12,7 +12,7 @@ export default defineFixture({
     const p = props as CanvasRulerProps;
     if (p.orientation === 'corner') return <CanvasRuler {...p} />;
     const vertical = p.orientation === 'vertical';
-    return <CanvasRuler marks={vertical ? v : h} band={vertical ? { start: 168, size: 44 } : { start: 338, size: 180 }} {...p} />;
+    return <CanvasRuler marks={vertical ? v : h} band={vertical ? { start: 168, size: 44, startLabel: '108', endLabel: '152' } : { start: 338, size: 180, startLabel: '258', endLabel: '438' }} {...p} />;
   },
   examples: {},
 });

@@ -22,19 +22,19 @@ function caseLabel(p: Props) {
   return parts.length ? `Layers ${parts.join(' ')}` : 'Layers';
 }
 
-function Frame({ side, appearance, children }: { side?: 'start' | 'end'; appearance?: 'floating' | 'docked'; children: ReactNode }) {
+function Frame({ side, docked, children }: { side?: 'start' | 'end'; docked: boolean; children: ReactNode }) {
   return (
-    <div className={`flex h-[480px] w-full bg-bg-canvas ${appearance === 'docked' ? 'p-0' : 'p-2.5'} ${side === 'end' ? 'justify-end' : 'justify-start'}`}>{children}</div>
+    <div className={`flex h-[480px] w-full bg-bg-canvas ${docked ? 'p-0' : 'p-2.5'} ${side === 'end' ? 'justify-end' : 'justify-start'}`}>{children}</div>
   );
 }
 
-function Pair({ appearance }: { appearance: 'floating' | 'docked' }) {
+function Pair({ variant }: { variant: 'solid' | 'outline' }) {
   return (
-    <div className={`flex h-[480px] w-full justify-between bg-bg-canvas ${appearance === 'docked' ? 'p-0' : 'p-2.5'}`}>
-      <SidePanel label="Layers" title="Layers" appearance={appearance} size="pane" resizable resizeLabel="Panel width" collapseLabel="Hide layers panel">
+    <div className={`flex h-[480px] w-full justify-between bg-bg-canvas ${variant === 'outline' ? 'p-0' : 'p-2.5'}`}>
+      <SidePanel label="Layers" title="Layers" variant={variant} preset="pane" resizable resizeLabel="Panel width" collapseLabel="Hide layers panel">
         <Rows label="Layers" />
       </SidePanel>
-      <SidePanel label="Inspector" title="Inspector" appearance={appearance} side="end" size="inspector" collapseLabel="Hide inspector panel">
+      <SidePanel label="Inspector" title="Inspector" variant={variant} side="end" preset="inspector" collapseLabel="Hide inspector panel">
         <Rows label="Inspector" />
       </SidePanel>
     </div>
@@ -46,7 +46,7 @@ export default defineFixture({
   render: props => {
     const p = props as Props;
     return (
-      <Frame side={p.side ?? undefined} appearance={p.appearance ?? undefined}>
+      <Frame side={p.side ?? undefined} docked={p.variant === 'outline' || p.variant === 'ghost' || p.appearance === 'docked'}>
         <SidePanel
           title="Layers"
           collapseLabel="Hide layers panel"
@@ -61,7 +61,7 @@ export default defineFixture({
     );
   },
   examples: {
-    floating: () => <Pair appearance="floating" />,
-    docked: () => <Pair appearance="docked" />,
+    floating: () => <Pair variant="solid" />,
+    docked: () => <Pair variant="outline" />,
   },
 });

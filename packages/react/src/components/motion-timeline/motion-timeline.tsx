@@ -2,6 +2,7 @@
 import { Pause, Play } from 'lucide-react';
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Button } from '../button/button.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
@@ -48,7 +49,7 @@ export interface MotionTimelineLabels {
   seek?: ((milliseconds: number, total: number) => string) | undefined;
 }
 
-export interface MotionTimelineProps extends Omit<ComponentProps<'div'>, 'children' | 'onChange'> {
+export interface MotionTimelineProps extends Omit<ComponentProps<'div'>, 'children' | 'onChange'>, CommonProps {
   lanes: TimelineLane[];
   /** Total duration in ms. */
   duration?: number | undefined;
@@ -109,7 +110,8 @@ const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true }
 export function MotionTimeline({
   lanes, duration = 800, time, defaultTime = 0.32, playing, selectedKeyframe, mode, disabled = false, reserved, loop = true, autoAdvance = true, commitMode = 'live', labels,
   onPlayingChange, onTimeChange, onKeyframeSelect, onKeyframeMove, onPreviewChange, onModeChange, onApply,
-  transport = 'toggle', seekStep, selectedLane, showMode = true, showApply = true, onPlay, onPause, onResume, onReset, onLaneSelect, className, ...props
+  transport = 'toggle', seekStep, selectedLane, showMode = true, showApply = true, onPlay, onPause, onResume, onReset, onLaneSelect,
+  tone, variant, radius, shadow, size, className, ...props
 }: MotionTimelineProps) {
   const [t, setT] = useControllableState<number>({ value: time, defaultValue: defaultTime, onChange: onTimeChange });
   const [isPlaying, setPlaying] = useControllableState<boolean>({ value: playing, defaultValue: false, onChange: onPlayingChange });
@@ -230,7 +232,7 @@ export function MotionTimeline({
   const applyReserved = flagged(reserved, 'apply');
 
   return (
-    <div data-slot="motion-timeline" className={cn(motionTimelineVariants(), className)} {...props}>
+    <div data-slot="motion-timeline" className={cn(motionTimelineVariants({ tone, variant, radius, shadow }), className)} {...props}>
       <div data-slot="motion-timeline-body" className={motionTimelineBodyVariants()} style={vars({ '--t': t })}>
         <div data-slot="motion-timeline-ruler" ref={rulerRef} aria-hidden className={motionTimelineRulerVariants()} {...scrub}>
           {RULER_MARKS.map(pos => (
@@ -240,11 +242,11 @@ export function MotionTimeline({
           ))}
         </div>
         {lanes.map((lane, li) => (
-          <div key={lane.id} data-slot="motion-timeline-lane" className={motionTimelineLaneVariants()}>
+          <div key={lane.id} data-slot="motion-timeline-lane" className={motionTimelineLaneVariants({ size })}>
             <span
-              data-slot="motion-timeline-lane-label" className={motionTimelineLaneLabelVariants()}
+              data-slot="motion-timeline-lane-label" className={motionTimelineLaneLabelVariants({ size })}
               {...(onLaneSelect ? { role: 'button', tabIndex: 0, 'aria-pressed': selectedLane === li, onClick: () => onLaneSelect(li), onKeyDown: (e: KeyboardEvent<HTMLElement>) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onLaneSelect(li); } } } : {})}
-            >{lane.icon}<span className="truncate">{lane.label}</span></span>
+            >{lane.icon}<span data-slot="motion-timeline-lane-name" className="truncate">{lane.label}</span></span>
             <span data-slot="motion-timeline-track" className={motionTimelineTrackVariants()} {...scrub}>
               <span data-slot="motion-timeline-bar" aria-hidden className={motionTimelineBarVariants()} style={vars({ '--l': `${lane.start}%`, '--w': `${lane.end - lane.start}%` })} />
               {lane.keyframes.map((stored, ki) => {

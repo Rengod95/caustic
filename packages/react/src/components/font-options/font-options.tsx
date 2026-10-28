@@ -2,6 +2,7 @@
 import { Check, Plus } from 'lucide-react';
 import type { ComponentProps, CSSProperties, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Chip } from '../chip/chip.tsx';
 import { NumberField } from '../number-field/number-field.tsx';
@@ -29,13 +30,24 @@ export interface FontOptionsProps extends Omit<ComponentProps<'div'>, 'defaultVa
   disabled?: boolean;
   onValueChange?: (value: FontOptionsValue) => void;
   onAddFeature?: () => void;
+  /** Colour family of the sample stage. */
+  tone?: Tone | undefined;
+  /** Emphasis of the sample stage; soft (default) is the bg.inset well. */
+  variant?: Variant | undefined;
+  /** Corner radius of the root; unset = none. */
+  radius?: Radius | undefined;
+  /** Elevation of the root; unset = none. */
+  shadow?: Shadow | undefined;
+  /** Stack gap step (xs 8, sm 12, md 14, lg 16); the rows and toggles keep their size. */
+  size?: Size | undefined;
 }
 
 const DEFAULT_VALUE: FontOptionsValue = { axes: { wght: 600, opsz: 36 }, features: [] };
 
 /** Variable axes and OpenType features of a font, with a live sample set in the current face. */
 export function FontOptions({
-  sample = 'Quiet glass, 0.5 fl oz', cssFamily, axes, features, value, defaultValue, defaultFeatures, disabled = false, onValueChange, onAddFeature, className, ...props
+  sample = 'Quiet glass, 0.5 fl oz', cssFamily, axes, features, value, defaultValue, defaultFeatures, disabled = false, onValueChange, onAddFeature,
+  tone, variant, radius, shadow, size, className, ...props
 }: FontOptionsProps) {
   const initial: FontOptionsValue = { ...(defaultValue ?? DEFAULT_VALUE), ...(defaultFeatures ? { features: defaultFeatures } : {}) };
   const [current, setCurrent] = useControllableState<FontOptionsValue>({ value, defaultValue: initial, onChange: onValueChange });
@@ -50,8 +62,8 @@ export function FontOptions({
   } as CSSProperties;
 
   return (
-    <div data-slot="font-options" className={cn(fontOptionsVariants(), className)} {...props}>
-      <div data-slot="font-options-stage" className={fontOptionsStageVariants()}>
+    <div data-slot="font-options" className={cn(fontOptionsVariants({ radius, shadow, size }), className)} {...props}>
+      <div data-slot="font-options-stage" className={cn(fontOptionsStageVariants({ tone, variant }))}>
         <div data-slot="font-options-sample" aria-hidden className={fontOptionsSampleVariants()} style={vars}>{sample}</div>
       </div>
       <div data-slot="font-options-axes" className={fontOptionsAxesVariants()}>

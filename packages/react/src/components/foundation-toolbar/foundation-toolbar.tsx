@@ -1,7 +1,8 @@
 'use client';
 import { Plus } from 'lucide-react';
-import { useState, type ComponentProps, type FocusEvent, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ComponentProps, type FocusEvent, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Combobox, type ComboboxOptionData } from '../combobox/combobox.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
@@ -20,6 +21,16 @@ export interface FoundationToolbarProps extends Omit<ComponentProps<'div'>, 'ari
   /** Accessible name of the capsule. */
   label: string;
   layout?: 'row' | 'compact' | undefined;
+  /** Capsule padding and gap, and the domain tile size: xs 2 / 32, sm 4 / 40, md 6 / 48 (default), lg 8 / 48. */
+  size?: Size | undefined;
+  /** Colour family of the capsule material (solid: the tone tint; soft: the soft fill; outline: the edge). */
+  tone?: Tone | undefined;
+  /** solid (default) = regular glass; soft = soft fill; outline = glass with a 1px edge; ghost = no fill. */
+  variant?: Variant | undefined;
+  /** Corner radius of the capsule; unset = the toolbar radius. */
+  radius?: Radius | 'toolbar' | undefined;
+  /** Elevation of the capsule; unset = 4. */
+  shadow?: Shadow | undefined;
   families: FoundationToolbarFamily[];
   /** Controlled family value; "" or an unknown value selects none. */
   family?: string | undefined;
@@ -49,7 +60,7 @@ export interface FoundationToolbarProps extends Omit<ComponentProps<'div'>, 'ari
 
 /** The dock of a token workspace: family switch, domain row (or compact search), add and host actions on one glass capsule. */
 export function FoundationToolbar({
-  label, layout = 'row', families, family, defaultFamily, familyLabel, domains, domain, defaultDomain, domainsLabel, searchLabel, searchPlaceholder,
+  label, layout = 'row', size, tone, variant, radius, shadow, families, family, defaultFamily, familyLabel, domains, domain, defaultDomain, domainsLabel, searchLabel, searchPlaceholder,
   addLabel, actions, disabled = false, children, onFamilyChange, onDomainChange, onAdd, className, ...props
 }: FoundationToolbarProps) {
   const [currentFamily, setFamily] = useControllableState<string>({ value: family, defaultValue: defaultFamily ?? '', onChange: onFamilyChange });
@@ -72,10 +83,30 @@ export function FoundationToolbar({
     items[to]?.focus();
   };
 
+  // Which edges of the domain row have more domains beyond them (drives the edge fade).
+  const row = useRef<HTMLDivElement>(null);
+  const [overflow, setOverflow] = useState<'start' | 'end' | 'both' | undefined>();
+  useEffect(() => {
+    const el = row.current;
+    if (!el) return;
+    const measure = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      const left = Math.abs(el.scrollLeft);
+      const start = left > 1;
+      const end = max - left > 1;
+      setOverflow(start && end ? 'both' : start ? 'start' : end ? 'end' : undefined);
+    };
+    measure();
+    el.addEventListener('scroll', measure, { passive: true });
+    const ro = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(measure);
+    ro?.observe(el);
+    return () => { el.removeEventListener('scroll', measure); ro?.disconnect(); };
+  }, [layout, domains.length]);
+
   const options: ComboboxOptionData[] = domains.map(d => ({ value: d.value, label: d.label, leading: d.icon }));
 
   return (
-    <div data-slot="foundation-toolbar" data-layout={layout} role="group" aria-label={label} className={cn(foundationToolbarVariants({ layout }), className)} {...props}>
+    <div data-slot="foundation-toolbar" data-layout={layout} role="group" aria-label={label} className={cn(foundationToolbarVariants({ layout, size, tone, variant, radius, shadow }), className)} {...props}>
       <div data-slot="foundation-toolbar-bar" className={foundationToolbarBarVariants()}>
         {families.length > 0 && (
           <SegmentedControl data-slot="foundation-toolbar-family" size="xs" aria-label={familyLabel} value={currentFamily} onValueChange={setFamily} disabled={disabled}>
@@ -90,15 +121,15 @@ export function FoundationToolbar({
       </div>
       {layout === 'row' && domains.length > 0 && (
         <div
-          data-slot="foundation-toolbar-domains" role="toolbar" aria-label={domainsLabel} className={foundationToolbarDomainsVariants()}
+          ref={row} data-slot="foundation-toolbar-domains" data-overflow={overflow} role="toolbar" aria-label={domainsLabel} className={foundationToolbarDomainsVariants()}
           onKeyDown={handleKeyDown} onFocus={handleFocus}
         >
           {domains.map(d => (
             <button
               key={d.value} type="button" data-slot="foundation-toolbar-domain" data-value={d.value} aria-pressed={chosen === d.value}
-              tabIndex={stop === d.value ? 0 : -1} disabled={disabled} className={foundationToolbarDomainVariants()} onClick={() => setChosen(d.value)}
+              tabIndex={stop === d.value ? 0 : -1} disabled={disabled} className={cn(foundationToolbarDomainVariants({ size }))} onClick={() => setChosen(d.value)}
             >
-              {d.icon != null && <span data-slot="foundation-toolbar-domain-icon" aria-hidden className={foundationToolbarDomainIconVariants()}>{d.icon}</span>}
+              {d.icon != null && <span data-slot="foundation-toolbar-domain-icon" aria-hidden className={cn(foundationToolbarDomainIconVariants({ size }))}>{d.icon}</span>}
               <span data-slot="foundation-toolbar-domain-label">{d.label}</span>
             </button>
           ))}

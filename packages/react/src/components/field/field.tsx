@@ -2,7 +2,9 @@
 import { Check, CircleAlert, TriangleAlert } from 'lucide-react';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { FieldContext } from './field-context.ts';
+import { fieldHintVariants, fieldIconVariants, fieldLabelVariants, fieldMessageVariants, fieldVariants } from './field.variants.ts';
 
 export interface FieldProps extends Omit<ComponentProps<'div'>, 'children'> {
   label?: ReactNode;
@@ -30,12 +32,22 @@ export interface FieldProps extends Omit<ComponentProps<'div'>, 'children'> {
   /** Control id; generated when omitted. */
   controlId?: string;
   children?: ReactNode;
+  /** Colour family of the hint (error, warning and success keep their own). */
+  tone?: Tone | undefined;
+  /** Emphasis of the hint; ghost (default) is the plain tertiary line, the others box it. */
+  variant?: Variant | undefined;
+  /** Corner radius of the root; unset = none. */
+  radius?: Radius | undefined;
+  /** Elevation of the root; unset = none. */
+  shadow?: Shadow | undefined;
+  /** Gap and label type step: xs and sm ui-xs, md ui-sm (default), lg ui; the control keeps its own size. */
+  size?: Size | undefined;
 }
 
-const message = 'inline-flex items-center gap-1.25 text-hint';
-const icon = 'inline-flex size-chip-icon shrink-0 [&_svg]:size-full [&_svg]:stroke-[1.75]';
+const message = fieldMessageVariants();
+const icon = fieldIconVariants();
 
-export function Field({ label, hint, hintIcon, error, warning, success, required = false, optional = false, optionalLabel, count, overLimit = false, group = false, disabled = false, controlId, className, children, ...props }: FieldProps) {
+export function Field({ label, hint, hintIcon, error, warning, success, required = false, optional = false, optionalLabel, count, overLimit = false, group = false, disabled = false, controlId, tone, variant, radius, shadow, size, className, children, ...props }: FieldProps) {
   const auto = useId();
   const id = controlId ?? `field-${auto}`;
   const labelId = `${id}-label`;
@@ -50,15 +62,15 @@ export function Field({ label, hint, hintIcon, error, warning, success, required
         role={group ? 'group' : undefined}
         aria-labelledby={group && label ? labelId : undefined}
         aria-describedby={group ? messageId : undefined}
-        className={cn('grid min-w-0 gap-1.5', className)}
+        className={cn(fieldVariants({ radius, shadow, size }), className)}
         {...props}
       >
         {(label || count) && (
           <div className="flex items-baseline justify-between gap-2">
             {label && (
               group
-                ? <span data-slot="field-label" id={labelId} className="inline-flex items-center gap-1 text-ui-sm text-text-secondary">{label}{marks(required, optional, optionalLabel)}</span>
-                : <label data-slot="field-label" id={labelId} htmlFor={id} className="inline-flex items-center gap-1 text-ui-sm text-text-secondary">{label}{marks(required, optional, optionalLabel)}</label>
+                ? <span data-slot="field-label" id={labelId} className={cn(fieldLabelVariants({ size }))}>{label}{marks(required, optional, optionalLabel)}</span>
+                : <label data-slot="field-label" id={labelId} htmlFor={id} className={cn(fieldLabelVariants({ size }))}>{label}{marks(required, optional, optionalLabel)}</label>
             )}
             {count && <span data-slot="field-count" className={cn('text-hint tabular-nums text-text-tertiary', overLimit && 'text-danger-text')}>{count}</span>}
           </div>
@@ -71,7 +83,7 @@ export function Field({ label, hint, hintIcon, error, warning, success, required
         ) : showSuccess ? (
           <span data-slot="field-success" id={`${id}-success`} className={cn(message, 'text-success-text')}><span data-slot="field-icon" aria-hidden className={icon}><Check /></span>{success}</span>
         ) : hint ? (
-          <span data-slot="field-hint" id={`${id}-hint`} className={cn(message, 'text-text-tertiary')}>{hintIcon != null && <span data-slot="field-icon" aria-hidden className={icon}>{hintIcon}</span>}{hint}</span>
+          <span data-slot="field-hint" id={`${id}-hint`} className={cn(fieldHintVariants({ tone, variant }))}>{hintIcon != null && <span data-slot="field-icon" aria-hidden className={icon}>{hintIcon}</span>}{hint}</span>
         ) : null}
       </div>
     </FieldContext.Provider>

@@ -269,16 +269,17 @@
   --spacing-radio-dot: var(--cs-size-radio-dot);
   --spacing-kbd-h: var(--cs-size-kbd-h);
   --spacing-progress-h: var(--cs-size-progress-h);
-  --spacing-tool-icon: var(--cs-size-tool-icon);
   --spacing-presence: var(--cs-size-presence);
   --spacing-switch-md-w: var(--cs-size-switch-md-w);
   --spacing-switch-md-h: var(--cs-size-switch-md-h);
   --spacing-switch-md-thumb: var(--cs-size-switch-md-thumb);
+  --spacing-switch-md-thumb-w: var(--cs-size-switch-md-thumb-w);
   --spacing-switch-md-travel: var(--cs-size-switch-md-travel);
   --spacing-switch-md-press: var(--cs-size-switch-md-press);
   --spacing-switch-sm-w: var(--cs-size-switch-sm-w);
   --spacing-switch-sm-h: var(--cs-size-switch-sm-h);
   --spacing-switch-sm-thumb: var(--cs-size-switch-sm-thumb);
+  --spacing-switch-sm-thumb-w: var(--cs-size-switch-sm-thumb-w);
   --spacing-switch-sm-travel: var(--cs-size-switch-sm-travel);
   --spacing-switch-sm-press: var(--cs-size-switch-sm-press);
   --spacing-avatar-xs: var(--cs-size-avatar-xs);
@@ -371,6 +372,7 @@
   --spacing-otp-h: var(--cs-size-otp-h);
   --spacing-slider-ruler-h: var(--cs-size-slider-ruler-h);
   --spacing-slider-label-w: var(--cs-size-slider-label-w);
+  --spacing-slider-field-w: var(--cs-size-slider-field-w);
   --spacing-menu-item: var(--cs-size-menu-item);
   --spacing-menu-min: var(--cs-size-menu-min);
   --spacing-listbox-max: var(--cs-size-listbox-max);
@@ -552,6 +554,14 @@
   --text-voice-lg--line-height: 26px;
   --text-voice-lg--letter-spacing: 0em;
   --text-voice-lg--font-weight: 400;
+  --text-voice-xl: 22px;
+  --text-voice-xl--line-height: 30px;
+  --text-voice-xl--letter-spacing: -0.01em;
+  --text-voice-xl--font-weight: 400;
+  --text-mono-dense: 11px;
+  --text-mono-dense--line-height: 16px;
+  --text-mono-dense--letter-spacing: -0.02em;
+  --text-mono-dense--font-weight: 400;
 
   /* depth, blur, motion */
   --shadow-1: var(--cs-elevation-1);

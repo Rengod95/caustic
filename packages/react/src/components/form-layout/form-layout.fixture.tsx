@@ -1,7 +1,6 @@
 import { defineFixture } from '../../lib/fixture.ts';
 import { Field } from '../field/field.tsx';
 import { Input } from '../input/input.tsx';
-import { InputGroup } from '../input-group/input-group.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import { Switch } from '../switch/switch.tsx';
 import { FormLayout, FormLayoutFooter, FormLayoutSection, type FormLayoutProps } from './form-layout.tsx';
@@ -17,7 +16,7 @@ const Settings = (props: Partial<FormLayoutProps>) => (
   <FormLayout title="Workspace" description="Visible to everyone in Orbit." onSubmit={e => e.preventDefault()} {...props}>
     <FormLayoutSection title="Profile" description="Name and URL people see when you share.">
       <Field label="Name"><Input defaultValue="Orbit" /></Field>
-      <Field label="URL"><InputGroup start="caustic.app/" defaultValue="orbit" /></Field>
+      <Field label="URL"><Input addons prefix="caustic.app/" defaultValue="orbit" /></Field>
     </FormLayoutSection>
     <FormLayoutSection title="Agent" description="What Caustic may do without asking.">
       <Option label="Edit shared components" />

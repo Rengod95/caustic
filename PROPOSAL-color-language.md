@@ -323,6 +323,19 @@ card-action (card-action.variants.ts:12-13) · choice-cards (choice-cards.varian
 
 빌더의 Proposed language는 결정 2·3·4·6을 반영한다: 매트릭스의 뉴트럴 hover·pressed·selected가 알파 채움이고, "List and menu selection" 줄이 뉴트럴 선택을 보여주며, 가이드는 마젠타, 필수 별표는 text-tertiary다.
 
+## 결정 (2026-10-27)
+`#/lab/decisions`의 열린 질문 O1–O5에 대한 오너 답.
+
+| # | 질문 | 결정 | 반영 |
+|---|---|---|---|
+| 11 | 색 있는 토글 칩이 켜졌을 때 (O1) | **자기 톤 유지** | 바꾸지 않음. 뉴트럴 칩만 `selected`로 반전 |
+| 12 | 체크 원 (O2) | **accent** | 바꾸지 않음. theme-gallery·choice-cards·card-action 체크 원은 `accent-solid` |
+| 13 | 레이어 트리 1차·보조 선택 (O3) | **결정 3 B처럼 뉴트럴 (fill-selected)** | 선택 행은 반전하지 않고 `neutral-selected`(hover `neutral-selected-hover`) + 체크, 테두리 없음. 1차는 `text-primary`, 보조는 `text-secondary` |
+| 14 | 현재 도구·선택된 도메인 (O4) | **결정 3 B처럼 뉴트럴 (fill-selected)** | floating-bar의 현재 도구(`active`)와 foundation-toolbar의 도메인(`aria-pressed`)은 `neutral-selected` + `text-primary`. 켜진 토글(`pressed`)은 그대로 반전 |
+| 15 | `just verify` 메모리 (O5) | **가드 상한 3G** | verify는 `WS_GUARD_VERIFY_MAX=3G`로 바깥 가드를 열고 게이트는 2샤드 그대로 |
+| 16 | 컴포넌트 통합 19건 (2026-10-28) | **감사 페이지 선택대로** | 158 → 116 컴포넌트. 지운 컴포넌트의 모양은 남는 컴포넌트의 variant·prop·부품이 되고, 예제는 `<옛 id>-<예제>` 이름으로 옮겨 옛 기준 이미지와 비교한다. 새 컴포넌트: timeline, agent-request, choice-group, button-group, property-stack(paint-stack 이름 변경), canvas-comment(comment-pin 이름 변경). 이름만 남은 프리셋: plan(Stepper checklist), sheet(Dialog placement), hex-input(NumberField format hex) |
+| 17 | 게이트 플래그 범위 | **variant·cva 단위** | `flags.floating`·`flags.frost`도 `flags.agent`처럼 `{ 축: [값] }` 또는 `{ cva: [이름] }`으로 좁힌다. Card의 glass는 variant glass, 블러는 CardCover에만 허용 |
+
 ---
 
 ## 빌더에서 보는 법 (`#/lab/builder`)

@@ -73,7 +73,7 @@ const hoverOf = (solid, mode) => {
   return gamutMap([Math.min(0.97, Math.max(0.05, solid[0] + dl)), solid[1], solid[2]]);
 };
 /** A hued ramp for one mode, anchored so step 9 is the authored solid. */
-function hueRamp(pick, mode, surface) {
+function hueRamp(pick, mode, surface, textPick) {
   const { fixedL, chromaShare, textMin } = T.rampRule;
   const solid = gamutMap(pick);
   const [L9, C9, H] = solid;
@@ -94,6 +94,8 @@ function hueRamp(pick, mode, surface) {
   out.push(solid);
   out.push(hoverOf(solid, mode));
   const hover = out[9];
+  // An authored text step (solids[name].text[mode]) replaces the derived one as is; the contrast rules still check it.
+  if (textPick) { out.push(gamutMap(textPick)); return out; }
   let text = gamutMap([mode === 'light' ? Math.max(0.05, Math.min(L9, hover[0]) - 0.04) : Math.min(0.97, Math.max(L9, hover[0]) + 0.04), C9, H]);
   // Fit text a little above the floor: emitted L/C are rounded and browsers quantise to 8 bits, so a pair fitted
   // exactly at 4.5 can render at 4.48 (light warning text on soft-pressed did). The contrast rules still check 4.5.
@@ -119,7 +121,7 @@ const SURFACE = Object.fromEntries(MODES.map(m => {
   if (ramp !== 'neutral') throw new Error('surface.base must read the neutral ramp');
   return [m, RAMP.neutral[m][step - 1]];
 }));
-for (const [name, s] of Object.entries(T.solids)) RAMP[name] = Object.fromEntries(MODES.map(m => [m, hueRamp(s[m], m, SURFACE[m]).map(emitLch)]));
+for (const [name, s] of Object.entries(T.solids)) RAMP[name] = Object.fromEntries(MODES.map(m => [m, hueRamp(s[m], m, SURFACE[m], s.text?.[m]).map(emitLch)]));
 // Labels on fills read the light ramp's two ends in both modes, so a label never picks up hue.
 const INK = RAMP.neutral.light[10], PAPER = RAMP.neutral.light[0];
 const ON = Object.fromEntries(Object.keys(RAMP).map(name => [name, Object.fromEntries(MODES.map(m => {
@@ -288,7 +290,9 @@ const themeBlock = theme => {
   out.push('  /* opaque interaction fills over each surface (see FILLS) */');
   for (const f of FILLS) for (const u of Object.keys(UNDER)) out.push(`  --${onVar(f, u)}: ${opaqueOver(theme, f, u)};`);
   for (const [k, s] of Object.entries(T.elevation[theme])) out.push(v(`elevation-${k}`, s));
-  out.push(v('focus-field', `inset 0 0 0 1.5px var(--${P}-color-focus-ring)`));
+  // A focused text field keeps its resting border.default hairline; the fill change (neutral.well on a white field,
+  // surface.base on a grey one) is the focus cue (owner 2026-10-28, field/input proposal 2: no black 1.5px edge).
+  out.push(v('focus-field', `inset 0 0 0 1px var(--${P}-color-border-default)`));
   out.push(v('focus', `0 0 0 1px var(--${P}-color-focus-offset), 0 0 0 3px var(--${P}-color-focus-ring)`));
   return out.join('\n');
 };

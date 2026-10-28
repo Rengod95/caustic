@@ -1,9 +1,9 @@
 // Foundation policies as machine-checkable descriptions. The gateway implements each check;
 // this table is the shared vocabulary for specs, reports and docs.
 export const policies = {
-  P1: { title: 'Solid surfaces, one depth cue', rule: 'No backdrop blur or translucent fills. Floating components (flags.floating) use the glass* alias (solid fill plus elevation shadow); resting components use a 1px hairline or an elevation, never both.' },
+  P1: { title: 'Solid surfaces, one depth cue', rule: 'No backdrop blur or translucent fills. Floating components (flags.floating) use the glass* alias, and a resting surface the owner approved for frost (flags.frost) may blur (solid fill plus elevation shadow); resting components use a 1px hairline or an elevation, never both.' },
   P2: { title: 'Light means agent', rule: 'agent-rim, agent-glow, orb*, shimmer, spectrum-* appear only in components (or variant values) listed in flags.agent.' },
-  P3: { title: 'Ink first, accent once', rule: 'Buttons are flat: no gradient fills, no inset highlights. An example renders at most one tone="accent" button.' },
+  P3: { title: 'Ink first, accent once', rule: 'Buttons are flat: no gradient fills, no inset highlights (a card surface may carry a designed tint gradient). An example renders at most one tone="accent" button.' },
   P4: { title: 'Two voices', rule: 'font-voice only on agent prose slots; text-voice*/text-thought require font-voice; text-mono* require font-mono.' },
   P5: { title: 'Concentric corners', rule: 'A slot radius never exceeds its parent radius minus the parent padding (2px tolerance).' },
   P6: { title: 'Contrast is a build gate', rule: 'Foundation contrast rules pass; component sources contain no literal colors; rendered text meets its threshold.' },

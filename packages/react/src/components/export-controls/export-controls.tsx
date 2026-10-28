@@ -1,14 +1,15 @@
 'use client';
-import { CircleCheck, Clipboard, Download } from 'lucide-react';
+import { Clipboard, Download } from 'lucide-react';
 import type { ComponentProps, MouseEvent, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Button } from '../button/button.tsx';
-import { OptionTiles, OptionTilesItem } from '../option-tiles/option-tiles.tsx';
+import { ChoiceGroup, ChoiceGroupItem } from '../choice-group/choice-group.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import {
-  exportControlsActionsVariants, exportControlsScaleLabelVariants, exportControlsScaleVariants, exportControlsStatusIconVariants,
-  exportControlsStatusVariants, exportControlsVariants,
+  exportControlsActionsVariants, exportControlsScaleLabelVariants, exportControlsScaleVariants, exportControlsStatusVariants,
+  exportControlsVariants,
 } from './export-controls.variants.ts';
 
 export interface ExportFormat {
@@ -38,6 +39,16 @@ export interface ExportControlsProps extends Omit<ComponentProps<'div'>, 'childr
   status?: ReactNode;
   /** Disables copy and export while an export runs. */
   disabled?: boolean;
+  /** Colour family of the status line; unset = success (the result well). */
+  tone?: Tone | undefined;
+  /** Emphasis of the status line; soft (default) is the tint well, ghost the plain line, outline and solid box it. */
+  variant?: Variant | undefined;
+  /** Corner radius of the root; unset = none. */
+  radius?: Radius | undefined;
+  /** Elevation of the root; unset = none. */
+  shadow?: Shadow | undefined;
+  /** Gap inside a section (xs 8, sm 10, md 12, lg 16; the sections are 12px further apart); the controls keep their size. */
+  size?: Size | undefined;
 }
 
 const DEFAULT_SCALES = ['1×', '2×', '3×'];
@@ -45,19 +56,19 @@ const DEFAULT_SCALES = ['1×', '2×', '3×'];
 /** Exports the selection: a format grid, a scale, Copy and Export, and a status line. */
 export function ExportControls({
   formats, format, defaultFormat = 'png', onFormatChange, scale, defaultScale = '2×', scales = DEFAULT_SCALES, onScaleChange,
-  copyLabel, exportLabel, onCopy, onExport, status, disabled = false, className, ...props
+  copyLabel, exportLabel, onCopy, onExport, status, disabled = false, tone, variant, radius, shadow, size, className, ...props
 }: ExportControlsProps) {
   const [currentFormat, setFormat] = useControllableState({ value: format, defaultValue: defaultFormat, onChange: onFormatChange });
   const [currentScale, setScale] = useControllableState({ value: scale, defaultValue: defaultScale, onChange: onScaleChange });
   return (
-    <div data-slot="export-controls" className={cn(exportControlsVariants(), className)} {...props}>
-      <OptionTiles data-slot="export-controls-formats" aria-label="Export format" value={currentFormat} onValueChange={setFormat}>
-        {formats.map(f => <OptionTilesItem key={f.id} itemId={f.id} label={f.label} caption={f.caption} />)}
-      </OptionTiles>
+    <div data-slot="export-controls" className={cn(exportControlsVariants({ radius, shadow, size }), className)} {...props}>
+      <ChoiceGroup data-slot="export-controls-formats" appearance="tile" aria-label="Export format" size="lg" value={currentFormat} onValueChange={v => setFormat(v as string)}>
+        {formats.map(f => <ChoiceGroupItem key={f.id} value={f.id} title={f.label} description={f.caption} />)}
+      </ChoiceGroup>
       {scales.length > 0 && (
         <div data-slot="export-controls-scale" className={exportControlsScaleVariants()}>
           <span data-slot="export-controls-scale-label" className={exportControlsScaleLabelVariants()}>Scale</span>
-          <SegmentedControl data-slot="export-controls-scale-control" aria-label="Scale" size="xs" value={currentScale} onValueChange={setScale}>
+          <SegmentedControl data-slot="export-controls-scale-control" aria-label="Scale" size="sm" value={currentScale} onValueChange={setScale}>
             {scales.map(s => <SegmentedControlItem key={s} value={s}>{s}</SegmentedControlItem>)}
           </SegmentedControl>
         </div>
@@ -67,8 +78,7 @@ export function ExportControls({
         <Button data-slot="export-controls-export" size="sm" disabled={disabled} onClick={onExport} iconStart={<Download />}>{exportLabel}</Button>
       </div>
       {status != null && (
-        <div role="status" aria-live="polite" data-slot="export-controls-status" className={exportControlsStatusVariants()}>
-          <CircleCheck aria-hidden="true" className={exportControlsStatusIconVariants()} />
+        <div role="status" aria-live="polite" data-slot="export-controls-status" className={cn(exportControlsStatusVariants({ tone, variant }))}>
           {status}
         </div>
       )}

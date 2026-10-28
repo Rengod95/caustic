@@ -1,14 +1,17 @@
 'use client';
-import { Unlink } from 'lucide-react';
+import { Link2, Unlink } from 'lucide-react';
 import { useId, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import type * as React from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
+import { Badge } from '../badge/badge.tsx';
 import { ColorWell } from '../color-well/color-well.tsx';
 import { HexInput } from '../hex-input/hex-input.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { NumberField } from '../number-field/number-field.tsx';
+import { paintWellMessageVariants, paintWellRowVariants, paintWellTokenVariants, paintWellVariants } from './paint-well.variants.ts';
 
 export interface PaintValue { hex: string; alpha: number }
 
@@ -40,7 +43,7 @@ export interface PaintWellDraft {
   dirty: boolean;
 }
 
-export interface PaintWellProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
+export interface PaintWellProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'>, CommonProps {
   /** Controlled paint: hex digits without # and alpha 0-100. */
   value?: PaintValue | undefined;
   /** Uncontrolled initial paint. */
@@ -89,10 +92,11 @@ export interface PaintWellProps extends Omit<ComponentProps<'div'>, 'defaultValu
 const fallback: PaintValue = { hex: 'E2763F', alpha: 100 };
 const validHex = (v: string) => /^[0-9a-fA-F]+$/.test(v) && [3, 4, 6, 8].includes(v.length);
 
-/** One solid paint in a row: color well, hex digits and alpha. Bound to a token it shows the token and Detach instead. */
+/** One solid paint in a row: color well, hex digits and alpha. Bound to a token, hex and alpha become one token chip row with Detach inside. */
 export function PaintWell({
   value, defaultValue = fallback, token, tokenColor, labels, mixed = false, invalid: invalidProp = false, describedBy, anchor = 'row', detachable = true, tokenLabel, limits, message, disabled = false, commitMode = 'live', reserved,
-  invalidMessage, onDraftChange, onPreviewChange, onValueChange, onWellClick, onDetach, onFieldFocus, onFieldBlur, onFieldCommit, className, ...allProps
+  invalidMessage, onDraftChange, onPreviewChange, onValueChange, onWellClick, onDetach, onFieldFocus, onFieldBlur, onFieldCommit,
+  tone, variant, radius, shadow, size, className, ...allProps
 }: PaintWellProps) {
   const invalid = invalidProp === true || (typeof invalidProp === 'object' && invalidProp.hex === true);
   const contract = useFieldContract<PaintWellChange, PaintWellField>({ invalid: typeof invalidProp === 'object' ? invalidProp : undefined, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
@@ -122,16 +126,16 @@ export function PaintWell({
   return (
     <div
       data-slot="paint-well" data-bound={bound || undefined} data-mixed={isMixed('hex') || isMixed('alpha') || wellMixed || undefined}
-      data-invalid={hexBad || contract.isInvalid('alpha') || (commitMode === 'release' && hexInvalid) || undefined} className={cn('flex min-w-0 flex-col gap-2', className)} {...props}
+      data-invalid={hexBad || contract.isInvalid('alpha') || (commitMode === 'release' && hexInvalid) || undefined} className={cn(paintWellVariants({ tone, variant, radius, shadow }), className)} {...props}
     >
-      <div data-slot="paint-well-row" className="grid h-control-md grid-cols-[auto_1fr_var(--cs-size-field-alpha-w)] items-center gap-1.5">
+      <div data-slot="paint-well-row" className={paintWellRowVariants({ size })}>
         <div
           data-slot="paint-well-well" aria-busy={isReserved('well') || undefined} data-disabled={isDisabled('well') || undefined} data-reserved={isReserved('well') || undefined}
           {...contract.wrapAttrs('well')}
           className="flex data-[disabled]:pointer-events-none"
         >
           <ColorWell
-            aria-label={labels.well}
+            aria-label={labels.well} size={size}
             aria-disabled={isDisabled('well') || undefined} aria-busy={isReserved('well') || undefined}
             appearance={bound || wellMixed ? 'flat' : 'checker'}
             color={wellMixed ? undefined : wellColor}
@@ -142,36 +146,51 @@ export function PaintWell({
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => { if (!wellInert) { anchorClick?.(e as unknown as React.MouseEvent<HTMLDivElement>); onWellClick?.(); } }}
           />
         </div>
-        <div data-slot="paint-well-hex" aria-busy={isReserved('hex') || undefined} data-reserved={isReserved('hex') || undefined} {...contract.wrapAttrs('hex')} className="min-w-0">
-          <HexInput
-            aria-label={labels.hex} value={paint.hex} token={bound ? (typeof tokenLabel === 'string' ? tokenLabel : token) : undefined} mixed={isMixed('hex')} mixedLabel={labels.mixed} invalid={hexBad}
-            disabled={isDisabled('hex')} reserved={isReserved('hex')} commitMode={commitMode}
-            aria-describedby={hasMessage ? messageId : contract.describedBy('hex')}
-            data-field="hex" data-dirty={contract.isDirty('hex') || undefined}
-            onFocus={() => { if (!isReserved('hex') && !isDisabled('hex')) contract.focus('hex'); }}
-            onBlur={() => { if (!isReserved('hex') && !isDisabled('hex')) contract.blur('hex'); }}
-            onDraftChange={d => {
-              contract.draft('hex', d);
-              setHexInvalid(d.error !== null);
-              onDraftChange?.({ field: 'hex', text: d.text, value: d.value, error: d.error, dirty: d.dirty });
-            }}
-            onValueChange={hex => { contract.commit('hex', { field: 'hex', value: hex }, () => setPaint({ ...paint, hex })); }}
-          />
-        </div>
-        {bound ? (detachable ? (
-          <div data-slot="paint-well-detach" aria-busy={isReserved('detach') || undefined} data-reserved={isReserved('detach') || undefined} className="inline-flex justify-self-start">
-            <IconButton
-              label={labels.detach} size="xs" disabled={isDisabled('detach')}
-              aria-busy={isReserved('detach') || undefined} data-reserved={isReserved('detach') || undefined}
-              onClick={() => { if (!isReserved('detach')) onDetach?.(); }}
+        {bound ? (
+          <div
+            data-slot="paint-well-token" role="group" aria-label={labels.hex} aria-describedby={hasMessage ? messageId : contract.describedBy('hex')}
+            aria-busy={isReserved('hex') || undefined} data-reserved={isReserved('hex') || undefined} data-disabled={isDisabled('hex') || undefined}
+            className={paintWellTokenVariants()}
+          >
+            <Badge
+              mono tone="accent" variant="ghost" size={size === 'xs' ? 'xs' : size === 'sm' ? 'sm' : 'md'} icon={<Link2 />}
+              className="min-w-0 shrink text-accent-text [&_[data-slot=badge-icon]]:text-accent-text [&_[data-slot=badge-label]]:truncate"
             >
-              <Unlink />
-            </IconButton>
+              {tokenLabel ?? token}
+            </Badge>
+            {detachable ? (
+              <div data-slot="paint-well-detach" aria-busy={isReserved('detach') || undefined} data-reserved={isReserved('detach') || undefined} className="ml-auto inline-flex shrink-0">
+                <IconButton
+                  label={labels.detach} size={size === 'lg' ? 'sm' : 'xs'} disabled={isDisabled('detach')}
+                  aria-busy={isReserved('detach') || undefined} data-reserved={isReserved('detach') || undefined}
+                  onClick={() => { if (!isReserved('detach')) onDetach?.(); }}
+                >
+                  <Unlink />
+                </IconButton>
+              </div>
+            ) : null}
           </div>
-        ) : <span aria-hidden />) : (
+        ) : (
+          <>
+          <div data-slot="paint-well-hex" aria-busy={isReserved('hex') || undefined} data-reserved={isReserved('hex') || undefined} {...contract.wrapAttrs('hex')} className="min-w-0">
+            <HexInput
+              aria-label={labels.hex} size={size} value={paint.hex} mixed={isMixed('hex')} mixedLabel={labels.mixed} invalid={hexBad}
+              disabled={isDisabled('hex')} reserved={isReserved('hex')} commitMode={commitMode}
+              aria-describedby={hasMessage ? messageId : contract.describedBy('hex')}
+              data-field="hex" data-dirty={contract.isDirty('hex') || undefined}
+              onFocus={() => { if (!isReserved('hex') && !isDisabled('hex')) contract.focus('hex'); }}
+              onBlur={() => { if (!isReserved('hex') && !isDisabled('hex')) contract.blur('hex'); }}
+              onDraftChange={d => {
+                contract.draft('hex', d);
+                setHexInvalid(d.error !== null);
+                onDraftChange?.({ field: 'hex', text: d.text, value: d.value, error: d.error, dirty: d.dirty });
+              }}
+              onValueChange={hex => { contract.commit('hex', { field: 'hex', value: hex }, () => setPaint({ ...paint, hex })); }}
+            />
+          </div>
           <div data-slot="paint-well-alpha" aria-busy={isReserved('alpha') || undefined} data-reserved={isReserved('alpha') || undefined} {...contract.wrapAttrs('alpha')} className="w-field-alpha-w">
             <NumberField
-              aria-label={labels.alpha} unit="%" min={0} max={100} mixed={isMixed('alpha')} mixedLabel={labels.mixed}
+              aria-label={labels.alpha} size={size} unit="%" min={0} max={100} mixed={isMixed('alpha')} mixedLabel={labels.mixed}
               disabled={isDisabled('alpha')} reserved={isReserved('alpha')} commitMode={commitMode}
               {...limits?.alpha}
               {...contract.inputProps('alpha', isReserved('alpha') || isDisabled('alpha'))}
@@ -182,9 +201,10 @@ export function PaintWell({
               onPreviewChange={v => onPreviewChange?.(v === null ? null : { hex: paint.hex, alpha: v })}
             />
           </div>
+          </>
         )}
       </div>
-      {hasMessage ? <span data-slot="paint-well-message" id={messageId} className="text-hint text-danger-text">{shownMessage}</span> : null}
+      {hasMessage ? <span data-slot="paint-well-message" id={messageId} className={paintWellMessageVariants()}>{shownMessage}</span> : null}
     </div>
   );
 }

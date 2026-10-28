@@ -4,14 +4,15 @@ import { Check } from 'lucide-react';
 import { Children, createContext, isValidElement, useContext, useId, useRef, useState, type ComponentProps, type ReactElement, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { defined } from '../../lib/defined.ts';
+import type { CommonProps, Size } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useRovingItems } from '../../hooks/use-roving-items.ts';
 import { menuHeadingVariants, menuItemVariants, menuSeparatorVariants, menuSurfaceVariants } from '../menu/menu.variants.ts';
 import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
-import { selectCheckVariants, selectOptionVariants } from './select.variants.ts';
+import { selectCheckVariants, selectOptionVariants, selectTriggerVariants } from './select.variants.ts';
 
-interface SelectContextValue { inline: boolean; value: string; choose: (value: string) => void }
-const SelectContext = createContext<SelectContextValue>({ inline: false, value: '', choose: () => {} });
+interface SelectContextValue { inline: boolean; value: string; choose: (value: string) => void; size: Size | undefined }
+const SelectContext = createContext<SelectContextValue>({ inline: false, value: '', choose: () => {}, size: undefined });
 const GroupContext = createContext<string | undefined>(undefined);
 
 export interface SelectOptionProps extends Omit<ComponentProps<'div'>, 'children' | 'onSelect'> {
@@ -22,7 +23,8 @@ export interface SelectOptionProps extends Omit<ComponentProps<'div'>, 'children
   children?: ReactNode;
 }
 
-export interface SelectProps extends Omit<ComponentProps<'button'>, 'value' | 'defaultValue' | 'onChange' | 'placeholder' | 'name' | 'children'> {
+/** tone / variant / radius / shadow style the listbox (the Menu surface); size steps the trigger and the options. */
+export interface SelectProps extends Omit<ComponentProps<'button'>, 'value' | 'defaultValue' | 'onChange' | 'placeholder' | 'name' | 'children'>, CommonProps {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -61,28 +63,29 @@ function labelOf(children: ReactNode, value: string): ReactNode {
 }
 
 /** Chooses one value from a short list. The listbox is the Menu surface with role="option" items. */
-export function Select({ value, defaultValue, onValueChange, open, defaultOpen, onOpenChange, placeholder, disabled, invalid, name, inline = false, selected: _selected, listboxClassName, className, children, ...props }: SelectProps) {
+export function Select({ value, defaultValue, onValueChange, open, defaultOpen, onOpenChange, placeholder, disabled, invalid, name, inline = false, selected: _selected, listboxClassName, tone, variant, radius, shadow, size, className, children, ...props }: SelectProps) {
   const [val, setVal] = useControllableState<string>({ value, defaultValue: defaultValue ?? '', onChange: onValueChange });
   const [isOpen, setOpen] = useControllableState<boolean>({ value: open, defaultValue: defaultOpen ?? false, onChange: onOpenChange });
   const triggerRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
+  const surface = menuSurfaceVariants({ tone, variant, radius, shadow });
   const onKeyDown = useRovingItems({ selector: OPTIONS, onEscape: () => { setOpen(false); triggerRef.current?.focus(); }, onTab: () => setOpen(false) });
 
   if (!inline) {
     return (
-      <SelectContext.Provider value={{ inline: false, value: val, choose: () => {} }}>
+      <SelectContext.Provider value={{ inline: false, value: val, choose: () => {}, size }}>
         <RS.Root {...defined({ value, defaultValue, onValueChange, open, defaultOpen, onOpenChange, disabled, name })}>
           <RS.Trigger asChild>
             <PickerTrigger
               data-slot="select-trigger" indicator="select" invalid={invalid} disabled={disabled}
-              className={cn('[&[data-placeholder]_[data-slot=picker-trigger-value]]:text-text-placeholder', className)}
+              className={cn(selectTriggerVariants({ size }), '[&[data-placeholder]_[data-slot=picker-trigger-value]]:text-text-placeholder', className)}
               {...props}
             >
               <RS.Value placeholder={placeholder} />
             </PickerTrigger>
           </RS.Trigger>
           <RS.Portal>
-            <RS.Content data-slot="select" position="popper" sideOffset={6} className={cn(menuSurfaceVariants(), 'z-60 min-w-[var(--radix-select-trigger-width)] max-h-(--radix-select-content-available-height) overflow-y-auto', listboxClassName)}>
+            <RS.Content data-slot="select" position="popper" sideOffset={6} className={cn(surface, 'z-60 min-w-[var(--radix-select-trigger-width)] max-h-(--radix-select-content-available-height) overflow-y-auto', listboxClassName)}>
               <RS.Viewport>{children}</RS.Viewport>
             </RS.Content>
           </RS.Portal>
@@ -94,12 +97,12 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
   const label = val ? labelOf(children, val) : null;
   const choose = (next: string) => { setVal(next); setOpen(false); triggerRef.current?.focus(); };
   return (
-    <SelectContext.Provider value={{ inline: true, value: val, choose }}>
+    <SelectContext.Provider value={{ inline: true, value: val, choose, size }}>
       <PickerTrigger
         ref={triggerRef} data-slot="select-trigger" role="combobox" indicator="select" open={isOpen} invalid={invalid} disabled={disabled}
         aria-haspopup="listbox" aria-controls={isOpen ? listId : undefined} placeholder={placeholder}
         onClick={() => setOpen(!isOpen)}
-        className={className}
+        className={cn(selectTriggerVariants({ size }), className)}
         {...props}
       >
         {label}
@@ -108,7 +111,7 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
         <div
           id={listId} role="listbox" tabIndex={-1} data-slot="select" data-state="open" data-inline=""
           aria-label={typeof props['aria-label'] === 'string' ? props['aria-label'] : undefined}
-          className={cn(menuSurfaceVariants(), listboxClassName)}
+          className={cn(surface, listboxClassName)}
           onKeyDown={onKeyDown}
         >
           {children}
@@ -123,7 +126,7 @@ export function SelectOption({ value, selected, disabled = false, className, chi
   const ctx = useContext(SelectContext);
   const [highlighted, setHighlighted] = useState(false);
   const chosen = selected ?? (ctx.value !== '' && ctx.value === value);
-  const classes = cn(menuItemVariants(), selectOptionVariants(), className);
+  const classes = cn(menuItemVariants({ size: ctx.size }), selectOptionVariants(), className);
   if (!ctx.inline) {
     return (
       <RS.Item data-slot="select-option" value={value} disabled={disabled} onClick={onClick} onKeyDown={onKeyDown} onFocus={onFocus} onBlur={onBlur} onPointerMove={onPointerMove} data-selected={chosen ? '' : undefined} className={cn(classes, 'group')} {...props}>
@@ -148,7 +151,7 @@ export function SelectOption({ value, selected, disabled = false, className, chi
       onKeyDown={e => { onKeyDown?.(e); if (!e.defaultPrevented && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); choose(); } }}
       {...props}
     >
-      <span className="min-w-0 truncate">{children}</span>
+      <span data-slot="select-option-label" className="min-w-0 truncate">{children}</span>
       {chosen && <span data-slot="select-check" aria-hidden="true" className={selectCheckVariants()}><Check /></span>}
     </div>
   );

@@ -2,9 +2,15 @@
 import { Check } from 'lucide-react';
 import { cloneElement, isValidElement, type ComponentProps, type CSSProperties, type KeyboardEvent, type ReactElement, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import { radiusClass, shadowClass, type CommonProps } from '../../lib/common-props.ts';
 import { colorWellCheckVariants, colorWellPaintVariants, colorWellSolidVariants, colorWellVariants, type ColorWellVariantProps } from './color-well.variants.ts';
 
-export interface ColorWellProps extends Omit<ComponentProps<'span'>, 'color'>, Omit<ColorWellVariantProps, 'interactive'> {
+/**
+ * Common props (lib/common-props.ts): variant = the swatch edge (default outline: the 1px hairline; solid 2px, soft a 3px
+ * mat, ghost none), tone = the edge colour (default neutral = swatch.edge), size = 16 · 20 · 32 · 40 (default md),
+ * radius = corners (default md; sm at size sm), shadow = elevation (default none). The paint never changes.
+ */
+export interface ColorWellProps extends Omit<ComponentProps<'span'>, 'color'>, ColorWellVariantProps, CommonProps {
   /** CSS color or gradient to paint. Runtime data, set as a custom property. */
   color?: string | undefined;
   /** With split: the opaque color of the top-left triangle. */
@@ -20,17 +26,20 @@ export interface ColorWellProps extends Omit<ComponentProps<'span'>, 'color'>, O
 }
 
 /** The swatch of a paint: flat color, gradient or alpha over a checkerboard. A button when it has an onClick (or asChild). */
-export function ColorWell({ size, appearance, color, solidColor, split = false, mixed = false, selected = false, asChild = false, className, style, children, onClick, ...props }: ColorWellProps) {
+export function ColorWell({ size, appearance, tone, variant, radius, shadow, color, solidColor, split = false, mixed = false, selected = false, asChild = false, className, style, children, onClick, ...props }: ColorWellProps) {
   const interactive = asChild || onClick != null;
   const vars = { ...style, ...(color ? { '--well-color': color } : {}), ...(solidColor ? { '--well-solid': solidColor } : {}) } as CSSProperties;
   const inner: ReactNode = (
     <>
-      <span data-slot="color-well-paint" aria-hidden className={colorWellPaintVariants({ split: split && !mixed, mixed })} />
+      <span data-slot="color-well-paint" aria-hidden className={colorWellPaintVariants({ split: split && !mixed, mixed, edge: variant, edgeTone: tone })} />
       {split && !mixed ? <span data-slot="color-well-solid" aria-hidden className={colorWellSolidVariants()} /> : null}
       {selected && !mixed ? <span data-slot="color-well-check" aria-hidden className={colorWellCheckVariants({ size })}><Check /></span> : null}
     </>
   );
-  const className2 = cn(colorWellVariants({ size, appearance, interactive }), className);
+  const className2 = cn(
+    colorWellVariants({ size, appearance, interactive }),
+    radius && radius !== 'md' && radiusClass[radius], shadow && shadow !== 'none' && shadowClass[shadow], className,
+  );
   const state = { 'data-size': size ?? 'md', 'data-appearance': appearance ?? 'flat', 'data-selected': selected || undefined, 'data-mixed': mixed || undefined };
   if (asChild && isValidElement(children)) {
     const child = children as ReactElement<Record<string, unknown>>;

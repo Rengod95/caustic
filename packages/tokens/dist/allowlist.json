@@ -304,7 +304,9 @@
     "mono-lg",
     "mono-ruler",
     "mono-micro",
-    "voice-lg"
+    "voice-lg",
+    "voice-xl",
+    "mono-dense"
   ],
   "radii": [
     "none",

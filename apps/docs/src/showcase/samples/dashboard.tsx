@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { Columns3, Copy, CreditCard, Download, Ellipsis, Eye, Layers, Mail, Plus, RefreshCw, Search, Share2, Sparkles, UserMinus, UserPlus } from 'lucide-react';
 import {
-  Alert, Avatar, Badge, Banner, Button, CardBody, CardDescription, CardFooter, CardHeader, CardHeading, CardMeta, CardStat, CardSurface, CardTitle, CardTrailing,
-  Chip, Combobox, DatePicker, EmptyState, IconButton, Input, ListActivity, ListActivityItem, ListActivityStrong as S, Menu, MenuItem, MenuSeparator,
-  Pagination, Progress, SectionHeader, SegmentedControl, SegmentedControlItem, Select, SelectOption, Skeleton, Table, TagInput,
+  Alert, Avatar, Badge, Button, CardBody, CardDescription, CardFooter, CardHeader, CardHeading, CardMeta, CardStat, Card, CardTitle, CardTrailing,
+  Chip, Combobox, DatePicker, EmptyState, IconButton, Input, Menu, MenuItem, MenuSeparator,
+  Pagination, Progress, SectionHeader, SegmentedControl, SegmentedControlItem, Select, SelectOption, Skeleton, Table, TagInput, Timeline, TimelineItem, TimelineStrong as S,
   type TableColumn, type TableRow, type TableSort,
 } from '@caustic/react';
 
@@ -396,12 +396,12 @@ export default function Dashboard() {
       />
 
       {syncOpen && (
-        <Banner
-          tone="warning" dismissible dismissLabel="Dismiss sync warning" onDismiss={() => setSyncOpen(false)}
+        <Alert
+          layout="page" tone="warning" dismissible dismissLabel="Dismiss sync warning" onDismiss={() => setSyncOpen(false)}
           action={<Button tone="secondary" size="xs" iconStart={<RefreshCw />}>Retry sync</Button>}
         >
           <b>Stripe sync failed 2 hours ago.</b> Invoices after 07:40 UTC are missing from these numbers, so revenue may lag by up to 2 hours.
-        </Banner>
+        </Alert>
       )}
 
       <section aria-label="Filters" className="grid gap-3 rounded-2xl bg-surface-base p-3 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]">
@@ -473,7 +473,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-3 min-[1100px]:grid-cols-[minmax(0,1fr)_340px]">
-        <CardSurface aria-labelledby="revenue-title">
+        <Card aria-labelledby="revenue-title">
           <CardHeader>
             <CardHeading>
               <CardTitle as="h2" titleSize="sm" id="revenue-title">Revenue by plan</CardTitle>
@@ -494,9 +494,9 @@ export default function Dashboard() {
             <div><dt className="text-ui-sm text-text-tertiary">Contraction</dt><dd className="font-ui text-ui-strong tabular-nums text-danger-text">-$0.8k</dd></div>
             <div><dt className="text-ui-sm text-text-tertiary">Churn</dt><dd className="font-ui text-ui-strong tabular-nums text-danger-text">-$3.8k</dd></div>
           </dl>
-        </CardSurface>
+        </Card>
 
-        <CardSurface aria-labelledby="region-title">
+        <Card aria-labelledby="region-title">
           <CardHeader>
             <CardHeading>
               <CardTitle as="h2" titleSize="sm" id="region-title">MRR by region</CardTitle>
@@ -511,7 +511,7 @@ export default function Dashboard() {
               <b>12 accounts</b> use under 40% of their seats. Together they carry $8.1k MRR at risk.
             </Alert>
           </CardBody>
-        </CardSurface>
+        </Card>
       </div>
 
       <section aria-label="Accounts" className="grid gap-3">
@@ -547,7 +547,7 @@ export default function Dashboard() {
       </section>
 
       <div className="grid gap-3 min-[1100px]:grid-cols-[minmax(0,1fr)_340px]">
-        <CardSurface aria-labelledby="activity-title">
+        <Card aria-labelledby="activity-title">
           <CardHeader>
             <CardHeading>
               <CardTitle as="h2" titleSize="sm" id="activity-title">Recent activity</CardTitle>
@@ -555,33 +555,33 @@ export default function Dashboard() {
             </CardHeading>
           </CardHeader>
           <CardBody>
-            <ListActivity aria-label="Recent activity">
-              <ListActivityItem avatar={<Avatar name="Mina Kang" color="coral" size="md" />} time="12 minutes ago" dateTime="2026-10-24T09:12:00Z">
+            <Timeline aria-label="Recent activity">
+              <TimelineItem marker={<Avatar name="Mina Kang" color="coral" size="md" />} time="12 minutes ago" dateTime="2026-10-24T09:12:00Z">
                 <S>Mina Kang</S> upgraded <S>Ferris Logistics</S> to 260 seats
-              </ListActivityItem>
-              <ListActivityItem icon={<RefreshCw />} time="2 hours ago" dateTime="2026-10-24T07:40:00Z">
+              </TimelineItem>
+              <TimelineItem icon={<RefreshCw />} time="2 hours ago" dateTime="2026-10-24T07:40:00Z">
                 Stripe sync failed for <S>3 invoices</S> on <S>Moss Bank</S> and <S>Harbor Labs</S>
-              </ListActivityItem>
-              <ListActivityItem avatar={<Avatar name="Jun Seo" color="iris" size="md" />} quote="Customer asked for net-45 terms. Finance sign-off needed before Friday." time="3 hours ago" dateTime="2026-10-24T06:30:00Z">
+              </TimelineItem>
+              <TimelineItem marker={<Avatar name="Jun Seo" color="iris" size="md" />} quote="Customer asked for net-45 terms. Finance sign-off needed before Friday." time="3 hours ago" dateTime="2026-10-24T06:30:00Z">
                 <S>Jun Seo</S> commented on the <S>Harbor Labs</S> renewal
-              </ListActivityItem>
-              <ListActivityItem avatar={<Avatar kind="agent" name="Fieldnote Agent" size="md" />} time="Yesterday, 17:05" dateTime="2026-10-23T17:05:00Z">
+              </TimelineItem>
+              <TimelineItem marker={<Avatar kind="agent" name="Fieldnote Agent" size="md" />} time="Yesterday, 17:05" dateTime="2026-10-23T17:05:00Z">
                 <S>Fieldnote Agent</S> drafted a win-back offer for <S>Atlas Robotics</S>
-              </ListActivityItem>
-              <ListActivityItem icon={<UserPlus />} time="Yesterday, 16:40" dateTime="2026-10-23T16:40:00Z">
+              </TimelineItem>
+              <TimelineItem icon={<UserPlus />} time="Yesterday, 16:40" dateTime="2026-10-23T16:40:00Z">
                 <S>Dahee Han</S> added 6 seats to <S>Brightline Co-op</S>
-              </ListActivityItem>
-              <ListActivityItem icon={<CreditCard />} time="Oct 22" dateTime="2026-10-22T10:18:00Z">
+              </TimelineItem>
+              <TimelineItem icon={<CreditCard />} time="Oct 22" dateTime="2026-10-22T10:18:00Z">
                 Card on file updated for <S>Orbit Pay</S>
-              </ListActivityItem>
-            </ListActivity>
+              </TimelineItem>
+            </Timeline>
           </CardBody>
           <CardFooter footer="divided">
             <Pagination layout="compact" total={84} pageSize={6} itemLabel="events" aria-label="Activity pages" />
           </CardFooter>
-        </CardSurface>
+        </Card>
 
-        <CardSurface aria-busy="true" aria-labelledby="forecast-title">
+        <Card aria-busy="true" aria-labelledby="forecast-title">
           <CardHeader>
             <CardHeading>
               <CardTitle as="h2" titleSize="sm" id="forecast-title">Q4 revenue forecast</CardTitle>
@@ -607,7 +607,7 @@ export default function Dashboard() {
           <CardFooter footer="divided">
             <CardMeta>Last run 09:24 UTC</CardMeta>
           </CardFooter>
-        </CardSurface>
+        </Card>
       </div>
     </div>
   );

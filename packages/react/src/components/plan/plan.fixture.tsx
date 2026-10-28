@@ -18,10 +18,7 @@ const statusLabels = { done: 'Done', now: 'In progress', todo: 'To do', failed: 
 
 export default defineFixture({
   id: 'plan',
-  render: ({ status, ...props }) => {
-    const steps = status ? specimen.map((s, i) => (i === 0 ? { ...s, status: status as PlanStep['status'] } : s)) : specimen;
-    return <div className="w-100"><Plan title="Build checkout flow" steps={steps} countLabel={countLabel} statusLabels={statusLabels} {...props} /></div>;
-  },
+  render: props => <div className="w-100"><Plan title="Build checkout flow" steps={specimen} countLabel={countLabel} statusLabels={statusLabels} {...props} /></div>,
   examples: {
     'plan-failed': () => <Plan title="Build checkout flow" steps={failedSpecimen} countLabel={countLabel} statusLabels={statusLabels} />,
     plan: () => <Plan title="Build checkout flow" steps={specimen} countLabel={countLabel} statusLabels={statusLabels} />,

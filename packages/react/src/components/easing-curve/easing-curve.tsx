@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { Chip } from '../chip/chip.tsx';
@@ -8,7 +9,7 @@ import { NumberField, type NumberFieldDraft } from '../number-field/number-field
 import {
   easingCurveBallVariants, easingCurveDiagonalVariants, easingCurveEndpointVariants, easingCurveFooterVariants, easingCurveGraphVariants,
   easingCurveGridLineVariants, easingCurveHandleLineVariants, easingCurveHandleVariants, easingCurvePathVariants, easingCurvePresetsVariants,
-  easingCurveStageVariants, easingCurveSvgVariants, easingCurveVariants,
+  easingCurveStageVariants, easingCurveSvgVariants, easingCurveTrackVariants, easingCurveVariants,
 } from './easing-curve.variants.ts';
 
 export type Bezier = [number, number, number, number];
@@ -67,6 +68,16 @@ export interface EasingCurveProps extends Omit<ComponentProps<'div'>, 'defaultVa
   onFieldBlur?: ((event: { field: EasingCurveField; dirty: boolean }) => void) | undefined;
   /** K2e: one field commits; return false to reject. */
   onFieldCommit?: ((change: EasingCurveChange) => boolean | void) | undefined;
+  /** Colour family of the preview ball. */
+  tone?: Tone | undefined;
+  /** Emphasis of the preview ball; solid (default) is the ink ball. */
+  variant?: Variant | undefined;
+  /** Corner radius of the root; unset = none. */
+  radius?: Radius | undefined;
+  /** Elevation of the root; unset = none. */
+  shadow?: Shadow | undefined;
+  /** Stack gap step (xs 8, sm 12, md 14, lg 16); the graph, chips and field keep their size. */
+  size?: Size | undefined;
 }
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -81,7 +92,8 @@ const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true }
 /** A cubic-bezier easing edited by dragging two handles, with presets, a live preview and the duration. */
 export function EasingCurve({
   value, defaultValue, defaultBezier, presets, progress, autoplay = false, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onValueChange, onPresetChange, onDraftChange, onPreviewChange, preview: showStage = true, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit, className, ...props
+  onValueChange, onPresetChange, onDraftChange, onPreviewChange, preview: showStage = true, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit,
+  tone, variant, radius, shadow, size, className, ...props
 }: EasingCurveProps) {
   const contract = useFieldContract<EasingCurveChange, EasingCurveField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const initial: EasingValue = { bezier: defaultBezier ?? defaultValue?.bezier ?? [0.4, 0, 1, 1], duration: defaultValue?.duration ?? 320 };
@@ -188,7 +200,7 @@ export function EasingCurve({
   );
 
   return (
-    <div data-slot="easing-curve" className={cn(easingCurveVariants(), className)} {...props}>
+    <div data-slot="easing-curve" className={cn(easingCurveVariants({ radius, shadow, size }), className)} {...props}>
       <div data-slot="easing-curve-graph" data-field="bezier" data-invalid={contract.isInvalid('bezier') || undefined} className={easingCurveGraphVariants()}>
         <svg
           ref={svgRef} viewBox="-10 -40 120 180" role="group" aria-label={labels.graph} className={easingCurveSvgVariants()}
@@ -217,7 +229,7 @@ export function EasingCurve({
         <div data-slot="easing-curve-presets" role="group" aria-label={labels.presetsGroup} className={easingCurvePresetsVariants()}>
           {presets.map(pr => (
             <Chip
-              key={pr.id} data-slot="easing-curve-preset" appearance="outline" size="sm" disabled={flagged(disabled, 'preset')}
+              key={pr.id} data-slot="easing-curve-preset" appearance="outline" size="md" disabled={flagged(disabled, 'preset')}
               pressed={active?.id === pr.id}
               onClick={() => { if (presetReserved) return; contract.commit('preset', { field: 'preset', value: pr.id }, () => { setCurrent({ ...current, bezier: [...pr.bezier] as Bezier }); onPresetChange?.(pr.id); }); }}
               data-field="preset"
@@ -231,11 +243,12 @@ export function EasingCurve({
       )}
       {showStage && (
         <div data-slot="easing-curve-stage" aria-hidden className={easingCurveStageVariants()}>
-          <span data-slot="easing-curve-ball" className={easingCurveBallVariants()} style={ballVars} />
+          <span data-slot="easing-curve-track" className={easingCurveTrackVariants()} />
+          <span data-slot="easing-curve-ball" className={cn(easingCurveBallVariants({ tone, variant }))} style={ballVars} />
         </div>
       )}
       <div data-slot="easing-curve-footer" className={easingCurveFooterVariants()}>
-        <span data-slot="easing-curve-css" className="font-mono text-mono text-text-tertiary">{bezierMixed ? labels.mixed : css}</span>
+        <span data-slot="easing-curve-css" className="min-w-0 font-mono text-mono text-text-tertiary">{bezierMixed ? labels.mixed : css}</span>
         <span data-slot="easing-curve-duration" className="flex w-duration-field-w" {...contract.wrapAttrs('duration')} {...(durationReserved ? { 'aria-busy': true as const, 'data-reserved': true as const } : {})}>
           <NumberField
             aria-label={labels.duration} unit="ms" min={0} containerClassName="w-full" value={current.duration}

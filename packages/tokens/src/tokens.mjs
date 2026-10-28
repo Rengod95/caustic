@@ -30,12 +30,14 @@ export const neutral = {
 // Authored solids: the owner's builder export of 2026-10-26 (Deep Black neutrals; status and agent solids are the same value
 // in both modes, link "same"). The 2026-10-25 Signal Grey values are archived outside the repo (owner request).
 // Values outside sRGB are kept as authored; the build gamut-maps them.
+// `text: { <mode>: [L, C, h] }` authors step 11 (the text slot) for that mode instead of deriving it from the solid.
+// Light danger/info/success text were muddy at the derived chroma (owner follow-up 2026-10-28, field option 5).
 export const solids = {
   accent: { name: 'Deep Black', role: 'Accent: primary emphasis, links, selection on canvas, focus (separate from ink, decision 1)', light: [0.11, 0, 0], dark: [0.97, 0, 0] },
-  success: { name: 'Pad Green', role: 'Success, diff add', light: [0.82, 0.187, 155], dark: [0.82, 0.187, 155] },
+  success: { name: 'Pad Green', role: 'Success, diff add', light: [0.82, 0.187, 155], dark: [0.82, 0.187, 155], text: { light: [0.5, 0.16, 155] } },
   warning: { name: 'Tape Yellow', role: 'Warning, permission', light: [0.905, 0.159, 118], dark: [0.905, 0.159, 118] },
-  danger: { name: 'Signal Orange', role: 'Danger, diff remove', light: [0.77, 0.261, 43], dark: [0.77, 0.261, 43] },
-  info: { name: 'Panel Blue', role: 'Info, review, user guides', light: [0.7, 0.145, 266], dark: [0.7, 0.145, 266] },
+  danger: { name: 'Signal Orange', role: 'Danger, diff remove', light: [0.77, 0.261, 43], dark: [0.77, 0.261, 43], text: { light: [0.52, 0.16, 38] } },
+  info: { name: 'Panel Blue', role: 'Info, review, user guides', light: [0.7, 0.145, 266], dark: [0.7, 0.145, 266], text: { light: [0.5, 0.19, 266] } },
   'agent-1': { name: 'Signal', role: 'Agent gradient stop 1; the agent tone', light: [0.755, 0.251, 88], dark: [0.755, 0.251, 88] },
   'agent-2': { name: 'Panel', role: 'Agent gradient stop 2', light: [0.695, 0.308, 281], dark: [0.695, 0.308, 281] },
   'agent-3': { name: 'Pad', role: 'Agent gradient stop 3', light: [0.79, 0.31, 37], dark: [0.79, 0.31, 37] },
@@ -367,11 +369,14 @@ export const themes = {
 const neutralBgs = ['surface.base', 'surface.raised', 'bg.app', 'bg.canvas'];
 const hued = ['accent', 'success', 'warning', 'danger', 'info', 'agent'];
 // §7 rule 7: slot pairs for every tone.
+// An authored text step (solids[ramp].text) is the owner's colour: on the hover and pressed tints it is a
+// design-over-contrast warning (it still has to pass on surface and on soft).
+const authoredText = tone => Boolean(solids[tones[tone]]?.text);
 const slotRules = tone => [
   [`${tone}.text`, 'surface.base', 4.5, 'slot: text 11 on surface'],
   [`${tone}.text`, `${tone}.soft`, 4.5, 'slot: text 11 on soft 3'],
-  [`${tone}.text`, `${tone}.soft-hover`, 4.5, 'slot: text 11 on soft-hover 4'],
-  [`${tone}.text`, `${tone}.soft-pressed`, 4.5, 'slot: text 11 on soft-pressed 5'],
+  [`${tone}.text`, `${tone}.soft-hover`, 4.5, 'slot: text 11 on soft-hover 4', ...(authoredText(tone) ? ['warn'] : [])],
+  [`${tone}.text`, `${tone}.soft-pressed`, 4.5, 'slot: text 11 on soft-pressed 5', ...(authoredText(tone) ? ['warn'] : [])],
   [`${tone}.on`, `${tone}.solid`, tone === 'accent' || tone === 'danger' ? 4.5 : 3, 'slot: on vs solid 9'],
   [`${tone}.on`, `${tone}.solid-hover`, tone === 'accent' || tone === 'danger' ? 4.5 : 3, 'slot: on vs solid-hover 10'],
   // Step 8 follows the authored solid (owner 2026-10-26: design over contrast), so a light solid gives a light graphic.
@@ -463,10 +468,10 @@ export const size = {
   icon: { xs: 12, sm: 14, md: 16, lg: 20, xl: 24 },
   // Fixed component geometry. Every dimension a component uses is a token.
   component: {
-    check: 18, 'radio-dot': 7, 'kbd-h': 18, 'progress-h': 6, 'tool-icon': 24, presence: 8,
-    'switch-md-w': 46, 'switch-md-h': 28, 'switch-md-thumb': 24, 'switch-md-travel': 18, 'switch-md-press': 30,
-    'switch-sm-w': 38, 'switch-sm-h': 23, 'switch-sm-thumb': 19, 'switch-sm-travel': 15, 'switch-sm-press': 24,
-    'avatar-xs': 16, 'avatar-sm': 24, 'avatar-md': 32, 'avatar-lg': 36,
+    check: 18, 'radio-dot': 7, 'kbd-h': 18, 'progress-h': 6, presence: 8,
+    'switch-md-w': 64, 'switch-md-h': 28, 'switch-md-thumb': 24, 'switch-md-thumb-w': 40, 'switch-md-travel': 20, 'switch-md-press': 48,
+    'switch-sm-w': 48, 'switch-sm-h': 23, 'switch-sm-thumb': 19, 'switch-sm-thumb-w': 28, 'switch-sm-travel': 16, 'switch-sm-press': 32,
+    'avatar-xs': 16, 'avatar-sm': 26, 'avatar-md': 32, 'avatar-lg': 36,
     'dialog-sm': 320, 'dialog-md': 480, 'dialog-lg': 640, 'modal-sm': 380, 'sheet-md': 380, 'empty-glyph': 22,
     'card-tile': 36, 'card-glyph': 18, 'card-add': 76, 'card-spark': 64, 'spotlight-glow': 320, 'spotlight-rim': 200,
     'list-row': 52, 'list-tile': 30, 'list-term': 140, 'nav-indent': 36,
@@ -488,7 +493,9 @@ export const size = {
     'grabber-w': 36, 'table-head-h': 38, 'table-select-w': 36, 'table-min-w': 560,
     'chip-h': 26, 'chip-icon': 13, 'spinner-lg': 28, 'control-inline': 26, 'tab-h': 34,
     'textarea-min': 92, 'otp-w': 44, 'otp-h': 52,
-    'slider-ruler-h': 30, 'slider-label-w': 52,
+    // slider-field-w: the Slider row's number column, just wide enough for the italic "Mixed" placeholder with a % unit
+    // (owner 2026-10-28: 58px clipped it).
+    'slider-ruler-h': 30, 'slider-label-w': 52, 'slider-field-w': 64,
     'menu-item': 30, 'menu-min': 220, 'listbox-max': 220,
     'popover-sm': 240, 'popover-md': 280, 'popover-arrow': 12,
     'calendar': 284, 'calendar-day': 36, 'icon-send': 15,
@@ -546,6 +553,9 @@ export const type = {
   'mono-ruler': ['mono', 9.5, 12, 500, 0],
   'mono-micro': ['mono', 8, 10, 600, 0],
   'voice-lg': ['voice', 19, 26, 400, 0],
+  // Owner 2026-10-27: the canvas-empty title one step up; dense mono for nested, low-priority call names.
+  'voice-xl': ['voice', 22, 30, 400, -0.01],
+  'mono-dense': ['mono', 11, 16, 400, -0.02],
 };
 
 // Elevation: a short contact shadow + a long diffuse one. Values per theme.
@@ -559,7 +569,9 @@ export const elevation = {
     // Control thumbs (sliders, steppers): a hairline, a contact shadow and a short lift. Same in both themes.
     thumb: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)',
     'thumb-sm': '0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)',
-    'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25)',
+    // Swatch thumb (gradient / alpha slider; channel-slider proposal 2, owner 2026-10-28): no white ring, a 1px swatch.edge
+    // hairline and the thumb shadow doubled with thumb-sm.
+    'thumb-swatch': 'inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm)',
     // Surfaces with their own depth: resting card, hover lift, inset well panel, agent glow.
     card: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 12px 32px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)',
     lift: '0 14px 30px -14px oklch(from var(--cs-color-shadow-ambient) l c h / 0.3)',
@@ -576,7 +588,9 @@ export const elevation = {
     // Control thumbs (sliders, steppers): a hairline, a contact shadow and a short lift. Same in both themes.
     thumb: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)',
     'thumb-sm': '0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)',
-    'thumb-swatch': '0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25)',
+    // Swatch thumb (gradient / alpha slider; channel-slider proposal 2, owner 2026-10-28): no white ring, a 1px swatch.edge
+    // hairline and the thumb shadow doubled with thumb-sm.
+    'thumb-swatch': 'inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm)',
     // Surfaces with their own depth: resting card, hover lift, inset well panel, agent glow.
     card: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 12px 32px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.6)',
     lift: '0 14px 30px -14px oklch(from var(--cs-color-shadow-contact) l c h / 0.7)',

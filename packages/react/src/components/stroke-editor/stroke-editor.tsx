@@ -2,6 +2,7 @@
 import { ArrowRight, ArrowRightToLine, Circle, CircleDot, CornerUpRight, Menu, Minus, Octagon, SlidersHorizontal, Square } from 'lucide-react';
 import { useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
@@ -11,8 +12,9 @@ import { PaintWell, type PaintWellDraft, type PaintWellLabels } from '../paint-w
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import { Switch } from '../switch/switch.tsx';
 import {
-  strokeEditorBoxVariants, strokeEditorDashRowVariants, strokeEditorIndependentVariants, strokeEditorPreviewLineVariants, strokeEditorPreviewVariants,
-  strokeEditorSideVariants, strokeEditorSidesVariants, strokeEditorVariants, strokeEditorWeightRowVariants,
+  strokeEditorBoxVariants, strokeEditorDashRowVariants, strokeEditorEndsRowVariants, strokeEditorExtraRowVariants, strokeEditorFieldsVariants, strokeEditorIndependentVariants,
+  strokeEditorLineVariants, strokeEditorPreviewLineVariants, strokeEditorPreviewVariants, strokeEditorSideVariants, strokeEditorSidesVariants,
+  strokeEditorVariants, strokeEditorWeightRowVariants, strokeEditorWidthsVariants,
 } from './stroke-editor.variants.ts';
 
 export type StrokePosition = 'inside' | 'center' | 'outside';
@@ -94,7 +96,7 @@ export type StrokeEditorDraft =
   | { field: 'dashPattern'; text: string; value: number[] | null; error: 'empty' | 'syntax' | 'range' | null; dirty: boolean }
   | { field: 'color'; draft: PaintWellDraft };
 
-export interface StrokeEditorProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
+export interface StrokeEditorProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'>, CommonProps {
   value?: StrokeValue | undefined;
   defaultValue?: StrokeValue | undefined;
   /** true disables every control; a record disables the named fields. */
@@ -134,7 +136,7 @@ const busy = (on: boolean) => (on ? { 'aria-busy': true as const, 'data-reserved
 /** Edits a stroke: paint, weight, position, dash, cap and independent side widths. */
 export function StrokeEditor({
   value, defaultValue = DEFAULT_STROKE, disabled = false, commitMode = 'live', mixed, reserved, labels, onDraftChange, onPreviewChange, onValueChange, onDetailsClick,
-  invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
+  invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit, tone, variant, radius, shadow, size, className, children, ...props
 }: StrokeEditorProps) {
   const contract = useFieldContract<StrokeChange, StrokeEditorField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const [patternText, setPatternText] = useState<string | null>(null);
@@ -184,7 +186,8 @@ export function StrokeEditor({
     setPatternText(null);
     onDraftChange?.({ field: 'dashPattern', text: parsed.join(', '), value: parsed, error: null, dirty: false });
   };
-  const hasExtra = stroke.opacity !== undefined || stroke.join !== undefined || stroke.miterLimit !== undefined || pattern !== undefined;
+  const showMiter = stroke.miterLimit !== undefined && (stroke.join === undefined || stroke.join === 'miter');
+  const hasExtra = stroke.opacity !== undefined || showMiter;
 
   const lineDash = pattern ? (pattern[0] ?? 0) : stroke.dash;
   const linePeriod = pattern ? (pattern[0] ?? 0) + (pattern[1] ?? pattern[0] ?? 0) : stroke.dash + stroke.gap;
@@ -206,152 +209,160 @@ export function StrokeEditor({
 
   const colorHeld = isHeld('color');
   return (
-    <div data-slot="stroke-editor" className={cn(strokeEditorVariants(), className)} {...props}>
-      <div data-slot="stroke-editor-paint" {...busy(colorHeld)} data-field="color" data-invalid={contract.isInvalid('color') || undefined}>
-        <PaintWell
-          labels={labels.color} disabled={isOff('color')} commitMode={commitMode} mixed={isMixed('color')}
-          reserved={colorHeld ? { hex: true, alpha: true, well: true, detach: true } : undefined}
-          value={stroke.color} onValueChange={color => { contract.commit('color', { field: 'color', value: color }, () => patch({ color })); }}
-          invalid={contract.isInvalid('color') ? { hex: true } : undefined}
-          onFieldFocus={() => contract.focus('color')} onFieldBlur={() => contract.blur('color')}
-          onDraftChange={d => { contract.draft('color', d); onDraftChange?.({ field: 'color', draft: d }); }}
-          onPreviewChange={color => preview1(color === null ? null : { ...committed, color })}
-        />
-      </div>
-      <div data-slot="stroke-editor-weight-row" className={strokeEditorWeightRowVariants()}>
-        <span data-slot="stroke-editor-weight" className="min-w-0" {...wrapField('weight')}>
-          <NumberField
-            label={<Menu />} unit="px" aria-label={labels.weight} step={0.5} min={0} {...field('weight')}
-            value={stroke.weight} onValueChange={num('weight', weight => patch({ weight }))} onDraftChange={draft('weight')}
-            onPreviewChange={n => preview1(n === null ? null : { ...committed, weight: n })}
+    <div data-slot="stroke-editor" className={cn(strokeEditorVariants({ tone, variant, size, radius, shadow }), className)} {...props}>
+      <div data-slot="stroke-editor-fields" className={strokeEditorFieldsVariants()}>
+        <div data-slot="stroke-editor-paint" {...busy(colorHeld)} data-field="color" data-invalid={contract.isInvalid('color') || undefined}>
+          <PaintWell
+            labels={labels.color} disabled={isOff('color')} commitMode={commitMode} mixed={isMixed('color')}
+            reserved={colorHeld ? { hex: true, alpha: true, well: true, detach: true } : undefined}
+            value={stroke.color} onValueChange={color => { contract.commit('color', { field: 'color', value: color }, () => patch({ color })); }}
+            invalid={contract.isInvalid('color') ? { hex: true } : undefined}
+            onFieldFocus={() => contract.focus('color')} onFieldBlur={() => contract.blur('color')}
+            onDraftChange={d => { contract.draft('color', d); onDraftChange?.({ field: 'color', draft: d }); }}
+            onPreviewChange={color => preview1(color === null ? null : { ...committed, color })}
           />
-        </span>
-        <SegmentedControl
-          data-slot="stroke-editor-position" size="xs" aria-label={labels.positionGroup} className="flex" disabled={isOff('position')}
-          data-mixed={isMixed('position') || undefined} {...busy(isHeld('position'))} aria-readonly={isHeld('position') || undefined}
-          value={isMixed('position') ? '' : stroke.position} onValueChange={choose<string>('position', v => patch({ position: v as StrokePosition }))}
-          {...disc('position')}
-        >
-          <SegmentedControlItem value="inside">{labels.position.inside}</SegmentedControlItem>
-          <SegmentedControlItem value="center">{labels.position.center}</SegmentedControlItem>
-          <SegmentedControlItem value="outside">{labels.position.outside}</SegmentedControlItem>
-        </SegmentedControl>
-        <IconButton data-slot="stroke-editor-details" size="xs" label={labels.details} disabled={disabled === true} onClick={() => onDetailsClick?.()}><SlidersHorizontal /></IconButton>
-      </div>
-      <div data-slot="stroke-editor-dash-row" className={strokeEditorDashRowVariants()}>
-        {pattern === undefined && (
-          <>
-            <span data-slot="stroke-editor-dash" className="min-w-0" {...wrapField('dash')}>
+        </div>
+        <div data-slot="stroke-editor-line" className={strokeEditorLineVariants()}>
+          <div data-slot="stroke-editor-weight-row" className={strokeEditorWeightRowVariants()}>
+            <span data-slot="stroke-editor-weight" className="min-w-0" {...wrapField('weight')}>
               <NumberField
-                label={labels.dash} aria-label={labels.dash} min={0} {...field('dash')}
-                value={stroke.dash} onValueChange={num('dash', dash => patch({ dash }))} onDraftChange={draft('dash')}
-                onPreviewChange={n => preview1(n === null ? null : { ...committed, dash: n })}
+                label={<Menu />} unit="px" aria-label={labels.weight} step={0.5} min={0} {...field('weight')}
+                value={stroke.weight} onValueChange={num('weight', weight => patch({ weight }))} onDraftChange={draft('weight')}
+                onPreviewChange={n => preview1(n === null ? null : { ...committed, weight: n })}
               />
             </span>
-            <span data-slot="stroke-editor-gap" className="min-w-0" {...wrapField('gap')}>
-              <NumberField
-                label={labels.gap} aria-label={labels.gap} min={0} {...field('gap')}
-                value={stroke.gap} onValueChange={num('gap', gap => patch({ gap }))} onDraftChange={draft('gap')}
-                onPreviewChange={n => preview1(n === null ? null : { ...committed, gap: n })}
-              />
-            </span>
-          </>
-        )}
-        <SegmentedControl
-          data-slot="stroke-editor-caps" size="xs" content="icon" aria-label={labels.capsGroup} className="justify-self-end" disabled={isOff('cap')}
-          data-mixed={isMixed('cap') || undefined} {...busy(isHeld('cap'))} aria-readonly={isHeld('cap') || undefined}
-          value={isMixed('cap') ? '' : stroke.cap} onValueChange={choose<string>('cap', v => patch({ cap: v as StrokeCap }))}
-          {...disc('cap')}
-        >
-          <SegmentedControlItem value="butt" aria-label={labels.caps.butt}><Minus /></SegmentedControlItem>
-          <SegmentedControlItem value="round" aria-label={labels.caps.round}><CircleDot /></SegmentedControlItem>
-          {labels.capExtra?.square !== undefined && <SegmentedControlItem value="square" aria-label={labels.capExtra.square}><Square /></SegmentedControlItem>}
-          <SegmentedControlItem value="arrow" aria-label={labels.caps.arrow}><ArrowRight /></SegmentedControlItem>
-          {labels.capExtra?.['arrow-filled'] !== undefined && <SegmentedControlItem value="arrow-filled" aria-label={labels.capExtra['arrow-filled']}><ArrowRightToLine /></SegmentedControlItem>}
-        </SegmentedControl>
-      </div>
-      {hasExtra && (
-        <div data-slot="stroke-editor-extra-row" className="grid grid-cols-2 items-center gap-1.5">
-          {stroke.opacity !== undefined && (
-            <span data-slot="stroke-editor-opacity" className="min-w-0" {...wrapField('opacity')}>
-              <NumberField
-                label={labels.opacity} aria-label={labels.opacity} unit="%" min={0} max={100} {...field('opacity')}
-                value={stroke.opacity} onValueChange={num('opacity', opacity => patch({ opacity }))} onDraftChange={draft('opacity')}
-                onPreviewChange={n => preview1(n === null ? null : { ...committed, opacity: n })}
-              />
-            </span>
-          )}
-          {stroke.miterLimit !== undefined && (stroke.join === undefined || stroke.join === 'miter') && (
-            <span data-slot="stroke-editor-miter-limit" className="min-w-0" {...wrapField('miterLimit')}>
-              <NumberField
-                label={labels.miterLimit} aria-label={labels.miterLimit} min={1} {...field('miterLimit')}
-                value={stroke.miterLimit} onValueChange={num('miterLimit', miterLimit => patch({ miterLimit }))} onDraftChange={draft('miterLimit')}
-                onPreviewChange={n => preview1(n === null ? null : { ...committed, miterLimit: n })}
-              />
-            </span>
-          )}
-          {stroke.join !== undefined && labels.join !== undefined && (
             <SegmentedControl
-              data-slot="stroke-editor-join" size="xs" content="icon" aria-label={labels.joinGroup} disabled={isOff('join')}
-              data-mixed={isMixed('join') || undefined} {...busy(isHeld('join'))} aria-readonly={isHeld('join') || undefined}
-              value={isMixed('join') ? '' : stroke.join} onValueChange={choose<string>('join', v => patch({ join: v as StrokeJoin }))}
-              {...disc('join')}
+              data-slot="stroke-editor-position" size="xs" aria-label={labels.positionGroup} className="flex" disabled={isOff('position')}
+              data-mixed={isMixed('position') || undefined} {...busy(isHeld('position'))} aria-readonly={isHeld('position') || undefined}
+              value={isMixed('position') ? '' : stroke.position} onValueChange={choose<string>('position', v => patch({ position: v as StrokePosition }))}
+              {...disc('position')}
             >
-              <SegmentedControlItem value="miter" aria-label={labels.join.miter}><CornerUpRight /></SegmentedControlItem>
-              <SegmentedControlItem value="round" aria-label={labels.join.round}><Circle /></SegmentedControlItem>
-              <SegmentedControlItem value="bevel" aria-label={labels.join.bevel}><Octagon /></SegmentedControlItem>
+              <SegmentedControlItem value="inside">{labels.position.inside}</SegmentedControlItem>
+              <SegmentedControlItem value="center">{labels.position.center}</SegmentedControlItem>
+              <SegmentedControlItem value="outside">{labels.position.outside}</SegmentedControlItem>
             </SegmentedControl>
-          )}
-          {pattern !== undefined && (
-            <span data-slot="stroke-editor-dash-pattern" className="col-span-2 min-w-0" {...wrapField('dashPattern')}>
-              <Input
-                aria-label={labels.dashPattern} placeholder={labels.dashPatternPlaceholder} spellCheck={false} autoComplete="off"
-                invalid={contract.isInvalid('dashPattern') || patternError !== null} disabled={isOff('dashPattern')} readOnly={isHeld('dashPattern')}
-                aria-describedby={contract.describedBy('dashPattern')} data-field="dashPattern" data-dirty={(patternText !== null) || undefined}
-                value={patternText ?? patternSource}
-                onFocus={() => { if (!isHeld('dashPattern') && !isOff('dashPattern')) contract.focus('dashPattern'); }}
-                onBlur={() => { commitPattern(); if (!isHeld('dashPattern') && !isOff('dashPattern')) queueMicrotask(() => onFieldBlur?.({ field: 'dashPattern', dirty: typedPattern.current !== '' && patternError !== null })); }}
-                onValueChange={text => {
-                  if (isHeld('dashPattern')) return;
-                  typedPattern.current = text;
-                  setPatternText(text);
-                  const { value: parsed, error } = readPattern(text);
-                  setPatternError(error);
-                  contract.draft('dashPattern', { dirty: text !== patternSource });
-                  onDraftChange?.({ field: 'dashPattern', text, value: parsed, error, dirty: text !== patternSource });
-                }}
-                onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
-                  if (e.nativeEvent.isComposing) return;
-                  if (e.key === 'Enter') commitPattern();
-                  if (e.key === 'Escape') { setPatternText(null); setPatternError(null); onDraftChange?.({ field: 'dashPattern', text: patternSource, value: pattern ?? null, error: null, dirty: false }); }
-                }}
-              />
-            </span>
+            <IconButton data-slot="stroke-editor-details" size="xs" className="justify-self-end" label={labels.details} disabled={disabled === true} onClick={() => onDetailsClick?.()}><SlidersHorizontal /></IconButton>
+          </div>
+          <div data-slot="stroke-editor-dash-row" className={strokeEditorDashRowVariants()}>
+            {pattern === undefined && (
+              <>
+                <span data-slot="stroke-editor-dash" className="min-w-0" {...wrapField('dash')}>
+                  <NumberField
+                    label={labels.dash} aria-label={labels.dash} min={0} {...field('dash')}
+                    value={stroke.dash} onValueChange={num('dash', dash => patch({ dash }))} onDraftChange={draft('dash')}
+                    onPreviewChange={n => preview1(n === null ? null : { ...committed, dash: n })}
+                  />
+                </span>
+                <span data-slot="stroke-editor-gap" className="min-w-0" {...wrapField('gap')}>
+                  <NumberField
+                    label={labels.gap} aria-label={labels.gap} min={0} {...field('gap')}
+                    value={stroke.gap} onValueChange={num('gap', gap => patch({ gap }))} onDraftChange={draft('gap')}
+                    onPreviewChange={n => preview1(n === null ? null : { ...committed, gap: n })}
+                  />
+                </span>
+              </>
+            )}
+            {pattern !== undefined && (
+              <span data-slot="stroke-editor-dash-pattern" className="col-span-2 min-w-0" {...wrapField('dashPattern')}>
+                <Input
+                  variant="sunken" size="xs" aria-label={labels.dashPattern} placeholder={labels.dashPatternPlaceholder} spellCheck={false} autoComplete="off"
+                  invalid={contract.isInvalid('dashPattern') || patternError !== null} disabled={isOff('dashPattern')} readOnly={isHeld('dashPattern')}
+                  aria-describedby={contract.describedBy('dashPattern')} data-field="dashPattern" data-dirty={(patternText !== null) || undefined}
+                  value={patternText ?? patternSource}
+                  onFocus={() => { if (!isHeld('dashPattern') && !isOff('dashPattern')) contract.focus('dashPattern'); }}
+                  onBlur={() => { commitPattern(); if (!isHeld('dashPattern') && !isOff('dashPattern')) queueMicrotask(() => onFieldBlur?.({ field: 'dashPattern', dirty: typedPattern.current !== '' && patternError !== null })); }}
+                  onValueChange={text => {
+                    if (isHeld('dashPattern')) return;
+                    typedPattern.current = text;
+                    setPatternText(text);
+                    const { value: parsed, error } = readPattern(text);
+                    setPatternError(error);
+                    contract.draft('dashPattern', { dirty: text !== patternSource });
+                    onDraftChange?.({ field: 'dashPattern', text, value: parsed, error, dirty: text !== patternSource });
+                  }}
+                  onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+                    if (e.nativeEvent.isComposing) return;
+                    if (e.key === 'Enter') commitPattern();
+                    if (e.key === 'Escape') { setPatternText(null); setPatternError(null); onDraftChange?.({ field: 'dashPattern', text: patternSource, value: pattern ?? null, error: null, dirty: false }); }
+                  }}
+                />
+              </span>
+            )}
+          </div>
+          <div data-slot="stroke-editor-ends-row" className={strokeEditorEndsRowVariants()}>
+            <SegmentedControl
+              data-slot="stroke-editor-caps" size="xs" content="icon" aria-label={labels.capsGroup} disabled={isOff('cap')}
+              data-mixed={isMixed('cap') || undefined} {...busy(isHeld('cap'))} aria-readonly={isHeld('cap') || undefined}
+              value={isMixed('cap') ? '' : stroke.cap} onValueChange={choose<string>('cap', v => patch({ cap: v as StrokeCap }))}
+              {...disc('cap')}
+            >
+              <SegmentedControlItem value="butt" aria-label={labels.caps.butt}><Minus /></SegmentedControlItem>
+              <SegmentedControlItem value="round" aria-label={labels.caps.round}><CircleDot /></SegmentedControlItem>
+              {labels.capExtra?.square !== undefined && <SegmentedControlItem value="square" aria-label={labels.capExtra.square}><Square /></SegmentedControlItem>}
+              <SegmentedControlItem value="arrow" aria-label={labels.caps.arrow}><ArrowRight /></SegmentedControlItem>
+              {labels.capExtra?.['arrow-filled'] !== undefined && <SegmentedControlItem value="arrow-filled" aria-label={labels.capExtra['arrow-filled']}><ArrowRightToLine /></SegmentedControlItem>}
+            </SegmentedControl>
+            {stroke.join !== undefined && labels.join !== undefined && (
+              <SegmentedControl
+                data-slot="stroke-editor-join" size="xs" content="icon" aria-label={labels.joinGroup} disabled={isOff('join')}
+                data-mixed={isMixed('join') || undefined} {...busy(isHeld('join'))} aria-readonly={isHeld('join') || undefined}
+                value={isMixed('join') ? '' : stroke.join} onValueChange={choose<string>('join', v => patch({ join: v as StrokeJoin }))}
+                {...disc('join')}
+              >
+                <SegmentedControlItem value="miter" aria-label={labels.join.miter}><CornerUpRight /></SegmentedControlItem>
+                <SegmentedControlItem value="round" aria-label={labels.join.round}><Circle /></SegmentedControlItem>
+                <SegmentedControlItem value="bevel" aria-label={labels.join.bevel}><Octagon /></SegmentedControlItem>
+              </SegmentedControl>
+            )}
+          </div>
+          {hasExtra && (
+            <div data-slot="stroke-editor-extra-row" className={strokeEditorExtraRowVariants()}>
+              {stroke.opacity !== undefined && (
+                <span data-slot="stroke-editor-opacity" className="min-w-0" {...wrapField('opacity')}>
+                  <NumberField
+                    label={labels.opacity} aria-label={labels.opacity} unit="%" min={0} max={100} {...field('opacity')}
+                    value={stroke.opacity} onValueChange={num('opacity', opacity => patch({ opacity }))} onDraftChange={draft('opacity')}
+                    onPreviewChange={n => preview1(n === null ? null : { ...committed, opacity: n })}
+                  />
+                </span>
+              )}
+              {showMiter && (
+                <span data-slot="stroke-editor-miter-limit" className="min-w-0" {...wrapField('miterLimit')}>
+                  <NumberField
+                    label={labels.miterLimit} aria-label={labels.miterLimit} min={1} {...field('miterLimit')}
+                    value={stroke.miterLimit} onValueChange={num('miterLimit', miterLimit => patch({ miterLimit }))} onDraftChange={draft('miterLimit')}
+                    onPreviewChange={n => preview1(n === null ? null : { ...committed, miterLimit: n })}
+                  />
+                </span>
+              )}
+            </div>
           )}
         </div>
-      )}
+      </div>
       <div data-slot="stroke-editor-preview" aria-hidden className={strokeEditorPreviewVariants()}>
         <span data-slot="stroke-editor-preview-line" className={strokeEditorPreviewLineVariants()} style={previewVars} />
       </div>
-      <div data-slot="stroke-editor-independent" className={strokeEditorIndependentVariants()}>
-        <span>{labels.independent}</span>
-        <Switch
-          size="sm" aria-label={labels.independentSwitch} disabled={isOff('independent')} checked={stroke.independent}
-          data-mixed={isMixed('independent') || undefined} {...(isMixed('independent') ? { 'aria-checked': 'mixed' as const } : {})}
-          {...busy(isHeld('independent'))} aria-readonly={isHeld('independent') || undefined}
-          onCheckedChange={choose<boolean>('independent', toggleIndependent)}
-          {...disc('independent')}
-        />
-      </div>
-      {stroke.independent ? (
-        <div data-slot="stroke-editor-sides" role="group" aria-label={labels.sidesGroup} className={strokeEditorSidesVariants()}>
-          {sideField('top', 't')}
-          {sideField('left', 'l')}
-          <span data-slot="stroke-editor-box" aria-hidden className={strokeEditorBoxVariants()} style={boxVars} />
-          {sideField('right', 'r')}
-          {sideField('bottom', 'b')}
+      <div data-slot="stroke-editor-widths" className={strokeEditorWidthsVariants()}>
+        <div data-slot="stroke-editor-independent" className={strokeEditorIndependentVariants()}>
+          <span>{labels.independent}</span>
+          <Switch
+            size="sm" aria-label={labels.independentSwitch} disabled={isOff('independent')} checked={stroke.independent}
+            data-mixed={isMixed('independent') || undefined} {...(isMixed('independent') ? { 'aria-checked': 'mixed' as const } : {})}
+            {...busy(isHeld('independent'))} aria-readonly={isHeld('independent') || undefined}
+            onCheckedChange={choose<boolean>('independent', toggleIndependent)}
+            {...disc('independent')}
+          />
         </div>
-      ) : null}
+        {stroke.independent ? (
+          <div data-slot="stroke-editor-sides" role="group" aria-label={labels.sidesGroup} className={strokeEditorSidesVariants()}>
+            {sideField('top', 't')}
+            {sideField('left', 'l')}
+            <span data-slot="stroke-editor-box" aria-hidden className={strokeEditorBoxVariants()} style={boxVars} />
+            {sideField('right', 'r')}
+            {sideField('bottom', 'b')}
+          </div>
+        ) : null}
+      </div>
       {children}
     </div>
   );

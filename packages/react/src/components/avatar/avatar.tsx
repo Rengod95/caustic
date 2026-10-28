@@ -13,11 +13,11 @@ export interface AvatarProps extends Omit<ComponentProps<'span'>, 'children' | '
 const initials = (n: string) => n.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]!.toUpperCase()).join('');
 
 /** A person (identity color + initials) or the agent (spectrum core). */
-export function Avatar({ name, kind, color, size, presence = false, className, ...props }: AvatarProps) {
+export function Avatar({ name, kind, color, size, variant, tone, radius, shadow, presence = false, className, ...props }: AvatarProps) {
   const agent = kind === 'agent';
   return (
-    <span role="img" aria-label={name} data-slot="avatar" data-kind={kind ?? 'person'} className={cn(avatarVariants({ kind, color, size }), className)} {...props}>
-      {agent ? <span aria-hidden className={avatarCore({ kind })} /> : initials(name)}
+    <span role="img" aria-label={name} data-slot="avatar" data-kind={kind ?? 'person'} className={cn(avatarVariants({ kind, color, size, variant, tone, radius, shadow }), className)} {...props}>
+      {agent ? <span data-slot="avatar-core" aria-hidden className={avatarCore({ kind })} /> : initials(name)}
       {presence && <span data-slot="avatar-presence" aria-hidden className="absolute -bottom-px -right-px size-presence rounded-full bg-success-solid shadow-[0_0_0_2px_var(--cs-focus-offset,var(--cs-color-focus-offset))]" />}
     </span>
   );

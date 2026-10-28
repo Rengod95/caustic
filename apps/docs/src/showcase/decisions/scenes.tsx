@@ -3,10 +3,10 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { Bell, Check, Component, Frame as FrameIcon, Package, Square, TriangleAlert, Type, Users } from 'lucide-react';
 import {
-  Alert, Badge, Button, CanvasArtboard, CanvasGuide, CanvasSelection, Checkbox, Field, Input, InputGroup, Switch, Textarea,
+  Alert, Badge, Button, CanvasArtboard, CanvasGuide, CanvasSelection, Checkbox, Field, Input, Switch, Textarea,
 } from '@caustic/react';
 import { contrast, css, type LCH } from '../color.ts';
-import { surfaceFor, type Palette, type Theme } from '../palettes.ts';
+import { surfaceFor, type Palette, type Theme } from '../palette.ts';
 import { rampFor } from '../builder/language.ts';
 import { capped, onOf } from './model.ts';
 
@@ -220,7 +220,7 @@ export function RequiredScene() {
   return (
     <div className="grid gap-3 bg-surface-base p-3 min-[600px]:grid-cols-2">
       <Field label="Release name" required><Input defaultValue="Signal Grey, deeper ink" /></Field>
-      <Field label="Version" required error="0.4.0 is already published."><InputGroup start="v" defaultValue="0.4.0" invalid /></Field>
+      <Field label="Version" required error="0.4.0 is already published."><Input addons prefix="v" defaultValue="0.4.0" invalid /></Field>
       <Field label="Rollout note" required><Textarea rows={2} placeholder="One line for the changelog" /></Field>
       <Field label="Reviewer" optional optionalLabel="Optional"><Input placeholder="@handle" /></Field>
     </div>

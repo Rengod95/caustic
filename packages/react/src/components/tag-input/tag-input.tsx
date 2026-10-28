@@ -1,11 +1,13 @@
 'use client';
 import { useRef, useState, type ClipboardEvent, type ComponentProps, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { Chip } from '../chip/chip.tsx';
 import { useFieldContext } from '../field/field-context.ts';
+import { tagInputVariants } from './tag-input.variants.ts';
 
-export interface TagInputProps extends Omit<ComponentProps<'input'>, 'value' | 'defaultValue' | 'onChange' | 'size' | 'type'> {
+export interface TagInputProps extends Omit<ComponentProps<'input'>, 'value' | 'defaultValue' | 'onChange' | 'size' | 'type'>, CommonProps {
   /** Controlled tags. */
   value?: string[];
   /** Uncontrolled initial tags. */
@@ -25,7 +27,7 @@ type Delimiter = 'Enter' | ',';
 const DEFAULT_DELIMITERS: readonly Delimiter[] = ['Enter', ','];
 
 /** Enters a list of short strings as removable tags (Chips). */
-export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS, allowDuplicates = false, invalid, disabled, id, onValueChange, onKeyDown, className, containerClassName, ...props }: TagInputProps) {
+export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS, allowDuplicates = false, invalid, disabled, tone, variant, radius, shadow, size, id, onValueChange, onKeyDown, className, containerClassName, ...props }: TagInputProps) {
   const field = useFieldContext();
   const control = useRef<HTMLInputElement>(null);
   const [tags, setTags] = useControllableState<string[]>({ value, defaultValue: defaultValue ?? [], onChange: onValueChange });
@@ -64,18 +66,8 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
       data-slot="tag-input"
       data-invalid={isInvalid || undefined}
       data-disabled={isDisabled || undefined}
-      className={cn(
-        'flex min-h-field-md min-w-0 cursor-text flex-wrap items-center gap-1.5 rounded-xl bg-surface-translucent px-2 py-1.5 text-ui transition-[box-shadow] duration-120 ease-out',
-        'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
-        'focus-within:shadow-[var(--cs-focus-field)]',
-        // The invalid edge is for an enabled field: disabled drops the tone, so a disabled invalid field shows the disabled edge.
-        'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
-        'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
-        // Tags in a disabled field drop their colour with it (the chips are inert, not disabled), the remove glyph included.
-        'data-[disabled]:[&_[data-slot=chip]]:text-disabled-text data-[disabled]:[&_[data-slot=chip]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
-        'data-[disabled]:[&_[data-slot=chip-remove]]:text-disabled-text',
-        containerClassName,
-      )}
+      data-size={size ?? 'md'}
+      className={cn(tagInputVariants({ tone, variant, size, radius, shadow }), containerClassName)}
       onMouseDown={e => { if (e.target !== control.current && !(e.target as HTMLElement).closest('button')) { e.preventDefault(); control.current?.focus(); } }}
     >
       {/* Tags take radius sm, one step under the token chip, so they sit concentric in the radius xl field (P5). */}

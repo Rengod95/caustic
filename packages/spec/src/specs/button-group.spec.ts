@@ -1,0 +1,78 @@
+import { defineSpec } from '../schema.ts';
+
+export default defineSpec({
+  id: 'button-group',
+  name: 'ButtonGroup',
+  category: 'primitive',
+  status: 'ready',
+  purpose: 'A small inset track holding a row of plain actions: IconButtons or Buttons, with a separator between runs. The alignment bar of the inspector (align left, center, right | top, middle, bottom) is its main use.',
+  description: 'Compound: ButtonGroup (track, role group) and ButtonGroupSeparator; the items are ordinary IconButton or Button elements. It holds actions, not state: pressing an item fires its own onClick and nothing stays pressed. For a row of toggles use ToggleGroup; for one mode among several use SegmentedControl. Replaces AlignBar (round 3 merge, owner 2026-10-28, proposals A + C).',
+  role: 'group',
+  slots: [
+    { name: 'root', el: 'div', role: 'group', description: 'Inline-flex track: neutral.track, lg radius, 1px gap between items. role group; needs an aria-label ("Align").' },
+    { name: 'item', el: 'button', parent: 'root', description: 'A direct IconButton or Button child. The group gives it data-slot "button-group-item" and, unless it sets its own, the group size (IconButton md: 32px square, md radius = the track radius minus its padding, 10 − 2). A ghost item hovers as a raised shape lifted off the track: control.raised with the control edge.' },
+    { name: 'separator', el: 'span', parent: 'root', required: false, description: 'Vertical hairline between two runs: 1px wide, 24px tall at md, divider.line (the divider role, E15; same look as border.default), margin 4px 6px so the two runs read apart.' },
+  ],
+  variants: {
+    density: { values: ['regular', 'tight'], default: 'regular', description: 'The track padding: regular = 2px (36px track at md); tight = 1px (34px track) with 14px icons, for a section header where it must not push the heading row taller. The item square comes from size.' },
+    variant: { values: ['solid', 'soft', 'outline', 'ghost'], default: 'soft', description: 'The track: soft = neutral.track (own) or, in a tone, its tint; solid = an opaque surface (surface.base, or the tone soft); outline = a 1px tone border and no fill; ghost = no track. The items keep their own variant (ghost by default for IconButton).' },
+    tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'neutral', description: 'Colour family of the track.' },
+    radius: { values: ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'], default: 'lg', description: 'Track radius; default lg (the items keep md, concentric at the regular density).' },
+    shadow: { values: ['none', '1', '2', '3', '4', '5'], default: 'none', description: 'Track elevation; default none.' },
+  },
+  sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
+  states: {
+    hover: { pseudo: ['hover'], target: 'item' },
+  },
+  props: {
+    density: { type: "'regular' | 'tight'", default: 'regular', description: 'Track padding (and 14px icons at tight).' },
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Track colour family.' },
+    variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'soft', description: 'Track emphasis.' },
+    radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", description: 'Track radius. Unset keeps lg.' },
+    shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", description: 'Track elevation. Unset keeps none.' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Size of the items that set none of their own (IconButton and Button: 24 · 28 · 32 · 40) and the separator height (16 · 20 · 24 · 32).' },
+    'aria-label': { type: 'string', description: 'Names the group ("Align", "Edit").' },
+    children: { type: 'ReactNode', required: true, description: 'IconButton and Button elements, with ButtonGroupSeparator between runs.' },
+  },
+  events: { onClick: { payload: 'React.MouseEvent<HTMLDivElement>', when: 'an item is pressed (the click bubbles from the item to the group; the item handler is the consumer action)' } },
+  styles: [
+    { slot: 'root', expect: { bg: 'neutral.track', radius: 'lg', padX: 2, padY: 2, gap: 1 } },
+    { slot: 'root', when: { density: 'tight' }, expect: { padX: 1, padY: 1 } },
+    { slot: 'item', expect: { height: 'control-md', width: 'control-md', radius: 'md', fg: 'text.secondary' } },
+    { slot: 'item', when: { state: 'hover' }, expect: { bg: 'control.raised', edge: 'control.edge', fg: 'text.primary' }, note: 'Owner 2026-10-27 (B, from align-bar): the ghost neutral.hover sat too close to the track fill; hover reads as the segmented thumb (raised fill, control edge).' },
+    { slot: 'root', when: { variant: 'soft', tone: 'accent' }, expect: { bg: 'accent.tint' } },
+    { slot: 'root', when: { variant: 'solid' }, expect: { bg: 'surface.base' } },
+    { slot: 'root', when: { variant: 'outline' }, expect: { bg: 'transparent', edge: 'neutral.border' } },
+    { slot: 'root', when: { variant: 'ghost' }, expect: { bg: 'transparent' } },
+    { slot: 'root', when: { radius: 'full' }, expect: { radius: 'full' } },
+    { slot: 'root', when: { shadow: '2' }, expect: { shadow: '2' } },
+    { slot: 'item', when: { size: 'sm' }, expect: { height: 'control-sm', width: 'control-sm' } },
+    { slot: 'separator', when: { size: 'lg' }, expect: { height: 32 } },
+    { slot: 'separator', expect: { bg: 'divider.line', width: 1, height: 24 }, note: 'A divider is its own role (E15), not a border token used as a fill. Owner 2026-10-27 (A, from align-bar): 6px on each side.' },
+  ],
+  behavior: {
+    keyboard: { Tab: 'each item is a tab stop', Enter: 'activate the focused item', Space: 'activate the focused item' },
+    pointer: ['hover lifts a ghost item: control.raised with the control edge (the segmented thumb look)', 'pressing an item runs its action once; the group keeps no selected state'],
+    scenarios: [
+      { name: 'item click', steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onClick', calls: 1 }] },
+    ],
+  },
+  a11y: {
+    labelRequired: true,
+    minHit: 24,
+    attrs: { root: ['aria-label'], item: ['aria-label'] },
+    notes: ['The group needs an aria-label ("Align"); every IconButton item needs its own label.', 'Alignment icons are lucide align-start-vertical / align-center-vertical / align-end-vertical (left, horizontal centers, right) and align-start-horizontal / align-center-horizontal / align-end-horizontal (top, vertical centers, bottom), 14px at tight and 16px at regular.'],
+  },
+  policies: ['P5', 'P6'],
+  composition: { uses: ['icon-button', 'button'] },
+  examples: [
+    { id: 'align-bar-densities', title: 'Alignment bar and actions', doc: 'position-size#alignment-and-constraints' },
+  ],
+  usage: [
+    'Old → new. <AlignBar density aria-label="Align"> → <ButtonGroup density aria-label="Align">; <AlignBarItem label="Align left"><AlignStartVertical/></AlignBarItem> → <IconButton label="Align left"><AlignStartVertical/></IconButton>; <AlignBarSeparator/> → <ButtonGroupSeparator/>. The five common props keep their meaning.',
+    'Fixture contract: render(props) shows six IconButtons (Align left, Align horizontal centers, Align right, a separator, Align top, Align vertical centers, Align bottom). The click scenario uses the first item; onClick is injected on the group and the click bubbles to it.',
+    'Example align-bar-densities (align-bar had no example of its own): a 12px-gap column of the regular six-item bar, the tight three-item header bar (Align left, Align center, Align right) and an sm group of ghost Buttons Cut (scissors) and Copy (copy), a separator and an IconButton Delete (trash-2). The regular bar also appears in the constraints-control example and the tight bar in the position-size and inspector-panel examples.',
+    'Only direct IconButton and Button children are given the group slot and size; an item wrapped in another element (a Tooltip trigger renders the button itself, so it still hovers raised) keeps its own size.',
+    'Not a toolbar: there is no roving focus and no shortcuts (FloatingBar), and nothing stays pressed (ToggleGroup).',
+  ],
+});

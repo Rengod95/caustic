@@ -2,15 +2,15 @@
 import { ChevronDown, FlipHorizontal2, FlipVertical2, Link, Maximize2, Minimize2, MoveHorizontal, MoveVertical, RotateCw, SlidersHorizontal } from 'lucide-react';
 import { useState, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { Chip } from '../chip/chip.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
-import { IconToggle } from '../icon-toggle/icon-toggle.tsx';
 import { Menu, MenuItem } from '../menu/menu.tsx';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
 import { Select, SelectOption } from '../select/select.tsx';
-import { positionSizeMode, positionSizeRow, positionSizeVariants } from './position-size.variants.ts';
+import { positionSizeFlip, positionSizeMode, positionSizeRow, positionSizeTurnRow, positionSizeVariants } from './position-size.variants.ts';
 
 export interface Geometry {
   x: number | null;
@@ -52,7 +52,7 @@ export interface PositionSizeLabels {
   mixed: string;
 }
 
-export interface PositionSizeProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
+export interface PositionSizeProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'>, CommonProps {
   /** Controlled geometry. null shows the mixed label in that field. */
   value?: Geometry | undefined;
   /** Uncontrolled initial geometry. */
@@ -110,11 +110,12 @@ const flagged = (flags: boolean | PositionSizeFieldFlags | undefined, field: Pos
 /** Attributes of a toggle or button whose field is being written elsewhere. */
 const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true } as const;
 
-/** Geometry block of the inspector: X Y, W H with sizing modes and aspect lock, rotation, flips and constraints. */
+/** Geometry block of the inspector: X Y and rotation, W H with sizing modes and aspect lock, then flips and constraints. */
 export function PositionSize({
   value, defaultValue = EMPTY, onValueChange, widthMode = 'fixed', heightMode = 'fixed', onModeChange, onModeOpen,
   lockRatio, onLockChange, flipX, flipY, onFlipChange, onConstraintsClick, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onDraftChange, onPreviewChange, invalid, describedBy, limits, sizingModes, modeControl = 'pill', derivedReadOnly = true, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
+  onDraftChange, onPreviewChange, invalid, describedBy, limits, sizingModes, modeControl = 'pill', derivedReadOnly = true, onFieldFocus, onFieldBlur, onFieldCommit,
+  tone, variant, radius, shadow, size, className, children, ...props
 }: PositionSizeProps) {
   const contract = useFieldContract<PositionSizeChange, PositionSizeField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const [geo, setGeo] = useControllableState<Geometry>({ value, defaultValue, onChange: onValueChange });
@@ -135,6 +136,7 @@ export function PositionSize({
   };
   const field = (key: PositionSizeDraftField, readOnly = false) => ({
     value: shown[key],
+    size,
     mixed: geo[key] === null || flagged(mixed, key),
     mixedLabel: labels.mixed,
     disabled: flagged(disabled, key),
@@ -174,7 +176,7 @@ export function PositionSize({
         {shownMode === 'fill' ? <Maximize2 data-slot="position-size-mode-icon" aria-hidden className="size-icon-xs" /> : null}
         {shownMode === 'hug' ? <Minimize2 data-slot="position-size-mode-icon" aria-hidden className="size-icon-xs" /> : null}
         {isMixed || m === null ? labels.mixed : labels.mode[m]}
-        <ChevronDown aria-hidden className="size-chevron-xs" />
+        <ChevronDown data-slot="position-size-mode-chevron" aria-hidden className="size-chevron-xs" />
       </button>
     );
     if (isReserved) return pill;
@@ -227,21 +229,21 @@ export function PositionSize({
   const guard = (name: 'lockRatio' | 'flipX' | 'flipY', set: (on: boolean) => void) => (on: boolean) => { if (!flagged(reserved, name)) contract.commit(name, { field: name, value: on }, () => set(on)); };
 
   return (
-    <div data-slot="position-size" aria-disabled={disabled === true || undefined} className={cn(positionSizeVariants(), className)} {...props}>
+    <div data-slot="position-size" aria-disabled={disabled === true || undefined} className={cn(positionSizeVariants({ tone, variant, radius, shadow, size }), className)} {...props}>
       <div data-slot="position-size-position" className={positionSizeRow({ row: 'position' })}>
         <div data-slot="position-size-x" className="min-w-0" {...wrap('x')}><NumberField aria-label={labels.x} label={labels.xShort} {...field('x')} /></div>
         <div data-slot="position-size-y" className="min-w-0" {...wrap('y')}><NumberField aria-label={labels.y} label={labels.yShort} {...field('y')} /></div>
+        <div data-slot="position-size-rotation" className="min-w-0" {...wrap('rotation')}><NumberField aria-label={labels.rotation} label={<RotateCw />} unit="°" {...field('rotation')} /></div>
       </div>
       <div data-slot="position-size-size" className={positionSizeRow({ row: 'size' })}>
         <div data-slot="position-size-width" className={modeControl === 'select' ? 'grid min-w-0 gap-1' : 'min-w-0'} {...wrap('width')}><NumberField aria-label={labels.width} label={labels.widthShort} unit={mode('width', widthMode)} {...field('width', derivedReadOnly && (widthMode === 'hug' || widthMode === 'fill'))} />{modeSelect('width', widthMode)}</div>
         <div data-slot="position-size-height" className={modeControl === 'select' ? 'grid min-w-0 gap-1' : 'min-w-0'} {...wrap('height')}><NumberField aria-label={labels.height} label={labels.heightShort} unit={mode('height', heightMode)} {...field('height', derivedReadOnly && (heightMode === 'hug' || heightMode === 'fill'))} />{modeSelect('height', heightMode)}</div>
-        <IconToggle data-slot="position-size-lock" aria-label={labels.lockRatio} onPressedChange={guard('lockRatio', setLock)} {...toggle('lockRatio', lock)}><Link /></IconToggle>
+        <IconButton data-slot="position-size-lock" label={labels.lockRatio} size="xs" onPressedChange={guard('lockRatio', setLock)} {...toggle('lockRatio', lock)}><Link /></IconButton>
       </div>
-      <div data-slot="position-size-turn" className={positionSizeRow({ row: 'size' })}>
-        <div data-slot="position-size-rotation" className="min-w-0" {...wrap('rotation')}><NumberField aria-label={labels.rotation} label={<RotateCw />} unit="°" {...field('rotation')} /></div>
+      <div data-slot="position-size-turn" className={positionSizeTurnRow()}>
         <div data-slot="position-size-flip" className="flex items-center gap-1">
-          <Chip data-slot="position-size-flip-x" appearance="outline" size="sm" aria-label={labels.flipX} icon={<FlipHorizontal2 />} onPressedChange={guard('flipX', setFx)} {...toggle('flipX', fx)}>{labels.flipXShort}</Chip>
-          <Chip data-slot="position-size-flip-y" appearance="outline" size="sm" aria-label={labels.flipY} icon={<FlipVertical2 />} onPressedChange={guard('flipY', setFy)} {...toggle('flipY', fy)}>{labels.flipYShort}</Chip>
+          <Chip data-slot="position-size-flip-x" variant="ghost" size="sm" aria-label={labels.flipX} icon={<FlipHorizontal2 />} className={positionSizeFlip()} onPressedChange={guard('flipX', setFx)} {...toggle('flipX', fx)}>{labels.flipXShort}</Chip>
+          <Chip data-slot="position-size-flip-y" variant="ghost" size="sm" aria-label={labels.flipY} icon={<FlipVertical2 />} className={positionSizeFlip()} onPressedChange={guard('flipY', setFy)} {...toggle('flipY', fy)}>{labels.flipYShort}</Chip>
         </div>
         <IconButton
           data-slot="position-size-constraints"

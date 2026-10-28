@@ -41,7 +41,6 @@ export const specimenGroup: Record<string, string> = {
   'choice-cards': 'Forms',
   'segmented-control': 'Forms',
   'slider': 'Forms',
-  'step-slider': 'Forms',
   'form-layout': 'Forms',
   'modal': 'Overlays',
   'sheet': 'Overlays',

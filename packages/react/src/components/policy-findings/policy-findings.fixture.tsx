@@ -8,15 +8,15 @@ const findings = (severity?: PolicyFindingsItemProps['severity']) => (
   <>
     <PolicyFindingsItem
       severity={severity} title="Literal color in a component" location="Button / Ghost › hover › fill"
-      action={<Button tone="agent" size="xs" aria-label="Fix: Literal color in a component">Fix</Button>}
+      action={<Button tone="agent" variant="soft" size="xs" aria-label="Fix: Literal color in a component">Fix</Button>}
     />
     <PolicyFindingsItem
       severity="warning" title="Radius not concentric" location="Card › Media · 16 inside 12"
-      action={<Button tone="ghost" size="xs" aria-label="Show: Radius not concentric">Show</Button>}
+      action={<Button tone="neutral" variant="soft" size="xs" aria-label="Show: Radius not concentric">Show</Button>}
     />
     <PolicyFindingsItem
       severity="warning" title="Deprecated token in use" location="color/brand/legacy × 4"
-      action={<Button tone="ghost" size="xs" aria-label="Migrate: Deprecated token in use">Migrate</Button>}
+      action={<Button tone="neutral" variant="soft" size="xs" aria-label="Migrate: Deprecated token in use">Migrate</Button>}
     />
     <PolicyFindingsItem severity="pass" title="All text meets AA" location="42 pairs · 3 themes" />
   </>

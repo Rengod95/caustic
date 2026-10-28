@@ -12,38 +12,29 @@
     "colourMath": [
       "channel-slider",
       "color-picker",
-      "color-plane",
       "effect-editor",
       "paint-well"
     ],
     "contentFixtures": [
       "agent-work-area",
+      "badge",
       "canvas-artboard",
       "card",
-      "card-agent",
-      "card-glass",
-      "card-media",
       "change-detail",
       "channel-slider",
       "color-picker",
-      "color-plane",
       "color-tile",
       "color-well",
       "compare-view",
-      "contrast-chip",
       "contrast-insight",
       "expression-editor",
       "gradient-editor",
-      "gradient-strip",
       "image-fill",
-      "paint-stack",
       "paint-well",
+      "property-stack",
       "slider",
-      "slider-field",
       "stack-row",
-      "swatch-strip",
-      "theme-gallery",
-      "token-chip"
+      "theme-gallery"
     ]
   },
   "designAllow": {
@@ -61,21 +52,10 @@
       ],
       "reason": "Selected rows keep tertiary meta text on the neutral selected fill as designed (owner, 2026-10-25: design over gate); dark mode measures below 4.5:1."
     },
-    "model-menu": {
-      "slots": [
-        "model-menu-description"
-      ],
-      "reason": "Selected rows keep tertiary meta text on the neutral selected fill as designed (owner, 2026-10-25: design over gate); dark mode measures below 4.5:1."
-    },
     "combobox": {
       "slots": [
-        "combobox-meta"
-      ],
-      "reason": "Selected rows keep tertiary meta text on the neutral selected fill as designed (owner, 2026-10-25: design over gate); dark mode measures below 4.5:1."
-    },
-    "font-picker": {
-      "slots": [
-        "font-picker-option-meta"
+        "combobox-meta",
+        "combobox-description"
       ],
       "reason": "Selected rows keep tertiary meta text on the neutral selected fill as designed (owner, 2026-10-25: design over gate); dark mode measures below 4.5:1."
     },
@@ -88,22 +68,25 @@
       ],
       "reason": "A hidden layer row takes the disabled colour (PROPOSAL A9), which measures below 4.5:1; owner, 2026-10-25: design over gate."
     },
-    "effects-stack": {
-      "slots": [
-        "stack-row-title",
-        "stack-row-label",
-        "stack-row-meta",
-        "stack-row-icon"
-      ],
-      "reason": "Hidden effect rows are StackRow hidden rows (PROPOSAL A9, disabled colour); owner, 2026-10-25: design over gate."
-    },
     "radio-group": {
       "slots": [
         "radio-group-label"
       ],
       "reason": "A disabled option's label takes disabled.text (PROPOSAL §2: disabled is a colour, the tone drops out); WCAG 1.4.3 exempts inactive controls. Owner, 2026-10-25: design over gate."
     },
-    "paint-stack": {
+    "card-stat": {
+      "slots": [
+        "card-stat-delta"
+      ],
+      "reason": "The delta is text-only in the tone graphic colour, lighter than the text step, as the owner asked (2026-10-27: \"텍스트 색을 더 밝은걸로\"); light mode measures below 4.5:1."
+    },
+    "plan": {
+      "slots": [
+        "stepper-label"
+      ],
+      "reason": "Done steps are dimmed one step past tertiary (text.placeholder) as the owner asked (2026-10-28: \"한단계 더 흐리게\"); dark agent soft measures below 4.5:1."
+    },
+    "property-stack": {
       "slots": [
         "stack-row-title",
         "stack-row-label",
@@ -111,6 +94,15 @@
         "stack-row-icon"
       ],
       "reason": "Hidden paint layers are StackRow hidden rows (PROPOSAL A9, disabled colour); owner, 2026-10-25: design over gate."
+    },
+    "choice-group": {
+      "slots": [
+        "choice-group-title",
+        "choice-group-description",
+        "choice-group-price",
+        "choice-group-price-unit"
+      ],
+      "reason": "selectedFill=\"solid\" keeps paper text on neutral.solid as the owner chose (2026-10-28, choice-cards option E, light-oriented); dark mode measures about 2:1."
     }
   }
 }

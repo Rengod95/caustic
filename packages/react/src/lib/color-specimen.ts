@@ -1,4 +1,4 @@
-/** The nine page swatches of the specimen color picker (fixture data shared by swatch-strip and color-picker). */
+/** The nine page swatches of the specimen color picker (fixture data used by the color-picker fixture). */
 export const specimenSwatches: { id: string; color: string; label: string; token?: boolean }[] = [
   { id: 'orange', color: '#e2763f', label: 'Orange' },
   { id: 'brown', color: '#2b1d14', label: 'Brown' },

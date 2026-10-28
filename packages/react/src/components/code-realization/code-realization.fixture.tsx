@@ -10,11 +10,12 @@ const text = {
   phaseStatusLabels: { done: ', done', now: ', current' },
 };
 
-const Realization = ({ phase, tone, ...props }: Partial<CodeRealizationProps> & Probe) => (
+const Realization = ({ phase, tone, ...props }: Omit<Partial<CodeRealizationProps>, 'tone'> & Probe) => (
   <CodeRealization
     // The first phase takes the probed state; without a probe the strip follows `current`.
     phases={labels.map(([id, label], i) => ({ id, label, ...(i === 0 && phase ? { phase } : {}) }))}
-    {...text} current="reviewing" target="web-react" {...props}
+    // A probed tone styles both the root (the current pill text) and the first file row (its glyph).
+    {...text} current="reviewing" target="web-react" tone={tone === 'default' ? undefined : tone} {...props}
   >
     <CodeRealizationFile tone={tone} name="PricingCard.tsx" added={48} removed={6} addedLabel=" added" removedLabel=" removed" />
     <CodeRealizationFile name="tokens.css" added={112} addedLabel=" added" />
@@ -25,7 +26,7 @@ const Realization = ({ phase, tone, ...props }: Partial<CodeRealizationProps> & 
 export default defineFixture({
   id: 'code-realization',
   frame: children => <div className="w-200">{children}</div>,
-  render: props => <Realization {...(props as Partial<CodeRealizationProps> & Probe)} />,
+  render: props => <Realization {...(props as Omit<Partial<CodeRealizationProps>, 'tone'> & Probe)} />,
   examples: {
     'code-realization': () => <Realization />,
   },

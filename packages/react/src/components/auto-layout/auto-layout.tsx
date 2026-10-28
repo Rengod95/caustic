@@ -2,15 +2,16 @@
 import { ArrowDown, ArrowRight, Check, LayoutGrid, Move, MoveHorizontal, MoveVertical, Space } from 'lucide-react';
 import { useId, useState, type ComponentProps, type CSSProperties, type FocusEvent, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
 import { AlignmentPad, type AlignmentCellLabels, type AlignmentPosition } from '../alignment-pad/alignment-pad.tsx';
 import { GridTracks, type TrackList } from '../grid-tracks/grid-tracks.tsx';
-import { InspectorSelect } from '../inspector-select/inspector-select.tsx';
+import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
 import { NumberField, type NumberFieldDraft } from '../number-field/number-field.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import { Switch } from '../switch/switch.tsx';
-import { autoLayoutHeading, autoLayoutPreview, autoLayoutPreviewItem, autoLayoutRow, autoLayoutVariants } from './auto-layout.variants.ts';
+import { autoLayoutColumn, autoLayoutHeading, autoLayoutPreview, autoLayoutPreviewItem, autoLayoutRow, autoLayoutVariants } from './auto-layout.variants.ts';
 
 export type LayoutFlow = 'free' | 'row' | 'column' | 'grid';
 export type PaddingMode = 'all' | 'axes' | 'sides';
@@ -93,7 +94,8 @@ const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true }
 /** Attributes of a switch that shows a mixed selection: a pressed-state button, since a switch has no mixed state. */
 const mixedSwitch = { role: 'button', 'aria-pressed': 'mixed', 'aria-checked': undefined } as const;
 
-export interface AutoLayoutProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'> {
+/** Common props: variant / tone / radius / shadow box the block (tone also the preview outline); size steps its spacing. */
+export interface AutoLayoutProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'>, CommonProps {
   /** Controlled layout. */
   value?: AutoLayoutValue | undefined;
   /** Uncontrolled initial layout: the specimen state. */
@@ -130,7 +132,7 @@ export interface AutoLayoutProps extends Omit<ComponentProps<'div'>, 'defaultVal
 /** The auto-layout block of the inspector: flow, alignment pad, gap, distribution, wrap, padding, clip and grid tracks. */
 export function AutoLayout({
   value, defaultValue = defaultAutoLayout, onValueChange, preview = false, disabled = false, commitMode = 'live', mixed, reserved, labels,
-  onDraftChange, onPreviewChange, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit, className, children, ...props
+  onDraftChange, onPreviewChange, invalid, describedBy, limits, onFieldFocus, onFieldBlur, onFieldCommit, tone, variant, radius, shadow, size, className, children, ...props
 }: AutoLayoutProps) {
   const contract = useFieldContract<AutoLayoutChange, AutoLayoutField>({ invalid, describedBy, onFieldFocus, onFieldBlur, onFieldCommit });
   const [v, setV] = useControllableState<AutoLayoutValue>({ value, defaultValue, onChange: onValueChange });
@@ -193,8 +195,8 @@ export function AutoLayout({
   const tracksInert = isDisabled('tracks');
 
   return (
-    <div data-slot="auto-layout" aria-disabled={disabled === true || undefined} className={cn(autoLayoutVariants(), className)} {...props}>
-      <div data-slot="auto-layout-controls" className="grid gap-3">
+    <div data-slot="auto-layout" aria-disabled={disabled === true || undefined} className={cn(autoLayoutVariants({ tone, variant, radius, shadow, size }), className)} {...props}>
+      <div data-slot="auto-layout-controls" className={autoLayoutColumn({ size })}>
         <SegmentedControl
           data-slot="auto-layout-flow" aria-label={labels.flowGroup} content="icon" className="w-full" value={isMixed('flow') ? '' : v.flow} disabled={isDisabled('flow')}
           onValueChange={guard('flow', (flow: string) => patch({ flow: flow as LayoutFlow }))}
@@ -291,26 +293,26 @@ export function AutoLayout({
         </div>
         {children}
       </div>
-      <div data-slot="auto-layout-side" className="grid content-start gap-3">
+      <div data-slot="auto-layout-side" className={cn(autoLayoutColumn({ size }), 'content-start')}>
         {preview && (
           <div
             data-slot="auto-layout-preview"
             aria-hidden
-            className={autoLayoutPreview({ flow: shown.flow, justify, align })}
+            className={autoLayoutPreview({ tone, flow: shown.flow, justify, align })}
             style={{ '--gap': `${shown.gap}px` } as CSSProperties}
           >
-            {(['a', 'b', 'c'] as const).map((size, i) => (
+            {(['a', 'b', 'c'] as const).map((height, i) => (
               <span
-                key={size}
+                key={height}
                 data-slot="auto-layout-preview-item"
-                className={autoLayoutPreviewItem({ size, free: shown.flow === 'free' })}
+                className={autoLayoutPreviewItem({ height, free: shown.flow === 'free' })}
                 style={{ '--x': FREE_POSITIONS[i]![0], '--y': FREE_POSITIONS[i]![1] } as CSSProperties}
               />
             ))}
           </div>
         )}
         <div data-slot="auto-layout-tracks" data-mixed={isMixed('tracks') || undefined} className="grid gap-1.5" {...wrap('tracks', true)}>
-          {isMixed('tracks') && <span className={cn('text-hint italic text-text-secondary group-aria-disabled/auto-layout:text-disabled-text', tracksInert && 'text-disabled-text')}>{labels.mixed}</span>}
+          {isMixed('tracks') && <span data-slot="auto-layout-tracks-mixed" className={cn('text-hint italic text-text-secondary group-aria-disabled/auto-layout:text-disabled-text', tracksInert && 'text-disabled-text')}>{labels.mixed}</span>}
           <GridTracks
             heading={labels.tracksHeading}
             addLabel={labels.addTrack}
@@ -341,24 +343,34 @@ interface LayoutChoiceProps<T extends string> {
   extra?: object | undefined;
 }
 
-/** An InspectorSelect with a small in-place listbox; a mixed value shows the mixed label and a reserved one does not open. */
+/** A soft (inspector) PickerTrigger with a small in-place listbox; a mixed value shows the mixed label and a reserved one does not open. */
 function LayoutChoice<T extends string>({ label, options, value, mixed, mixedLabel, disabled, reserved, onValueChange, extra }: LayoutChoiceProps<T>) {
   const [open, setOpen] = useState(false);
   const listId = useId();
   const text = mixed ? mixedLabel : options.find(([v]) => v === value)?.[1] ?? '';
   const isOpen = open && !reserved;
   const blur = (e: FocusEvent<HTMLDivElement>) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); };
-  const key = (e: KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Escape') setOpen(false); };
+  // Escape closes; ArrowUp / ArrowDown move between the options of the open list (the listbox pattern).
+  const key = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') { setOpen(false); return; }
+    if (!isOpen || (e.key !== 'ArrowDown' && e.key !== 'ArrowUp')) return;
+    const items = [...e.currentTarget.querySelectorAll<HTMLElement>('[data-slot=auto-layout-option]')];
+    if (items.length === 0) return;
+    e.preventDefault();
+    const at = items.indexOf(document.activeElement as HTMLElement);
+    const next = at < 0 ? (e.key === 'ArrowDown' ? 0 : items.length - 1) : (at + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+    items[next]!.focus();
+  };
   return (
     <div className="relative" {...extra} onBlur={e => { blur(e); (extra as { onBlur?: () => void } | undefined)?.onBlur?.(); }} onKeyDown={key} {...(reserved ? { 'aria-busy': true, 'data-reserved': true } : {})}>
-      <InspectorSelect
-        aria-label={`${label}, ${text}`} aria-controls={isOpen ? listId : undefined} open={isOpen} disabled={disabled}
+      <PickerTrigger
+        variant="soft" indicator="dropdown" aria-label={`${label}, ${text}`} aria-controls={isOpen ? listId : undefined} open={isOpen} disabled={disabled}
         data-mixed={mixed || undefined}
         onClick={() => { if (!reserved) setOpen(o => !o); }}
         {...(reserved ? busy : {})}
       >
         {text}
-      </InspectorSelect>
+      </PickerTrigger>
       {isOpen && (
         <div id={listId} data-slot="auto-layout-listbox" role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2">
           {options.map(([v, name]) => (

@@ -12,5 +12,8 @@ export default defineFixture({
         note={<span className="block leading-4.25">각 트랙은 다른 두 채널을 고정한 채 해당 채널만 바꾼 실제 색 범위를 그립니다. sRGB 밖으로 나가는 구간은 브라우저가 매핑합니다.</span>}
       />
     ),
+    // The space switch: the same colour as HSL rows, and as one hex field.
+    'hsl-space': () => <div className="w-96"><ChannelSlider defaultSpace="hsl" defaultValue={{ l: 0.66, c: 0.17, h: 42 }} /></div>,
+    'hex-space': () => <div className="w-96"><ChannelSlider defaultSpace="hex" defaultValue={{ l: 0.66, c: 0.17, h: 42 }} /></div>,
   },
 });

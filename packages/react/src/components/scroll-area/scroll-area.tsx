@@ -1,9 +1,10 @@
 'use client';
 import { useCallback, useEffect, useRef, useState, type ComponentProps, type KeyboardEvent, type ReactNode, type Ref, type UIEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { scrollAreaContentVariants, scrollAreaVariants, scrollAreaViewportVariants } from './scroll-area.variants.ts';
 
-export interface ScrollAreaProps extends Omit<ComponentProps<'div'>, 'onScroll' | 'children'> {
+export interface ScrollAreaProps extends Omit<ComponentProps<'div'>, 'onScroll' | 'children'>, CommonProps {
   /** Which axes scroll. The others are overflow hidden. */
   orientation?: 'vertical' | 'horizontal' | 'both';
   /** Scrollbar visibility: on hover, focus and scroll, or always. */
@@ -47,7 +48,7 @@ function setRef<T>(ref: Ref<T> | undefined, node: T | null) {
 }
 
 /** A native scroller with a token-styled thin scrollbar, optional edge fade and overflow state attributes. */
-export function ScrollArea({ orientation = 'vertical', scrollbar, fade = false, label, viewportRef, onScroll, className, children, ...props }: ScrollAreaProps) {
+export function ScrollArea({ orientation = 'vertical', scrollbar, fade = false, tone, variant, radius, shadow, size, label, viewportRef, onScroll, className, children, ...props }: ScrollAreaProps) {
   const [overflow, setOverflow] = useState<Overflow>(NONE);
   const [scrolling, setScrolling] = useState(false);
   const viewport = useRef<HTMLDivElement | null>(null);
@@ -100,7 +101,7 @@ export function ScrollArea({ orientation = 'vertical', scrollbar, fade = false, 
   const showY = orientation !== 'horizontal', showX = orientation !== 'vertical';
 
   return (
-    <div data-slot="scroll-area" data-scrollbar={scrollbar ?? 'hover'} className={cn('group/scroll-area', scrollAreaVariants({ scrollbar }), className)} {...props}>
+    <div data-slot="scroll-area" data-scrollbar={scrollbar ?? 'hover'} className={cn('group/scroll-area', scrollAreaVariants({ scrollbar, tone, variant, size, radius: radius ?? null, shadow: shadow ?? null }), className)} {...props}>
       <div
         ref={attach}
         data-slot="scroll-area-viewport"

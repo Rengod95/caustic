@@ -1,15 +1,20 @@
 'use client';
 import { ChevronDown, Link2, Plus, Unlink } from 'lucide-react';
-import { cloneElement, Fragment, isValidElement, type ComponentProps, type CSSProperties, type MouseEvent, type ReactElement, type ReactNode } from 'react';
+import { cloneElement, createContext, Fragment, isValidElement, type ComponentProps, type CSSProperties, type MouseEvent, type ReactElement, type ReactNode, useContext } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { Badge } from '../badge/badge.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { Select, SelectHeading, SelectOption } from '../select/select.tsx';
+import type { CommonProps, Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import {
-  inspectorBindingsActionVariants, inspectorBindingsAddVariants, inspectorBindingsChevronVariants, inspectorBindingsContextVariants, inspectorBindingsLinkVariants,
+  inspectorBindingsActionVariants, inspectorBindingsAddVariants, inspectorBindingsContextVariants, inspectorBindingsFrameVariants, inspectorBindingsGlyphVariants,
   inspectorBindingsNameVariants, inspectorBindingsPropertyIconVariants, inspectorBindingsPropertyVariants, inspectorBindingsRowVariants, inspectorBindingsSelectorVariants,
   inspectorBindingsSwatchVariants, inspectorBindingsVariants, type InspectorBindingsVariantProps,
 } from './inspector-bindings.variants.ts';
+
+/** The stack's common props, read by its rows. */
+interface BindingsStyle { tone?: Tone | undefined; variant?: Variant | undefined; radius?: Radius | undefined; shadow?: Shadow | undefined; size?: Size | undefined }
+const BindingsContext = createContext<BindingsStyle>({});
 
 export interface BindingOption { value: string; label: ReactNode; disabled?: boolean | undefined; group?: string | undefined }
 export interface InspectorBindingsRowProps extends Omit<ComponentProps<'div'>, 'property'>, InspectorBindingsVariantProps {
@@ -55,7 +60,7 @@ export interface InspectorBindingsRowProps extends Omit<ComponentProps<'div'>, '
   onPick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-export interface InspectorBindingsProps extends ComponentProps<'div'> {
+export interface InspectorBindingsProps extends ComponentProps<'div'>, CommonProps {
   /** Label of the add row ("Bind a property"). Required; no built-in default. */
   addLabel: ReactNode;
   /** Disables the add row. */
@@ -65,15 +70,17 @@ export interface InspectorBindingsProps extends ComponentProps<'div'> {
 }
 
 /** The stack of binding rows, ending with a dashed row to bind another property. */
-export function InspectorBindings({ addLabel, addDisabled = false, onAdd, className, children, ...props }: InspectorBindingsProps) {
+export function InspectorBindings({ addLabel, addDisabled = false, onAdd, tone, variant, radius, shadow, size, className, children, ...props }: InspectorBindingsProps) {
   return (
-    <div data-slot="inspector-bindings" className={cn(inspectorBindingsVariants(), className)} {...props}>
-      {children}
-      <button type="button" data-slot="inspector-bindings-add" disabled={addDisabled} className={inspectorBindingsAddVariants()} onClick={onAdd}>
-        <Plus aria-hidden />
-        {addLabel}
-      </button>
-    </div>
+    <BindingsContext.Provider value={{ tone, variant, radius, shadow, size }}>
+      <div data-slot="inspector-bindings" className={cn(inspectorBindingsVariants(), className)} {...props}>
+        {children}
+        <button type="button" data-slot="inspector-bindings-add" disabled={addDisabled} className={cn(inspectorBindingsAddVariants({ size }), inspectorBindingsFrameVariants({ radius, shadow }))} onClick={onAdd}>
+          <Plus aria-hidden />
+          {addLabel}
+        </button>
+      </div>
+    </BindingsContext.Provider>
   );
 }
 
@@ -82,7 +89,10 @@ export function InspectorBindingsRow({
   binding, property, icon, token, selectorLabel, selectorAsChild = false, disabled = false, reserved = false, mixedLabel, swatch, context, count, unbindLabel, onUnbind, onPick,
   options, value, placeholder, onValueChange, unbindDisabled = false, className, children, ...props
 }: InspectorBindingsRowProps) {
+  const { tone, variant, radius, shadow, size } = useContext(BindingsContext);
   const mixed = binding === 'mixed';
+  const rowBinding = binding ?? 'bound';
+  const glyph = { tone, variant, binding };
   const color = typeof swatch === 'string' ? swatch : undefined;
   const name = typeof property === 'string' ? property : selectorLabel.split(',')[0]?.trim();
   const inert = disabled || reserved;
@@ -91,12 +101,12 @@ export function InspectorBindingsRow({
     'aria-label': selectorLabel,
     'aria-disabled': reserved || undefined,
     disabled: disabled || undefined,
-    className: inspectorBindingsSelectorVariants({ binding }),
+    className: cn(inspectorBindingsSelectorVariants({ tone, variant, binding, size })),
   };
   const nameText = mixed && mixedLabel ? mixedLabel : undefined;
   const selectorBody = (label: ReactNode) => (
     <>
-      <Link2 data-slot="inspector-bindings-link" aria-hidden className={inspectorBindingsLinkVariants({ binding })} />
+      <Link2 data-slot="inspector-bindings-link" aria-hidden className={cn(inspectorBindingsGlyphVariants(glyph))} />
       {swatch != null && (
         <span
           data-slot="inspector-bindings-swatch" aria-hidden className={inspectorBindingsSwatchVariants()}
@@ -106,20 +116,20 @@ export function InspectorBindingsRow({
         </span>
       )}
       <span data-slot="inspector-bindings-name" className={inspectorBindingsNameVariants()}>{nameText ?? label}</span>
-      <ChevronDown data-slot="inspector-bindings-chevron" aria-hidden className={inspectorBindingsChevronVariants()} />
+      <ChevronDown data-slot="inspector-bindings-chevron" aria-hidden className={cn('ms-auto', inspectorBindingsGlyphVariants(glyph))} />
     </>
   );
   return (
     <div
       data-slot="inspector-bindings-row" role="group" data-binding={binding ?? 'bound'}
       aria-label={name} aria-busy={reserved || undefined} data-reserved={reserved || undefined}
-      className={cn(inspectorBindingsRowVariants(), className)} {...props}
+      className={cn(inspectorBindingsRowVariants({ size }), inspectorBindingsFrameVariants({ radius, shadow }), className)} {...props}
     >
       <span data-slot="inspector-bindings-property" className={inspectorBindingsPropertyVariants()}>
         {icon != null && <span aria-hidden className={inspectorBindingsPropertyIconVariants()}>{icon}</span>}
         {property}
       </span>
-      <span data-slot="inspector-bindings-action" className={inspectorBindingsActionVariants()}>
+      <span data-slot="inspector-bindings-action" className={inspectorBindingsActionVariants({ reveal: !mixed })}>
         {mixed
           ? <Badge tone="warning" role={mixedLabel ? 'img' : undefined} aria-label={mixedLabel}>{count}</Badge>
           : <IconButton size="xs" label={unbindLabel} disabled={disabled || unbindDisabled} onClick={reserved ? undefined : onUnbind}><Unlink /></IconButton>}
@@ -132,7 +142,7 @@ export function InspectorBindingsRow({
           onValueChange={next => { if (!inert) onValueChange?.(next); }}
           {...({ leading: (
             <>
-              <Link2 data-slot="inspector-bindings-link" aria-hidden className={inspectorBindingsLinkVariants({ binding })} />
+              <Link2 data-slot="inspector-bindings-link" aria-hidden className={cn(inspectorBindingsGlyphVariants(glyph))} />
               {swatch != null && (
                 <span data-slot="inspector-bindings-swatch" aria-hidden className={inspectorBindingsSwatchVariants()} style={color ? ({ '--swatch': color } as CSSProperties) : undefined}>{color ? null : swatch}</span>
               )}
@@ -154,7 +164,7 @@ export function InspectorBindingsRow({
           </button>
         )}
       {context != null && context.length > 0 && (
-        <div data-slot="inspector-bindings-context" className={inspectorBindingsContextVariants()}>
+        <div data-slot="inspector-bindings-context" className={inspectorBindingsContextVariants({ binding: rowBinding })}>
           {context.map((fact, i) => <span key={i}>{fact}</span>)}
         </div>
       )}

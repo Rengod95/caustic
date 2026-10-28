@@ -18,6 +18,13 @@ export default defineSpec({
     { name: 'note', el: 'span', parent: 'row', required: false, description: 'Warning text in a Badge warning: "Reads after price". Only on a flagged row.' },
     { name: 'status', el: 'div', parent: 'root', required: false, role: 'status', description: 'Visually hidden polite live region. Announces pick up, each move, drop and cancel with the item name and position.' },
   ],
+  variants: {
+    tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'accent', description: 'Colour of the 2px landing line while dragging (default accent) and of soft / outline rows.' },
+    variant: { values: ['solid', 'soft', 'outline', 'ghost'], default: 'ghost', description: 'Row emphasis, set on the list: ghost = no fill until hover (default); soft = tone soft rows; outline = a 1px tone border edge; solid = raised control rows with the control edge.' },
+    radius: { values: ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'], default: 'md', description: 'Row radius; unset keeps md.' },
+    shadow: { values: ['none', '1', '2', '3', '4', '5'], default: 'none', description: 'Row elevation; unset is flat.' },
+  },
+  sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   states: {
     hover: { pseudo: ['hover'], target: 'row' },
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'row' },
@@ -25,6 +32,11 @@ export default defineSpec({
     dragging: { props: { dragging: true } },
   },
   props: {
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'accent', description: 'Colour of the 2px landing line while dragging (default accent) and of soft / outline rows.' },
+    variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'ghost', description: 'Row emphasis, set on the list: ghost = no fill until hover (default); soft = tone soft rows; outline = a 1px tone border edge; solid = raised control rows with the control edge.' },
+    radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: 'md', description: 'Row radius; unset keeps md.' },
+    shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: 'none', description: 'Row elevation; unset is flat.' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Steps the row height and type: xs control-xs / ui-xs, sm control-sm / ui-dense, md menu-item 30 / ui-dense, lg control-lg / ui.' },
     order: { type: 'string[]', description: 'Controlled order: the item ids from first to last.' },
     defaultOrder: { type: 'string[]', description: 'Uncontrolled initial order. Defaults to the order of the children.' },
     'aria-label': { type: 'string', required: true, description: 'Accessible name of the list.' },
@@ -47,6 +59,11 @@ export default defineSpec({
     { slot: 'index', when: { state: 'warning' }, expect: { bg: 'warning.soft', fg: 'warning.text' } },
     { slot: 'label', expect: { fg: 'text.primary' } },
     { slot: 'handle', expect: { fg: 'text.tertiary', height: 'icon-sm', width: 'icon-sm' } },
+    { slot: 'row', when: { variant: 'soft', tone: 'info' }, expect: { bg: 'info.soft' } },
+    { slot: 'row', when: { variant: 'outline', tone: 'accent' }, expect: { edge: 'accent.border' } },
+    { slot: 'row', when: { radius: 'none' }, expect: { radius: 'none' } },
+    { slot: 'row', when: { shadow: '1' }, expect: { shadow: '1' } },
+    { slot: 'row', when: { size: 'lg' }, expect: { height: 'control-lg', text: 'ui' } },
   ],
   behavior: {
     keyboard: {

@@ -4,8 +4,7 @@ import { Copy, FlaskConical, RotateCcw, Upload } from 'lucide-react';
 import { Alert, Badge, Button, Checkbox, SegmentedControl, SegmentedControlItem, Textarea } from '@caustic/react';
 import { useSettings } from '../../settings.tsx';
 import { label } from '../color.ts';
-import { usePalette } from '../palette-state.tsx';
-import { NEUTRAL_ROLES, neutralsFor, paletteVars, roleStepOf, type DarkRamp, type Theme } from '../palettes.ts';
+import { NEUTRAL_ROLES, neutralsFor, roleStepOf, type DarkRamp, type Theme } from '../palette.ts';
 import { ColorControl, LchEditor, Swatch } from './controls.tsx';
 import { rampChecks } from './language.ts';
 import { EmphasisMatrix } from './matrix.tsx';
@@ -25,9 +24,8 @@ const SECTIONS = [
   { id: 'lab-tokens', label: 'Tokens' },
 ];
 
-/** Writes the builder's variables on <html> (so portals follow), after the palette provider has written its own. */
+/** Writes the builder's variables on <html> (so portals follow); leaving the page hands <html> back to the shipped tokens. */
 function useApplyVars(state: BuilderState, theme: Theme) {
-  const { palette } = usePalette();
   useEffect(() => {
     const root = document.documentElement;
     const vars = builderVars(state, theme);
@@ -35,10 +33,8 @@ function useApplyVars(state: BuilderState, theme: Theme) {
     return () => {
       cancelAnimationFrame(raf);
       for (const k of Object.keys(vars)) root.style.removeProperty(k);
-      // hand <html> back to the docs palette
-      for (const [k, v] of Object.entries(paletteVars(palette, theme))) root.style.setProperty(k, v);
     };
-  }, [state, theme, palette]);
+  }, [state, theme]);
 }
 
 const LADDER = ['bg canvas', 'bg app', 'surface base', 'surface raised'] as const;
@@ -216,7 +212,7 @@ export default function BuilderPage() {
           <Scenario id="lab-form" title="Complex form · publish a token release" note="Inputs, combobox, date range, number and slider fields, checkbox tree, radios, segmented, toggle group, switches, required, read-only, disabled and errors.">
             <PublishForm />
           </Scenario>
-          <Scenario id="lab-agent" title="Agent session" note="Messages, thinking, proposal, plan, streaming, activity tree, tool calls, diff, permission, toasts, notices, progress, spinner, skeleton, checkpoints, composer.">
+          <Scenario id="lab-agent" title="Agent session" note="Messages, thinking, proposal, plan, streaming, activity tree, tool calls, diff, permission, toasts, notices, progress bars and rings, skeleton, checkpoints, composer.">
             <AgentSession />
           </Scenario>
           <Scenario id="lab-settings" title="Library settings" note="Navigation, tabs, selectable members table with avatars and status badges, usage meters, switches, empty state, danger zone.">

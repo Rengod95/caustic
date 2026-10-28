@@ -101,7 +101,14 @@ export default {
         0.82,
         0.187,
         155
-      ]
+      ],
+      "text": {
+        "light": [
+          0.5,
+          0.16,
+          155
+        ]
+      }
     },
     "warning": {
       "name": "Tape Yellow",
@@ -129,7 +136,14 @@ export default {
         0.77,
         0.261,
         43
-      ]
+      ],
+      "text": {
+        "light": [
+          0.52,
+          0.16,
+          38
+        ]
+      }
     },
     "info": {
       "name": "Panel Blue",
@@ -143,7 +157,14 @@ export default {
         0.7,
         0.145,
         266
-      ]
+      ],
+      "text": {
+        "light": [
+          0.5,
+          0.19,
+          266
+        ]
+      }
     },
     "agent-1": {
       "name": "Signal",
@@ -682,8 +703,8 @@ export default {
           155
         ],
         [
-          0.465,
-          0.1155,
+          0.5,
+          0.1241,
           155
         ]
       ],
@@ -756,7 +777,7 @@ export default {
           "#3eea90",
           "#39e68d",
           "#15d67d",
-          "#006b3b"
+          "#007742"
         ],
         "dark": [
           "#092113",
@@ -980,9 +1001,9 @@ export default {
           43
         ],
         [
-          0.475,
-          0.1416,
-          43
+          0.52,
+          0.16,
+          38
         ]
       ],
       "dark": [
@@ -1054,7 +1075,7 @@ export default {
           "#ff9f78",
           "#ff9467",
           "#ee8457",
-          "#9a3900"
+          "#b13c11"
         ],
         "dark": [
           "#281710",
@@ -1129,8 +1150,8 @@ export default {
           266
         ],
         [
-          0.475,
-          0.145,
+          0.5,
+          0.19,
           266
         ]
       ],
@@ -1203,7 +1224,7 @@ export default {
           "#7ea4ff",
           "#749af8",
           "#658ae7",
-          "#3555ad"
+          "#3056cd"
         ],
         "dark": [
           "#151b2b",
@@ -2860,7 +2881,7 @@ export default {
         "alpha": 1
       },
       "success.text": {
-        "hex": "#006b3b",
+        "hex": "#007742",
         "alpha": 1
       },
       "success.on": {
@@ -2948,7 +2969,7 @@ export default {
         "alpha": 1
       },
       "danger.text": {
-        "hex": "#9a3900",
+        "hex": "#b13c11",
         "alpha": 1
       },
       "danger.on": {
@@ -2992,7 +3013,7 @@ export default {
         "alpha": 1
       },
       "info.text": {
-        "hex": "#3555ad",
+        "hex": "#3056cd",
         "alpha": 1
       },
       "info.on": {
@@ -3164,19 +3185,19 @@ export default {
         "alpha": 1
       },
       "diff.add-text": {
-        "hex": "#006b3b",
+        "hex": "#007742",
         "alpha": 1
       },
       "diff.remove-text": {
-        "hex": "#9a3900",
+        "hex": "#b13c11",
         "alpha": 1
       },
       "syntax.keyword": {
-        "hex": "#3555ad",
+        "hex": "#3056cd",
         "alpha": 1
       },
       "syntax.string": {
-        "hex": "#006b3b",
+        "hex": "#007742",
         "alpha": 1
       },
       "syntax.property": {
@@ -3240,7 +3261,7 @@ export default {
         "alpha": 1
       },
       "category.component": {
-        "hex": "#3555ad",
+        "hex": "#3056cd",
         "alpha": 1
       },
       "category.component-soft": {
@@ -4165,7 +4186,7 @@ export default {
       "8": "#3eea90",
       "9": "#39e68d",
       "10": "#15d67d",
-      "11": "#006b3b"
+      "11": "#007742"
     },
     "warning": {
       "1": "#f8fcec",
@@ -4191,7 +4212,7 @@ export default {
       "8": "#ff9f78",
       "9": "#ff9467",
       "10": "#ee8457",
-      "11": "#9a3900"
+      "11": "#b13c11"
     },
     "info": {
       "1": "#f8faff",
@@ -4204,7 +4225,7 @@ export default {
       "8": "#7ea4ff",
       "9": "#749af8",
       "10": "#658ae7",
-      "11": "#3555ad"
+      "11": "#3056cd"
     },
     "agent-1": {
       "1": "#fffaed",
@@ -4375,20 +4396,21 @@ export default {
       "radio-dot": 7,
       "kbd-h": 18,
       "progress-h": 6,
-      "tool-icon": 24,
       "presence": 8,
-      "switch-md-w": 46,
+      "switch-md-w": 64,
       "switch-md-h": 28,
       "switch-md-thumb": 24,
-      "switch-md-travel": 18,
-      "switch-md-press": 30,
-      "switch-sm-w": 38,
+      "switch-md-thumb-w": 40,
+      "switch-md-travel": 20,
+      "switch-md-press": 48,
+      "switch-sm-w": 48,
       "switch-sm-h": 23,
       "switch-sm-thumb": 19,
-      "switch-sm-travel": 15,
-      "switch-sm-press": 24,
+      "switch-sm-thumb-w": 28,
+      "switch-sm-travel": 16,
+      "switch-sm-press": 32,
       "avatar-xs": 16,
-      "avatar-sm": 24,
+      "avatar-sm": 26,
       "avatar-md": 32,
       "avatar-lg": 36,
       "dialog-sm": 320,
@@ -4477,6 +4499,7 @@ export default {
       "otp-h": 52,
       "slider-ruler-h": 30,
       "slider-label-w": 52,
+      "slider-field-w": 64,
       "menu-item": 30,
       "menu-min": 220,
       "listbox-max": 220,
@@ -4769,6 +4792,20 @@ export default {
       26,
       400,
       0
+    ],
+    "voice-xl": [
+      "voice",
+      22,
+      30,
+      400,
+      -0.01
+    ],
+    "mono-dense": [
+      "mono",
+      11,
+      16,
+      400,
+      -0.02
     ]
   },
   "elevation": {
@@ -4780,7 +4817,7 @@ export default {
       "5": "0 8px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06), 0 40px 80px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.28)",
       "thumb": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)",
       "thumb-sm": "0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)",
-      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25)",
+      "thumb-swatch": "inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm)",
       "card": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 12px 32px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)",
       "lift": "0 14px 30px -14px oklch(from var(--cs-color-shadow-ambient) l c h / 0.3)",
       "well": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 6px 18px -10px oklch(from var(--cs-color-shadow-ambient) l c h / 0.25)",
@@ -4795,7 +4832,7 @@ export default {
       "5": "0 8px 16px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 40px 80px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.65)",
       "thumb": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)",
       "thumb-sm": "0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)",
-      "thumb-swatch": "0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25)",
+      "thumb-swatch": "inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm)",
       "card": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 12px 32px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.6)",
       "lift": "0 14px 30px -14px oklch(from var(--cs-color-shadow-contact) l c h / 0.7)",
       "well": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 6px 18px -10px oklch(from var(--cs-color-shadow-contact) l c h / 0.55)",
@@ -5195,13 +5232,15 @@ export default {
       "success.text",
       "success.soft-hover",
       4.5,
-      "slot: text 11 on soft-hover 4"
+      "slot: text 11 on soft-hover 4",
+      "warn"
     ],
     [
       "success.text",
       "success.soft-pressed",
       4.5,
-      "slot: text 11 on soft-pressed 5"
+      "slot: text 11 on soft-pressed 5",
+      "warn"
     ],
     [
       "success.on",
@@ -5281,13 +5320,15 @@ export default {
       "danger.text",
       "danger.soft-hover",
       4.5,
-      "slot: text 11 on soft-hover 4"
+      "slot: text 11 on soft-hover 4",
+      "warn"
     ],
     [
       "danger.text",
       "danger.soft-pressed",
       4.5,
-      "slot: text 11 on soft-pressed 5"
+      "slot: text 11 on soft-pressed 5",
+      "warn"
     ],
     [
       "danger.on",
@@ -5324,13 +5365,15 @@ export default {
       "info.text",
       "info.soft-hover",
       4.5,
-      "slot: text 11 on soft-hover 4"
+      "slot: text 11 on soft-hover 4",
+      "warn"
     ],
     [
       "info.text",
       "info.soft-pressed",
       4.5,
-      "slot: text 11 on soft-pressed 5"
+      "slot: text 11 on soft-pressed 5",
+      "warn"
     ],
     [
       "info.on",

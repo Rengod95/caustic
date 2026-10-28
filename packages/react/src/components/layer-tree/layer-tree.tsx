@@ -6,9 +6,11 @@ import {
 } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import type { CommonProps, Radius, Size, Tone, Variant } from '../../lib/common-props.ts';
 import {
-  layerTreeCaptionVariants, layerTreeCheckVariants, layerTreeDropVariants, layerTreeEndVariants, layerTreeGhostIconVariants, layerTreeGhostVariants, layerTreeIconVariants,
-  layerTreeLabelVariants, layerTreeMarkVariants, layerTreeRowVariants, layerTreeTagVariants, layerTreeLockVariants, layerTreeTwistyVariants, layerTreeVisibilityVariants, layerTreeVariants,
+  layerTreeCaptionVariants, layerTreeCheckVariants, layerTreeDropVariants, layerTreeEndVariants, layerTreeFrameVariants, layerTreeGhostIconVariants, layerTreeGhostVariants,
+  layerTreeIconVariants, layerTreeLabelVariants, layerTreeMarkVariants, layerTreeRowRadiusVariants, layerTreeRowVariants, layerTreeTagVariants, layerTreeLockVariants,
+  layerTreeTwistyVariants, layerTreeVisibilityVariants, layerTreeVariants,
 } from './layer-tree.variants.ts';
 
 export type LayerDropPosition = 'before' | 'after' | 'inside';
@@ -37,7 +39,7 @@ export interface LayerTreeItemProps extends Omit<ComponentProps<'div'>, 'childre
   open?: boolean;
   /** State hook for fixtures; normally derived from the tree-level selection. */
   selected?: boolean;
-  /** Selected but not the primary selection (inverted with the check, secondary text instead of primary). */
+  /** Selected but not the primary selection (neutral.pressed with the check, secondary text instead of primary). */
   secondary?: boolean;
   /** The layer is hidden on the canvas. */
   invisible?: boolean;
@@ -57,7 +59,7 @@ export interface LayerTreeItemProps extends Omit<ComponentProps<'div'>, 'childre
   drop?: LayerDropPosition;
 }
 
-export interface LayerTreeProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'value' | 'children'> {
+export interface LayerTreeProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'value' | 'children'>, CommonProps {
   /** Accessible name of the tree. */
   'aria-label': string;
   /** Builds the live-region text from an event. */
@@ -110,6 +112,11 @@ interface Ctx {
   visibilityLabel: LayerTreeProps['visibilityLabel'];
   lockLabel: LayerTreeProps['lockLabel'];
   stateLabels: LayerTreeProps['stateLabels'];
+  /** Common props the rows read: drop colour and emphasis, row size and radius. */
+  tone: Tone | undefined;
+  variant: Variant | undefined;
+  size: Size | undefined;
+  radius: Radius | undefined;
   setFocus: (id: string) => void;
   click: (e: MouseEvent<HTMLElement>, id: string) => void;
   toggleExpanded: (id: string) => void;
@@ -132,7 +139,7 @@ const sameIds = (a: string[], b: string[]) => a.length === b.length && a.every((
 export function LayerTree({
   announce, visibilityLabel, lockLabel, stateLabels, value, defaultValue, expanded: expandedProp, defaultExpanded, dragLabel, dragIcon,
   onValueChange, onExpandedChange, onMove, onVisibilityChange, onLockChange,
-  className, style, children, onKeyDown, ...props
+  tone, variant, radius, shadow, size, className, style, children, onKeyDown, ...props
 }: LayerTreeProps) {
   const root = useRef<HTMLDivElement>(null);
   const nodes = Children.toArray(children).filter((c): c is ReactElement<LayerTreeItemProps> => isValidElement(c));
@@ -426,6 +433,7 @@ export function LayerTree({
   const ctx: Ctx = {
     info, selected, primary, expanded, tabId, drop: drag?.drop ?? null,
     hasVisibility: !!onVisibilityChange, hasLock: !!onLockChange, statusHost: rows[0]?.id, message, visibilityLabel, lockLabel, stateLabels,
+    tone, variant, size, radius,
     setFocus: setFocusId, click, toggleExpanded, toggleVisibility, toggleLock, pointerDown, pointerMove, pointerUp, pointerCancel,
   };
 
@@ -437,12 +445,12 @@ export function LayerTree({
     <TreeContext.Provider value={ctx}>
       <div
         ref={root} data-slot="layer-tree" role="tree" aria-multiselectable="true"
-        className={cn(layerTreeVariants(), className)} style={rootStyle} onKeyDown={handleKeyDown} {...props}
+        className={cn(layerTreeVariants(), layerTreeFrameVariants({ shadow }), className)} style={rootStyle} onKeyDown={handleKeyDown} {...props}
       >
         {children}
         {ghostLabel != null && (
-          <div data-slot="layer-tree-ghost" aria-hidden className={layerTreeGhostVariants()}>
-            {ghostIcon != null && <span className={layerTreeGhostIconVariants()}>{ghostIcon}</span>}
+          <div data-slot="layer-tree-ghost" aria-hidden className={layerTreeGhostVariants({ size })}>
+            {ghostIcon != null && <span data-slot="layer-tree-ghost-icon" className={layerTreeGhostIconVariants()}>{ghostIcon}</span>}
             {ghostLabel}
           </div>
         )}
@@ -479,7 +487,7 @@ export function LayerTreeItem({
       data-selected={isSelected || undefined} data-primary={isPrimary || undefined} data-secondary={isSecondary || undefined}
       data-hidden={invisible || undefined} data-locked={locked || undefined} data-component={component || undefined} data-drop={dropPos}
       style={{ ...style, '--depth': depth } as CSSProperties}
-      className={cn(layerTreeRowVariants(), className)}
+      className={cn(layerTreeRowVariants({ tone: ctx.tone, variant: ctx.variant, size: ctx.size }), layerTreeRowRadiusVariants({ radius: ctx.radius }), className)}
       onFocus={e => { if (e.target === e.currentTarget) ctx.setFocus(itemId); }}
       onClick={e => ctx.click(e, itemId)}
       onPointerDown={e => ctx.pointerDown(e, itemId)} onPointerMove={ctx.pointerMove} onPointerUp={ctx.pointerUp} onPointerCancel={ctx.pointerCancel}
@@ -520,7 +528,7 @@ export function LayerTreeItem({
           )}
         </div>
       )}
-      {dropPos && dropPos !== 'inside' && <span data-slot="layer-tree-drop-indicator" aria-hidden data-drop={dropPos} className={layerTreeDropVariants()} />}
+      {dropPos && dropPos !== 'inside' && <span data-slot="layer-tree-drop-indicator" aria-hidden data-drop={dropPos} className={layerTreeDropVariants({ tone: ctx.tone })} />}
       {notes && <span id={descId} className="sr-only">{notes}</span>}
       {ctx.statusHost === itemId && <div data-slot="layer-tree-status" role="status" aria-live="polite" className="sr-only">{ctx.message}</div>}
     </div>

@@ -4,7 +4,7 @@
 // the build's step mapping. With the shipped solids the output equals dist/caustic.css.
 // --lang-{tone}-{1..11,on} are lab-only copies of the tone ramps for the emphasis matrix.
 import { contrast, ensure, gamutMap, type LCH } from '../color.ts';
-import { surfaceFor, type Palette, type Theme } from '../palettes.ts';
+import { surfaceFor, type Palette, type Theme } from '../palette.ts';
 import { cssVar, emit, emitLch, MODES, parseSpec, resolveSpec, SHIPPED, type RampSet } from '../shipped.ts';
 
 export type Ramp11 = LCH[];

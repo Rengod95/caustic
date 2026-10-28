@@ -3,6 +3,7 @@ import * as HC from '@radix-ui/react-hover-card';
 import * as P from '@radix-ui/react-popover';
 import { createContext, useContext, useEffect, useId, useState, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
+import type { CommonProps } from '../../lib/common-props.ts';
 import { defined } from '../../lib/defined.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { popoverArrow, popoverVariants, type PopoverVariantProps } from './popover.variants.ts';
@@ -10,7 +11,7 @@ import { popoverArrow, popoverVariants, type PopoverVariantProps } from './popov
 type Side = 'top' | 'bottom' | 'left' | 'right';
 type Align = 'start' | 'center' | 'end';
 
-export interface PopoverProps extends Omit<ComponentProps<'div'>, 'children'>, PopoverVariantProps {
+export interface PopoverProps extends Omit<ComponentProps<'div'>, 'children'>, Omit<PopoverVariantProps, keyof CommonProps>, CommonProps {
   /** How it opens: press (Popover) or hover/focus (HoverCard). */
   trigger?: 'click' | 'hover';
   open?: boolean;
@@ -37,12 +38,13 @@ const TitleContext = createContext<TitleCtx | null>(null);
 const GAP = 10;
 
 /** Thick-glass panel anchored to an element; opens on press (popover) or hover/focus (hover card). */
-export function Popover({ trigger = 'click', size, open, defaultOpen, onOpenChange, anchor, side = 'bottom', align = 'start', arrow = true, openDelay = 320, closeDelay = 120, inline = false, className, children, onKeyDown, ...props }: PopoverProps) {
+export function Popover({ trigger = 'click', size, tone, variant, radius, shadow, open, defaultOpen, onOpenChange, anchor, side = 'bottom', align = 'start', arrow = true, openDelay = 320, closeDelay = 120, inline = false, className, children, onKeyDown, ...props }: PopoverProps) {
   const id = useId();
   const [titled, setTitled] = useState(false);
   const ctx: TitleCtx = { id, register: setTitled };
   const [shown, setShown] = useControllableState<boolean>({ value: open, defaultValue: defaultOpen ?? true, onChange: onOpenChange });
-  const classes = cn(popoverVariants({ trigger, size }), className);
+  // A ghost panel sits flat: unless a shadow is given, the elevation drops with the variant.
+  const classes = cn(popoverVariants({ trigger, size, tone, variant, radius, shadow: shadow ?? (variant === 'ghost' ? 'none' : undefined) }), className);
   const content = (
     <TitleContext.Provider value={ctx}>
       <div data-slot="popover-body" className="-m-1 grid min-h-0 gap-2.5 overflow-y-auto p-1">{children}</div>

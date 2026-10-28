@@ -1,7 +1,7 @@
 import { TriangleAlert } from 'lucide-react';
-import { ContrastChip, NumberField, SegmentedControl, SegmentedControlItem, Slider } from '@caustic/react';
+import { Badge, NumberField, SegmentedControl, SegmentedControlItem, Slider } from '@caustic/react';
 import { contrast, gamutMap, hex, isInGamut, label, type LCH } from '../color.ts';
-import type { Theme } from '../palettes.ts';
+import type { Theme } from '../palette.ts';
 import { SHIPPED } from '../shipped.ts';
 import { isDerived, round, setLink, setValue, valueOf, type ColorDef, type ColorState, type LinkMode } from './state.ts';
 
@@ -55,9 +55,9 @@ export function Checks({ checks }: { checks: Check[] }) {
       {checks.map(c => {
         const pass = c.need === null || c.ratio >= c.need - 1e-9;
         return (
-          <ContrastChip key={c.label} result={pass ? 'pass' : 'fail'} level={c.need === null ? 'info' : c.need >= 4.5 ? 'AA' : 'UI'} title={c.need === null ? 'Decorative: no minimum' : `Needs ${c.need}:1`}>
+          <Badge key={c.label} size="md" tone={pass ? 'success' : 'danger'} lead={c.need === null ? 'info' : c.need >= 4.5 ? 'AA' : 'UI'} title={c.need === null ? 'Decorative: no minimum' : `Needs ${c.need}:1`}>
             {c.label} {c.ratio.toFixed(1)}{pass ? '' : ' · fails'}
-          </ContrastChip>
+          </Badge>
         );
       })}
     </div>

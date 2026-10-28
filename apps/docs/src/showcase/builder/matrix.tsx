@@ -3,7 +3,7 @@
 // Each recipe below is the table in PROPOSAL-color-language.md.
 import type { CSSProperties } from 'react';
 import { Check } from 'lucide-react';
-import type { Theme } from '../palettes.ts';
+import type { Theme } from '../palette.ts';
 import { LANG_TONES, type LangTone } from './language.ts';
 
 export type Emphasis = 'solid' | 'soft' | 'outline' | 'subtle' | 'text';

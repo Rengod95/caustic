@@ -11,12 +11,19 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'nav', role: 'navigation', description: 'The landmark. Flex row, centred, 4px gap, wraps. aria-label supplied by the consumer.' },
     { name: 'list', el: 'ol', parent: 'root', description: 'Flex row that holds the entries (display contents is acceptable: the root owns the gap and wrapping).' },
-    { name: 'item', el: 'a', parent: 'list', required: false, description: 'An ancestor link: tertiary text, inline-flex, 6px gap, 3px 6px padding, sm radius. Hover lifts to primary text on neutral.hover.' },
+    { name: 'item', el: 'a', parent: 'list', required: false, description: 'An ancestor link: tertiary text, inline-flex, 6px gap, 3px 6px padding, sm radius. The ancestor right before the current page (its parent, the likeliest step back) is text.secondary. Hover lifts to primary text on neutral.hover.' },
     { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Optional leading lucide icon, 14px (the home icon on the first item).' },
     { name: 'separator', el: 'span', parent: 'list', description: 'A 14px chevron-right in neutral.graphic between entries. aria-hidden.' },
     { name: 'ellipsis', el: 'button', parent: 'list', required: false, description: 'Collapsed middle path: an xs IconButton with an ellipsis icon and an aria-label such as "Show 3 more". Press reveals the hidden entries (menu or expansion is the consumer’s).' },
     { name: 'current', el: 'span', parent: 'list', description: 'The current page: primary text, medium weight, 3px 6px padding, aria-current="page". Not a link.' },
   ],
+  variants: {
+    variant: { values: ['solid', 'soft', 'outline', 'ghost'], default: 'ghost', description: 'The current page: ghost = plain primary text, medium weight (own); solid / soft / outline draw it as a chip in the tone (solid fill with on text, soft fill with tone text, a 1px tone border).' },
+    tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'neutral', description: 'Colour family of the current-page chip; it also colours the separators (tone graphic; neutral = neutral.graphic).' },
+    radius: { values: ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'], default: 'sm', description: 'Item and current-page corner radius; default sm.' },
+    shadow: { values: ['none', '1', '2', '3', '4', '5'], default: 'none', description: 'Elevation of the current-page chip; default none.' },
+  },
+  sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   states: {
     hover: { pseudo: ['hover'], target: 'item' },
     'focus-visible': { pseudo: ['focus', 'focus-visible'], target: 'item' },
@@ -24,6 +31,11 @@ export default defineSpec({
   props: {
     'aria-label': { type: 'string', required: true, description: 'Landmark label (e.g. "Breadcrumb"). Required; no built-in English default.' },
     children: { type: 'ReactNode', description: 'The trail: BreadcrumbItem, BreadcrumbEllipsis and one BreadcrumbCurrent.' },
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Current-page chip and separator colour family.' },
+    variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'ghost', description: 'Current-page emphasis (ghost = plain text).' },
+    radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", description: 'Item and current-page radius. Unset keeps sm.' },
+    shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", description: 'Current-page chip elevation. Unset keeps none.' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Type, gap and padding: xs ui-xs (2px 4px), sm ui-sm (2px 5px), md ui (3px 6px, own), lg ui-lg (4px 8px).' },
   },
   events: {},
   styles: [
@@ -34,6 +46,14 @@ export default defineSpec({
     { slot: 'icon', expect: { height: 'icon-sm', width: 'icon-sm' } },
     { slot: 'separator', expect: { fg: 'neutral.graphic', height: 'icon-sm', width: 'icon-sm' } },
     { slot: 'current', expect: { fg: 'text.primary', padX: 6, padY: 3, text: 'ui', weight: 500 } },
+    { slot: 'current', when: { variant: 'soft', tone: 'accent' }, expect: { bg: 'accent.soft', fg: 'accent.text', radius: 'sm' } },
+    { slot: 'current', when: { variant: 'solid' }, expect: { bg: 'ink.solid', fg: 'ink.on' } },
+    { slot: 'current', when: { variant: 'outline', tone: 'info' }, expect: { edge: 'info.border', fg: 'info.text' } },
+    { slot: 'separator', when: { tone: 'accent' }, expect: { fg: 'accent.graphic' } },
+    { slot: 'item', when: { radius: 'full' }, expect: { radius: 'full' } },
+    { slot: 'current', when: { variant: 'soft', shadow: '1' }, expect: { shadow: '1' } },
+    { slot: 'root', when: { size: 'lg' }, expect: { gap: 6, text: 'ui-lg' } },
+    { slot: 'item', when: { size: 'xs' }, expect: { padX: 4, padY: 2, text: 'ui-xs' } },
   ],
   behavior: {
     keyboard: { Tab: 'moves through the links and the ellipsis control', Enter: 'follows the focused link' },
@@ -53,7 +73,7 @@ export default defineSpec({
   usage: [
     'The example stacks two Breadcrumbs (the page column gap is 14px). First: a home icon + “Orbit” link, “Pricing refresh” link, “Pages” link, current “Pricing / Desktop”. Second: “Orbit” link, an ellipsis control labelled “Show 3 more”, current “Button / Primary”. A separator sits between every pair of entries.',
     'The home icon is a lucide icon passed into the first item; the item supplies the 14px icon size and 6px gap.',
-    'Fixture convention: render(props) renders Orbit, Pricing refresh, Pages and the current page “Pricing / Desktop”; the harness probes item, separator and current.',
+    'Fixture convention: render(props) renders Orbit, Pricing refresh, Pages and the current page “Pricing / Desktop”; the harness probes item, separator and current. The probed item is the first (Orbit, tertiary); the secondary parent (Pages, owner 2026-10-27 A) is covered by the trail example baseline.',
     'Hover on the first item in the fixture needs an href so the link is focusable and hoverable.',
   ],
 });

@@ -68,7 +68,7 @@
   --cs-success-light-8: oklch(0.8311 0.187 155);
   --cs-success-light-9: oklch(0.82 0.187 155);
   --cs-success-light-10: oklch(0.77 0.187 155);
-  --cs-success-light-11: oklch(0.465 0.1155 155);
+  --cs-success-light-11: oklch(0.5 0.1241 155);
 
   /* primitives: success-dark (Pad Green, solid = step 9) */
   --cs-success-dark-1: oklch(0.225 0.0411 155);
@@ -120,7 +120,7 @@
   --cs-danger-light-8: oklch(0.7922 0.1264 43);
   --cs-danger-light-9: oklch(0.77 0.143 43);
   --cs-danger-light-10: oklch(0.72 0.143 43);
-  --cs-danger-light-11: oklch(0.475 0.1416 43);
+  --cs-danger-light-11: oklch(0.52 0.16 38);
 
   /* primitives: danger-dark (Signal Orange, solid = step 9) */
   --cs-danger-dark-1: oklch(0.225 0.0314 43);
@@ -146,7 +146,7 @@
   --cs-info-light-8: oklch(0.73 0.139 266);
   --cs-info-light-9: oklch(0.7 0.145 266);
   --cs-info-light-10: oklch(0.65 0.145 266);
-  --cs-info-light-11: oklch(0.475 0.145 266);
+  --cs-info-light-11: oklch(0.5 0.19 266);
 
   /* primitives: info-dark (Panel Blue, solid = step 9) */
   --cs-info-dark-1: oklch(0.225 0.0319 266);
@@ -391,20 +391,21 @@
   --cs-size-radio-dot: 7px;
   --cs-size-kbd-h: 18px;
   --cs-size-progress-h: 6px;
-  --cs-size-tool-icon: 24px;
   --cs-size-presence: 8px;
-  --cs-size-switch-md-w: 46px;
+  --cs-size-switch-md-w: 64px;
   --cs-size-switch-md-h: 28px;
   --cs-size-switch-md-thumb: 24px;
-  --cs-size-switch-md-travel: 18px;
-  --cs-size-switch-md-press: 30px;
-  --cs-size-switch-sm-w: 38px;
+  --cs-size-switch-md-thumb-w: 40px;
+  --cs-size-switch-md-travel: 20px;
+  --cs-size-switch-md-press: 48px;
+  --cs-size-switch-sm-w: 48px;
   --cs-size-switch-sm-h: 23px;
   --cs-size-switch-sm-thumb: 19px;
-  --cs-size-switch-sm-travel: 15px;
-  --cs-size-switch-sm-press: 24px;
+  --cs-size-switch-sm-thumb-w: 28px;
+  --cs-size-switch-sm-travel: 16px;
+  --cs-size-switch-sm-press: 32px;
   --cs-size-avatar-xs: 16px;
-  --cs-size-avatar-sm: 24px;
+  --cs-size-avatar-sm: 26px;
   --cs-size-avatar-md: 32px;
   --cs-size-avatar-lg: 36px;
   --cs-size-dialog-sm: 320px;
@@ -493,6 +494,7 @@
   --cs-size-otp-h: 52px;
   --cs-size-slider-ruler-h: 30px;
   --cs-size-slider-label-w: 52px;
+  --cs-size-slider-field-w: 64px;
   --cs-size-menu-item: 30px;
   --cs-size-menu-min: 220px;
   --cs-size-listbox-max: 220px;
@@ -591,6 +593,10 @@
   --cs-text-mono-micro-tracking: 0em;
   --cs-text-voice-lg: 400 19px/26px var(--cs-font-voice);
   --cs-text-voice-lg-tracking: 0em;
+  --cs-text-voice-xl: 400 22px/30px var(--cs-font-voice);
+  --cs-text-voice-xl-tracking: -0.01em;
+  --cs-text-mono-dense: 400 11px/16px var(--cs-font-mono);
+  --cs-text-mono-dense-tracking: -0.02em;
 
   /* blur, motion, opacity, z */
   --cs-blur-control: 12px;
@@ -905,7 +911,7 @@
   --cs-color-success-graphic: oklch(0.8311 0.187 155);
   --cs-color-success-solid: oklch(0.82 0.187 155);
   --cs-color-success-solid-hover: oklch(0.77 0.187 155);
-  --cs-color-success-text: oklch(0.465 0.1155 155);
+  --cs-color-success-text: oklch(0.5 0.1241 155);
   --cs-color-success-on: oklch(0.12 0 0);
   --cs-color-warning-tint: oklch(0.973 0.0445 118);
   --cs-color-warning-soft: oklch(0.961 0.0731 118);
@@ -927,7 +933,7 @@
   --cs-color-danger-graphic: oklch(0.7922 0.1264 43);
   --cs-color-danger-solid: oklch(0.77 0.143 43);
   --cs-color-danger-solid-hover: oklch(0.72 0.143 43);
-  --cs-color-danger-text: oklch(0.475 0.1416 43);
+  --cs-color-danger-text: oklch(0.52 0.16 38);
   --cs-color-danger-on: oklch(0.12 0 0);
   --cs-color-info-tint: oklch(0.965 0.0164 266);
   --cs-color-info-soft: oklch(0.935 0.0309 266);
@@ -938,7 +944,7 @@
   --cs-color-info-graphic: oklch(0.73 0.139 266);
   --cs-color-info-solid: oklch(0.7 0.145 266);
   --cs-color-info-solid-hover: oklch(0.65 0.145 266);
-  --cs-color-info-text: oklch(0.475 0.145 266);
+  --cs-color-info-text: oklch(0.5 0.19 266);
   --cs-color-info-on: oklch(0.12 0 0);
   --cs-color-agent-tint: oklch(0.965 0.0412 88);
   --cs-color-agent-soft: oklch(0.935 0.0711 88);
@@ -981,10 +987,10 @@
   --cs-color-agent-glow: oklch(0.755 0.1545 88 / 0.45);
   --cs-color-diff-add-bg: oklch(0.935 0.086 155);
   --cs-color-diff-remove-bg: oklch(0.935 0.0349 43);
-  --cs-color-diff-add-text: oklch(0.465 0.1155 155);
-  --cs-color-diff-remove-text: oklch(0.475 0.1416 43);
-  --cs-color-syntax-keyword: oklch(0.475 0.145 266);
-  --cs-color-syntax-string: oklch(0.465 0.1155 155);
+  --cs-color-diff-add-text: oklch(0.5 0.1241 155);
+  --cs-color-diff-remove-text: oklch(0.52 0.16 38);
+  --cs-color-syntax-keyword: oklch(0.5 0.19 266);
+  --cs-color-syntax-string: oklch(0.5 0.1241 155);
   --cs-color-syntax-property: oklch(0.475 0.12 50);
   --cs-color-syntax-comment: var(--cs-color-text-secondary);
   --cs-color-canvas-dot: oklch(0.12 0 0 / 0.13);
@@ -1000,7 +1006,7 @@
   --cs-color-canvas-checker-a: oklch(0.995 0 0);
   --cs-color-canvas-checker-b: oklch(0.93 0 0);
   --cs-color-canvas-artboard: oklch(0.995 0 0);
-  --cs-color-category-component: oklch(0.475 0.145 266);
+  --cs-color-category-component: oklch(0.5 0.19 266);
   --cs-color-category-component-soft: oklch(0.935 0.0309 266);
   --cs-color-identity-coral: oklch(0.77 0.143 43);
   --cs-color-identity-iris: oklch(0.7 0.145 266);
@@ -1117,13 +1123,13 @@
   --cs-elevation-5: 0 8px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06), 0 40px 80px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.28);
   --cs-elevation-thumb: 0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12);
   --cs-elevation-thumb-sm: 0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2);
-  --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25);
+  --cs-elevation-thumb-swatch: inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm);
   --cs-elevation-card: 0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 12px 32px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18);
   --cs-elevation-lift: 0 14px 30px -14px oklch(from var(--cs-color-shadow-ambient) l c h / 0.3);
   --cs-elevation-well: 0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 6px 18px -10px oklch(from var(--cs-color-shadow-ambient) l c h / 0.25);
   --cs-elevation-agent: 0 8px 30px -12px var(--cs-color-agent-glow);
   --cs-elevation-artboard: 0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.2);
-  --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
+  --cs-focus-field: inset 0 0 0 1px var(--cs-color-border-default);
   --cs-focus: 0 0 0 1px var(--cs-color-focus-offset), 0 0 0 3px var(--cs-color-focus-ring);
 }
 
@@ -1623,13 +1629,13 @@
     --cs-elevation-5: 0 8px 16px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 40px 80px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.65);
     --cs-elevation-thumb: 0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12);
     --cs-elevation-thumb-sm: 0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2);
-    --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25);
+    --cs-elevation-thumb-swatch: inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm);
     --cs-elevation-card: 0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 12px 32px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.6);
     --cs-elevation-lift: 0 14px 30px -14px oklch(from var(--cs-color-shadow-contact) l c h / 0.7);
     --cs-elevation-well: 0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 6px 18px -10px oklch(from var(--cs-color-shadow-contact) l c h / 0.55);
     --cs-elevation-agent: 0 8px 30px -12px var(--cs-color-agent-glow);
     --cs-elevation-artboard: 0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.5);
-    --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
+    --cs-focus-field: inset 0 0 0 1px var(--cs-color-border-default);
     --cs-focus: 0 0 0 1px var(--cs-color-focus-offset), 0 0 0 3px var(--cs-color-focus-ring);
   }
 }
@@ -2107,13 +2113,13 @@
   --cs-elevation-5: 0 8px 16px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 40px 80px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.65);
   --cs-elevation-thumb: 0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12);
   --cs-elevation-thumb-sm: 0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2);
-  --cs-elevation-thumb-swatch: 0 0 0 3px var(--cs-color-control-thumb), 0 2px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25);
+  --cs-elevation-thumb-swatch: inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm);
   --cs-elevation-card: 0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 12px 32px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.6);
   --cs-elevation-lift: 0 14px 30px -14px oklch(from var(--cs-color-shadow-contact) l c h / 0.7);
   --cs-elevation-well: 0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 6px 18px -10px oklch(from var(--cs-color-shadow-contact) l c h / 0.55);
   --cs-elevation-agent: 0 8px 30px -12px var(--cs-color-agent-glow);
   --cs-elevation-artboard: 0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.5);
-  --cs-focus-field: inset 0 0 0 1.5px var(--cs-color-focus-ring);
+  --cs-focus-field: inset 0 0 0 1px var(--cs-color-border-default);
   --cs-focus: 0 0 0 1px var(--cs-color-focus-offset), 0 0 0 3px var(--cs-color-focus-ring);
 }
 
