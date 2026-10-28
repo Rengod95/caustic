@@ -95,6 +95,8 @@
       ],
       "reason": "Hidden paint layers are StackRow hidden rows (PROPOSAL A9, disabled colour); owner, 2026-10-25: design over gate."
     },
+    "chip": {"slots":["chip-label"],"reason":"Status chips keep their tone text on the soft hover and pressed fills; light success, danger and info text measure 4.0–4.4:1 there, which tokens accept as design-over-contrast warnings."},
+    "color-tile": {"slots":["color-tile-mark"],"reason":"The audit mark keeps success/danger text on neutral.track; light success.text measures under 4.5:1 there, a token-level design-over-contrast warning."},
     "contrast-insight": {"slots":["contrast-insight-unit"],"reason":"The \" : 1\" unit takes the status text colour of the best result on the neutral.track readout (owner 2026-10-27, proposal A); warning.text in light measures under 4.5:1."},
     "choice-group": {
       "slots": [
