@@ -30,8 +30,8 @@ verify:
     WS_GUARD_SLOTS=1 WS_GUARD_VERIFY_MAX=3G scripts/guard.sh verify -- just _verify-steps
     ws check
 
-# verify 단계 묶음: setup typecheck, 토큰 대비, 바뀐 범위의 게이트(--changed: main 이후와 작업 트리에서 바뀐 컴포넌트와
-# 그걸 쓰는 컴포넌트, 토큰·lib·gateway가 바뀌면 전체). 샤드 1개(node와 브라우저로 약 1.5G, 2개는 상한을 넘는다)
+# verify 단계 묶음: setup typecheck, 토큰 대비, 바뀐 범위의 게이트(--changed: 기준(GATE_BASE, 없으면 main) 이후와 작업
+# 트리에서 바뀐 컴포넌트와 그걸 쓰거나 import하는 컴포넌트, 토큰·lib·gateway가 바뀌거나 기준이 없거나 HEAD가 기준이면 전체). 샤드 1개(node와 브라우저로 약 1.5G, 2개는 상한을 넘는다)
 [private]
 _verify-steps: setup typecheck
     pnpm tokens:check

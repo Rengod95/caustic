@@ -13,7 +13,11 @@ jobs:
   verify:
     runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
     steps:
+      # Full history: verify gates the specs changed since the base (GATE_BASE, see gate-all.ts); a push to main has
+      # no base of its own, so it gates every spec.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Fetch ws, secrets and remote (private dotfiles, read-only token)
         env:
           DOTFILES_TOKEN: ${{ secrets.DOTFILES_TOKEN }}
@@ -26,4 +30,6 @@ jobs:
           for m in ws secrets remote; do echo "$RUNNER_TEMP/ws-dotfiles/modules/$m/bin" >>"$GITHUB_PATH"; done
       - uses: jdx/mise-action@v2
       - name: just verify
+        env:
+          GATE_BASE: origin/${{ github.base_ref || 'main' }}
         run: just verify
