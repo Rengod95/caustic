@@ -10,6 +10,7 @@
       "ratio": 20.01,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -22,6 +23,7 @@
       "ratio": 20.01,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -34,6 +36,7 @@
       "ratio": 18.88,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -46,6 +49,7 @@
       "ratio": 16.52,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -58,6 +62,7 @@
       "ratio": 13.91,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -70,6 +75,7 @@
       "ratio": 13.91,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -82,6 +88,7 @@
       "ratio": 13.13,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -94,6 +101,7 @@
       "ratio": 11.48,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -106,6 +114,7 @@
       "ratio": 7.66,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -118,6 +127,7 @@
       "ratio": 7.66,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -130,6 +140,7 @@
       "ratio": 7.23,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -142,6 +153,7 @@
       "ratio": 6.32,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -154,6 +166,7 @@
       "ratio": 5.91,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -166,6 +179,7 @@
       "ratio": 5.91,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -178,6 +192,7 @@
       "ratio": 5.58,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -190,6 +205,7 @@
       "ratio": 4.88,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -202,6 +218,7 @@
       "ratio": 3.89,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -214,6 +231,7 @@
       "ratio": 3.89,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -226,6 +244,7 @@
       "ratio": 3.67,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -238,6 +257,7 @@
       "ratio": 3.21,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -250,6 +270,7 @@
       "ratio": 6.56,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "meta text on a hover fill",
       "sweep": false,
       "worstHue": null
@@ -262,6 +283,7 @@
       "ratio": 6.14,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "meta text on a pressed fill",
       "sweep": false,
       "worstHue": null
@@ -274,6 +296,7 @@
       "ratio": 5.18,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "placeholder in a sunken field",
       "sweep": false,
       "worstHue": null
@@ -286,6 +309,7 @@
       "ratio": 15.68,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected row",
       "sweep": false,
       "worstHue": null
@@ -298,6 +322,7 @@
       "ratio": 14.44,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected row hover",
       "sweep": false,
       "worstHue": null
@@ -310,6 +335,7 @@
       "ratio": 3.89,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "disabled, non-essential",
       "sweep": false,
       "worstHue": null
@@ -322,6 +348,7 @@
       "ratio": 13.91,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "panel text over canvas",
       "sweep": false,
       "worstHue": null
@@ -334,6 +361,7 @@
       "ratio": 7.66,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "menu meta over canvas",
       "sweep": false,
       "worstHue": null
@@ -346,6 +374,7 @@
       "ratio": 20.01,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "panel over saturated content",
       "sweep": false,
       "worstHue": null
@@ -358,6 +387,7 @@
       "ratio": 20.01,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "secondary button, segmented thumb",
       "sweep": false,
       "worstHue": null
@@ -370,6 +400,7 @@
       "ratio": 18.88,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "secondary button hover",
       "sweep": false,
       "worstHue": null
@@ -382,6 +413,7 @@
       "ratio": 20.01,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "translucent list, field, card",
       "sweep": false,
       "worstHue": null
@@ -394,6 +426,7 @@
       "ratio": 7.66,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "meta text on translucent surface",
       "sweep": false,
       "worstHue": null
@@ -406,6 +439,7 @@
       "ratio": 3.89,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "switch off track (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -418,6 +452,7 @@
       "ratio": 4.78,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected edge is visible on surface (paired with a check mark)",
       "sweep": false,
       "worstHue": null
@@ -430,6 +465,7 @@
       "ratio": 20.01,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item: label on the inverted fill",
       "sweep": false,
       "worstHue": null
@@ -442,6 +478,7 @@
       "ratio": 13.91,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item hovered",
       "sweep": false,
       "worstHue": null
@@ -454,6 +491,7 @@
       "ratio": 13.92,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item: secondary text",
       "sweep": false,
       "worstHue": null
@@ -466,6 +504,7 @@
       "ratio": 9.68,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item hovered: secondary text",
       "sweep": false,
       "worstHue": null
@@ -478,6 +517,7 @@
       "ratio": 10.5,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item: meta, shortcut, icon",
       "sweep": false,
       "worstHue": null
@@ -490,6 +530,7 @@
       "ratio": 20.01,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "primary button",
       "sweep": false,
       "worstHue": null
@@ -502,6 +543,7 @@
       "ratio": 13.91,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "primary button hover",
       "sweep": false,
       "worstHue": null
@@ -514,6 +556,7 @@
       "ratio": 9.86,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "tooltip shortcut",
       "sweep": false,
       "worstHue": null
@@ -526,6 +569,7 @@
       "ratio": 4.81,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "badge over media",
       "sweep": false,
       "worstHue": null
@@ -538,6 +582,7 @@
       "ratio": 20.56,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -550,6 +595,7 @@
       "ratio": 17.23,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -562,6 +608,7 @@
       "ratio": 15.72,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -574,6 +621,7 @@
       "ratio": 14.07,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -586,6 +634,7 @@
       "ratio": 20.16,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -598,6 +647,7 @@
       "ratio": 16.65,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -610,6 +660,7 @@
       "ratio": 12.65,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -622,6 +673,7 @@
       "ratio": 5.56,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -634,6 +686,7 @@
       "ratio": 4.81,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -646,6 +699,7 @@
       "ratio": 4.42,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -658,6 +712,7 @@
       "ratio": 4,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -670,6 +725,7 @@
       "ratio": 12.48,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -682,6 +738,7 @@
       "ratio": 10.55,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -694,6 +751,7 @@
       "ratio": 1.55,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -706,6 +764,7 @@
       "ratio": 5.4,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -718,6 +777,7 @@
       "ratio": 4.96,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -730,6 +790,7 @@
       "ratio": 4.8,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -742,6 +803,7 @@
       "ratio": 4.65,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -754,6 +816,7 @@
       "ratio": 15.72,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -766,6 +829,7 @@
       "ratio": 13.43,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -778,6 +842,7 @@
       "ratio": 1.25,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -790,6 +855,7 @@
       "ratio": 5.85,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -802,6 +868,7 @@
       "ratio": 4.86,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -814,6 +881,7 @@
       "ratio": 4.41,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -826,6 +894,7 @@
       "ratio": 3.92,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -838,6 +907,7 @@
       "ratio": 9.33,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -850,6 +920,7 @@
       "ratio": 7.78,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -862,6 +933,7 @@
       "ratio": 1.97,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -874,6 +946,7 @@
       "ratio": 6.2,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -886,6 +959,7 @@
       "ratio": 5.19,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -898,6 +972,7 @@
       "ratio": 4.73,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -910,6 +985,7 @@
       "ratio": 4.23,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -922,6 +998,7 @@
       "ratio": 7.47,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -934,6 +1011,7 @@
       "ratio": 6.16,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -946,6 +1024,7 @@
       "ratio": 2.39,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -958,6 +1037,7 @@
       "ratio": 6.77,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -970,6 +1050,7 @@
       "ratio": 5.67,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -982,6 +1063,7 @@
       "ratio": 5.17,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -994,6 +1076,7 @@
       "ratio": 4.62,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -1006,6 +1089,7 @@
       "ratio": 9.22,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -1018,6 +1102,7 @@
       "ratio": 7.68,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -1030,6 +1115,7 @@
       "ratio": 2.07,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -1042,6 +1128,7 @@
       "ratio": 20.01,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -1054,7 +1141,60 @@
       "ratio": 7.66,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
+      "fg": "selection.on",
+      "bg": "neutral.solid",
+      "min": 4.5,
+      "ratio": 7.66,
+      "pass": true,
+      "warn": false,
+      "margin": false,
+      "note": "selected choice card, solid fill",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
+      "fg": "selection.on",
+      "bg": "neutral.solid-hover",
+      "min": 4.5,
+      "ratio": 13.91,
+      "pass": true,
+      "warn": false,
+      "margin": false,
+      "note": "selected choice card, solid fill, hover",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
+      "fg": "selection.on-secondary",
+      "bg": "neutral.solid",
+      "min": 4.5,
+      "ratio": 5.33,
+      "pass": true,
+      "warn": false,
+      "margin": false,
+      "note": "selected choice card, solid fill, secondary text",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "light",
+      "fg": "selection.on-secondary",
+      "bg": "neutral.solid-hover",
+      "min": 4.5,
+      "ratio": 9.68,
+      "pass": true,
+      "warn": false,
+      "margin": false,
+      "note": "selected choice card, solid fill, secondary text, hover",
       "sweep": false,
       "worstHue": null
     },
@@ -1066,6 +1206,7 @@
       "ratio": 5.91,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -1078,6 +1219,7 @@
       "ratio": 20.56,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "AA link",
       "sweep": false,
       "worstHue": null
@@ -1090,6 +1232,7 @@
       "ratio": 11.66,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected choice card text",
       "sweep": false,
       "worstHue": null
@@ -1102,6 +1245,7 @@
       "ratio": 12.75,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected action card",
       "sweep": false,
       "worstHue": null
@@ -1114,6 +1258,7 @@
       "ratio": 20.16,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "focus indicator (2.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1126,6 +1271,7 @@
       "ratio": 20.16,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "focus indicator on raised",
       "sweep": false,
       "worstHue": null
@@ -1138,6 +1284,7 @@
       "ratio": 16.64,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "focus indicator on canvas",
       "sweep": false,
       "worstHue": null
@@ -1150,6 +1297,7 @@
       "ratio": 7.66,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "required mark",
       "sweep": false,
       "worstHue": null
@@ -1162,6 +1310,7 @@
       "ratio": 17.29,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "diff line",
       "sweep": false,
       "worstHue": null
@@ -1174,6 +1323,7 @@
       "ratio": 16.61,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "diff line",
       "sweep": false,
       "worstHue": null
@@ -1186,6 +1336,7 @@
       "ratio": 4.81,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "diff sign",
       "sweep": false,
       "worstHue": null
@@ -1198,6 +1349,7 @@
       "ratio": 4.86,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "diff sign",
       "sweep": false,
       "worstHue": null
@@ -1210,6 +1362,7 @@
       "ratio": 6.2,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -1222,6 +1375,7 @@
       "ratio": 5.35,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -1234,6 +1388,7 @@
       "ratio": 5.14,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -1246,6 +1401,7 @@
       "ratio": 5.56,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -1258,6 +1414,7 @@
       "ratio": 4.81,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -1270,6 +1427,7 @@
       "ratio": 4.62,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -1282,6 +1440,7 @@
       "ratio": 6.9,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -1294,6 +1453,7 @@
       "ratio": 5.96,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -1306,6 +1466,7 @@
       "ratio": 5.73,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -1318,6 +1479,7 @@
       "ratio": 13.91,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -1330,6 +1492,7 @@
       "ratio": 12.02,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -1342,6 +1505,7 @@
       "ratio": 11.55,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -1354,6 +1518,7 @@
       "ratio": 12.65,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1366,6 +1531,7 @@
       "ratio": 2.39,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1378,6 +1544,7 @@
       "ratio": 1.55,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1390,6 +1557,7 @@
       "ratio": 1.25,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1402,6 +1570,7 @@
       "ratio": 2.86,
       "pass": false,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1414,6 +1583,7 @@
       "ratio": 3.03,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -1426,6 +1596,7 @@
       "ratio": 20.16,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "handle fill vs outline",
       "sweep": false,
       "worstHue": null
@@ -1438,6 +1609,7 @@
       "ratio": 4.61,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "measurement label",
       "sweep": false,
       "worstHue": null
@@ -1450,6 +1622,7 @@
       "ratio": 20.16,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selection size label",
       "sweep": false,
       "worstHue": null
@@ -1462,6 +1635,7 @@
       "ratio": 6.32,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "frame label",
       "sweep": false,
       "worstHue": null
@@ -1474,6 +1648,7 @@
       "ratio": 9.33,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1486,6 +1661,7 @@
       "ratio": 7.47,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1498,6 +1674,7 @@
       "ratio": 12.48,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1510,6 +1687,7 @@
       "ratio": 15.72,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1522,6 +1700,7 @@
       "ratio": 7.66,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -1534,6 +1713,7 @@
       "ratio": 6.2,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "main component label",
       "sweep": false,
       "worstHue": null
@@ -1546,6 +1726,7 @@
       "ratio": 5.19,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "main component tag",
       "sweep": false,
       "worstHue": null
@@ -1558,6 +1739,7 @@
       "ratio": 16.74,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -1570,6 +1752,7 @@
       "ratio": 15.23,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -1582,6 +1765,7 @@
       "ratio": 17.82,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -1594,6 +1778,7 @@
       "ratio": 18.43,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text primary",
       "sweep": false,
       "worstHue": null
@@ -1606,6 +1791,7 @@
       "ratio": 9.9,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -1618,6 +1804,7 @@
       "ratio": 9,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -1630,6 +1817,7 @@
       "ratio": 10.53,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -1642,6 +1830,7 @@
       "ratio": 10.89,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text secondary",
       "sweep": false,
       "worstHue": null
@@ -1654,6 +1843,7 @@
       "ratio": 7.04,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -1666,6 +1856,7 @@
       "ratio": 6.4,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -1678,6 +1869,7 @@
       "ratio": 7.49,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -1690,6 +1882,7 @@
       "ratio": 7.75,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: text tertiary",
       "sweep": false,
       "worstHue": null
@@ -1702,6 +1895,7 @@
       "ratio": 5.7,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -1714,6 +1908,7 @@
       "ratio": 5.19,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -1726,6 +1921,7 @@
       "ratio": 6.07,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -1738,6 +1934,7 @@
       "ratio": 6.28,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: placeholder",
       "sweep": false,
       "worstHue": null
@@ -1750,6 +1947,7 @@
       "ratio": 3.64,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1762,6 +1960,7 @@
       "ratio": 3.31,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1774,6 +1973,7 @@
       "ratio": 3.87,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1786,6 +1986,7 @@
       "ratio": 4,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "neutral: border control (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1798,6 +1999,7 @@
       "ratio": 6.87,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "meta text on a hover fill",
       "sweep": false,
       "worstHue": null
@@ -1810,6 +2012,7 @@
       "ratio": 6.39,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "meta text on a pressed fill",
       "sweep": false,
       "worstHue": null
@@ -1822,6 +2025,7 @@
       "ratio": 5.68,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "placeholder in a sunken field",
       "sweep": false,
       "worstHue": null
@@ -1834,6 +2038,7 @@
       "ratio": 12.09,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected row",
       "sweep": false,
       "worstHue": null
@@ -1846,6 +2051,7 @@
       "ratio": 10.52,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected row hover",
       "sweep": false,
       "worstHue": null
@@ -1858,6 +2064,7 @@
       "ratio": 3.64,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "disabled, non-essential",
       "sweep": false,
       "worstHue": null
@@ -1870,6 +2077,7 @@
       "ratio": 9,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "panel text over canvas",
       "sweep": false,
       "worstHue": null
@@ -1882,6 +2090,7 @@
       "ratio": 6.4,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "menu meta over canvas",
       "sweep": false,
       "worstHue": null
@@ -1894,6 +2103,7 @@
       "ratio": 15.23,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "panel over saturated content",
       "sweep": false,
       "worstHue": null
@@ -1906,6 +2116,7 @@
       "ratio": 15.23,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "secondary button, segmented thumb",
       "sweep": false,
       "worstHue": null
@@ -1918,6 +2129,7 @@
       "ratio": 10.26,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "secondary button hover",
       "sweep": false,
       "worstHue": null
@@ -1930,6 +2142,7 @@
       "ratio": 16.74,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "translucent list, field, card",
       "sweep": false,
       "worstHue": null
@@ -1942,6 +2155,7 @@
       "ratio": 7.04,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "meta text on translucent surface",
       "sweep": false,
       "worstHue": null
@@ -1954,6 +2168,7 @@
       "ratio": 3.64,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "switch off track (1.4.11)",
       "sweep": false,
       "worstHue": null
@@ -1966,6 +2181,7 @@
       "ratio": 4.67,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected edge is visible on surface (paired with a check mark)",
       "sweep": false,
       "worstHue": null
@@ -1978,6 +2194,7 @@
       "ratio": 11.37,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item: label on the inverted fill",
       "sweep": false,
       "worstHue": null
@@ -1990,6 +2207,7 @@
       "ratio": 5.1,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item hovered",
       "sweep": false,
       "worstHue": null
@@ -2002,6 +2220,7 @@
       "ratio": 10.26,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item: secondary text",
       "sweep": false,
       "worstHue": null
@@ -2014,6 +2233,7 @@
       "ratio": 4.6,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item hovered: secondary text",
       "sweep": false,
       "worstHue": null
@@ -2026,6 +2246,7 @@
       "ratio": 6.07,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected item: meta, shortcut, icon",
       "sweep": false,
       "worstHue": null
@@ -2038,6 +2259,7 @@
       "ratio": 11.37,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "primary button",
       "sweep": false,
       "worstHue": null
@@ -2050,6 +2272,7 @@
       "ratio": 5.1,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "primary button hover",
       "sweep": false,
       "worstHue": null
@@ -2062,6 +2285,7 @@
       "ratio": 5.7,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "tooltip shortcut",
       "sweep": false,
       "worstHue": null
@@ -2074,6 +2298,7 @@
       "ratio": 20.04,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "badge over media",
       "sweep": false,
       "worstHue": null
@@ -2086,6 +2311,7 @@
       "ratio": 17.24,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2098,6 +2324,7 @@
       "ratio": 12.94,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -2110,6 +2337,7 @@
       "ratio": 11.63,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -2122,6 +2350,7 @@
       "ratio": 10.16,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2134,6 +2363,7 @@
       "ratio": 18.61,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2146,6 +2376,7 @@
       "ratio": 14.59,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2158,6 +2389,7 @@
       "ratio": 10.24,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2170,6 +2402,7 @@
       "ratio": 15.19,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2182,6 +2415,7 @@
       "ratio": 11.06,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -2193,7 +2427,8 @@
       "min": 4.5,
       "ratio": 9.89,
       "pass": true,
-      "warn": true,
+      "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -2205,7 +2440,8 @@
       "min": 4.5,
       "ratio": 8.58,
       "pass": true,
-      "warn": true,
+      "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2218,6 +2454,7 @@
       "ratio": 12.48,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2230,6 +2467,7 @@
       "ratio": 14.67,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2242,6 +2480,7 @@
       "ratio": 7.58,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2254,6 +2493,7 @@
       "ratio": 16.45,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2266,6 +2506,7 @@
       "ratio": 12.19,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -2278,6 +2519,7 @@
       "ratio": 10.93,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -2290,6 +2532,7 @@
       "ratio": 9.52,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2302,6 +2545,7 @@
       "ratio": 15.72,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2314,6 +2558,7 @@
       "ratio": 12.17,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2326,6 +2571,7 @@
       "ratio": 9.01,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2338,6 +2584,7 @@
       "ratio": 12,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2350,6 +2597,7 @@
       "ratio": 9.2,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -2361,7 +2609,8 @@
       "min": 4.5,
       "ratio": 8.34,
       "pass": true,
-      "warn": true,
+      "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -2373,7 +2622,8 @@
       "min": 4.5,
       "ratio": 7.34,
       "pass": true,
-      "warn": true,
+      "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2386,6 +2636,7 @@
       "ratio": 9.33,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2398,6 +2649,7 @@
       "ratio": 11.25,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2410,6 +2662,7 @@
       "ratio": 5.84,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2422,6 +2675,7 @@
       "ratio": 9.65,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2434,6 +2688,7 @@
       "ratio": 7.3,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -2445,7 +2700,8 @@
       "min": 4.5,
       "ratio": 6.59,
       "pass": true,
-      "warn": true,
+      "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -2457,7 +2713,8 @@
       "min": 4.5,
       "ratio": 5.78,
       "pass": true,
-      "warn": true,
+      "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2470,6 +2727,7 @@
       "ratio": 7.47,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2482,6 +2740,7 @@
       "ratio": 9.02,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2494,6 +2753,7 @@
       "ratio": 4.98,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2506,6 +2766,7 @@
       "ratio": 11.63,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2518,6 +2779,7 @@
       "ratio": 8.75,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft 3",
       "sweep": false,
       "worstHue": null
@@ -2530,6 +2792,7 @@
       "ratio": 7.87,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-hover 4",
       "sweep": false,
       "worstHue": null
@@ -2542,6 +2805,7 @@
       "ratio": 6.88,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on soft-pressed 5",
       "sweep": false,
       "worstHue": null
@@ -2554,6 +2818,7 @@
       "ratio": 9.22,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
       "sweep": false,
       "worstHue": null
@@ -2566,6 +2831,7 @@
       "ratio": 10.98,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid-hover 10",
       "sweep": false,
       "worstHue": null
@@ -2578,6 +2844,7 @@
       "ratio": 5.88,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2590,6 +2857,7 @@
       "ratio": 16.74,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: text 11 on surface",
       "sweep": false,
       "worstHue": null
@@ -2602,7 +2870,60 @@
       "ratio": 7.6,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: on vs solid 9",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "selection.on",
+      "bg": "neutral.solid",
+      "min": 4.5,
+      "ratio": 2.63,
+      "pass": false,
+      "warn": true,
+      "margin": false,
+      "note": "selected choice card, solid fill",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "selection.on",
+      "bg": "neutral.solid-hover",
+      "min": 4.5,
+      "ratio": 1.87,
+      "pass": false,
+      "warn": true,
+      "margin": false,
+      "note": "selected choice card, solid fill, hover",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "selection.on-secondary",
+      "bg": "neutral.solid",
+      "min": 4.5,
+      "ratio": 2.38,
+      "pass": false,
+      "warn": true,
+      "margin": false,
+      "note": "selected choice card, solid fill, secondary text",
+      "sweep": false,
+      "worstHue": null
+    },
+    {
+      "theme": "dark",
+      "fg": "selection.on-secondary",
+      "bg": "neutral.solid-hover",
+      "min": 4.5,
+      "ratio": 1.69,
+      "pass": false,
+      "warn": true,
+      "margin": false,
+      "note": "selected choice card, solid fill, secondary text, hover",
       "sweep": false,
       "worstHue": null
     },
@@ -2614,6 +2935,7 @@
       "ratio": 5.7,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "slot: graphic 8 on surface",
       "sweep": false,
       "worstHue": null
@@ -2626,6 +2948,7 @@
       "ratio": 17.24,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "AA link",
       "sweep": false,
       "worstHue": null
@@ -2638,6 +2961,7 @@
       "ratio": 7.43,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected choice card text",
       "sweep": false,
       "worstHue": null
@@ -2650,6 +2974,7 @@
       "ratio": 8.3,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selected action card",
       "sweep": false,
       "worstHue": null
@@ -2662,6 +2987,7 @@
       "ratio": 17.24,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "focus indicator (2.4.11)",
       "sweep": false,
       "worstHue": null
@@ -2674,6 +3000,7 @@
       "ratio": 15.68,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "focus indicator on raised",
       "sweep": false,
       "worstHue": null
@@ -2686,6 +3013,7 @@
       "ratio": 18.98,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "focus indicator on canvas",
       "sweep": false,
       "worstHue": null
@@ -2698,6 +3026,7 @@
       "ratio": 7.04,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "required mark",
       "sweep": false,
       "worstHue": null
@@ -2710,6 +3039,7 @@
       "ratio": 12.19,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "diff line",
       "sweep": false,
       "worstHue": null
@@ -2722,6 +3052,7 @@
       "ratio": 12.84,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "diff line",
       "sweep": false,
       "worstHue": null
@@ -2734,6 +3065,7 @@
       "ratio": 11.06,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "diff sign",
       "sweep": false,
       "worstHue": null
@@ -2746,6 +3078,7 @@
       "ratio": 9.2,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "diff sign",
       "sweep": false,
       "worstHue": null
@@ -2758,6 +3091,7 @@
       "ratio": 9.65,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -2770,6 +3104,7 @@
       "ratio": 7.03,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -2782,6 +3117,7 @@
       "ratio": 7.4,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -2794,6 +3130,7 @@
       "ratio": 15.19,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -2806,6 +3143,7 @@
       "ratio": 11.06,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -2818,6 +3156,7 @@
       "ratio": 11.65,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -2830,6 +3169,7 @@
       "ratio": 10.1,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -2842,6 +3182,7 @@
       "ratio": 7.36,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -2854,6 +3195,7 @@
       "ratio": 7.75,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -2866,6 +3208,7 @@
       "ratio": 9.9,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on code surface",
       "sweep": false,
       "worstHue": null
@@ -2878,6 +3221,7 @@
       "ratio": 7.21,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on an added line",
       "sweep": false,
       "worstHue": null
@@ -2890,6 +3234,7 @@
       "ratio": 7.59,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "syntax on a removed line",
       "sweep": false,
       "worstHue": null
@@ -2902,6 +3247,7 @@
       "ratio": 10.24,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2914,6 +3260,7 @@
       "ratio": 4.98,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2926,6 +3273,7 @@
       "ratio": 7.58,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2938,6 +3286,7 @@
       "ratio": 9.01,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2950,6 +3299,7 @@
       "ratio": 5.18,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2962,6 +3312,7 @@
       "ratio": 5.43,
       "pass": true,
       "warn": true,
+      "margin": false,
       "note": "chart series",
       "sweep": false,
       "worstHue": null
@@ -2974,6 +3325,7 @@
       "ratio": 18.98,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "handle fill vs outline",
       "sweep": false,
       "worstHue": null
@@ -2986,6 +3338,7 @@
       "ratio": 7.54,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "measurement label",
       "sweep": false,
       "worstHue": null
@@ -2998,6 +3351,7 @@
       "ratio": 18.61,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "selection size label",
       "sweep": false,
       "worstHue": null
@@ -3010,6 +3364,7 @@
       "ratio": 7.75,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "frame label",
       "sweep": false,
       "worstHue": null
@@ -3022,6 +3377,7 @@
       "ratio": 9.33,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -3034,6 +3390,7 @@
       "ratio": 7.47,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -3046,6 +3403,7 @@
       "ratio": 12.48,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -3058,6 +3416,7 @@
       "ratio": 15.72,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -3070,6 +3429,7 @@
       "ratio": 7.6,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "avatar initials",
       "sweep": false,
       "worstHue": null
@@ -3082,6 +3442,7 @@
       "ratio": 9.65,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "main component label",
       "sweep": false,
       "worstHue": null
@@ -3094,6 +3455,7 @@
       "ratio": 7.3,
       "pass": true,
       "warn": false,
+      "margin": false,
       "note": "main component tag",
       "sweep": false,
       "worstHue": null

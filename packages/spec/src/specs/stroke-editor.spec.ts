@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'inspector',
   status: 'ready',
   purpose: 'Edits a stroke: its paint, weight and position (inside, center, outside), dash pattern and line cap, and independent widths per side.',
-  description: 'Pure composition: PaintWell for the color, NumberFields for numbers, SegmentedControl xs for position and caps, a small Switch for independent widths, and a "box" that draws the four side widths. The dash preview is a live line of the current dash and gap. The Fill and Image fill sections are separate (paint-stack, image-fill).',
+  description: 'Pure composition: PaintWell for the color, NumberFields for numbers, SegmentedControl xs for position and caps, a small Switch for independent widths, and a "box" that draws the four side widths. The dash preview is a live line of the current dash and gap. The Fill and Image fill sections are separate (property-stack, image-fill).',
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Vertical stack of three sections, 12px apart (owner 2026-10-28): the fields, the preview well and the side widths.' },

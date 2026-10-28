@@ -173,8 +173,8 @@ export const listItemsVariants = cva('m-0 list-none p-0');
 export const listRowVariants = cva(
   [
     'group/row relative text-ui text-text-primary transition-[background-color] duration-120 ease-out',
-    'before:absolute before:right-0 before:top-0 before:h-px before:bg-border-subtle',
-    'before:left-[calc(var(--spacing)*3.5+max(var(--li-lead,0px),var(--li-max-tile,0px),var(--li-max-avatar,0px),var(--li-max-thumb,0px),var(--li-max-check,0px),var(--li-max-grip,0px))+var(--li-sep-gap,0px))] first:before:hidden',
+    'before:absolute before:end-0 before:top-0 before:h-px before:bg-border-subtle',
+    'before:start-[calc(var(--spacing)*3.5+max(var(--li-lead,0px),var(--li-max-tile,0px),var(--li-max-avatar,0px),var(--li-max-thumb,0px),var(--li-max-check,0px),var(--li-max-grip,0px))+var(--li-sep-gap,0px))] first:before:hidden',
     'has-[[data-slot=list-trigger]]:hover:bg-neutral-hover has-[[data-slot=list-trigger]:active]:bg-neutral-pressed',
     'data-[state=checked]:not-data-[disabled]:selected data-[state=checked]:not-data-[disabled]:hover:bg-selection-fill-hover',
     'data-[disabled]:pointer-events-none data-[disabled]:text-disabled-text data-[disabled]:data-[state=checked]:bg-disabled-fill',
@@ -363,7 +363,7 @@ export const listIndexVariants = cva(
 );
 
 /** Swipe tray under the row, pinned to the end edge (ListRowTray). */
-export const listTrayVariants = cva('absolute inset-y-0 right-0 flex');
+export const listTrayVariants = cva('absolute inset-y-0 end-0 flex');
 
 /**
  * One tray action: icon over a short label, 72px wide, full row height. intent is the action's tone and emphasis its
@@ -428,7 +428,7 @@ export const listToolsVariants = cva(
  */
 export const listAddVariants = cva(
   [
-    'flex w-full cursor-pointer items-center gap-1.5 border-0 border-t border-dashed border-border-strong bg-transparent text-left font-ui text-accent-text outline-none',
+    'flex w-full cursor-pointer items-center gap-1.5 border-0 border-t border-dashed border-border-strong bg-transparent text-start font-ui text-accent-text outline-none',
     'transition-[background-color,color] duration-120 ease-out hover:bg-neutral-hover focus-visible:shadow-focus',
     '[&_svg]:size-icon-sm [&_svg]:flex-none [&_svg]:stroke-[1.75]',
   ],

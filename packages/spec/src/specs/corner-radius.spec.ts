@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'inspector',
   status: 'ready',
   purpose: 'Edits the corner radius of a shape: one value for all corners, a corner smoothing percentage, and four independent corners behind a toggle. An optional stage previews the result.',
-  description: 'Pure composition of NumberFields and an IconToggle. The first row holds the radius (with a corner glyph as scrub label), the smoothing (spline icon, unit %) and the independent-corners toggle. While independent is on, a 2×2 grid of corner fields (top left, top right, bottom left, bottom right) appears below. Typing in the radius field copies the value to all four corner fields.',
+  description: 'Pure composition of NumberFields and an IconButton toggle (pressed). The first row holds the radius (with a corner glyph as scrub label), the smoothing (spline icon, unit %) and the independent-corners toggle. While independent is on, a 2×2 grid of corner fields (top left, top right, bottom left, bottom right) appears below. Typing in the radius field copies the value to all four corner fields.',
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Vertical stack, 14px gap (stage, fields, corners).' },
@@ -15,7 +15,7 @@ export default defineSpec({
     { name: 'fields', el: 'div', parent: 'root', description: 'Row: two equal columns and an auto column, 6px gap, items centered.' },
     { name: 'radius', el: 'any', parent: 'fields', description: 'NumberField, label is the corner glyph, aria-label "Corner radius", min 0.' },
     { name: 'smoothing', el: 'any', parent: 'fields', description: 'NumberField, spline icon label, unit "%", aria-label "Corner smoothing", 0–100.' },
-    { name: 'independent', el: 'any', parent: 'fields', description: 'IconToggle xs (scan icon), aria-label "Independent corners".' },
+    { name: 'independent', el: 'any', parent: 'fields', description: 'IconButton xs with pressed (scan icon), aria-label "Independent corners".' },
     { name: 'glyph', el: 'span', parent: 'radius', description: 'Corner glyph used as the scrub label: a 12px square drawing only its top and left edges (1.5px) with a 6px top-left radius, in the label color. The other corner fields use the same glyph mirrored (top right: flipped horizontally, bottom left: vertically, bottom right: both).' },
     { name: 'corners', el: 'div', parent: 'root', required: false, description: 'Two-column grid, 6px gap, rendered only while independent is on.' },
     { name: 'corner', el: 'any', parent: 'corners', description: 'NumberField with the mirrored glyph as label; aria-labels Top left, Top right, Bottom left, Bottom right in that DOM order.' },

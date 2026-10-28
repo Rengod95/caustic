@@ -68,7 +68,8 @@ export const imageFillImageVariants = cva(
       mode: {
         fill: 'inset-0 rounded-none',
         fit: 'inset-y-0 inset-x-[22%] rounded-none',
-        crop: 'top-[-20%] right-[-10%] bottom-[-10%] left-[-30%] rounded-md',
+        // Crop: the 4:3 image box placed by the component (--stage-*) so the kept rectangle covers the crop frame.
+        crop: 'top-(--stage-t) right-(--stage-r) bottom-(--stage-b) left-(--stage-l) rounded-md',
         tile: 'inset-0 rounded-none bg-auto bg-repeat bg-size-[33.33%_50%]',
       },
     },

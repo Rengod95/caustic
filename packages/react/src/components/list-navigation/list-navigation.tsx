@@ -1,6 +1,6 @@
 'use client';
 import { Check, ChevronRight, Plus } from 'lucide-react';
-import { cloneElement, createContext, isValidElement, useContext, useId, type ComponentProps, type MouseEvent, type ReactNode } from 'react';
+import { cloneElement, createContext, isValidElement, useContext, useEffect, useId, type ComponentProps, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import type { CommonProps, Size, Tone, Variant } from '../../lib/common-props.ts';
@@ -26,6 +26,8 @@ const NavContext = createContext<{
 const DepthContext = createContext(1);
 /** Deepest level that renders: an entry at this depth ignores its `sub`. */
 const MAX_DEPTH = 3;
+/** Development builds (the bundler replaces process.env.NODE_ENV); false where process does not exist. */
+const isDev = () => { try { return process.env.NODE_ENV !== 'production'; } catch { return false; } };
 
 export interface ListNavigationGroupProps extends Omit<ComponentProps<'ul'>, 'children'> {
   /** Section heading text; labels the group. */
@@ -214,6 +216,10 @@ export function ListNavigationSubItem({
   const depth = useContext(DepthContext);
   const subId = useId();
   const disclosure = sub != null && depth < MAX_DEPTH;
+  const dropped = sub != null && depth >= MAX_DEPTH;
+  useEffect(() => {
+    if (dropped && isDev()) console.warn(`[caustic] ListNavigationSubItem: \`sub\` is ignored at depth ${depth}; navigation nests ${MAX_DEPTH} levels at most.`);
+  }, [dropped, depth]);
   const [open, setOpen] = useControllableState({ value: expanded, defaultValue: defaultExpanded, onChange: onExpandedChange });
   const handleClick = (e: MouseEvent<HTMLElement>) => {
     onClick?.(e);

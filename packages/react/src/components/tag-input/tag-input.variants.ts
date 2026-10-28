@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
-// The field family (stepper-input, tag-input, textarea): tone sets the --tone-* slots, variant picks the rest look.
+// The field family (number-field stepper, tag-input, textarea): tone sets the --tone-* slots, variant picks the rest look.
 //   outline  surface.translucent fill + 1px tone edge (border.default when neutral): the specimen
 //   soft     tone soft fill (neutral.track when neutral), no edge
 //   solid    raised fill + edge: control.raised + control.edge when neutral, tone tint + tone border otherwise

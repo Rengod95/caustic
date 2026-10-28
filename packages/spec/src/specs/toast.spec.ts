@@ -88,6 +88,8 @@ export default defineSpec({
   examples: [
     { id: 'toasts', title: 'Toasts', doc: 'toast#toasts' },
     { id: 'toast-dismiss', title: 'Close button · dismissLabel', doc: 'react#toast-dismiss' },
+    { id: 'toast-failed', title: 'Failed', doc: 'react#toast-failed' },
+    { id: 'toast-tones', title: 'Status tones', doc: 'react#toast-tones' },
   ],
   usage: [
     'No Radix: the Toaster is a small custom region (store + useSyncExternalStore) because the design needs inline rendering and no swipe or hotkey chrome. Export Toast, Toaster and toast({ tone, title, description, actionLabel, dismissLabel, onAction, duration }).',

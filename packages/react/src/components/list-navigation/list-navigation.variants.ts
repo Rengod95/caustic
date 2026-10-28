@@ -73,7 +73,7 @@ export const listNavigationGroup = cva('m-0 grid list-none p-0', {
  */
 export const listNavigationLink = cva(
   [
-    'group flex w-full cursor-pointer items-center text-left font-ui no-underline outline-none ease-out',
+    'group flex w-full cursor-pointer items-center text-start font-ui no-underline outline-none ease-out',
     'hover:bg-neutral-hover',
     'aria-[current=page]:bg-control-raised aria-[current=page]:font-medium aria-[current=page]:text-text-primary',
     'aria-[current=page]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
@@ -240,7 +240,7 @@ export const listNavigationSub = cva(
 
 export const listNavigationSubLink = cva(
   [
-    'flex w-full cursor-pointer items-center gap-2.5 rounded-lg pe-2.5 text-left font-ui text-text-secondary no-underline outline-none',
+    'flex w-full cursor-pointer items-center gap-2.5 rounded-lg pe-2.5 text-start font-ui text-text-secondary no-underline outline-none',
     'transition-[color,background-color,box-shadow] duration-base ease-out',
     'hover:bg-neutral-hover hover:text-text-primary',
     'aria-[current=page]:bg-control-raised aria-[current=page]:font-medium aria-[current=page]:text-text-primary',

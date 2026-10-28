@@ -39,7 +39,10 @@ export default defineSpec({
   policies: ['P2', 'P6', 'P8'],
   flags: { agent: true, motionLoop: true },
   composition: { uses: ['stepper'] },
-  examples: [{ id: 'plan', title: 'Plan', doc: 'plan#plan' }],
+  examples: [
+    { id: 'plan', title: 'Plan', doc: 'plan#plan' },
+    { id: 'plan-failed', title: 'Plan · failed step', doc: 'react#plan-failed' },
+  ],
   usage: [
     'Plan = `<Stepper variant="checklist" tone="agent">` with StepperHeader / StepperTitle / StepperCount. Use Plan in the agent transcript; use Stepper directly for other checklists.',
     'Example "plan": title "Build checkout flow"; steps: done "Map screens from brief", done "Pick components from library", done "Lay out Review order", now "Lay out Payment" with detail "Card form", todo "Add error and loading states", todo "Check contrast and tap targets". Count reads "3 of 6". The fixture also has "plan-failed" (Payment failed).',

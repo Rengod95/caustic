@@ -130,7 +130,8 @@ export default defineSpec({
   examples: [
     { id: 'fill-stack', title: 'Fill stack', doc: 'paint-stack#fill-stack' },
     { id: 'effects-stack-effects-stack-and-shadow', title: 'Effects stack & shadow', doc: 'effects#effects-stack-and-shadow' },
-    { id: 'effect-section', title: 'Effect section', doc: 'paint-stack#effect-section' },
+    { id: 'effect-section', title: 'Effect section', doc: 'react#property-stack-effect-section' },
+    { id: 'effects-stack-editing-effect', title: 'Effect stack · editing an effect', doc: 'react#property-stack-editing-effect' },
   ],
   usage: [
     'Round 3 merge (owner 2026-10-28, proposal A): paint-stack is renamed property-stack and effects-stack folds into it as kind="effect". <PaintStack title labels items …/> → <PropertyStack title labels items …/> (kind paint is the default; items keep color, label, meta, mono, opacity, hidden, checker, icon, detail). <EffectsStack items labels selected onSelect onMove …/> → <PropertyStack kind="effect" items labels selected onSelect onMove …/> without a title (the bare list); items keep id, icon, label, name, meta, hidden; the labels builders are accepted as they are.',
@@ -141,7 +142,7 @@ export default defineSpec({
     'Example fill-stack reproduces one InspectorPanel (full width) with two paint stacks. First: title "Fill", the styles and add buttons, three rows: (1) gradient swatch linear-gradient(90deg, #e2763f, #5f4994), label "Linear", meta "2 stops", opacity 100; (2) swatch var(--cs-color-accent-solid), label mono "accent/solid", meta "token", opacity 100; (3) hidden layer: checkerboard swatch #2b1d14 at 50 % (#2b1d1480), label mono "2B1D14", meta "hidden", opacity 50, eye-off "Show" action. Second: title "Fill · 3 selected" with mixed true: a mixed ColorWell sm, "Mixed paints" and the ghost xs "Replace all".',
     'Example effects-stack-effects-stack-and-shadow (the former effects-stack example) reproduces the whole effect section as a 14px column on the page: (1) the bare effect list: "Drop shadow" with meta "24 px" and the square-stack icon; "Background blur" with the droplet icon, hidden (disabled colour, meta "hidden", eye-off "Show") — both with actions always visible and the control column empty, 4px apart; then (2) the EffectEditor with preview true and the defaults (X 0, Y 12, Blur 24, Spread −6, 1F2128 at 20 %). The specimen drew the rows 14px apart (its page spacing); owner 2026-10-27 made them a 4px list.',
     'Example effect-section (new): an InspectorPanel with a titled effect stack ("Effects", the Add effect button) whose Drop shadow detail (an EffectEditor from the detail prop) is open inline under its row; the open row is marked selected.',
-    'Fixture example effects-stack-editing-effect: the bare effect list with the Drop shadow row selected (selected="shadow").',
+    'Example effects-stack-editing-effect (React baseline, no specimen): the bare effect list with the Drop shadow row selected (selected="shadow").',
     'Fixture contract: render(props) renders the Fill section (three rows) for kind paint and the two bare effect rows above for kind effect. The mixed state passes mixed; the editing state passes kind effect and selected "shadow".',
     'The first paint row of the specimen is a gradient: its meta says "2 stops"; for a solid paint the label is the hex. Stroke and Image fill are the two other sections of the page and have their own specs (stroke-editor, image-fill).',
     'Specimen: the effect icon tile is 20px with an xs radius (stack-row lead icon).',

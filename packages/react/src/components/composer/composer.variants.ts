@@ -1,13 +1,15 @@
 import { cva } from 'class-variance-authority';
 
-// The box owns the one focus edge (P9): focus-within adds the focus-field ring, the native textarea draws nothing.
+// The box owns the one focus edge (P9): focus-within adds the focus-field hairline, the native textarea draws nothing.
+// Focus is a fill change, as in Input (owner 2026-10-28, field/input proposal 2): a white or bare box (solid, outline, ghost)
+// turns neutral.well, the grey soft box turns surface.base. The hairline alone is the resting edge of outline.
 // Common props (lib/common-props.ts): variant = the box surface (solid, the default, is the regular floating material),
 // shadow = its elevation (--composer-elev, kept under the focus ring and the disabled edge), size = padding, gap and the
 // text size (input variants below), tone = the usage ring arc (usage variants below); radius is applied by Composer with
 // radiusClass after these classes.
 export const composerVariants = cva([
   'grid cursor-text rounded-2xl',
-  'transition-[box-shadow] duration-quick',
+  'transition-[box-shadow,background-color] duration-quick',
   // Disabled is a colour, not opacity: the box takes the disabled fill and edge (the elevation is kept) and the context
   // chips drop to the disabled text and edge (they are inert, not disabled); the tone drops out.
   'data-[disabled]:pointer-events-none',
@@ -18,20 +20,20 @@ export const composerVariants = cva([
     variant: {
       solid: [
         'glass [--cs-shadow:var(--composer-elev)]',
-        'focus-within:[--cs-shadow:var(--cs-focus-field),var(--composer-elev)]',
+        'focus-within:bg-neutral-well focus-within:[--cs-shadow:var(--cs-focus-field),var(--composer-elev)]',
         'data-[disabled]:[--cs-material:var(--cs-color-disabled-fill)] data-[disabled]:[--cs-shadow:inset_0_0_0_1px_var(--cs-color-disabled-border),var(--composer-elev)]',
       ],
       outline: [
         'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--composer-elev)]',
-        'focus-within:shadow-[var(--cs-focus-field),var(--composer-elev)]',
+        'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field),var(--composer-elev)]',
         'data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border),var(--composer-elev)]',
       ],
       soft: [
-        'bg-neutral-track shadow-[var(--composer-elev)] focus-within:shadow-[var(--cs-focus-field),var(--composer-elev)]',
+        'bg-neutral-track shadow-[var(--composer-elev)] focus-within:bg-surface-base focus-within:shadow-[var(--cs-focus-field),var(--composer-elev)]',
         'data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border),var(--composer-elev)]',
       ],
       ghost: [
-        'bg-transparent shadow-[var(--composer-elev)] focus-within:shadow-[var(--cs-focus-field),var(--composer-elev)]',
+        'bg-transparent shadow-[var(--composer-elev)] focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field),var(--composer-elev)]',
         'data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border),var(--composer-elev)]',
       ],
     },

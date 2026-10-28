@@ -91,6 +91,6 @@ export default defineSpec({
     'Fixture render(props): the eight formats of the ChoiceGroup tiles (svg "SVG" "vector", png "PNG" "2×", jpg "JPG" "quality", webp "WebP" "quality", pdf "PDF" "print", fig "FIG" "selection", jsx "JSX" "React", tokens "Tokens" "DTCG"), defaultFormat "png", scales 1× / 2× / 3× with 2× chosen, copyLabel "Copy PNG" (clipboard glyph), exportLabel "Export 3 frames" (download glyph), status "Exported pricing@2x.png · 1.2 MB" (no glyph).',
     'Example reproduces the whole section at its natural width; the "NativeExportControls" caption is hidden in the frame.',
     'The only accent-weight action is Export (primary ink); the specimen uses ink, not the accent fill, so P3 holds.',
-    '`uses: option-tiles, segmented-control, button` are rendered inside by ExportControls.',
+    '`uses: choice-group, segmented-control, button` are rendered inside by ExportControls.',
   ],
 });

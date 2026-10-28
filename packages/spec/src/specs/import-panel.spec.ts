@@ -86,6 +86,6 @@ export default defineSpec({
     'Fixture render(props): sources URL (link glyph, chosen), File (file-up), HTML (code-xml), JSX (file-code), Workspace (braces); the field shows "https://orbit-pay.com/pricing" with a globe glyph and aria-label "URL"; scope "Full page" chosen; device Desktop chosen; footer note "Previews the conversion. Nothing is added until Import." and Button primary sm "Preview".',
     'Example reproduces the whole section at its natural width; the "CanvasImportDialog" caption is hidden in the frame.',
     'The options row is only for URL sources; other sources show their own field (file drop, code editor) in the same place: pass them as children of the field slot.',
-    '`uses: option-tiles, input, segmented-control, button` are rendered inside by ImportPanel.',
+    '`uses: choice-group, input, segmented-control, button` are rendered inside by ImportPanel.',
   ],
 });

@@ -10,11 +10,13 @@ export const textareaVariants = cva(
     'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field)] hover:focus-within:shadow-[var(--cs-focus-field)]',
     'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
     'data-[readonly]:not-data-[disabled]:bg-bg-inset data-[readonly]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] data-[readonly]:focus-within:shadow-[var(--cs-focus-field)]',
+    // A read-only field still shows focus: its grey inset fill turns surface.base (the soft rule), the text stays secondary.
+    'data-[readonly]:not-data-[disabled]:focus-within:bg-surface-base',
     'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
   ],
   {
     variants: {
-      // The field family (stepper-input, tag-input, textarea): tone sets the --tone-* slots, variant the rest look:
+      // The field family (number-field stepper, tag-input, textarea): tone sets the --tone-* slots, variant the rest look:
       // outline = surface.translucent + tone edge (the specimen; hover steps it to border.strong, tone border-strong when toned), soft = tone soft fill, solid = raised
       // fill + edge, ghost = no fill or edge until focus. Focus, invalid, readonly and disabled draw on top of every variant.
       tone: {

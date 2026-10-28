@@ -12,7 +12,8 @@ import { cva } from 'class-variance-authority';
  */
 export const numberFieldVariants = cva([
   'relative flex min-w-0 items-center bg-neutral-well transition-[background-color,box-shadow] duration-120 ease-out',
-  'focus-within:bg-neutral-well focus-within:shadow-focus-field',
+  // Focus wins over hover (hover:focus-within keeps the focus fill under the pointer).
+  'focus-within:bg-neutral-well hover:focus-within:bg-neutral-well focus-within:shadow-focus-field',
   // The invalid edge is for an enabled field: disabled drops the tone, so no danger edge while disabled.
   'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
   'data-[locked]:pointer-events-none data-[locked]:bg-bg-inset data-[reserved]:bg-bg-inset data-[scrubbing]:bg-neutral-pressed',
@@ -21,7 +22,7 @@ export const numberFieldVariants = cva([
   variants: {
     tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       // Hover stays inside each emphasis: neutral.hover on the well, solid, outline and ghost; a hue's soft steps to soft-hover 4.
-      variant: { solid: 'hover:bg-neutral-hover', soft: 'focus-within:bg-surface-base', outline: 'hover:bg-neutral-hover', ghost: 'hover:bg-neutral-hover' },
+      variant: { solid: 'hover:bg-neutral-hover', soft: 'focus-within:bg-surface-base hover:focus-within:bg-surface-base', outline: 'hover:bg-neutral-hover', ghost: 'hover:bg-neutral-hover' },
     radius: { none: 'rounded-none', '2xs': 'rounded-2xs', xs: 'rounded-xs', sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-lg', xl: 'rounded-xl', '2xl': 'rounded-2xl', '3xl': 'rounded-3xl', '4xl': 'rounded-4xl', full: 'rounded-full' },
     shadow: { none: '', '1': 'shadow-1', '2': 'shadow-2', '3': 'shadow-3', '4': 'shadow-4', '5': 'shadow-5' },
     size: { xs: 'h-control-xs', sm: 'h-control-sm', md: 'h-control-md', lg: 'h-control-lg' },
@@ -96,7 +97,7 @@ export const numberFieldHexVariants = cva(
         solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
         soft: 'bg-neutral-well focus-within:bg-surface-base',
         outline: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
-        ghost: 'bg-transparent hover:bg-neutral-hover',
+        ghost: 'bg-transparent hover:bg-neutral-hover hover:focus-within:bg-neutral-well',
       },
       size: {
         xs: 'h-control-xs rounded-md px-1.5 font-mono text-mono-sm',

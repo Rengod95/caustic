@@ -1,6 +1,6 @@
 'use client';
 import { Check, CircleAlert } from 'lucide-react';
-import { useId, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Variant } from '../../lib/common-props.ts';
 import {
@@ -77,6 +77,26 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
   const look = checklist ? variant : 'solid';
   const list = stepperSteps({ layout: checklist ? 'checklist' : o });
 
+  // Checklist: a status region announces the step that changed (the one that became current or failed, else the last
+  // changed), instead of a live list that rereads every step. Nothing is announced on mount.
+  const seen = useRef<Internal[] | null>(null);
+  const [changed, setChanged] = useState<number | null>(null);
+  const signature = status.join(' ');
+  useEffect(() => {
+    const before = seen.current;
+    seen.current = status;
+    if (!before) return;
+    let pick: number | null = null;
+    for (let i = 0; i < status.length; i++) {
+      if (status[i] === before[i]) continue;
+      if (pick === null || status[pick] === 'done' || status[pick] === 'upcoming') pick = i;
+    }
+    if (pick !== null) setChanged(pick);
+    // The signature stands for status.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [signature]);
+  const announced = changed !== null && changed < steps.length ? changed : null;
+
   return (
     <div
       data-slot="stepper"
@@ -96,7 +116,7 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
       )}
       {header || null}
       {checklist ? (
-        <ol data-slot="stepper-steps" aria-live="polite" className={list}>
+        <ol data-slot="stepper-steps" className={list}>
           {steps.map((step, i) => {
             const s = status[i]!;
             return (
@@ -142,6 +162,11 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
             );
           })}
         </ol>
+      )}
+      {checklist && (
+        <span data-slot="stepper-status" role="status" className="sr-only">
+          {announced !== null && <>{word(status[announced]!) != null && `${word(status[announced]!)}: `}{steps[announced]!.label}</>}
+        </span>
       )}
     </div>
   );

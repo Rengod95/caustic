@@ -14,9 +14,8 @@ export const LANG_TONES: LangTone[] = ['accent', 'neutral', 'success', 'warning'
 export const toneRamp = (k: LangTone): string => SHIPPED.tones[k] ?? k;
 
 // The ramp rule (tokens.mjs rampRule): steps 1–6 at fixed lightness so tints line up across hues, chroma a share of the solid's.
-const { fixedL, chromaShare, graphicMin, textMin } = SHIPPED.rampRule;
-/** build.mjs fits step 11 to textMin + 0.1 (a rounding margin); the contrast rules still check textMin. */
-const TEXT_MARGIN = 0.1;
+// build.mjs fits a derived step 11 to textMin + textMargin (a rounding margin); the contrast rules still check textMin.
+const { fixedL, chromaShare, graphicMin, textMin, textMargin } = SHIPPED.rampRule;
 
 /** Step 10: the solid's hover (build.mjs hoverOf). */
 const hoverOf = (solid: LCH, t: Theme): LCH => {
@@ -24,8 +23,9 @@ const hoverOf = (solid: LCH, t: Theme): LCH => {
   return gamutMap([Math.min(0.97, Math.max(0.05, solid[0] + dl)), solid[1], solid[2]]);
 };
 
-/** A hued ramp for one mode, anchored so step 9 is the picked solid (build.mjs hueRamp, unrounded). */
-export function hueRamp(pick: LCH, t: Theme, surface: LCH): Ramp11 {
+/** A hued ramp for one mode, anchored so step 9 is the picked solid (build.mjs hueRamp, unrounded). An authored
+ * `textPick` (tokens.mjs solids[name].text[mode]) is step 11 as is, not fitted. */
+export function hueRamp(pick: LCH, t: Theme, surface: LCH, textPick?: LCH): Ramp11 {
   const solid = gamutMap(pick);
   const [L9, C9, H] = solid;
   const out: LCH[] = [];
@@ -44,8 +44,9 @@ export function hueRamp(pick: LCH, t: Theme, surface: LCH): Ramp11 {
   out.push(hoverOf(solid, t));
   // text is the far end of the ramp: a little past the solid and its hover, then pushed until it reads on every soft step
   const hover = out[9]!;
+  if (textPick) { out.push(gamutMap(textPick)); return out; }
   let text: LCH = gamutMap([t === 'light' ? Math.max(0.05, Math.min(L9, hover[0]) - 0.04) : Math.min(0.97, Math.max(L9, hover[0]) + 0.04), C9, H]);
-  for (const bg of [surface, out[2]!, out[3]!, out[4]!]) text = ensure(text, bg, textMin + TEXT_MARGIN);
+  for (const bg of [surface, out[2]!, out[3]!, out[4]!]) text = ensure(text, bg, textMin + textMargin);
   out.push(gamutMap(text));
   return out;
 }
@@ -60,6 +61,8 @@ export function surfaceOf(neutral: Record<Theme, readonly LCH[]>, t: Theme): LCH
 export interface LangInput {
   /** Authored solid per mode, keyed by tokens.mjs `solids` name; a missing ramp falls back to the shipped solid. */
   solids: Record<string, Record<Theme, LCH>>;
+  /** Authored step 11 per mode (tokens.mjs solids[name].text); a missing ramp falls back to the shipped text, a missing mode is derived. */
+  text?: Record<string, Partial<Record<Theme, LCH>>>;
   neutral: Record<Theme, readonly LCH[]>;
   /** Builder override of accent step 10 (solid-hover) per mode; null keeps the derived step. */
   accentHover?: Partial<Record<Theme, LCH | null>>;
@@ -75,13 +78,14 @@ export function langRampSet(x: LangInput): RampSet {
   };
   for (const [name, shipped] of Object.entries(SHIPPED.solids)) {
     const pick = x.solids[name] ?? shipped;
+    const text = x.text?.[name] ?? shipped.text;
     const modes = {} as RampSet[string];
     for (const m of MODES) {
-      const steps = hueRamp(pick[m], m, surfaceOf(x.neutral, m)).map(emitLch);
+      const steps = hueRamp(pick[m], m, surfaceOf(x.neutral, m), text?.[m]).map(emitLch);
       const on = onFor(steps[8]!);
       const hover = name === 'accent' ? x.accentHover?.[m] : null;
       if (hover) steps[9] = gamutMap(hover);
-      modes[m] = { steps, on };
+      modes[m] = { steps, on, textAuthored: Boolean(text?.[m]) };
     }
     set[name] = modes;
   }
@@ -126,13 +130,17 @@ export interface StepCheck { label: string; ratio: number; need: number | null }
 /** Contrast of the slots a ramp feeds, with the thresholds of tokens.mjs contrastRules. */
 export function rampChecks(set: RampSet, neutral: Record<Theme, readonly LCH[]>, t: Theme, ramp: string): StepCheck[] {
   const surface = surfaceOf(neutral, t);
-  const { steps: r, on } = set[ramp]![t];
+  const { steps: r, on, textAuthored } = set[ramp]![t];
   const tone = Object.entries(SHIPPED.tones).find(([, rr]) => rr === ramp)?.[0];
   if (tone) {
-    const worstSoft = Math.min(contrast(r[10]!, r[2]!), contrast(r[10]!, r[3]!), contrast(r[10]!, r[4]!));
+    // an authored text step is a design-over-contrast warning on soft-hover 4 and soft-pressed 5 (tokens.mjs slotRules)
+    const soft = textAuthored
+      ? [{ label: 'text 11 on soft 3', ratio: contrast(r[10]!, r[2]!), need: textMin },
+        { label: 'text 11 on soft 4–5 (authored)', ratio: Math.min(contrast(r[10]!, r[3]!), contrast(r[10]!, r[4]!)), need: null }]
+      : [{ label: 'text 11 on soft 3–5', ratio: Math.min(contrast(r[10]!, r[2]!), contrast(r[10]!, r[3]!), contrast(r[10]!, r[4]!)), need: textMin }];
     return [
       { label: 'text 11 on surface', ratio: contrast(r[10]!, surface), need: textMin },
-      { label: 'text 11 on soft 3–5', ratio: worstSoft, need: textMin },
+      ...soft,
       { label: 'on vs solid 9', ratio: contrast(on, r[8]!), need: tone === 'accent' || tone === 'danger' ? 4.5 : 3 },
       { label: 'graphic 8 vs surface', ratio: contrast(r[7]!, surface), need: graphicMin },
     ];

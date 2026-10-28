@@ -14,7 +14,7 @@ export default defineSpec({
     { name: 'readout', el: 'span', parent: 'header', description: 'The current value as channel pairs in the current space ("L 0.66  C 0.17  H 42°", "H 22°  S 80%  L 58%", "# E2763F"): ui-md medium with tabular figures in text.primary, each channel letter in text.tertiary regular, pairs 10px apart. Not a CSS string.' },
     { name: 'channel', el: 'span', parent: 'readout', description: 'One pair: the channel letter (tertiary) and its value, 4px apart.' },
     { name: 'mode', el: 'any', parent: 'header', required: false, description: 'SegmentedControl xs (radio group, aria-label spaceLabel "Color space") with OKLCH, HSL and HEX: switches the rows. Hidden when spaces has one entry.' },
-    { name: 'rows', el: 'div', parent: 'root', description: 'Vertical stack, 12px gap: three SliderField rows (OKLCH: L, C, H; HSL: H, S, L), or the hex row.' },
+    { name: 'rows', el: 'div', parent: 'root', description: 'Vertical stack, 12px gap: three Slider rows with label and field (OKLCH: L, C, H; HSL: H, S, L), or the hex row.' },
     { name: 'hex', el: 'div', parent: 'rows', required: false, description: 'HEX space only: a row with a # in the label column and a HexInput (aria-label "Hex") filling the rest.' },
     { name: 'note', el: 'p', parent: 'root', required: false, description: 'Explanatory line under the rows.' },
   ],
@@ -77,12 +77,14 @@ export default defineSpec({
   composition: { uses: ['slider', 'segmented-control', 'hex-input'] },
   examples: [
     { id: 'oklch', title: 'Channel sliders · OKLCH', doc: 'slider#channel-sliders-oklch' },
+    { id: 'hsl-space', title: 'Channel sliders · HSL', doc: 'react#channel-slider-hsl-space' },
+    { id: 'hex-space', title: 'Channel sliders · hex', doc: 'react#channel-slider-hex-space' },
   ],
   usage: [
     'Row scales: L 0–100 (%), C 0–37 shown as 0.00–0.37 (fieldScale 100, no unit), H 0–360 (°).',
     'Each track is a linear-gradient built from about a dozen oklch() stops across the channel range; the thumb shows the current color.',
-    'Rows use SliderField with appearance="gradient". The space switch is SegmentedControl xs (owner 2026-10-27, proposal B: the OKLCH badge looked like a control but could not be changed). HSL rows paint hsl() ramps; the hex row is HexInput. The value stays OKLCH: HSL and hex edits go through sRGB (clamped to the sRGB cube), so a colour outside sRGB moves into it when edited there.',
-    'Fixture examples hsl-space and hex-space show the other two spaces (no specimen).',
+    'Rows use Slider with label, field and appearance="gradient". The space switch is SegmentedControl xs (owner 2026-10-27, proposal B: the OKLCH badge looked like a control but could not be changed). HSL rows paint hsl() ramps; the hex row is HexInput. The value stays OKLCH: HSL and hex edits go through sRGB (clamped to the sRGB cube), so a colour outside sRGB moves into it when edited there.',
+    'Examples hsl-space and hex-space show the other two spaces (React baselines, no specimen).',
     'Example default: oklch(0.66 0.17 42).',
   ],
 });

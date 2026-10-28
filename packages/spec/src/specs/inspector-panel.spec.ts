@@ -13,7 +13,7 @@ export default defineSpec({
     { name: 'section', el: 'section', parent: 'root', description: 'A block of controls: 12px padding, 8px gap, a 1px border.subtle line at the bottom (not on the last section).' },
     { name: 'header', el: 'div', parent: 'section', required: false, description: 'Heading row: flex, space between, items centered. Takes the height of its tallest action (24px with xs icon buttons). Sticky at the top of the scrolling inspector while its section is on screen, on the panel fill (inherited through the section), z sticky.' },
     { name: 'title', el: 'span', parent: 'header', description: 'Section name in the caption style (owner 2026-10-28): uppercase caption type (11px / 14px, weight 500) with the caption tracking (0.06em), text.tertiary; a different layer from the field labels.' },
-    { name: 'actions', el: 'span', parent: 'header', required: false, description: 'Flex row with a 2px gap holding xs IconButtons (add, styles) or an AlignBar.' },
+    { name: 'actions', el: 'span', parent: 'header', required: false, description: 'Flex row with a 2px gap holding xs IconButtons (add, styles) or a ButtonGroup.' },
   ],
   variants: {
     tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'neutral', description: 'Colour family of the frame and the section titles (common prop): hued solid adds a border-strong 7 edge, soft = soft 3 fill, outline = border 6 edge; the titles take the tone text. The controls inside keep their own colours.' },
@@ -47,7 +47,7 @@ export default defineSpec({
   policies: ['P1', 'P5', 'P6'],
   composition: { uses: ['icon-button'] },
   usage: [
-    'No example of its own: the panel is exercised by the position-size and paint-stack examples.',
+    'No example of its own: the panel is exercised by the position-size and property-stack examples.',
     'Spacing is part of the contract: section padding 12, gap 8 between rows; rows of fields use a 6px grid gap (set by the row, not by the section).',
     'The section bottom line is border.subtle; the last section has none.',
     'Section headers stick (position sticky, top 0) to the nearest scrolling ancestor, within their own section. The panel uses overflow clip, not hidden, so it does not capture them; put the panel in the inspector scroller (or give it a max height and overflow auto).',

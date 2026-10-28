@@ -65,7 +65,7 @@ export const themeGalleryActionVariants = cva('h-3 rounded-(--m-r) first:w-8 fir
 export const themeGalleryMetaVariants = cva('flex items-center gap-2 px-3 pt-0.5 pb-3');
 export const themeGalleryNameVariants = cva('text-ui-dense font-semibold text-text-primary');
 export const themeGalleryCaptionVariants = cva('text-footnote font-normal text-text-tertiary');
-/** The check of the checked card (row G): the solid check mark of choice-cards and card-action, before the dots. */
+/** The check of the checked card (row G): the solid check mark of CardChoice (and ChoiceGroup cards), before the dots. */
 export const themeGalleryCheckVariants = cva('pointer-events-none inline-grid size-check shrink-0 place-items-center rounded-full bg-(--tone-solid) text-(--tone-on) [&_svg]:size-icon-sm [&_svg]:stroke-3');
 export const themeGallerySwatchesVariants = cva('flex');
 export const themeGallerySwatchVariants = cva('size-3 rounded-full shadow-[0_0_0_1.5px_var(--cs-color-surface-base)] not-first:-ml-0.75');

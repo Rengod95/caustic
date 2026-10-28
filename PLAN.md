@@ -214,7 +214,7 @@ export default defineSpec({
 | P6 Contrast build gate | G0 + G3 실측 대비. 컴포넌트 소스에 리터럴 색 0 |
 | P7 Human vs agent on canvas | 캔버스 선택 슬롯은 `canvas.selection`, 에이전트 작업 슬롯은 `agent-rim` |
 | P8 Motion has a job | duration·easing은 토큰만. 무한 반복 애니메이션은 `flags.agent`에서만. `prefers-reduced-motion` 에뮬레이션에서 애니메이션 0 |
-| P9 A field owns its focus | `flags.field` 컴포넌트는 포커스 시 컨테이너 1.5px `focus-field` 하나만. 내부 input은 outline·box-shadow 없음, 바깥 링 없음 (포커스 상태 계산 스타일로 검사) |
+| P9 A field owns its focus | `flags.field` 컴포넌트는 포커스 시 컨테이너에 `focus-field`(평소의 1px `border.default` 헤어라인) 하나만 두고 채움을 바꾼다(흰 필드는 `neutral.well`, 회색 필드는 `surface.base`). 내부 input은 outline·box-shadow 없음, 바깥 링 없음. 컨테이너의 배경이나 box-shadow가 쉼 상태와 달라야 한다 (쉼·포커스 상태 계산 스타일로 검사) |
 | 수치 정책 | 필드 36/40/44, 인스펙터 컨트롤 32, 툴바 라운드 14/10, 토스트 60·22, 세그먼트 패딩 4, 카드 간격 규칙(섹션 간 10, 바깥 14/15, 구분선 푸터 12) |
 
 ### 6.4 재작성 요청서 (게이트 실패 시 출력)

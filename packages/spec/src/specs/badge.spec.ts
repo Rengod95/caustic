@@ -94,8 +94,8 @@ export default defineSpec({
   composition: { uses: ['chip', 'kbd'] },
   examples: [
     { id: 'badges-chips-keys', title: 'Badges, chips, keys', doc: 'badge#badges-chips-keys' },
-    { id: 'token-chip-long-path', title: 'Token names (mono)', doc: 'badge#token-chip-long-path' },
-    { id: 'contrast-chip-results', title: 'Contrast results (lead)', doc: 'badge#contrast-chip-results' },
+    { id: 'token-chip-long-path', title: 'Token names (mono)', doc: 'react#badge-token-chip-long-path' },
+    { id: 'contrast-chip-results', title: 'Contrast results (lead)', doc: 'react#badge-contrast-chip-results' },
   ],
   usage: [
     'Use the spectrum (tone="agent") only for things the agent made or did.',

@@ -129,7 +129,10 @@ export default defineSpec({
   policies: ['P1', 'P5', 'P6', 'P9'],
   flags: { floating: true, field: true },
   composition: { uses: ['chip', 'segmented-control', 'icon-button', 'suggestions'] },
-  examples: [{ id: 'composer', title: 'Composer', doc: 'composer#composer' }],
+  examples: [
+    { id: 'composer', title: 'Composer', doc: 'composer#composer' },
+    { id: 'modes-and-limit', title: 'Composer · modes and usage near the limit', doc: 'react#composer-modes-and-limit' },
+  ],
   usage: [
     'K2c: every built-in English string became a prop. The fixture (render and example) passes placeholder "Ask Caustic to design, refine or explain…", inputLabel "Message Caustic", sendLabel "Send", stopLabel "Stop", attachLabel "Add context" and usageLabel p => `Context ${p}%` (no modes: the default composition leaves the mode control out; the fixture example "modes-and-limit" passes modes ["Ask", "Plan", "Build"], modeLabel "Mode", defaultMode "Plan" and usage 88). A scenario that sets one of these props overrides the fixture value.',
     'inputRef lets a host reach the textarea (auto-size, focus()); the component keeps its own internal ref for click-to-focus and assigns both. maxLength and sendDisabled let a host enforce a limit without wrapping the component.',

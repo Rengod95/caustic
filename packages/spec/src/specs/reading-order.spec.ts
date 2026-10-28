@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'inspector',
   status: 'ready',
   purpose: 'The order in which a screen reader reads the elements of a frame, as a numbered list you can reorder. An item that reads out of visual order is flagged with a warning badge saying where it lands.',
-  description: 'One row per element, in reading order, each with its position number, its description and a grip. The whole row is the control: pick it up with the keyboard or drag it with the pointer to change the order. The component reports the new order; the owner stores it. The keyboard and announcement model is the one of ListReorder.',
+  description: 'One row per element, in reading order, each with its position number, its description and a grip. The whole row is the control: pick it up with the keyboard or drag it with the pointer to change the order. The component reports the new order; the owner stores it. The keyboard and announcement model is the one of List reorder (useListReorder).',
   role: null,
   slots: [
     { name: 'root', el: 'ol', role: 'list', description: 'The sequence. Grid, 2px gap. Needs an accessible name (aria-label, for example "Screen reader order").' },
@@ -54,7 +54,7 @@ export default defineSpec({
     { slot: 'row', expect: { height: 30, padX: 8, gap: 8, radius: 'md', fg: 'text.primary', text: 'ui-dense', cursor: 'grab' }, note: '30px equals size-menu-item / size-list-tile.' },
     { slot: 'row', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
     { slot: 'row', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
-    { slot: 'row', when: { state: 'dragging' }, expect: { opacity: 0.64, bg: 'neutral.pressed' }, note: 'Not in the specimen (it has no drag state); needed so a picked-up row is visible. The drop position is a 2px accent.solid line on the row edge, as in ListReorder.' },
+    { slot: 'row', when: { state: 'dragging' }, expect: { opacity: 0.64, bg: 'neutral.pressed' }, note: 'Not in the specimen (it has no drag state); needed so a picked-up row is visible. The drop position is a 2px accent.solid line on the row edge, as in List reorder.' },
     { slot: 'index', expect: { bg: 'neutral.track', fg: 'text.primary', radius: 'full', height: 18, width: 18, font: 'mono', text: 'mono-sm', weight: 600 }, note: 'Specimen is 10px mono; mono-sm is 11px (nearest role).' },
     { slot: 'index', when: { state: 'warning' }, expect: { bg: 'warning.soft', fg: 'warning.text' } },
     { slot: 'label', expect: { fg: 'text.primary' } },
@@ -102,7 +102,7 @@ export default defineSpec({
   usage: [
     'Fixture render(props): aria-label "Screen reader order", five items (itemId, text): plan "Plan name · Pro"; price "Price · $24 / month"; badge "Popular badge" (warning, note "Reads after price"); features "Feature list · 3 items"; cta "Upgrade to Pro". Item-level props (warning, dragging) apply to the FIRST item in probes. The scenario expects the order price, plan, badge, features, cta after moving "plan" down once; the default order is the list above.',
     'Example reproduces the whole section at its natural width; the "screen reader sequence" caption is hidden in the frame. Items with a grip show it at the end; the warning item shows the Badge warning instead and no grip.',
-    'The specimen rows are native buttons without a drag implementation; this component adds the pick up / move / drop behavior of ListReorder.',
+    'The specimen rows are native buttons without a drag implementation; this component adds the pick up / move / drop behavior of List reorder (useListReorder).',
     '`uses: badge` is rendered inside the warning row.',
   ],
 });

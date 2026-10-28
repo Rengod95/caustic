@@ -69,8 +69,8 @@ export const stepperItem = cva('relative', {
 export const stepperConnector = cva('absolute h-auto rounded-full', {
   variants: {
     orientation: {
-      horizontal: 'top-[calc(var(--ind)/2)] left-[calc(-50%+var(--ind)/2+var(--spacing))] right-[calc(50%+var(--ind)/2+var(--spacing))] h-0.5',
-      vertical: 'top-[calc(var(--ind)+var(--spacing)*0.5)] bottom-0.5 left-[calc(var(--ind)/2-1px)] w-0.5',
+      horizontal: 'top-[calc(var(--ind)/2)] start-[calc(-50%+var(--ind)/2+var(--spacing))] end-[calc(50%+var(--ind)/2+var(--spacing))] h-0.5',
+      vertical: 'top-[calc(var(--ind)+var(--spacing)*0.5)] bottom-0.5 start-[calc(var(--ind)/2-1px)] w-0.5',
     },
     active: { true: 'bg-(--tone-solid)', false: 'bg-border-default' },
   },
@@ -223,6 +223,6 @@ export const stepperChecklistLabel = cva('', {
   defaultVariants: { status: 'upcoming' },
 });
 /** End note ("Card form"): text.placeholder, one step under tertiary like the count (owner 2026-10-28, round 4). */
-export const stepperDetailClass = 'ml-auto text-ui-xs font-normal text-text-placeholder';
+export const stepperDetailClass = 'ms-auto text-ui-xs font-normal text-text-placeholder';
 
 export type StepperVariantProps = VariantProps<typeof stepperVariants>;

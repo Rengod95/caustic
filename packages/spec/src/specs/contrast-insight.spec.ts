@@ -86,7 +86,10 @@ export default defineSpec({
   policies: ['P2', 'P6'],
   flags: { agent: true },
   composition: { uses: ['alert', 'button'] },
-  examples: [{ id: 'text-contrast', title: 'Text contrast', doc: 'accessibility#text-contrast' }],
+  examples: [
+    { id: 'text-contrast', title: 'Text contrast', doc: 'accessibility#text-contrast' },
+    { id: 'text-contrast-large', title: 'Text contrast · AA large only', doc: 'react#contrast-insight-text-contrast-large' },
+  ],
   usage: [
     'Fixture render(props): ratio 4.62, levels AA (pass), AA large (pass), AAA (fail), sample { background: "#b4532a", foreground: "#fff" }, suggestion "Darken the fill to <mono>brand/700</mono> to reach <b>7.1 : 1</b> (AAA) without changing the hue." (mono token in the mono role; the ratio in primary text, semibold), actions Button primary xs "Apply" and Button ghost xs "Compare", note Alert info "Text over the hero photo uses a composite background. Check it separately." (the specimen Alert has an empty trailing cell: no action). Level-level props (result) apply to the FIRST level in probes.',
     'The specimen shows 4.62 for #b4532a on white; the measured ratio of that pair is 4.99. The number is demo data; keep it as written for the example (specimen bug reported).',

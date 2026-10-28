@@ -71,7 +71,7 @@ export const accordionItemVariants = cva('', {
  *  its bottom corners while the item is open (the trigger also drops its bottom border then, so the fill meets the content). */
 export const accordionTriggerVariants = cva(
   [
-    'group flex w-full cursor-pointer items-center gap-2.5 rounded-md px-0.5 py-1 text-left font-ui text-text-primary',
+    'group flex w-full cursor-pointer items-center gap-2.5 rounded-md px-0.5 py-1 text-start font-ui text-text-primary',
     'outline-none focus-visible:rounded-md focus-visible:shadow-focus disabled:pointer-events-none disabled:text-disabled-text',
   ],
   {
