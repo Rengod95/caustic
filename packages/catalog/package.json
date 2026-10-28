@@ -1,0 +1,31 @@
+{
+  "name": "@caustic/catalog",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Routing catalog of the Caustic components for agents: roles, intent, placement and the derived API.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./catalog.json": "./dist/catalog.json",
+    "./llms.txt": "./dist/llms.txt"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": { "types": "./dist/lib/index.d.ts", "default": "./dist/lib/index.js" },
+      "./catalog.json": "./dist/catalog.json",
+      "./llms.txt": "./dist/llms.txt"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "catalog": "tsx src/build.ts",
+    "catalog:check": "tsx src/build.ts --check",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@caustic/spec": "workspace:*",
+    "typescript": "5.9.3"
+  }
+}

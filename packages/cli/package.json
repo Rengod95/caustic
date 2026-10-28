@@ -1,0 +1,37 @@
+{
+  "name": "@caustic/cli",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "caustic: query the Caustic component catalog (list, find, show, roles, recipes, tokens) and check code against it.",
+  "bin": {
+    "caustic": "./dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "skills",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "rm -rf skills && mkdir -p skills && cp -r ../../skills/caustic skills/caustic && pnpm build"
+  },
+  "dependencies": {
+    "@caustic/catalog": "workspace:*",
+    "@tailwindcss/node": "4.3.3",
+    "typescript": "5.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.3"
+  },
+  "peerDependencies": {
+    "@caustic/react": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@caustic/react": {
+      "optional": true
+    }
+  }
+}

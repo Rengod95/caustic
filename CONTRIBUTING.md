@@ -130,3 +130,32 @@ Baselines are now recorded from the React render (`source: "react"` in each `bas
 `pnpm gate:all` runs the whole gate in parallel shards and needs `../caustic-preview` (G1 checks each example's specimen link). CI runs it with `--no-specimens`, which skips only that link check, because the specimens repo is not in CI; run `just gate-all` locally before a spec change is approved. `pnpm docs:dev` serves the docs app (apps/docs, port 5180); `pnpm docs:build` builds it.
 
 After changing the gateway, run `pnpm gate:selftest`. It applies known-bad mutations to Button and fails if any one slips through.
+
+## Catalog entries
+
+Agents that build with Caustic route through the catalog (`@caustic/catalog`), not through the specs. When you add a
+component or change what it is for, update `packages/catalog/src/entries/<id>.ts` and run `pnpm catalog`
+(`pnpm catalog:check` fails when `dist/` is stale or an entry is missing or invalid). The plan is
+[PLAN-agent-catalog.md](PLAN-agent-catalog.md).
+
+- **Write** only what the code cannot say: `intent` (one consumer sentence), `roles` (1–2 from `roles.ts`),
+  `alsoFits`, `placement`, `keywords`, `pairs`, `consider` (`{ id, when }`), at most three `guidance` notes, and an
+  optional `detail`.
+- **Do not write** anything derivable (props, variants, parts, events, keyboard, a11y, examples): the generator reads
+  it from the spec and the source.
+- **Wording:** fit, not prohibition. `consider` says "also consider X when …", never "do not use". No internal
+  history, owner decisions, rounds or gate names; nothing is copied from spec `usage`.
+- Screen recipes live in `packages/catalog/src/recipes/<id>.ts` (`defineRecipe`); every suggested id must exist.
+- A new `caustic check` rule needs a section in `skills/caustic/reference/check.md` with its `<!-- rule:<id> -->`
+  marker.
+
+### Which docs are for whom
+
+| Layer | Readers | Files |
+|---|---|---|
+| Agent-facing (shipped) | consumer agents and people | `skills/caustic/` (SKILL.md and `reference/`), the `caustic` CLI output, `packages/catalog/dist/` (catalog.json, llms.txt), `packages/react/AGENTS.md`, the docs site "For agents" page |
+| Authoring source | contributors | `packages/catalog/src/` (schema, roles, entries, recipes), `packages/spec/src/specs/` |
+| Internal | contributors | root `*.md` (this guide, FOUNDATION, PLAN*, PROPOSAL*), spec `usage` notes, the gateway and its reports |
+
+Agent-facing docs are written for an agent that has never seen this repo: no internal paths it cannot reach, no
+history, no gates. Internal docs may reference anything.

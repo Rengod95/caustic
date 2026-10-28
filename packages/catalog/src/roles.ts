@@ -1,0 +1,72 @@
+// Role and placement taxonomy for routing. A role is the job a component does on a screen, not its ARIA role.
+// Roles are deliberately broad: an agent routes a need to a role, then picks among that role's components.
+// Changing an id here is a breaking change for consumers (skills, prompts, recipes); add rather than rename.
+
+export const roles = {
+  'action.primary': 'The main thing to do in a region: submit, run, create, apply.',
+  'action.secondary': 'Other commands next to the main one, or quiet commands in rows and toolbars.',
+  'action.icon': 'A command shown as an icon only, in toolbars, rows and panel headers.',
+  'action.group': 'A set of related commands kept together (toolbars, split and attached buttons).',
+  'choice.single': 'Pick exactly one of a few options.',
+  'choice.multi': 'Pick any number of options.',
+  'choice.toggle': 'Turn one setting on or off.',
+  'input.text': 'Enter or edit free text.',
+  'input.number': 'Enter or scrub a number, a dimension or an angle.',
+  'input.pick': 'Choose a value from a list or menu that is not all visible at once.',
+  'input.date': 'Choose a date or a range.',
+  'input.color': 'Choose or edit a colour, a gradient or a paint.',
+  'input.file': 'Add files or images.',
+  'display.status': 'Show a short state, label, count or tag.',
+  'display.identity': 'Show who: a person, an agent, a team.',
+  'display.metric': 'Show a number that matters, with its trend or context.',
+  'display.data': 'Show structured data: tables, token values, graphs, diffs.',
+  'display.code': 'Show code, a code change or a generated result.',
+  'display.token': 'Show a design token: its value, alias chain, swatch or dependency graph.',
+  'display.change': 'Show what changed: diffs, before and after, revisions and checkpoints.',
+  'feedback.inline': 'A message about the current context that stays on the page.',
+  'feedback.transient': 'A short confirmation or error that comes and goes.',
+  'feedback.progress': 'Show that something is loading, running or partly done.',
+  'feedback.empty': 'What a region shows when it has nothing yet, with the way forward.',
+  'feedback.findings': 'Results of a check (contrast, policy, lint) with their severity and the fix.',
+  'navigation.global': 'Move between the main areas of the app; the app frame and its bars.',
+  'navigation.local': 'Move between views, pages or sections inside one area.',
+  'navigation.steps': 'Show and move through the steps of a sequence.',
+  'overlay.modal': 'Take over the screen for a focused task or a decision.',
+  'overlay.anchored': 'Interactive surfaces that open next to a trigger: menus, popovers, pickers.',
+  'overlay.hint': 'Read-only help that appears next to a trigger: tooltips and hints.',
+  'layout.container': 'Group content into a surface: cards, panels, collapsible sections, scroll areas.',
+  'layout.structure': 'Arrange a page or a form: regions, headers, separators, resize handles.',
+  'layout.form': 'Label, describe and arrange form controls: fields, form layouts.',
+  'collection.list': 'A list of items that can be scanned, selected or reordered.',
+  'collection.tree': 'A nested hierarchy: layers, files, activity.',
+  'property.editor': 'Edit one property of a selected object (inspector controls).',
+  'property.panel': 'Hold and organise many property editors (inspector sections and stacks).',
+  'agent.conversation': 'The exchange with an agent: messages, the composer, thinking, tool calls.',
+  'agent.plan': 'What an agent intends or did: plans, timelines, activity, checkpoints.',
+  'agent.request': 'An agent asking for approval or a decision before it continues.',
+  'agent.suggestion': 'An agent offering next steps or prompts the person can pick.',
+  'agent.presence': 'Where an agent is working on the canvas or the page.',
+  'canvas.surface': 'The design surface and its frames.',
+  'canvas.annotation': 'Marks drawn over the canvas: selection, guides, rulers, comments, labels, hints.',
+  'canvas.control': 'Controls floating over the canvas: zoom, floating bars.',
+} as const;
+export type Role = keyof typeof roles;
+export const roleIds = Object.keys(roles) as [Role, ...Role[]];
+
+export const placements = {
+  titlebar: 'The app titlebar band (AppShellTitlebar).',
+  start: 'The start side panel: navigation, layers, files (AppShellStart).',
+  stage: 'The main work surface (AppShellStage).',
+  end: 'The end side panel: inspector, agent conversation (AppShellEnd).',
+  overlay: 'Floating over the stage or the page (AppShellOverlay, popovers, dialogs).',
+  canvas: 'Inside the design canvas, in canvas coordinates.',
+  toolbar: 'Inside a toolbar or a floating bar.',
+  inspector: 'Inside an inspector panel section.',
+  transcript: 'Inside an agent conversation.',
+  form: 'Inside a form or a settings page.',
+  card: 'Inside a card or a list row.',
+  page: 'Directly on a page or a dashboard grid.',
+  inline: 'Inline with text or other controls; fits anywhere.',
+} as const;
+export type Placement = keyof typeof placements;
+export const placementIds = Object.keys(placements) as [Placement, ...Placement[]];
