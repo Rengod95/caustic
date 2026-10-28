@@ -73,7 +73,7 @@ export default defineSpec({
   policies: ['P6'],
   composition: { uses: [] },
   usage: [
-    'No example of its own: paint-well (default, token, mixed, invalid) and paint-stack show every look.',
+    'No example of its own: paint-well (default, token, mixed, invalid) and property-stack show every look.',
     'Fixture contract: render(props) renders md with color "#e2763f" and appearance "checker". The mixed state sets mixed: true; sm uses size sm.',
     'Paint is data: pass --cs-well-color / --cs-well-solid as custom properties (inline style may only set custom properties).',
     'Specimen: the colors are runtime data (#e2763f, #5f4994 at 40 %, var(--cs-color-accent-solid), #2b1d14 at 50 %); the half swatch uses color-mix(in oklab, #5f4994 40%, transparent) for the paint and #5f4994 for the solid half.',

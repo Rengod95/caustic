@@ -3,6 +3,8 @@ import { cva } from 'class-variance-authority';
 // One focus edge (P9): the container shows focus-field (its border.default hairline); the inner input draws nothing.
 // Focus is a fill change (owner 2026-10-28, field/input proposal 2): a white field (outline, solid, ghost) turns neutral.well,
 // a field that rests on grey (soft, sunken) turns surface.base, so the change reads either way. No black edge.
+// Soft turns surface.raised: the same white as surface.base in light, one step up in dark, where neutral.soft is already
+// surface.base. Focus wins over hover: hover:focus-within keeps the focus fill under the pointer.
 // Invalid is the danger border-strong edge; invalid + focus keeps it and adds the outer focus ring (both visible).
 // Disabled is a colour (disabled fill, text and edge), not opacity. The invalid and readonly looks apply only
 // while the field is enabled, so a disabled field drops its tone (an invalid one shows the disabled edge).
@@ -20,15 +22,17 @@ export const inputVariants = cva(
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       variant: {
         solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] focus-within:bg-neutral-well focus-within:shadow-focus-field',
-        soft: 'bg-neutral-soft hover:bg-neutral-soft-hover focus-within:bg-surface-base focus-within:shadow-focus-field',
+        soft: 'bg-neutral-soft hover:bg-neutral-soft-hover focus-within:bg-surface-raised hover:focus-within:bg-surface-raised focus-within:shadow-focus-field',
         outline: [
           'bg-surface-translucent shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
           'hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
           'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field)] hover:focus-within:shadow-[var(--cs-focus-field)]',
           'data-[readonly]:not-data-[disabled]:bg-bg-inset data-[readonly]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] data-[readonly]:focus-within:shadow-[var(--cs-focus-field)]',
+          // A read-only field still shows focus: its grey inset fill turns surface.base (the soft rule), the text stays secondary.
+          'data-[readonly]:not-data-[disabled]:focus-within:bg-surface-base',
         ],
         ghost: 'bg-transparent hover:bg-neutral-hover focus-within:bg-neutral-well hover:focus-within:bg-neutral-well focus-within:shadow-focus-field',
-        sunken: 'bg-neutral-well hover:bg-neutral-hover focus-within:bg-surface-base focus-within:shadow-focus-field',
+        sunken: 'bg-neutral-well hover:bg-neutral-hover focus-within:bg-surface-base hover:focus-within:bg-surface-base focus-within:shadow-focus-field',
       },
       size: {
         xs: 'h-control-md rounded-lg px-2.5 text-ui-sm',

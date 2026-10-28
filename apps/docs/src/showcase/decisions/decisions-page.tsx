@@ -107,7 +107,7 @@ function useQuestions(s: BuilderState): Question[] {
       {
         id: 'q1', title: 'ink와 accent를 합칠까',
         question: <>Signal Grey에서는 accent가 곧 잉크다. 기본 버튼과 배지가 쓰는 <code className={mono}>ink-*</code>를 <code className={mono}>accent-*</code>에 합칠지 정한다.</>,
-        affects: ['Button tone=ink(기본 톤), Badge solid, Chip pressed, model-menu 마크', 'ink-solid · ink-hover · ink-on · ink-on-muted (+ kbd)', 'accent: 체크·스위치·선택·포커스 링·Build 버튼'],
+        affects: ['Button tone=ink(기본 톤), Badge solid, Chip pressed, combobox 모델 메뉴(popup) 마크', 'ink-solid · ink-hover · ink-on · ink-on-muted (+ kbd)', 'accent: 체크·스위치·선택·포커스 링·Build 버튼'],
         why: <>라이트에서는 두 값이 거의 같다(잉크 L{f2(inkL[0])}, 액센트 L{f2(accL[0])}). 갈리는 곳은 다크다. 합치면 화면의 모든 기본 버튼이 다크에서 가장 밝은 요소가 되어 강조 예산을 넘는다.</>,
         options: [
           { id: 'A', title: '따로 둔다 (지금)', recommended: true, scene: <Both s={s}>{() => <InkScene />}</Both>,
@@ -132,8 +132,8 @@ function useQuestions(s: BuilderState): Question[] {
       },
       {
         id: 'q3', title: '리스트·메뉴의 선택 표시: accent soft vs 뉴트럴',
-        question: <>menu, layer-tree, list-navigation, option-tiles의 "선택됨"을 하나로 정한다. 둘 다 체크 표시가 붙는다. 아래 두 번째 줄은 액센트에 색이 생겼을 때(지금 info 색으로 가정)의 모습이다.</>,
-        affects: ['menu, model-menu, layer-tree, list-navigation, option-tiles, icon-toggle, pagination, page-list', 'accent-soft · control-raised · fill-pressed · fill-selected (지금 다섯 가지) → 하나'],
+        question: <>menu, layer-tree, list-navigation, choice-group(tile)의 "선택됨"을 하나로 정한다. 둘 다 체크 표시가 붙는다. 아래 두 번째 줄은 액센트에 색이 생겼을 때(지금 info 색으로 가정)의 모습이다.</>,
+        affects: ['menu, combobox(모델 메뉴), layer-tree, list-navigation, choice-group(tile), icon-button(pressed), pagination', 'accent-soft · control-raised · fill-pressed · fill-selected (지금 다섯 가지) → 하나'],
         why: <>지금 잉크 액센트에서는 둘 다 회색이라 차이가 테두리 정도다. 액센트에 색이 생기면 A는 모든 선택 행을 색으로 칠해서 기본 버튼, 체크와 강조를 다툰다. 리스트 선택은 위치 표시라 뉴트럴이 맞고, 액센트는 체크·스위치 같은 "켜짐"에 남긴다.</>,
         options: [
           { id: 'A', title: 'accent soft (5 + 테두리 7)',
@@ -142,14 +142,14 @@ function useQuestions(s: BuilderState): Question[] {
               <Frame label="라이트 · 색 있는 액센트라면" style={style('light', huedAccent(s, 'light'))}><SelectionScene mode="accent" /></Frame>
               <Frame label="다크 · 지금 잉크 액센트" style={style('dark')}><SelectionScene mode="accent" /></Frame>
             </div>,
-            consequence: <>선택이 테두리로 분명하다. 액센트 색이 바뀌면 모든 리스트·메뉴 선택이 따라 바뀐다. 8개 컴포넌트 기준 변경.</> },
+            consequence: <>선택이 테두리로 분명하다. 액센트 색이 바뀌면 모든 리스트·메뉴 선택이 따라 바뀐다. 7개 컴포넌트 기준 변경.</> },
           { id: 'B', title: '뉴트럴 (fill-selected)', recommended: true,
             scene: <div className="grid gap-2">
               <Frame label="라이트 · 지금 잉크 액센트" style={style('light')}><SelectionScene mode="neutral" /></Frame>
               <Frame label="라이트 · 색 있는 액센트라면" style={style('light', huedAccent(s, 'light'))}><SelectionScene mode="neutral" /></Frame>
               <Frame label="다크 · 지금 잉크 액센트" style={style('dark')}><SelectionScene mode="neutral" /></Frame>
             </div>,
-            consequence: <>액센트 색과 무관하게 조용하다. 선택은 채움과 체크로만 보이므로 hover와의 차이가 작다(selected+hover 행 참고). 8개 컴포넌트 기준 변경.</> },
+            consequence: <>액센트 색과 무관하게 조용하다. 선택은 채움과 체크로만 보이므로 hover와의 차이가 작다(selected+hover 행 참고). 7개 컴포넌트 기준 변경.</> },
         ],
       },
       {

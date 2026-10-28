@@ -72,7 +72,8 @@ export default {
       ]
     },
     "graphicMin": 3,
-    "textMin": 4.5
+    "textMin": 4.5,
+    "textMargin": 0.1
   },
   "solids": {
     "accent": {
@@ -5233,14 +5234,14 @@ export default {
       "success.soft-hover",
       4.5,
       "slot: text 11 on soft-hover 4",
-      "warn"
+      "warn:light"
     ],
     [
       "success.text",
       "success.soft-pressed",
       4.5,
       "slot: text 11 on soft-pressed 5",
-      "warn"
+      "warn:light"
     ],
     [
       "success.on",
@@ -5321,14 +5322,14 @@ export default {
       "danger.soft-hover",
       4.5,
       "slot: text 11 on soft-hover 4",
-      "warn"
+      "warn:light"
     ],
     [
       "danger.text",
       "danger.soft-pressed",
       4.5,
       "slot: text 11 on soft-pressed 5",
-      "warn"
+      "warn:light"
     ],
     [
       "danger.on",
@@ -5366,14 +5367,14 @@ export default {
       "info.soft-hover",
       4.5,
       "slot: text 11 on soft-hover 4",
-      "warn"
+      "warn:light"
     ],
     [
       "info.text",
       "info.soft-pressed",
       4.5,
       "slot: text 11 on soft-pressed 5",
-      "warn"
+      "warn:light"
     ],
     [
       "info.on",
@@ -5448,6 +5449,34 @@ export default {
       "neutral.solid",
       3,
       "slot: on vs solid 9"
+    ],
+    [
+      "selection.on",
+      "neutral.solid",
+      4.5,
+      "selected choice card, solid fill",
+      "warn:dark"
+    ],
+    [
+      "selection.on",
+      "neutral.solid-hover",
+      4.5,
+      "selected choice card, solid fill, hover",
+      "warn:dark"
+    ],
+    [
+      "selection.on-secondary",
+      "neutral.solid",
+      4.5,
+      "selected choice card, solid fill, secondary text",
+      "warn:dark"
+    ],
+    [
+      "selection.on-secondary",
+      "neutral.solid-hover",
+      4.5,
+      "selected choice card, solid fill, secondary text, hover",
+      "warn:dark"
     ],
     [
       "neutral.graphic",

@@ -93,7 +93,7 @@ export default defineSpec({
   policies: ['P6'],
   flags: {},
   composition: { uses: [], radix: ['@radix-ui/react-slot'] },
-  examples: [{ id: 'inspector-select', title: 'Inspector appearance', doc: 'picker-trigger#inspector-select' }],
+  examples: [{ id: 'inspector-select', title: 'Inspector appearance', doc: 'react#picker-trigger-inspector-select' }],
   usage: [
     'Only the Input box look is shared; this is a button, so it has no inner input and does not set flags.field (P9 is satisfied through the focus-field ring on the box).',
     'Inspector rows (auto-layout distribution, constraints-control, text-properties weight) use variant="soft" indicator="dropdown". Old InspectorSelect → <PickerTrigger variant="soft" indicator="dropdown" leading={…}>; its size, tone, radius, shadow, open, invalid, disabled and asChild carry over. Its solid / outline / ghost inspector boxes are not kept: an inspector box is the soft well; the other variants are the form field.',

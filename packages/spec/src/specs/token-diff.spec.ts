@@ -55,10 +55,12 @@ export default defineSpec({
   },
   policies: ['P4', 'P6'],
   composition: {},
-  examples: [],
+  examples: [
+    { id: 'long', title: 'Token diff · long, banded rows', doc: 'react#token-diff-long' },
+  ],
   usage: [
     'Fixture requirements for render(props): the default render has the three specimen rows: radius.card 12 to 20, space.card.pad 24 to 32, radius.control 8 to 10.',
-    'No example of its own: it appears inside the review dialog (modal#review-request).',
+    'Example long (React baseline, no specimen): the specimen rows plus four more in a fixed column (w-120), so the banded rows and the dotted leaders show. In the specimens it appears inside the review dialog (modal#review-request).',
     'Long diffs: the striped name bands and the dotted leaders carry each name to its values across the wide name column.',
   ],
 });

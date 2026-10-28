@@ -69,7 +69,7 @@ export default defineSpec({
   a11y: { labelRequired: true, notes: ['A ring is named "Loading" unless label says otherwise; announce completion elsewhere.', 'Reduced motion stops the ring rotation.'] },
   policies: ['P2', 'P6', 'P8'],
   flags: { agent: { tone: ['agent'] }, motionLoop: true },
-  examples: [{ id: 'progress-ring', title: 'Ring', doc: 'progress#progress-ring' }],
+  examples: [{ id: 'progress-ring', title: 'Ring', doc: 'react#progress-ring' }],
   usage: [
     'If progress is unknown, use indeterminate (or omit value). Do not invent a number.',
     'Use the ring where a bar does not fit: inline with text, in a toolbar, or while a region loads. Use the bar for files, steps and long tasks.',

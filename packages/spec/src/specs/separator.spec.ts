@@ -50,6 +50,6 @@ export default defineSpec({
   usage: [
     'Use a rule to divide, not to decorate; prefer spacing when grouping is already clear.',
     'The vertical rule takes its height from the row it sits in.',
-    '`uses: spinner, button` is for the example fixture only (the Saving button is Button loading).',
+    '`uses: progress, button` is for the example fixture only (the Saving button is Button loading).',
   ],
 });

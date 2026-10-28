@@ -9,7 +9,8 @@ import { cva } from 'class-variance-authority';
  *   size: cell 40x32 mono · 48x40 mono-md · 52x44 mono-lg (md) · 64x48 mono-lg.
  * Filled (owner 2026-10-28, data-inverted): a cell holding a character inverts in every variant and tone (selected utility: ink fill,
  * paper text, no edge), so the code's progress reads at a glance. Invalid and disabled drop the inversion: the danger or
- * disabled edge shows on every cell together. Focus keeps the inversion and draws the focus-field hairline.
+ * disabled edge shows on every cell together. Focus keeps the inversion and steps the ink to selection.fill-hover (the
+ * border.default hairline does not read on ink), so the focused filled cell still stands out from its neighbours.
  * Focus on an empty cell is a fill change (owner 2026-10-28, field/input proposal 2): neutral.well, surface.base on the grey
  * soft cell; the edge stays the border.default hairline (focus-field).
  * Current (owner 2026-10-28, not a bottom rule): the first empty cell carries a static caret mark (a 2px bar, 1em tall,
@@ -23,12 +24,12 @@ export const otpCellVariants = cva([
   '[--otp-cue:var(--cs-color-accent-solid)] bg-center bg-no-repeat bg-[length:calc(var(--spacing)*0.5)_1em]',
   'data-[current]:not-focus:bg-[image:linear-gradient(var(--otp-cue),var(--otp-cue))]',
   'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
-  'focus:shadow-[var(--cs-focus-field)] not-data-[inverted]:focus:bg-neutral-well',
+  'focus:shadow-[var(--cs-focus-field)] not-data-[inverted]:focus:bg-neutral-well data-[inverted]:focus:bg-selection-fill-hover',
   // Invalid is the danger border-strong edge for an enabled cell; invalid + focus keeps it and adds the outer focus ring.
   'data-[invalid]:not-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
   // Disabled is a colour, not opacity; a disabled cell keeps the disabled edge (the tone drops out).
   'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
-  // Inverted (set on a filled cell that is neither invalid nor disabled): ink inversion, no edge; focus keeps its ring.
+  // Inverted (set on a filled cell that is neither invalid nor disabled): ink inversion, no edge; focus lightens the ink (above).
   'data-[inverted]:selected data-[inverted]:not-focus:shadow-none',
 ], {
   variants: {

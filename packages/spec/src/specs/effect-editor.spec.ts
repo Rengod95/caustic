@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'inspector',
   status: 'ready',
   purpose: 'Edits one shadow effect: a live stage that shows the shadow on a card, four numeric fields (X, Y, blur, spread) and the shadow color with its opacity.',
-  description: 'Pure composition of NumberFields and a PaintWell around a preview stage. The stage card re-draws as any field changes (no animation beyond a short box-shadow transition), so the effect is seen while scrubbing. It edits the effect that is selected in EffectsStack; other effect kinds (inner shadow, blur) are not shown in the specimen and are not specified here.',
+  description: 'Pure composition of NumberFields and a PaintWell around a preview stage. The stage card re-draws as any field changes (no animation beyond a short box-shadow transition), so the effect is seen while scrubbing. It edits the effect that is selected in PropertyStack (kind effect); other effect kinds (inner shadow, blur) are not shown in the specimen and are not specified here.',
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Vertical stack, 14px gap: stage, fields, color.' },
@@ -91,7 +91,7 @@ export default defineSpec({
     'Common props (owner 2026-10-26): tone, variant, radius, shadow and size. Defaults (neutral, soft, none, none, md) render today’s part. tone and variant style the preview stage only; size steps the stack gap only.',
     'K2d inspector value model (defined on NumberField): onValueChange is the commit; commitMode "release" turns every continuous gesture into onPreviewChange while it runs and one onValueChange when it ends, and keeps typed text as a draft (onDraftChange, aria-invalid, never clamped or dropped) until a valid Enter or blur; discrete choices (toggle, segment, select option, arrow key, preset, swatch) commit at once; mixed fields show the mixed label with no invented value; a reserved field is read-only with aria-busy and data-reserved and keeps focus and its draft; disabled may be a boolean or a per-field record. Fields: \'x\' | \'y\' | \'blur\' | \'spread\' | \'color\'.',
     'K2d labels: every string is labels.*; the fixture passes the specimen strings, so the baseline stays identical.',
-    'No example of its own: the effects-stack example reproduces the whole section including this editor.',
+    'No example of its own: the property-stack example effects-stack-effects-stack-and-shadow reproduces the whole section including this editor.',
     'Fixture contract: render(props) renders the defaults (X 0, Y 12, Blur 24, Spread −6, 1F2128 at 20 %) with preview true.',
     'Specimen bug: the paint row shows 1F2128 at 20 % (well: oklch(.2 .02 260 / .2)) but the stage shadow is drawn with a hard-coded oklch(0.2 0.02 260 / 0.24), so the preview is 4 % darker than the color it claims. The component must draw the shadow from the color field; expect a small pixel difference against the baseline.',
     'Token requests: size-effect-stage-h 120px; the 96px card width can share size-pad-box (96).',

@@ -18,7 +18,7 @@ export default defineSpec({
     { name: 'swatch', el: 'span', parent: 'selector', required: false, description: 'Color of the token: 18px square, xs radius, 1px inset ring. The fill is supplied by the consumer (--swatch). Only for color tokens.' },
     { name: 'name', el: 'span', parent: 'selector', description: 'Token path ("color/accent/solid") or, for dimension tokens, the path and the value ("radius/card · 20"). Mixed row: "Mixed tokens".' },
     { name: 'chevron', el: 'any', parent: 'selector', description: 'Chevron down, 12px, accent text, pushed to the end.' },
-    { name: 'context', el: 'div', parent: 'row', description: 'Context line across the full row: flex, 8px gap, 11px tertiary. On a bound row only while the card is hovered or holds focus (always on a coarse pointer); on a mixed row always. One span per fact: the token type, then "· alias depth 2" or "· direct", then "· light, dark".' },
+    { name: 'context', el: 'div', parent: 'row', description: 'Context line across the full row: flex, 8px gap, 11px tertiary. On a bound row visible only while the card is hovered or holds focus (always on a coarse pointer); at rest it takes no space but is visually hidden (sr-only), not removed, so screen readers read it (round 5); hover adds the line, as the owner chose. On a mixed row always visible. One span per fact: the token type, then "· alias depth 2" or "· direct", then "· light, dark".' },
     { name: 'add', el: 'button', parent: 'root', description: 'Bind-a-property row: full width, flex, 6px gap, 12px inline padding, a 1px dashed strong border all round, lg radius, plus glyph (14px) and label. Secondary text; hover fills.' },
   ],
   variants: {
@@ -80,7 +80,8 @@ export default defineSpec({
     { slot: 'link', when: { binding: 'mixed' }, expect: { fg: 'warning.text' } },
     { slot: 'swatch', expect: { height: 18, width: 18, radius: 'xs', edge: 'swatch.edge' }, note: 'Specimen radius is 5px; xs (4) keeps it concentric inside the selector. 18px is the check size (size-check).' },
     { slot: 'chevron', expect: { fg: 'accent.text', height: 'icon-xs', width: 'icon-xs' } },
-    { slot: 'context', when: { state: 'row-hover' }, expect: { fg: 'text.tertiary', gap: 8, text: 'ui-xs' }, note: 'Owner 2026-10-28 (option 3): on a bound row the context line is reference only, so it is removed at rest (display none) and shows while the card is hovered or holds focus, like Unbind; a coarse pointer always shows it. A mixed row always shows its line (it explains the state).' },
+    { slot: 'context', when: { state: 'row-hover' }, expect: { fg: 'text.tertiary', gap: 8, text: 'ui-xs' }, note: 'Owner 2026-10-28 (option 3): on a bound row the context line is reference only, so it takes no space at rest (visually hidden with the sr-only pattern, still in the accessibility tree; round 5 replaced display none, which hid it from screen readers) and shows while the card is hovered or holds focus, like Unbind; a coarse pointer always shows it. A mixed row always shows its line (it explains the state).' },
+    { slot: 'context', expect: { width: 1, height: 1 }, note: 'Round 5: at rest a bound row\'s context line is visually hidden (sr-only, 1px box, clipped): no space, still read by screen readers. Hover adds the line (owner option 3).' },
     { slot: 'context', when: { binding: 'mixed' }, expect: { fg: 'text.tertiary', gap: 8, text: 'ui-xs' } },
     { slot: 'add', expect: { fg: 'text.secondary', border: 'border.strong', radius: 'lg', padX: 12, padY: 9, gap: 6, text: 'ui-dense' }, note: 'Dashed 1px border all round. ' },
     { slot: 'add', when: { state: 'hover' }, expect: { bg: 'neutral.hover', fg: 'text.primary' } },

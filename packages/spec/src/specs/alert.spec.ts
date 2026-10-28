@@ -96,6 +96,7 @@ export default defineSpec({
   examples: [
     { id: 'feedback', title: 'Alerts, progress, skeleton', doc: 'feedback#feedback' },
     { id: 'banner-banner', title: 'Page layout (was Banner)', doc: 'banner#banner' },
+    { id: 'alert-tones', title: 'Inline · tones', doc: 'react#alert-tones' },
   ],
   usage: [
     'layout inline inside cards, panels and forms; layout page at page level, at most one per tone per view. Toast for transient confirmations.',

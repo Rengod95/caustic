@@ -74,7 +74,7 @@ const hoverOf = (solid, mode) => {
 };
 /** A hued ramp for one mode, anchored so step 9 is the authored solid. */
 function hueRamp(pick, mode, surface, textPick) {
-  const { fixedL, chromaShare, textMin } = T.rampRule;
+  const { fixedL, chromaShare, textMin, textMargin } = T.rampRule;
   const solid = gamutMap(pick);
   const [L9, C9, H] = solid;
   const out = [];
@@ -94,12 +94,14 @@ function hueRamp(pick, mode, surface, textPick) {
   out.push(solid);
   out.push(hoverOf(solid, mode));
   const hover = out[9];
-  // An authored text step (solids[name].text[mode]) replaces the derived one as is; the contrast rules still check it.
+  // An authored text step (solids[name].text[mode]) replaces the derived one as is: it is not fitted, so the rounding
+  // margin below does not move it (design over contrast). The contrast rules check it at textMin like a derived step,
+  // and a pass inside the margin is reported (see the check below).
   if (textPick) { out.push(gamutMap(textPick)); return out; }
   let text = gamutMap([mode === 'light' ? Math.max(0.05, Math.min(L9, hover[0]) - 0.04) : Math.min(0.97, Math.max(L9, hover[0]) + 0.04), C9, H]);
   // Fit text a little above the floor: emitted L/C are rounded and browsers quantise to 8 bits, so a pair fitted
   // exactly at 4.5 can render at 4.48 (light warning text on soft-pressed did). The contrast rules still check 4.5.
-  for (const bg of [surface, out[2], out[3], out[4]]) text = ensure(text, bg, textMin + 0.1);
+  for (const bg of [surface, out[2], out[3], out[4]]) text = ensure(text, bg, textMin + textMargin);
   out.push(gamutMap(text));
   return out;
 }
@@ -203,6 +205,15 @@ const opaqueOver = (theme, f, u) => {
   const [r, g, b] = rgb.map(x => Math.round(Math.min(1, Math.max(0, x)) * 255)); return `rgb(${r} ${g} ${b})`;
 };
 
+// A derived text step is fitted to textMin + textMargin; an authored one is not (design over contrast), so a pass inside
+// that margin can render just under textMin once browsers quantise to 8 bits. It is reported, never failing.
+const authoredTextStep = (theme, fg) => {
+  if (!(fg in T.themes[theme])) return false;
+  const { ramp, step } = parse(finalSpec(theme, fg));
+  if (ramp === 'white' || ramp === 'black' || +step !== T.slotSteps.text) return false;
+  const [name, m] = rampOf(ramp, theme);
+  return Boolean(T.solids[name]?.text?.[m]);
+};
 const results = [];
 let failures = 0;
 for (const theme of MODES) {
@@ -216,19 +227,21 @@ for (const theme of MODES) {
       worst = Math.min(worst, ratio(fgRgb, bgRgb));
     }
     GAMUT = 'map';
-    // level 'warn': a design-over-contrast pair the owner chose; reported, never failing.
-    const warn = level === 'warn';
+    // level 'warn': a design-over-contrast pair the owner chose; reported, never failing. 'warn:<mode>[,<mode>]' waives
+    // only those modes (an authored text step is the owner's colour only in the modes it is authored for).
+    const warn = level === 'warn' || (typeof level === 'string' && level.startsWith('warn:') && level.slice(5).split(',').includes(theme));
     const pass = worst >= min;
     if (!pass && !warn) failures++;
-    results.push({ theme, fg, bg, min, ratio: +worst.toFixed(2), pass, warn, note, sweep: false, worstHue: null });
+    const margin = pass && worst < min + T.rampRule.textMargin && authoredTextStep(theme, fg);
+    results.push({ theme, fg, bg, min, ratio: +worst.toFixed(2), pass, warn, margin, note, sweep: false, worstHue: null });
   }
 }
 
 /* ── Report ── */
 const pad = (s, n) => String(s).padEnd(n);
-for (const r of results.filter(r => !r.pass || process.argv.includes('--verbose')))
-  console.log(`${r.pass ? 'ok  ' : r.warn ? 'WARN' : 'FAIL'} ${pad(r.theme, 6)} ${pad(r.fg, 22)} on ${pad(r.bg, 34)} ${r.ratio.toFixed(2).padStart(6)} ≥ ${r.min}`);
-console.log(`contrast: ${results.length - failures}/${results.length} rules pass (${results.filter(r => r.warn && !r.pass).length} design-over-contrast warnings) across ${MODES.length} themes (${RAMP_NAMES.length} ramps per mode, ${Object.keys(T.themes.light).length} semantic colors)`);
+for (const r of results.filter(r => !r.pass || r.margin || process.argv.includes('--verbose')))
+  console.log(`${r.margin || (!r.pass && r.warn) ? 'WARN' : r.pass ? 'ok  ' : 'FAIL'} ${pad(r.theme, 6)} ${pad(r.fg, 22)} on ${pad(r.bg, 34)} ${r.ratio.toFixed(2).padStart(6)} ≥ ${r.min}${r.margin ? ` (authored text inside the ${T.rampRule.textMargin} margin)` : ''}`);
+console.log(`contrast: ${results.length - failures}/${results.length} rules pass (${results.filter(r => (r.warn && !r.pass) || r.margin).length} design-over-contrast warnings) across ${MODES.length} themes (${RAMP_NAMES.length} ramps per mode, ${Object.keys(T.themes.light).length} semantic colors)`);
 if (failures) { console.error(`${failures} contrast rule(s) failed.`); process.exit(1); }
 if (checkOnly) process.exit(0);
 

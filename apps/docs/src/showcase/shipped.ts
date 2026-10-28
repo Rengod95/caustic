@@ -7,10 +7,10 @@ import type { LCH } from './color.ts';
 type Mode = 'light' | 'dark';
 export const MODES: readonly Mode[] = ['light', 'dark'];
 
-export interface ShippedSolid { name: string; role: string; light: LCH; dark: LCH }
+export interface ShippedSolid { name: string; role: string; light: LCH; dark: LCH; /** authored step 11 per mode */ text?: Partial<Record<Mode, LCH>> }
 
 interface ColourLanguage {
-  rampRule: { fixedL: Record<Mode, number[]>; chromaShare: Record<Mode, number[]>; graphicMin: number; textMin: number };
+  rampRule: { fixedL: Record<Mode, number[]>; chromaShare: Record<Mode, number[]>; graphicMin: number; textMin: number; textMargin: number };
   /** One authored solid (step 9) per mode for every hued ramp: accent, success … agent-1..3, extra-1..2, canvas-guide. */
   solids: Record<string, ShippedSolid>;
   neutral: { name: string; hue: number; chroma: number; light: number[]; dark: number[] };
@@ -39,7 +39,7 @@ export function parseSpec(spec: string): Spec {
 }
 
 /** Steps 1–11 and the on-label of one ramp in one mode. */
-export interface RampSteps { steps: readonly LCH[]; on: LCH }
+export interface RampSteps { steps: readonly LCH[]; on: LCH; /** step 11 is authored (solids[name].text), not derived */ textAuthored?: boolean }
 export type RampSet = Record<string, Record<Mode, RampSteps>>;
 
 /** build.mjs rampOf(): "<ramp>-light" / "<ramp>-dark" pin a mode, a bare name follows `mode`. */

@@ -116,5 +116,25 @@ export async function g5Runtime(c: Collector, spec: ComponentSpec, rt: Runtime) 
       if (r.hasOuter) c.fail({ gate: 'G5', check: 'P9 field focus', message: 'Focused field also shows the outer focus ring. One edge only.' });
       if (r.inputRing || r.inputOutline) c.fail({ gate: 'G5', check: 'P9 field focus', message: 'Inner input draws its own outline or ring.' });
     } finally { await page.close(); }
+    // Focus has to show. focus-field is the resting border.default hairline, so the box must change its fill (the cue) or
+    // at least its edge between rest and focus. One page per theme with a case per variant value.
+    const values = (spec.variants as Record<string, { values?: string[] } | undefined>).variant?.values ?? [];
+    const cases = (values.length ? values : ['']).map(v => ({ ...caseFor(spec, v ? { variant: v } : {}), key: `focus-${v || 'default'}` }));
+    for (const theme of ['light', 'dark']) {
+      const vp = await openPage(rt, { c: spec.id, mode: 'cases', theme, freeze: '1' }, cases);
+      try {
+        await vp.mouse.move(0, 0);
+        const read = (sel: string) => vp.evaluate(s => { const cs = getComputedStyle(document.querySelector(s)!); return { bg: cs.backgroundColor, edge: cs.boxShadow }; }, sel);
+        for (const k of cases) {
+          const rootSel = `${caseSelector(k.key)} ${slotSelector(spec, 'root')}`;
+          const input = vp.locator(`${rootSel} input, ${rootSel} textarea, ${rootSel} [contenteditable]`).first();
+          if (!await input.count()) continue;
+          const rest = await read(rootSel);
+          await input.focus(); const focus = await read(rootSel); await input.blur();
+          if (rest.bg === focus.bg && rest.edge === focus.edge) c.fail({ gate: 'G5', check: 'P9 field focus', where: `${k.key} · ${theme}`, message: 'Focus does not change the field box: fill and edge are the same as at rest. Change the fill on focus (neutral.well on a white field, surface.base on a grey one).', actual: `${focus.bg} | ${focus.edge}` });
+          else if (rest.bg === focus.bg) c.warn({ gate: 'G5', check: 'P9 field focus', where: `${k.key} · ${theme}`, message: 'Focus changes only the edge; the fill is the focus cue (FOUNDATION P9).', actual: focus.bg });
+        }
+      } finally { await vp.close(); }
+    }
   }
 }

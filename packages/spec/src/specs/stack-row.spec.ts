@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'inspector',
   status: 'ready',
   purpose: 'One line of a paint or effect stack: a leading swatch or icon, a name with a quiet detail, an optional compact field (opacity), and show / hide and remove actions.',
-  description: 'The row primitive of FillStack and EffectsStack. 36px high so its 32px NumberField fits with 2px to spare. The actions are tucked away until the row is hovered or focused (on a touch screen they always show), except in stacks where they stay visible; a hidden layer takes disabled.text (name, detail and icon; the paint swatch stepped back) but keeps its actions so it can be shown again.',
+  description: 'The row primitive of PropertyStack (kind paint and kind effect). 36px high so its 32px NumberField fits with 2px to spare. The actions are tucked away until the row is hovered or focused (on a touch screen they always show), except in stacks where they stay visible; a hidden layer takes disabled.text (name, detail and icon; the paint swatch stepped back) but keeps its actions so it can be shown again.',
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Grid: auto, 1fr, auto, auto columns, 6px gap, 36px high, items centered, padding 0 2px 0 4px, md radius.' },
@@ -103,9 +103,9 @@ export default defineSpec({
   policies: ['P6'],
   composition: { uses: ['icon-button', 'color-well', 'number-field'] },
   usage: [
-    'K2d: the action names are props and optional move up / down actions exist for PaintStack reordering; without onMoveUp and onMoveDown the row renders exactly as the specimen. The fixture passes "Hide", "Show" and "Remove".',
-    'No example of its own: the paint-stack and effects-stack examples contain it.',
-    'Fixture contract: render(props) renders title "Linear", meta "2 stops", a ColorWell sm with the specimen gradient and a 58px opacity NumberField (100 %); the hidden state passes hidden. The icon form (lead "icon", leading icon square-stack) is used by effects-stack (title "Drop shadow", meta "24 px", actions "always").',
+    'K2d: the action names are props and optional move up / down actions exist for PropertyStack reordering; without onMoveUp and onMoveDown the row renders exactly as the specimen. The fixture passes "Hide", "Show" and "Remove".',
+    'No example of its own: the property-stack examples (kind paint and kind effect) contain it.',
+    'Fixture contract: render(props) renders title "Linear", meta "2 stops", a ColorWell sm with the specimen gradient and a 58px opacity NumberField (100 %); the hidden state passes hidden. The icon form (lead "icon", leading icon square-stack) is used by property-stack kind effect (title "Drop shadow", meta "24 px", actions "always").',
     'Specimen: in a hidden row the actions are forced opaque (inline style) and the eye icon becomes eye-off; the stack row of an effect keeps actions visible too (actions="always").',
     'The row has a hover fill but no selected fill; the effect being edited is shown by the editor below it, not by the row.',
     'Specimen: the 4px start padding vs 2px end padding is deliberate (swatch near the edge, IconButton hit area balanced).',

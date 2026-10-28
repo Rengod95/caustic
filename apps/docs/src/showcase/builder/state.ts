@@ -43,7 +43,11 @@ export const SOLID_OF: Record<ColorKey, string> = {
 export type LinkMode = 'off' | 'same' | 'light' | 'dark';
 export const LINK_MODES: LinkMode[] = ['off', 'same', 'light', 'dark'];
 
-export interface ColorState { light: LCH; dark: LCH; link: LinkMode; /** dark L − light L */ shift: number; /** dark C ÷ light C */ chroma: number; /** dark H − light H, degrees */ hue: number }
+export interface ColorState {
+  light: LCH; dark: LCH; link: LinkMode; /** dark L − light L */ shift: number; /** dark C ÷ light C */ chroma: number; /** dark H − light H, degrees */ hue: number;
+  /** Authored step 11 per mode (tokens.mjs solids[name].text), kept as is through edits, export and import; a missing mode is derived. */
+  text?: Partial<Record<Theme, LCH>>;
+}
 
 /** Version of the saved state; v1 state is ignored once (it predates the shipped defaults), v2 is converted. */
 export const STATE_VERSION = 3;
@@ -61,7 +65,7 @@ export function initialState(): BuilderState {
   const colors = {} as Record<ColorKey, ColorState>;
   for (const { key } of COLORS) {
     const sw = SHIPPED.solids[SOLID_OF[key]]!;
-    colors[key] = { light: sw.light, dark: sw.dark, link: 'off', ...relationOf(sw.light, sw.dark) };
+    colors[key] = { light: sw.light, dark: sw.dark, link: 'off', ...relationOf(sw.light, sw.dark), ...(sw.text ? { text: { ...sw.text } } : {}) };
   }
   return { v: STATE_VERSION, colors, accentHover: { light: null, dark: null }, darkRamp: 'more' };
 }
@@ -124,8 +128,12 @@ const neutralOf = (s: BuilderState): LangInput['neutral'] => {
 /** The language input: every pick by its tokens.mjs ramp name, the neutral ramps, the hover override. */
 export function langInput(s: BuilderState): LangInput {
   const solids: LangInput['solids'] = {};
-  for (const { key } of COLORS) solids[SOLID_OF[key]] = { light: valueOf(s.colors[key], 'light'), dark: valueOf(s.colors[key], 'dark') };
-  return { solids, neutral: neutralOf(s), accentHover: s.accentHover };
+  const text: NonNullable<LangInput['text']> = {};
+  for (const { key } of COLORS) {
+    solids[SOLID_OF[key]] = { light: valueOf(s.colors[key], 'light'), dark: valueOf(s.colors[key], 'dark') };
+    text[SOLID_OF[key]] = s.colors[key].text ?? {};
+  }
+  return { solids, text, neutral: neutralOf(s), accentHover: s.accentHover };
 }
 
 /** Every ramp, both modes, as the variables carry them. */
@@ -183,6 +191,12 @@ export function parse(raw: string): BuilderState {
     if (typeof c.shift === 'number') base.colors[key].shift = c.shift;
     if (typeof c.chroma === 'number' && c.chroma > 0) base.colors[key].chroma = c.chroma;
     if (typeof c.hue === 'number') base.colors[key].hue = c.hue;
+    // authored text: a missing key keeps the shipped text (as any missing key does); an object replaces it ({} clears it)
+    if (c.text && typeof c.text === 'object') {
+      const text: ColorState['text'] = {};
+      for (const m of ['light', 'dark'] as const) if (isLch(c.text[m])) text[m] = c.text[m];
+      base.colors[key].text = text;
+    }
   }
   if (j.accentHover) {
     base.accentHover.light = isLch(j.accentHover.light) ? j.accentHover.light : null;
@@ -192,12 +206,14 @@ export function parse(raw: string): BuilderState {
   return base;
 }
 
-/** Export for handing back: authored values per theme (linked darks resolved) plus the knobs. Paste the solids into tokens.mjs. */
+/** Export for handing back: authored values per theme (linked darks resolved) plus the knobs. Paste the solids into tokens.mjs,
+ * with `text` (the authored step 11) where a colour has one, so it does not silently revert to the derived step. */
 export function exportJson(s: BuilderState): string {
-  const colors = {} as Record<ColorKey, { light: LCH; dark: LCH; link: LinkMode; shift: number; chroma: number; hue: number }>;
+  const colors = {} as Record<ColorKey, { light: LCH; dark: LCH; link: LinkMode; shift: number; chroma: number; hue: number; text?: ColorState['text'] }>;
   for (const { key } of COLORS) {
     const c = s.colors[key];
-    colors[key] = { light: valueOf(c, 'light'), dark: valueOf(c, 'dark'), link: c.link, shift: c.shift, chroma: c.chroma, hue: c.hue };
+    const text = c.text && Object.keys(c.text).length ? { text: c.text } : {};
+    colors[key] = { light: valueOf(c, 'light'), dark: valueOf(c, 'dark'), link: c.link, shift: c.shift, chroma: c.chroma, hue: c.hue, ...text };
   }
   return JSON.stringify({ v: STATE_VERSION, base: 'Signal Grey · Deep Black neutrals', language: 'proposed', colors, accentHover: s.accentHover,
     darkRamp: s.darkRamp, neutralDark: darkRamp(s.darkRamp).map(c => c[0]) }, null, 2);

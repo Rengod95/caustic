@@ -97,7 +97,7 @@ export function AccordionTrigger({ icon, accessory, className, children, ...prop
           <span
             data-slot="accordion-accessory"
             className={cn(
-              'ml-1.5 inline-flex',
+              'ms-1.5 inline-flex',
               'group-disabled:[&_[data-slot=badge]]:bg-disabled-fill group-disabled:[&_[data-slot=badge]]:text-disabled-text',
               'group-disabled:[&_[data-slot=badge][data-variant=outline]]:bg-transparent group-disabled:[&_[data-slot=badge][data-variant=outline]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
               'group-disabled:[&_[data-slot=badge][data-tone=agent]]:after:hidden',
@@ -105,7 +105,7 @@ export function AccordionTrigger({ icon, accessory, className, children, ...prop
             )}
           >{accessory}</span>
         ) : null}
-        <ChevronDown data-slot="accordion-chevron" aria-hidden className={cn('ml-auto size-icon-md transition-transform duration-base ease-out group-data-[state=open]:rotate-180', accordionGlyphVariants({ tone }))} />
+        <ChevronDown data-slot="accordion-chevron" aria-hidden className={cn('ms-auto size-icon-md transition-transform duration-base ease-out group-data-[state=open]:rotate-180', accordionGlyphVariants({ tone }))} />
       </A.Trigger>
     </A.Header>
   );

@@ -55,7 +55,7 @@ export const inspectorBindingsActionVariants = cva('flex items-center justify-se
  */
 export const inspectorBindingsSelectorVariants = cva(
   [
-    'col-span-full flex w-full min-w-0 cursor-pointer items-center gap-1.5 rounded-md border-0 ps-1 pe-1.5 text-left font-mono font-normal text-text-primary outline-none',
+    'col-span-full flex w-full min-w-0 cursor-pointer items-center gap-1.5 rounded-md border-0 ps-1 pe-1.5 text-start font-mono font-normal text-text-primary outline-none',
     'transition-[background-color,box-shadow] duration-120 ease-out focus-visible:shadow-focus',
   ],
   {
@@ -136,14 +136,15 @@ export const inspectorBindingsNameVariants = cva('min-w-0 truncate');
 /**
  * Context line across the full row: one span per fact. On a bound row it is reference only (type, alias depth, themes), so
  * it shows only while the card is hovered or holds focus, like Unbind (owner 2026-10-28, option 3), and stays on a coarse
- * pointer (touch has no hover). It is removed from layout at rest (display none, as in the approved preview), so the card
- * grows by one line under the pointer. A mixed row's line explains the state and is always shown.
+ * pointer (touch has no hover). At rest it takes no space (owner's option 3) but is visually hidden rather than removed
+ * (round 5), so screen readers still read it; the card grows by one line under the pointer. A mixed row's line explains
+ * the state and is always shown.
  */
-export const inspectorBindingsContextVariants = cva('col-span-full flex-wrap gap-2 text-ui-xs text-text-tertiary', {
+export const inspectorBindingsContextVariants = cva('col-span-full flex flex-wrap gap-2 text-ui-xs text-text-tertiary', {
   variants: {
     binding: {
-      bound: 'hidden group-hover/row:flex group-focus-within/row:flex pointer-coarse:flex',
-      mixed: 'flex',
+      bound: 'sr-only group-hover/row:not-sr-only group-focus-within/row:not-sr-only pointer-coarse:not-sr-only',
+      mixed: '',
     },
   },
   defaultVariants: { binding: 'bound' },
@@ -152,7 +153,7 @@ export const inspectorBindingsContextVariants = cva('col-span-full flex-wrap gap
 /** The bind-a-property row: a dashed strong border all round. */
 export const inspectorBindingsAddVariants = cva(
   [
-    'flex w-full cursor-pointer items-center gap-1.5 rounded-lg border border-dashed border-border-strong bg-transparent px-3 text-left font-ui text-ui-dense text-text-secondary outline-none',
+    'flex w-full cursor-pointer items-center gap-1.5 rounded-lg border border-dashed border-border-strong bg-transparent px-3 text-start font-ui text-ui-dense text-text-secondary outline-none',
     'transition-[background-color,color] duration-120 ease-out hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
     'disabled:pointer-events-none disabled:border-disabled-border disabled:text-disabled-text',
     '[&_svg]:size-icon-sm [&_svg]:flex-none [&_svg]:stroke-[1.75]',

@@ -79,7 +79,10 @@ export default defineSpec({
   policies: ['P2', 'P4', 'P5', 'P6', 'P8'],
   flags: { agent: true, motionLoop: true },
   composition: {},
-  examples: [{ id: 'activity-tree', title: 'Activity tree', doc: 'activity-tree#activity-tree' }],
+  examples: [
+    { id: 'activity-tree', title: 'Activity tree', doc: 'activity-tree#activity-tree' },
+    { id: 'activity-tree-failed', title: 'Activity tree · failed step', doc: 'react#activity-tree-failed' },
+  ],
   usage: [
     'Fixture requirements for render(props): the default render is the specimen nodes below with the worker, so step, step-glyph, orb, label, meta, call, call-glyph, name, unassigned and the worker slots all exist.',
     'Example "activity-tree": step done "Read theme tokens"; call "read_tokens · theme/lagoon" meta "128"; step done "Audit contrast"; call "audit_contrast · 42 pairs" meta "0 fail"; step active "Apply spacing and radius" meta "step 3"; call running "edit_layers · Pricing / Team" meta "running" (shimmer); unassigned call "screenshot_frame · Checkout" meta "Unassigned" (in run order, no divider). Worker "Worker · canvas-editor", meta "round 4". Icons: circle-check, the tight corner-down-right, circle-help.',

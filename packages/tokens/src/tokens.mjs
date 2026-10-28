@@ -52,6 +52,7 @@ export const rampRule = {
   chromaShare: { light: [0.14, 0.28, 0.46, 0.58, 0.7, 0.8, 0.9, 1], dark: [0.22, 0.32, 0.46, 0.56, 0.66, 0.76, 0.88, 1] },
   graphicMin: 3,   // step 8 on surface.base: reported as a warning only; step 8 is not pushed to it
   textMin: 4.5,    // step 11 on surface.base and on steps 3–5
+  textMargin: 0.1, // a derived step 11 is fitted to textMin + textMargin (rounding headroom); the rules check textMin
 };
 
 // Legacy primitive names kept as mode-following aliases for data swatches in fixtures/specimens only.
@@ -363,20 +364,22 @@ export const themes = {
 };
 
 /* ── Contrast policy ──────────────────────────────────────────────
-   [foreground, background, minimum, note]. Names are semantic tokens or primitive specs.
+   [foreground, background, minimum, note, level?]. Names are semantic tokens or primitive specs. level 'warn' reports a
+   design-over-contrast pair without failing in both themes; 'warn:<mode>' only in that mode.
    Alpha tokens are composited over the background. A background may be "<token>@<token>"
    (alpha layer over a base). The build fails if any rule fails in either theme. */
 const neutralBgs = ['surface.base', 'surface.raised', 'bg.app', 'bg.canvas'];
 const hued = ['accent', 'success', 'warning', 'danger', 'info', 'agent'];
 // §7 rule 7: slot pairs for every tone.
-// An authored text step (solids[ramp].text) is the owner's colour: on the hover and pressed tints it is a
-// design-over-contrast warning (it still has to pass on surface and on soft).
-const authoredText = tone => Boolean(solids[tones[tone]]?.text);
+// An authored text step (solids[ramp].text[mode]) is the owner's colour: on the hover and pressed tints it is a
+// design-over-contrast warning in the modes it is authored for (it still has to pass on surface and on soft); a mode
+// whose text step is derived keeps failing there. Level 'warn:<mode>[,<mode>]' waives only those modes.
+const authoredText = tone => { const modes = Object.keys(solids[tones[tone]]?.text ?? {}); return modes.length ? [`warn:${modes.join(',')}`] : []; };
 const slotRules = tone => [
   [`${tone}.text`, 'surface.base', 4.5, 'slot: text 11 on surface'],
   [`${tone}.text`, `${tone}.soft`, 4.5, 'slot: text 11 on soft 3'],
-  [`${tone}.text`, `${tone}.soft-hover`, 4.5, 'slot: text 11 on soft-hover 4', ...(authoredText(tone) ? ['warn'] : [])],
-  [`${tone}.text`, `${tone}.soft-pressed`, 4.5, 'slot: text 11 on soft-pressed 5', ...(authoredText(tone) ? ['warn'] : [])],
+  [`${tone}.text`, `${tone}.soft-hover`, 4.5, 'slot: text 11 on soft-hover 4', ...authoredText(tone)],
+  [`${tone}.text`, `${tone}.soft-pressed`, 4.5, 'slot: text 11 on soft-pressed 5', ...authoredText(tone)],
   [`${tone}.on`, `${tone}.solid`, tone === 'accent' || tone === 'danger' ? 4.5 : 3, 'slot: on vs solid 9'],
   [`${tone}.on`, `${tone}.solid-hover`, tone === 'accent' || tone === 'danger' ? 4.5 : 3, 'slot: on vs solid-hover 10'],
   // Step 8 follows the authored solid (owner 2026-10-26: design over contrast), so a light solid gives a light graphic.
@@ -417,6 +420,12 @@ export const contrastRules = [
   ...hued.flatMap(slotRules),
   ['neutral.text', 'surface.base', 4.5, 'slot: text 11 on surface'],
   ['neutral.on', 'neutral.solid', 3, 'slot: on vs solid 9'],
+  // choice-group selectedFill="solid" keeps the selected utility's paper text on neutral.solid (owner 2026-10-28,
+  // light-oriented): it passes in light; in dark neutral.solid is a light grey, a design-over-contrast warning there.
+  ['selection.on', 'neutral.solid', 4.5, 'selected choice card, solid fill', 'warn:dark'],
+  ['selection.on', 'neutral.solid-hover', 4.5, 'selected choice card, solid fill, hover', 'warn:dark'],
+  ['selection.on-secondary', 'neutral.solid', 4.5, 'selected choice card, solid fill, secondary text', 'warn:dark'],
+  ['selection.on-secondary', 'neutral.solid-hover', 4.5, 'selected choice card, solid fill, secondary text, hover', 'warn:dark'],
   ['neutral.graphic', 'surface.base', 3, 'slot: graphic 8 on surface'],
   ['text.link', 'surface.base', 4.5, 'AA link'],
   ['text.secondary', 'accent.soft', 4.5, 'selected choice card text'],

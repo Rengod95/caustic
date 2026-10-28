@@ -41,9 +41,10 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 /* --cs-focus is composed into other shadows (selection edge + focus); re-declared on the focused element so its gap
    reads that element's --cs-focus-offset rather than the root's. */
 :where(:focus-visible, :focus-within) { --cs-focus: 0 0 0 1px var(--cs-focus-offset, var(--cs-color-focus-offset)), 0 0 0 3px var(--cs-color-focus-ring); }
-/* Field focus policy: a text field owns its focus. The field container swaps its
-   own border for --cs-focus-field (1.5px, focus.ring); the inner control draws
-   nothing, and no outer ring or halo is added. One edge, never three. */
+/* Field focus policy: a text field owns its focus. The field container shows
+   --cs-focus-field (its resting 1px border.default hairline) and changes its fill
+   (neutral.well on a white field, surface.base on a grey one); the inner control
+   draws nothing, and no outer ring or halo is added. One edge, never three. */
 :where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="button"], [type="submit"]), textarea, select):focus-visible { box-shadow: none; outline: none; }
 ::selection { background: var(--cs-color-accent-soft); }
 ::placeholder { color: var(--cs-color-text-placeholder); opacity: 1; }

@@ -169,10 +169,10 @@ export function openQuestions(s: BuilderState): Question[] {
     },
     {
       id: 'o2', title: '체크 원: accent vs 잉크',
-      question: <>theme-gallery, choice-cards, card-action의 체크 원은 지금 {c('accent-solid')}다. 선택 잉크({c('selection.fill')} 바탕, {c('selection.on')} 글리프)로 바꿀지 정한다.</>,
-      affects: ['theme-gallery-check, choice-cards-indicator, card-indicator', 'accent-solid · accent-on 대 selection.fill · selection.on'],
+      question: <>theme-gallery, choice-group(card), CardChoice의 체크 원은 지금 {c('accent-solid')}다. 선택 잉크({c('selection.fill')} 바탕, {c('selection.on')} 글리프)로 바꿀지 정한다.</>,
+      affects: ['theme-gallery-check, choice-group-indicator, card-indicator', 'accent-solid · accent-on 대 selection.fill · selection.on'],
       whyLabel: '참고.',
-      why: <>반전된 카드(choice-cards, card-action) 안에서는 {c('selected')}가 accent를 paper로 바꾸므로 지금도 원은 흰색이다. B에서는 그 원이 카드 채움과 같은 잉크가 되어 글리프만 남는다.</>,
+      why: <>반전된 카드(choice-group card, CardChoice) 안에서는 {c('selected')}가 accent를 paper로 바꾸므로 지금도 원은 흰색이다. B에서는 그 원이 카드 채움과 같은 잉크가 되어 글리프만 남는다.</>,
       options: [
         { id: 'A', title: 'accent 체크 원 (지금)', scene: <Pair s={s}>{() => <CheckScene />}</Pair>,
           consequence: <>갤러리 체크는 accent(라이트 검정, 다크 흰색). 반전 카드 안에서는 paper 원.</> },

@@ -10,12 +10,13 @@ export default defineFixture({
   examples: {
     'image-fill': () => <ImageFill src={placeholder} fileName="hero-photo.avif" fileMeta="· 2400 × 1600 · 412 KB" />,
     // A real file name is longer than the specimen one: it truncates, the facts stay whole.
-    // Crop in a popover (owner 2026-10-28, option 2): crop mode with the editor open in place under the stage.
+    // Crop in a popover (owner 2026-10-28, option 2): crop mode with the editor open in place under the stage. The crop is
+    // in image-box space: at zoom 1.25 it draws the frame at 18 % / 12 %, 60 % × 70 % of the canvas (the round-4 picture).
     'crop-popover': () => (
       <div className="w-68">
         <ImageFill
           src={placeholder} fileName="hero-photo.avif" fileMeta="· 2400 × 1600 · 412 KB" defaultMode="crop"
-          defaultCrop={{ x: 0.18, y: 0.12, w: 0.6, h: 0.7, zoom: 1.25 }} cropPopover={{ inline: true, defaultOpen: true }}
+          defaultCrop={{ x: 0.244, y: 0.196, w: 0.48, h: 0.56, zoom: 1.25 }} cropPopover={{ inline: true, defaultOpen: true }}
         />
       </div>
     ),

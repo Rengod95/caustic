@@ -341,7 +341,7 @@ export function ListRow({
         {icon != null ? <span data-slot="list-glyph" aria-hidden className={listGlyphVariants({ tone: list.tone })}>{icon}</span> : (leading ?? <span aria-hidden />)}
         <span data-slot="list-text" className={listInlineTextVariants()}>
           <span data-slot="list-title" id={titleId}>{title}</span>
-          {description != null && <>{' '}<span data-slot="list-description" id={descId} className={listInlineDescriptionVariants()}>{description}</span></>}
+          {description != null && <>{' '}<span data-slot="list-row-description" id={descId} className={listInlineDescriptionVariants()}>{description}</span></>}
         </span>
         {end != null && <span data-slot="list-end" className={listInlineEndVariants()}>{end}</span>}
       </li>
@@ -371,7 +371,7 @@ export function ListRow({
       )}
       <div data-slot="list-text" className={listTextVariants()}>
         <span data-slot="list-title" id={titleId} className={listTitleVariants({ tone: !!choice && rowDisabled ? null : tone, off: !!choice && rowDisabled })}>{title}</span>
-        {description != null && <span data-slot="list-description" id={descId} className={listDescriptionVariants({ off: !!choice && rowDisabled })}>{description}</span>}
+        {description != null && <span data-slot="list-row-description" id={descId} className={listDescriptionVariants({ off: !!choice && rowDisabled })}>{description}</span>}
       </div>
       {value != null && <span data-slot="list-value" className={listValueVariants()}>{value}</span>}
       {(end != null || status === 'working') && (
