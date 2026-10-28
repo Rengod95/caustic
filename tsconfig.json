@@ -20,6 +20,7 @@
       "@caustic/react": ["./packages/react/src/index.ts"],
       "@caustic/react/styles.css": ["./packages/react/src/styles.css"],
       "@caustic/spec": ["./packages/spec/src/index.ts"],
+      "@caustic/catalog": ["./packages/catalog/src/index.ts"],
       "@caustic/spec/all": ["./packages/spec/src/all.ts"],
       "lucide-react": ["./packages/react/node_modules/lucide-react"]
     }

@@ -1,0 +1,258 @@
+# Caustic components
+
+> 116 React components for agent-native design tools, imported from '@caustic/react'.
+
+Use the `caustic` CLI (package @caustic/cli) for detail instead of guessing:
+- `caustic find "<need>"` routes a need to fitting components; `caustic list --tree` shows the whole set.
+- `caustic show <id> --depth api` gives props, variants and events; `--depth full` adds example code.
+- `caustic tokens [group]` lists the token utilities; `caustic recipes` lists screen layouts.
+- `caustic check <files>` checks code against the tokens and the component specs.
+Every command takes `--json`. Full data: @caustic/catalog/catalog.json.
+
+## action.primary: The main thing to do in a region: submit, run, create, apply.
+
+- Button (button): Run one action with a text label, from the main submit of a form to quiet commands in a row.
+
+## action.icon: A command shown as an icon only, in toolbars, rows and panel headers.
+
+- IconButton (icon-button): Run one action, or flip one option on and off, from an icon alone in toolbars, headers and rows.
+
+## action.group: A set of related commands kept together (toolbars, split and attached buttons).
+
+- ButtonGroup (button-group): Keep a row of related plain actions together on a small inset track, like the align bar of an inspector.
+
+## choice.single: Pick exactly one of a few options.
+
+- ChoiceGroup (choice-group): Pick one or several options from a short set shown at once as cards, tiles or answer rows with room to explain.
+- RadioGroup (radio-group): Pick exactly one option from a short list that stays visible, as plain form radios.
+- SegmentedControl (segmented-control): Switch between two to five short, mutually exclusive views or modes in place.
+- ThemeGallery (theme-gallery): A grid of theme cards, each a miniature app in the theme's own colours and radius, to pick a theme to preview.
+
+## choice.multi: Pick any number of options.
+
+- Checkbox (checkbox): Mark options on or off in a form that is saved, with a mixed state for a partly checked set.
+- Chip (chip): A compact token for a filter, a quick option, a toggle or a removable reference to a frame or file.
+- ToggleGroup (toggle-group): A row of icon toggles that keep state: several on at once, like formatting, or one of a few, like alignment.
+
+## choice.toggle: Turn one setting on or off.
+
+- Switch (switch): Turn a setting on or off with an effect that applies at once, with no save step.
+
+## input.text: Enter or edit free text.
+
+- Input (input): Enter or edit one line of text, optionally with a prefix, a suffix or attached add-on segments.
+- OtpInput (otp-input): Enter a short verification code one character per cell; pasting fills every cell.
+- TagInput (tag-input): Enter a list of short free values as removable tags, such as keywords or email addresses.
+- Textarea (textarea): Enter free text longer than one line, optionally with a footer of actions and a submit button.
+
+## input.number: Enter or scrub a number, a dimension or an angle.
+
+- AngleDial (angle-dial): Set a direction or rotation by dragging a needle around a small dial, next to an angle field.
+- NumberField (number-field): The value field for numbers: scrub the label, step with arrows, commit on Enter, with mixed, locked and invalid states.
+- Slider (slider): Set a number on a range by dragging, or step through a few named levels.
+
+## input.pick: Choose a value from a list or menu that is not all visible at once.
+
+- Combobox (combobox): Choose from a long list by typing to filter it, inline in a form or from a compact trigger.
+- PickerTrigger (picker-trigger): A field-looking button that shows the current value and opens a picker, menu or popover.
+- Select (select): Choose one value from a short list, about seven options or fewer, from a field that opens a listbox.
+
+## input.date: Choose a date or a range.
+
+- Calendar (calendar): Pick a date or a date range on a month grid that is shown open, with quick-pick shortcuts.
+- DatePicker (date-picker): Choose a date or a date range in a form, from a field that opens a calendar panel.
+
+## input.color: Choose or edit a colour, a gradient or a paint.
+
+- ChannelSlider (channel-slider): Edit a colour channel by channel in OKLCH, HSL or hex, each track painting the real range of its channel.
+- ColorPicker (color-picker): Pick one paint in a popover: a saturation and brightness plane, hue and alpha, eyedropper, hex fields and page swatches.
+- ColorWell (color-well): A swatch of the current paint: flat colour, gradient or translucent colour, with a mixed look for multi-selections.
+- GradientEditor (gradient-editor): Edit a gradient on its preview: drag handles and stops, switch linear, radial or angular, set the angle, tune each stop.
+- HexInput (hex-input): Edit a colour as hex digits in an uppercase mono field, with token-bound, mixed and invalid looks.
+- PaintWell (paint-well): One solid paint in a row: a colour swatch, its hex digits and alpha, with token-bound, mixed and invalid looks.
+
+## input.file: Add files or images.
+
+- FileUpload (file-upload): Collect files through a drop zone and list each one with its upload progress, completion or failure.
+- ImportPanel (import-panel): Bring outside design into the canvas: pick a source, say where it comes from, set capture options, then preview it.
+
+## display.status: Show a short state, label, count or tag.
+
+- Badge (badge): A small read-only label for a status, a count, a design token name or a contrast result.
+- Kbd (kbd): Show a keyboard key or shortcut chord inline with text, menus or tooltips.
+
+## display.identity: Show who: a person, an agent, a team.
+
+- Avatar (avatar): Show who someone is with an identity colour and initials, or mark the agent with its spectrum core.
+
+## display.metric: Show a number that matters, with its trend or context.
+
+- CardStat (card-stat): Show one KPI: a label, a large value, a coloured change with a note and an optional sparkline.
+- ContextAnalytics (context-analytics): Show how much of the model context window a session uses, per round and by what fills it.
+
+## display.data: Show structured data: tables, token values, graphs, diffs.
+
+- ListDescription (list-description): Show facts about one object as label and value pairs, with an optional copy button.
+- Table (table): A data table with sortable columns, row selection, row actions, a toolbar and a pager.
+
+## display.token: Show a design token: its value, alias chain, swatch or dependency graph.
+
+- AliasChain (alias-chain): Show how a design token resolves, step by step, down to the primitive it reads from.
+- ColorTile (color-tile): Show a colour token as a swatch with its value and its contrast against white and black.
+- TokenGraph (token-graph): A three-tier dependency graph of design tokens that traces any node upstream and downstream.
+
+## display.change: Show what changed: diffs, before and after, revisions and checkpoints.
+
+- ChangeDetail (change-detail): List the changes in one revision: modified, added or deleted, on which layer or property, with the old and new values.
+- CodeDiff (code-diff): Let a person review code the agent wrote as a unified diff with line numbers and Accept or Reject.
+- CompareView (compare-view): Compare two renderings of the same design with a draggable split or an adjustable overlay.
+- TokenDiff (token-diff): A compact before and after list of token changes: the name, the old value and the new value.
+
+## feedback.inline: A message about the current context that stays on the page.
+
+- Alert (alert): A message about the current context that stays on the page, inline in a card or form or across a whole page.
+
+## feedback.transient: A short confirmation or error that comes and goes.
+
+- Toast (toast): A short confirmation or error that floats in at the bottom end of the screen and leaves on its own.
+
+## feedback.progress: Show that something is loading, running or partly done.
+
+- Progress (progress): Show that work is loading or running and, when known, how far it has gone: a bar or a small ring.
+- Skeleton (skeleton): Hold the place of loading content with a soft shimmering block of the same shape.
+
+## feedback.empty: What a region shows when it has nothing yet, with the way forward.
+
+- EmptyState (empty-state): What a region shows when it has nothing yet or no results: why it is empty and what to do next.
+
+## feedback.findings: Results of a check (contrast, policy, lint) with their severity and the fix.
+
+- ContrastInsight (contrast-insight): Explain the contrast of a selected element: the ratio, WCAG levels met, a sample, and a fix suggestion when it falls short.
+- PolicyFindings (policy-findings): The result of a policy or lint check: counts of errors, warnings and passes, then one row per finding with its action.
+
+## navigation.global: Move between the main areas of the app; the app frame and its bars.
+
+- AppShell (app-shell): The app window frame: a titlebar, start and end panels, the main stage and a floating overlay layer.
+
+## navigation.local: Move between views, pages or sections inside one area.
+
+- Breadcrumb (breadcrumb): Show where the current page sits in a hierarchy, with links back up to its ancestors.
+- FoundationToolbar (foundation-toolbar): The dock of a token workspace: switch families of views, pick a domain and reach add and host actions.
+- ListNavigation (list-navigation): A sidebar column of nav items, canvas pages or agent sessions, with groups, counts and nesting.
+- Pagination (pagination): Move between pages of a long result, with page numbers or a compact range and arrows.
+- Tabs (tabs): Switch between sibling panels of content under the same heading.
+
+## navigation.steps: Show and move through the steps of a sequence.
+
+- Stepper (stepper): Show progress through a sequence of steps, or the live checklist of what the agent will do.
+
+## overlay.modal: Take over the screen for a focused task or a decision.
+
+- Dialog (dialog): Ask for a decision, a short input or a form on top of the page, or hold a secondary task at an edge.
+- Sheet (sheet): A panel that slides in at the right or bottom edge for settings, filters or a short sharing flow.
+
+## overlay.anchored: Interactive surfaces that open next to a trigger: menus, popovers, pickers.
+
+- Menu (menu): A floating list of actions and choices opened from a button, with icons, shortcuts and groups.
+- Popover (popover): A small panel anchored to an element: compact controls on press, or a read-only preview on hover.
+
+## overlay.hint: Read-only help that appears next to a trigger: tooltips and hints.
+
+- Tooltip (tooltip): Name an icon-only control and show its keyboard shortcut on hover or focus.
+
+## layout.container: Group content into a surface: cards, panels, collapsible sections, scroll areas.
+
+- Accordion (accordion): Fold a long page, FAQ or settings group into titled sections that open in place.
+- Card (card): Group related content into one surface: a static card, a whole-card link or a whole-card choice.
+- ScrollArea (scroll-area): A scroll container with a thin themed scrollbar and an optional edge fade, keeping native scrolling.
+- SidePanel (side-panel): The frame of a side region: a header, a scrolling body and a footer, with resize and collapse.
+
+## layout.structure: Arrange a page or a form: regions, headers, separators, resize handles.
+
+- ResizeHandle (resize-handle): A draggable, keyboard-operable divider that sets the size of the panel next to it.
+- SectionHeader (section-header): Open a page, section or grouped list with a title, one sentence of description and one action.
+- Separator (separator): A thin rule that divides rows, toolbar groups or inline items, optionally with a centred label.
+
+## layout.form: Label, describe and arrange form controls: fields, form layouts.
+
+- Field (field): Wrap a form control with its label, hint, error or success message, required mark and character count.
+- FormLayout (form-layout): Lay out a settings page: a header, titled sections with fields beside them and a save footer.
+
+## collection.list: A list of items that can be scanned, selected or reordered.
+
+- List (list): Rows in a rounded container for settings, people, media or collections, with selection, reorder and row actions.
+- ReadingOrder (reading-order): Show and reorder the order a screen reader reads the elements of a frame, flagging items read out of visual order.
+- StackRow (stack-row): One line of a paint or effect stack: a swatch or icon, a name and detail, an optional opacity field, show and remove.
+
+## collection.tree: A nested hierarchy: layers, files, activity.
+
+- LayerTree (layer-tree): The layers panel: a keyboard tree of canvas objects with selection, visibility, lock and drag to reorder.
+
+## property.editor: Edit one property of a selected object (inspector controls).
+
+- AlignmentPad (alignment-pad): Pick where children sit inside an auto-layout frame on a 3×3 grid; the chosen cell also shows the flow direction.
+- ConstraintsControl (constraints-control): Pin a frame to its parent with a box of pins and two matching selects, plus a note on what resizing will do.
+- CornerRadius (corner-radius): Edit the corner radius of a shape: one value, corner smoothing, and four independent corners behind a toggle.
+- EasingCurve (easing-curve): Edit a cubic-bezier easing by dragging handles on a graph, with presets, a motion preview, the CSS value and duration.
+- EffectEditor (effect-editor): Edit one shadow or blur effect with a live preview card, X, Y, blur, spread and the shadow colour.
+- ExpressionEditor (expression-editor): Edit a token value built from references to other tokens, one binding row per reference, with a raw expression fallback.
+- FontOptions (font-options): Tune a font's variable axes and OpenType features, with a live sample set in the current face.
+- GridTracks (grid-tracks): Edit the columns or rows of a grid layout: one row per track with a size and unit (fr, px, Auto), plus add and remove.
+- ImageFill (image-fill): Edit an image paint: a preview of how the image sits in its shape, the fit mode, crop, replace and the file facts.
+- InspectorBindings (inspector-bindings): Show and edit which design tokens the selected properties are bound to, with unbind, a mixed state and a bind row.
+- MotionTimeline (motion-timeline): A keyframe timeline: a ruler in seconds, one lane per animated layer or property, a playhead and a player bar.
+- PositionSize (position-size): The geometry block of an inspector: X and Y, width and height with Fixed, Hug or Fill, ratio lock, rotation and flips.
+- StrokeEditor (stroke-editor): Edit a stroke: its paint, weight and position, dash pattern and line cap, and independent widths per side.
+- TextProperties (text-properties): The text section of an inspector: weight and size, line height, letter spacing, alignment, resizing and case.
+
+## property.panel: Hold and organise many property editors (inspector sections and stacks).
+
+- AutoLayout (auto-layout): The auto-layout section of an inspector: flow, alignment, gap, distribution, wrap, padding, clip and grid tracks of a frame.
+- ExportControls (export-controls): Export the selection: pick a format and a scale, then copy or export, with a line that reports the last result.
+- InspectorPanel (inspector-panel): The opaque frame of an inspector: a stack of sections, each with a caption heading, optional actions and its controls.
+- PropertyStack (property-stack): A stack of fills or effects on a layer: paints with opacity and visibility, or effects to pick for editing.
+
+## agent.conversation: The exchange with an agent: messages, the composer, thinking, tool calls.
+
+- Composer (composer): The box where a person writes to the agent, with context chips, attach, model, context usage and send or stop.
+- Message (message): One turn of the agent conversation: the person in a bubble, the agent in prose with a meta row to copy or retry.
+- Thinking (thinking): Show the agent reasoning as a collapsible aside that shimmers while the agent is still thinking.
+- ToolCall (tool-call): One tool the agent ran, shown in the transcript as running, done with its time, or failed with a reason.
+
+## agent.plan: What an agent intends or did: plans, timelines, activity, checkpoints.
+
+- ActivityTree (activity-tree): Show an agent run as its plan steps with each tool call nested under the step that made it.
+- CodeRealization (code-realization): Follow the agent turning a design into code: phase progress, the files it will write, what it could not do, and the download.
+- Plan (plan): The live checklist of what the agent will do, with a title and an "N of M" count.
+- Timeline (timeline): A newest-first history on one spine: checkpoints to restore, a revision to pick, or a feed of who did what.
+
+## agent.request: An agent asking for approval or a decision before it continues.
+
+- AgentRequest (agent-request): Let the agent ask the person to decide inline: build a proposed plan, review a batch of changes, or allow an action.
+
+## agent.suggestion: An agent offering next steps or prompts the person can pick.
+
+- Suggestions (suggestions): Offer a row of quick prompts, each a card with an icon, a short action and a hint, that run when pressed.
+
+## agent.presence: Where an agent is working on the canvas or the page.
+
+- AgentCursor (agent-cursor): Show where the agent is acting on the canvas with a pointer and its name tag.
+- AgentWorkArea (agent-work-area): Mark the object on the canvas the agent is working on with a spectrum rim and a scanning band.
+
+## canvas.surface: The design surface and its frames.
+
+- CanvasArtboard (canvas-artboard): The sheet of a frame on the canvas that holds the design being made.
+
+## canvas.annotation: Marks drawn over the canvas: selection, guides, rulers, comments, labels, hints.
+
+- CanvasComment (canvas-comment): A comment pinned to a spot on the canvas, by a person or the agent, that opens into a speech bubble.
+- CanvasGuide (canvas-guide): Alignment aids over the canvas: smart and user guides, distance measurements and snap marks.
+- CanvasHint (canvas-hint): Show which modifier keys change a canvas gesture while it is running, at the bottom of the canvas.
+- CanvasRuler (canvas-ruler): The measuring strips along the top and left of the canvas, with the range of the current selection.
+- CanvasSelection (canvas-selection): The rects a person puts on the canvas: selection with handles, hover ring, marquee and shape being drawn.
+- FrameLabel (frame-label): Write a frame name and its dimensions just above the frame on the canvas.
+
+## canvas.control: Controls floating over the canvas: zoom, floating bars.
+
+- FloatingBar (floating-bar): A glass capsule toolbar floating over the canvas: tools, toggles and an optional agent action.
+- ZoomControl (zoom-control): Zoom out, the current zoom level and zoom in, as one capsule for the canvas, a floating bar or the titlebar.

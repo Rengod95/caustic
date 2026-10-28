@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { House, Menu, Palette, Search, X } from 'lucide-react';
+import { House, Menu, Palette, Search, Terminal, X } from 'lucide-react';
 import { IconButton, Input, ListNavigation, ListNavigationGroup, ListNavigationItem } from '@caustic/react';
 import { componentGroups, foundationPages, specs, componentIds } from './data.ts';
 import { hrefFor, type Route } from './router.ts';
@@ -8,6 +8,7 @@ import { labPages, showcasePages } from './showcase/index.tsx';
 
 const isCurrent = (route: Route, key: string) =>
   (route.page === 'home' && key === 'home') ||
+  (route.page === 'agents' && key === 'agents') ||
   (route.page === 'showcase' && key === `s:${route.slug}`) ||
   (route.page === 'foundation' && key === `f:${route.slug}`) ||
   (route.page === 'component' && key === `c:${route.id}`);
@@ -23,6 +24,7 @@ function Nav({ route, query }: { route: Route; query: string }) {
       {!q ? (
         <ListNavigationGroup>
           <ListNavigationItem icon={<House />} href={hrefFor.home} current={isCurrent(route, 'home')}>Introduction</ListNavigationItem>
+          <ListNavigationItem icon={<Terminal />} href={hrefFor.agents} current={isCurrent(route, 'agents')}>For agents</ListNavigationItem>
         </ListNavigationGroup>
       ) : null}
       {!q ? (

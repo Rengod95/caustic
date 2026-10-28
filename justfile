@@ -35,6 +35,7 @@ verify:
 [private]
 _verify-steps: setup typecheck
     pnpm tokens:check
+    pnpm catalog:check
     pnpm gate:all --no-specimens --changed --shards=1
 
 # 생성 파일 갱신: 토큰 빌드(dist)와 레지스트리(index, fixtures, specs index)
@@ -52,6 +53,17 @@ gate *ids:
 [group('local')]
 gate-all:
     pnpm gate:all
+
+# 에이전트 카탈로그 생성: packages/catalog/dist (catalog.json, llms.txt). 검사만은 pnpm catalog:check
+[group('local')]
+catalog:
+    pnpm catalog
+
+# caustic CLI를 저장소에서 실행(빌드 없이 tsx): just caustic find "pick one"
+[group('local')]
+[positional-arguments]
+caustic *args:
+    pnpm -s caustic "$@"
 
 # 문서 사이트 개발 서버 (apps/docs, port 5180)
 [group('local')]

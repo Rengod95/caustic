@@ -3,3 +3,7 @@ dist-docs/
 packages/gateway/reports/
 packages/gateway/.harness-cache/
 *.log
+# release builds (pnpm --filter @caustic/catalog --filter @caustic/cli build); catalog.json and llms.txt stay committed
+packages/catalog/dist/lib/
+packages/cli/dist/
+packages/cli/skills/

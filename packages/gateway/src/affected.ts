@@ -3,7 +3,8 @@
 // import from its folder, fixtures included; transitively) is affected too. The generated registries (index, fixtures,
 // locks, gated) name ids on their changed lines. Shared code (tokens, lib, hooks, styles, the spec schema, the gateway,
 // dependencies) can reach any component, so it returns 'all', and so does a base git cannot resolve or a HEAD that is
-// the base itself (main in CI: nothing to compare against). Docs and scripts do not change gate results.
+// the base itself (main in CI: nothing to compare against). Docs, scripts, the agent catalog, the CLI and the skill do not
+// change gate results.
 import { execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -19,7 +20,7 @@ const OWN = [
 const REGISTRIES = [
   /^packages\/react\/src\/(index|fixtures)\.ts$/, /^packages\/spec\/src\/specs\/index\.ts$/, /^packages\/spec\/(locks|gated)\.json$/,
 ];
-const IGNORED = [/^apps\//, /^scripts\//, /^[^/]+\.md$/, /^justfile$/, /^lefthook\.yml$/, /^\.[^/]+$/, /^packages\/gateway\/reports\//];
+const IGNORED = [/^apps\//, /^scripts\//, /^[^/]+\.md$/, /^justfile$/, /^lefthook\.yml$/, /^\.[^/]+$/, /^packages\/gateway\/reports\//, /^packages\/(catalog|cli)\//, /^skills\//];
 
 const git = (...args: string[]) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).split('\n').filter(Boolean);
 const tryGit = (...args: string[]) => { try { return git(...args); } catch { return null; } };

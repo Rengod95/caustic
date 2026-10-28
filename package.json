@@ -16,7 +16,11 @@
     "docs:build": "vite build --config apps/docs/vite.config.ts",
     "gate:selftest": "tsx packages/gateway/src/selftest.ts",
     "gate:status": "tsx packages/gateway/src/status.ts",
-    "gate:all": "tsx packages/gateway/src/gate-all.ts"
+    "gate:all": "tsx packages/gateway/src/gate-all.ts",
+    "catalog": "tsx packages/catalog/src/build.ts",
+    "catalog:check": "tsx packages/catalog/src/build.ts --check",
+    "caustic": "tsx packages/cli/src/bin.ts",
+    "test:check": "tsx --test packages/cli/tests/check/check.test.ts"
   },
   "devDependencies": {
     "@tailwindcss/node": "4.3.3",
