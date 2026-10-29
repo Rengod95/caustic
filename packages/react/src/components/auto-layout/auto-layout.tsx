@@ -5,6 +5,7 @@ import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { AlignmentPad, type AlignmentCellLabels, type AlignmentPosition } from '../alignment-pad/alignment-pad.tsx';
 import { GridTracks, type TrackList } from '../grid-tracks/grid-tracks.tsx';
 import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
@@ -349,6 +350,9 @@ function LayoutChoice<T extends string>({ label, options, value, mixed, mixedLab
   const listId = useId();
   const text = mixed ? mixedLabel : options.find(([v]) => v === value)?.[1] ?? '';
   const isOpen = open && !reserved;
+  // The list stays mounted while it exits (data-state closed, inert), then leaves the DOM.
+  const presence = usePresence(isOpen ? [listId] : [], id => id);
+  const list = presence.entries[0];
   const blur = (e: FocusEvent<HTMLDivElement>) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); };
   // Escape closes; ArrowUp / ArrowDown move between the options of the open list (the listbox pattern).
   const key = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -371,8 +375,13 @@ function LayoutChoice<T extends string>({ label, options, value, mixed, mixedLab
       >
         {text}
       </PickerTrigger>
-      {isOpen && (
-        <div id={listId} data-slot="auto-layout-listbox" role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2 animate-enter enter-scale origin-top">
+      {list && (
+        <div
+          id={listId} data-slot="auto-layout-listbox" role="listbox" aria-label={label}
+          data-state={list.present ? 'open' : 'closed'} inert={!list.present || undefined} aria-hidden={!list.present || undefined}
+          onAnimationEnd={e => { if (!list.present && e.target === e.currentTarget) presence.exited(list.key); }}
+          className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2 data-[state=open]:animate-enter data-[state=closed]:animate-exit data-[state=closed]:pointer-events-none enter-scale origin-top"
+        >
           {options.map(([v, name]) => (
             <button
               key={v}

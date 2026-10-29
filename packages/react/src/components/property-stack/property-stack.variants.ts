@@ -86,3 +86,16 @@ export const propertyStackTitleVariants = cva('text-caption uppercase text-text-
  *  tokens so the name, meta and actions invert with it), and the icon tile drops its track fill so it does not sit as a
  *  pale square on the ink. Owner 2026-10-27: the preview filled the row in the text colour; the text must invert. */
 export const propertyStackRowSelectedVariants = cva('selected hover:bg-selection-fill-hover [&_[data-slot=stack-row-icon]]:bg-transparent');
+
+/** A row added after the first render rises once (enter); the rows present at mount stay still. A removed row plays its exit and
+ *  takes no pointer while it leaves (leaving). */
+export const propertyStackRowMotionVariants = cva('', {
+  variants: {
+    enter: { true: 'animate-rise', false: '' },
+    leaving: { true: 'animate-exit pointer-events-none [--cs-enter-x:0] [--cs-enter-y:0] [--cs-enter-scale:1]', false: '' },
+  },
+  defaultVariants: { enter: false, leaving: false },
+});
+
+/** The open inline editor under its row: a grid, 8px gap. It mounts when it opens and rises once (a keyboard open is instant). */
+export const propertyStackDetailVariants = cva('grid gap-2', { variants: { enter: { true: 'animate-rise', false: '' } }, defaultVariants: { enter: false } });

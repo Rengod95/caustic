@@ -1,9 +1,10 @@
 'use client';
 import { ArrowUp, ChevronDown, Plus } from 'lucide-react';
-import { useRef, type ComponentProps, type FormEvent, type KeyboardEvent, type MouseEvent, type ReactNode, type Ref } from 'react';
+import { Children, isValidElement, useRef, useState, type ComponentProps, type FormEvent, type KeyboardEvent, type MouseEvent, type ReactNode, type Ref } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, type CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFlip } from '../../hooks/use-flip.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import {
@@ -82,6 +83,12 @@ export function Composer({
   const [text, setText] = useControllableState({ value, defaultValue, onChange: onValueChange });
   const [currentMode, setMode] = useControllableState({ value: mode, defaultValue: defaultMode ?? '', onChange: onModeChange });
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  // Context rows are keyed by their element key (index when unkeyed). Rows added after mount rise in; the rest glide to their new place.
+  const contextRef = useRef<HTMLDivElement>(null);
+  const contextRows = Children.toArray(context);
+  const rowKey = (child: ReactNode, i: number) => (isValidElement(child) && child.key !== null ? String(child.key) : String(i));
+  const [initialKeys] = useState(() => new Set(contextRows.map(rowKey)));
+  useFlip(contextRef, '[data-slot=composer-context-row]', 'contextRow');
 
   const submit = () => {
     const trimmed = text.trim();
@@ -115,7 +122,14 @@ export function Composer({
       className={cn(composerVariants({ variant, shadow, size }), radius && radius !== '2xl' && radiusClass[radius], className)}
       onSubmit={handleSubmit} onClick={handleClick} {...props}
     >
-      {context != null && <div data-slot="composer-context" inert={disabled || undefined} className={composerContextVariants()}>{context}</div>}
+      {context != null && (
+        <div ref={contextRef} data-slot="composer-context" inert={disabled || undefined} className={composerContextVariants()}>
+          {contextRows.map((child, i) => {
+            const key = rowKey(child, i);
+            return <div key={key} data-slot="composer-context-row" data-context-row={key} className={cn('inline-flex', !initialKeys.has(key) && 'animate-rise')}>{child}</div>;
+          })}
+        </div>
+      )}
       <textarea
         ref={setInput} data-slot="composer-input" aria-label={inputLabel} rows={rows} maxLength={maxLength} placeholder={placeholder}
         value={text} disabled={disabled} className={composerInputVariants({ inputSize: size })}
@@ -135,7 +149,7 @@ export function Composer({
         {usage !== undefined && (
           <svg data-slot="composer-usage" data-level={usageTone === 'danger' || usageTone === 'warning' ? usageTone : undefined} role="img" aria-label={usageLabel?.(Math.round(pct))} viewBox="0 0 22 22" className={composerUsageVariants({ usageTone })}>
             <circle cx="11" cy="11" r="8" className="stroke-neutral-track" />
-            <circle cx="11" cy="11" r="8" transform="rotate(-90 11 11)" strokeLinecap="round" strokeDasharray={RING_C} strokeDashoffset={RING_C * (1 - pct / 100)} className="stroke-current" />
+            <circle cx="11" cy="11" r="8" transform="rotate(-90 11 11)" strokeLinecap="round" strokeDasharray={RING_C} strokeDashoffset={RING_C * (1 - pct / 100)} className="stroke-current transition-[stroke-dashoffset] duration-gentle ease-standard" />
           </svg>
         )}
         {/* One button for send and stop: the arrow and the stop square cross-fade in place (no layout shift, focus stays). */}

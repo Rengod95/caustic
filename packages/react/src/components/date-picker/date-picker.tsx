@@ -6,6 +6,7 @@ import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { formatValue, parseIso, type DateValue } from '../../lib/calendar-date.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { Calendar, type CalendarProps, type CalendarShortcut } from '../calendar/calendar.tsx';
 import { useFieldContext } from '../field/field-context.ts';
 import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
@@ -63,6 +64,9 @@ export function DatePicker({
   const [isOpen, setOpen] = useControllableState<boolean>({ value: open, defaultValue: defaultOpen ?? false, onChange: onOpenChange });
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  // Inline: the calendar stays mounted while it exits (data-state closed, inert), then leaves the DOM.
+  const presence = usePresence(inline && isOpen ? ['calendar'] : [], key => key);
+  const panel = presence.entries[0];
 
   const text = formatValue(val);
   const complete = (v: DateValue) => mode === 'single' || typeof v === 'string' || v.to !== undefined;
@@ -86,7 +90,7 @@ export function DatePicker({
       {text ? <>{text}{length != null && <span data-slot="date-picker-length" className={datePickerLengthVariants()}>{' · '}{length}</span>}</> : undefined}
     </PickerTrigger>
   );
-  const calendar = (extra: Partial<CalendarProps> = {}) => (
+  const calendar = (extra: Partial<CalendarProps> & { 'data-state'?: string } = {}) => (
     <Calendar mode={mode} value={val ?? undefined} today={today} shortcuts={shortcuts} onValueChange={choose} {...extra} />
   );
   const label = mode === 'single' ? 'Choose a date' : 'Choose dates';
@@ -103,7 +107,12 @@ export function DatePicker({
     return (
       <div data-slot="date-picker" className={cn(datePickerVariants({ size }), className)} onKeyDown={onRootKeyDown} {...props}>
         {trigger}
-        {isOpen && calendar({ role: 'dialog', 'aria-label': label })}
+        {panel && calendar({
+          role: 'dialog', 'aria-label': label,
+          className: 'data-[state=open]:animate-enter data-[state=closed]:animate-exit data-[state=closed]:pointer-events-none enter-scale origin-top',
+          'data-state': panel.present ? 'open' : 'closed', inert: !panel.present || undefined, 'aria-hidden': !panel.present || undefined,
+          onAnimationEnd: e => { if (!panel.present && e.target === e.currentTarget) presence.exited(panel.key); },
+        })}
         {hidden}
       </div>
     );

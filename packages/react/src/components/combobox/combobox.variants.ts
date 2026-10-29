@@ -90,7 +90,8 @@ export const comboboxEmptyVariants = cva('flex h-menu-item items-center px-2 tex
 export const comboboxPanelVariants = cva('flex min-w-0 flex-col', {
   variants: {
     width: { trigger: 'w-[var(--radix-popover-trigger-width)]', md: 'w-popover-md', lg: 'w-model-menu-w' },
-    inline: { true: 'max-w-full justify-self-center', false: 'z-60 max-h-(--radix-popover-content-available-height) overflow-y-auto' },
+    // In place the panel enters once it mounts (it is conditionally mounted, so it has no exit).
+    inline: { true: 'max-w-full justify-self-center animate-enter enter-scale origin-top', false: 'z-60 max-h-(--radix-popover-content-available-height) overflow-y-auto' },
   },
   defaultVariants: { width: 'md', inline: false },
 });
@@ -116,7 +117,7 @@ export const comboboxFooterVariants = cva('mt-0.5 grid gap-0.5');
  */
 export const comboboxRowVariants = cva([
   'flex min-h-menu-item w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg px-2 text-left text-ui text-text-tertiary outline-none',
-  'hover:bg-neutral-hover focus-visible:bg-neutral-hover focus-visible:shadow-focus',
+  'hover:bg-neutral-hover focus-visible:bg-neutral-hover focus-visible:shadow-focus transition-control press',
 ]);
 
 /**

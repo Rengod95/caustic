@@ -1,5 +1,6 @@
 /* Caustic foundation 1.0.0 — tokens. Generated; edit foundation/tokens.mjs. */
 @property --cs-spin { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
+@property --cs-progress { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
 
 :root {
   color-scheme: light;

@@ -40,14 +40,20 @@ export const activityTreeVariants = cva('grid gap-3.5', {
 });
 
 
-/** List rows: glyph column, text, auto meta column. */
-export const activityStepVariants = cva('grid animate-rise grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 text-text-primary', {
-  variants: { size: { xs: 'min-h-6 text-ui-xs', sm: 'min-h-6 text-ui-sm', md: 'min-h-7 text-ui-dense', lg: 'min-h-8 text-ui' } },
-  defaultVariants: { size: 'md' },
+/** List rows: glyph column, text, auto meta column. rise: a row that appears after the first paint rises in (see ActivityTree). */
+export const activityStepVariants = cva('grid grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 text-text-primary', {
+  variants: {
+    rise: { true: 'animate-rise', false: '' },
+    size: { xs: 'min-h-6 text-ui-xs', sm: 'min-h-6 text-ui-sm', md: 'min-h-7 text-ui-dense', lg: 'min-h-8 text-ui' },
+  },
+  defaultVariants: { rise: true, size: 'md' },
 });
-export const activityCallVariants = cva('grid animate-rise grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 pl-check text-text-secondary', {
-  variants: { size: { xs: 'min-h-6 text-ui-xs', sm: 'min-h-6 text-ui-sm', md: 'min-h-7 text-ui-dense', lg: 'min-h-8 text-ui' } },
-  defaultVariants: { size: 'md' },
+export const activityCallVariants = cva('grid grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 pl-check text-text-secondary', {
+  variants: {
+    rise: { true: 'animate-rise', false: '' },
+    size: { xs: 'min-h-6 text-ui-xs', sm: 'min-h-6 text-ui-sm', md: 'min-h-7 text-ui-dense', lg: 'min-h-8 text-ui' },
+  },
+  defaultVariants: { rise: true, size: 'md' },
 });
 /** Step label: a finished step steps back to secondary, the running one stays primary in medium weight (owner B). */
 export const activityLabelVariants = cva('', {
@@ -71,5 +77,5 @@ export const activityCallGlyphVariants = cva('grid size-icon-md place-items-cent
   defaultVariants: { tone: 'neutral', failed: false },
 });
 
-export const activityOrbVariants = cva('mx-0.5 orb orb-sm motion-reduce:animate-none');
+export const activityOrbVariants = cva('mx-0.5 orb orb-sm');
 export const activityWorkerOrbVariants = cva('orb orb-dot animate-none');

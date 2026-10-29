@@ -6,6 +6,7 @@ import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { defined } from '../../lib/defined.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { popoverArrow, popoverVariants, type PopoverVariantProps } from './popover.variants.ts';
 
 type Side = 'top' | 'bottom' | 'left' | 'right';
@@ -43,6 +44,9 @@ export function Popover({ trigger = 'click', size, tone, variant, radius, shadow
   const [titled, setTitled] = useState(false);
   const ctx: TitleCtx = { id, register: setTitled };
   const [shown, setShown] = useControllableState<boolean>({ value: open, defaultValue: defaultOpen ?? true, onChange: onOpenChange });
+  // Inline: the panel stays mounted while it exits (data-state closed, inert), then leaves the DOM.
+  const presence = usePresence(inline && shown ? ['popover'] : [], key => key);
+  const entry = presence.entries[0];
   // A ghost panel sits flat: unless a shadow is given, the elevation drops with the variant.
   const classes = cn(popoverVariants({ trigger, size, tone, variant, radius, shadow: shadow ?? (variant === 'ghost' ? 'none' : undefined) }), className);
   const content = (
@@ -58,7 +62,16 @@ export function Popover({ trigger = 'click', size, tone, variant, radius, shadow
     return (
       <>
         {anchor}
-        {shown && <div data-slot="popover" role="dialog" tabIndex={-1} data-side={side} data-align={align} data-state="open" {...common} onKeyDown={keys}>{content}</div>}
+        {entry && (
+          <div
+            data-slot="popover" role="dialog" tabIndex={-1} data-side={side} data-align={align}
+            data-state={entry.present ? 'open' : 'closed'} inert={!entry.present || undefined} aria-hidden={!entry.present || undefined}
+            {...common}
+            className={cn(classes, 'data-[state=closed]:pointer-events-none')}
+            onAnimationEnd={e => { props.onAnimationEnd?.(e); if (!entry.present && e.target === e.currentTarget) presence.exited(entry.key); }}
+            onKeyDown={keys}
+          >{content}</div>
+        )}
       </>
     );
   }

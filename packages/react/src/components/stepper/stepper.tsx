@@ -120,7 +120,7 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
           {steps.map((step, i) => {
             const s = status[i]!;
             return (
-              <li key={step.id ?? i} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} className={cn(stepperChecklistItem({ status: s, size }))}>
+              <li key={step.id ?? i} data-step-id={step.id} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} className={cn(stepperChecklistItem({ status: s, size }))}>
                 <span data-slot="stepper-indicator" data-status={s} aria-hidden className={stepperChecklistIndicator({ status: s })}>
                   {s === 'done' && <Check className="animate-pop" />}
                   {s === 'current' && <span data-slot="stepper-orb" className={stepperChecklistMark({ tone })} />}

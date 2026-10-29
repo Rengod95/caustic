@@ -1,6 +1,6 @@
 'use client';
-import { Copy, RotateCcw } from 'lucide-react';
-import type { ComponentProps, ReactNode } from 'react';
+import { Check, Copy, RotateCcw } from 'lucide-react';
+import { useEffect, useState, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
@@ -23,8 +23,17 @@ export interface MessageProps extends Omit<ComponentProps<'div'>, 'children'>, O
   children: ReactNode;
 }
 
+/** How long the copied check stays before the copy icon returns (feedback, not a motion token). */
+const COPIED_FOR_MS = 1500;
+
 /** One turn of the transcript: a grey bubble for a person, serif prose with a meta row for the agent. */
 export function Message({ author, tone, variant, radius, shadow, size, streaming = false, meta, onCopy, onRetry, copyLabel, retryLabel, className, children, ...props }: MessageProps) {
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (!copied) return;
+    const timer = window.setTimeout(() => setCopied(false), COPIED_FOR_MS);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
   const a = author ?? 'agent';
   const busy = streaming ? true : undefined;
   // Unset variant keeps each voice's own look: the user bubble is soft, the agent prose has no panel (ghost).
@@ -38,11 +47,15 @@ export function Message({ author, tone, variant, radius, shadow, size, streaming
       <div data-slot="message-body" className={messageBodyVariants({ size })}>{children}</div>
       {hasMeta && (
         <div data-slot="message-meta" className="flex items-center gap-1.5 text-hint tracking-[var(--cs-text-voice-tracking)] text-text-tertiary">
-          <span data-slot="message-orb" aria-hidden className={messageOrbVariants({ author: 'agent' })} />
+          <span data-slot="message-orb" aria-hidden className={messageOrbVariants({ author: 'agent', streaming })} />
           {meta != null && <span data-slot="message-summary">{meta}</span>}
           {(onCopy !== undefined || onRetry !== undefined) && (
             <span data-slot="message-actions" className={messageActionsVariants()}>
-              {onCopy !== undefined && <IconButton data-slot="message-copy" size="xs" label={copyLabel ?? ''} onClick={() => onCopy()}><Copy /></IconButton>}
+              {onCopy !== undefined && (
+                <IconButton data-slot="message-copy" size="xs" label={copyLabel ?? ''} onClick={() => { onCopy(); setCopied(true); }}>
+                  {copied ? <Check className="animate-pop" /> : <Copy />}
+                </IconButton>
+              )}
               {onRetry !== undefined && <IconButton data-slot="message-retry" size="xs" label={retryLabel ?? ''} onClick={() => onRetry()}><RotateCcw /></IconButton>}
             </span>
           )}

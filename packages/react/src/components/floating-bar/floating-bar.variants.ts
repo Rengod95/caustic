@@ -104,7 +104,7 @@ export const floatingBarIconVariants = cva('inline-grid place-items-center [&_sv
 
 // The shortcut hint shows only on demand (owner 2026-10-27, A): hover or keyboard focus on its item. It stays in the aria-label.
 export const floatingBarShortcutVariants = cva(
-  'pointer-events-none absolute right-0.75 bottom-0.5 font-mono text-mono-micro transition-opacity duration-quick ease-out opacity-0 group-hover/item:opacity-100 group-focus-visible/item:opacity-100',
+  'pointer-events-none absolute right-0.75 bottom-0.5 font-mono text-mono-micro transition-control opacity-0 group-hover/item:opacity-100 group-focus-visible/item:opacity-100',
   {
     variants: { disabled: { true: 'text-disabled-text', false: 'text-text-tertiary' } },
     defaultVariants: { disabled: false },

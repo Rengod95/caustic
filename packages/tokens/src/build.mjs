@@ -356,6 +356,7 @@ const SURFACE_RULE = Object.entries(UNDER).filter(([, classes]) => classes.lengt
 
 const css = `/* ${T.meta.name} foundation ${T.meta.version} — tokens. Generated; edit foundation/tokens.mjs. */
 @property --${P}-spin { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
+@property --${P}-progress { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
 
 :root {
   color-scheme: light;
@@ -609,12 +610,12 @@ ${fillDecls('selection.fill').join('\n')}
 }
 @utility press {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled]) { scale: var(--${P}-scale-press); }
+    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--${P}-scale-press); }
   }
 }
 @utility press-sm {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled]) { scale: var(--${P}-scale-press-sm); }
+    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--${P}-scale-press-sm); }
   }
 }
 @utility lift {
@@ -637,11 +638,11 @@ ${fillDecls('selection.fill').join('\n')}
 /* Collapse without a Radix height variable: the content stays mounted, the grid row opens. */
 @utility reveal {
   display: grid; grid-template-rows: 0fr;
-  transition-property: grid-template-rows, opacity;
+  transition-property: grid-template-rows, opacity, visibility;
   transition-duration: var(--${P}-duration-base);
   transition-timing-function: var(--${P}-ease-out);
-  opacity: 0;
-  &:is([data-state=open], [data-open=true]) { grid-template-rows: 1fr; opacity: 1; }
+  opacity: 0; visibility: hidden;
+  &:is([data-state=open], [data-open=true]) { grid-template-rows: 1fr; opacity: 1; visibility: visible; }
   & > * { min-height: 0; overflow: hidden; }
 }
 @utility spectrum-fill { background: var(--${P}-spectrum-conic); animation: cs-spin var(--${P}-duration-agent) linear infinite; }

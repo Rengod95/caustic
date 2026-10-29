@@ -1,6 +1,6 @@
 'use client';
 import { ArrowRight, ArrowRightToLine, Circle, CircleDot, CornerUpRight, Menu, Minus, Octagon, SlidersHorizontal, Square } from 'lucide-react';
-import { useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent } from 'react';
+import { useLayoutEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
@@ -133,6 +133,13 @@ const DEFAULT_STROKE: StrokeValue = {
 const flagged = (flags: boolean | StrokeEditorFlags | undefined, field: StrokeEditorField) => flags === true || (typeof flags === 'object' && flags[field] === true);
 const busy = (on: boolean) => (on ? { 'aria-busy': true as const, 'data-reserved': true as const } : {});
 
+/** The independent sides grid, mounted while the switch is on. It takes the enter decision once, at mount: a group that appears after
+ *  the first paint rises, one present at the first paint does not. */
+function SidesGroup({ enter, ...props }: ComponentProps<'div'> & { enter: boolean }) {
+  const [rise] = useState(enter);
+  return <div {...props} className={strokeEditorSidesVariants({ enter: rise })} />;
+}
+
 /** Edits a stroke: paint, weight, position, dash, cap and independent side widths. */
 export function StrokeEditor({
   value, defaultValue = DEFAULT_STROKE, disabled = false, commitMode = 'live', mixed, reserved, labels, onDraftChange, onPreviewChange, onValueChange, onDetailsClick,
@@ -142,6 +149,9 @@ export function StrokeEditor({
   const [patternText, setPatternText] = useState<string | null>(null);
   const [patternError, setPatternError] = useState<'empty' | 'syntax' | 'range' | null>(null);
   const typedPattern = useRef('');
+  // False until the first commit: the sides group that mounts later is an appearance, not part of the first paint.
+  const settled = useRef(false);
+  useLayoutEffect(() => { settled.current = true; });
   const [committed, setStroke] = useControllableState<StrokeValue>({ value, defaultValue, onChange: onValueChange });
   const [previewing, setPreviewing] = useState<StrokeValue | null>(null);
   const stroke = previewing ?? committed;
@@ -354,13 +364,13 @@ export function StrokeEditor({
           />
         </div>
         {stroke.independent ? (
-          <div data-slot="stroke-editor-sides" role="group" aria-label={labels.sidesGroup} className={strokeEditorSidesVariants()}>
+          <SidesGroup data-slot="stroke-editor-sides" role="group" aria-label={labels.sidesGroup} enter={settled.current}>
             {sideField('top', 't')}
             {sideField('left', 'l')}
             <span data-slot="stroke-editor-box" aria-hidden className={strokeEditorBoxVariants()} style={boxVars} />
             {sideField('right', 'r')}
             {sideField('bottom', 'b')}
-          </div>
+          </SidesGroup>
         ) : null}
       </div>
       {children}

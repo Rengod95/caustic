@@ -7,6 +7,7 @@ import {
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFlip } from '../../hooks/use-flip.ts';
 import { Badge } from '../badge/badge.tsx';
 import {
   readingOrderHandleVariants, readingOrderIndexVariants, readingOrderItemVariants, readingOrderLabelVariants, readingOrderRowVariants, readingOrderVariants,
@@ -81,8 +82,12 @@ export function ReadingOrder({ order, defaultOrder, onReorder, tone, variant, ra
   const [picked, setPicked] = useState<string | null>(null);
   const pickedRef = useRef<{ id: string; from: number; original: string[] } | null>(null);
   const [drag, setDrag] = useState<{ id: string; drop: Drop | null } | null>(null);
+  // The order a pointer drop committed. Only that order glides (useFlip); keyboard moves and drags stay instant.
+  const [dropped, setDropped] = useState<string[] | null>(null);
   const [message, setMessage] = useState('');
   const shown = preview ?? resolve(stored);
+  const flipOn = dropped !== null && picked === null && dropped.length === shown.length && dropped.every((id, i) => id === shown[i]);
+  useFlip(root, '[data-item-id]', 'itemId', flipOn);
   const byId = new Map(nodes.map(n => [n.props.itemId, n.props]));
   const label = (id: string) => text(byId.get(id)?.children, id);
   const pos = (list: string[], id: string) => `position ${list.indexOf(id) + 1} of ${list.length}`;
@@ -143,7 +148,8 @@ export function ReadingOrder({ order, defaultOrder, onReorder, tone, variant, ra
     if (pickedRef.current) return;
     const original = resolve(stored);
     pickedRef.current = { id, from: original.indexOf(id), original };
-    setPicked(id); setPreview(original);
+    // A keyboard pick-up ends any pointer drop's glide: its drop and cancel are instant.
+    setPicked(id); setPreview(original); setDropped(null);
     setMessage(`Picked up ${label(id)}, ${pos(original, id)}`);
   };
   // Losing focus while picked up cancels. The check is deferred because moving a row can blur it for a moment.
@@ -204,7 +210,9 @@ export function ReadingOrder({ order, defaultOrder, onReorder, tone, variant, ra
     const from = list.indexOf(p.id);
     const without = list.filter(x => x !== p.id);
     const at = without.indexOf(p.drop.id) + (p.drop.edge === 'below' ? 1 : 0);
-    commit(p.id, from, [...without.slice(0, at), p.id, ...without.slice(at)]);
+    const next = [...without.slice(0, at), p.id, ...without.slice(at)];
+    setDropped(next);
+    commit(p.id, from, next);
   };
   const cancelPointer = (e: PointerEvent<HTMLElement>) => {
     if (pointer.current?.pid !== e.pointerId) return;

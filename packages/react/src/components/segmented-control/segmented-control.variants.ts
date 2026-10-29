@@ -37,12 +37,15 @@ export const segmentedControlVariants = cva(
 
 export const segmentedItemVariants = cva(
   [
-    'inline-flex shrink-0 items-center gap-1.25 whitespace-nowrap font-ui font-medium text-text-secondary',
+    // relative: the sliding thumb sits under the segments (it comes first in the track).
+    'relative inline-flex shrink-0 items-center gap-1.25 whitespace-nowrap font-ui font-medium text-text-secondary',
     'transition-control press outline-none',
     'hover:text-text-primary focus-visible:shadow-focus',
     'data-[state=checked]:text-text-primary data-[state=checked]:focus-visible:shadow-focus',
     // Disabled is a colour, not opacity: the label takes disabled.text and a checked segment flattens to disabled.fill.
     'disabled:pointer-events-none disabled:text-disabled-text disabled:data-[state=checked]:bg-disabled-fill disabled:data-[state=checked]:text-disabled-text disabled:data-[state=checked]:shadow-none',
+    // While the thumb slides (data-moving on the track) the checked segment has no fill of its own and nothing transitions.
+    'group-data-[moving]/seg:transition-none group-data-[moving]/seg:data-[state=checked]:bg-transparent group-data-[moving]/seg:data-[state=checked]:shadow-none',
     '[&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
   ],
   {
@@ -85,6 +88,43 @@ export const segmentedItemVariants = cva(
       { variant: ['soft', 'outline', 'ghost'], tone: 'agent', className: 'data-[state=checked]:bg-agent-soft data-[state=checked]:text-agent-text' },
     ],
     defaultVariants: { variant: 'solid', tone: 'neutral', radius: 'xl', size: 'md', content: 'label', orientation: 'horizontal' },
+  },
+);
+
+/**
+ * The sliding thumb: the checked segment's fill, drawn once under the segments at the checked segment's box (--thumb-*
+ * from useIndicator). Invisible at rest, where the segment paints its own fill. While the track has data-moving it is
+ * opaque; when the move ends it stays opaque until the segment's fill is back (the opacity delay), so nothing flickers.
+ */
+export const segmentedThumbVariants = cva(
+  [
+    'pointer-events-none absolute top-0 left-0 h-(--thumb-h) w-(--thumb-w) translate-x-(--thumb-x) translate-y-(--thumb-y) rounded-(--thumb-r) opacity-0',
+    '[transition-property:translate,width,height,opacity] ease-snappy',
+    '[transition-duration:var(--cs-duration-snappy),var(--cs-duration-snappy),var(--cs-duration-snappy),var(--cs-duration-instant)]',
+    '[transition-delay:var(--cs-duration-instant),var(--cs-duration-instant),var(--cs-duration-instant),var(--cs-duration-quick)]',
+    'group-data-[moving]/seg:opacity-100 group-data-[moving]/seg:[transition-delay:var(--cs-duration-instant)]',
+    'group-has-[[role=radio][data-state=checked]:disabled]/seg:bg-disabled-fill group-has-[[role=radio][data-state=checked]:disabled]/seg:shadow-none',
+  ],
+  {
+    variants: {
+      variant: {
+        solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)]',
+        soft: '',
+        outline: '',
+        ghost: '',
+      },
+      tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
+    },
+    compoundVariants: [
+      { variant: ['soft', 'outline', 'ghost'], tone: 'neutral', className: 'bg-neutral-selected' },
+      { variant: ['soft', 'outline', 'ghost'], tone: 'accent', className: 'bg-accent-soft' },
+      { variant: ['soft', 'outline', 'ghost'], tone: 'success', className: 'bg-success-soft' },
+      { variant: ['soft', 'outline', 'ghost'], tone: 'warning', className: 'bg-warning-soft' },
+      { variant: ['soft', 'outline', 'ghost'], tone: 'danger', className: 'bg-danger-soft' },
+      { variant: ['soft', 'outline', 'ghost'], tone: 'info', className: 'bg-info-soft' },
+      { variant: ['soft', 'outline', 'ghost'], tone: 'agent', className: 'bg-agent-soft' },
+    ],
+    defaultVariants: { tone: 'neutral' },
   },
 );
 

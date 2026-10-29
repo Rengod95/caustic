@@ -164,7 +164,7 @@ export const chipIconVariants = cva('inline-flex shrink-0 [&_svg]:size-full [&_s
 });
 
 /** Leading check of an on toggle chip: sized like the icon, in the chip's own text colour (currentColor), 2px more room before the label (owner 2026-10-27). */
-export const chipCheckVariants = cva('me-0.5 inline-flex shrink-0 [&_svg]:size-full [&_svg]:stroke-[1.75]', {
+export const chipCheckVariants = cva('me-0.5 inline-flex shrink-0 animate-pop [&_svg]:size-full [&_svg]:stroke-[1.75]', {
   variants: { shape: { pill: 'size-icon-xs', rounded: 'size-chip-icon' } },
   defaultVariants: { shape: 'pill' },
 });

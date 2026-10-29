@@ -6,6 +6,7 @@ import { cn } from '../../lib/cn.ts';
 import { defined } from '../../lib/defined.ts';
 import type { CommonProps, Size } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { useRovingItems } from '../../hooks/use-roving-items.ts';
 import { menuHeadingVariants, menuItemVariants, menuSeparatorVariants, menuSurfaceVariants } from '../menu/menu.variants.ts';
 import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
@@ -70,6 +71,9 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
   const listId = useId();
   const surface = menuSurfaceVariants({ tone, variant, radius, shadow });
   const onKeyDown = useRovingItems({ selector: OPTIONS, onEscape: () => { setOpen(false); triggerRef.current?.focus(); }, onTab: () => setOpen(false) });
+  // Inline: the list stays mounted while it exits (data-state closed, inert), then leaves the DOM.
+  const presence = usePresence(inline && isOpen ? [listId] : [], id => id);
+  const list = presence.entries[0];
 
   if (!inline) {
     return (
@@ -107,11 +111,13 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
       >
         {label}
       </PickerTrigger>
-      {isOpen && (
+      {list && (
         <div
-          id={listId} role="listbox" tabIndex={-1} data-slot="select" data-state="open" data-inline=""
+          id={listId} role="listbox" tabIndex={-1} data-slot="select" data-state={list.present ? 'open' : 'closed'} data-inline=""
+          inert={!list.present || undefined} aria-hidden={!list.present || undefined}
+          onAnimationEnd={e => { if (!list.present && e.target === e.currentTarget) presence.exited(list.key); }}
           aria-label={typeof props['aria-label'] === 'string' ? props['aria-label'] : undefined}
-          className={cn(surface, listboxClassName)}
+          className={cn(surface, 'data-[state=closed]:pointer-events-none', listboxClassName)}
           onKeyDown={onKeyDown}
         >
           {children}

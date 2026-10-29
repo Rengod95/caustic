@@ -141,7 +141,7 @@ export function SidePanel({
       style={{ '--side-panel-w': customWidth } as CSSProperties}
       className={cn(
         sidePanelVariants({ side, variant, tone, preset: presetName, size, radius: radius ?? null, shadow: shadow ?? null }),
-        isCollapsed ? 'invisible w-0 overflow-hidden' : 'w-(--side-panel-w) group-data-[layout=compact]/app-shell:w-full',
+        isCollapsed ? 'invisible w-0 overflow-hidden opacity-0' : 'w-(--side-panel-w) group-data-[layout=compact]/app-shell:w-full',
         className,
       )}
       onKeyDown={handleKeyDown}

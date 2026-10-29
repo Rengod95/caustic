@@ -21,6 +21,8 @@ export const stackRowVariants = cva(
       },
       shadow: { none: '', '1': 'shadow-1', '2': 'shadow-2', '3': 'shadow-3', '4': 'shadow-4', '5': 'shadow-5' },
       size: { xs: 'h-control-md', sm: 'h-field-compact-sm', md: 'h-field-compact-md', lg: 'h-field-compact-lg' },
+      // A row that acts as one target (it has an onClick, and is not disabled or reserved) presses like a control.
+      pressable: { true: 'press', false: '' },
     },
     compoundVariants: [
       { variant: 'soft', tone: 'neutral', className: 'bg-neutral-soft hover:bg-neutral-soft-hover' },
@@ -77,7 +79,7 @@ export const stackRowMetaVariants = cva('shrink-0 text-hint tabular-nums text-te
 
 // A hidden layer pins the actions (pinned: always visible), so it can be shown again. A touch screen has no hover, so on a
 // coarse pointer the actions are always shown (owner 2026-10-28, B).
-export const stackRowActionsVariants = cva('flex transition-opacity duration-quick ease-out', {
+export const stackRowActionsVariants = cva('flex transition-control', {
   variants: {
     actions: {
       hover: 'opacity-0 group-hover/stack-row:opacity-100 group-focus-within/stack-row:opacity-100 pointer-coarse:opacity-100',

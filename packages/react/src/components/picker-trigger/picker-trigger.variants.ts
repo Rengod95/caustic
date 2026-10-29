@@ -17,7 +17,7 @@ import { cva } from 'class-variance-authority';
 export const pickerTriggerVariants = cva([
   // group: the indicator turns on data-state=open (dropdown indicator).
   'group flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-xl bg-surface-translucent text-left text-text-primary outline-none',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-control',
+  'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-control press',
   'focus-visible:bg-neutral-well focus-visible:shadow-[var(--cs-focus-field)] hover:focus-visible:shadow-[var(--cs-focus-field)]',
   'data-[state=open]:shadow-[var(--cs-focus-field)] data-[state=open]:hover:shadow-[var(--cs-focus-field)]',
   // Invalid is the danger border-strong edge; invalid + focus keeps it and adds the outer focus ring.

@@ -52,7 +52,8 @@ export const progressVariants = cva('relative overflow-hidden', {
   defaultVariants: { shape: 'bar', tone: 'accent', variant: 'solid', radius: 'sm', shadow: 'none', size: 'md' },
 });
 
-export const progressIndicator = cva('block h-full w-(--progress) rounded-[inherit] transition-[width] duration-gentle ease-standard', {
+// --cs-progress is the value (a registered <percentage>, so the ring can transition it; see progressRingIndicator).
+export const progressIndicator = cva('block h-full w-(--cs-progress) rounded-[inherit] transition-[width] duration-base ease-standard', {
   variants: {
     tone: {
       neutral: 'bg-neutral-solid', accent: 'bg-accent-solid', success: 'bg-success-solid', warning: 'bg-warning-solid',
@@ -90,14 +91,15 @@ export const progressRingTrack = cva('absolute inset-0 rounded-[inherit] border-
 
 // Ring arc: neutral = neutral.graphic (a graphic, 3:1, not a text colour), a hue = its solid 9. Indeterminate is one
 // quarter arc turning (animate-spinner, stopped by reduced motion); determinate is the whole ring masked clockwise from
-// 12 o'clock to the value (the mask only reads alpha; the colour var is any opaque token).
+// 12 o'clock to the value (the mask only reads alpha; the colour var is any opaque token). The value is the registered
+// --cs-progress, so a change sweeps the arc (duration-base) instead of jumping.
 export const progressRingIndicator = cva('absolute inset-0 rounded-[inherit] border-solid', {
   variants: {
     size: { xs: 'border-[1.5px]', sm: 'border-[1.5px]', md: 'border-2', lg: 'border-2' },
     tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
     indeterminate: {
-      true: 'border-transparent animate-spinner motion-reduce:animate-none',
-      false: '[mask-image:conic-gradient(var(--cs-color-neutral-graphic)_var(--progress),transparent_0)]',
+      true: 'border-transparent animate-spinner',
+      false: '[mask-image:conic-gradient(var(--cs-color-neutral-graphic)_var(--cs-progress),transparent_0)] transition-[--cs-progress] duration-base ease-standard',
     },
   },
   compoundVariants: [

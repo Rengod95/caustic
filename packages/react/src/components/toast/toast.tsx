@@ -1,12 +1,14 @@
 'use client';
 import { Check, CircleAlert, Info, TriangleAlert, X } from 'lucide-react';
-import { useEffect, useState, useSyncExternalStore, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
+import { useFlip } from '../../hooks/use-flip.ts';
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size } from '../../lib/common-props.ts';
 import { Button } from '../button/button.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { toastMark, toastVariants, toastViewport, type ToastTone, type ToastVariant } from './toast.variants.ts';
 import { getServerSnapshot, getSnapshot, subscribe, toast } from './toast.store.ts';
+import { DismissTimer } from './toast.timer.ts';
 
 export interface ToastProps extends Omit<ComponentProps<'div'>, 'title'> {
   /** Status: success (default), info, warning, danger (role alert, never auto-dismisses), agent (rim and orb), neutral or accent (plain news). */
@@ -48,11 +50,23 @@ export function Toast({
 }: ToastProps) {
   const t = tone ?? 'success';
   const [paused, setPaused] = useState(false);
+  // The countdown calls the latest onDismiss; a parent that re-renders with a new function does not restart it.
+  const dismissRef = useRef(onDismiss);
+  useLayoutEffect(() => { dismissRef.current = onDismiss; });
+  const timer = useRef<DismissTimer | null>(null);
+  const armed = !inline && t !== 'danger' && duration > 0;
   useEffect(() => {
-    if (inline || t === 'danger' || duration <= 0 || paused) return;
-    const id = setTimeout(() => onDismiss?.(), duration);
-    return () => clearTimeout(id);
-  }, [inline, t, duration, paused, onDismiss]);
+    if (!armed) return;
+    const clock = new DismissTimer(duration, () => dismissRef.current?.());
+    timer.current = clock;
+    return () => { clock.stop(); timer.current = null; };
+  }, [armed, duration]);
+  // Hover or focus pauses the countdown; leaving resumes it with the time that was left.
+  useEffect(() => {
+    const clock = timer.current;
+    if (!clock) return;
+    if (paused) clock.pause(); else clock.start();
+  }, [armed, duration, paused]);
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(e);
     if (!e.defaultPrevented && e.key === 'Escape') onDismiss?.();
@@ -92,13 +106,16 @@ export function ToastViewport({ label, className, ...props }: ToastViewportProps
   return <div role="region" aria-label={label} aria-live="polite" data-slot="toast-viewport" className={cn(toastViewport(), className)} {...props} />;
 }
 
-/** Mount once near the app root; toast() feeds it. */
+/** Mount once near the app root; toast() feeds it. A new or removed toast slides the others to their new place (useFlip). */
 export function Toaster(props: ToastViewportProps) {
   const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const region = useRef<HTMLDivElement>(null);
+  // A closing toast stays in its place until its exit has played: it is left out, so its exit translate is not read as movement.
+  useFlip(region, '[data-toast-id]:not([data-state="closed"])', 'toastId');
   return (
-    <ToastViewport {...props}>
+    <ToastViewport ref={region} {...props}>
       {items.map(({ id, open, ...item }) => (
-        <Toast key={id} data-state={open ? 'open' : 'closed'} {...item} onDismiss={() => toast.dismiss(id)} />
+        <Toast key={id} data-toast-id={id} data-state={open ? 'open' : 'closed'} {...item} onDismiss={() => toast.dismiss(id)} />
       ))}
     </ToastViewport>
   );

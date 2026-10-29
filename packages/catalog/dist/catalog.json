@@ -53177,7 +53177,7 @@
         },
         "onDismiss": {
           "payload": "void",
-          "when": "the duration elapses, Escape is pressed on a focused toast, or the item is swiped away"
+          "when": "the duration elapses, Escape is pressed on a focused toast, or the close button is clicked"
         }
       },
       "keyboard": {
@@ -55574,6 +55574,11 @@
           },
           "onZoomOut": {
             "type": "(event: MouseEvent<HTMLButtonElement, MouseEvent>) => void",
+            "required": false,
+            "description": ""
+          },
+          "open": {
+            "type": "boolean",
             "required": false,
             "description": ""
           },

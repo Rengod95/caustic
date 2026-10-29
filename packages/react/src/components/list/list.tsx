@@ -1,12 +1,14 @@
 'use client';
 import { Check, ChevronRight, GripVertical, Plus } from 'lucide-react';
 import {
-  Children, cloneElement, createContext, isValidElement, useContext, useId,
-  type ComponentProps, type CSSProperties, type KeyboardEvent, type MouseEvent, type MouseEventHandler, type PointerEvent, type ReactElement,
-  type ReactNode, type Ref,
+  Children, cloneElement, createContext, isValidElement, useContext, useId, useRef, useState,
+  type AnimationEvent, type ComponentProps, type CSSProperties, type KeyboardEvent, type MouseEvent, type MouseEventHandler, type PointerEvent,
+  type ReactElement, type ReactNode, type Ref,
 } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Size, Tone, Variant } from '../../lib/common-props.ts';
+import { useFlip } from '../../hooks/use-flip.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import {
   listActionIconVariants, listActionLabelVariants, listActionVariants, listAddVariants, listBehaviourVariants, listBodyVariants, listChevronVariants,
@@ -37,6 +39,11 @@ interface ListCtx {
 const ListContext = createContext<ListCtx>({ size: 'md', surface: 'grouped', tone: undefined, rowActions: 'none', disabled: false, firstValue: undefined });
 const SelectionContext = createContext<ListSelection | null>(null);
 const ReorderContext = createContext<ListReorder | null>(null);
+/** True for a row added after its list mounted: it rises in. The rows of the first paint do not. */
+const EnterContext = createContext(false);
+
+const nodeKey = (n: ReactNode) => (isValidElement(n) ? String(n.key) : String(n));
+const isRow = (n: ReactNode): n is ReactElement<ListRowProps> => isValidElement(n) && n.type === ListRow;
 
 interface RowCtx { itemValue: string | undefined; disabled: boolean; lifted: boolean; actions: RowActions | null }
 const RowContext = createContext<RowCtx | null>(null);
@@ -145,33 +152,71 @@ export function List(props: ListProps) {
   const headingId = useId();
   const surface: Surface = variant === 'opaque' ? 'opaque' : 'grouped';
 
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const nodes = Children.toArray(children);
-  const rows = nodes.filter((c): c is ReactElement<ListRowProps> => isValidElement(c) && (c.props as ListRowProps).itemValue != null);
-  const items = rows.map(r => ({ id: r.props.itemValue!, title: rowText(r.props.title), disabled: !!r.props.disabled }));
+  // Rows that were there at the first paint do not rise; rows added after it do (EnterContext).
+  const [mounted] = useState(() => new Set(nodes.map(nodeKey)));
+  // A removed row stays drawn, leaving, until its exit has played (usePresence). A list with an external reorder cannot keep a
+  // leaving row in that order, so it goes at once.
+  const { entries, exited } = usePresence(nodes, nodeKey);
+  const live = entries.filter(e => e.present || (isRow(e.item) && reorderProp == null));
+  const rowValue = (n: ReactNode) => (isRow(n) ? n.props.itemValue : undefined);
+  const rows = live.filter(e => rowValue(e.item) != null);
+  const items = rows.map(e => {
+    const r = (e.item as ReactElement<ListRowProps>).props;
+    return { id: r.itemValue!, title: rowText(r.title), disabled: !!r.disabled || !e.present, exiting: !e.present };
+  });
+  // A controlled order does not list a leaving row: it goes back among the others, where the children still have it.
+  const controlled = order && [...order];
+  if (controlled) live.forEach((e, i) => {
+    const id = rowValue(e.item);
+    if (!e.present && id != null && !controlled.includes(id)) controlled.splice(Math.min(i, controlled.length), 0, id);
+  });
 
   const ownSelection = useListSelection({ mode: selectionMode, indicator, value, defaultValue, onValueChange, disabled });
   const selection = selectionProp ?? (selectionMode !== 'none' ? ownSelection : null);
   const ownReorder = useListReorder({
-    items, order, defaultOrder, onReorder, numbered, enabled: reorderable,
+    items, order: controlled, defaultOrder, onReorder, numbered, enabled: reorderable,
     handleLabel: handleLabel ?? (t => t), instructions: instructions ?? '', announce: announce ?? (() => ''),
   });
   const reorder = reorderProp ?? (reorderable ? ownReorder : null);
   const actionsMode: ListRowActionsMode = reorder && rowActions === 'swipe' ? 'hover' : rowActions;
+  // Layout motion (useFlip): rows glide when rows are inserted, removed or reordered. A pointer drag, a keyboard pick-up and its
+  // drop or cancel keep it off, so they stay instant. The pointer release is not off: its glide is the one useFlip plays.
+  useFlip(
+    rootRef, ':scope > [data-slot="list-items"] > [data-flip-id]', 'flipId',
+    reorder == null || (!reorder.drag && reorder.picked == null && !reorder.keyboardCommit),
+  );
 
   const setRoot = (el: HTMLDivElement | null) => {
+    rootRef.current = el;
     if (selection) selection.rootRef.current = el;
     if (reorder) reorder.rootRef.current = el;
     setRef(ref, el);
   };
 
   // A reorderable list draws its rows in the current order; other children (ListAddRow) keep their place after them.
-  let shown: ReactNode[] = nodes;
+  let shown = live;
   if (reorder) {
-    const others = nodes.filter(n => !rows.includes(n as ReactElement<ListRowProps>));
-    shown = [...rows].sort((a, b) => reorder.shown.indexOf(a.props.itemValue!) - reorder.shown.indexOf(b.props.itemValue!));
-    shown.push(...others);
+    shown = [...rows].sort((a, b) => reorder.shown.indexOf(rowValue(a.item)!) - reorder.shown.indexOf(rowValue(b.item)!));
+    shown.push(...live.filter(e => !rows.includes(e)));
   }
   const firstValue = items.find(i => !i.disabled)?.id;
+
+  // Rows get data-flip-id (their React key: the identity the DOM keeps) and, while they leave, the closed state.
+  const drawEntry = (e: (typeof entries)[number]) => {
+    const { key, item, present } = e;
+    if (!isValidElement(item) || item.type !== ListRow) return item;
+    const leaving = present ? {} : {
+      'data-state': 'closed', 'aria-hidden': true, inert: true,
+      onAnimationEnd: (ev: AnimationEvent<HTMLElement>) => { if (ev.target === ev.currentTarget) exited(key); },
+    };
+    return (
+      <EnterContext.Provider key={key} value={!mounted.has(key)}>
+        {cloneElement(item as ReactElement<Record<string, unknown>>, { 'data-flip-id': key, ...leaving })}
+      </EnterContext.Provider>
+    );
+  };
   const marks = tone ?? 'accent';
   const surfaceVariant = variant ?? 'grouped';
 
@@ -202,7 +247,7 @@ export function List(props: ListProps) {
               data-slot="list-items" role="list" aria-labelledby={heading != null ? headingId : undefined} aria-label={heading != null ? undefined : ariaLabel}
               className={listItemsVariants()}
             >
-              {shown}
+              {shown.map(drawEntry)}
             </ul>
             {reorder && <span id={reorder.instructionId} hidden>{reorder.instructions}</span>}
             {reorder && <div data-slot="list-status" role="status" aria-live="polite" className="sr-only">{reorder.message}</div>}
@@ -276,6 +321,7 @@ export function ListRow({
   const list = useContext(ListContext);
   const selection = useContext(SelectionContext);
   const reorder = useContext(ReorderContext);
+  const enter = useContext(EnterContext);
   const rowSize = size ?? list.size;
   const tone = toneProp === 'default' ? 'neutral' : toneProp;
   const uid = useId();
@@ -336,7 +382,7 @@ export function ListRow({
   // Opaque: the compact collection row (the former AppendList row).
   if (list.surface === 'opaque') {
     return (
-      <li data-slot="list-row" {...common} data-lead="none" ref={setRow} className={cn(listOpaqueRowVariants({ size: rowSize }), className)} style={style} onKeyDown={keyDown} {...props}>
+      <li data-slot="list-row" {...common} data-lead="none" ref={setRow} className={cn(listOpaqueRowVariants({ size: rowSize, enter }), className)} style={style} onKeyDown={keyDown} {...props}>
         {trigger}
         {icon != null ? <span data-slot="list-glyph" aria-hidden className={listGlyphVariants({ tone: list.tone })}>{icon}</span> : (leading ?? <span aria-hidden />)}
         <span data-slot="list-text" className={listInlineTextVariants()}>
@@ -402,7 +448,7 @@ export function ListRow({
         data-dragging={lifted || undefined} data-follow={held || undefined}
         ref={setRow} style={rowStyle} onKeyDown={keyDown}
         className={cn(
-          listRowVariants({ size: rowSize, tone, status, reorder: !!moving, actions: actionsMode }), !swipe && listRowBoxVariants({ size: rowSize }),
+          listRowVariants({ size: rowSize, tone, status, reorder: !!moving, actions: actionsMode, enter }), !swipe && listRowBoxVariants({ size: rowSize }),
           listLeadVariants({ lead: kind }), className,
         )}
         {...props}
@@ -518,7 +564,7 @@ export interface ListAddRowProps extends Omit<ComponentProps<'button'>, 'onClick
 export function ListAddRow({ onAdd, className, children, ...props }: ListAddRowProps) {
   const list = useContext(ListContext);
   return (
-    <li data-slot="list-add-row">
+    <li data-slot="list-add-row" data-flip-id="add">
       <button type="button" data-slot="list-add" className={cn(listAddVariants({ surface: list.surface, size: list.size }), className)} onClick={onAdd} {...props}>
         <Plus aria-hidden />
         {children}

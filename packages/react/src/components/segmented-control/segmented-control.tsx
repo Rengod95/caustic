@@ -1,10 +1,11 @@
 'use client';
 import * as R from '@radix-ui/react-radio-group';
-import { createContext, useContext, useRef, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useIndicator } from '../../hooks/use-indicator.ts';
 import type { CommonProps, Radius, Size, Tone, Variant } from '../../lib/common-props.ts';
-import { segmentedControlVariants, segmentedItemVariants } from './segmented-control.variants.ts';
+import { segmentedControlVariants, segmentedItemVariants, segmentedThumbVariants } from './segmented-control.variants.ts';
 
 type Appearance = 'raised' | 'outline' | 'subtle';
 type Shape = 'rounded' | 'pill';
@@ -16,6 +17,13 @@ const APPEARANCE_VARIANT: Record<Appearance, Variant> = { raised: 'solid', outli
 
 interface Ctx { variant: Variant; tone: Tone; radius: Radius | undefined; size: Size; content: Content; orientation: Orientation }
 const SegCtx = createContext<Ctx>({ variant: 'solid', tone: 'neutral', radius: undefined, size: 'md', content: 'label', orientation: 'horizontal' });
+
+/** The snappy duration in ms (--cs-duration-snappy, read from the stylesheet; 210 when none defines it). */
+function snappyMs(): number {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue('--cs-duration-snappy').trim();
+  const value = Number.parseFloat(raw);
+  return Number.isFinite(value) ? (raw.endsWith('ms') ? value : raw.endsWith('s') ? value * 1000 : value) : 210;
+}
 
 export interface SegmentedControlProps extends Omit<ComponentProps<typeof R.Root>, 'value' | 'defaultValue' | 'onValueChange' | 'orientation' | 'dir'>, CommonProps {
   value?: string;
@@ -33,12 +41,29 @@ export interface SegmentedControlProps extends Omit<ComponentProps<typeof R.Root
 /** A radio group drawn as a segmented track. Compose with SegmentedControlItem. */
 export function SegmentedControl({
   value, defaultValue = '', onValueChange, onKeyDown, size = 'md', variant: variantProp, tone = 'neutral', radius: radiusProp, shadow,
-  appearance, shape, content = 'label', orientation = 'horizontal', disabled = false, className, ...props
+  appearance, shape, content = 'label', orientation = 'horizontal', disabled = false, className, children, ...props
 }: SegmentedControlProps) {
   const variant = variantProp ?? (appearance ? APPEARANCE_VARIANT[appearance] : 'solid');
   const radius = radiusProp ?? (shape === 'pill' ? 'full' : undefined);
   const [current, setCurrent] = useControllableState({ value, defaultValue, onChange: onValueChange });
   const ref = useRef<HTMLDivElement>(null);
+  // The checked segment's box. The thumb is drawn there once measured; null until then, so nothing slides in on mount.
+  const box = useIndicator(ref, '[role="radio"]', '[role="radio"][data-state="checked"]', current);
+  // A pointer press flags the next selection as a pointer move, which slides the thumb (data-moving on the track). A
+  // keyboard press clears the flag, so keyboard selections stay as they are.
+  const pointer = useRef(false);
+  const [moves, setMoves] = useState(0);
+  useLayoutEffect(() => {
+    if (!pointer.current) return;
+    pointer.current = false;
+    setMoves(n => n + 1);
+  }, [current]);
+  // Each pointer move re-arms the guard: the thumb is done after its translate transition, or after snappy + 50 ms.
+  useEffect(() => {
+    if (!moves) return;
+    const timer = window.setTimeout(() => setMoves(0), snappyMs() + 50);
+    return () => window.clearTimeout(timer);
+  }, [moves]);
   // Arrow keys and Home/End select synchronously, so the selection never lags behind roving focus.
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(e);
@@ -57,11 +82,23 @@ export function SegmentedControl({
     <SegCtx.Provider value={{ variant, tone, radius, size, content, orientation }}>
       <R.Root
         ref={ref} onKeyDown={handleKeyDown}
+        onPointerDownCapture={() => { pointer.current = true; }} onKeyDownCapture={() => { pointer.current = false; }}
         data-slot="segmented-control" data-size={size} data-variant={variant} data-tone={tone} data-content={content}
+        data-moving={moves ? '' : undefined}
         value={current} onValueChange={setCurrent} orientation={orientation} disabled={disabled}
-        className={cn(segmentedControlVariants({ variant, tone, size, orientation, radius: radius ?? null, shadow: shadow ?? null }), className)}
+        className={cn(segmentedControlVariants({ variant, tone, size, orientation, radius: radius ?? null, shadow: shadow ?? null }), 'relative group/seg', className)}
         {...props}
-      />
+      >
+        {box && (
+          <span
+            aria-hidden
+            onTransitionEnd={e => { if (e.target === e.currentTarget && e.propertyName === 'translate') setMoves(0); }}
+            className={segmentedThumbVariants({ variant, tone })}
+            style={{ '--thumb-x': `${box.x}px`, '--thumb-y': `${box.y}px`, '--thumb-w': `${box.w}px`, '--thumb-h': `${box.h}px`, '--thumb-r': box.r } as CSSProperties}
+          />
+        )}
+        {children}
+      </R.Root>
     </SegCtx.Provider>
   );
 }

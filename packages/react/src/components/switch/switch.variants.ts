@@ -47,7 +47,8 @@ export const switchVariants = cva(
 // 20 / 16px when on, and while held it widens to 48 / 32px toward the centre (a static :active width; the press motion is later).
 export const switchThumb = cva(
   [
-    'block rounded-full bg-control-thumb transition-[translate,width] duration-snappy ease-snappy',
+    // Movement and width on the snappy spring; the thumb colour changes on quick / out (springs only move).
+    'block rounded-full bg-control-thumb transition-[translate,width,background-color] duration-[var(--cs-duration-snappy),var(--cs-duration-snappy),var(--cs-duration-quick)] ease-[var(--cs-ease-snappy),var(--cs-ease-snappy),var(--cs-ease-out)]',
     'shadow-2',
   ],
   {

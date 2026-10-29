@@ -724,12 +724,12 @@
 }
 @utility press {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled]) { scale: var(--cs-scale-press); }
+    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press); }
   }
 }
 @utility press-sm {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled]) { scale: var(--cs-scale-press-sm); }
+    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press-sm); }
   }
 }
 @utility lift {
@@ -752,11 +752,11 @@
 /* Collapse without a Radix height variable: the content stays mounted, the grid row opens. */
 @utility reveal {
   display: grid; grid-template-rows: 0fr;
-  transition-property: grid-template-rows, opacity;
+  transition-property: grid-template-rows, opacity, visibility;
   transition-duration: var(--cs-duration-base);
   transition-timing-function: var(--cs-ease-out);
-  opacity: 0;
-  &:is([data-state=open], [data-open=true]) { grid-template-rows: 1fr; opacity: 1; }
+  opacity: 0; visibility: hidden;
+  &:is([data-state=open], [data-open=true]) { grid-template-rows: 1fr; opacity: 1; visibility: visible; }
   & > * { min-height: 0; overflow: hidden; }
 }
 @utility spectrum-fill { background: var(--cs-spectrum-conic); animation: cs-spin var(--cs-duration-agent) linear infinite; }

@@ -40,7 +40,7 @@ export const inspectorBindingsPropertyIconVariants = cva('inline-flex size-icon-
 export const inspectorBindingsActionVariants = cva('flex items-center justify-self-end', {
   variants: {
     reveal: {
-      true: 'opacity-0 transition-opacity duration-quick ease-out group-hover/row:opacity-100 group-focus-within/row:opacity-100 pointer-coarse:opacity-100',
+      true: 'opacity-0 transition-control group-hover/row:opacity-100 group-focus-within/row:opacity-100 pointer-coarse:opacity-100',
       false: '',
     },
   },

@@ -1,5 +1,5 @@
 'use client';
-import { useId, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type RefObject } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type RefObject } from 'react';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 
 export interface ListReorderEvent { id: string; from: number; to: number; order: string[] }
@@ -16,6 +16,8 @@ export interface ListReorderItem {
   title?: string | undefined;
   /** The item cannot be moved; other items skip over it. */
   disabled?: boolean | undefined;
+  /** A removed item still drawn while its exit plays: it keeps its place in the order, and is never reported or announced. */
+  exiting?: boolean | undefined;
 }
 
 export interface UseListReorderOptions {
@@ -48,6 +50,8 @@ export interface ListReorder {
   picked: string | null;
   drag: Drag | null;
   settling: boolean;
+  /** True for the commit that drops or cancels a keyboard pick-up: the order changes at once, without a glide. */
+  keyboardCommit: boolean;
   message: string;
   instructions: string;
   instructionId: string;
@@ -95,38 +99,46 @@ export function useListReorder({
   const resolve = (o: string[]) => [...o.filter(id => ids.includes(id)), ...ids.filter(id => !o.includes(id))];
 
   // Keyboard pick up works on a live preview. Pointer drag (owner 2026-10-28) lifts the row, which follows the pointer while
-  // the rows it passes slide aside to open its slot; on release it settles into that slot (or back into its own).
+  // the rows it passes slide aside to open its slot; on release it glides into its slot through useFlip (List).
   const [preview, setPreview] = useState<string[] | null>(null);
   const [picked, setPicked] = useState<string | null>(null);
   const pickedRef = useRef<{ id: string; from: number; original: string[] } | null>(null);
   const [drag, setDrag] = useState<Drag | null>(null);
-  // The released row: where it was drawn, so it can glide from there into its slot (FLIP) after the order commits.
-  const [settle, setSettle] = useState<{ id: string; top: number } | null>(null);
+  // True for the release commit only: data-settling drops the rows' CSS transitions, so the rows that slid aside take their
+  // committed place without moving twice. The next frame clears it.
+  const [settle, setSettle] = useState(false);
+  // True for the commit that puts a keyboard pick-up down or cancels it: the order changes at once. The next frame clears it.
+  const [keyboardCommit, setKeyboardCommit] = useState(false);
   const [message, setMessage] = useState('');
   const shown = preview ?? resolve(stored);
   const byId = new Map(items.map(i => [i.id, i]));
   const label = (id: string) => byId.get(id)?.title ?? id;
   const isDisabled = (id: string) => !!byId.get(id)?.disabled;
-  const say = (type: ListReorderAnnouncement['type'], list: string[], id: string) => setMessage(announce({ type, title: label(id), position: list.indexOf(id) + 1, size: list.length }));
+  // The order without the items that are leaving: what the user sees, and what onReorder reports.
+  const live = (list: string[]) => list.filter(id => !byId.get(id)?.exiting);
+  const say = (type: ListReorderAnnouncement['type'], list: string[], id: string) => {
+    const visible = live(list);
+    setMessage(announce({ type, title: label(id), position: visible.indexOf(id) + 1, size: visible.length }));
+  };
 
-  const commit = (id: string, from: number, next: string[]) => {
-    const to = next.indexOf(id);
+  const commit = (id: string, prev: string[], next: string[]) => {
+    const from = live(prev).indexOf(id), after = live(next), to = after.indexOf(id);
     setOrder(next);
-    if (to !== from) onReorder?.({ id, from, to, order: next });
+    if (to !== from) onReorder?.({ id, from, to, order: after });
     say('dropped', next, id);
   };
 
   // ── keyboard
   const cancelPick = () => {
     const p = pickedRef.current; if (!p) return;
-    pickedRef.current = null; setPicked(null); setPreview(null);
+    pickedRef.current = null; setPicked(null); setPreview(null); setKeyboardCommit(true);
     say('cancelled', p.original, p.id);
   };
   const dropPick = () => {
     const p = pickedRef.current; if (!p) return;
     const next = preview ?? p.original;
-    pickedRef.current = null; setPicked(null); setPreview(null);
-    commit(p.id, p.from, next);
+    pickedRef.current = null; setPicked(null); setPreview(null); setKeyboardCommit(true);
+    commit(p.id, p.original, next);
   };
   const moveTo = (id: string, target: number) => {
     const list = preview ?? shown;
@@ -235,14 +247,12 @@ export function useListReorder({
   const release = (p: NonNullable<typeof pointer.current>, drop: boolean) => {
     pointer.current = null;
     if (!p.active) { setDrag(null); return; }
-    const row = rowsInOrder()[p.from];
-    const top = row?.getBoundingClientRect().top;
-    if (top !== undefined) setSettle({ id: p.id, top });
+    setSettle(true);
     setDrag(null);
     if (!drop || !p.inside) return;
     const list = resolve(stored);
     const without = list.filter(x => x !== p.id);
-    commit(p.id, p.from, [...without.slice(0, p.to), p.id, ...without.slice(p.to)]);
+    commit(p.id, list, [...without.slice(0, p.to), p.id, ...without.slice(p.to)]);
   };
   const endPointer = (e: PointerEvent<HTMLElement>) => {
     const p = pointer.current; if (!p || p.pid !== e.pointerId) return;
@@ -253,29 +263,19 @@ export function useListReorder({
     const p = pointer.current; if (!p || p.pid !== e.pointerId) return;
     release(p, false);
   };
-  // Settle: the order has committed and every row is back in flow without an offset. The released row starts where it was
-  // drawn and glides into its slot; the root holds data-settling for that first frame so the rows that slid aside take their
-  // new place without animating again. Reduced motion skips the glide.
-  useLayoutEffect(() => {
+  // The release glide is not hand-written any more: after the order commits, useFlip (List) moves the released row from where
+  // it was drawn into its slot, and the rows that slid aside into theirs, with the same duration and curve. A hand transform
+  // here would also be measured by useFlip, so it is gone. data-settling only has to hold for the release commit itself.
+  useEffect(() => {
     if (!settle) return;
-    const el = rowsInOrder().find(r => r.dataset.itemValue === settle.id);
-    const reduce = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const offset = el ? settle.top - el.getBoundingClientRect().top : 0;
-    if (!el || reduce || Math.abs(offset) < 0.5) { setSettle(null); return; }
-    el.style.transition = 'none';
-    el.style.transform = `translateY(${offset}px)`;
-    let raf = requestAnimationFrame(() => {
-      raf = requestAnimationFrame(() => {
-        el.style.transition = 'transform var(--cs-duration-base) var(--cs-ease-in-out)';
-        el.style.transform = '';
-      });
-    });
-    const done = () => { el.style.transition = ''; setSettle(null); };
-    el.addEventListener('transitionend', done, { once: true });
-    const guard = window.setTimeout(done, 600);
-    return () => { cancelAnimationFrame(raf); window.clearTimeout(guard); el.removeEventListener('transitionend', done); el.style.transition = ''; el.style.transform = ''; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const frame = requestAnimationFrame(() => setSettle(false));
+    return () => cancelAnimationFrame(frame);
   }, [settle]);
+  useEffect(() => {
+    if (!keyboardCommit) return;
+    const frame = requestAnimationFrame(() => setKeyboardCommit(false));
+    return () => cancelAnimationFrame(frame);
+  }, [keyboardCommit]);
 
   const offset = (id: string) => {
     const d = drag; if (!d) return 0;
@@ -287,7 +287,7 @@ export function useListReorder({
   };
 
   const state: ListReorder = {
-    enabled, numbered, shown, picked, drag, settling: settle != null, message, instructions, instructionId, rootRef,
+    enabled, numbered, shown, picked, drag, settling: settle, keyboardCommit, message, instructions, instructionId, rootRef,
     handleLabel: id => handleLabel(label(id)), isDisabled, offset,
     startPointer, movePointer, endPointer, cancelPointer, handleKey, handleClick, handleBlur,
   };

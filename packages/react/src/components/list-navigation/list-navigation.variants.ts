@@ -143,7 +143,7 @@ export const listNavigationStatus = cva('grid size-icon-md shrink-0 place-items-
 });
 
 /** The spectrum orb exists only while the agent works on the row (status running, P2). */
-export const listNavigationOrb = cva('', { variants: { status: { running: 'orb orb-sm motion-reduce:animate-none', review: '', failed: '', done: '' } } });
+export const listNavigationOrb = cva('', { variants: { status: { running: 'orb orb-sm', review: '', failed: '', done: '' } } });
 
 export const listNavigationDot = cva('size-radio-dot rounded-full bg-current');
 
@@ -175,7 +175,7 @@ export const listNavigationCount = cva('ms-auto shrink-0 font-ui', {
     {
       hot: false, kind: 'pages',
       className: [
-        'font-normal text-text-tertiary opacity-0 transition-opacity duration-quick ease-out',
+        'font-normal text-text-tertiary opacity-0 transition-control',
         'group-hover:opacity-100 group-focus-visible:opacity-100 group-aria-[current=page]:opacity-100 [@media(hover:none)]:opacity-100',
       ],
     },

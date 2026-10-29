@@ -17,7 +17,7 @@ export const timelineRowListVariants = cva('gap-0.5');
 // edge; solid = raised control rows with the control edge. The chosen entry always inverts (selected utility).
 export const timelineRowVariants = cva(
   [
-    'animate-rise transition-control group relative grid w-full cursor-pointer grid-cols-[calc(var(--spacing)*5.5)_1fr_auto_var(--cs-icon-sm)] items-center gap-2 rounded-md px-2 text-left font-ui text-text-primary outline-none',
+    'transition-control press group relative grid w-full cursor-pointer grid-cols-[calc(var(--spacing)*5.5)_1fr_auto_var(--cs-icon-sm)] items-center gap-2 rounded-md px-2 text-left font-ui text-text-primary outline-none',
     'focus-visible:shadow-focus aria-selected:focus-visible:shadow-focus',
     // The chosen entry inverts (selected utility: ink fill, paper text, no edge; detail, time, check and the node invert with
     // it); hover on it is selection.fill-hover. Focus keeps only its ring, whose gap reads the fill.
@@ -26,6 +26,8 @@ export const timelineRowVariants = cva(
   {
     variants: {
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
+      // rise: as timelineMarkerItemVariants (rows of the first paint stay still).
+      rise: { true: 'animate-rise', false: '' },
       variant: {
         solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover aria-selected:shadow-none',
         soft: '',
@@ -51,7 +53,7 @@ export const timelineRowVariants = cva(
       { variant: 'outline', tone: 'info', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-info-border)]' },
       { variant: 'outline', tone: 'agent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-agent-border)]' },
     ],
-    defaultVariants: { tone: 'neutral', variant: 'ghost', size: 'md' },
+    defaultVariants: { tone: 'neutral', variant: 'ghost', size: 'md', rise: true },
   },
 );
 
@@ -93,8 +95,10 @@ export const timelineCheckVariants = cva('inline-grid size-icon-sm shrink-0 plac
 /* ── marker layout (an Avatar or an icon disc) ─────────────────────────────────────────────────────────────────────── */
 
 /** A feed entry: the marker column and the content column, 16px bottom padding. size steps the marker column (md = 32px). */
-export const timelineMarkerItemVariants = cva('animate-rise group relative grid gap-3 pb-4', {
+// rise: an entry that appears after the list has painted rises in; the entries of the first paint do not (no shimmer on load).
+export const timelineMarkerItemVariants = cva('group relative grid gap-3 pb-4', {
   variants: {
+    rise: { true: 'animate-rise', false: '' },
     size: {
       xs: 'grid-cols-[calc(var(--spacing)*6)_1fr]',
       sm: 'grid-cols-[calc(var(--spacing)*7)_1fr]',
@@ -102,7 +106,7 @@ export const timelineMarkerItemVariants = cva('animate-rise group relative grid 
       lg: 'grid-cols-[calc(var(--spacing)*10)_1fr]',
     },
   },
-  defaultVariants: { size: 'md' },
+  defaultVariants: { rise: true, size: 'md' },
 });
 
 /** The spine of a feed entry: 1px border.default centred under the marker, from 2px below it to 2px above the entry end; hidden on the last entry. */
@@ -202,8 +206,9 @@ export const timelineNoteVariants = cva('text-hint text-text-tertiary');
 /* ── node layout (default) ─────────────────────────────────────────────────────────────────────────────────────────── */
 
 /** One entry: grid node / 1fr / auto (node 18px at md). The spine is its own span; the 14px row spacing sits on the body so the item has no padding. */
-export const timelineItemVariants = cva('animate-rise group relative grid grid-cols-[var(--cs-size-check)_1fr_auto] items-start gap-2.5', {
+export const timelineItemVariants = cva('group relative grid grid-cols-[var(--cs-size-check)_1fr_auto] items-start gap-2.5', {
   variants: {
+    rise: { true: 'animate-rise', false: '' },
     size: {
       xs: 'grid-cols-[calc(var(--spacing)*3.5)_1fr_auto]',
       sm: 'grid-cols-[calc(var(--spacing)*4)_1fr_auto]',
@@ -211,7 +216,7 @@ export const timelineItemVariants = cva('animate-rise group relative grid grid-c
       lg: 'grid-cols-[calc(var(--spacing)*5)_1fr_auto]',
     },
   },
-  defaultVariants: { size: 'md' },
+  defaultVariants: { rise: true, size: 'md' },
 });
 
 /** The spine: 1px line from below the node to the row bottom, centred under the node; hidden on the last entry. */
@@ -317,7 +322,8 @@ export const timelineTimeVariants = cva('font-ui text-text-tertiary', {
 });
 
 /** The item restore confirm step: spans the body and action columns under the row, on the inset fill. */
-export const timelineConfirmVariants = cva('animate-rise col-span-2 col-start-2 mb-3.5 grid gap-2 rounded-lg bg-bg-inset px-2.5 py-2');
+// The confirm step keeps its place for the exit (data-state closed) before the list removes it.
+export const timelineConfirmVariants = cva('animate-rise data-[state=closed]:animate-exit col-span-2 col-start-2 mb-3.5 grid gap-2 rounded-lg bg-bg-inset px-2.5 py-2');
 
 /* ── root (last, so its defaults are the spec defaults) ────────────────────────────────────────────────────────────── */
 

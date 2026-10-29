@@ -6,7 +6,7 @@ export default defineSpec({
   category: 'inspector',
   status: 'ready',
   purpose: 'Edits one shadow effect: a live stage that shows the shadow on a card, four numeric fields (X, Y, blur, spread) and the shadow color with its opacity.',
-  description: 'Pure composition of NumberFields and a PaintWell around a preview stage. The stage card re-draws as any field changes (no animation beyond a short box-shadow transition), so the effect is seen while scrubbing. It edits the effect that is selected in PropertyStack (kind effect); other effect kinds (inner shadow, blur) are not shown in the specimen and are not specified here.',
+  description: 'Pure composition of NumberFields and a PaintWell around a preview stage. The stage card re-draws as any field changes (no animation: the card follows a scrub at once), so the effect is seen while scrubbing. It edits the effect that is selected in PropertyStack (kind effect); other effect kinds (inner shadow, blur) are not shown in the specimen and are not specified here.',
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Vertical stack, 14px gap: stage, fields, color.' },
@@ -16,7 +16,7 @@ export default defineSpec({
     { name: 'stage', el: 'div', parent: 'root', required: false, description: 'Preview stage: 120px high, xl radius, bg.inset, content centered.' },
     { name: 'backdrop', el: 'span', parent: 'stage', required: false, description: 'Background blur only: the canvas.checker-a half of the two-tone backdrop the card is seen against (fills the stage).' },
     { name: 'backdrop-half', el: 'span', parent: 'stage', required: false, description: 'Background blur only: the right half in canvas.checker-b.' },
-    { name: 'card', el: 'div', parent: 'stage', required: false, description: 'The sample object: 96 × 64, surface.base, 14px radius, with a 1px border.subtle ring and the edited shadow: X, Y, blur and spread in the shadow color. box-shadow transitions with duration-base.' },
+    { name: 'card', el: 'div', parent: 'stage', required: false, description: 'The sample object: 96 × 64, surface.base, 14px radius, with a 1px border.subtle ring and the edited shadow: X, Y, blur and spread in the shadow color. No transition, so it never lags a scrub.' },
     { name: 'fields', el: 'div', parent: 'root', description: 'Two-column grid, 6px gap: X, Y, Blur, Spread in that order (two rows).' },
     { name: 'x', el: 'any', parent: 'fields', description: 'NumberField, text label "X", aria-label "Shadow X".' },
     { name: 'y', el: 'any', parent: 'fields', description: 'NumberField, text label "Y", aria-label "Shadow Y".' },

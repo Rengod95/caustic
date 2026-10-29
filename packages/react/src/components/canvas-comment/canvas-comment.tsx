@@ -1,6 +1,7 @@
 'use client';
 import type { ComponentProps, MouseEvent, ReactNode } from 'react';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, shadowClass, type CommonProps } from '../../lib/common-props.ts';
 import { overlayRectStyle, type OverlayRect } from '../../lib/overlay-rect.ts';
@@ -45,6 +46,8 @@ export function CanvasComment({
   const [open, setOpen] = useControllableState({ value: openProp, defaultValue: defaultOpen, onChange: onOpenChange });
   const thread = children != null || body != null;
   const name = label ?? (authorName ? `Comment by ${authorName}` : author === 'agent' ? 'Comment by Caustic' : 'Comment');
+  // The default bubble stays mounted while it closes, so its exit plays. A custom bubble (children) is shown while open.
+  const bubbles = usePresence(open && children == null && body != null ? [{ authorName, size, body }] : [], () => 'bubble');
   return (
     <div
       data-slot="canvas-comment"
@@ -69,7 +72,13 @@ export function CanvasComment({
           ? <span data-slot="canvas-comment-orb" aria-hidden className={canvasCommentOrbVariants({ author })} />
           : <span data-slot="canvas-comment-initials" aria-hidden>{initials}</span>}
       </button>
-      {open && (children ?? (body != null && <CanvasCommentBubble authorName={authorName} size={size}>{body}</CanvasCommentBubble>))}
+      {bubbles.entries.map(({ item, present }) => (
+        <CanvasCommentBubble
+          key="bubble" authorName={item.authorName} size={item.size} data-state={present ? 'open' : 'closed'} aria-hidden={present ? undefined : true} inert={!present}
+          onAnimationEnd={e => { if (e.target === e.currentTarget) bubbles.exited('bubble'); }}
+        >{item.body}</CanvasCommentBubble>
+      ))}
+      {open && children}
     </div>
   );
 }

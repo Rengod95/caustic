@@ -36,6 +36,7 @@ export default defineSpec({
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: '3', description: 'Capsule elevation by elevation token.' },
     appearance: { type: "'glass' | 'bare'", description: 'Deprecated: use variant (glass = glass, bare = ghost).' },
     readout: { type: "'menu' | 'static'", default: 'menu', description: 'Menu trigger or plain text.' },
+    open: { type: 'boolean', default: false, description: 'The zoom menu is open: the readout sets aria-expanded and its chevron turns up.' },
     size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Item height 24 / 26 / 28 / 32 (control-xs, control-inline, control-sm, control-md) for xs / sm / md / lg.' },
     label: { type: 'string', required: true, description: 'aria-label of the group (e.g. "Zoom"). Supplied by the consumer so it can be translated; there is no built-in default.' },
     zoomOutLabel: { type: 'string', required: true, description: 'aria-label of the minus button (e.g. "Zoom out"). No built-in default.' },

@@ -1,6 +1,6 @@
 'use client';
 import { ChevronRight, FlipHorizontal2, Minus, Plus, RotateCw } from 'lucide-react';
-import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent, type SyntheticEvent } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent, type SyntheticEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { clamp } from '../../lib/color-math.ts';
@@ -10,6 +10,8 @@ import {
 } from '../../lib/gradient-math.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
+import { useFlip } from '../../hooks/use-flip.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { AngleDial } from '../angle-dial/angle-dial.tsx';
 import { ColorWell } from '../color-well/color-well.tsx';
 import { HexInput } from '../hex-input/hex-input.tsx';
@@ -143,6 +145,31 @@ const flagged = (flags: boolean | GradientEditorFieldFlags | undefined, field: G
 /** Attributes of a control whose field is being written elsewhere. */
 const busy = { 'aria-busy': true, 'aria-readonly': true, 'data-reserved': true } as const;
 
+interface StopKeys { stops: GradientStopData[]; ids: number[] }
+/**
+ * One id per stop, so a row keeps its identity when the list changes around it. A stop added in the list mints an id where it
+ * sits, a removed one drops its id, and the rest keep theirs (an edit in place keeps every id). Other changes fall back to
+ * position.
+ */
+function stopIdsFor(prev: StopKeys, stops: GradientStopData[], mint: () => number): number[] {
+  const same = (a: GradientStopData, b: GradientStopData) => a.position === b.position && a.color === b.color;
+  // The first index where the two lists part (the shorter length when they agree up to it).
+  const parts = (longer: GradientStopData[], shorter: GradientStopData[]) => {
+    let k = 0;
+    while (k < shorter.length && same(longer[k]!, shorter[k]!)) k++;
+    return k;
+  };
+  if (stops.length === prev.stops.length + 1) {
+    const k = parts(stops, prev.stops);
+    return [...prev.ids.slice(0, k), mint(), ...prev.ids.slice(k)];
+  }
+  if (stops.length === prev.stops.length - 1) {
+    const k = parts(prev.stops, stops);
+    return prev.ids.filter((_, j) => j !== k);
+  }
+  return stops.map((_, j) => prev.ids[j] ?? mint());
+}
+
 /**
  * Edits a gradient the way a design tool does: handles and stops on the preview, a strip, type, angle and a stop list.
  * The strip is its part GradientEditor.Strip (also exported as GradientEditorStrip).
@@ -174,6 +201,17 @@ export function GradientEditor({
   const release = commitMode === 'release';
   const shown = previewing ?? grad;
   const { start, end, stops, type } = shown;
+  // Stop rows are keyed by stop identity, not index. The rows present at first render stay still; a row added later rises,
+  // a removed one plays its exit (usePresence) and the rows below it slide up (useFlip).
+  const keys = useRef<StopKeys>({ stops: [], ids: [] });
+  const minted = useRef(0);
+  const ids = stopIdsFor(keys.current, stops, () => ++minted.current);
+  useLayoutEffect(() => { keys.current = { stops, ids }; });
+  const initial = useRef<Set<number> | null>(null);
+  if (initial.current === null) initial.current = new Set(ids);
+  const rowsRef = useRef<HTMLDivElement>(null);
+  useFlip(rowsRef, '[data-slot="gradient-editor-row"]', 'stopId');
+  const { entries: stopRows, exited } = usePresence(stops.map((stop, index) => ({ id: ids[index]!, stop, index })), r => String(r.id));
   const isReserved = (f: GradientEditorField) => flagged(reserved, f);
   const isMixed = (f: GradientEditorField) => flagged(mixed, f);
   const isDisabled = (f: GradientEditorField) => flagged(disabled, f);
@@ -353,7 +391,7 @@ export function GradientEditor({
           </svg>
           {stopsMixed ? null : stops.map((s, i) => (
             <span
-              key={i} data-slot="gradient-editor-dot" data-selected={sel === i || undefined} data-disabled={isDisabled('stopPosition') || undefined} {...wrap('stopPosition')}
+              key={ids[i]} data-slot="gradient-editor-dot" data-selected={sel === i || undefined} data-disabled={isDisabled('stopPosition') || undefined} {...wrap('stopPosition')}
               onPointerDown={dotDown(i)} onPointerMove={dotMove(i)} onPointerUp={dotUp} onPointerCancel={dotCancel}
               className={gradientDotVariants()}
               style={{ '--dx': `${start.x + ((end.x - start.x) * s.position) / 100}%`, '--dy': `${start.y + ((end.y - start.y) * s.position) / 100}%`, '--stop-color': s.color } as CSSProperties}
@@ -446,7 +484,7 @@ export function GradientEditor({
             <IconButton label={labels.add} size="xs" disabled={isDisabled('stops')} onClick={addStop} {...(isReserved('stops') ? busy : {})}><Plus /></IconButton>
           </div>
         </div>
-        <div data-slot="gradient-editor-rows" className="grid gap-1" {...wrap('stops')}>
+        <div ref={rowsRef} data-slot="gradient-editor-rows" className="grid gap-1" {...wrap('stops')}>
           {stopsMixed ? (
             <div data-slot="gradient-editor-row" data-mixed className={gradientRowVariants()}>
               <span data-slot="gradient-editor-row-mixed" className="col-span-3 flex items-center gap-1.5 px-1.5 text-footnote italic text-text-secondary">
@@ -454,8 +492,13 @@ export function GradientEditor({
                 {labels.mixed}
               </span>
             </div>
-          ) : stops.map((s, i) => (
-            <div key={i} data-slot="gradient-editor-row" data-selected={sel === i || undefined} onClick={() => select(i)} className={gradientRowVariants()}>
+          ) : stopRows.map(({ key, present, item: { id, stop: s, index: i } }) => (
+            <div
+              key={key} data-slot="gradient-editor-row" data-stop-id={key} data-state={present ? undefined : 'closed'}
+              data-selected={(present && sel === i) || undefined} inert={!present || undefined} aria-hidden={!present || undefined}
+              onClick={() => select(i)} onAnimationEnd={e => { if (!present && e.target === e.currentTarget) exited(key); }}
+              className={gradientRowVariants({ enter: initial.current?.has(id) !== true, leaving: !present })}
+            >
               <div data-slot="gradient-editor-row-position" className="w-16" {...fwrap('stopPosition', fkey('stopPosition', i))}>
                 <NumberField
                   aria-label={labels.position} containerClassName="rounded-sm" unit="%" min={0} max={100} value={s.position}
