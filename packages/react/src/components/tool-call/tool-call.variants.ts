@@ -48,8 +48,10 @@ export const toolIcon = cva('inline-grid size-icon-sm shrink-0 place-items-cente
 
 /** The status pill: neutral.track, full radius, 6px inline padding; failed = danger text on danger.tint. The running label
  * shimmers on its inner span (the shimmer clips its own background to the text, so it cannot share the pill's fill). */
-export const toolStatus = cva('ml-auto flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-1.5 text-hint [&_svg]:size-icon-sm', {
-  variants: { status: { running: 'bg-neutral-track', done: 'bg-neutral-track text-text-tertiary', failed: 'bg-danger-tint text-danger-text' } },
+/** The status pill. With a leading glyph (done, failed) the start inset equals the glyph's own inset, (18 - 14) / 2 = 2px, so the
+ *  icon sits in the pill's round end and the pill reads as tall as it is wide around the glyph; text-only (running) keeps 6px. */
+export const toolStatus = cva('ml-auto flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full text-hint [&_svg]:size-icon-sm', {
+  variants: { status: { running: 'bg-neutral-track px-1.5', done: 'bg-neutral-track ps-0.5 pe-1.5 text-text-tertiary', failed: 'bg-danger-tint ps-0.5 pe-1.5 text-danger-text' } },
   defaultVariants: { status: 'done' },
 });
 
