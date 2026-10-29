@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 /** The scan band (::before), added while scanning. */
-export const agentWorkAreaScanClass = 'before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(180deg,transparent,var(--cs-color-agent-glow)_50%,transparent)] before:bg-size-[100%_200%] before:animate-scan before:opacity-muted';
+export const agentWorkAreaScanClass = 'before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(180deg,transparent,var(--cs-color-agent-glow)_50%,transparent)] before:bg-size-[100%_200%] before:animate-scan before:opacity-(--cs-opacity-muted)';
 
 /**
  * The agent counterpart of CanvasSelection: a spectrum rim 3px outside the object (agent-rim, widened to 2px and moved out)

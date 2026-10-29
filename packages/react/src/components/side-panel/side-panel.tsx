@@ -99,6 +99,8 @@ export function SidePanel({
 
   // The header hairline separates it from content that slid under it: it shows only once the body is scrolled.
   const [scrolled, setScrolled] = useState(false);
+  // A drag, or a key step on the handle, is direct manipulation: the width follows at once (no transition).
+  const [resizing, setResizing] = useState(false);
   const [isCollapsed, setCollapsed] = useControllableState({ value: collapsed, defaultValue: defaultCollapsed, onChange: onCollapsedChange });
   const [raw, setWidth] = useControllableState({ value: preset.bounds ? width : undefined, defaultValue: defaultWidth ?? preset.width, onChange: onWidthChange });
   const bounds = preset.bounds;
@@ -133,6 +135,7 @@ export function SidePanel({
       data-variant={variant}
       data-size={presetName}
       data-state={isCollapsed ? 'collapsed' : 'expanded'}
+      data-resizing={resizing || undefined}
       aria-label={label}
       inert={isCollapsed}
       style={{ '--side-panel-w': customWidth } as CSSProperties}
@@ -177,6 +180,11 @@ export function SidePanel({
           formatValueText={formatWidthText}
           controls={panelId}
           onValueChange={setWidth}
+          onResizeStart={() => setResizing(true)}
+          onResizeEnd={() => setResizing(false)}
+          onKeyDown={() => setResizing(true)}
+          onKeyUp={() => setResizing(false)}
+          onBlur={() => setResizing(false)}
           className={cn('absolute inset-y-0 z-10 group-data-[layout=compact]/app-shell:hidden', edge === 'end' ? '-left-1' : '-right-1')}
         />
       )}

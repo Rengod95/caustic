@@ -66,7 +66,7 @@ export const stepperItem = cva('relative', {
 
 // Horizontal: centred on the indicator, from 4px past the previous indicator to 4px before this one.
 // Vertical: 2px under the indicator to 2px above the item end, centred under it.
-export const stepperConnector = cva('absolute h-auto rounded-full', {
+export const stepperConnector = cva('absolute h-auto rounded-full transition-control', {
   variants: {
     orientation: {
       horizontal: 'top-[calc(var(--ind)/2)] start-[calc(-50%+var(--ind)/2+var(--spacing))] end-[calc(50%+var(--ind)/2+var(--spacing))] h-0.5',
@@ -81,7 +81,7 @@ export const stepperConnector = cva('absolute h-auto rounded-full', {
 // tone.text check, outline a 1.5px tone.solid ring with a tone.text check, ghost the tone.text check alone.
 // The current step is always the 2px tone ring with a larger number; upcoming steps stay neutral (tertiary number);
 // a failed step is the danger glyph on danger.soft.
-export const stepperIndicator = cva('relative grid size-(--ind) place-items-center rounded-full font-ui font-semibold', {
+export const stepperIndicator = cva('relative grid size-(--ind) place-items-center rounded-full font-ui font-semibold transition-control', {
   variants: {
     status: {
       done: '',
@@ -155,7 +155,7 @@ export const stepperDescription = cva('font-ui text-text-tertiary', {
  */
 export const stepperProgressClipClass = 'pointer-events-none absolute inset-px overflow-hidden rounded-[calc(var(--stepper-r,var(--cs-radius-xl))-1px)]';
 export const stepperProgressClass = 'block h-0.5 bg-neutral-track';
-export const stepperProgressFillClass = 'block h-full w-(--stepper-progress) bg-success-solid';
+export const stepperProgressFillClass = 'block h-full w-(--stepper-progress) bg-success-solid transition-[width] duration-gentle ease-standard';
 
 /** Header parts: title row, space-between, padding 4px 6px 6px, semibold; the count is tertiary tabular numerals, one step
  *  quieter (text.placeholder) on the checklist (owner 2026-10-28, round 4: with the done rows and the end note). */
@@ -167,7 +167,7 @@ export const stepperCountClass = 'font-normal tabular-nums text-text-tertiary in
  * size steps its height and type: xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui. A failed row keeps the
  * upcoming look in danger text.
  */
-export const stepperChecklistItem = cva('flex items-center gap-2 rounded-sm px-1.5', {
+export const stepperChecklistItem = cva('flex animate-rise items-center gap-2 rounded-sm px-1.5 transition-control', {
   variants: {
     status: {
       done: 'text-text-placeholder',
@@ -187,7 +187,7 @@ export const stepperChecklistItem = cva('flex items-center gap-2 rounded-sm px-1
 });
 
 /** The 16px mark box: success check disc (done), the now mark, the danger glyph (failed) or a dashed circle (todo). */
-export const stepperChecklistIndicator = cva('grid size-icon-md shrink-0 place-items-center', {
+export const stepperChecklistIndicator = cva('grid size-icon-md shrink-0 place-items-center transition-control', {
   variants: {
     status: {
       done: 'rounded-full bg-success-soft text-success-text [&_svg]:size-icon-xs [&_svg]:stroke-3',

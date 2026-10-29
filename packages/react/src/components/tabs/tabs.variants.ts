@@ -39,7 +39,7 @@ export const tabsListVariants = cva('flex', {
 export const tabsTriggerVariants = cva(
   [
     'group relative inline-flex items-center gap-1 whitespace-nowrap font-ui text-text-tertiary',
-    'transition-colors duration-base ease-out outline-none hover:text-text-primary focus-visible:shadow-focus',
+    'transition-control outline-none hover:text-text-primary focus-visible:shadow-focus',
     // Disabled is colour and the tone drops: the stacked disabled + active rule (0,3,0) beats the active text, and the bar greys out.
     'data-[state=active]:text-text-primary disabled:pointer-events-none disabled:text-disabled-text disabled:data-[state=active]:text-disabled-text',
   ],
@@ -80,7 +80,7 @@ export const tabsCountVariants = cva('inline-flex items-center rounded-full bg-n
 /** The 2px bar under the selected underline tab, on the list hairline; the pill variants have none. Hovering an
  *  unselected tab shows the bar in border.strong as a hint that it is clickable (owner 2026-10-28). */
 export const tabsIndicatorVariants = cva(
-  'absolute inset-x-0 -bottom-px h-0.5 rounded-xs bg-(--tone-solid) opacity-0 transition-opacity duration-base ease-out group-data-[state=active]:opacity-100 group-data-[state=inactive]:group-hover:bg-border-strong group-data-[state=inactive]:group-hover:opacity-100 group-disabled:bg-disabled-text',
+  'absolute inset-x-0 -bottom-px h-0.5 rounded-xs bg-(--tone-solid) opacity-0 transition-[opacity,background-color] duration-base ease-out group-data-[state=active]:opacity-100 group-data-[state=inactive]:group-hover:bg-border-strong group-data-[state=inactive]:group-hover:opacity-100 group-disabled:bg-disabled-text',
   {
     variants: { variant: { underline: '', solid: 'hidden', soft: 'hidden', outline: 'hidden', ghost: 'hidden' } },
     defaultVariants: { variant: 'underline' },

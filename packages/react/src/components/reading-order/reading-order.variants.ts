@@ -18,7 +18,7 @@ export const readingOrderItemVariants = cva('');
 export const readingOrderRowVariants = cva(
   [
     'group grid w-full cursor-grab touch-none select-none grid-cols-[var(--cs-icon-lg)_1fr_auto] items-center gap-2 rounded-md border-0 px-2 text-left font-ui text-text-primary outline-none',
-    'transition-[background-color,opacity] duration-120 ease-out focus-visible:shadow-focus',
+    'transition-[background-color,opacity] duration-quick ease-out focus-visible:shadow-focus',
     'data-[dragging]:bg-neutral-pressed data-[dragging]:opacity-64',
   ],
   {

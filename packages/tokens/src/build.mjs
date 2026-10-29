@@ -525,24 +525,26 @@ function tailwindTheme() {
   // Agent scanning a region: a glow band sweeping down a 200%-tall gradient.
   add('animate-scan', `cs-scan var(--${P}-duration-scan) var(--${P}-ease-out) infinite`);
   // Presets (motion v2). Enter and exit take their offset and scale from the --cs-enter-* variables set by the modifiers.
-  add('animate-enter', `cs-enter var(--${P}-duration-swift) var(--${P}-ease-out) both`);
+  add('animate-enter', `cs-enter var(--${P}-duration-swift) var(--${P}-ease-out) backwards`);
   add('animate-exit', `cs-exit var(--${P}-duration-quick) var(--${P}-ease-out) both`);
-  add('animate-enter-panel', `cs-enter var(--${P}-duration-gentle) var(--${P}-ease-drawer) both`);
+  add('animate-enter-dialog', `cs-enter var(--${P}-duration-gentle) var(--${P}-ease-out) backwards`);
+  add('animate-enter-panel', `cs-enter var(--${P}-duration-gentle) var(--${P}-ease-drawer) backwards`);
   add('animate-exit-panel', `cs-exit var(--${P}-duration-base) var(--${P}-ease-drawer) both`);
   add('animate-collapse-open', `cs-collapse-open var(--${P}-duration-base) var(--${P}-ease-out)`);
-  add('animate-collapse-close', `cs-collapse-close var(--${P}-duration-base) var(--${P}-ease-out)`);
-  add('animate-rise', `cs-rise var(--${P}-duration-swift) var(--${P}-ease-out) both`);
-  add('animate-pop', `cs-pop var(--${P}-duration-snappy) var(--${P}-ease-snappy) both`);
+  add('animate-collapse-close', `cs-collapse-close var(--${P}-duration-base) var(--${P}-ease-out) forwards`);
+  add('animate-rise', `cs-rise var(--${P}-duration-swift) var(--${P}-ease-out) backwards`);
+  add('animate-pop', `cs-pop var(--${P}-duration-snappy) var(--${P}-ease-snappy) backwards`);
   L.push('  @keyframes cs-rot { to { transform: rotate(360deg); } }');
   L.push('  @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }');
   L.push('  @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }');
   L.push('  @keyframes cs-slide { to { background-position: -200% 0; } }');
-  L.push(`  @keyframes cs-enter { from { opacity: 0; translate: var(--${P}-enter-x, 0) var(--${P}-enter-y, 0); scale: var(--${P}-enter-scale, 1); } }`);
-  L.push(`  @keyframes cs-exit { to { opacity: 0; translate: var(--${P}-enter-x, 0) var(--${P}-enter-y, 0); scale: var(--${P}-enter-scale, 1); } }`);
+  // Enter and exit move with transform, so they compose with the translate/scale properties (centring, press, lift).
+  L.push(`  @keyframes cs-enter { from { opacity: 0; transform: translate(var(--${P}-enter-x, 0), var(--${P}-enter-y, 0)) scale(var(--${P}-enter-scale, 1)); } }`);
+  L.push(`  @keyframes cs-exit { to { opacity: 0; transform: translate(var(--${P}-enter-x, 0), var(--${P}-enter-y, 0)) scale(var(--${P}-enter-scale, 1)); } }`);
   L.push(`  @keyframes cs-collapse-open { from { height: 0; } to { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } }`);
   L.push(`  @keyframes cs-collapse-close { from { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; } }`);
-  L.push(`  @keyframes cs-rise { from { opacity: 0; translate: 0 var(--${P}-shift-enter); } }`);
-  L.push('  @keyframes cs-pop { from { opacity: 0; scale: 0.6; } }');
+  L.push(`  @keyframes cs-rise { from { opacity: 0; transform: translateY(var(--${P}-shift-enter)); } }`);
+  L.push('  @keyframes cs-pop { from { opacity: 0; transform: scale(0.6); } }');
   L.push('}', '');
   L.push(`/* Caustic utilities: materials, agent signature, focus policy */
 @utility glass {

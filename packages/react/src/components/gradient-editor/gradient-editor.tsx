@@ -493,7 +493,7 @@ export function GradientEditor({
         </div>
         <details data-slot="gradient-editor-details" open className="group">
           <summary data-slot="gradient-editor-summary" className={gradientSummaryVariants()}>
-            <ChevronRight data-slot="gradient-editor-summary-chevron" aria-hidden className="size-icon-sm shrink-0 stroke-[1.75] transition-transform duration-base ease-out group-open:rotate-90" />
+            <ChevronRight data-slot="gradient-editor-summary-chevron" aria-hidden className="size-icon-sm shrink-0 stroke-[1.75] transition-[rotate] duration-base ease-out group-open:rotate-90" />
             {labels.details}
           </summary>
           <div data-slot="gradient-editor-details-body" className="mt-1.5 grid grid-cols-2 gap-1.5">

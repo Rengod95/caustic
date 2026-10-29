@@ -76,6 +76,9 @@ export interface DialogProps extends Omit<ComponentProps<typeof D.Content>, 'chi
   children?: ReactNode;
 }
 
+/** The scrim: a fade with the content (enter gentle, exit quick). Radix keeps it mounted until the exit has run. */
+const overlayClass = 'fixed inset-0 z-60 bg-bg-scrim data-[state=open]:animate-enter-dialog data-[state=closed]:animate-exit';
+
 /**
  * Thick-glass dialog. Without title it is the compact stack you compose with DialogHeader/Title/Description/Footer.
  * With title (and always at an edge) it is sectioned: header band, scrolling DialogBody, footer band.
@@ -121,7 +124,7 @@ export function Dialog({
       {title != null && children != null ? <DialogBody>{children}</DialogBody> : children}
       {footer != null && <DialogFooter>{footer}</DialogFooter>}
       {frame === 'compact' && showClose && (
-        <Close data-slot="dialog-close" {...(closeLabel !== undefined ? { 'aria-label': closeLabel } : {})} className="absolute right-2.5 top-2.5 inline-grid size-control-sm place-items-center rounded-md text-text-secondary outline-none hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-md">
+        <Close data-slot="dialog-close" {...(closeLabel !== undefined ? { 'aria-label': closeLabel } : {})} className="absolute right-2.5 top-2.5 inline-grid size-control-sm place-items-center rounded-md text-text-secondary outline-none transition-control press-sm hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-md">
           <X />
         </Close>
       )}
@@ -133,7 +136,7 @@ export function Dialog({
       <AD.Root {...defined({ open, defaultOpen, onOpenChange })}>
         {trigger != null && <AD.Trigger asChild>{trigger}</AD.Trigger>}
         <AD.Portal>
-          <AD.Overlay data-slot="dialog-overlay" className="fixed inset-0 z-60 bg-bg-scrim" />
+          <AD.Overlay data-slot="dialog-overlay" className={overlayClass} />
           <AD.Content data-slot="dialog" {...defined({ onOpenAutoFocus })} {...surface}>{content}</AD.Content>
         </AD.Portal>
       </AD.Root>
@@ -158,7 +161,7 @@ export function Dialog({
       {trigger != null && <D.Trigger asChild>{trigger}</D.Trigger>}
       {inline ? body : (
         <D.Portal>
-          <D.Overlay data-slot="dialog-overlay" className="fixed inset-0 z-60 bg-bg-scrim" />
+          <D.Overlay data-slot="dialog-overlay" className={overlayClass} />
           {body}
         </D.Portal>
       )}

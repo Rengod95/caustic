@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // tailwind-merge cannot tell two glass utilities apart. The default 4 follows the size as before (3 at md, see below).
 // tone and variant re-point the material (solid = the regular glass, today).
 export const floatingBarVariants = cva(
-  'glass inline-flex items-center gap-0.5 rounded-toolbar',
+  'animate-enter enter-scale glass inline-flex items-center gap-0.5 rounded-toolbar',
   {
     variants: {
       size: {
@@ -71,7 +71,7 @@ export const floatingBarItemVariants = cva(
   [
     'group/item relative inline-grid shrink-0 place-items-center select-none rounded-toolbar-item font-ui',
     'bg-transparent text-text-secondary',
-    'transition-[background-color,box-shadow,color] duration-120 ease-out',
+    'transition-control',
     'outline-none hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
     // Disabled is a colour, not opacity.
     'disabled:pointer-events-none disabled:text-disabled-text',
@@ -87,10 +87,10 @@ export const floatingBarItemVariants = cva(
   {
     variants: {
       size: {
-        lg: 'size-toolbar-item',
-        md: 'size-toolbar-item-md',
-        sm: 'size-control-sm',
-        xs: 'size-control-xs',
+        lg: 'size-toolbar-item press',
+        md: 'size-toolbar-item-md press',
+        sm: 'size-control-sm press-sm',
+        xs: 'size-control-xs press-sm',
       },
     },
     defaultVariants: { size: 'lg' },
@@ -104,7 +104,7 @@ export const floatingBarIconVariants = cva('inline-grid place-items-center [&_sv
 
 // The shortcut hint shows only on demand (owner 2026-10-27, A): hover or keyboard focus on its item. It stays in the aria-label.
 export const floatingBarShortcutVariants = cva(
-  'pointer-events-none absolute right-0.75 bottom-0.5 font-mono text-mono-micro opacity-0 group-hover/item:opacity-100 group-focus-visible/item:opacity-100',
+  'pointer-events-none absolute right-0.75 bottom-0.5 font-mono text-mono-micro transition-opacity duration-quick ease-out opacity-0 group-hover/item:opacity-100 group-focus-visible/item:opacity-100',
   {
     variants: { disabled: { true: 'text-disabled-text', false: 'text-text-tertiary' } },
     defaultVariants: { disabled: false },

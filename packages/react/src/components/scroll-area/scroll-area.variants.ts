@@ -49,7 +49,7 @@ const WIDEN = 'group-hover/scroll-area:[scrollbar-width:auto]';
 const THUMB = '[scrollbar-color:var(--scroll-area-thumb)_transparent]';
 
 export const scrollAreaViewportVariants = cva(
-  ['min-h-0 min-w-0 overscroll-contain scroll-auto rounded-[inherit] outline-none focus-visible:shadow-[var(--cs-focus-field),var(--cs-focus)]', WIDEN],
+  ['min-h-0 min-w-0 overscroll-contain scroll-auto rounded-[inherit] outline-none transition-[scrollbar-color] duration-quick ease-standard focus-visible:shadow-[var(--cs-focus-field),var(--cs-focus)]', WIDEN],
   {
     variants: {
       scrollbar: {

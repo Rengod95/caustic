@@ -1,7 +1,8 @@
 import { cva } from 'class-variance-authority';
 
-/** The overlay box: positioned by the rect custom properties, never a pointer target. */
-export const agentCursorVariants = cva('pointer-events-none absolute top-(--rect-t) right-(--rect-r) bottom-(--rect-b) left-(--rect-l) z-20 flex items-start gap-0.5');
+/** The overlay box: positioned by the rect custom properties, never a pointer target. The agent drives the rect, so the box
+ *  glides to each new position with the spring (top, right, bottom, left) and rises in once on mount. */
+export const agentCursorVariants = cva('animate-enter enter-scale pointer-events-none absolute top-(--rect-t) right-(--rect-r) bottom-(--rect-b) left-(--rect-l) z-20 flex items-start gap-0.5 transition-[top,right,bottom,left] duration-spring ease-spring');
 
 // Five common props (lib/common-props.ts) land on the name tag, the visible box. Each axis' default is the tag's own
 // look (the agent spectrum fill, agent.on text, full radius with the 2xs pointer corner, elevation 3, 22px). The own

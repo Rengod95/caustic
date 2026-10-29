@@ -62,7 +62,7 @@ export const motionTimelineLaneVariants = cva('grid grid-cols-[var(--cs-size-tim
  */
 export const motionTimelineLaneLabelVariants = cva([
   'flex h-full items-center gap-1.5 overflow-hidden px-2.5 font-normal whitespace-nowrap text-text-secondary outline-none [&_svg]:size-chip-icon [&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
-  '[&[role=button]]:cursor-pointer [&[role=button]]:hover:bg-neutral-hover focus-visible:shadow-focus aria-pressed:selected aria-pressed:hover:bg-selection-fill-hover',
+  'transition-control [&[role=button]]:press [&[role=button]]:cursor-pointer [&[role=button]]:hover:bg-neutral-hover focus-visible:shadow-focus aria-pressed:selected aria-pressed:hover:bg-selection-fill-hover',
 ], {
   variants: { size: { xs: 'text-ui-xs', sm: 'text-ui-sm', md: 'text-ui-sm', lg: 'text-ui' } },
   defaultVariants: { size: 'md' },
@@ -75,7 +75,7 @@ export const motionTimelineBarVariants = cva('absolute top-[calc(50%-var(--spaci
 
 /** A keyframe, centred on the lane: its ring and selected fill read --mt-key (the root tone), accent by default. */
 export const motionTimelineKeyframeVariants = cva([
-  'absolute top-[calc(50%-var(--spacing)*1.5)] left-(--l) size-2.5 -translate-x-1/2 rotate-45 cursor-pointer rounded-2xs bg-surface-base outline-none',
+  'absolute top-[calc(50%-var(--spacing)*1.5)] left-(--l) size-2.5 -translate-x-1/2 rotate-45 cursor-pointer rounded-2xs bg-surface-base outline-none transition-control press-sm',
   'shadow-[inset_0_0_0_1.5px_var(--mt-key,var(--cs-color-accent-solid))]',
   'focus-visible:shadow-focus aria-pressed:bg-[color:var(--mt-key,var(--cs-color-accent-solid))]',
 ]);

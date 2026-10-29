@@ -60,14 +60,17 @@ export const imageFillFrameVariants = cva('', {
   defaultVariants: { radius: 'xl', shadow: 'none' },
 });
 
-/** The image moves between the four layouts (inset, radius) with a spring; reduced motion drops the animation. */
+/**
+ * The image moves between the layouts (inset, radius) with a spring when the mode changes. Crop has no transition: its
+ * --stage-* values follow the crop drag, and a transition would make the preview lag the pointer (drag moves at once).
+ */
 export const imageFillImageVariants = cva(
-  'absolute bg-(image:--img) bg-cover bg-center transition-[inset,border-radius] duration-320 ease-spring motion-reduce:transition-none',
+  'absolute bg-(image:--img) bg-cover bg-center',
   {
     variants: {
       mode: {
-        fill: 'inset-0 rounded-none',
-        fit: 'inset-y-0 inset-x-[22%] rounded-none',
+        fill: 'inset-0 rounded-none transition-[inset,border-radius] duration-spring ease-spring',
+        fit: 'inset-y-0 inset-x-[22%] rounded-none transition-[inset,border-radius] duration-spring ease-spring',
         // Crop: the 4:3 image box placed by the component (--stage-*) so the kept rectangle covers the crop frame.
         crop: 'top-(--stage-t) right-(--stage-r) bottom-(--stage-b) left-(--stage-l) rounded-md',
         tile: 'inset-0 rounded-none bg-auto bg-repeat bg-size-[33.33%_50%]',
@@ -78,7 +81,7 @@ export const imageFillImageVariants = cva(
 );
 
 export const imageFillCropFrameVariants = cva(
-  'pointer-events-none absolute left-[calc(var(--spacing)*7.5)] right-[calc(var(--spacing)*7.5)] top-3.5 bottom-3.5 rounded-xs border-[1.5px] border-dashed border-canvas-handle shadow-[0_0_0_999px_var(--cs-color-media-scrim)] transition-opacity duration-base ease-out motion-reduce:transition-none',
+  'pointer-events-none absolute left-[calc(var(--spacing)*7.5)] right-[calc(var(--spacing)*7.5)] top-3.5 bottom-3.5 rounded-xs border-[1.5px] border-dashed border-canvas-handle shadow-[0_0_0_999px_var(--cs-color-media-scrim)] transition-opacity duration-base ease-out',
   {
     variants: { mode: { fill: 'opacity-0', fit: 'opacity-0', crop: 'opacity-100', tile: 'opacity-0' } },
     defaultVariants: { mode: 'fill' },

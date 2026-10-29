@@ -107,7 +107,7 @@ export const sliderKnob = cva('absolute -top-1.25 left-1/2 size-3 -translate-x-1
 
 export const sliderThumb = cva(
   [
-    'relative block rounded-full bg-control-thumb shadow-thumb outline-none transition-transform duration-120 ease-out',
+    'relative block rounded-full bg-control-thumb shadow-thumb outline-none transition-control',
     'before:absolute before:-inset-1.5 before:content-[""]',
     'hover:scale-[1.08] group-active:scale-[1.18] focus-visible:shadow-focus',
   ],
@@ -189,12 +189,12 @@ export const sliderControlVariants = cva(
 );
 
 /** Levels fill: the range, from the start to the current level, following with a spring. */
-export const sliderLevelsRange = cva('left-0 w-(--fill) transition-[width] duration-320 ease-spring');
+export const sliderLevelsRange = cva('left-0 w-(--fill) transition-[width] duration-snappy ease-snappy');
 
 /** One level mark: 8px hollow dot; filled in the tone up to the current level; the current level is a 16px white thumb
  *  with a 2px tone ring and the small thumb shadow, so it closes the fill (owner 2026-10-28, A). */
 export const sliderMarkVariants = cva([
-  'size-2 rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
+  'size-2 rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] transition-[width,height,background-color,box-shadow] duration-swift ease-standard',
   'data-[state=on]:bg-(--tone-solid) data-[state=on]:shadow-none group-aria-disabled:data-[state=on]:bg-disabled-text data-[state=current]:size-4 data-[state=current]:bg-control-thumb',
   'data-[state=current]:shadow-[0_0_0_2px_var(--tone-solid),var(--cs-elevation-thumb-sm)] group-aria-disabled:data-[state=current]:shadow-[0_0_0_2px_var(--cs-color-disabled-text),var(--cs-elevation-thumb-sm)]',
 ]);
@@ -208,7 +208,7 @@ export const sliderDotsVariants = cva('flex items-center gap-2.5');
 /** One dot (radio): neutral.track at rest, the current dot in the tone and scaled 1.25; hit area extended past it. */
 export const sliderStepVariants = cva(
   [
-    'relative rounded-full bg-neutral-track outline-none transition-[transform,background-color] duration-200 ease-spring before:absolute before:-inset-1.75',
+    'relative rounded-full bg-neutral-track outline-none transition-control before:absolute before:-inset-1.75',
     'focus-visible:shadow-focus data-[state=checked]:scale-125 data-[state=checked]:bg-(--tone-solid)',
     'disabled:cursor-not-allowed disabled:bg-disabled-fill disabled:data-[state=checked]:bg-disabled-text',
   ],
@@ -222,7 +222,7 @@ export const sliderStepVariants = cva(
 export const sliderBarsVariants = cva(
   [
     'group inline-flex h-control-inline items-center gap-1.5 rounded-md px-2 text-ui-sm text-text-secondary outline-none',
-    'transition-colors duration-120 hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus disabled:text-disabled-text',
+    'transition-control hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus disabled:text-disabled-text',
   ],
   {
     variants: {
@@ -239,7 +239,7 @@ export const sliderBarsVariants = cva(
 /** Bars glyph: three ascending bars (5, 8, 12px), lit in the tone up to the level. */
 export const sliderGlyphVariants = cva('inline-flex h-3 items-end gap-0.5');
 export const sliderBarVariants = cva(
-  'block w-0.75 rounded-xs bg-neutral-track data-[state=on]:bg-(--tone-solid) group-disabled:bg-disabled-fill group-disabled:data-[state=on]:bg-disabled-text',
+  'block w-0.75 rounded-xs bg-neutral-track transition-control data-[state=on]:bg-(--tone-solid) group-disabled:bg-disabled-fill group-disabled:data-[state=on]:bg-disabled-text',
   {
     variants: { level: { 0: 'h-1.25', 1: 'h-2', 2: 'h-3' } },
     defaultVariants: { level: 0 },

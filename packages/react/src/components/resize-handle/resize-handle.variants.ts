@@ -40,7 +40,7 @@ export const resizeHandleVariants = cva(
 // radius / shadow apply to the line (null when unset keeps rounded-full and no shadow).
 export const resizeHandleLineVariants = cva(
   [
-    'flex-none rounded-full transition-colors duration-120 ease-out motion-reduce:transition-none',
+    'flex-none rounded-full transition-colors duration-quick ease-standard',
   ],
   {
     variants: {

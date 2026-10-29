@@ -30,7 +30,7 @@ export const contextAnalyticsRoundButton = cva('flex h-full w-full cursor-pointe
  * supported; xs was too small for the shape to read). Selected: a 2px ring in the selection ink (selection.fill) outside a
  * 1px gap in the surface colour, so the ring reads as one crisp dark edge, not a grey halo; the column's fill is data, so it
  * cannot invert and the ring carries the one selection colour. */
-export const contextAnalyticsRound = cva('relative block h-[var(--ca-h)] w-full rounded-sm', {
+export const contextAnalyticsRound = cva('relative block h-[var(--ca-h)] w-full rounded-sm transition-[height,box-shadow] duration-base ease-standard', {
   variants: {
     // soft = neutral.track column; solid = neutral.graphic; outline = a neutral.border hairline, no fill; ghost = only the
     // output share. The selection ring replaces the outline hairline.
@@ -46,7 +46,7 @@ export const contextAnalyticsRound = cva('relative block h-[var(--ca-h)] w-full 
 });
 
 /** Output share, filled from the bottom of the column. Its height (a percentage of the column) arrives as --ca-out. */
-export const contextAnalyticsRoundOut = cva('absolute inset-x-0 bottom-0 block h-[var(--ca-out)] rounded-[inherit] bg-chart-1');
+export const contextAnalyticsRoundOut = cva('absolute inset-x-0 bottom-0 block h-[var(--ca-out)] rounded-[inherit] bg-chart-1 transition-[height] duration-base ease-standard');
 
 export const contextAnalyticsSummary = cva('flex items-center justify-between text-footnote');
 
@@ -69,7 +69,7 @@ export const contextAnalyticsComposition = cva('flex gap-0.5 overflow-hidden rou
 });
 
 /** One part of the context; its width (percent of the window) arrives as --ca-w. Free takes the rest. */
-export const contextAnalyticsSegment = cva('block h-full', {
+export const contextAnalyticsSegment = cva('block h-full transition-[width] duration-base ease-standard', {
   variants: {
     series: {
       scene: 'w-[var(--ca-w)] bg-chart-1',

@@ -55,7 +55,7 @@ export const alignmentPadVariants = cva(
 // segmented thumb, so the bars do not have to carry the selection alone at small sizes. Focus keeps the edge; a disabled
 // pad drops the thumb.
 export const alignmentPadCell = cva([
-  'group grid cursor-pointer place-items-center rounded-xs bg-transparent outline-none focus-visible:shadow-focus',
+  'group grid cursor-pointer place-items-center rounded-xs bg-transparent outline-none focus-visible:shadow-focus transition-control',
   'aria-checked:bg-control-raised aria-checked:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
   'aria-checked:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]',
   'group-aria-disabled/pad:aria-checked:bg-transparent group-aria-disabled/pad:aria-checked:shadow-none',
@@ -63,7 +63,7 @@ export const alignmentPadCell = cva([
 
 // Off: a dot (neutral graphic); hovering an off cell previews the selection colour on the dot (owner 2026-10-27, A): the
 // tone graphic step (neutral: text.secondary, as the ink bars have no graphic step). On: three bars along the flow in accent solid; the centre bar is the mark, the other two are its pseudo-elements.
-export const alignmentPadMark = cva('relative block transition-colors duration-120 ease-out', {
+export const alignmentPadMark = cva('relative block transition-colors duration-quick ease-standard', {
   variants: {
     checked: {
       false: 'size-1 rounded-full bg-neutral-graphic group-aria-disabled/pad:bg-disabled-border',

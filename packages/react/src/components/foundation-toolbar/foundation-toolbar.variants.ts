@@ -63,7 +63,7 @@ export const foundationToolbarDomainsVariants = cva([
 
 export const foundationToolbarDomainVariants = cva([
   'inline-flex min-h-control-xl min-w-16 shrink-0 cursor-pointer select-none flex-col items-center justify-center gap-1.5 whitespace-nowrap rounded-md p-1.5 font-ui text-label text-text-secondary outline-none',
-  'transition-[background-color,color,box-shadow] duration-120 ease-out',
+  'transition-control press',
   'hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
   // The chosen domain is neutral (owner 2026-10-27, O4): neutral-selected fill, primary icon and label, no edge.
   'aria-pressed:not-disabled:bg-neutral-selected aria-pressed:not-disabled:text-text-primary aria-pressed:not-disabled:hover:bg-neutral-selected-hover',

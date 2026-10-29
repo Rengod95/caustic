@@ -615,24 +615,25 @@
   --animate-indeterminate: cs-indet var(--cs-duration-indeterminate) var(--cs-ease-out) infinite;
   --animate-slide: cs-slide var(--cs-duration-slide) linear infinite;
   --animate-scan: cs-scan var(--cs-duration-scan) var(--cs-ease-out) infinite;
-  --animate-enter: cs-enter var(--cs-duration-swift) var(--cs-ease-out) both;
+  --animate-enter: cs-enter var(--cs-duration-swift) var(--cs-ease-out) backwards;
   --animate-exit: cs-exit var(--cs-duration-quick) var(--cs-ease-out) both;
-  --animate-enter-panel: cs-enter var(--cs-duration-gentle) var(--cs-ease-drawer) both;
+  --animate-enter-dialog: cs-enter var(--cs-duration-gentle) var(--cs-ease-out) backwards;
+  --animate-enter-panel: cs-enter var(--cs-duration-gentle) var(--cs-ease-drawer) backwards;
   --animate-exit-panel: cs-exit var(--cs-duration-base) var(--cs-ease-drawer) both;
   --animate-collapse-open: cs-collapse-open var(--cs-duration-base) var(--cs-ease-out);
-  --animate-collapse-close: cs-collapse-close var(--cs-duration-base) var(--cs-ease-out);
-  --animate-rise: cs-rise var(--cs-duration-swift) var(--cs-ease-out) both;
-  --animate-pop: cs-pop var(--cs-duration-snappy) var(--cs-ease-snappy) both;
+  --animate-collapse-close: cs-collapse-close var(--cs-duration-base) var(--cs-ease-out) forwards;
+  --animate-rise: cs-rise var(--cs-duration-swift) var(--cs-ease-out) backwards;
+  --animate-pop: cs-pop var(--cs-duration-snappy) var(--cs-ease-snappy) backwards;
   @keyframes cs-rot { to { transform: rotate(360deg); } }
   @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }
   @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
   @keyframes cs-slide { to { background-position: -200% 0; } }
-  @keyframes cs-enter { from { opacity: 0; translate: var(--cs-enter-x, 0) var(--cs-enter-y, 0); scale: var(--cs-enter-scale, 1); } }
-  @keyframes cs-exit { to { opacity: 0; translate: var(--cs-enter-x, 0) var(--cs-enter-y, 0); scale: var(--cs-enter-scale, 1); } }
+  @keyframes cs-enter { from { opacity: 0; transform: translate(var(--cs-enter-x, 0), var(--cs-enter-y, 0)) scale(var(--cs-enter-scale, 1)); } }
+  @keyframes cs-exit { to { opacity: 0; transform: translate(var(--cs-enter-x, 0), var(--cs-enter-y, 0)) scale(var(--cs-enter-scale, 1)); } }
   @keyframes cs-collapse-open { from { height: 0; } to { height: var(--cs-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } }
   @keyframes cs-collapse-close { from { height: var(--cs-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; } }
-  @keyframes cs-rise { from { opacity: 0; translate: 0 var(--cs-shift-enter); } }
-  @keyframes cs-pop { from { opacity: 0; scale: 0.6; } }
+  @keyframes cs-rise { from { opacity: 0; transform: translateY(var(--cs-shift-enter)); } }
+  @keyframes cs-pop { from { opacity: 0; transform: scale(0.6); } }
 }
 
 /* Caustic utilities: materials, agent signature, focus policy */

@@ -9,7 +9,7 @@ import { cva } from 'class-variance-authority';
  *   radius / shadow the strip (xl, elevation 3). size: height, padding, gap and type, md = 32 / 16 gap / footnote (own);
  *            the gap between hints is wide (owner 2026-10-27) so each key reads with its own word.
  */
-export const canvasHintVariants = cva('relative flex items-center rounded-xl whitespace-nowrap text-text-secondary', {
+export const canvasHintVariants = cva('animate-enter enter-scale relative flex items-center rounded-xl whitespace-nowrap text-text-secondary', {
   variants: {
     variant: { solid: '', soft: '', outline: '', ghost: '' },
     tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },

@@ -10,7 +10,9 @@ import { cva } from 'class-variance-authority';
  * and sort by name, so glass-thick and glass-shadow-4 live in the axes, not in the base.
  */
 export const menuSurfaceVariants = cva(
-  'glass min-w-menu-min rounded-2xl p-1.5 text-ui text-text-primary outline-none',
+  // The motion is the overlay's: a Radix content (Menu, Select, Combobox, Date picker) enters and exits with its state.
+  // The transform origin is set by each primitive's own className (the variable names differ).
+  'glass min-w-menu-min rounded-2xl p-1.5 text-ui text-text-primary outline-none data-[state=open]:animate-enter data-[state=closed]:animate-exit enter-scale enter-from-side',
   {
     variants: {
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
@@ -68,7 +70,7 @@ export const menuHeadingVariants = cva('mb-0.25 mt-0.75 px-2 py-1.25 text-text-t
  * Disabled is colour and drops the inversion: a disabled selected item is disabled.fill with disabled text.
  */
 export const menuItemVariants = cva([
-  'flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg px-2 text-left text-ui text-text-primary outline-none',
+  'flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg px-2 text-left text-ui text-text-primary outline-none transition-control',
   'hover:bg-neutral-hover data-[highlighted]:bg-neutral-hover',
   // No focus ring on items (owner 2026-10-28): Radix and the roving focus move real focus to the item under the pointer, and
   // the global :focus-visible ring drew a dark outline on hover. The highlight fill already marks the active item for

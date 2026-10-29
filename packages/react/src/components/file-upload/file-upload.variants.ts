@@ -19,7 +19,7 @@ export const fileUploadVariants = cva('grid min-w-0 gap-4', {
 export const dropzoneVariants = cva([
   'group grid cursor-pointer justify-items-center gap-2 rounded-2xl px-4 py-6.5 text-center text-ui text-text-primary',
   'outline-[1.5px] outline-dashed outline-border-control -outline-offset-[1.5px]',
-  'transition-[background-color,outline-color,box-shadow] duration-120 ease-out',
+  'transition-control',
   'focus-visible:shadow-focus',
   'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:outline-disabled-border',
   'data-[disabled]:[&_[data-slot^=file-upload-dropzone-]]:text-disabled-text',
@@ -75,7 +75,7 @@ export const dropzoneIconVariants = cva('inline-flex text-text-secondary group-d
 
 /** File rows are opaque surface.base (owner 2026-10-27, proposal A: no translucent fills) with the same hairline. */
 export const fileItemVariants = cva(
-  'grid grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-xl bg-surface-base py-2.5 pl-3 pr-2.5',
+  'animate-rise grid grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-xl bg-surface-base py-2.5 pl-3 pr-2.5',
   {
     variants: {
       status: {

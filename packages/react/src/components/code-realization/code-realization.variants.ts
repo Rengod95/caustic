@@ -12,7 +12,7 @@ export const codeRealizationPhasesVariants = cva('m-0 flex list-none items-cente
  * current step (neutral = text.primary); size = step height, plate padding and type; radius / shadow shape the current
  * plate with radiusClass (default md) / shadowClass (default 1) after these classes.
  */
-export const codeRealizationPhaseVariants = cva('inline-flex flex-none items-center gap-1.5 rounded-md font-medium', {
+export const codeRealizationPhaseVariants = cva('inline-flex flex-none items-center gap-1.5 rounded-md font-medium transition-control', {
   variants: {
     phase: { done: 'text-text-secondary', now: 'bg-surface-base text-text-primary shadow-1', todo: 'text-text-tertiary' },
     variant: { solid: '', soft: '', outline: '', ghost: '' },
@@ -39,7 +39,7 @@ export const codeRealizationPhaseVariants = cva('inline-flex flex-none items-cen
 });
 
 /** The step marker of a done or todo step (the current step shows the orb instead). 14px circle; variant sets its emphasis. */
-export const codeRealizationMarkerVariants = cva('grid size-3.5 shrink-0 place-items-center rounded-full', {
+export const codeRealizationMarkerVariants = cva('grid size-3.5 shrink-0 place-items-center rounded-full transition-control', {
   variants: {
     phase: { done: '', todo: '' },
     variant: { solid: '', soft: '', outline: '', ghost: '' },
@@ -70,11 +70,11 @@ export const codeRealizationOrbVariants = cva('', {
 });
 
 /** The check inside a done marker. */
-export const codeRealizationPhaseIconVariants = cva('size-2.5 shrink-0 stroke-3');
+export const codeRealizationPhaseIconVariants = cva('size-2.5 shrink-0 stroke-3 animate-pop');
 
 /** Connector between two steps; it stretches (16px at least). reached (the step after it is done or current) = a solid
  *  2px success graphic line, the progress drawn; ahead = a 2px dash of border.strong (4px dash, 4px gap) still to go. */
-export const codeRealizationSeparatorVariants = cva('h-0.5 min-w-4 flex-1 rounded-full', {
+export const codeRealizationSeparatorVariants = cva('h-0.5 min-w-4 flex-1 rounded-full transition-colors duration-quick ease-standard', {
   variants: {
     reached: {
       true: 'bg-success-graphic',
@@ -87,7 +87,7 @@ export const codeRealizationSeparatorVariants = cva('h-0.5 min-w-4 flex-1 rounde
 export const codeRealizationFilesVariants = cva('m-0 grid list-none gap-px p-0');
 /** One file row. A warning or danger row sits on its tone tint, so the one row that needs attention is not skimmed past;
  *  hover steps the tint to the soft fill (other rows hover with neutral.hover). */
-export const codeRealizationFileVariants = cva('grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-md px-2 text-ui-sm font-normal text-text-primary', {
+export const codeRealizationFileVariants = cva('grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-md px-2 text-ui-sm font-normal text-text-primary transition-colors duration-quick ease-standard animate-rise', {
   variants: {
     fileSize: { xs: 'h-6', sm: 'h-7', md: 'h-menu-item', lg: 'h-control-md' },
     fileTone: {
@@ -121,7 +121,7 @@ export const codeRealizationTargetVariants = cva(
     variants: {
       interactive: {
         true: [
-          'cursor-pointer transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover',
+          'cursor-pointer transition-control press hover:bg-neutral-hover',
           'focus-visible:bg-surface-base focus-visible:shadow-focus-field',
         ],
         false: '',

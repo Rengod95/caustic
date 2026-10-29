@@ -30,7 +30,7 @@ export const thinkingVariants = cva('', {
 /** The trigger row; size steps its type (ui-dense at md, the specimen). Hover lifts the chevron and a done label to
  *  text.secondary so the row reads as openable (owner 2026-10-28). */
 export const thinkingSummaryVariants = cva(
-  'flex w-full cursor-pointer items-center gap-2 rounded-md py-1 text-left text-text-tertiary outline-none transition-colors duration-base ease-out hover:text-text-secondary focus-visible:shadow-focus',
+  'flex w-full cursor-pointer items-center gap-2 rounded-md py-1 text-left text-text-tertiary outline-none transition-control hover:text-text-secondary focus-visible:shadow-focus',
   {
     variants: { size: { xs: 'text-ui-xs', sm: 'text-ui-sm', md: 'text-ui-dense', lg: 'text-ui' } },
     defaultVariants: { size: 'md' },

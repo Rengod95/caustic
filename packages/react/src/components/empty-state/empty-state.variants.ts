@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // emphasis of the region. `variant` also takes two presets (owner 2026-10-28): dashed (default, today's empty state)
 // and agent (the orb, the serif voice and the canvas dot grid; was CanvasEmpty). The presets only set mark, voice and
 // surface; the component resolves them, so the root and tile cvas receive the resolved values.
-export const emptyStateVariants = cva('grid w-full justify-items-center px-4 text-center', {
+export const emptyStateVariants = cva('animate-enter grid w-full justify-items-center px-4 text-center', {
   variants: {
     // dashed = 1px dashed border.strong outline inside the edge; grid = the canvas dot grid on bg.canvas, no outline
     // (16px dot step); none = no outline or fill.

@@ -7,7 +7,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export const buttonVariants = cva(
   [
     'relative inline-flex items-center justify-center whitespace-nowrap select-none',
-    'font-ui transition-[background-color,box-shadow,transform,color] duration-120 ease-out active:scale-[0.97]',
+    'font-ui transition-control press',
     'outline-none focus-visible:shadow-focus',
     // Disabled is a colour (disabled axis), not opacity: the tone drops out.
     'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-none',

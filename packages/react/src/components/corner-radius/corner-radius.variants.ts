@@ -21,8 +21,8 @@ export const cornerRadiusStage = cva('flex items-center justify-center gap-3.5 r
 // quarter of the shape (proposal A), so the stage answers which corner is being edited.
 export const cornerRadiusShape = cva(
   [
-    'relative h-radius-preview-h w-radius-preview-w shrink-0 rounded-(--r) [corner-shape:var(--shape)] bg-surface-base shadow-[inset_0_0_0_1.5px_var(--cs-color-text-primary)] transition-[border-radius] duration-gentle ease-spring',
-    'after:pointer-events-none after:absolute after:inset-0 after:hidden after:rounded-[inherit] after:shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-graphic)] after:content-[""] data-editing:after:block',
+    'relative h-radius-preview-h w-radius-preview-w shrink-0 rounded-(--r) [corner-shape:var(--shape)] bg-surface-base shadow-[inset_0_0_0_1.5px_var(--cs-color-text-primary)]',
+    'after:pointer-events-none after:absolute after:inset-0 after:hidden after:rounded-[inherit] after:shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-graphic)] after:content-[""] data-editing:after:block data-editing:after:animate-enter',
     'data-[editing=tl]:after:[clip-path:inset(0_50%_50%_0)] data-[editing=tr]:after:[clip-path:inset(0_0_50%_50%)]',
     'data-[editing=bl]:after:[clip-path:inset(50%_50%_0_0)] data-[editing=br]:after:[clip-path:inset(50%_0_0_50%)]',
   ],
@@ -66,7 +66,7 @@ export const cornerRadiusShape = cva(
 
 export const cornerRadiusFields = cva('grid grid-cols-[1fr_1fr_auto] items-center gap-1.5');
 
-export const cornerRadiusCorners = cva('grid grid-cols-2 gap-1.5');
+export const cornerRadiusCorners = cva('grid grid-cols-2 gap-1.5 animate-enter');
 
 // Top and left edges only, with a 6px top-left radius. The other corners mirror it.
 export const cornerRadiusGlyph = cva(

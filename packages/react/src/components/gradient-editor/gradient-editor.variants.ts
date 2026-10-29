@@ -96,7 +96,7 @@ export const gradientHandleVariants = cva(
 // The stop diamond, the batch thumb on paint (owner 2026-10-27): a 1.5px canvas.handle ring (thinner than 2px) and the
 // stronger thumb shadow (thumb + thumb-sm). Selected: the ink ring outside it, no check.
 export const gradientDotVariants = cva([
-  'absolute top-(--dy) left-(--dx) size-3.5 -translate-1/2 rotate-45 cursor-grab touch-none rounded-xs bg-(--stop-color) active:cursor-grabbing',
+  'absolute top-(--dy) left-(--dx) size-3.5 -translate-1/2 rotate-45 cursor-grab touch-none rounded-xs bg-(--stop-color) transition-control active:cursor-grabbing',
   'shadow-[0_0_0_1.5px_var(--cs-color-canvas-handle),var(--cs-elevation-thumb),var(--cs-elevation-thumb-sm)]',
   'data-[selected]:shadow-[0_0_0_1.5px_var(--cs-color-canvas-handle),0_0_0_3px_var(--cs-color-selection-fill),var(--cs-elevation-thumb),var(--cs-elevation-thumb-sm)]',
   'data-[disabled]:pointer-events-none',
@@ -116,7 +116,7 @@ export const gradientSectionTitleVariants = cva('text-ui-xs font-semibold text-t
 
 /** One stop row. The selected row inverts (selected utility: ink fill, paper text, no edge); in a disabled editor it drops the inversion to disabled.fill. */
 export const gradientRowVariants = cva(
-  'grid grid-cols-[calc(var(--spacing)*16)_auto_1fr_auto] items-center gap-1.5 rounded-md p-0.5 data-[selected]:not-in-data-[disabled]:selected in-data-[disabled]:data-[selected]:bg-disabled-fill',
+  'transition-control grid grid-cols-[calc(var(--spacing)*16)_auto_1fr_auto] items-center gap-1.5 rounded-md p-0.5 data-[selected]:not-in-data-[disabled]:selected in-data-[disabled]:data-[selected]:bg-disabled-fill',
 );
 
 export const gradientSummaryVariants = cva(

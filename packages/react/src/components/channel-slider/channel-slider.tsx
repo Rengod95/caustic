@@ -124,7 +124,7 @@ export function ChannelSlider({
           </SegmentedControl>
         )}
       </div>
-      <div data-slot="channel-slider-rows" className="grid gap-3">
+      <div key={mode} data-slot="channel-slider-rows" className="grid gap-3 animate-enter">
         {mode === 'oklch' && (
           <>
             <Slider

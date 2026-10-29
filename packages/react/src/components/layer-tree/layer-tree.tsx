@@ -1,5 +1,5 @@
 'use client';
-import { Check, ChevronDown, ChevronRight, Eye, EyeOff, Lock, LockOpen } from 'lucide-react';
+import { Check, ChevronRight, Eye, EyeOff, Lock, LockOpen } from 'lucide-react';
 import {
   Children, createContext, isValidElement, useContext, useId, useRef, useState,
   type ComponentProps, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactElement, type ReactNode,
@@ -8,7 +8,7 @@ import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import type { CommonProps, Radius, Size, Tone, Variant } from '../../lib/common-props.ts';
 import {
-  layerTreeCaptionVariants, layerTreeCheckVariants, layerTreeDropVariants, layerTreeEndVariants, layerTreeFrameVariants, layerTreeGhostIconVariants, layerTreeGhostVariants,
+  layerTreeCaptionVariants, layerTreeChevronVariants, layerTreeCheckVariants, layerTreeDropVariants, layerTreeEndVariants, layerTreeFrameVariants, layerTreeGhostIconVariants, layerTreeGhostVariants,
   layerTreeIconVariants, layerTreeLabelVariants, layerTreeMarkVariants, layerTreeRowRadiusVariants, layerTreeRowVariants, layerTreeTagVariants, layerTreeLockVariants,
   layerTreeTwistyVariants, layerTreeVisibilityVariants, layerTreeVariants,
 } from './layer-tree.variants.ts';
@@ -497,7 +497,7 @@ export function LayerTreeItem({
         data-slot="layer-tree-twisty" aria-hidden className={layerTreeTwistyVariants()}
         onClick={expandable ? e => { e.stopPropagation(); ctx.toggleExpanded(itemId); } : undefined}
       >
-        {expandable ? (isExpanded ? <ChevronDown /> : <ChevronRight />) : null}
+        {expandable ? <ChevronRight className={layerTreeChevronVariants({ open: isExpanded })} /> : null}
       </span>
       {icon != null && <span data-slot="layer-tree-icon" aria-hidden className={layerTreeIconVariants()}>{icon}</span>}
       <span data-slot="layer-tree-label" id={labelId} aria-disabled={invisible || undefined} className={layerTreeLabelVariants()}>{label}</span>

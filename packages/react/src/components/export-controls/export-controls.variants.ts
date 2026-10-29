@@ -20,7 +20,7 @@ export const exportControlsActionsVariants = cva('mt-3 flex items-center justify
 // The status has no glyph (owner 2026-10-27). soft (default, with tone success) is the result well of proposal A: the
 // tone tint, lg radius, 8 / 12 padding, secondary text. ghost is a plain line in the tone text (neutral: secondary);
 // outline boxes it with a 1px tone border and tone text; solid is the tone solid (ink for neutral) with on text.
-export const exportControlsStatusVariants = cva('flex items-center gap-2 text-ui-sm font-normal text-text-secondary', {
+export const exportControlsStatusVariants = cva('flex items-center gap-2 text-ui-sm font-normal text-text-secondary animate-rise', {
   variants: {
     tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
     variant: { solid: 'rounded-lg px-3 py-2', soft: 'rounded-lg px-3 py-2', outline: 'rounded-lg px-3 py-2', ghost: '' },

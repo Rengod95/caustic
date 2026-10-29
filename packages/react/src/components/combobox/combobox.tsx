@@ -393,7 +393,7 @@ export function Combobox({
         <Popover.Portal>
           <Popover.Content
             {...panelProps} data-slot="combobox-panel" side="bottom" align="start" sideOffset={6}
-            className={cn(menuSurfaceVariants(), comboboxPanelVariants({ width: popupWidth, inline: false }))}
+            className={cn(menuSurfaceVariants(), 'origin-(--radix-popover-content-transform-origin)', comboboxPanelVariants({ width: popupWidth, inline: false }))}
           >
             {panelBody}
           </Popover.Content>

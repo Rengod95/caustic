@@ -8,7 +8,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // Focus, invalid and disabled are drawn on top of every variant and never change with it.
 export const tagInputVariants = cva(
   [
-    'flex min-w-0 cursor-text flex-wrap items-center gap-1 rounded-xl px-2 py-1.5 text-ui transition-[box-shadow,background-color] duration-120 ease-out',
+    'flex min-w-0 cursor-text flex-wrap items-center gap-1 rounded-xl px-2 py-1.5 text-ui transition-control',
     // Focus is a fill change (owner 2026-10-28, field/input proposal 2): neutral.well, surface.base on the grey soft fill;
     // focus-field is the resting border.default hairline.
     'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field)]',

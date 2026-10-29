@@ -201,7 +201,7 @@ export function NumberField({
           {label != null && (
             <span data-slot="number-field-label" aria-hidden {...(locked || cv.inert ? {} : { ...handlers, onPointerDown: (e: PointerEvent<HTMLElement>) => { onScrubStart?.(); handlers.onPointerDown(e); } })}
               className={cn(
-                'grid h-full min-w-6 shrink-0 cursor-ew-resize select-none place-items-center pl-1.5 pr-0.5 text-label text-text-tertiary hover:text-text-primary [&_svg]:size-icon-sm in-data-[scrubbing]:text-text-primary in-data-[disabled]:text-disabled-text',
+                'grid h-full min-w-6 shrink-0 cursor-ew-resize select-none place-items-center pl-1.5 pr-0.5 text-label text-text-tertiary transition-control hover:text-text-primary [&_svg]:size-icon-sm in-data-[scrubbing]:text-text-primary in-data-[disabled]:text-disabled-text',
                 // The drag cue: a 2px dotted border.control underline under a live label on hover (not while locked, reserved or disabled).
                 !(locked || cv.inert) && 'decoration-border-control decoration-dotted decoration-2 underline-offset-3 hover:underline in-data-[scrubbing]:underline',
               )}>

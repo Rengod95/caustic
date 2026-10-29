@@ -7,7 +7,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 //   ghost   track transparent, no edge; on: thumb tone.solid
 export const switchVariants = cva(
   [
-    'group relative inline-flex shrink-0 items-center rounded-full bg-control-off p-0.5 transition-[background-color] duration-200 ease-out',
+    'group relative inline-flex shrink-0 items-center rounded-full bg-control-off p-0.5 transition-control',
     'outline-none focus-visible:shadow-focus',
     // Disabled is a colour, not opacity: the track drops to disabled.fill on and off; the thumb position still says which.
     'disabled:pointer-events-none disabled:bg-disabled-fill disabled:data-[state=checked]:bg-disabled-fill',
@@ -47,7 +47,7 @@ export const switchVariants = cva(
 // 20 / 16px when on, and while held it widens to 48 / 32px toward the centre (a static :active width; the press motion is later).
 export const switchThumb = cva(
   [
-    'block rounded-full bg-control-thumb transition-[transform,width] duration-320 ease-spring',
+    'block rounded-full bg-control-thumb transition-[translate,width] duration-snappy ease-snappy',
     'shadow-2',
   ],
   {

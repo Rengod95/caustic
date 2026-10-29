@@ -9,7 +9,7 @@ import { cva } from 'class-variance-authority';
 // radiusClass after these classes.
 export const composerVariants = cva([
   'grid cursor-text rounded-2xl',
-  'transition-[box-shadow,background-color] duration-quick',
+  'transition-control',
   // Disabled is a colour, not opacity: the box takes the disabled fill and edge (the elevation is kept) and the context
   // chips drop to the disabled text and edge (they are inert, not disabled); the tone drops out.
   'data-[disabled]:pointer-events-none',
@@ -68,7 +68,7 @@ export const composerContextVariants = cva('flex flex-wrap gap-1.5 [&_[data-slot
 export const composerBarVariants = cva('flex items-center gap-1');
 
 export const composerModelVariants = cva(
-  'inline-flex h-control-inline cursor-pointer items-center gap-1 rounded-md pl-2 pr-1.5 text-ui-sm text-text-tertiary outline-none transition-colors duration-quick hover:bg-neutral-hover hover:text-text-primary disabled:text-disabled-text focus-visible:shadow-focus [&_svg]:size-icon-sm',
+  'inline-flex h-control-inline cursor-pointer items-center gap-1 rounded-md pl-2 pr-1.5 text-ui-sm text-text-tertiary outline-none transition-control press hover:bg-neutral-hover hover:text-text-primary disabled:text-disabled-text focus-visible:shadow-focus [&_svg]:size-icon-sm',
 );
 
 /** The usage ring: track in neutral.track, the arc in the tone's solid (the svg colour); disabled.text when disabled.
@@ -85,3 +85,12 @@ export const composerUsageVariants = cva('size-usage-ring shrink-0 fill-none str
 
 /** The stop form keeps the ink solid of the send control (hover and pressed stay inside solid). */
 export const composerStopVariants = cva('hover:scale-100');
+
+/**
+ * The send arrow and the stop square share one grid cell inside the send control; the active glyph is opaque and the
+ * other fades out over quick, so the swap is a cross-fade with no change of size.
+ */
+export const composerSwapGlyphVariants = cva('col-start-1 row-start-1 transition-opacity duration-quick ease-out', {
+  variants: { active: { true: 'opacity-100', false: 'opacity-0' } },
+  defaultVariants: { active: true },
+});

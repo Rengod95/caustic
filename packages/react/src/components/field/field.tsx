@@ -72,7 +72,7 @@ export function Field({ label, hint, hintIcon, error, warning, success, required
                 ? <span data-slot="field-label" id={labelId} className={cn(fieldLabelVariants({ size }))}>{label}{marks(required, optional, optionalLabel)}</span>
                 : <label data-slot="field-label" id={labelId} htmlFor={id} className={cn(fieldLabelVariants({ size }))}>{label}{marks(required, optional, optionalLabel)}</label>
             )}
-            {count && <span data-slot="field-count" className={cn('text-hint tabular-nums text-text-tertiary', overLimit && 'text-danger-text')}>{count}</span>}
+            {count && <span data-slot="field-count" className={cn('text-hint tabular-nums text-text-tertiary transition-colors duration-quick ease-standard', overLimit && 'text-danger-text')}>{count}</span>}
           </div>
         )}
         {children}

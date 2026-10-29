@@ -5,7 +5,9 @@ import { cva } from 'class-variance-authority';
 // shadowClass for the non-glass variants), size = the body padding and gaps (body variants below; the width stays
 // size-color-picker-w), tone = the paint-type glyphs at rest (type variants below); radius is applied by ColorPicker
 // with radiusClass after these classes.
-export const colorPickerVariants = cva('relative grid max-w-full text-ui text-text-primary outline-none', {
+// The motion is the popover's (ColorPickerPopover is a Radix content that passes its state and origin to this root); a
+// picker that is not a Radix content has no data-state and does not animate.
+export const colorPickerVariants = cva('relative grid max-w-full text-ui text-text-primary outline-none origin-(--radix-popover-content-transform-origin) data-[state=open]:animate-enter data-[state=closed]:animate-exit enter-scale enter-from-side', {
   variants: {
     embedded: {
       false: 'z-40 w-color-picker-w overflow-hidden rounded-2xl',
@@ -32,7 +34,7 @@ export const colorPickerTypesVariants = cva('flex gap-0.5 px-2 pt-2');
 export const colorPickerTypeVariants = cva(
   [
     'grid size-control-sm shrink-0 cursor-pointer place-items-center rounded-md outline-none',
-    'transition-[background-color,color,box-shadow] duration-120 ease-out',
+    'transition-control press-sm',
     'hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
     // Checked inverts (selected utility: ink fill, paper glyph, no edge); disabled drops the inversion to disabled colour.
     'aria-checked:not-disabled:selected aria-checked:not-disabled:hover:bg-selection-fill-hover',
@@ -98,7 +100,7 @@ export const colorPickerFieldsVariants = cva(
 export const colorPickerFormatVariants = cva(
   [
     'flex h-control-md w-picker-format-w cursor-pointer items-center justify-between rounded-md bg-transparent pr-1.5 pl-2 text-ui-sm font-normal text-text-primary outline-none',
-    'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover focus-visible:shadow-focus',
+    'transition-control hover:bg-neutral-hover focus-visible:shadow-focus',
     '[&_svg]:size-icon-xs [&_svg]:text-text-tertiary [&_svg]:stroke-[1.75]',
   ],
 );

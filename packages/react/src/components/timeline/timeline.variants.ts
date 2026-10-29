@@ -17,7 +17,7 @@ export const timelineRowListVariants = cva('gap-0.5');
 // edge; solid = raised control rows with the control edge. The chosen entry always inverts (selected utility).
 export const timelineRowVariants = cva(
   [
-    'group relative grid w-full cursor-pointer grid-cols-[calc(var(--spacing)*5.5)_1fr_auto_var(--cs-icon-sm)] items-center gap-2 rounded-md px-2 text-left font-ui text-text-primary outline-none',
+    'animate-rise transition-control group relative grid w-full cursor-pointer grid-cols-[calc(var(--spacing)*5.5)_1fr_auto_var(--cs-icon-sm)] items-center gap-2 rounded-md px-2 text-left font-ui text-text-primary outline-none',
     'focus-visible:shadow-focus aria-selected:focus-visible:shadow-focus',
     // The chosen entry inverts (selected utility: ink fill, paper text, no edge; detail, time, check and the node invert with
     // it); hover on it is selection.fill-hover. Focus keeps only its ring, whose gap reads the fill.
@@ -62,7 +62,7 @@ export const timelineRowSpineVariants = cva('absolute -top-px -bottom-px left-[c
 export const timelineRowNodeVariants = cva('grid h-full place-items-center');
 
 /** The row dot: a ring dot; agent entries show the spectrum dot; the chosen entry is a paper (selection.on) dot on the inverted row (it wins). */
-export const timelineRowDotVariants = cva('relative size-2.5 rounded-full motion-reduce:animate-none', {
+export const timelineRowDotVariants = cva('relative size-2.5 rounded-full transition-[background-color,box-shadow] duration-quick ease-standard', {
   variants: {
     author: { human: '', agent: 'spectrum-fill', system: '' },
     selected: { true: 'bg-selection-on shadow-[inset_0_0_0_2px_var(--cs-color-selection-on)]', false: '' },
@@ -85,15 +85,15 @@ export const timelineRowTitleVariants = cva('block truncate font-ui font-medium 
   variants: { size: { xs: 'text-ui-xs', sm: 'text-ui-dense', md: 'text-ui-dense', lg: 'text-ui' } },
   defaultVariants: { size: 'md' },
 });
-export const timelineRowDetailVariants = cva('block font-ui text-ui-xs font-normal text-text-tertiary group-aria-selected:text-text-secondary');
-export const timelineRowTimeVariants = cva('font-ui text-ui-xs font-normal text-text-tertiary tabular-nums group-aria-selected:text-text-secondary');
+export const timelineRowDetailVariants = cva('block font-ui text-ui-xs font-normal text-text-tertiary transition-colors duration-quick ease-standard group-aria-selected:text-text-secondary');
+export const timelineRowTimeVariants = cva('font-ui text-ui-xs font-normal text-text-tertiary tabular-nums transition-colors duration-quick ease-standard group-aria-selected:text-text-secondary');
 /** Trailing check cell: kept on every row so the times align; the check shows on the chosen entry in primary text (selection.on on the inverted row). */
 export const timelineCheckVariants = cva('inline-grid size-icon-sm shrink-0 place-items-center text-text-primary [&_svg]:size-full [&_svg]:stroke-[2]');
 
 /* ── marker layout (an Avatar or an icon disc) ─────────────────────────────────────────────────────────────────────── */
 
 /** A feed entry: the marker column and the content column, 16px bottom padding. size steps the marker column (md = 32px). */
-export const timelineMarkerItemVariants = cva('group relative grid gap-3 pb-4', {
+export const timelineMarkerItemVariants = cva('animate-rise group relative grid gap-3 pb-4', {
   variants: {
     size: {
       xs: 'grid-cols-[calc(var(--spacing)*6)_1fr]',
@@ -202,7 +202,7 @@ export const timelineNoteVariants = cva('text-hint text-text-tertiary');
 /* ── node layout (default) ─────────────────────────────────────────────────────────────────────────────────────────── */
 
 /** One entry: grid node / 1fr / auto (node 18px at md). The spine is its own span; the 14px row spacing sits on the body so the item has no padding. */
-export const timelineItemVariants = cva('group relative grid grid-cols-[var(--cs-size-check)_1fr_auto] items-start gap-2.5', {
+export const timelineItemVariants = cva('animate-rise group relative grid grid-cols-[var(--cs-size-check)_1fr_auto] items-start gap-2.5', {
   variants: {
     size: {
       xs: 'grid-cols-[calc(var(--spacing)*3.5)_1fr_auto]',
@@ -229,7 +229,7 @@ export const timelineSpineVariants = cva('absolute bottom-0 left-[calc(var(--spa
 
 /** The node: an 18px cell that holds a solid dot. A resting node draws nothing itself (the dot is the mark); the selected node
  *  takes the tone around its dot (a 1.5px accent graphic ring by default). */
-export const timelineNodeVariants = cva('grid size-check place-items-center rounded-full', {
+export const timelineNodeVariants = cva('grid size-check place-items-center rounded-full transition-[background-color,box-shadow] duration-quick ease-standard', {
   variants: {
     selected: { true: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-accent-graphic)]', false: '' },
     tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
@@ -265,7 +265,7 @@ export const timelineNodeVariants = cva('grid size-check place-items-center roun
 /** The node dot (redesigned in round 1): a solid disc. Resting: 8px neutral.graphic. Agent: a 10px spectrum disc, rotating
  *  only while it is running. Selected (wins over agent): a 10px tone solid disc; on the solid node it shrinks to a 6px
  *  on-colour dot. xs and sm step the discs down with the node. */
-export const timelineDotVariants = cva('size-2 rounded-full motion-reduce:animate-none', {
+export const timelineDotVariants = cva('size-2 rounded-full transition-[width,height,background-color] duration-quick ease-standard', {
   variants: {
     author: { human: '', agent: 'size-2.5 spectrum-fill', system: '' },
     selected: { true: 'size-2.5 bg-accent-solid', false: '' },
@@ -317,7 +317,7 @@ export const timelineTimeVariants = cva('font-ui text-text-tertiary', {
 });
 
 /** The item restore confirm step: spans the body and action columns under the row, on the inset fill. */
-export const timelineConfirmVariants = cva('col-span-2 col-start-2 mb-3.5 grid gap-2 rounded-lg bg-bg-inset px-2.5 py-2');
+export const timelineConfirmVariants = cva('animate-rise col-span-2 col-start-2 mb-3.5 grid gap-2 rounded-lg bg-bg-inset px-2.5 py-2');
 
 /* ── root (last, so its defaults are the spec defaults) ────────────────────────────────────────────────────────────── */
 

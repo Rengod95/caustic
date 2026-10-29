@@ -56932,6 +56932,7 @@
       "animate-scan",
       "animate-enter",
       "animate-exit",
+      "animate-enter-dialog",
       "animate-enter-panel",
       "animate-exit-panel",
       "animate-collapse-open",

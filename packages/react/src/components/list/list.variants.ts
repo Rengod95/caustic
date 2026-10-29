@@ -172,7 +172,7 @@ export const listItemsVariants = cva('m-0 list-none p-0');
  */
 export const listRowVariants = cva(
   [
-    'group/row relative text-ui text-text-primary transition-[background-color] duration-120 ease-out',
+    'group/row relative animate-rise text-ui text-text-primary',
     'before:absolute before:end-0 before:top-0 before:h-px before:bg-border-subtle',
     'before:start-[calc(var(--spacing)*3.5+max(var(--li-lead,0px),var(--li-max-tile,0px),var(--li-max-avatar,0px),var(--li-max-thumb,0px),var(--li-max-check,0px),var(--li-max-grip,0px))+var(--li-sep-gap,0px))] first:before:hidden',
     'has-[[data-slot=list-trigger]]:hover:bg-neutral-hover has-[[data-slot=list-trigger]:active]:bg-neutral-pressed',
@@ -189,8 +189,8 @@ export const listRowVariants = cva(
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       status: { idle: '', working: '' },
       reorder: {
-        true: 'cursor-grab select-none translate-y-[var(--li-y,0px)] transition-[background-color,box-shadow,scale,translate] duration-base hover:bg-neutral-hover',
-        false: '',
+        true: 'cursor-grab select-none translate-y-[var(--li-y,0px)] transition-[background-color,box-shadow,scale,translate] duration-base ease-in-out hover:bg-neutral-hover',
+        false: 'transition-[background-color] duration-quick ease-standard',
       },
       actions: { none: '', hover: 'hover:bg-neutral-hover', swipe: 'overflow-hidden before:z-20' },
     },
@@ -209,13 +209,13 @@ export const listRowBoxVariants = cva('flex items-center gap-3 px-3.5 py-2', {
  * translated by --row-x (from the measured tray width and the drag), spring transition except while dragging.
  */
 export const listBodyVariants = cva(
-  'relative z-10 translate-x-[var(--row-x,0px)] cursor-grab touch-pan-y rounded-[inherit] bg-surface-base font-ui text-ui text-text-primary outline-none transition-[translate] duration-320 ease-spring motion-reduce:transition-none data-[dragging]:cursor-grabbing data-[dragging]:transition-none',
+  'relative z-10 translate-x-[var(--row-x,0px)] cursor-grab touch-pan-y rounded-[inherit] bg-surface-base font-ui text-ui text-text-primary outline-none transition-[translate] ease-spring duration-spring data-[dragging]:cursor-grabbing data-[dragging]:transition-none',
 );
 
 /** The opaque row (variant opaque, the former AppendList row): auto / 1fr / auto with a full-width 1px subtle top edge.
  *  Hover fills it with neutral.hover: rows are usually summaries the consumer opens, so they answer the pointer. */
 export const listOpaqueRowVariants = cva(
-  'relative grid grid-cols-[auto_1fr_auto] items-center gap-2 border-t border-border-subtle px-3 text-text-primary transition-[background-color] duration-120 ease-out hover:bg-neutral-hover',
+  'relative animate-rise grid grid-cols-[auto_1fr_auto] items-center gap-2 border-t border-border-subtle px-3 text-text-primary transition-[background-color] duration-quick ease-standard hover:bg-neutral-hover',
   {
     variants: { size: { xs: 'py-1 text-ui-xs', sm: 'py-1 text-ui-sm', md: 'py-1.5 text-ui-dense', lg: 'py-2 text-ui' } },
     defaultVariants: { size: 'md' },
@@ -324,14 +324,14 @@ export const listChevronVariants = cva('size-icon-md flex-none text-neutral-grap
  */
 export const listIndicatorVariants = cva(
   [
-    'relative grid size-check flex-none place-items-center bg-surface-base text-accent-on shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] transition-[background-color] duration-120 ease-out',
+    'relative grid size-check flex-none place-items-center bg-surface-base text-accent-on shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] transition-[background-color] duration-quick ease-standard',
     'data-[state=checked]:bg-accent-solid data-[state=checked]:shadow-none',
     'data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] data-[disabled]:data-[state=checked]:bg-disabled-fill',
   ],
   {
     variants: {
       shape: {
-        box: 'rounded-sm [&_svg]:size-icon-sm [&_svg]:stroke-3 [&_svg]:opacity-0 data-[state=checked]:[&_svg]:opacity-100',
+        box: 'rounded-sm [&_svg]:size-icon-sm [&_svg]:stroke-3 [&_svg]:opacity-0 data-[state=checked]:[&_svg]:opacity-100 data-[state=checked]:[&_svg]:animate-pop',
         radio: 'rounded-full',
       },
     },
@@ -340,12 +340,12 @@ export const listIndicatorVariants = cva(
 );
 
 /** The radio circle's dot: 7px, the indicator's glyph colour, shown when the row is checked. */
-export const listDotVariants = cva('size-radio-dot rounded-full bg-current opacity-0 data-[state=checked]:opacity-100');
+export const listDotVariants = cva('size-radio-dot rounded-full bg-current opacity-0 data-[state=checked]:opacity-100 data-[state=checked]:animate-pop');
 
 /** The 18px check at the end of a single-mode row (indicator check); invisible until checked; accent.text, which reads
  *  selection.on on the inverted row. */
 export const listTickVariants = cva(
-  'relative size-check flex-none text-accent-text opacity-0 transition-[opacity] duration-120 ease-out data-[state=checked]:opacity-100 data-[disabled]:text-disabled-text',
+  'relative size-check flex-none text-accent-text opacity-0 transition-opacity duration-quick ease-out data-[state=checked]:opacity-100 data-[state=checked]:animate-pop data-[disabled]:text-disabled-text',
 );
 
 /**
@@ -354,7 +354,7 @@ export const listTickVariants = cva(
  * hover darkens it to text.secondary; on the held row it takes the grip tone (--li-grip, accent.solid by default).
  */
 export const listHandleVariants = cva(
-  'relative flex size-icon-md flex-none cursor-grab touch-none items-center justify-center rounded-xs text-neutral-border-strong outline-none transition-[color] duration-120 ease-out before:absolute before:-inset-1 group-hover/row:text-text-secondary focus-visible:shadow-focus data-[dragging]:text-[var(--li-grip,var(--cs-color-accent-solid))] [&_svg]:size-icon-md',
+  'relative flex size-icon-md flex-none cursor-grab touch-none items-center justify-center rounded-xs text-neutral-border-strong outline-none transition-colors duration-quick ease-standard before:absolute before:-inset-1 group-hover/row:text-text-secondary focus-visible:shadow-focus data-[dragging]:text-[var(--li-grip,var(--cs-color-accent-solid))] [&_svg]:size-icon-md',
 );
 
 /** Position badge: 22px square, mono 11px. */
@@ -419,7 +419,7 @@ export const listActionLabelVariants = cva('');
 /** Hover tools (rowActions hover): faded in on row hover or focus within; always visible without hover (touch). Above the
  *  stretched trigger. */
 export const listToolsVariants = cva(
-  'relative flex flex-none items-center gap-0.5 opacity-0 transition-[opacity] duration-120 ease-out group-hover/row:opacity-100 group-focus-within/row:opacity-100 pointer-coarse:opacity-100',
+  'relative flex flex-none items-center gap-0.5 opacity-0 transition-opacity duration-quick ease-out group-hover/row:opacity-100 group-focus-within/row:opacity-100 pointer-coarse:opacity-100',
 );
 
 /**
@@ -429,7 +429,7 @@ export const listToolsVariants = cva(
 export const listAddVariants = cva(
   [
     'flex w-full cursor-pointer items-center gap-1.5 border-0 border-t border-dashed border-border-strong bg-transparent text-start font-ui text-accent-text outline-none',
-    'transition-[background-color,color] duration-120 ease-out hover:bg-neutral-hover focus-visible:shadow-focus',
+    'transition-control hover:bg-neutral-hover focus-visible:shadow-focus',
     '[&_svg]:size-icon-sm [&_svg]:flex-none [&_svg]:stroke-[1.75]',
   ],
   {

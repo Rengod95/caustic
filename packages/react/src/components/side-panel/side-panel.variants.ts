@@ -16,7 +16,8 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export const sidePanelVariants = cva(
   [
     'relative flex min-h-0 flex-none flex-col self-stretch font-ui text-text-primary',
-    'transition-[width,visibility] duration-base ease-standard motion-reduce:transition-none',
+    // The width eases on open and close only: a drag or a key step (data-resizing) moves it at once.
+    'transition-[width,visibility] duration-base ease-standard data-[resizing]:transition-none',
   ],
   {
     variants: {
@@ -75,7 +76,7 @@ export const sidePanelVariants = cva(
  * Header row. size steps its height and the title (md = control-xl 48 / title-4, today). The component passes
  * dividers only once the body has scrolled, so the hairline never doubles a first row's own line at rest.
  */
-export const sidePanelHeaderVariants = cva('group/side-panel-header flex flex-none items-center gap-2 border-b px-inset-regular-x', {
+export const sidePanelHeaderVariants = cva('group/side-panel-header flex flex-none items-center gap-2 border-b px-inset-regular-x transition-colors duration-quick ease-standard', {
   variants: {
     dividers: { true: 'border-border-subtle', false: 'border-transparent' },
     size: { xs: 'min-h-control-md py-1', sm: 'min-h-control-lg py-1.5', md: 'min-h-control-xl py-2', lg: 'min-h-control-xl py-2.5' },
@@ -87,7 +88,7 @@ export const sidePanelHeaderVariants = cva('group/side-panel-header flex flex-no
  * The collapse button shows on header hover or when focus is in the header; it stays visible on touch (no hover) and
  * keeps its hit area and focus ring while hidden.
  */
-export const sidePanelCollapseClass = 'opacity-0 group-hover/side-panel-header:opacity-100 group-focus-within/side-panel-header:opacity-100 focus-visible:opacity-100 pointer-coarse:opacity-100';
+export const sidePanelCollapseClass = 'transition-control opacity-0 group-hover/side-panel-header:opacity-100 group-focus-within/side-panel-header:opacity-100 focus-visible:opacity-100 pointer-coarse:opacity-100';
 
 export const sidePanelTitleVariants = cva('min-w-0 flex-1 truncate font-ui text-text-primary', {
   variants: { size: { xs: 'text-ui-strong', sm: 'text-ui-md', md: 'text-title-4', lg: 'text-title-3' } },

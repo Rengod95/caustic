@@ -55,7 +55,7 @@ export function Menu({ open, defaultOpen, onOpenChange, trigger, side = 'bottom'
         <DM.Root {...defined({ open, defaultOpen, onOpenChange })}>
           {trigger != null && <DM.Trigger asChild>{trigger}</DM.Trigger>}
           <DM.Portal>
-            <DM.Content data-slot="menu" side={side} align={align} sideOffset={6} className={cn(surface, 'z-60', className)} {...props}>{children}</DM.Content>
+            <DM.Content data-slot="menu" side={side} align={align} sideOffset={6} className={cn(surface, 'z-60 origin-(--radix-dropdown-menu-content-transform-origin)', className)} {...props}>{children}</DM.Content>
           </DM.Portal>
         </DM.Root>
       </MenuContext.Provider>

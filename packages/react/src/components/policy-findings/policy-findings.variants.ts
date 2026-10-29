@@ -57,8 +57,9 @@ export const policyFindingsListVariants = cva('m-0 list-none p-0');
  * One finding: line / 1fr / auto, no rule between rows (owner 2026-10-28): the block padding separates them.
  * The severity line stretches the row; the action cell centres. size steps the block padding and type:
  * xs 6 / ui-xs · sm 8 / ui-sm · md 10 / ui-dense · lg 12 / ui (the title follows).
+ * The rows of one check enter as a group: rise and stagger by their index (set by PolicyFindings).
  */
-export const policyFindingsFindingVariants = cva('grid grid-cols-[auto_1fr_auto] items-stretch gap-3 text-text-primary', {
+export const policyFindingsFindingVariants = cva('grid grid-cols-[auto_1fr_auto] items-stretch gap-3 text-text-primary animate-rise stagger', {
   variants: { size: { xs: 'py-1.5 text-ui-xs', sm: 'py-2 text-ui-sm', md: 'py-2.5 text-ui-dense', lg: 'py-3 text-ui' } },
   defaultVariants: { size: 'md' },
 });

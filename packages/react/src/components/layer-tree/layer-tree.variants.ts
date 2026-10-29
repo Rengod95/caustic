@@ -34,7 +34,7 @@ export const layerTreeRowRadiusVariants = cva('', {
 export const layerTreeRowVariants = cva(
   [
     'group relative flex cursor-default select-none items-center gap-1.5 rounded-md px-1.5 text-text-secondary outline-none',
-    'transition-[background-color,box-shadow] duration-120 ease-out hover:bg-neutral-hover focus-visible:shadow-focus',
+    'transition-control animate-rise hover:bg-neutral-hover focus-visible:shadow-focus',
     'data-[component]:text-category-component',
     'data-[selected]:bg-neutral-pressed data-[selected]:hover:bg-neutral-selected data-[selected]:data-[primary]:text-text-primary data-[selected]:data-[secondary]:text-text-secondary',
   ],
@@ -90,6 +90,12 @@ export const layerTreeRowVariants = cva(
 /** Chevron box: 12px; a leaf renders it empty so labels align. */
 export const layerTreeTwistyVariants = cva('ms-[calc(var(--depth)*var(--cs-size-tree-indent))] inline-flex size-icon-xs flex-none items-center justify-center text-neutral-graphic [&_svg]:size-full [&_svg]:stroke-[1.75]');
 
+/** Branch chevron: one right-pointing glyph that turns 90 degrees when the branch opens (the same shape as the down chevron it replaces). */
+export const layerTreeChevronVariants = cva('size-full transition-[rotate] duration-base ease-out', {
+  variants: { open: { true: 'rotate-90', false: '' } },
+  defaultVariants: { open: false },
+});
+
 /** Kind glyph: 14px, tertiary; primary text on the primary row, the component hue, disabled colour when hidden. */
 export const layerTreeIconVariants = cva([
   'inline-flex size-icon-sm flex-none items-center justify-center text-text-tertiary [&_svg]:size-full [&_svg]:stroke-[1.75]',
@@ -110,7 +116,7 @@ export const layerTreeEndVariants = cva([
 ]);
 
 /** Selection check on every selected row: 14px, primary text (disabled colour on a hidden row). Its svg follows the span colour, not the end cluster's tertiary. */
-export const layerTreeCheckVariants = cva('inline-flex size-icon-sm flex-none items-center justify-center text-text-primary group-data-[hidden]:text-disabled-text [&_svg]:size-full [&_svg]:stroke-[1.75] [&_svg]:text-current');
+export const layerTreeCheckVariants = cva('inline-flex size-icon-sm flex-none items-center justify-center animate-pop text-text-primary group-data-[hidden]:text-disabled-text [&_svg]:size-full [&_svg]:stroke-[1.75] [&_svg]:text-current');
 
 export const layerTreeCaptionVariants = cva('text-ui-xs font-medium text-text-tertiary');
 
@@ -124,7 +130,7 @@ export const layerTreeMarkVariants = cva('size-1.5 flex-none rounded-full spectr
 export const layerTreeToggleVariants = cva(
   [
     'relative inline-flex size-icon-sm flex-none cursor-default items-center justify-center rounded-xs text-text-tertiary opacity-0 outline-none',
-    'transition-[opacity,color] duration-120 ease-out before:absolute before:-inset-1.25 [&_svg]:size-full [&_svg]:stroke-[1.75]',
+    'transition-control before:absolute before:-inset-1.25 [&_svg]:size-full [&_svg]:stroke-[1.75]',
     'group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 focus-visible:shadow-focus',
     'group-data-[primary]:text-text-primary',
   ],

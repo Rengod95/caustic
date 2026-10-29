@@ -50,7 +50,7 @@ export interface TableProps extends Omit<ComponentProps<'div'>, 'children'>, Com
   maxHeight?: number;
 }
 
-const pageButton = 'inline-flex h-control-md min-w-control-md items-center justify-center gap-1 rounded-md px-2 text-ui tabular-nums text-text-secondary outline-none hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm';
+const pageButton = 'inline-flex h-control-md min-w-control-md items-center justify-center gap-1 rounded-md px-2 text-ui tabular-nums text-text-secondary outline-none transition-control press hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm';
 /** The current page is the segment thumb (control family, §4 B2): control-raised fill and the control edge, control-raised-hover under the pointer; focus keeps the edge. */
 const pageCurrent = 'bg-control-raised font-semibold text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]';
 
@@ -108,7 +108,7 @@ export function Table({
                     {col.sortable ? (
                       <button
                         type="button" data-slot="table-sort"
-                        className="inline-flex items-center gap-1 rounded-xs text-inherit outline-none hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm [&_svg]:shrink-0"
+                        className="inline-flex items-center gap-1 rounded-xs text-inherit outline-none transition-control press hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm [&_svg]:shrink-0"
                         onClick={() => onSortChange?.({ key: col.key, direction: active === 'ascending' ? 'descending' : 'ascending' })}
                       >
                         {col.header}<Glyph aria-hidden />

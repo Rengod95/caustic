@@ -7,7 +7,8 @@ import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import {
-  composerBarVariants, composerContextVariants, composerInputVariants, composerModelVariants, composerStopVariants, composerUsageVariants, composerVariants,
+  composerBarVariants, composerContextVariants, composerInputVariants, composerModelVariants, composerStopVariants, composerSwapGlyphVariants, composerUsageVariants,
+  composerVariants,
 } from './composer.variants.ts';
 
 const NO_MODES: string[] = [];
@@ -137,13 +138,15 @@ export function Composer({
             <circle cx="11" cy="11" r="8" transform="rotate(-90 11 11)" strokeLinecap="round" strokeDasharray={RING_C} strokeDashoffset={RING_C * (1 - pct / 100)} className="stroke-current" />
           </svg>
         )}
-        {running ? (
-          <IconButton data-slot="composer-send" tone="ink" shape="circle" size="sm" label={stopLabel ?? ''} disabled={disabled} className={composerStopVariants()} onClick={() => onStop?.()}>
-            <span aria-hidden className="block size-stop-glyph rounded-2xs bg-current" />
-          </IconButton>
-        ) : (
-          <IconButton data-slot="composer-send" type="submit" tone="ink" shape="circle" size="sm" label={sendLabel} disabled={disabled || sendDisabled}><ArrowUp /></IconButton>
-        )}
+        {/* One button for send and stop: the arrow and the stop square cross-fade in place (no layout shift, focus stays). */}
+        <IconButton
+          data-slot="composer-send" type={running ? 'button' : 'submit'} tone="ink" shape="circle" size="sm"
+          label={running ? (stopLabel ?? '') : sendLabel} disabled={running ? disabled : disabled || sendDisabled}
+          className={running ? composerStopVariants() : undefined} onClick={running ? () => onStop?.() : undefined}
+        >
+          <ArrowUp className={composerSwapGlyphVariants({ active: !running })} />
+          <span aria-hidden className={cn('block size-stop-glyph rounded-2xs bg-current', composerSwapGlyphVariants({ active: running }))} />
+        </IconButton>
       </div>
     </form>
   );

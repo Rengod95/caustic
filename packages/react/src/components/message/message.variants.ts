@@ -9,8 +9,9 @@ import { cva, type VariantProps } from 'class-variance-authority';
  *   agent  solid = a raised panel with a hairline (neutral) or the tone's tint 2 with its border 6 · soft = the tone's
  *          soft 3 panel · outline = the tone's border 6 edge · ghost = no panel (default)
  * radius replaces the bubble corners (a uniform corner drops the 6px sender corner); shadow adds an elevation.
+ * Every turn rises in once when it mounts (animate-rise). Streaming text inside it is never animated.
  */
-export const messageVariants = cva('', {
+export const messageVariants = cva('animate-rise', {
   variants: {
     author: {
       user: 'max-w-[88%] self-end justify-self-end rounded-2xl rounded-br-sm bg-neutral-track text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',

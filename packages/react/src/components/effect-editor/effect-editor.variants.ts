@@ -52,7 +52,7 @@ export const effectEditorStageVariants = cva('relative grid h-effect-stage-h pla
 
 /** The sample object. The edited effect is runtime data (--fx, --blur); the hairline ring is a token. */
 export const effectEditorCardVariants = cva(
-  'relative h-16 w-pad-box rounded-toolbar shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--fx)] transition-[box-shadow,filter] duration-base ease-out motion-reduce:transition-none',
+  'relative h-16 w-pad-box rounded-toolbar shadow-[0_0_0_1px_var(--cs-color-border-subtle),var(--fx)]',
   {
     variants: {
       kind: {

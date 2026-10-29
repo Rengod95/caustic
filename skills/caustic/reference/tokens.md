@@ -85,7 +85,7 @@ Durations are named. A number (`duration-200`, `delay-150`) hard-codes a time an
   - `press` (scale 0.97 on `:active`), `press-sm` (0.94, small icon targets), `lift` (2px up on hover).
   - `animate-enter` and `animate-exit`, with `enter-scale` (from 0.96) and `enter-from-side` (reads `data-side`),
     `enter-up`, `enter-from-end`, `enter-from-start`, `enter-from-bottom`. Sheets and side panels:
-    `animate-enter-panel` and `animate-exit-panel`.
+    `animate-enter-dialog` (dialogs, gentle), `animate-enter-panel` and `animate-exit-panel`.
   - `animate-collapse-open` and `animate-collapse-close` take the height from the Radix variable. `reveal` collapses
     content that stays mounted.
   - `animate-rise` for list and message items, with `stagger` and `--cs-stagger-index` (40 ms per item, at most 8).

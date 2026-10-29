@@ -60,4 +60,4 @@ export const paintWellTokenVariants = cva([
  * The error message (owner 2026-10-28): one thin row in a box, no glyph. danger.soft fill with a 1px danger.border edge,
  * the fields' lg radius, 8px inline and 2px block padding around hint text in danger.text (22px, a control-xs row).
  */
-export const paintWellMessageVariants = cva('flex min-h-control-xs items-center rounded-lg bg-danger-soft px-2 py-0.5 text-hint text-danger-text shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)]');
+export const paintWellMessageVariants = cva('animate-rise flex min-h-control-xs items-center rounded-lg bg-danger-soft px-2 py-0.5 text-hint text-danger-text shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)]');

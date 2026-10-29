@@ -18,7 +18,7 @@ export const expressionEditorHintVariants = cva('text-hint text-text-tertiary');
  * no hairline. Inside, the field labels are the small secondary step and the select values primary (typography
  * hierarchy, owner memo): label < value.
  */
-export const expressionEditorBindingVariants = cva('grid min-w-0 gap-2 rounded-lg bg-neutral-well p-3');
+export const expressionEditorBindingVariants = cva('grid min-w-0 animate-rise gap-2 rounded-lg bg-neutral-well p-3');
 
 /** The path is a neutral Badge (owner 2026-10-27, B + memo: a tag, as a badge): sm radius, mono, left-aligned. */
 export const expressionEditorPathVariants = cva('justify-self-start font-mono');
@@ -26,7 +26,7 @@ export const expressionEditorPathVariants = cva('justify-self-start font-mono');
 // ghost (default) is today's quiet trigger: secondary text, neutral hover. The other variants follow the button emphasis.
 export const expressionEditorToggleVariants = cva([
   'inline-flex h-control-sm w-fit cursor-pointer items-center gap-1 rounded-md px-2 text-left font-ui text-ui-sm text-text-secondary outline-none',
-  'transition-[background-color,box-shadow] duration-120 ease-out focus-visible:shadow-focus',
+  'transition-control focus-visible:shadow-focus',
   'disabled:pointer-events-none disabled:text-disabled-text',
 ], {
   variants: {
@@ -66,9 +66,12 @@ export const expressionEditorToggleVariants = cva([
   defaultVariants: { tone: 'neutral', variant: 'ghost' },
 });
 
-export const expressionEditorChevronVariants = cva('size-icon-sm shrink-0 transition-transform duration-120 ease-out', {
+export const expressionEditorChevronVariants = cva('size-icon-sm shrink-0 transition-[rotate] duration-base ease-out', {
   variants: { open: { true: 'rotate-90', false: '' } },
   defaultVariants: { open: false },
 });
 
-export const expressionEditorErrorVariants = cva('inline-flex items-center gap-1.25 text-hint text-danger-text');
+export const expressionEditorErrorVariants = cva('inline-flex animate-rise items-center gap-1.25 text-hint text-danger-text');
+
+/** The raw panel's inner box: the 6px lead above the textarea (inside the reveal clip, so it opens with the panel). */
+export const expressionEditorPanelVariants = cva('mt-1.5 grid gap-1.5');

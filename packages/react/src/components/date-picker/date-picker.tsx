@@ -114,7 +114,7 @@ export function DatePicker({
         <Popover.Trigger asChild>{trigger}</Popover.Trigger>
         <Popover.Portal>
           <Popover.Content
-            ref={panelRef} aria-label={label} side="bottom" align="start" sideOffset={6} className="z-60 outline-none"
+            ref={panelRef} aria-label={label} side="bottom" align="start" sideOffset={6} className="z-60 origin-(--radix-popover-content-transform-origin) outline-none data-[state=open]:animate-enter data-[state=closed]:animate-exit enter-scale enter-from-side"
             onOpenAutoFocus={e => { e.preventDefault(); panelRef.current?.querySelector<HTMLElement>('[data-slot="calendar-day"][tabindex="0"]')?.focus(); }}
           >
             {calendar()}

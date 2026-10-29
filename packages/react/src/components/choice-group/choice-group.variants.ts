@@ -118,7 +118,7 @@ export const choiceGroupPriceUnitVariants = cva('ms-1 text-hint text-text-tertia
  */
 export const choiceGroupTileVariants = cva(
   [
-    'group relative grid content-center place-items-center bg-transparent font-ui outline-none',
+    'group relative grid content-center place-items-center bg-transparent font-ui outline-none transition-control press',
     'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
     'aria-checked:not-disabled:selected aria-checked:not-disabled:shadow-none aria-checked:not-disabled:hover:bg-selection-fill-hover',
     'focus-visible:shadow-focus aria-checked:not-disabled:focus-visible:shadow-focus',
@@ -183,7 +183,7 @@ export const choiceGroupTileVariants = cva(
 export const choiceGroupTileIconVariants = cva('inline-grid size-check place-items-center text-text-primary [&_svg]:size-full');
 export const choiceGroupTileDescriptionVariants = cva('text-ui-xs leading-3.5 font-normal text-text-tertiary group-aria-checked:text-text-secondary');
 /** Check of the chosen tile, top-right, 14px: selection.on on the inverted tile when `check` is on; a chosen disabled tile always shows it, greyed. */
-export const choiceGroupCheckVariants = cva('pointer-events-none absolute top-1 right-1 inline-grid size-icon-sm place-items-center text-text-primary [&_svg]:size-full');
+export const choiceGroupCheckVariants = cva('pointer-events-none absolute top-1 right-1 inline-grid size-icon-sm place-items-center text-text-primary animate-pop [&_svg]:size-full');
 
 // ---- appearance answer (was Clarification) --------------------------------------------------------------------------
 // Rows of an indicator column and the text. variant = the row emphasis (outline, the default, is the inset hairline),
@@ -191,7 +191,7 @@ export const choiceGroupCheckVariants = cva('pointer-events-none absolute top-1 
 export const choiceGroupAnswerVariants = cva(
   [
     'group grid grid-cols-[var(--cs-icon-lg)_1fr] gap-2 text-left font-ui text-text-primary',
-    'outline-none transition-[box-shadow,background-color] duration-120 ease-out',
+    'outline-none transition-control',
     'hover:bg-neutral-hover focus-visible:shadow-focus',
     // Selected inverts (selected utility, owner 2026-10-26): ink fill, paper text, no edge; the indicator and description
     // invert with it. Hover while selected: selection.fill-hover. Focus keeps the ring only.
@@ -223,7 +223,7 @@ export const choiceGroupAnswerVariants = cva(
 // colour, which inverts with the row too. type multiple draws a rounded square with a check.
 export const choiceGroupAnswerIndicatorVariants = cva(
   [
-    'pointer-events-none inline-grid size-check shrink-0 place-items-center bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] group-data-[state=checked]:shadow-none',
+    'pointer-events-none inline-grid size-check shrink-0 place-items-center bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] group-data-[state=checked]:shadow-none transition-control',
     'group-disabled:bg-disabled-fill group-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
     'group-data-[state=checked]:group-disabled:bg-disabled-fill group-data-[state=checked]:group-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
     'group-disabled:text-disabled-text',

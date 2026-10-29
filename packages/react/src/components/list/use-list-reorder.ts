@@ -266,7 +266,7 @@ export function useListReorder({
     el.style.transform = `translateY(${offset}px)`;
     let raf = requestAnimationFrame(() => {
       raf = requestAnimationFrame(() => {
-        el.style.transition = 'transform var(--cs-duration-base) var(--cs-ease-out)';
+        el.style.transition = 'transform var(--cs-duration-base) var(--cs-ease-in-out)';
         el.style.transform = '';
       });
     });

@@ -13,7 +13,7 @@ import { cva } from 'class-variance-authority';
 // and the hover (ghost). Focus, invalid and disabled are the same in every tone.
 export const inputVariants = cva(
   [
-    'flex min-w-0 cursor-text items-center gap-2 text-text-tertiary transition-[box-shadow,background-color] duration-120 ease-out',
+    'flex min-w-0 cursor-text items-center gap-2 text-text-tertiary transition-control',
     'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
     'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
   ],

@@ -12,7 +12,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export const skeletonVariants = cva(
   [
     'block w-(--skeleton-w) shrink-0',
-    'bg-[length:300%_100%] motion-reduce:animate-none motion-reduce:bg-none',
+    'bg-[length:300%_100%] motion-reduce:bg-none',
   ],
   {
     variants: {

@@ -7,7 +7,7 @@ import { cva } from 'class-variance-authority';
 export const iconButtonVariants = cva(
   [
     'relative inline-grid shrink-0 place-items-center select-none font-ui',
-    'transition-[background-color,box-shadow,transform,color] duration-120 ease-out',
+    'transition-control',
     'outline-none focus-visible:shadow-focus',
     'aria-pressed:not-disabled:selected aria-pressed:not-disabled:shadow-none aria-pressed:not-disabled:hover:bg-selection-fill-hover aria-pressed:not-disabled:focus-visible:shadow-focus',
     'disabled:pointer-events-none disabled:text-disabled-text disabled:aria-pressed:bg-disabled-fill disabled:aria-pressed:text-disabled-text disabled:aria-pressed:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
@@ -24,10 +24,11 @@ export const iconButtonVariants = cva(
       size: {
         // xs is the minimum target (24px): an invisible ::after widens the hit area 2px on every side without moving the
         // layout (owner 2026-10-27, B), so a pointer that lands just outside a dense row's button still hits it.
-        xs: 'size-control-xs rounded-sm after:absolute after:-inset-0.5 after:content-[""]',
-        sm: 'size-control-sm rounded-md',
-        md: 'size-control-md rounded-md',
-        lg: 'size-control-lg rounded-lg',
+        // Press: the small icon targets (24 and 28px) press to 0.94, the larger ones to 0.97.
+        xs: 'size-control-xs rounded-sm press-sm after:absolute after:-inset-0.5 after:content-[""]',
+        sm: 'size-control-sm rounded-md press-sm',
+        md: 'size-control-md rounded-md press',
+        lg: 'size-control-lg rounded-lg press',
       },
     },
     compoundVariants: [

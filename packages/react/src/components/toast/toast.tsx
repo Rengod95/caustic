@@ -42,7 +42,7 @@ const glyph = {
   danger: <CircleAlert strokeWidth={2.25} />,
 } as const;
 
-/** Transient confirmation on thick glass. Springs in, auto-dismisses, pauses while hovered or focused. A failure (tone danger) stays until dismissed. */
+/** Transient confirmation on thick glass. Slides in (gentle), auto-dismisses, pauses while hovered or focused. A failure (tone danger) stays until dismissed. */
 export function Toast({
   tone, variant, radius, shadow, size, title, description, actionLabel, dismissLabel, statusLabel, duration = 3600, inline = false, onAction, onDismiss, className, onKeyDown, ...props
 }: ToastProps) {

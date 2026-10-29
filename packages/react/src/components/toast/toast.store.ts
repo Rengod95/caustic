@@ -21,7 +21,18 @@ export interface ToastItem extends ToastOptions {
   open: boolean;
 }
 
-const EXIT_MS = 300;
+/**
+ * The exit time: the CSS exit duration (the duration-base token, --cs-duration-base), read from the stylesheet so the store
+ * removes a toast when its exit has finished. 200 ms when no stylesheet defines the token.
+ */
+function exitMs(): number {
+  if (typeof document === 'undefined') return 200;
+  const raw = getComputedStyle(document.documentElement).getPropertyValue('--cs-duration-base').trim();
+  const value = Number.parseFloat(raw);
+  const ms = raw.endsWith('s') && !raw.endsWith('ms') ? value * 1000 : value;
+  return Number.isFinite(ms) ? ms : 200;
+}
+
 let items: ToastItem[] = [];
 let nextId = 1;
 const listeners = new Set<() => void>();
@@ -50,5 +61,5 @@ toast.dismiss = (id?: number) => {
   const ids = new Set(closing.map(i => i.id));
   emit(items.map(i => (ids.has(i.id) ? { ...i, open: false } : i)));
   closing.forEach(i => i.onDismiss?.());
-  setTimeout(() => emit(items.filter(i => !ids.has(i.id))), EXIT_MS);
+  setTimeout(() => emit(items.filter(i => !ids.has(i.id))), exitMs());
 };

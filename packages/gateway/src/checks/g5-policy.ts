@@ -7,6 +7,10 @@ import { Collector } from '../report.ts';
 import { componentsDir, root } from '../paths.ts';
 import { caseFor, caseSelector, openPage, slotSelector, type Runtime } from '../runtime.ts';
 
+// The animate-* utilities that loop forever (the theme says infinite); enter, exit, rise and pop run once.
+let loops: Set<string> | null = null;
+const LOOPS = () => loops ??= new Set([...readFileSync(join(root, 'packages/tokens/dist/theme.css'), 'utf8').matchAll(/--(animate-[a-z0-9-]+):[^;]*\binfinite\b/g)].map(m => m[1]!));
+
 interface Use { cls: string; where: string; literal: string; variant?: string; cva?: string }
 
 /** A flag is true, or scoped: { <axis>: [values] } matches classes in that cva variant, { cva: [names] } classes in that cva. */
@@ -55,7 +59,7 @@ export async function g5Static(c: Collector, spec: ComponentSpec) {
     if (/^text-(voice|voice-sm|thought)$/.test(util) && !u.literal.split(/\s+/).includes('font-voice')) c.fail({ gate: 'G5', check: 'P4 voices', where: u.where, message: `"${u.cls}" needs font-voice in the same class list.` });
     if (/^text-(mono|mono-sm)$/.test(util) && !u.literal.split(/\s+/).includes('font-mono')) c.fail({ gate: 'G5', check: 'P4 voices', where: u.where, message: `"${u.cls}" needs font-mono in the same class list.` });
     if (/^font-voice$/.test(util) && !['agent', 'card', 'list'].includes(spec.category) && agent === false) c.warn({ gate: 'G5', check: 'P4 voices', where: u.where, message: 'font-voice outside an agent component. Agent prose only.' });
-    if (/^animate-/.test(util) && util !== 'animate-spinner' && util !== 'animate-none' && !spec.flags.motionLoop && agent === false) c.fail({ gate: 'G5', check: 'P8 motion', where: u.where, message: `"${u.cls}" loops forever; only agent components may.` });
+    if (/^animate-/.test(util) && LOOPS().has(util) && util !== 'animate-spinner' && !spec.flags.motionLoop && agent === false) c.fail({ gate: 'G5', check: 'P8 motion', where: u.where, message: `"${u.cls}" loops forever; only agent components may.` });
   }
 }
 

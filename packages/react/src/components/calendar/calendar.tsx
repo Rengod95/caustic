@@ -201,7 +201,7 @@ function MonthYearPicker({ defaultOpen, month, today, yearRange, titleId, onMont
       anchor={(
         <button type="button" data-slot="calendar-title-button" className={calendarTitleVariants()}>
           <b id={titleId} data-slot="calendar-title" aria-live="polite" className="font-semibold">{formatMonthTitle(month)}</b>
-          <ChevronDown aria-hidden className="size-icon-xs text-text-tertiary" />
+          <ChevronDown aria-hidden className="size-icon-xs text-text-tertiary transition-[rotate] duration-snappy ease-snappy group-data-[state=open]:rotate-180" />
         </button>
       )}
     >

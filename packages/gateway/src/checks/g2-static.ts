@@ -57,12 +57,15 @@ export async function g2(c: Collector, spec: ComponentSpec) {
     if (file === main && !/^['"]use client['"]/.test(text.trimStart())) c.fail({ gate: 'G2', check: 'use-client', where: rel, message: 'Component module must start with "use client".' });
 
     const collectStrings = (n: ts.Node, context: string) => {
+      const COMPARE = [ts.SyntaxKind.EqualsEqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsEqualsToken, ts.SyntaxKind.EqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsToken];
       const visit = (m: ts.Node) => {
+        // Arguments of another call (variants({ size: 'md' })) and comparison operands ((tone ?? 'neutral') === 'neutral')
+        // are values that pick classes, not classes.
+        if (m !== n && ts.isCallExpression(m) && !(ts.isIdentifier(m.expression) && m.expression.text === 'cn')) return;
+        if (ts.isBinaryExpression(m) && COMPARE.includes(m.operatorToken.kind)) return;
         if (ts.isStringLiteral(m) || ts.isNoSubstitutionTemplateLiteral(m)) {
           // Object keys are names, except in cn({ 'class': condition }).
           if (ts.isPropertyAssignment(m.parent) && m.parent.name === m && context !== 'cn') return;
-          // Operands of comparisons (orientation === 'horizontal') are values, not classes.
-          if (ts.isBinaryExpression(m.parent) && [ts.SyntaxKind.EqualsEqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsEqualsToken, ts.SyntaxKind.EqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsToken].includes(m.parent.operatorToken.kind)) return;
           if (ts.isCaseClause(m.parent)) return;
           for (const cls of m.text.split(/\s+/).filter(Boolean)) uses.push({ cls, file: rel, line: lineOf(m), context });
         } else if (ts.isTemplateExpression(m)) {

@@ -10,7 +10,7 @@ import { Select, SelectOption } from '../select/select.tsx';
 import { Textarea } from '../textarea/textarea.tsx';
 import {
   expressionEditorBindingVariants, expressionEditorChevronVariants, expressionEditorErrorVariants, expressionEditorHintVariants,
-  expressionEditorPathVariants, expressionEditorToggleVariants, expressionEditorVariants,
+  expressionEditorPanelVariants, expressionEditorPathVariants, expressionEditorToggleVariants, expressionEditorVariants,
 } from './expression-editor.variants.ts';
 
 export interface ExpressionEditorOption { value: string; label: string }
@@ -116,7 +116,7 @@ export function ExpressionEditor({
         </div>
       ))}
       {rawToggleLabel != null && (
-        <div data-slot="expression-editor-raw" className="grid gap-1.5">
+        <div data-slot="expression-editor-raw" className="grid">
           <button
             type="button" data-slot="expression-editor-raw-toggle" aria-expanded={open} aria-controls={panelId} disabled={disabled}
             className={cn(expressionEditorToggleVariants({ tone, variant }))} onClick={() => setOpen(!open)}
@@ -124,23 +124,26 @@ export function ExpressionEditor({
             <ChevronRight data-slot="expression-editor-chevron" aria-hidden className={expressionEditorChevronVariants({ open })} />
             {rawToggleLabel}
           </button>
-          {open && (
-            <div id={panelId} className="grid gap-1.5">
-              <div data-slot="expression-editor-raw-input">
-                <Textarea
-                  rows={8} maxLength={maxLength} spellCheck={false} aria-label={rawLabel} className="font-mono text-mono"
-                  value={text} invalid={hasError} disabled={disabled} aria-describedby={hasError ? errorId : undefined}
-                  onValueChange={setText}
-                />
+          {/* Kept mounted and opened by reveal. The clip holds no margin: the 6px lead sits on the panel inside it, so closed it takes no height. */}
+          <div data-state={open ? 'open' : 'closed'} inert={!open || undefined} aria-hidden={!open || undefined} className="reveal">
+            <div>
+              <div id={panelId} className={expressionEditorPanelVariants()}>
+                <div data-slot="expression-editor-raw-input">
+                  <Textarea
+                    rows={8} maxLength={maxLength} spellCheck={false} aria-label={rawLabel} className="font-mono text-mono"
+                    value={text} invalid={hasError} disabled={disabled} aria-describedby={hasError ? errorId : undefined}
+                    onValueChange={setText}
+                  />
+                </div>
+                {hasError && (
+                  <span data-slot="expression-editor-error" id={errorId} role="alert" className={expressionEditorErrorVariants()}>
+                    <span data-slot="expression-editor-error-icon" aria-hidden className="inline-flex size-chip-icon shrink-0 [&_svg]:size-full [&_svg]:stroke-[1.75]"><CircleAlert /></span>
+                    {error}
+                  </span>
+                )}
               </div>
-              {hasError && (
-                <span data-slot="expression-editor-error" id={errorId} role="alert" className={expressionEditorErrorVariants()}>
-                  <span data-slot="expression-editor-error-icon" aria-hidden className="inline-flex size-chip-icon shrink-0 [&_svg]:size-full [&_svg]:stroke-[1.75]"><CircleAlert /></span>
-                  {error}
-                </span>
-              )}
             </div>
-          )}
+          </div>
         </div>
       )}
     </div>
