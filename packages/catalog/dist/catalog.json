@@ -55517,6 +55517,12 @@
             "static"
           ]
         },
+        "open": {
+          "type": "boolean",
+          "default": false,
+          "required": false,
+          "description": "The zoom menu is open: the readout sets aria-expanded and its chevron turns up."
+        },
         "size": {
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
@@ -55579,8 +55585,9 @@
           },
           "open": {
             "type": "boolean",
+            "default": false,
             "required": false,
-            "description": ""
+            "description": "The zoom menu is open: the readout sets aria-expanded and its chevron turns up."
           },
           "radius": {
             "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",
