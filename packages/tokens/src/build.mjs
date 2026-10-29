@@ -542,8 +542,8 @@ function tailwindTheme() {
   // Enter and exit move with transform, so they compose with the translate/scale properties (centring, press, lift).
   L.push(`  @keyframes cs-enter { from { opacity: 0; transform: translate(var(--${P}-enter-x, 0), var(--${P}-enter-y, 0)) scale(var(--${P}-enter-scale, 1)); } }`);
   L.push(`  @keyframes cs-exit { to { opacity: 0; transform: translate(var(--${P}-enter-x, 0), var(--${P}-enter-y, 0)) scale(var(--${P}-enter-scale, 1)); } }`);
-  L.push(`  @keyframes cs-collapse-open { from { height: 0; } to { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } }`);
-  L.push(`  @keyframes cs-collapse-close { from { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; } }`);
+  L.push(`  @keyframes cs-collapse-open { from { height: 0; padding-block: 0; opacity: 0; } to { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } }`);
+  L.push(`  @keyframes cs-collapse-close { from { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; padding-block: 0; opacity: 0; } }`);
   L.push(`  @keyframes cs-rise { from { opacity: 0; transform: translateY(var(--${P}-shift-enter)); } }`);
   L.push('  @keyframes cs-pop { from { opacity: 0; transform: scale(0.6); } }');
   L.push('}', '');
@@ -603,19 +603,24 @@ ${fillDecls('selection.fill').join('\n')}
 }
 /* Motion presets. Scale and translate are their own properties in Tailwind 4, so a transition list names them (or uses
    transition-control). press and lift only move when the user allows motion; reduced motion is global (base.css). */
+/* Colour and opacity change on quick/out; scale and translate (press release, lift) settle on the spring, so a release
+   eases back instead of snapping. press and press-sm take the press-in itself on swift/out (the transition of the state
+   being entered applies). The lists follow the property order. */
 @utility transition-control {
   transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, box-shadow, opacity, scale, translate;
-  transition-duration: var(--${P}-duration-quick);
-  transition-timing-function: var(--${P}-ease-out);
+  transition-duration: var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-spring), var(--${P}-duration-spring);
+  transition-timing-function: var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-spring), var(--${P}-ease-spring);
 }
 @utility press {
   @media (prefers-reduced-motion: no-preference) {
     &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--${P}-scale-press); }
+    &:is(.transition-control):active { transition-duration: var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-swift), var(--${P}-duration-spring); transition-timing-function: var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-spring); }
   }
 }
 @utility press-sm {
   @media (prefers-reduced-motion: no-preference) {
     &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--${P}-scale-press-sm); }
+    &:is(.transition-control):active { transition-duration: var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-swift), var(--${P}-duration-spring); transition-timing-function: var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-spring); }
   }
 }
 @utility lift {

@@ -113,12 +113,12 @@ export function AccordionTrigger({ icon, accessory, className, children, ...prop
 
 export interface AccordionContentProps extends ComponentProps<typeof A.Content> {}
 
-/** Stays in the DOM (hidden) while closed so its text remains searchable and measurable. */
+/** Mounted while open; on close Radix keeps it until the collapse animation ends. */
 export function AccordionContent({ className, children, ...props }: AccordionContentProps) {
   const { variant } = useContext(LookCtx);
   return (
-    <A.Content forceMount data-slot="accordion-content" className={cn(accordionContentVariants({ variant }), className)} {...props}>
-      <div className="min-h-0 overflow-hidden">{children}</div>
+    <A.Content data-slot="accordion-content" className={cn(accordionContentVariants({ variant }), className)} {...props}>
+      {children}
     </A.Content>
   );
 }

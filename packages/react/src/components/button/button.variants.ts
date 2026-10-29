@@ -23,10 +23,10 @@ export const buttonVariants = cva(
       },
       variant: { solid: '', soft: '', outline: '', ghost: '' },
       size: {
-        xs: 'h-control-xs gap-1 px-2 text-ui-sm rounded-sm [&_svg]:size-icon-sm',
-        sm: 'h-control-sm gap-1.5 px-2.5 text-ui-strong rounded-md [&_svg]:size-icon-md',
-        md: 'h-control-md gap-1.5 px-3 text-ui-strong rounded-md [&_svg]:size-icon-md',
-        lg: 'h-control-lg gap-1.5 px-4 text-ui-lg rounded-lg [&_svg]:size-icon-md',
+        xs: 'h-control-xs gap-1 px-2 text-ui-sm rounded-md [&_svg]:size-icon-sm',
+        sm: 'h-control-sm gap-1.5 px-2.5 text-ui-strong rounded-lg [&_svg]:size-icon-md',
+        md: 'h-control-md gap-1.5 px-3 text-ui-strong rounded-lg [&_svg]:size-icon-md',
+        lg: 'h-control-lg gap-1.5 px-4 text-ui-lg rounded-xl [&_svg]:size-icon-md',
       },
     },
     compoundVariants: [

@@ -6661,7 +6661,7 @@
             "full"
           ],
           "default": "md",
-          "description": "Corner radius; unset keeps the size radius (xs sm, sm/md md, lg lg). full is the pill (the deprecated shape=\"pill\")."
+          "description": "Corner radius; unset keeps the size radius (xs md, sm/md lg, lg xl; one step up from the field radius, owner 2026-10-29). full is the pill (the deprecated shape=\"pill\")."
         },
         "shadow": {
           "values": [
@@ -29013,7 +29013,7 @@
             "full"
           ],
           "default": "md",
-          "description": "Corner radius token (common prop). Unset keeps the size radius (xs sm, sm/md md, lg lg); full is the circle (the deprecated shape=\"circle\")."
+          "description": "Corner radius token (common prop). Unset keeps the size radius (xs md, sm/md lg, lg xl, as in Button; owner 2026-10-29); full is the circle (the deprecated shape=\"circle\")."
         },
         "shadow": {
           "values": [

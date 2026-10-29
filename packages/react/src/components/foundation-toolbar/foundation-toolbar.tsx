@@ -115,7 +115,7 @@ export function FoundationToolbar({
         )}
         {children}
         <span data-slot="foundation-toolbar-actions" className={foundationToolbarActionsVariants()}>
-          {onAdd !== undefined && <IconButton data-slot="foundation-toolbar-add" size="xs" label={addLabel ?? ''} disabled={disabled} onClick={onAdd}><Plus /></IconButton>}
+          {onAdd !== undefined && <IconButton data-slot="foundation-toolbar-add" size="xs" radius="sm" label={addLabel ?? ''} disabled={disabled} onClick={onAdd}><Plus /></IconButton>}
           {actions}
         </span>
       </div>

@@ -11,6 +11,8 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export const buttonGroupVariants = cva(
   [
     'inline-flex items-stretch gap-px rounded-lg bg-neutral-track font-ui',
+    // Items nest in the track: md = the track radius minus its padding (Buttons alone are one step rounder).
+    '*:data-[slot=button-group-item]:rounded-md',
     '*:data-[variant=ghost]:hover:bg-control-raised *:data-[variant=ghost]:hover:text-text-primary',
     '*:data-[variant=ghost]:hover:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
   ],
