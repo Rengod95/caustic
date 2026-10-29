@@ -1,5 +1,5 @@
 'use client';
-import { Pause, Play } from 'lucide-react';
+import { Pause, Play } from '../../icons/index.ts';
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

@@ -31,7 +31,7 @@ export const zoomButtonVariants = cva(
     // Pressed reads as neutral.pressed (owner 2026-10-28): the canvas may apply the zoom late, so the button answers the press itself.
     'outline-none hover:bg-neutral-hover hover:text-text-primary active:bg-neutral-pressed focus-visible:shadow-focus',
     'disabled:pointer-events-none disabled:text-disabled-text',
-    '[&_svg]:size-icon-sm [&_svg]:stroke-[1.75]',
+    '[&_svg]:size-icon-sm',
   ],
   {
     variants: { size: { xs: 'size-control-xs', sm: 'size-control-inline', md: 'size-control-sm', lg: 'size-control-md' } },

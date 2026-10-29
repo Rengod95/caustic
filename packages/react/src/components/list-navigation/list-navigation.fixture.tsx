@@ -1,4 +1,4 @@
-import { Component, File, Folder, House, Image, Maximize, MessageSquare, Plus, Scan, SquareDashed, SwatchBook, ZoomIn, ZoomOut } from 'lucide-react';
+import { Component, File, Folder, House, Image, Maximize, MessageSquare, Plus, Scan, SquareDashed, SwatchBook, ZoomIn, ZoomOut } from '../../icons/index.ts';
 import { useId, type ReactNode } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';

@@ -1,5 +1,5 @@
 'use client';
-import { Check, ChevronRight, Eye, EyeOff, Lock, LockOpen } from 'lucide-react';
+import { Check, ChevronRight, Eye, EyeOff, Lock, LockOpen } from '../../icons/index.ts';
 import {
   Children, createContext, isValidElement, useContext, useId, useLayoutEffect, useRef, useState,
   type ComponentProps, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactElement, type ReactNode, type RefObject,

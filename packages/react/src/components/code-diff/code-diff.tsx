@@ -1,5 +1,5 @@
 'use client';
-import { FileCode } from 'lucide-react';
+import { FileCode } from '../../icons/index.ts';
 import { Children, createContext, Fragment, isValidElement, useContext, useEffect, useRef, useState, type ComponentProps, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, shadowClass, type CommonProps, type Size } from '../../lib/common-props.ts';

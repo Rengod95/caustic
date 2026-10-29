@@ -1,5 +1,5 @@
 'use client';
-import { Check, CircleAlert, Info, TriangleAlert, X } from 'lucide-react';
+import { Check, CircleAlert, Info, TriangleAlert, X } from '../../icons/index.ts';
 import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { useFlip } from '../../hooks/use-flip.ts';
 import { cn } from '../../lib/cn.ts';
@@ -36,12 +36,12 @@ export interface ToastProps extends Omit<ComponentProps<'div'>, 'title'> {
 }
 
 const glyph = {
-  neutral: <Info strokeWidth={2.25} />,
-  accent: <Info strokeWidth={2.25} />,
-  success: <Check strokeWidth={2.5} />,
-  info: <Info strokeWidth={2.25} />,
-  warning: <TriangleAlert strokeWidth={2.25} />,
-  danger: <CircleAlert strokeWidth={2.25} />,
+  neutral: <Info />,
+  accent: <Info />,
+  success: <Check />,
+  info: <Info />,
+  warning: <TriangleAlert />,
+  danger: <CircleAlert />,
 } as const;
 
 /** Transient confirmation on thick glass. Slides in (gentle), auto-dismisses, pauses while hovered or focused. A failure (tone danger) stays until dismissed. */

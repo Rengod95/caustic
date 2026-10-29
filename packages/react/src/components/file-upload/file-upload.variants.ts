@@ -71,7 +71,7 @@ export const dropzoneVariants = cva([
 });
 
 /** The upload glyph alone, no tile (owner 2026-10-27): 20px, secondary; disabled.text when disabled. */
-export const dropzoneIconVariants = cva('inline-flex text-text-secondary group-data-[disabled]:text-disabled-text [&_svg]:size-icon-lg [&_svg]:stroke-[1.75]');
+export const dropzoneIconVariants = cva('inline-flex text-text-secondary group-data-[disabled]:text-disabled-text [&_svg]:size-icon-lg');
 
 /** File rows are opaque surface.base (owner 2026-10-27, proposal A: no translucent fills) with the same hairline. */
 export const fileItemVariants = cva(
@@ -94,7 +94,7 @@ export const fileItemVariants = cva(
 export type FileItemVariantProps = VariantProps<typeof fileItemVariants>;
 
 /** The 32px file-type tile: neutral.track / secondary; a failed file danger.soft / danger.text, a warning warning.soft / warning.text (owner 2026-10-27, proposal C). */
-export const fileItemIconVariants = cva('grid size-control-md place-items-center rounded-md [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]', {
+export const fileItemIconVariants = cva('grid size-control-md place-items-center rounded-md [&_svg]:size-icon-sm', {
   variants: {
     status: {
       done: 'bg-neutral-track text-text-secondary', uploading: 'bg-neutral-track text-text-secondary',

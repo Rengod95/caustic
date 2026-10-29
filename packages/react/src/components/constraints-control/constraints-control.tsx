@@ -1,5 +1,5 @@
 'use client';
-import { Check, MoveHorizontal, MoveVertical } from 'lucide-react';
+import { Check, MoveHorizontal, MoveVertical } from '../../icons/index.ts';
 import { useId, useState, type ComponentProps, type FocusEvent, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, shadowClass, type CommonProps } from '../../lib/common-props.ts';

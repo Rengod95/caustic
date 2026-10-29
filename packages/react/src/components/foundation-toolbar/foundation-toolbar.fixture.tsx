@@ -1,4 +1,4 @@
-import { Eye, Frame, Layers, Minus, Palette, Ruler, Settings, SquareDashed, Type } from 'lucide-react';
+import { Eye, Frame, Layers, Minus, Palette, Ruler, Settings, SquareDashed, Type } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';

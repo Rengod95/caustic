@@ -1,6 +1,6 @@
 'use client';
 import * as RS from '@radix-ui/react-select';
-import { Check } from 'lucide-react';
+import { Check } from '../../icons/index.ts';
 import { Children, createContext, isValidElement, useContext, useId, useRef, useState, type ComponentProps, type ReactElement, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { defined } from '../../lib/defined.ts';

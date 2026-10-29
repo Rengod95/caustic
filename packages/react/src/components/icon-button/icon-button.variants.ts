@@ -66,13 +66,13 @@ export const iconButtonVariants = cva(
   },
 );
 
-export const iconButtonIconVariants = cva('inline-grid place-items-center [&_svg]:size-full [&_svg]:stroke-[1.75]', {
+export const iconButtonIconVariants = cva('inline-grid place-items-center [&_svg]:size-full', {
   variants: {
     size: { xs: 'size-icon-sm', sm: 'size-icon-md', md: 'size-icon-md', lg: 'size-icon-lg' },
     variant: { solid: '', soft: '', outline: '', ghost: '' },
   },
   // The send arrow: solid at sm (the composer and textarea send button).
-  compoundVariants: [{ variant: 'solid', size: 'sm', className: 'size-icon-send [&_svg]:stroke-[2.25]' }],
+  compoundVariants: [{ variant: 'solid', size: 'sm', className: 'size-icon-send' }],
   defaultVariants: { size: 'md', variant: 'ghost' },
 });
 

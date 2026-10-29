@@ -1,5 +1,5 @@
 'use client';
-import { Check, ChevronDown, FileCode, FileWarning, FileX, Package } from 'lucide-react';
+import { Check, ChevronDown, FileCode, FileWarning, FileX, Package } from '../../icons/index.ts';
 import { createContext, Fragment, useContext, type ComponentProps, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, shadowClass, type CommonProps, type Tone } from '../../lib/common-props.ts';

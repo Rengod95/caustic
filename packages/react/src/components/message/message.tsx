@@ -1,5 +1,5 @@
 'use client';
-import { Check, Copy, RotateCcw } from 'lucide-react';
+import { Check, Copy, RotateCcw } from '../../icons/index.ts';
 import { useEffect, useState, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

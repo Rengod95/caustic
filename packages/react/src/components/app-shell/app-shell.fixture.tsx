@@ -1,4 +1,4 @@
-import { Frame, Hand, MousePointer2, Redo2, Type, Undo2 } from 'lucide-react';
+import { Frame, Hand, MousePointer2, Redo2, Type, Undo2 } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { FloatingBar, FloatingBarItem, FloatingBarSeparator } from '../floating-bar/floating-bar.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';

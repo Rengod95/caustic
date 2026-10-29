@@ -1,5 +1,5 @@
 'use client';
-import { Frame } from 'lucide-react';
+import { Frame } from '../../icons/index.ts';
 import type { ComponentProps } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { SIZES, type Radius, type Shadow, type Size, type Tone, type Variant } from '../../lib/common-props.ts';

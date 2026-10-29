@@ -1,4 +1,4 @@
-import { Link, Maximize2, Trash2 } from 'lucide-react';
+import { Link, Maximize2, Trash2 } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';
 import { Field } from '../field/field.tsx';

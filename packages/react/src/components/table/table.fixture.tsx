@@ -1,4 +1,4 @@
-import { Ellipsis, Filter, Search, UserPlus } from 'lucide-react';
+import { Ellipsis, Filter, Search, UserPlus } from '../../icons/index.ts';
 import { useId, type ReactNode } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Avatar } from '../avatar/avatar.tsx';

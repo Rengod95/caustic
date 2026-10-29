@@ -1,5 +1,5 @@
 'use client';
-import { ChevronRight, CircleAlert } from 'lucide-react';
+import { ChevronRight, CircleAlert } from '../../icons/index.ts';
 import { useId, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
@@ -137,7 +137,7 @@ export function ExpressionEditor({
                 </div>
                 {hasError && (
                   <span data-slot="expression-editor-error" id={errorId} role="alert" className={expressionEditorErrorVariants()}>
-                    <span data-slot="expression-editor-error-icon" aria-hidden className="inline-flex size-chip-icon shrink-0 [&_svg]:size-full [&_svg]:stroke-[1.75]"><CircleAlert /></span>
+                    <span data-slot="expression-editor-error-icon" aria-hidden className="inline-flex size-chip-icon shrink-0 [&_svg]:size-full"><CircleAlert /></span>
                     {error}
                   </span>
                 )}

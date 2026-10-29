@@ -1,5 +1,5 @@
 'use client';
-import { ChevronDown, Minus, Plus } from 'lucide-react';
+import { ChevronDown, Minus, Plus } from '../../icons/index.ts';
 import type { ComponentProps, MouseEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

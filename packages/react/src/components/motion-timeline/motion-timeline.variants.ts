@@ -61,7 +61,7 @@ export const motionTimelineLaneVariants = cva('grid grid-cols-[var(--cs-size-tim
  * size steps the type (xs ui-xs · sm and md ui-sm · lg ui).
  */
 export const motionTimelineLaneLabelVariants = cva([
-  'flex h-full items-center gap-1.5 overflow-hidden px-2.5 font-normal whitespace-nowrap text-text-secondary outline-none [&_svg]:size-chip-icon [&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
+  'flex h-full items-center gap-1.5 overflow-hidden px-2.5 font-normal whitespace-nowrap text-text-secondary outline-none [&_svg]:size-chip-icon [&_svg]:shrink-0',
   'transition-control [&[role=button]]:press [&[role=button]]:cursor-pointer [&[role=button]]:hover:bg-neutral-hover focus-visible:shadow-focus aria-pressed:selected aria-pressed:hover:bg-selection-fill-hover',
 ], {
   variants: { size: { xs: 'text-ui-xs', sm: 'text-ui-sm', md: 'text-ui-sm', lg: 'text-ui' } },

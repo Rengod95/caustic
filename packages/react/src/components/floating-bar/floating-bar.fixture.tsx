@@ -1,4 +1,4 @@
-import { Frame, Grid3x3, Hand, Magnet, MessageCircle, MousePointer2, PenTool, Square, Type, WandSparkles } from 'lucide-react';
+import { Frame, Grid3x3, Hand, Magnet, MessageCircle, MousePointer2, PenTool, Square, Type, WandSparkles } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { ZoomControl } from '../zoom-control/zoom-control.tsx';
 import { FloatingBar, FloatingBarGroup, FloatingBarItem, FloatingBarSeparator, type FloatingBarItemProps, type FloatingBarProps } from './floating-bar.tsx';

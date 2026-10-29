@@ -1,4 +1,4 @@
-import { Copy, PanelBottom, PanelRight } from 'lucide-react';
+import { Copy, PanelBottom, PanelRight } from '../../icons/index.ts';
 import type { ReactNode } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';

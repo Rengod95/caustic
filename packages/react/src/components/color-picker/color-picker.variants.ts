@@ -41,7 +41,7 @@ export const colorPickerTypeVariants = cva(
     // Checked inverts (selected utility: ink fill, paper glyph, no edge); disabled drops the inversion to disabled colour.
     'aria-checked:not-disabled:selected aria-checked:not-disabled:hover:bg-selection-fill-hover',
     'disabled:cursor-default disabled:text-disabled-text disabled:hover:bg-transparent disabled:aria-checked:bg-disabled-fill',
-    '[&_svg]:size-icon-sm [&_svg]:stroke-[1.75]',
+    '[&_svg]:size-icon-sm',
   ],
   {
     // The rest glyph colour by the picker tone (neutral = tertiary); hover and checked are the same in every tone.
@@ -103,7 +103,7 @@ export const colorPickerFormatVariants = cva(
   [
     'flex h-control-md w-picker-format-w cursor-pointer items-center justify-between rounded-md bg-transparent pr-1.5 pl-2 text-ui-sm font-normal text-text-primary outline-none',
     'transition-control hover:bg-neutral-hover focus-visible:shadow-focus',
-    '[&_svg]:size-icon-xs [&_svg]:text-text-tertiary [&_svg]:stroke-[1.75]',
+    '[&_svg]:size-icon-xs [&_svg]:text-text-tertiary',
   ],
 );
 

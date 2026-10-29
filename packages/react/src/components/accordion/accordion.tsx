@@ -1,6 +1,6 @@
 'use client';
 import * as A from '@radix-ui/react-accordion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from '../../icons/index.ts';
 import { createContext, useContext, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { defined } from '../../lib/defined.ts';

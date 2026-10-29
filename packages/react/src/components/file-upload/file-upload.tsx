@@ -1,5 +1,5 @@
 'use client';
-import { FileText, FileX, Image, Trash2, Upload, X } from 'lucide-react';
+import { FileText, FileX, Image, Trash2, Upload, X } from '../../icons/index.ts';
 import {
   useRef, useState, type AnimationEvent, type ChangeEvent, type ComponentProps, type DragEvent, type KeyboardEvent, type ReactNode,
 } from 'react';

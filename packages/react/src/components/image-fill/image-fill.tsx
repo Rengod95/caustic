@@ -1,5 +1,5 @@
 'use client';
-import { Crop, Upload } from 'lucide-react';
+import { Crop, Upload } from '../../icons/index.ts';
 import { useEffect, useLayoutEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';

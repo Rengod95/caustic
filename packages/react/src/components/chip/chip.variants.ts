@@ -157,14 +157,14 @@ export const chipVariants = cva(
   },
 );
 
-export const chipIconVariants = cva('inline-flex shrink-0 [&_svg]:size-full [&_svg]:stroke-[1.75]', {
+export const chipIconVariants = cva('inline-flex shrink-0 [&_svg]:size-full', {
   // The pill icon (a ✓ status, a +) sits 2px further from its label (owner 2026-10-27), as the check below.
   variants: { shape: { pill: 'me-0.5 size-icon-xs', rounded: 'size-chip-icon text-text-tertiary in-disabled:text-disabled-text' } },
   defaultVariants: { shape: 'pill' },
 });
 
 /** Leading check of an on toggle chip: sized like the icon, in the chip's own text colour (currentColor), 2px more room before the label (owner 2026-10-27). */
-export const chipCheckVariants = cva('me-0.5 inline-flex shrink-0 animate-pop [&_svg]:size-full [&_svg]:stroke-[1.75]', {
+export const chipCheckVariants = cva('me-0.5 inline-flex shrink-0 animate-pop [&_svg]:size-full', {
   variants: { shape: { pill: 'size-icon-xs', rounded: 'size-chip-icon' } },
   defaultVariants: { shape: 'pill' },
 });

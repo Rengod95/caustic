@@ -1,4 +1,4 @@
-import { AlignCenter, AlignLeft, AlignRight, Bold, Italic, Strikethrough, Underline } from 'lucide-react';
+import { AlignCenter, AlignLeft, AlignRight, Bold, Italic, Strikethrough, Underline } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { ToggleGroup, ToggleGroupItem, type ToggleGroupProps } from './toggle-group.tsx';
 

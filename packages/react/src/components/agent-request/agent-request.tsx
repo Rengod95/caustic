@@ -1,5 +1,5 @@
 'use client';
-import { Check, ShieldCheck, X } from 'lucide-react';
+import { Check, ShieldCheck, X } from '../../icons/index.ts';
 import { Fragment, useId, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

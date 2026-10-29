@@ -1,7 +1,7 @@
 'use client';
 import * as AD from '@radix-ui/react-alert-dialog';
 import * as D from '@radix-ui/react-dialog';
-import { X } from 'lucide-react';
+import { X } from '../../icons/index.ts';
 import { createContext, use, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';

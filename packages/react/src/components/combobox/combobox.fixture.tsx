@@ -1,4 +1,4 @@
-import { Plus, Ruler, TriangleAlert } from 'lucide-react';
+import { Plus, Ruler, TriangleAlert } from '../../icons/index.ts';
 import type { CSSProperties } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Badge } from '../badge/badge.tsx';

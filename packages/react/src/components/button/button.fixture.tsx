@@ -1,5 +1,5 @@
 // Gateway fixture: how the harness renders cases and the documented examples.
-import { ChevronDown, Plus, Share, Trash2, WandSparkles } from 'lucide-react';
+import { ChevronDown, Plus, Share, Trash2, WandSparkles } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from './button.tsx';
 

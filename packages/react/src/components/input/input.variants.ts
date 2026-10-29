@@ -101,12 +101,12 @@ export const inputFrameVariants = cva('', {
 });
 
 // Icons size to 16 unless the icon sets its own size (:where keeps this default weaker than any class on the svg).
-export const inputPrefixVariants = cva('inline-flex shrink-0 items-center text-text-tertiary in-data-[disabled]:text-disabled-text [:where(&)_svg]:size-icon-md [:where(&)_svg]:stroke-[1.75]', {
+export const inputPrefixVariants = cva('inline-flex shrink-0 items-center text-text-tertiary in-data-[disabled]:text-disabled-text [:where(&)_svg]:size-icon-md', {
   variants: { variant: { solid: '', soft: '', outline: '', ghost: '', sunken: 'w-3 text-ui-xs font-medium' } },
   defaultVariants: { variant: 'outline' },
 });
 // An IconButton in the suffix sits 6px closer to the edge so its hit area balances the padding.
-export const inputSuffixClass = 'inline-flex shrink-0 items-center gap-2 text-ui text-text-tertiary in-data-[disabled]:text-disabled-text [:where(&)_svg]:size-icon-md [:where(&)_svg]:stroke-[1.75] [&_[data-slot=icon-button]]:-me-1.5';
+export const inputSuffixClass = 'inline-flex shrink-0 items-center gap-2 text-ui text-text-tertiary in-data-[disabled]:text-disabled-text [:where(&)_svg]:size-icon-md [&_[data-slot=icon-button]]:-me-1.5';
 
 // Add-ons (addons, was InputGroup's start / end) share the field fill (no fill of their own: the scheme is part of the value,
 // not a button; owner 2026-10-27, proposal A), tertiary text, set off by a subtle divider. In a disabled field the text and

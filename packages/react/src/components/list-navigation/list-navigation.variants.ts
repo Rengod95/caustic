@@ -85,7 +85,7 @@ export const listNavigationLink = cva(
       kind: {
         navigation: [
           'gap-2.5 rounded-lg px-2.5 text-text-secondary hover:text-text-primary',
-          'transition-control [&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
+          'transition-control [&_svg]:shrink-0',
         ],
         pages: 'gap-2 rounded-md px-2 text-text-primary transition-control',
         sessions: 'gap-2 rounded-lg px-2 text-text-primary transition-control',

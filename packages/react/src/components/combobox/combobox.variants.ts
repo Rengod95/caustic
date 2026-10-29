@@ -68,7 +68,7 @@ export const comboboxLabelVariants = cva('max-w-full shrink-0 truncate');
 export const comboboxDescriptionVariants = cva('min-w-0 truncate text-ui-xs text-text-tertiary group-data-[disabled]:text-disabled-text');
 
 /** Trailing check of the chosen option (secondary, which reads selection.on-secondary on the inverted option); it takes the end position when there is no meta. */
-export const comboboxCheckVariants = cva('inline-flex shrink-0 items-center text-text-secondary group-data-[disabled]:text-disabled-text [&_svg]:size-icon-sm [&_svg]:stroke-[2]', {
+export const comboboxCheckVariants = cva('inline-flex shrink-0 items-center text-text-secondary group-data-[disabled]:text-disabled-text [&_svg]:size-icon-sm', {
   variants: { end: { true: 'ml-auto', false: '' } },
   defaultVariants: { end: true },
 });
@@ -134,7 +134,7 @@ export const comboboxRowLabelVariants = cva('min-w-0 truncate', {
  * with its own on colour, kept on the chosen (inverted) option. neutral: the muted track with a secondary glyph (the + of
  * a connect row). Disabled fill and text on a disabled option.
  */
-export const comboboxTileVariants = cva('inline-grid size-check shrink-0 place-items-center rounded-sm text-micro group-data-[disabled]:bg-disabled-fill group-data-[disabled]:text-disabled-text [&_svg]:size-icon-xs [&_svg]:stroke-[2.25]', {
+export const comboboxTileVariants = cva('inline-grid size-check shrink-0 place-items-center rounded-sm text-micro group-data-[disabled]:bg-disabled-fill group-data-[disabled]:text-disabled-text [&_svg]:size-icon-xs', {
   variants: {
     tint: {
       neutral: 'bg-neutral-track text-text-secondary',

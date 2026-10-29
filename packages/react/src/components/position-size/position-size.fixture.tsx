@@ -1,4 +1,4 @@
-import { AlignCenterVertical, AlignEndVertical, AlignStartVertical, Check, Minimize2, MoveHorizontal, Plus } from 'lucide-react';
+import { AlignCenterVertical, AlignEndVertical, AlignStartVertical, Check, Minimize2, MoveHorizontal, Plus } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { ButtonGroup } from '../button-group/button-group.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';

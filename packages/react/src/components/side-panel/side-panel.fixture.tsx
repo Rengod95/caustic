@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { SidePanel, type SidePanelProps } from './side-panel.tsx';

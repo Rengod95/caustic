@@ -230,7 +230,7 @@ export const listOpaqueRowVariants = cva(
 );
 
 /** Opaque row glyph: 14px, decorative; the list tone graphic (neutral graphic by default: no status hue). */
-export const listGlyphVariants = cva('inline-flex size-icon-sm flex-none items-center justify-center [&_svg]:size-full [&_svg]:stroke-[1.75]', {
+export const listGlyphVariants = cva('inline-flex size-icon-sm flex-none items-center justify-center [&_svg]:size-full', {
   variants: {
     tone: {
       neutral: 'text-neutral-graphic', accent: 'text-accent-graphic', success: 'text-success-graphic', warning: 'text-warning-graphic',
@@ -338,7 +338,7 @@ export const listIndicatorVariants = cva(
   {
     variants: {
       shape: {
-        box: 'rounded-sm [&_svg]:size-icon-sm [&_svg]:stroke-3 [&_svg]:opacity-0 data-[state=checked]:[&_svg]:opacity-100 data-[state=checked]:[&_svg]:animate-pop',
+        box: 'rounded-sm [&_svg]:size-icon-sm [&_svg]:opacity-0 data-[state=checked]:[&_svg]:opacity-100 data-[state=checked]:[&_svg]:animate-pop',
         radio: 'rounded-full',
       },
     },
@@ -437,7 +437,7 @@ export const listAddVariants = cva(
   [
     'flex w-full cursor-pointer items-center gap-1.5 border-0 border-t border-dashed border-border-strong bg-transparent text-start font-ui text-accent-text outline-none',
     'transition-control hover:bg-neutral-hover focus-visible:shadow-focus',
-    '[&_svg]:size-icon-sm [&_svg]:flex-none [&_svg]:stroke-[1.75]',
+    '[&_svg]:size-icon-sm [&_svg]:flex-none',
   ],
   {
     variants: {

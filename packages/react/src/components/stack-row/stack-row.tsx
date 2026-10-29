@@ -1,5 +1,5 @@
 'use client';
-import { ChevronDown, ChevronUp, Eye, EyeOff, Minus } from 'lucide-react';
+import { ChevronDown, ChevronUp, Eye, EyeOff, Minus } from '../../icons/index.ts';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
@@ -13,7 +13,7 @@ export interface StackRowProps extends Omit<ComponentProps<'div'>, 'title' | 'hi
   actions?: 'hover' | 'always';
   /** Kind of the leading element. */
   lead?: 'swatch' | 'icon';
-  /** lead swatch: a ColorWell sm. lead icon: the lucide icon drawn inside the tile. */
+  /** lead swatch: a ColorWell sm. lead icon: the icon drawn inside the tile. */
   leading?: ReactNode;
   /** Row name. */
   title: ReactNode;

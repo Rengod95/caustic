@@ -97,7 +97,7 @@ export const floatingBarItemVariants = cva(
   },
 );
 
-export const floatingBarIconVariants = cva('inline-grid place-items-center [&_svg]:size-full [&_svg]:stroke-[1.75]', {
+export const floatingBarIconVariants = cva('inline-grid place-items-center [&_svg]:size-full', {
   variants: { size: { lg: 'size-icon-md', md: 'size-icon-sm', sm: 'size-icon-sm', xs: 'size-icon-xs' } },
   defaultVariants: { size: 'lg' },
 });

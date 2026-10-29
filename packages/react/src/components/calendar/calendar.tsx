@@ -1,5 +1,5 @@
 'use client';
-import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight } from '../../icons/index.ts';
 import { useEffect, useId, useRef, useState, type ComponentProps, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

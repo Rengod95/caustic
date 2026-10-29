@@ -34,6 +34,6 @@ export const textPropertiesRowVariants = cva('flex items-center justify-between 
 
 export const textPropertiesNoticeVariants = cva('grid grid-cols-[auto_1fr] gap-2 rounded-lg bg-(--tone-soft) px-2.5 py-2 text-hint text-text-primary');
 
-export const textPropertiesNoticeIconVariants = cva('mt-0.25 inline-flex size-icon-sm text-(--tone-text) [&_svg]:size-full [&_svg]:stroke-[1.75]');
+export const textPropertiesNoticeIconVariants = cva('mt-0.25 inline-flex size-icon-sm text-(--tone-text) [&_svg]:size-full');
 
 export type TextPropertiesVariantProps = VariantProps<typeof textPropertiesVariants>;

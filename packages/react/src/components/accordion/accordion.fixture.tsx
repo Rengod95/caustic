@@ -1,4 +1,4 @@
-import { Ruler, SwatchBook, Type } from 'lucide-react';
+import { Ruler, SwatchBook, Type } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Badge } from '../badge/badge.tsx';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './accordion.tsx';

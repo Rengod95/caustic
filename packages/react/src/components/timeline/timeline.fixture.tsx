@@ -1,4 +1,4 @@
-import { UploadCloud, UserPlus } from 'lucide-react';
+import { UploadCloud, UserPlus } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Avatar } from '../avatar/avatar.tsx';
 import { Timeline, TimelineItem, TimelineStrong as S, type TimelineItemProps, type TimelineProps } from './timeline.tsx';

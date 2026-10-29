@@ -1,16 +1,10 @@
 'use client';
-import { CircleAlert, CircleCheck, CircleHelp, createLucideIcon } from 'lucide-react';
+import { CallArrow, CircleAlert, CircleCheck, CircleHelp } from '../../icons/index.ts';
 import { useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import { useFlip } from '../../hooks/use-flip.ts';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { activityCallGlyphVariants, activityCallVariants, activityLabelVariants, activityOrbVariants, activityStepGlyphVariants, activityStepVariants, activityTreeVariants, activityWorkerOrbVariants } from './activity-tree.variants.ts';
-
-/** lucide corner-down-right with a tighter elbow (1.5 instead of 4), so the call arrow reads less curved (owner 2026-10-27). */
-const CallArrow = createLucideIcon('CallArrow', [
-  ['polyline', { points: '15 10 20 15 15 20', key: 'head' }],
-  ['path', { d: 'M4 4v9.5a1.5 1.5 0 0 0 1.5 1.5H20', key: 'stem' }],
-]);
 
 export interface ActivityNode {
   id: string;

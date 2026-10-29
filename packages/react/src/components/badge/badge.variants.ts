@@ -95,7 +95,7 @@ export const badgeOrbVariants = cva('', {
 });
 
 /** Leading icon: 12px (14px at lg). In the mono form it is the token kind icon: 12px at every size, text.tertiary. */
-export const badgeIconVariants = cva('inline-flex shrink-0 [&_svg]:size-full [&_svg]:stroke-[1.75]', {
+export const badgeIconVariants = cva('inline-flex shrink-0 [&_svg]:size-full', {
   variants: {
     size: { xs: 'size-icon-xs', sm: 'size-icon-xs', md: 'size-icon-xs', lg: 'size-icon-sm' },
     mono: { false: '', true: 'text-text-tertiary' },

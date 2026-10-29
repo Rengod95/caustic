@@ -1,4 +1,4 @@
-import { Contrast, FileCode, Frame, Image, SwatchBook, WandSparkles } from 'lucide-react';
+import { Contrast, FileCode, Frame, Image, SwatchBook, WandSparkles } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Chip } from '../chip/chip.tsx';
 import { Suggestions, SuggestionsItem } from '../suggestions/suggestions.tsx';

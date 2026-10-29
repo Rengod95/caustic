@@ -1,4 +1,4 @@
-import { PaintBucket, Scan, Type } from 'lucide-react';
+import { PaintBucket, Scan, Type } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { InspectorBindings, InspectorBindingsRow, type InspectorBindingsProps, type InspectorBindingsRowProps } from './inspector-bindings.tsx';
 

@@ -1,4 +1,4 @@
-import { Component, Ellipsis, LayoutPanelLeft, WandSparkles } from 'lucide-react';
+import { Component, Ellipsis, LayoutPanelLeft, WandSparkles } from '../../icons/index.ts';
 import type { CSSProperties } from 'react';
 import { artboardSwatches } from '../canvas-artboard/canvas-artboard.fixture.tsx';
 import { CanvasArtboardSample } from '../canvas-artboard/canvas-artboard.sample.tsx';

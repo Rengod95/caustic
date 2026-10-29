@@ -50,7 +50,7 @@ export const stackRowLeadVariants = cva('inline-flex shrink-0 transition-control
   variants: {
     lead: {
       swatch: 'group-data-[state=hidden]/stack-row:opacity-64',
-      icon: 'size-control-2xs place-items-center rounded-xs bg-neutral-track text-text-secondary [&_svg]:size-icon-sm [&_svg]:stroke-[1.75] group-data-[state=hidden]/stack-row:text-disabled-text',
+      icon: 'size-control-2xs place-items-center rounded-xs bg-neutral-track text-text-secondary [&_svg]:size-icon-sm group-data-[state=hidden]/stack-row:text-disabled-text',
     },
   },
   defaultVariants: { lead: 'swatch' },

@@ -1,5 +1,5 @@
 'use client';
-import { Check, CircleAlert } from 'lucide-react';
+import { Check, CircleAlert } from '../../icons/index.ts';
 import { useEffect, useId, useRef, useState, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Variant } from '../../lib/common-props.ts';
@@ -153,7 +153,7 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
               <li key={step.id ?? i} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} className={stepperItem({ orientation: o })}>
                 {hasConnector && <span data-slot="stepper-connector" aria-hidden className={stepperConnector({ orientation: o, active })} />}
                 <span data-slot="stepper-indicator" data-status={s} className={cn(stepperIndicator({ status: s, variant, size, radius, shadow }))}>
-                  {s === 'done' ? (<><Check className="size-3.5 animate-pop" strokeWidth={3} aria-hidden /><span className="sr-only">{word(s) ?? 'completed'}</span></>)
+                  {s === 'done' ? (<><Check className="size-3.5 animate-pop" emphasis="selected" aria-hidden /><span className="sr-only">{word(s) ?? 'completed'}</span></>)
                     : s === 'failed' ? (<><CircleAlert className="size-3.5" aria-hidden /><span className="sr-only">{word(s) ?? 'failed'}</span></>)
                     : (<>{i + 1}{word(s) != null && <span className="sr-only"> {word(s)}</span>}</>)}
                 </span>

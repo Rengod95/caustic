@@ -1,4 +1,4 @@
-import { AlignCenterVertical, AlignEndVertical, AlignStartVertical, Droplet, Plus, Sparkles, SquareStack } from 'lucide-react';
+import { AlignCenterVertical, AlignEndVertical, AlignStartVertical, Droplet, Plus, Sparkles, SquareStack } from '../../icons/index.ts';
 import { useId } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { ButtonGroup } from '../button-group/button-group.tsx';

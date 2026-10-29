@@ -1,5 +1,5 @@
 'use client';
-import { Check, X } from 'lucide-react';
+import { Check, X } from '../../icons/index.ts';
 import type { ComponentProps, MouseEvent, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, shadowClass, type Radius, type Shadow, type Size, type Tone, type Variant } from '../../lib/common-props.ts';

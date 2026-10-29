@@ -72,7 +72,7 @@ export const colorWellSolidVariants = cva(
 
 /** Selected only: a check on a round surface badge with an ink (selection.fill) hairline, bottom-right above the paint, so it reads on any user colour. */
 export const colorWellCheckVariants = cva(
-  'animate-enter pointer-events-none absolute right-0.5 bottom-0.5 z-20 inline-grid place-items-center rounded-full bg-surface-base text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-selection-fill)] [&_svg]:size-full [&_svg]:stroke-3',
+  'animate-enter pointer-events-none absolute right-0.5 bottom-0.5 z-20 inline-grid place-items-center rounded-full bg-surface-base text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-selection-fill)] [&_svg]:size-full',
   {
     variants: { size: { xs: 'size-2.5 p-px', sm: 'size-2.5 p-px', md: 'size-3.5 p-0.5', lg: 'size-4 p-0.5' } },
     defaultVariants: { size: 'md' },

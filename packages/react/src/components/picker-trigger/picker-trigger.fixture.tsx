@@ -1,4 +1,4 @@
-import { Calendar, MoveHorizontal, MoveVertical } from 'lucide-react';
+import { Calendar, MoveHorizontal, MoveVertical } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { PickerTrigger } from './picker-trigger.tsx';
 

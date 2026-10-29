@@ -1,5 +1,5 @@
 'use client';
-import { Braces, CodeXml, FileCode, FileUp, Globe, Link, Monitor, Smartphone, Tv } from 'lucide-react';
+import { Braces, CodeXml, FileCode, FileUp, Globe, Link, Monitor, Smartphone, Tv } from '../../icons/index.ts';
 import type { ComponentProps, MouseEvent, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';

@@ -1,4 +1,4 @@
-import { House } from 'lucide-react';
+import { House } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Breadcrumb, BreadcrumbCurrent, BreadcrumbEllipsis, BreadcrumbItem, type BreadcrumbProps } from './breadcrumb.tsx';
 

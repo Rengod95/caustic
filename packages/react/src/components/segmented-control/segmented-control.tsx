@@ -104,7 +104,7 @@ export function SegmentedControl({
 }
 
 export interface SegmentedControlItemProps extends Omit<ComponentProps<typeof R.Item>, 'children'> {
-  /** Leading lucide icon. */
+  /** Leading icon (@caustic/react/icons). */
   icon?: ReactNode;
   /** Trailing count, pushed to the end of a vertical item. */
   count?: ReactNode;

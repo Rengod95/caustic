@@ -1,5 +1,5 @@
-import { Globe, Search } from 'lucide-react';
-import { CircleCheck } from 'lucide-react';
+import { Globe, Search } from '../../icons/index.ts';
+import { CircleCheck } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';
 import { Input } from '../input/input.tsx';

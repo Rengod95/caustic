@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react';
+import { Plus } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';

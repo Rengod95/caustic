@@ -1,4 +1,4 @@
-import { Archive, Bell, Component, Copy, Diamond, Download, Ellipsis, Flag, Frame, KeyRound, Trash2, User, WandSparkles } from 'lucide-react';
+import { Archive, Bell, Component, Copy, Diamond, Download, Ellipsis, Flag, Frame, KeyRound, Trash2, User, WandSparkles } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import type { Tone, Variant } from '../../lib/common-props.ts';
 import { Avatar } from '../avatar/avatar.tsx';
