@@ -85,18 +85,24 @@ Naming:
 ## Typography
 
 **Families**
-- Geist (Korean fallback: SUIT, then Pretendard; owner decision O3 of the Axiom port) for the interface and human input.
+- Geist (Korean fallback: SUIT, then Pretendard; owner decision O3 of the Axiom port; then Noto Sans KR) for the interface and human input.
 - Newsreader (Korean fallback: Noto Serif KR) for agent prose; its italic for agent reasoning.
 - Geist Mono for tool names, token names, numbers and diffs.
+- Apps load the web fonts once: `import "@caustic/tokens/fonts.css"` before any other stylesheet, or a `<link>` to `fontHref` (tokens.mjs). It brings Noto Sans KR 300–700, so Hangul has real 500 and 600 on every machine. Without it Hangul falls to a system face with only Regular and Bold (Noto Sans CJK on Linux, Malgun Gothic on Windows): 500 renders as 400 and 600 as 700.
 
 **Roles**
 - 15 roles: display, title-1/2/3, body, ui, ui-strong, footnote, label, caption, voice, voice-sm, thought, mono, mono-sm.
 - Each role is `--cs-text-<role>` (a `font` shorthand) plus `--cs-text-<role>-tracking`. The `.cs-<role>` classes apply both.
 - The default interface size is 13/18.
 
-**Korean**
+**Korean** (DP-11, 2026-10-29)
 - `word-break: keep-all`.
-- Heading tracking is capped at −0.01em; negative display tracking breaks up Hangul.
+- Tracking follows the language, not the class. Under `[lang|="ko"]` every ui and voice role takes the Hangul step for its size (tokens.mjs `hangul`): ≥ 30px −0.025em, ≥ 18px −0.02em, ≥ 13.5px −0.015em, ≥ 12.5px −0.01em, smaller 0. `caption` is 0 (no uppercase spread); mono roles keep their grid.
+- The lang block re-points both `--cs-text-<role>-tracking` and the Tailwind `--text-<role>--letter-spacing`, so `.cs-<role>` classes and `text-<role>` utilities both follow it. Any other `[lang]` subtree (an `en` island in a Korean page) gets the Latin values back. Pages without a `lang` attribute stay Latin.
+- Geist's tracking is tuned for Latin. Hangul faces carry wide side bearings, so the Latin values (−0.003em at 13px) read loose.
+
+**Text inks**
+- primary, secondary, tertiary, placeholder = neutral 11, 10, 9, 8. On surface.base: light 20 : 11.6 : 7.7 : 5.9, dark 16.7 : 8.8 : 6.5 : 5.2. Tertiary and placeholder sit on the 4.5 floor (pressed fills, wells), so the room for contrast between steps is in primary → secondary → tertiary.
 
 **Floor:** functional text is never below 11px. Canvas ruler numerals are the only exception, by design-tool convention.
 

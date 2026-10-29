@@ -20,8 +20,11 @@ export const neutral = {
   name: 'Deep Black',
   hue: 0,
   chroma: 0,
-  light: [.995, .975, .93, .875, .79, .6, .55, .5, .44, .29, .12],
-  dark: [.09, .135, .18, .225, .345, .535, .595, .645, .70, .795, .96],
+  // Text inks are steps 11/10/9/8 (primary, secondary, tertiary, placeholder). DP-11 (2026-10-29): light 10 .29 → .34 and
+  // dark 8–10 .645/.70/.795 → .62/.68/.76 so the inks step more evenly in contrast on surface.base (light 20 : 11.6 : 7.7,
+  // was 20 : 13.9 : 7.7; dark 16.7 : 8.8 : 6.6, was 16.7 : 9.9 : 7.0): primary and secondary no longer read as one black.
+  light: [.995, .975, .93, .875, .79, .6, .55, .5, .44, .34, .12],
+  dark: [.09, .135, .18, .225, .345, .535, .595, .62, .68, .76, .96],
 };
 
 /* ── AUTHORED SOLIDS ── the only hued values a person picks. ───────────────────────
@@ -512,11 +515,21 @@ export const size = {
   'hit-min': 24,
 };
 
+// Hangul (DP-11): Geist has no Hangul, so Korean takes the first CJK face in the stack. SUIT and Pretendard stay first
+// (owner decision O3) when installed; Noto Sans KR is the face every app loads (fontHref), so a machine without them
+// still gets real 400/500/600 Hangul instead of a system face with only Regular and Bold (Noto Sans CJK on Linux,
+// Malgun Gothic on Windows), where 500 renders as 400 and 600 as 700. Apple SD Gothic Neo and Malgun Gothic are the
+// offline fallbacks.
 export const font = {
-  ui: '"Geist", "SUIT", "Pretendard Variable", "Pretendard", "Noto Sans KR", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
+  ui: '"Geist", "SUIT Variable", "SUIT", "Pretendard Variable", "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
   voice: '"Newsreader", "Noto Serif KR", ui-serif, Georgia, serif',
   mono: '"Geist Mono", ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace',
 };
+
+// The web fonts every app loads (a <link rel="stylesheet"> in index.html, or @caustic/tokens/fonts.css first). Google Fonts:
+// Geist and Geist Mono, Newsreader, Noto Sans KR (variable 300–700: real 500 and 600 for Hangul) and Noto Serif KR for the
+// voice. Google serves Noto KR in unicode-range slices, so a page downloads only the Hangul it uses.
+export const fontHref = 'https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Noto+Sans+KR:wght@300..700&family=Noto+Serif+KR:wght@400..600&display=swap';
 
 // [family, size, lineHeight, weight, tracking(em), extra]
 export const type = {
@@ -565,6 +578,19 @@ export const type = {
   // Owner 2026-10-27: the canvas-empty title one step up; dense mono for nested, low-priority call names.
   'voice-xl': ['voice', 22, 30, 400, -0.01],
   'mono-dense': ['mono', 11, 16, 400, -0.02],
+};
+
+// Korean tracking (DP-11). The `type` tracking is tuned for Geist; Hangul at those values reads loose (CJK faces carry wide
+// side bearings) and the uppercase spread of `caption` means nothing to Hangul. Under [lang|="ko"] every ui and voice role
+// takes the step for its size instead; mono roles keep their grid. Emitted as a lang block in caustic.tokens.css that
+// re-points --cs-text-<role>-tracking and the Tailwind --text-<role>--letter-spacing, so text-<role> utilities follow it.
+// Latin inside Korean text gets the same value; at ≤ −0.02em that is within Geist's own heading range.
+export const hangul = {
+  lang: 'ko',
+  // [from size px, tracking em]: the first row whose size the role reaches
+  tracking: [[30, -0.025], [18, -0.02], [13.5, -0.015], [12.5, -0.01], [0, 0]],
+  // roles that do not follow the size rule
+  except: { caption: 0 },
 };
 
 // Elevation: a short contact shadow + a long diffuse one. Values per theme.
