@@ -35,7 +35,7 @@ material). When this file and the CLI disagree, the CLI wins.
 | Size | `h-control-{2xs…xl}`, `h-field-{sm,md,lg}`, `size-icon-{xs…xl}` | match the control scale rather than fixed heights |
 | Radius | `rounded-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl,full}` | inner radius = outer radius − inset; never larger inside smaller |
 | Elevation | `shadow-1` … `shadow-5` | floating things only (below) |
-| Motion | `duration-{quick,base,gentle,slow}`, `ease-{standard,out,in,spring}` | feedback fast and eased out; movement springs |
+| Motion | `duration-{quick,swift,base,gentle,slow}`, `ease-{standard,out,in-out,drawer}`, springs `ease-{snappy,spring,bounce} duration-{snappy,spring,bounce}` | see Motion below |
 
 Three voices: `font-ui` for interface and people, `font-voice` (a serif) for agent prose, `font-mono` for machine
 values (token names, numbers in tables, code). Use `tabular-nums` for numbers that line up.
@@ -60,3 +60,38 @@ The materials are utilities with a job. Use them where the job is, nowhere else.
   for looks. For categories, use `chart-*` or identity colours on data.
 - **Focus is built in.** Components draw their own focus. For a custom focusable element use `focus-ring` (buttons
   and controls) or `focus-field` (a text field box), never both.
+
+## Motion
+
+Durations are named. A number (`duration-200`, `delay-150`) hard-codes a time and is a warning (`token-literal`).
+
+| Token | ms | For |
+|---|---|---|
+| `duration-instant` | 0 | a state that must change at once, inside the same transition list |
+| `duration-quick` | 100 | press, hover, colour and fill changes |
+| `duration-swift` | 150 | popover and tooltip enter, small moves, the default transition |
+| `duration-base` | 200 | collapse, indicators, exits of panels |
+| `duration-gentle` | 250 | dialog, sheet and toast enter |
+| `duration-slow` | 400 | large distances, page-level moves |
+
+- **Curves.** `ease-standard` for colour, size and anything that stays on screen; `ease-out` for enter and exit (the
+  default); `ease-in-out` for moves on screen; `ease-drawer` for sheets and side panels. No ease-in for UI.
+- **Springs move, they do not fade.** Position, size and scale only, never colour or opacity. A spring is a pair that
+  always goes together: `ease-snappy duration-snappy` (indicators, thumbs, checks), `ease-spring duration-spring`
+  (pop-ins, lifts), `ease-bounce duration-bounce` (agent and celebratory moments).
+- **Presets.**
+  - `transition-control`: the one transition list for interactive controls (colour, fill, border, shadow, opacity,
+    scale, translate at `quick` and `out`). Use it instead of `transition-all` or a hand-written list.
+  - `press` (scale 0.97 on `:active`), `press-sm` (0.94, small icon targets), `lift` (2px up on hover).
+  - `animate-enter` and `animate-exit`, with `enter-scale` (from 0.96) and `enter-from-side` (reads `data-side`),
+    `enter-up`, `enter-from-end`, `enter-from-start`, `enter-from-bottom`. Sheets and side panels:
+    `animate-enter-panel` and `animate-exit-panel`.
+  - `animate-collapse-open` and `animate-collapse-close` take the height from the Radix variable. `reveal` collapses
+    content that stays mounted.
+  - `animate-rise` for list and message items, with `stagger` and `--cs-stagger-index` (40 ms per item, at most 8).
+  - `animate-pop` for a check or dot: 0.6 to 1 on `snappy`.
+- **Do not animate.** Keyboard-only paths, typing, streaming text, drag and canvas direct manipulation, the command
+  palette. Reduced motion is global (every animation and transition becomes instant), so no `motion-reduce:` variant
+  is needed.
+- **Transition what moves.** Use `transition-control` on controls. If you write your own list, name `scale`,
+  `translate` or `rotate` next to `transform` (Tailwind 4 writes them as their own properties; `motion-property`).

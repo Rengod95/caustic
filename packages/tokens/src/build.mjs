@@ -245,6 +245,28 @@ console.log(`contrast: ${results.length - failures}/${results.length} rules pass
 if (failures) { console.error(`${failures} contrast rule(s) failed.`); process.exit(1); }
 if (checkOnly) process.exit(0);
 
+/* ── Motion ── a spring is a CSS linear() curve and a settle time, so `ease-spring duration-spring` always pair. */
+const LOOPS = new Set(['spin', 'indeterminate', 'orb', 'shimmer', 'slide', 'scan', 'agent']);
+const UI_DURATIONS = Object.keys(T.motion.duration).filter(k => !LOOPS.has(k));
+/** A damped spring (mass 1, ω0 = √stiffness, ζ = damping) from rest to a unit step: its linear() easing and settle time. */
+function springCurve({ stiffness, damping: z }) {
+  const w = Math.sqrt(stiffness);
+  const x = t => {
+    if (z < 1) { const wd = w * Math.sqrt(1 - z * z); return 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + (z * w / wd) * Math.sin(wd * t)); }
+    if (z === 1) return 1 - Math.exp(-w * t) * (1 + w * t);
+    const wr = w * Math.sqrt(z * z - 1); return 1 - Math.exp(-z * w * t) * (Math.cosh(wr * t) + (z * w / wr) * Math.sinh(wr * t));
+  };
+  // Settle: the first ms after which |x - 1| stays under 0.005, rounded up to 10 ms.
+  let last = 0;
+  for (let ms = 0; ms <= 10000; ms++) if (Math.abs(x(ms / 1000) - 1) >= 0.005) last = ms;
+  const settle = Math.ceil((last + 1) / 10) * 10;
+  const N = 40;
+  const pts = Array.from({ length: N + 1 }, (_, i) => (i === N ? 1 : +x((i * settle) / N / 1000).toFixed(4)));
+  return { ms: settle, easing: `linear(${pts.join(', ')})`, points: pts.length };
+}
+const SPRINGS = Object.fromEntries(Object.entries(T.motion.spring).map(([k, s]) => [k, springCurve(s)]));
+for (const [k, s] of Object.entries(SPRINGS)) console.log(`spring ${k}: settle ${s.ms} ms, linear() ${s.points} points, ${s.easing.length} chars`);
+
 /* ── Emit CSS ── */
 const v = (name, value) => `  --${P}-${name}: ${value};`;
 const root = [];
@@ -284,7 +306,12 @@ for (const [k, [fam, sz, lh, w, tr]] of Object.entries(T.type)) {
 root.push('', '  /* blur, motion, opacity, z */');
 for (const [k, px] of Object.entries(T.blur)) root.push(v(`blur-${k}`, `${px}px`));
 for (const [k, ms] of Object.entries(T.motion.duration)) root.push(v(`duration-${k}`, `${ms}ms`));
+for (const [k, s] of Object.entries(SPRINGS)) root.push(v(`duration-${k}`, `${s.ms}ms`));
 for (const [k, e] of Object.entries(T.motion.easing)) root.push(v(`ease-${k}`, e));
+for (const [k, s] of Object.entries(SPRINGS)) root.push(v(`ease-${k}`, s.easing));
+for (const [k, n] of Object.entries(T.motion.scale)) root.push(v(`scale-${k}`, n));
+for (const [k, px] of Object.entries(T.motion.shift)) root.push(v(`shift-${k}`, `${px}px`));
+root.push(v('stagger', `${T.motion.stagger.step}ms`));
 for (const [k, o] of Object.entries(T.opacity)) root.push(v(`opacity-${k}`, o));
 for (const [k, n] of Object.entries(T.z)) root.push(v(`z-${k}`, n));
 root.push('', '  /* studio shell */');
@@ -483,7 +510,11 @@ function tailwindTheme() {
   for (const k of Object.keys(T.elevation.light)) add(`shadow-${k}`, `var(--${P}-elevation-${k})`);
   add('shadow-focus', `var(--${P}-focus)`); add('shadow-focus-field', `var(--${P}-focus-field)`);
   for (const k of Object.keys(T.blur)) add(`blur-${k}`, `var(--${P}-blur-${k})`);
-  for (const k of Object.keys(T.motion.easing)) add(`ease-${k}`, `var(--${P}-ease-${k})`);
+  // Durations and curves for transitions; springs (move only) are named with the curves. Tailwind 4 reads duration-* from
+  // --transition-duration-*, so the names must be spelt that way.
+  for (const k of [...UI_DURATIONS, ...Object.keys(SPRINGS)]) add(`transition-duration-${k}`, `var(--${P}-duration-${k})`);
+  for (const k of [...Object.keys(T.motion.easing), ...Object.keys(SPRINGS)]) add(`ease-${k}`, `var(--${P}-ease-${k})`);
+  add('default-transition-duration', `var(--${P}-duration-swift)`); add('default-transition-timing-function', `var(--${P}-ease-out)`);
   for (const [k, px] of Object.entries(T.breakpoint)) add(`breakpoint-${k}`, `${px}px`);
   add('animate-agent', `cs-spin var(--${P}-duration-agent) linear infinite`);
   add('animate-orb', `cs-spin var(--${P}-duration-orb) linear infinite`);
@@ -493,10 +524,25 @@ function tailwindTheme() {
   add('animate-slide', `cs-slide var(--${P}-duration-slide) linear infinite`);
   // Agent scanning a region: a glow band sweeping down a 200%-tall gradient.
   add('animate-scan', `cs-scan var(--${P}-duration-scan) var(--${P}-ease-out) infinite`);
+  // Presets (motion v2). Enter and exit take their offset and scale from the --cs-enter-* variables set by the modifiers.
+  add('animate-enter', `cs-enter var(--${P}-duration-swift) var(--${P}-ease-out) both`);
+  add('animate-exit', `cs-exit var(--${P}-duration-quick) var(--${P}-ease-out) both`);
+  add('animate-enter-panel', `cs-enter var(--${P}-duration-gentle) var(--${P}-ease-drawer) both`);
+  add('animate-exit-panel', `cs-exit var(--${P}-duration-base) var(--${P}-ease-drawer) both`);
+  add('animate-collapse-open', `cs-collapse-open var(--${P}-duration-base) var(--${P}-ease-out)`);
+  add('animate-collapse-close', `cs-collapse-close var(--${P}-duration-base) var(--${P}-ease-out)`);
+  add('animate-rise', `cs-rise var(--${P}-duration-swift) var(--${P}-ease-out) both`);
+  add('animate-pop', `cs-pop var(--${P}-duration-snappy) var(--${P}-ease-snappy) both`);
   L.push('  @keyframes cs-rot { to { transform: rotate(360deg); } }');
   L.push('  @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }');
   L.push('  @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }');
   L.push('  @keyframes cs-slide { to { background-position: -200% 0; } }');
+  L.push(`  @keyframes cs-enter { from { opacity: 0; translate: var(--${P}-enter-x, 0) var(--${P}-enter-y, 0); scale: var(--${P}-enter-scale, 1); } }`);
+  L.push(`  @keyframes cs-exit { to { opacity: 0; translate: var(--${P}-enter-x, 0) var(--${P}-enter-y, 0); scale: var(--${P}-enter-scale, 1); } }`);
+  L.push(`  @keyframes cs-collapse-open { from { height: 0; } to { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } }`);
+  L.push(`  @keyframes cs-collapse-close { from { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; } }`);
+  L.push(`  @keyframes cs-rise { from { opacity: 0; translate: 0 var(--${P}-shift-enter); } }`);
+  L.push('  @keyframes cs-pop { from { opacity: 0; scale: 0.6; } }');
   L.push('}', '');
   L.push(`/* Caustic utilities: materials, agent signature, focus policy */
 @utility glass {
@@ -552,6 +598,50 @@ ${fillDecls('selection.fill').join('\n')}
   background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   animation: cs-shimmer var(--${P}-duration-shimmer) linear infinite;
 }
+/* Motion presets. Scale and translate are their own properties in Tailwind 4, so a transition list names them (or uses
+   transition-control). press and lift only move when the user allows motion; reduced motion is global (base.css). */
+@utility transition-control {
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, box-shadow, opacity, scale, translate;
+  transition-duration: var(--${P}-duration-quick);
+  transition-timing-function: var(--${P}-ease-out);
+}
+@utility press {
+  @media (prefers-reduced-motion: no-preference) {
+    &:active:not(:disabled, [aria-disabled="true"], [data-disabled]) { scale: var(--${P}-scale-press); }
+  }
+}
+@utility press-sm {
+  @media (prefers-reduced-motion: no-preference) {
+    &:active:not(:disabled, [aria-disabled="true"], [data-disabled]) { scale: var(--${P}-scale-press-sm); }
+  }
+}
+@utility lift {
+  @media (prefers-reduced-motion: no-preference) {
+    &:hover:not(:disabled, [aria-disabled="true"]) { translate: 0 calc(var(--${P}-shift-lift) * -1); }
+  }
+}
+@utility enter-scale { --${P}-enter-scale: var(--${P}-scale-enter); }
+@utility enter-from-side {
+  &[data-side=bottom] { --${P}-enter-y: calc(var(--${P}-shift-enter) * -1); }
+  &[data-side=top] { --${P}-enter-y: var(--${P}-shift-enter); }
+  &[data-side=left] { --${P}-enter-x: var(--${P}-shift-enter); }
+  &[data-side=right] { --${P}-enter-x: calc(var(--${P}-shift-enter) * -1); }
+}
+@utility enter-up { --${P}-enter-y: var(--${P}-shift-enter); }
+@utility enter-from-end { --${P}-enter-x: 100%; &:dir(rtl) { --${P}-enter-x: -100%; } }
+@utility enter-from-start { --${P}-enter-x: -100%; &:dir(rtl) { --${P}-enter-x: 100%; } }
+@utility enter-from-bottom { --${P}-enter-y: 100%; }
+@utility stagger { animation-delay: calc(min(var(--${P}-stagger-index, 0), ${T.motion.stagger.max}) * var(--${P}-stagger)); }
+/* Collapse without a Radix height variable: the content stays mounted, the grid row opens. */
+@utility reveal {
+  display: grid; grid-template-rows: 0fr;
+  transition-property: grid-template-rows, opacity;
+  transition-duration: var(--${P}-duration-base);
+  transition-timing-function: var(--${P}-ease-out);
+  opacity: 0;
+  &:is([data-state=open], [data-open=true]) { grid-template-rows: 1fr; opacity: 1; }
+  & > * { min-height: 0; overflow: hidden; }
+}
 @utility spectrum-fill { background: var(--${P}-spectrum-conic); animation: cs-spin var(--${P}-duration-agent) linear infinite; }
 @utility spectrum-line { background: var(--${P}-spectrum-linear); background-size: 200% 100%; }
 @utility focus-ring { outline: none; box-shadow: 0 0 0 1px var(--${P}-focus-offset, var(--${P}-color-focus-offset)), 0 0 0 3px var(--${P}-color-focus-ring); }
@@ -577,11 +667,12 @@ function twMergeScales() {
   return { spacing: names('spacing'), text: names('text'), radius: names('radius'), shadow: names('shadow'), blur: names('blur'), color: names('color') };
 }
 
-// Numeric scales the gateway accepts for numeric utilities (p-3, duration-200, z-40, opacity-42).
+// Numeric scales the gateway accepts for numeric utilities (p-3, z-40, opacity-42). Durations are named (durationNames).
 function allowlist() {
   return {
     spacingSteps: Object.keys(T.space).map(Number),
     durations: Object.values(T.motion.duration),
+    durationNames: [...UI_DURATIONS, ...Object.keys(T.motion.spring)],
     zIndex: Object.values(T.z),
     opacity: [0, 100, Math.round(T.opacity.disabled * 100), Math.round(T.opacity.muted * 100)],
     fontWeights: ['normal', 'medium', 'semibold'],

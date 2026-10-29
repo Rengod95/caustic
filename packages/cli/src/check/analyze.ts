@@ -231,6 +231,9 @@ export function analyzeFile(fileName: string, text: string, idx: CatalogIndex, t
       reportLiterals(lits, tokenised, at, cls, `"${cls}" hard-codes`,
         'Use a token utility (bg-surface-base, text-ui-sm, rounded-xl, shadow-2 …) or var(--cs-*) inside the brackets. Only the hairlines 0.5px, 1px, 1.5px and 2px may be literal.');
     }
+    const timing = utility.match(/^(duration|delay)-(\d+)$/);
+    if (timing) report('token-literal', at, cls, `"${cls}" hard-codes ${timing[2]}ms.`,
+      'use duration-quick (100), swift (150), base (200), gentle (250), slow (400) or a spring pair (ease-spring duration-spring)', 'warning');
     if (theme && enabled.has('token-unknown-class') && looksLikeUtility(cls, theme.vocabulary)) {
       const v = theme.verdict(cls);
       if (v) {

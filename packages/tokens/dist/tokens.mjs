@@ -4852,10 +4852,11 @@ export default {
   "motion": {
     "duration": {
       "instant": 0,
-      "quick": 120,
+      "quick": 100,
+      "swift": 150,
       "base": 200,
-      "gentle": 320,
-      "slow": 480,
+      "gentle": 250,
+      "slow": 400,
       "spin": 700,
       "indeterminate": 1400,
       "orb": 1600,
@@ -4866,10 +4867,38 @@ export default {
     },
     "easing": {
       "standard": "cubic-bezier(0.2, 0, 0, 1)",
-      "out": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+      "out": "cubic-bezier(0.23, 1, 0.32, 1)",
+      "in-out": "cubic-bezier(0.77, 0, 0.175, 1)",
+      "drawer": "cubic-bezier(0.32, 0.72, 0, 1)",
       "in": "cubic-bezier(0.4, 0, 1, 1)",
-      "spring": "linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1)",
       "linear": "linear"
+    },
+    "spring": {
+      "snappy": {
+        "stiffness": 700,
+        "damping": 0.9
+      },
+      "spring": {
+        "stiffness": 380,
+        "damping": 0.8
+      },
+      "bounce": {
+        "stiffness": 300,
+        "damping": 0.55
+      }
+    },
+    "scale": {
+      "press": 0.97,
+      "press-sm": 0.94,
+      "enter": 0.96
+    },
+    "shift": {
+      "enter": 4,
+      "lift": 2
+    },
+    "stagger": {
+      "step": 40,
+      "max": 8
     }
   },
   "opacity": {

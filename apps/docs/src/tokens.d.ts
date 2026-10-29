@@ -18,7 +18,7 @@ declare module '@caustic/tokens/tokens' {
     font: Record<'ui' | 'voice' | 'mono', string>;
     elevation: { light: Record<string, string>; dark: Record<string, string> };
     blur: Record<string, number>;
-    motion: { duration: Record<string, number>; easing: Record<string, string> };
+    motion: { duration: Record<string, number>; easing: Record<string, string>; spring: Record<string, { stiffness: number; damping: number }>; scale: Record<string, number>; shift: Record<string, number>; stagger: { step: number; max: number } };
     studio: Record<string, number>;
     z: Record<string, number>;
     breakpoint: Record<string, number>;

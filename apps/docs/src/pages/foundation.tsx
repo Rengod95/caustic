@@ -344,8 +344,13 @@ function MaterialsPage() {
 
 // ───────────────────────── Motion
 
-const demoDurations = ['quick', 'base', 'gentle', 'slow'] as const;
-const demoEasings = ['standard', 'out', 'in', 'spring'] as const;
+const demoDurations = ['quick', 'swift', 'base', 'gentle', 'slow'] as const;
+const demoEasings = ['standard', 'out', 'in-out', 'drawer', 'snappy', 'spring', 'bounce'] as const;
+// A spring has no curve in the source (the build turns it into linear()); its label says how it is set.
+const easeLabel = (k: string) => {
+  const s = T.motion.spring[k];
+  return s ? `spring, stiffness ${s.stiffness}, ζ ${s.damping}` : (T.motion.easing[k] ?? '').slice(0, 40);
+};
 
 function MotionPage() {
   const [dur, setDur] = useState<(typeof demoDurations)[number]>('base');
@@ -356,7 +361,7 @@ function MotionPage() {
     left: on ? 'calc(100% - 2.25rem)' : '0.25rem',
     transition: reduced ? 'none' : `left var(--cs-duration-${dur}) var(--cs-ease-${ease})`,
   };
-  const maxFinite = 480;
+  const maxFinite = 400; // the largest non-loop duration (duration-slow)
   return (
     <>
       <Section id="demo" title="Try it" description="Pick a duration and an easing, then play. With reduced motion on, the dot jumps instead of travelling.">
@@ -373,7 +378,7 @@ function MotionPage() {
           <div className="relative h-10 rounded-xl bg-bg-inset">
             <span aria-hidden data-testid="motion-dot" className="absolute top-1 size-8 rounded-full bg-accent-solid shadow-1" style={dotStyle} />
           </div>
-          <p className="m-0 font-mono text-mono-sm text-text-tertiary">{T.motion.duration[dur]}ms · {T.motion.easing[ease]?.slice(0, 40)}{reduced ? ' · reduced motion: no transition' : ''}</p>
+          <p className="m-0 font-mono text-mono-sm text-text-tertiary">{T.motion.duration[dur]}ms · {easeLabel(ease)}{reduced ? ' · reduced motion: no transition' : ''}</p>
         </div>
       </Section>
       <Section id="durations" title="Durations" description="Feedback is fast, position changes use the spring, loops belong to the agent (P8).">
@@ -392,6 +397,26 @@ function MotionPage() {
         </div>
         <Bullets items={['Reduced motion stops all animation and transition: the base layer zeroes durations.', 'Infinite animation is reserved for the agent signature and spinners (flags.agent, flags.motionLoop).']} />
       </Section>
+      <Section id="springs" title="Springs" description="Move only: position, size and scale. Each spring is a curve plus a settle time, so ease-<name> and duration-<name> always pair.">
+        <div className="grid gap-1.5">
+          {Object.entries(T.motion.spring).map(([k, s]) => (
+            <div key={k} className="grid items-baseline gap-x-3 min-[700px]:grid-cols-[6rem_1fr]">
+              <Mono>spring-{k}</Mono><span className="font-mono text-mono-sm text-text-tertiary">stiffness {s.stiffness} · ζ {s.damping}</span>
+            </div>
+          ))}
+        </div>
+      </Section>
+      <Section id="scale" title="Scale, shift and stagger" description="Press and enter scales, offsets in px, and the delay between list items.">
+        <div className="grid gap-1.5">
+          {Object.entries(T.motion.scale).map(([k, n]) => (
+            <div key={k} className="grid items-baseline gap-x-3 min-[700px]:grid-cols-[6rem_1fr]"><Mono>scale-{k}</Mono><span className="font-mono text-mono-sm text-text-tertiary">{n}</span></div>
+          ))}
+          {Object.entries(T.motion.shift).map(([k, px]) => (
+            <div key={k} className="grid items-baseline gap-x-3 min-[700px]:grid-cols-[6rem_1fr]"><Mono>shift-{k}</Mono><span className="font-mono text-mono-sm text-text-tertiary">{px}px</span></div>
+          ))}
+          <div className="grid items-baseline gap-x-3 min-[700px]:grid-cols-[6rem_1fr]"><Mono>stagger</Mono><span className="font-mono text-mono-sm text-text-tertiary">{T.motion.stagger.step}ms per item, at most {T.motion.stagger.max} items</span></div>
+        </div>
+      </Section>
     </>
   );
 }
@@ -408,7 +433,7 @@ const bodies: Record<string, { lead: string; view: () => ReactNode }> = {
   sizes: { lead: 'Control, field, icon and component dimensions in two densities.', view: SizesPage },
   elevation: { lead: 'Five levels plus named shadows for cards, thumbs and artboards.', view: ElevationPage },
   materials: { lead: 'Solid floating surfaces. The old glass classes remain as aliases.', view: MaterialsPage },
-  motion: { lead: 'Durations and easings, with a demo that honors reduced motion.', view: MotionPage },
+  motion: { lead: 'Durations, curves and springs, with a demo that honors reduced motion.', view: MotionPage },
 };
 
 export function FoundationPage({ slug }: { slug: string }) {

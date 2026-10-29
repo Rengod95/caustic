@@ -585,11 +585,26 @@
   --blur-regular: var(--cs-blur-regular);
   --blur-thick: var(--cs-blur-thick);
   --blur-overlay: var(--cs-blur-overlay);
+  --transition-duration-instant: var(--cs-duration-instant);
+  --transition-duration-quick: var(--cs-duration-quick);
+  --transition-duration-swift: var(--cs-duration-swift);
+  --transition-duration-base: var(--cs-duration-base);
+  --transition-duration-gentle: var(--cs-duration-gentle);
+  --transition-duration-slow: var(--cs-duration-slow);
+  --transition-duration-snappy: var(--cs-duration-snappy);
+  --transition-duration-spring: var(--cs-duration-spring);
+  --transition-duration-bounce: var(--cs-duration-bounce);
   --ease-standard: var(--cs-ease-standard);
   --ease-out: var(--cs-ease-out);
+  --ease-in-out: var(--cs-ease-in-out);
+  --ease-drawer: var(--cs-ease-drawer);
   --ease-in: var(--cs-ease-in);
-  --ease-spring: var(--cs-ease-spring);
   --ease-linear: var(--cs-ease-linear);
+  --ease-snappy: var(--cs-ease-snappy);
+  --ease-spring: var(--cs-ease-spring);
+  --ease-bounce: var(--cs-ease-bounce);
+  --default-transition-duration: var(--cs-duration-swift);
+  --default-transition-timing-function: var(--cs-ease-out);
   --breakpoint-compact: 720px;
   --breakpoint-medium: 1100px;
   --breakpoint-wide: 1440px;
@@ -600,10 +615,24 @@
   --animate-indeterminate: cs-indet var(--cs-duration-indeterminate) var(--cs-ease-out) infinite;
   --animate-slide: cs-slide var(--cs-duration-slide) linear infinite;
   --animate-scan: cs-scan var(--cs-duration-scan) var(--cs-ease-out) infinite;
+  --animate-enter: cs-enter var(--cs-duration-swift) var(--cs-ease-out) both;
+  --animate-exit: cs-exit var(--cs-duration-quick) var(--cs-ease-out) both;
+  --animate-enter-panel: cs-enter var(--cs-duration-gentle) var(--cs-ease-drawer) both;
+  --animate-exit-panel: cs-exit var(--cs-duration-base) var(--cs-ease-drawer) both;
+  --animate-collapse-open: cs-collapse-open var(--cs-duration-base) var(--cs-ease-out);
+  --animate-collapse-close: cs-collapse-close var(--cs-duration-base) var(--cs-ease-out);
+  --animate-rise: cs-rise var(--cs-duration-swift) var(--cs-ease-out) both;
+  --animate-pop: cs-pop var(--cs-duration-snappy) var(--cs-ease-snappy) both;
   @keyframes cs-rot { to { transform: rotate(360deg); } }
   @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }
   @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
   @keyframes cs-slide { to { background-position: -200% 0; } }
+  @keyframes cs-enter { from { opacity: 0; translate: var(--cs-enter-x, 0) var(--cs-enter-y, 0); scale: var(--cs-enter-scale, 1); } }
+  @keyframes cs-exit { to { opacity: 0; translate: var(--cs-enter-x, 0) var(--cs-enter-y, 0); scale: var(--cs-enter-scale, 1); } }
+  @keyframes cs-collapse-open { from { height: 0; } to { height: var(--cs-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } }
+  @keyframes cs-collapse-close { from { height: var(--cs-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; } }
+  @keyframes cs-rise { from { opacity: 0; translate: 0 var(--cs-shift-enter); } }
+  @keyframes cs-pop { from { opacity: 0; scale: 0.6; } }
 }
 
 /* Caustic utilities: materials, agent signature, focus policy */
@@ -684,6 +713,50 @@
   background: linear-gradient(90deg, var(--cs-color-text-tertiary) 0 35%, var(--cs-color-text-primary) 50%, var(--cs-color-text-tertiary) 65% 100%);
   background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   animation: cs-shimmer var(--cs-duration-shimmer) linear infinite;
+}
+/* Motion presets. Scale and translate are their own properties in Tailwind 4, so a transition list names them (or uses
+   transition-control). press and lift only move when the user allows motion; reduced motion is global (base.css). */
+@utility transition-control {
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, box-shadow, opacity, scale, translate;
+  transition-duration: var(--cs-duration-quick);
+  transition-timing-function: var(--cs-ease-out);
+}
+@utility press {
+  @media (prefers-reduced-motion: no-preference) {
+    &:active:not(:disabled, [aria-disabled="true"], [data-disabled]) { scale: var(--cs-scale-press); }
+  }
+}
+@utility press-sm {
+  @media (prefers-reduced-motion: no-preference) {
+    &:active:not(:disabled, [aria-disabled="true"], [data-disabled]) { scale: var(--cs-scale-press-sm); }
+  }
+}
+@utility lift {
+  @media (prefers-reduced-motion: no-preference) {
+    &:hover:not(:disabled, [aria-disabled="true"]) { translate: 0 calc(var(--cs-shift-lift) * -1); }
+  }
+}
+@utility enter-scale { --cs-enter-scale: var(--cs-scale-enter); }
+@utility enter-from-side {
+  &[data-side=bottom] { --cs-enter-y: calc(var(--cs-shift-enter) * -1); }
+  &[data-side=top] { --cs-enter-y: var(--cs-shift-enter); }
+  &[data-side=left] { --cs-enter-x: var(--cs-shift-enter); }
+  &[data-side=right] { --cs-enter-x: calc(var(--cs-shift-enter) * -1); }
+}
+@utility enter-up { --cs-enter-y: var(--cs-shift-enter); }
+@utility enter-from-end { --cs-enter-x: 100%; &:dir(rtl) { --cs-enter-x: -100%; } }
+@utility enter-from-start { --cs-enter-x: -100%; &:dir(rtl) { --cs-enter-x: 100%; } }
+@utility enter-from-bottom { --cs-enter-y: 100%; }
+@utility stagger { animation-delay: calc(min(var(--cs-stagger-index, 0), 8) * var(--cs-stagger)); }
+/* Collapse without a Radix height variable: the content stays mounted, the grid row opens. */
+@utility reveal {
+  display: grid; grid-template-rows: 0fr;
+  transition-property: grid-template-rows, opacity;
+  transition-duration: var(--cs-duration-base);
+  transition-timing-function: var(--cs-ease-out);
+  opacity: 0;
+  &:is([data-state=open], [data-open=true]) { grid-template-rows: 1fr; opacity: 1; }
+  & > * { min-height: 0; overflow: hidden; }
 }
 @utility spectrum-fill { background: var(--cs-spectrum-conic); animation: cs-spin var(--cs-duration-agent) linear infinite; }
 @utility spectrum-line { background: var(--cs-spectrum-linear); background-size: 200% 100%; }
