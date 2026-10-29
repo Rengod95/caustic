@@ -513,7 +513,7 @@
   --cs-hit-min: 24px;
 
   /* typography */
-  --cs-font-ui: "Geist", "SUIT Variable", "SUIT", "Pretendard Variable", "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --cs-font-ui: "Geist", "SUIT Variable", "SUIT", "Apple SD Gothic Neo", "Malgun Gothic", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --cs-font-voice: "Newsreader", "Noto Serif KR", ui-serif, Georgia, serif;
   --cs-font-mono: "Geist Mono", ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
   --cs-text-display: 600 40px/44px var(--cs-font-ui);
@@ -2154,35 +2154,35 @@
    the Korean block on a ko root or subtree, the Latin block on any other lang subtree (an en island inside a ko page).
    Both the --cs- tracking and its Tailwind twin are re-declared, because a custom property inherits its resolved value. */
 :where([lang|="ko"]) {
-  --cs-text-display-tracking: -0.025em;
+  --cs-text-display-tracking: -0.02em;
   --text-display--letter-spacing: var(--cs-text-display-tracking);
-  --cs-text-title-1-tracking: -0.02em;
+  --cs-text-title-1-tracking: -0.015em;
   --text-title-1--letter-spacing: var(--cs-text-title-1-tracking);
-  --cs-text-title-2-tracking: -0.02em;
+  --cs-text-title-2-tracking: -0.015em;
   --text-title-2--letter-spacing: var(--cs-text-title-2-tracking);
-  --cs-text-title-3-tracking: -0.015em;
+  --cs-text-title-3-tracking: -0.01em;
   --text-title-3--letter-spacing: var(--cs-text-title-3-tracking);
-  --cs-text-title-4-tracking: -0.015em;
+  --cs-text-title-4-tracking: -0.01em;
   --text-title-4--letter-spacing: var(--cs-text-title-4-tracking);
-  --cs-text-title-feature-tracking: -0.02em;
+  --cs-text-title-feature-tracking: -0.015em;
   --text-title-feature--letter-spacing: var(--cs-text-title-feature-tracking);
-  --cs-text-title-overlay-tracking: -0.02em;
+  --cs-text-title-overlay-tracking: -0.015em;
   --text-title-overlay--letter-spacing: var(--cs-text-title-overlay-tracking);
-  --cs-text-stat-tracking: -0.025em;
+  --cs-text-stat-tracking: -0.02em;
   --text-stat--letter-spacing: var(--cs-text-stat-tracking);
-  --cs-text-stat-lg-tracking: -0.025em;
+  --cs-text-stat-lg-tracking: -0.02em;
   --text-stat-lg--letter-spacing: var(--cs-text-stat-lg-tracking);
-  --cs-text-sample-tracking: -0.02em;
+  --cs-text-sample-tracking: -0.015em;
   --text-sample--letter-spacing: var(--cs-text-sample-tracking);
-  --cs-text-body-tracking: -0.015em;
+  --cs-text-body-tracking: -0.01em;
   --text-body--letter-spacing: var(--cs-text-body-tracking);
-  --cs-text-ui-tracking: -0.01em;
+  --cs-text-ui-tracking: -0.005em;
   --text-ui--letter-spacing: var(--cs-text-ui-tracking);
-  --cs-text-ui-strong-tracking: -0.01em;
+  --cs-text-ui-strong-tracking: -0.005em;
   --text-ui-strong--letter-spacing: var(--cs-text-ui-strong-tracking);
   --cs-text-ui-sm-tracking: 0em;
   --text-ui-sm--letter-spacing: var(--cs-text-ui-sm-tracking);
-  --cs-text-ui-lg-tracking: -0.015em;
+  --cs-text-ui-lg-tracking: -0.01em;
   --text-ui-lg--letter-spacing: var(--cs-text-ui-lg-tracking);
   --cs-text-footnote-tracking: 0em;
   --text-footnote--letter-spacing: var(--cs-text-footnote-tracking);
@@ -2190,11 +2190,11 @@
   --text-caption--letter-spacing: var(--cs-text-caption-tracking);
   --cs-text-label-tracking: 0em;
   --text-label--letter-spacing: var(--cs-text-label-tracking);
-  --cs-text-voice-tracking: -0.015em;
+  --cs-text-voice-tracking: -0.01em;
   --text-voice--letter-spacing: var(--cs-text-voice-tracking);
-  --cs-text-voice-sm-tracking: -0.015em;
+  --cs-text-voice-sm-tracking: -0.01em;
   --text-voice-sm--letter-spacing: var(--cs-text-voice-sm-tracking);
-  --cs-text-thought-tracking: -0.015em;
+  --cs-text-thought-tracking: -0.01em;
   --text-thought--letter-spacing: var(--cs-text-thought-tracking);
   --cs-text-mono-tracking: 0em;
   --text-mono--letter-spacing: var(--cs-text-mono-tracking);
@@ -2202,7 +2202,7 @@
   --text-mono-sm--letter-spacing: var(--cs-text-mono-sm-tracking);
   --cs-text-mono-strong-tracking: 0em;
   --text-mono-strong--letter-spacing: var(--cs-text-mono-strong-tracking);
-  --cs-text-ui-dense-tracking: -0.01em;
+  --cs-text-ui-dense-tracking: -0.005em;
   --text-ui-dense--letter-spacing: var(--cs-text-ui-dense-tracking);
   --cs-text-hint-tracking: 0em;
   --text-hint--letter-spacing: var(--cs-text-hint-tracking);
@@ -2210,19 +2210,19 @@
   --text-micro--letter-spacing: var(--cs-text-micro-tracking);
   --cs-text-ui-xs-tracking: 0em;
   --text-ui-xs--letter-spacing: var(--cs-text-ui-xs-tracking);
-  --cs-text-ui-md-tracking: -0.015em;
+  --cs-text-ui-md-tracking: -0.01em;
   --text-ui-md--letter-spacing: var(--cs-text-ui-md-tracking);
-  --cs-text-ui-relaxed-tracking: -0.01em;
+  --cs-text-ui-relaxed-tracking: -0.005em;
   --text-ui-relaxed--letter-spacing: var(--cs-text-ui-relaxed-tracking);
-  --cs-text-ui-dense-relaxed-tracking: -0.01em;
+  --cs-text-ui-dense-relaxed-tracking: -0.005em;
   --text-ui-dense-relaxed--letter-spacing: var(--cs-text-ui-dense-relaxed-tracking);
-  --cs-text-figure-tracking: -0.02em;
+  --cs-text-figure-tracking: -0.015em;
   --text-figure--letter-spacing: var(--cs-text-figure-tracking);
   --cs-text-mono-md-tracking: 0em;
   --text-mono-md--letter-spacing: var(--cs-text-mono-md-tracking);
   --cs-text-mono-relaxed-tracking: 0em;
   --text-mono-relaxed--letter-spacing: var(--cs-text-mono-relaxed-tracking);
-  --cs-text-ui-md-relaxed-tracking: -0.015em;
+  --cs-text-ui-md-relaxed-tracking: -0.01em;
   --text-ui-md-relaxed--letter-spacing: var(--cs-text-ui-md-relaxed-tracking);
   --cs-text-mono-lg-tracking: 0em;
   --text-mono-lg--letter-spacing: var(--cs-text-mono-lg-tracking);
@@ -2230,12 +2230,30 @@
   --text-mono-ruler--letter-spacing: var(--cs-text-mono-ruler-tracking);
   --cs-text-mono-micro-tracking: 0em;
   --text-mono-micro--letter-spacing: var(--cs-text-mono-micro-tracking);
-  --cs-text-voice-lg-tracking: -0.02em;
+  --cs-text-voice-lg-tracking: -0.015em;
   --text-voice-lg--letter-spacing: var(--cs-text-voice-lg-tracking);
-  --cs-text-voice-xl-tracking: -0.02em;
+  --cs-text-voice-xl-tracking: -0.015em;
   --text-voice-xl--letter-spacing: var(--cs-text-voice-xl-tracking);
   --cs-text-mono-dense-tracking: -0.02em;
   --text-mono-dense--letter-spacing: var(--cs-text-mono-dense-tracking);
+  --cs-text-display: 700 40px/44px var(--cs-font-ui);
+  --text-display--font-weight: 700;
+  --cs-text-title-1: 700 26px/32px var(--cs-font-ui);
+  --text-title-1--font-weight: 700;
+  --cs-text-title-2: 700 20px/26px var(--cs-font-ui);
+  --text-title-2--font-weight: 700;
+  --cs-text-title-feature: 700 19px/24px var(--cs-font-ui);
+  --text-title-feature--font-weight: 700;
+  --cs-text-title-overlay: 700 18px/22px var(--cs-font-ui);
+  --text-title-overlay--font-weight: 700;
+  --cs-text-stat: 700 30px/34px var(--cs-font-ui);
+  --text-stat--font-weight: 700;
+  --cs-text-stat-lg: 700 34px/34px var(--cs-font-ui);
+  --text-stat-lg--font-weight: 700;
+  --cs-text-sample: 700 22px/26px var(--cs-font-ui);
+  --text-sample--font-weight: 700;
+  --cs-text-figure: 700 20px/18px var(--cs-font-ui);
+  --text-figure--font-weight: 700;
 }
 :where([lang]:not([lang|="ko"])) {
   --cs-text-display-tracking: -0.035em;
@@ -2320,6 +2338,24 @@
   --text-voice-xl--letter-spacing: var(--cs-text-voice-xl-tracking);
   --cs-text-mono-dense-tracking: -0.02em;
   --text-mono-dense--letter-spacing: var(--cs-text-mono-dense-tracking);
+  --cs-text-display: 600 40px/44px var(--cs-font-ui);
+  --text-display--font-weight: 600;
+  --cs-text-title-1: 600 26px/32px var(--cs-font-ui);
+  --text-title-1--font-weight: 600;
+  --cs-text-title-2: 600 20px/26px var(--cs-font-ui);
+  --text-title-2--font-weight: 600;
+  --cs-text-title-feature: 600 19px/24px var(--cs-font-ui);
+  --text-title-feature--font-weight: 600;
+  --cs-text-title-overlay: 600 18px/22px var(--cs-font-ui);
+  --text-title-overlay--font-weight: 600;
+  --cs-text-stat: 600 30px/34px var(--cs-font-ui);
+  --text-stat--font-weight: 600;
+  --cs-text-stat-lg: 600 34px/34px var(--cs-font-ui);
+  --text-stat-lg--font-weight: 600;
+  --cs-text-sample: 600 22px/26px var(--cs-font-ui);
+  --text-sample--font-weight: 600;
+  --cs-text-figure: 600 20px/18px var(--cs-font-ui);
+  --text-figure--font-weight: 600;
 }
 
 /* Surface-relative opaque fills: a surface re-points the interaction fills (and their aliases and the Tailwind

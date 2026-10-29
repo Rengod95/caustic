@@ -85,10 +85,10 @@ Naming:
 ## Typography
 
 **Families**
-- Geist (Korean fallback: SUIT, then Pretendard; owner decision O3 of the Axiom port; then Noto Sans KR) for the interface and human input.
+- Geist for the interface and human input; Hangul falls to SUIT Variable (owner decision O3; self-hosted since 2026-10-29), then Apple SD Gothic Neo, Malgun Gothic.
 - Newsreader (Korean fallback: Noto Serif KR) for agent prose; its italic for agent reasoning.
 - Geist Mono for tool names, token names, numbers and diffs.
-- Apps load the web fonts once: `import "@caustic/tokens/fonts.css"` before any other stylesheet, or a `<link>` to `fontHref` (tokens.mjs). It brings Noto Sans KR 300–700, so Hangul has real 500 and 600 on every machine. Without it Hangul falls to a system face with only Regular and Bold (Noto Sans CJK on Linux, Malgun Gothic on Windows): 500 renders as 400 and 600 as 700.
+- Apps load the fonts once: `import "@caustic/tokens/fonts.css"` before any other stylesheet. It imports Geist, Geist Mono, Newsreader and Noto Serif KR from Google Fonts and declares the self-hosted SUIT Variable (`packages/tokens/fonts/suit`, SUIT v2.0.5, SIL OFL 1.1, 625 KB woff2, weights 100–900) with a Hangul-only unicode-range and `font-display: swap`. Bundlers resolve its relative `url()`. Without it Hangul falls to a system face; on Linux and Windows that face has only Regular and Bold, so 500 renders as 400 and 600 as 700.
 
 **Roles**
 - 15 roles: display, title-1/2/3, body, ui, ui-strong, footnote, label, caption, voice, voice-sm, thought, mono, mono-sm.
@@ -97,9 +97,10 @@ Naming:
 
 **Korean** (DP-11, 2026-10-29)
 - `word-break: keep-all`.
-- Tracking follows the language, not the class. Under `[lang|="ko"]` every ui and voice role takes the Hangul step for its size (tokens.mjs `hangul`): ≥ 30px −0.025em, ≥ 18px −0.02em, ≥ 13.5px −0.015em, ≥ 12.5px −0.01em, smaller 0. `caption` is 0 (no uppercase spread); mono roles keep their grid.
+- Tracking follows the language, not the class. Under `[lang|="ko"]` every ui and voice role takes the Hangul step for its size (tokens.mjs `hangul`): ≥ 30px −0.02em, ≥ 18px −0.015em, ≥ 13.5px −0.01em, ≥ 12.5px −0.005em, smaller 0 (tuned for SUIT, which is spaced tighter than Noto or Source Han). `caption` is 0 (no uppercase spread); mono roles keep their grid.
 - The lang block re-points both `--cs-text-<role>-tracking` and the Tailwind `--text-<role>--letter-spacing`, so `.cs-<role>` classes and `text-<role>` utilities both follow it. Any other `[lang]` subtree (an `en` island in a Korean page) gets the Latin values back. Pages without a `lang` attribute stay Latin.
-- Geist's tracking is tuned for Latin. Hangul faces carry wide side bearings, so the Latin values (−0.003em at 13px) read loose.
+- Geist's tracking is tuned for Latin; Hangul at the Latin values (−0.003em at 13px) reads loose.
+- Weight: SUIT 400 and 500 match Geist. SUIT 600 reads lighter than Geist 600 at heading sizes, so under ko the 600 ui roles of 18px and up (display, title-1, title-2, title-feature, title-overlay, stat, sample, figure) render at 700. The same lang block re-declares their `--cs-text-<role>` shorthand and `--text-<role>--font-weight`.
 
 **Text inks**
 - primary, secondary, tertiary, placeholder = neutral 11, 10, 9, 8. On surface.base: light 20 : 11.6 : 7.7 : 5.9, dark 16.7 : 8.8 : 6.5 : 5.2. Tertiary and placeholder sit on the 4.5 floor (pressed fills, wells), so the room for contrast between steps is in primary → secondary → tertiary.

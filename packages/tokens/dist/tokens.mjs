@@ -4514,29 +4514,40 @@ export default {
     "hit-min": 24
   },
   "font": {
-    "ui": "\"Geist\", \"SUIT Variable\", \"SUIT\", \"Pretendard Variable\", \"Pretendard\", \"Noto Sans KR\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "ui": "\"Geist\", \"SUIT Variable\", \"SUIT\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
     "voice": "\"Newsreader\", \"Noto Serif KR\", ui-serif, Georgia, serif",
     "mono": "\"Geist Mono\", ui-monospace, \"SF Mono\", \"Cascadia Code\", Consolas, monospace"
   },
-  "fontHref": "https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Noto+Sans+KR:wght@300..700&family=Noto+Serif+KR:wght@400..600&display=swap",
+  "fontHref": "https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Noto+Serif+KR:wght@400..600&display=swap",
+  "fontFaces": [
+    {
+      "family": "SUIT Variable",
+      "src": "../fonts/suit/SUIT-Variable.woff2",
+      "format": "woff2",
+      "weight": "100 900",
+      "license": "SIL OFL 1.1, fonts/suit/OFL.txt",
+      "version": "SUIT v2.0.5 (github.com/sun-typeface/SUIT)",
+      "unicodeRange": "U+1100-11FF, U+3000-303F, U+3130-318F, U+A960-A97F, U+AC00-D7A3, U+D7B0-D7FF, U+FF00-FFEF"
+    }
+  ],
   "hangul": {
     "lang": "ko",
     "tracking": [
       [
         30,
-        -0.025
-      ],
-      [
-        18,
         -0.02
       ],
       [
-        13.5,
+        18,
         -0.015
       ],
       [
-        12.5,
+        13.5,
         -0.01
+      ],
+      [
+        12.5,
+        -0.005
       ],
       [
         0,
@@ -4545,6 +4556,12 @@ export default {
     ],
     "except": {
       "caption": 0
+    },
+    "heavier": {
+      "from": 18,
+      "weights": {
+        "600": 700
+      }
     }
   },
   "type": {
