@@ -1,11 +1,12 @@
 'use client';
 import { Check, ChevronRight, Eye, EyeOff, Lock, LockOpen } from 'lucide-react';
 import {
-  Children, createContext, isValidElement, useContext, useId, useRef, useState,
-  type ComponentProps, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactElement, type ReactNode,
+  Children, createContext, isValidElement, useContext, useId, useLayoutEffect, useRef, useState,
+  type ComponentProps, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactElement, type ReactNode, type RefObject,
 } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFlip } from '../../hooks/use-flip.ts';
 import type { CommonProps, Radius, Size, Tone, Variant } from '../../lib/common-props.ts';
 import {
   layerTreeCaptionVariants, layerTreeChevronVariants, layerTreeCheckVariants, layerTreeDropVariants, layerTreeEndVariants, layerTreeFrameVariants, layerTreeGhostIconVariants, layerTreeGhostVariants,
@@ -117,6 +118,12 @@ interface Ctx {
   variant: Variant | undefined;
   size: Size | undefined;
   radius: Radius | undefined;
+  /** False until the tree's first commit: rows that mount later are new and rise. */
+  settled: RefObject<boolean>;
+  /** True for the commit of a keyboard expand or collapse: no slide and no chevron turn. */
+  keys: boolean;
+  /** A drag is in progress: rows that mount now (a branch opened by hover) do not rise. */
+  dragging: boolean;
   setFocus: (id: string) => void;
   click: (e: MouseEvent<HTMLElement>, id: string) => void;
   toggleExpanded: (id: string) => void;
@@ -154,6 +161,12 @@ export function LayerTree({
   const anchor = useRef<string | undefined>(undefined);
   const toggleMode = useRef(false);
   const typed = useRef({ text: '', timer: 0 });
+  // Keyboard expand and collapse are instant (no slide, no chevron turn): the keyboard path sets `keys`, and the commit clears it.
+  const [keys, setKeys] = useState(false);
+  const settled = useRef(false);
+  // Rows below an expanded or collapsed branch slide to their new place. Off while a drag is in progress and for keyboard moves.
+  useFlip(root, '[data-slot="layer-tree-row"]', 'itemId', !drag && !keys);
+  useLayoutEffect(() => { settled.current = true; if (keys) setKeys(false); }, [keys]);
 
   // Row model: depth, siblings, parent.
   const rows: RowInfo[] = [];
@@ -304,13 +317,13 @@ export function LayerTree({
     if (key === 'End') { go(rows.length - 1); return; }
     if (key === 'ArrowRight') {
       consume();
-      if (row.expandable && !expanded.has(id)) toggleExpanded(id);
+      if (row.expandable && !expanded.has(id)) { setKeys(true); toggleExpanded(id); }
       else if (row.expandable && rows[i + 1] && rows[i + 1]!.depth > row.depth) focusRow(rows[i + 1]!.id);
       return;
     }
     if (key === 'ArrowLeft') {
       consume();
-      if (row.expandable && expanded.has(id)) toggleExpanded(id);
+      if (row.expandable && expanded.has(id)) { setKeys(true); toggleExpanded(id); }
       else if (row.parent >= 0) focusRow(rows[row.parent]!.id);
       return;
     }
@@ -323,7 +336,7 @@ export function LayerTree({
     if (key === '*') {
       consume();
       const siblings = rows.filter(r => r.parent === row.parent && r.depth === row.depth && r.expandable && !expanded.has(r.id)).map(r => r.id);
-      if (siblings.length) { setExpandedIds([...open, ...siblings]); say({ type: 'expanded', names: siblings.map(label) }); }
+      if (siblings.length) { setKeys(true); setExpandedIds([...open, ...siblings]); say({ type: 'expanded', names: siblings.map(label) }); }
       return;
     }
     if (key.length === 1 && !mod && !e.altKey) {
@@ -433,7 +446,7 @@ export function LayerTree({
   const ctx: Ctx = {
     info, selected, primary, expanded, tabId, drop: drag?.drop ?? null,
     hasVisibility: !!onVisibilityChange, hasLock: !!onLockChange, statusHost: rows[0]?.id, message, visibilityLabel, lockLabel, stateLabels,
-    tone, variant, size, radius,
+    tone, variant, size, radius, settled, keys, dragging: drag !== null,
     setFocus: setFocusId, click, toggleExpanded, toggleVisibility, toggleLock, pointerDown, pointerMove, pointerUp, pointerCancel,
   };
 
@@ -468,6 +481,8 @@ export function LayerTreeItem({
   const ctx = useContext(TreeContext)!;
   const labelId = useId();
   const descId = useId();
+  // Decided once, at mount: a row that mounts after the tree settled is new and rises (not during a drag); the rows present at mount do not.
+  const [rise] = useState(() => ctx.settled.current && !ctx.dragging);
   const row = ctx.info.get(itemId);
   const isSelected = selectedProp ?? ctx.selected.has(itemId);
   const isSecondary = isSelected && (secondaryProp ?? (selectedProp !== undefined ? false : ctx.primary !== itemId));
@@ -487,7 +502,7 @@ export function LayerTreeItem({
       data-selected={isSelected || undefined} data-primary={isPrimary || undefined} data-secondary={isSecondary || undefined}
       data-hidden={invisible || undefined} data-locked={locked || undefined} data-component={component || undefined} data-drop={dropPos}
       style={{ ...style, '--depth': depth } as CSSProperties}
-      className={cn(layerTreeRowVariants({ tone: ctx.tone, variant: ctx.variant, size: ctx.size }), layerTreeRowRadiusVariants({ radius: ctx.radius }), className)}
+      className={cn(layerTreeRowVariants({ tone: ctx.tone, variant: ctx.variant, size: ctx.size, enter: rise }), layerTreeRowRadiusVariants({ radius: ctx.radius }), className)}
       onFocus={e => { if (e.target === e.currentTarget) ctx.setFocus(itemId); }}
       onClick={e => ctx.click(e, itemId)}
       onPointerDown={e => ctx.pointerDown(e, itemId)} onPointerMove={ctx.pointerMove} onPointerUp={ctx.pointerUp} onPointerCancel={ctx.pointerCancel}
@@ -497,7 +512,7 @@ export function LayerTreeItem({
         data-slot="layer-tree-twisty" aria-hidden className={layerTreeTwistyVariants()}
         onClick={expandable ? e => { e.stopPropagation(); ctx.toggleExpanded(itemId); } : undefined}
       >
-        {expandable ? <ChevronRight className={layerTreeChevronVariants({ open: isExpanded })} /> : null}
+        {expandable ? <ChevronRight className={layerTreeChevronVariants({ open: isExpanded, instant: ctx.keys })} /> : null}
       </span>
       {icon != null && <span data-slot="layer-tree-icon" aria-hidden className={layerTreeIconVariants()}>{icon}</span>}
       <span data-slot="layer-tree-label" id={labelId} aria-disabled={invisible || undefined} className={layerTreeLabelVariants()}>{label}</span>

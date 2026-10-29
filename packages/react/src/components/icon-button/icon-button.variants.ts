@@ -25,10 +25,10 @@ export const iconButtonVariants = cva(
         // xs is the minimum target (24px): an invisible ::after widens the hit area 2px on every side without moving the
         // layout (owner 2026-10-27, B), so a pointer that lands just outside a dense row's button still hits it.
         // Press: the small icon targets (24 and 28px) press to 0.94, the larger ones to 0.97.
-        xs: 'size-control-xs rounded-sm press-sm after:absolute after:-inset-0.5 after:content-[""]',
-        sm: 'size-control-sm rounded-md press-sm',
-        md: 'size-control-md rounded-md press',
-        lg: 'size-control-lg rounded-lg press',
+        xs: 'size-control-xs rounded-md press-sm after:absolute after:-inset-0.5 after:content-[""]',
+        sm: 'size-control-sm rounded-lg press-sm',
+        md: 'size-control-md rounded-lg press',
+        lg: 'size-control-lg rounded-xl press',
       },
     },
     compoundVariants: [

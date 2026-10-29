@@ -172,7 +172,7 @@ export const listItemsVariants = cva('m-0 list-none p-0');
  */
 export const listRowVariants = cva(
   [
-    'group/row relative animate-rise text-ui text-text-primary',
+    'group/row relative text-ui text-text-primary',
     'before:absolute before:end-0 before:top-0 before:h-px before:bg-border-subtle',
     'before:start-[calc(var(--spacing)*3.5+max(var(--li-lead,0px),var(--li-max-tile,0px),var(--li-max-avatar,0px),var(--li-max-thumb,0px),var(--li-max-check,0px),var(--li-max-grip,0px))+var(--li-sep-gap,0px))] first:before:hidden',
     'has-[[data-slot=list-trigger]]:hover:bg-neutral-hover has-[[data-slot=list-trigger]:active]:bg-neutral-pressed',
@@ -181,6 +181,8 @@ export const listRowVariants = cva(
     'data-[dragging]:z-10 data-[dragging]:scale-[1.015] data-[dragging]:rounded-lg data-[dragging]:bg-surface-raised data-[dragging]:shadow-3 data-[dragging]:before:hidden',
     'data-[follow]:cursor-grabbing data-[follow]:transition-[background-color,box-shadow,scale]',
     'group-data-[settling]/list:transition-none',
+    // A row that is leaving (data-state closed, set by List while usePresence keeps it drawn) plays the exit and takes no input.
+    'data-[state=closed]:pointer-events-none data-[state=closed]:animate-exit',
   ],
   {
     variants: {
@@ -188,13 +190,15 @@ export const listRowVariants = cva(
       // The row tone colours the title (listTitleVariants); 'default' is the deprecated alias of neutral (ListRow maps it).
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       status: { idle: '', working: '' },
+      // enter: the row was added after the list mounted; the rows of the first paint do not rise.
+      enter: { true: 'animate-rise', false: '' },
       reorder: {
         true: 'cursor-grab select-none translate-y-[var(--li-y,0px)] transition-[background-color,box-shadow,scale,translate] duration-base ease-in-out hover:bg-neutral-hover',
         false: 'transition-[background-color] duration-quick ease-standard',
       },
       actions: { none: '', hover: 'hover:bg-neutral-hover', swipe: 'overflow-hidden before:z-20' },
     },
-    defaultVariants: { size: 'md', tone: 'neutral', status: 'idle', reorder: false, actions: 'none' },
+    defaultVariants: { size: 'md', tone: 'neutral', status: 'idle', reorder: false, actions: 'none', enter: false },
   },
 );
 
@@ -215,10 +219,13 @@ export const listBodyVariants = cva(
 /** The opaque row (variant opaque, the former AppendList row): auto / 1fr / auto with a full-width 1px subtle top edge.
  *  Hover fills it with neutral.hover: rows are usually summaries the consumer opens, so they answer the pointer. */
 export const listOpaqueRowVariants = cva(
-  'relative animate-rise grid grid-cols-[auto_1fr_auto] items-center gap-2 border-t border-border-subtle px-3 text-text-primary transition-[background-color] duration-quick ease-standard hover:bg-neutral-hover',
+  'relative grid grid-cols-[auto_1fr_auto] items-center gap-2 border-t border-border-subtle px-3 text-text-primary transition-[background-color] duration-quick ease-standard hover:bg-neutral-hover data-[state=closed]:pointer-events-none data-[state=closed]:animate-exit',
   {
-    variants: { size: { xs: 'py-1 text-ui-xs', sm: 'py-1 text-ui-sm', md: 'py-1.5 text-ui-dense', lg: 'py-2 text-ui' } },
-    defaultVariants: { size: 'md' },
+    variants: {
+      size: { xs: 'py-1 text-ui-xs', sm: 'py-1 text-ui-sm', md: 'py-1.5 text-ui-dense', lg: 'py-2 text-ui' },
+      enter: { true: 'animate-rise', false: '' },
+    },
+    defaultVariants: { size: 'md', enter: false },
   },
 );
 
@@ -345,7 +352,7 @@ export const listDotVariants = cva('size-radio-dot rounded-full bg-current opaci
 /** The 18px check at the end of a single-mode row (indicator check); invisible until checked; accent.text, which reads
  *  selection.on on the inverted row. */
 export const listTickVariants = cva(
-  'relative size-check flex-none text-accent-text opacity-0 transition-opacity duration-quick ease-out data-[state=checked]:opacity-100 data-[state=checked]:animate-pop data-[disabled]:text-disabled-text',
+  'relative size-check flex-none text-accent-text opacity-0 transition-control data-[state=checked]:opacity-100 data-[state=checked]:animate-pop data-[disabled]:text-disabled-text',
 );
 
 /**
@@ -419,7 +426,7 @@ export const listActionLabelVariants = cva('');
 /** Hover tools (rowActions hover): faded in on row hover or focus within; always visible without hover (touch). Above the
  *  stretched trigger. */
 export const listToolsVariants = cva(
-  'relative flex flex-none items-center gap-0.5 opacity-0 transition-opacity duration-quick ease-out group-hover/row:opacity-100 group-focus-within/row:opacity-100 pointer-coarse:opacity-100',
+  'relative flex flex-none items-center gap-0.5 opacity-0 transition-control group-hover/row:opacity-100 group-focus-within/row:opacity-100 pointer-coarse:opacity-100',
 );
 
 /**

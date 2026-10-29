@@ -2,8 +2,9 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 // variant is the track: soft = inset fill + border.subtle hairline (the specimen; the old appearance "filled"); outline =
 // transparent + border.default hairline (the old "outline"); solid = neutral.track fill, no edge; ghost = no fill, no edge.
+// relative and group: a single group draws its sliding thumb in the track (toggleGroupThumb), under the items.
 export const toggleGroupVariants = cva(
-  'inline-flex gap-0.5 rounded-xl p-1',
+  'relative group/toggle-group inline-flex gap-0.5 rounded-xl p-1',
   {
     variants: {
       variant: {
@@ -23,7 +24,8 @@ export const toggleGroupVariants = cva(
 
 export const toggleGroupItem = cva(
   [
-    'inline-grid shrink-0 place-items-center rounded-md bg-transparent text-text-secondary',
+    // relative: the sliding thumb sits under the items (single groups).
+    'relative inline-grid shrink-0 place-items-center rounded-md bg-transparent text-text-secondary',
     'transition-control outline-none',
     // An off item hovers as a neutral.hover well inside the track (owner 2026-10-28): text colour alone was too weak a cue on a 32px icon target.
     'hover:text-text-primary data-[state=off]:hover:bg-neutral-hover focus-visible:shadow-focus',
@@ -32,6 +34,8 @@ export const toggleGroupItem = cva(
     'data-[state=on]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] data-[state=on]:focus-visible:shadow-focus',
     // Disabled is a colour, not opacity: the label takes disabled.text and an on thumb flattens to disabled.fill.
     'disabled:pointer-events-none disabled:text-disabled-text disabled:data-[state=on]:bg-disabled-fill disabled:data-[state=on]:text-disabled-text disabled:data-[state=on]:shadow-none',
+    // While the thumb slides (data-moving on the group) the on item has no fill of its own and nothing transitions.
+    'group-data-[moving]/toggle-group:transition-none group-data-[moving]/toggle-group:data-[state=on]:bg-transparent group-data-[moving]/toggle-group:data-[state=on]:shadow-none',
   ],
   {
     variants: {
@@ -51,5 +55,20 @@ export const toggleGroupItem = cva(
     defaultVariants: { tone: 'neutral', size: 'md' },
   },
 );
+
+/**
+ * The sliding thumb of a single group: the on fill (the control-raised segment thumb), drawn once under the items at the
+ * on item's box (--thumb-* from useIndicator). Invisible at rest, where the on item draws its own fill; opaque while the
+ * group has data-moving; it stays up until the item's fill is back (the opacity delay). A disabled on item takes the
+ * disabled look.
+ */
+export const toggleGroupThumb = cva([
+  'pointer-events-none absolute top-0 left-0 h-(--thumb-h) w-(--thumb-w) translate-x-(--thumb-x) translate-y-(--thumb-y) rounded-(--thumb-r) bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] opacity-0',
+  '[transition-property:translate,width,height,opacity] ease-snappy',
+  '[transition-duration:var(--cs-duration-snappy),var(--cs-duration-snappy),var(--cs-duration-snappy),var(--cs-duration-instant)]',
+  '[transition-delay:var(--cs-duration-instant),var(--cs-duration-instant),var(--cs-duration-instant),var(--cs-duration-quick)]',
+  'group-data-[moving]/toggle-group:opacity-100 group-data-[moving]/toggle-group:[transition-delay:var(--cs-duration-instant)]',
+  'group-has-[[data-slot=toggle-group-item][data-state=on]:disabled]/toggle-group:bg-disabled-fill group-has-[[data-slot=toggle-group-item][data-state=on]:disabled]/toggle-group:shadow-none',
+]);
 
 export type ToggleGroupVariantProps = VariantProps<typeof toggleGroupVariants>;

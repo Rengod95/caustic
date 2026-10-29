@@ -1,5 +1,6 @@
 /* Caustic foundation 1.0.0 — tokens. Generated; edit foundation/tokens.mjs. */
 @property --cs-spin { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
+@property --cs-progress { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
 
 :root {
   color-scheme: light;
@@ -2539,5 +2540,5 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0s !important; animation-iteration-count: 1 !important; transition-duration: 0s !important; }
+  *, *::before, *::after { animation-duration: 0s !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; transition-duration: 0s !important; }
 }

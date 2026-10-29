@@ -4,6 +4,7 @@ import { useId, useState, type ComponentProps, type FocusEvent, type KeyboardEve
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, shadowClass, type CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { PickerTrigger } from '../picker-trigger/picker-trigger.tsx';
 import {
   constraintsBoxVariants, constraintsColumnVariants, constraintsControlVariants, constraintsFrameVariants, constraintsGlyphVariants, constraintsListboxVariants,
@@ -141,6 +142,9 @@ function ConstraintSelect<T extends string>({ slot, label, icon, options, value,
   const listId = useId();
   const text = mixed ? mixedLabel : options.find(([v]) => v === value)?.[1] ?? '';
   const isOpen = open && !reserved;
+  // The list stays mounted while it exits (data-state closed, inert), then leaves the DOM.
+  const presence = usePresence(isOpen ? [listId] : [], id => id);
+  const list = presence.entries[0];
   const blur = (e: FocusEvent<HTMLDivElement>) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); };
   const key = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape') { setOpen(false); return; }
@@ -161,8 +165,13 @@ function ConstraintSelect<T extends string>({ slot, label, icon, options, value,
       >
         {text}
       </PickerTrigger>
-      {isOpen && (
-        <div id={listId} data-slot="constraints-control-listbox" role="listbox" aria-label={label} className={constraintsListboxVariants()}>
+      {list && (
+        <div
+          id={listId} data-slot="constraints-control-listbox" role="listbox" aria-label={label}
+          data-state={list.present ? 'open' : 'closed'} inert={!list.present || undefined} aria-hidden={!list.present || undefined}
+          onAnimationEnd={e => { if (!list.present && e.target === e.currentTarget) presence.exited(list.key); }}
+          className={constraintsListboxVariants()}
+        >
           {options.map(([v, name]) => (
             <button
               key={v}

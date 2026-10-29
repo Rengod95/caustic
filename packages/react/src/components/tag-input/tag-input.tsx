@@ -3,6 +3,8 @@ import { useRef, useState, type ClipboardEvent, type ComponentProps, type Keyboa
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFlip } from '../../hooks/use-flip.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { Chip } from '../chip/chip.tsx';
 import { useFieldContext } from '../field/field-context.ts';
 import { tagInputVariants } from './tag-input.variants.ts';
@@ -26,19 +28,23 @@ export interface TagInputProps extends Omit<ComponentProps<'input'>, 'value' | '
 type Delimiter = 'Enter' | ',';
 const DEFAULT_DELIMITERS: readonly Delimiter[] = ['Enter', ','];
 
-// A stable key per tag: the tag and its occurrence among equal tags. Removing one tag then leaves the other chips mounted,
-// so an entering tag's animation is not replayed on them.
-const keyOf = (list: string[], i: number) => `${list[i]}\u0000${list.slice(0, i).filter(t => t === list[i]).length}`;
+// A stable key per tag: the tag and its occurrence among equal tags (JSON, so it is also a clean data attribute). Removing one
+// tag then leaves the other chips mounted, so an entering tag's animation is not replayed on them.
+const keyOf = (list: string[], i: number) => JSON.stringify([list[i], list.slice(0, i).filter(t => t === list[i]).length]);
 
 /** Enters a list of short strings as removable tags (Chips). */
 export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS, allowDuplicates = false, invalid, disabled, tone, variant, radius, shadow, size, id, onValueChange, onKeyDown, className, containerClassName, ...props }: TagInputProps) {
   const field = useFieldContext();
   const control = useRef<HTMLInputElement>(null);
+  const root = useRef<HTMLDivElement>(null);
   const [tags, setTags] = useControllableState<string[]>({ value, defaultValue: defaultValue ?? [], onChange: onValueChange });
   const [draft, setDraft] = useState('');
   const [note, setNote] = useState('');
-  // Keys of the tags added by the last change: only these rise in (a list that loads with tags does not animate).
-  const [fresh, setFresh] = useState<string[]>([]);
+  // Tags there at the first paint do not rise (a list that loads with tags stays still); a tag added later does.
+  const [mounted] = useState(() => new Set(tags.map((_, i) => keyOf(tags, i))));
+  // A removed tag stays drawn, leaving, until its exit has played; the tags after it then slide over the gap (useFlip).
+  const { entries, exited } = usePresence(tags.map((tag, i) => ({ key: keyOf(tags, i), tag, index: i })), t => t.key);
+  useFlip(root, ':scope > [data-flip-id]', 'flipId');
   const keys: readonly string[] = typeof delimiters === 'string' ? [delimiters] : delimiters;
   const isInvalid = invalid ?? field?.invalid ?? false;
   const isDisabled = disabled ?? field?.disabled ?? false;
@@ -50,7 +56,7 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
       if (!tag || (!allowDuplicates && next.includes(tag))) continue;
       next.push(tag); added.push(tag);
     }
-    if (added.length) { setTags(next); setFresh(next.slice(tags.length).map((_, j) => keyOf(next, tags.length + j))); setNote(`${added.join(', ')} added`); }
+    if (added.length) { setTags(next); setNote(`${added.join(', ')} added`); }
   };
   const remove = (index: number) => { setNote(`${tags[index]} removed`); setTags(tags.filter((_, i) => i !== index)); };
   const keyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -69,6 +75,7 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
   };
   return (
     <div
+      ref={root}
       data-slot="tag-input"
       data-invalid={isInvalid || undefined}
       data-disabled={isDisabled || undefined}
@@ -77,15 +84,21 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
       onMouseDown={e => { if (e.target !== control.current && !(e.target as HTMLElement).closest('button')) { e.preventDefault(); control.current?.focus(); } }}
     >
       {/* Tags take radius sm, one step under the token chip, so they sit concentric in the radius xl field (P5). */}
-      {tags.map((tag, i) => {
-        const key = keyOf(tags, i);
-        return (
-          <Chip key={key} shape="rounded" appearance="surface" className={cn('rounded-sm', fresh.includes(key) && 'animate-rise')} inert={isDisabled || undefined} onRemove={() => { remove(i); control.current?.focus(); }}>{tag}</Chip>
-        );
-      })}
+      {entries.map(({ key, item, present }) => (
+        <Chip
+          key={key} data-flip-id={key} data-state={present ? undefined : 'closed'} shape="rounded" appearance="surface"
+          className={cn('rounded-sm', present ? (!mounted.has(key) && 'animate-rise') : 'pointer-events-none animate-exit')}
+          inert={!present || isDisabled || undefined} aria-hidden={!present || undefined}
+          onAnimationEnd={e => { if (e.target === e.currentTarget) exited(key); }}
+          onRemove={() => { remove(item.index); control.current?.focus(); }}
+        >
+          {item.tag}
+        </Chip>
+      ))}
       <input
         ref={control}
         data-slot="tag-input-control"
+        data-flip-id="control"
         id={id ?? field?.id}
         aria-invalid={isInvalid || undefined}
         aria-describedby={field?.describedBy}

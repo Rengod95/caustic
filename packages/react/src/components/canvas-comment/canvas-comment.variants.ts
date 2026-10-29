@@ -75,7 +75,7 @@ export const canvasCommentOrbVariants = cva('', {
  * colour (author variants below). radius is applied by the part with radiusClass (the tail corner stays square).
  * placed = a rect relative to the comment root replaces the place beside the pin.
  */
-export const canvasCommentBubbleVariants = cva('animate-enter enter-scale origin-bottom-left -mt-0.5 max-w-comment-max rounded-toolbar rounded-bl-none font-ui text-text-primary', {
+export const canvasCommentBubbleVariants = cva('animate-enter data-[state=closed]:animate-exit enter-scale origin-bottom-left -mt-0.5 max-w-comment-max rounded-toolbar rounded-bl-none font-ui text-text-primary', {
   variants: {
     placed: { true: 'absolute top-(--rect-t) left-(--rect-l) mt-0', false: '' },
     surface: {

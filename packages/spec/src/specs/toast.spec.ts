@@ -5,7 +5,7 @@ export default defineSpec({
   name: 'Toast',
   category: 'overlay',
   status: 'ready',
-  purpose: 'Transient confirmation that floats at the bottom end of the screen: translucent glass, at least 60px high, 22px (toast) radius, a status mark, a title with one line of detail and an optional action. Springs in, auto-dismisses.',
+  purpose: 'Transient confirmation that floats at the bottom end of the screen: translucent glass, at least 60px high, 22px (toast) radius, a status mark, a title with one line of detail and an optional action. Rises in, auto-dismisses.',
   description: 'Toast is the item; Toaster is the fixed region that stacks items (bottom end, 16px inset, 8px gap, width min(360px, 100% - 32px)) and an imperative toast() helper feeds it. Set `inline` to render an item in place, without the region, for docs and tests.',
   role: 'status',
   slots: [
@@ -42,7 +42,7 @@ export default defineSpec({
   },
   events: {
     onAction: { payload: 'void', when: 'the action button is activated' },
-    onDismiss: { payload: 'void', when: 'the duration elapses, Escape is pressed on a focused toast, or the item is swiped away' },
+    onDismiss: { payload: 'void', when: 'the duration elapses, Escape is pressed on a focused toast, or the close button is clicked' },
   },
   styles: [
     { slot: 'root', expect: { bg: 'material.regular', radius: 'toast', minHeight: 60, padX: 14, padY: 10, gap: 12, shadow: '4', text: 'ui' }, note: 'Fill is material.regular but the blur is the thick one (blur-thick): the specimen mixes them, so the full `material` check cannot be used. Padding-inline-end is 12px (xs button). The glass rim, specular and edge come from the glass utility.' },
@@ -62,7 +62,7 @@ export default defineSpec({
     { slot: 'root', when: { size: 'lg' }, expect: { minHeight: 64, text: 'ui-lg' } },
     { slot: 'root', when: { radius: 'lg' }, expect: { radius: 'lg' } },
     { slot: 'root', when: { shadow: '2' }, expect: { shadow: '2' } },
-    { slot: 'viewport', expect: { gap: 8 }, note: 'Motion: items enter with the spring easing over the slow duration (translate and fade); exit is a 300ms fade and 8px drop. Reduced motion: fade only.' },
+    { slot: 'viewport', expect: { gap: 8 }, note: 'Motion: a new item rises in (gentle, ease-out, translate and fade). When an item is added or removed, the others glide to their new place (base, ease-in-out). An exit is a base ease-out fade with an 8px drop. Reduced motion: no motion, changes are immediate.' },
   ],
   behavior: {
     keyboard: { Escape: 'dismiss a focused toast', Tab: 'reaches the action and close buttons in DOM order' },

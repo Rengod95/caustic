@@ -74,8 +74,8 @@ Durations are named. A number (`duration-200`, `delay-150`) hard-codes a time an
 | `duration-gentle` | 250 | dialog, sheet and toast enter |
 | `duration-slow` | 400 | large distances, page-level moves |
 
-- **Curves.** `ease-standard` for colour, size and anything that stays on screen; `ease-out` for enter and exit (the
-  default); `ease-in-out` for moves on screen; `ease-drawer` for sheets and side panels. No ease-in for UI.
+- **Curves.** `ease-standard` for colour and size changes that follow state (selection, validation, theme); `ease-out`
+  for enter and exit (the default) and for direct pointer feedback (hover, press — what `transition-control` uses); `ease-in-out` for moves on screen; `ease-drawer` for sheets and side panels. No ease-in for UI.
 - **Springs move, they do not fade.** Position, size and scale only, never colour or opacity. A spring is a pair that
   always goes together: `ease-snappy duration-snappy` (indicators, thumbs, checks), `ease-spring duration-spring`
   (pop-ins, lifts), `ease-bounce duration-bounce` (agent and celebratory moments).

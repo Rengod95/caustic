@@ -14,6 +14,8 @@ export interface ZoomControlProps extends Omit<ComponentProps<'div'>, 'aria-labe
   appearance?: 'glass' | 'bare' | undefined;
   /** menu = the value is a button the consumer wires to the zoom menu; static = plain text. */
   readout?: 'menu' | 'static' | undefined;
+  /** The zoom menu is open (the consumer's state): aria-expanded and data-state on the menu readout; its chevron turns. */
+  open?: boolean | undefined;
   /** aria-label of the group; supplied by the consumer (no built-in text). */
   label: string;
   /** aria-label of the minus button. */
@@ -27,7 +29,7 @@ export interface ZoomControlProps extends Omit<ComponentProps<'div'>, 'aria-labe
 
 /** Zoom out, the current zoom and zoom in in one capsule. */
 export function ZoomControl({
-  value = '100%', variant, appearance, readout = 'menu', tone, radius, shadow, size = 'md', label, zoomOutLabel, zoomInLabel, className, onZoomOut, onZoomIn, onReadoutClick, ...props
+  value = '100%', variant, appearance, readout = 'menu', open, tone, radius, shadow, size = 'md', label, zoomOutLabel, zoomInLabel, className, onZoomOut, onZoomIn, onReadoutClick, ...props
 }: ZoomControlProps) {
   const look = variant ?? (appearance === 'bare' ? 'ghost' : 'glass');
   return (
@@ -36,9 +38,12 @@ export function ZoomControl({
         <Minus aria-hidden />
       </button>
       {readout === 'menu' ? (
-        <button type="button" data-slot="zoom-control-readout" aria-haspopup="menu" className={zoomReadoutVariants({ readout, tone, size })} onClick={onReadoutClick}>
+        <button
+          type="button" data-slot="zoom-control-readout" aria-haspopup="menu" aria-expanded={open} data-state={open === undefined ? undefined : open ? 'open' : 'closed'}
+          className={zoomReadoutVariants({ readout, tone, size })} onClick={onReadoutClick}
+        >
           {value}
-          <ChevronDown data-slot="zoom-control-chevron" aria-hidden className="size-icon-xs text-text-tertiary" />
+          <ChevronDown data-slot="zoom-control-chevron" aria-hidden className="size-icon-xs text-text-tertiary transition-[rotate] duration-quick ease-out group-data-[state=open]/zoom-readout:rotate-180" />
         </button>
       ) : (
         <span data-slot="zoom-control-readout" className={zoomReadoutVariants({ readout, tone, size })}>{value}</span>

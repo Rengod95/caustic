@@ -114,9 +114,17 @@ export const gradientStopsVariants = cva('grid min-w-0 content-start gap-1');
 /** Section titles of the stops column ("Stops", "Start & end"): one type, ui-xs semibold tertiary. */
 export const gradientSectionTitleVariants = cva('text-ui-xs font-semibold text-text-tertiary');
 
-/** One stop row. The selected row inverts (selected utility: ink fill, paper text, no edge); in a disabled editor it drops the inversion to disabled.fill. */
+/** One stop row. The selected row inverts (selected utility: ink fill, paper text, no edge); in a disabled editor it drops the inversion to disabled.fill.
+ *  A row added after the first render rises once (enter); a removed row plays its exit and takes no pointer (leaving). */
 export const gradientRowVariants = cva(
   'transition-control grid grid-cols-[calc(var(--spacing)*16)_auto_1fr_auto] items-center gap-1.5 rounded-md p-0.5 data-[selected]:not-in-data-[disabled]:selected in-data-[disabled]:data-[selected]:bg-disabled-fill',
+  {
+    variants: {
+      enter: { true: 'animate-rise', false: '' },
+      leaving: { true: 'animate-exit pointer-events-none [--cs-enter-x:0] [--cs-enter-y:0] [--cs-enter-scale:1]', false: '' },
+    },
+    defaultVariants: { enter: false, leaving: false },
+  },
 );
 
 export const gradientSummaryVariants = cva(

@@ -85,5 +85,5 @@ export const listDescriptionValue = cva('m-0 flex min-w-0 items-center gap-3 tex
 export const listDescriptionValueText = cva('block min-w-0 flex-1 truncate');
 
 export const listDescriptionAction = cva(
-  'flex flex-none items-center opacity-0 transition-opacity duration-quick ease-out group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100',
+  'flex flex-none items-center opacity-0 transition-control group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100',
 );

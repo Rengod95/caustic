@@ -75,7 +75,8 @@ export const dropzoneIconVariants = cva('inline-flex text-text-secondary group-d
 
 /** File rows are opaque surface.base (owner 2026-10-27, proposal A: no translucent fills) with the same hairline. */
 export const fileItemVariants = cva(
-  'animate-rise grid grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-xl bg-surface-base py-2.5 pl-3 pr-2.5',
+  // A row that is leaving (data-state closed) plays the exit and takes no input.
+  'grid grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-xl bg-surface-base py-2.5 pl-3 pr-2.5 data-[state=closed]:pointer-events-none data-[state=closed]:animate-exit',
   {
     variants: {
       status: {
@@ -84,8 +85,10 @@ export const fileItemVariants = cva(
         warning: 'shadow-[0_0_0_1px_var(--cs-color-warning-border-strong)]',
         error: 'shadow-[0_0_0_1px_var(--cs-color-danger-border-strong)]',
       },
+      // enter: the file was added after the list mounted; the files of the first paint do not rise.
+      enter: { true: 'animate-rise', false: '' },
     },
-    defaultVariants: { status: 'done' },
+    defaultVariants: { status: 'done', enter: false },
   },
 );
 export type FileItemVariantProps = VariantProps<typeof fileItemVariants>;

@@ -1,11 +1,11 @@
 import { cva } from 'class-variance-authority';
 
-/** The scan band (::before), added while scanning. */
-export const agentWorkAreaScanClass = 'before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(180deg,transparent,var(--cs-color-agent-glow)_50%,transparent)] before:bg-size-[100%_200%] before:animate-scan before:opacity-(--cs-opacity-muted)';
+/** The scan band (::before). Always mounted; scanning only sets its opacity, so it fades on and off. */
+export const agentWorkAreaScanClass = 'before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(180deg,transparent,var(--cs-color-agent-glow)_50%,transparent)] before:bg-size-[100%_200%] before:animate-scan before:transition-opacity before:duration-base before:ease-out';
 
 /**
  * The agent counterpart of CanvasSelection: a spectrum rim 3px outside the object (agent-rim, widened to 2px and moved out)
- * and, while scanning, a soft agent.glow band that slides down the object. The band slides with animate-scan.
+ * and, while scanning, a soft agent.glow band that slides down the object. The band slides with animate-scan and fades on and off.
  *
  * Five common props (lib/common-props.ts); each axis' default is the own look and adds no class:
  *   variant  the rim: outline = 2px (own), solid = 3px, soft = 1px, ghost = no rim (the scan alone)
@@ -15,13 +15,14 @@ export const agentWorkAreaScanClass = 'before:pointer-events-none before:absolut
  *   size     the scan band: xs thin … lg wide (md = the own 200% sweep)
  */
 export const agentWorkAreaVariants = cva(
-  'agent-rim pointer-events-none absolute top-(--rect-t) right-(--rect-r) bottom-(--rect-b) left-(--rect-l) z-10 h-(--rect-h) w-(--rect-w) rounded-2xl after:-inset-0.75 after:rounded-(--rim-r) after:p-0.5',
+  // The rect glides like agent-cursor (the same spring); the size moves with it so the box never changes size ahead of its place.
+  ['agent-rim pointer-events-none absolute top-(--rect-t) right-(--rect-r) bottom-(--rect-b) left-(--rect-l) z-10 h-(--rect-h) w-(--rect-w) rounded-2xl transition-[top,right,bottom,left,width,height] duration-spring ease-spring after:-inset-0.75 after:rounded-(--rim-r) after:p-0.5', agentWorkAreaScanClass],
   {
     variants: {
-      // The scan band (::before), on while scanning. It sits before tone so a tone replaces its colour.
+      // The scan band (::before) is always mounted and fades: muted while scanning, transparent when idle. It sits before tone so a tone replaces its colour.
       scanning: {
-        true: agentWorkAreaScanClass,
-        false: '',
+        true: 'before:opacity-(--cs-opacity-muted)',
+        false: 'before:opacity-0',
       },
       variant: { solid: 'after:p-0.75', soft: 'after:p-px', outline: '', ghost: 'after:hidden' },
       tone: {

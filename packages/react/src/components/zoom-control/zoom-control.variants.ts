@@ -46,7 +46,7 @@ export const zoomReadoutVariants = cva(
     variants: {
       readout: {
         menu: [
-          'gap-1 rounded-toolbar-item bg-transparent pl-2.5 pr-1.5 text-mono-strong select-none',
+          'group/zoom-readout gap-1 rounded-toolbar-item bg-transparent pl-2.5 pr-1.5 text-mono-strong select-none',
           'transition-control outline-none hover:bg-neutral-hover focus-visible:shadow-focus',
         ],
         static: 'h-control-inline px-1 text-mono-md',

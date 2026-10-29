@@ -155,7 +155,7 @@ export const stepperDescription = cva('font-ui text-text-tertiary', {
  */
 export const stepperProgressClipClass = 'pointer-events-none absolute inset-px overflow-hidden rounded-[calc(var(--stepper-r,var(--cs-radius-xl))-1px)]';
 export const stepperProgressClass = 'block h-0.5 bg-neutral-track';
-export const stepperProgressFillClass = 'block h-full w-(--stepper-progress) bg-success-solid transition-[width] duration-gentle ease-standard';
+export const stepperProgressFillClass = 'block h-full w-(--stepper-progress) bg-success-solid transition-[width] duration-base ease-standard';
 
 /** Header parts: title row, space-between, padding 4px 6px 6px, semibold; the count is tertiary tabular numerals, one step
  *  quieter (text.placeholder) on the checklist (owner 2026-10-28, round 4: with the done rows and the end note). */
@@ -209,7 +209,7 @@ export const stepperChecklistMark = cva('', {
       warning: 'size-icon-sm rounded-full shadow-[inset_0_0_0_2px_var(--tone-solid)]',
       danger: 'size-icon-sm rounded-full shadow-[inset_0_0_0_2px_var(--tone-solid)]',
       info: 'size-icon-sm rounded-full shadow-[inset_0_0_0_2px_var(--tone-solid)]',
-      agent: 'orb orb-sm motion-reduce:animate-none',
+      agent: 'orb orb-sm',
     },
   },
   defaultVariants: { tone: 'accent' },

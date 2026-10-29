@@ -6,6 +6,7 @@ import type { CommonProps, Size, Tone } from '../../lib/common-props.ts';
 import { defined } from '../../lib/defined.ts';
 import { useRovingItems } from '../../hooks/use-roving-items.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { menuEndVariants, menuHeadingVariants, menuIconVariants, menuItemVariants, menuSeparatorVariants, menuSurfaceVariants } from './menu.variants.ts';
 
 interface MenuContextValue { inline: boolean; close: () => void; size: Size }
@@ -48,6 +49,9 @@ export function Menu({ open, defaultOpen, onOpenChange, trigger, side = 'bottom'
   const onKeyDown = useRovingItems({ selector: ITEMS, onEscape: close, onTab: close, onKeyDown: props.onKeyDown });
   // A ghost menu sits flat: unless a shadow is given, the elevation drops with the variant.
   const surface = menuSurfaceVariants({ tone, variant, radius, shadow: shadow ?? (variant === 'ghost' ? 'none' : undefined) });
+  // Inline: the surface stays mounted while it exits (data-state closed, inert), then leaves the DOM.
+  const presence = usePresence(inline && isOpen ? ['menu'] : [], key => key);
+  const entry = presence.entries[0];
 
   if (!inline) {
     return (
@@ -62,13 +66,15 @@ export function Menu({ open, defaultOpen, onOpenChange, trigger, side = 'bottom'
     );
   }
 
-  if (!isOpen) return null;
+  if (!entry) return null;
   return (
     <MenuContext.Provider value={{ inline: true, close, size }}>
       <div
-        role="menu" aria-orientation="vertical" tabIndex={-1} data-slot="menu" data-state="open" data-inline=""
-        className={cn(surface, className)}
+        role="menu" aria-orientation="vertical" tabIndex={-1} data-slot="menu" data-state={entry.present ? 'open' : 'closed'} data-inline=""
+        className={cn(surface, 'data-[state=closed]:pointer-events-none', className)}
         {...props}
+        inert={!entry.present || undefined} aria-hidden={!entry.present || undefined}
+        onAnimationEnd={e => { props.onAnimationEnd?.(e); if (!entry.present && e.target === e.currentTarget) presence.exited(entry.key); }}
         onKeyDown={onKeyDown}
       >
         {children}

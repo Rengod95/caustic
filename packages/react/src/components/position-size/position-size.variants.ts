@@ -56,7 +56,7 @@ export const positionSizeTurnRow = cva('flex items-center justify-between gap-1.
 // second value. A mode glyph and the label name the mode; no hue encodes it.
 export const positionSizeMode = cva(
   [
-    '-mr-1 inline-flex h-control-compact-2xs cursor-pointer items-center gap-0.5 rounded-xs px-1.25 text-ui-xs font-medium outline-none transition-control',
+    '-mr-1 inline-flex h-control-compact-2xs cursor-pointer items-center gap-0.5 rounded-xs px-1.25 text-ui-xs font-medium outline-none transition-control press',
     'bg-neutral-tint text-text-tertiary hover:bg-neutral-hover hover:text-text-primary active:bg-neutral-pressed',
     'focus-visible:shadow-focus',
     '[&_svg]:text-neutral-graphic disabled:[&_svg]:text-disabled-text',

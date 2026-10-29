@@ -163,6 +163,8 @@ export function Combobox({
   // popup mode: the panel state.
   const [panelOpen, setPanelOpen] = useControllableState<boolean>({ value: popup ? open : undefined, defaultValue: defaultOpen ?? false, onChange: popup ? onOpenChange : undefined });
   const [focused, setFocused] = useState(false);
+  // inline search: the list's enter plays on the first opening of a focus session; a reopen while typing does not replay it.
+  const [entering, setEntering] = useState(true);
   const [active, setActive] = useState(-1);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -262,7 +264,9 @@ export function Combobox({
   };
 
   const grouped = (groups?.length ?? 0) > 0;
-  const listbox = showList && (
+  // The list itself. In place it is gated by showList (listbox). Inside a Radix content it is not gated: the content stays
+  // mounted while it exits, and the exit has to show the rows it had.
+  const listNode = (
     <div
       id={listId} role="listbox" aria-label={listLabel ?? ariaLabel} data-slot="combobox-listbox"
       className={cn(!popup && menuSurfaceVariants(), comboboxListboxVariants({ mode, grouped }))}
@@ -284,6 +288,9 @@ export function Combobox({
         })}
     </div>
   );
+  const listbox = showList && listNode;
+  // An empty list has no surface of its own: a content that has nothing to show exits invisibly.
+  const listVisible = matches.length > 0 || emptyMessage != null;
   const status = <span role="status" aria-live="polite" className="sr-only">{showList ? resultsLabel?.(matches.length) : ''}</span>;
 
   if (!popup) {
@@ -306,7 +313,7 @@ export function Combobox({
                 value={text}
                 onValueChange={v => { setText(v); setActive(-1); setManual(true); }}
                 onKeyDown={handleKeyDown}
-                onFocus={e => { setFocused(true); onFocus?.(e); }}
+                onFocus={e => { setFocused(true); setEntering(true); onFocus?.(e); }}
                 onBlur={e => { setFocused(false); if (!inline) setManual(null); onBlur?.(e); }}
                 {...props}
               />
@@ -315,12 +322,14 @@ export function Combobox({
           {inline ? listbox : (
             <Popover.Portal>
               <Popover.Content
-                side="bottom" align="start" sideOffset={6} className="z-60 w-[var(--radix-popover-trigger-width)] outline-none"
+                side="bottom" align="start" sideOffset={6} data-enter={entering || undefined} inert={!showList || undefined}
+                className="z-60 w-[var(--radix-popover-trigger-width)] origin-(--radix-popover-content-transform-origin) outline-none data-[state=open]:data-[enter]:animate-enter data-[state=closed]:animate-exit enter-scale enter-from-side"
+                onAnimationEnd={e => { if (e.target === e.currentTarget) setEntering(false); }}
                 onOpenAutoFocus={e => e.preventDefault()} onCloseAutoFocus={e => e.preventDefault()}
                 onEscapeKeyDown={e => e.preventDefault()}
                 onInteractOutside={e => { if (rootRef.current?.contains(e.target as Node)) e.preventDefault(); }}
               >
-                {listbox}
+                {listVisible && listNode}
               </Popover.Content>
             </Popover.Portal>
           )}
@@ -365,7 +374,7 @@ export function Combobox({
           {...props}
         />
       </div>
-      {listbox}
+      {listNode}
       {footer != null && <div data-slot="combobox-footer" className={comboboxFooterVariants()}>{footer}</div>}
       {status}
     </>
@@ -392,7 +401,7 @@ export function Combobox({
         {triggerEl && <Popover.Trigger asChild>{triggerEl}</Popover.Trigger>}
         <Popover.Portal>
           <Popover.Content
-            {...panelProps} data-slot="combobox-panel" side="bottom" align="start" sideOffset={6}
+            {...panelProps} data-slot="combobox-panel" side="bottom" align="start" sideOffset={6} inert={!wanted || undefined}
             className={cn(menuSurfaceVariants(), 'origin-(--radix-popover-content-transform-origin)', comboboxPanelVariants({ width: popupWidth, inline: false }))}
           >
             {panelBody}

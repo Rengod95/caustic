@@ -34,7 +34,7 @@ export const layerTreeRowRadiusVariants = cva('', {
 export const layerTreeRowVariants = cva(
   [
     'group relative flex cursor-default select-none items-center gap-1.5 rounded-md px-1.5 text-text-secondary outline-none',
-    'transition-control animate-rise hover:bg-neutral-hover focus-visible:shadow-focus',
+    'transition-control hover:bg-neutral-hover focus-visible:shadow-focus',
     'data-[component]:text-category-component',
     'data-[selected]:bg-neutral-pressed data-[selected]:hover:bg-neutral-selected data-[selected]:data-[primary]:text-text-primary data-[selected]:data-[secondary]:text-text-secondary',
   ],
@@ -48,6 +48,8 @@ export const layerTreeRowVariants = cva(
         md: 'h-control-sm text-ui-dense',
         lg: 'h-control-md text-ui',
       },
+      /** A row added after the tree mounted (an expanded branch's child) rises once; rows present at mount stay still. */
+      enter: { true: 'animate-rise', false: '' },
     },
     compoundVariants: [
       // solid × tone
@@ -90,10 +92,14 @@ export const layerTreeRowVariants = cva(
 /** Chevron box: 12px; a leaf renders it empty so labels align. */
 export const layerTreeTwistyVariants = cva('ms-[calc(var(--depth)*var(--cs-size-tree-indent))] inline-flex size-icon-xs flex-none items-center justify-center text-neutral-graphic [&_svg]:size-full [&_svg]:stroke-[1.75]');
 
-/** Branch chevron: one right-pointing glyph that turns 90 degrees when the branch opens (the same shape as the down chevron it replaces). */
-export const layerTreeChevronVariants = cva('size-full transition-[rotate] duration-base ease-out', {
-  variants: { open: { true: 'rotate-90', false: '' } },
-  defaultVariants: { open: false },
+/** Branch chevron: one right-pointing glyph that turns 90 degrees when the branch opens (the same shape as the down chevron it replaces).
+ *  A keyboard expand or collapse (instant) turns it at once. */
+export const layerTreeChevronVariants = cva('size-full', {
+  variants: {
+    open: { true: 'rotate-90', false: '' },
+    instant: { true: 'transition-none', false: 'transition-[rotate] duration-base ease-out' },
+  },
+  defaultVariants: { open: false, instant: false },
 });
 
 /** Kind glyph: 14px, tertiary; primary text on the primary row, the component hue, disabled colour when hidden. */
@@ -150,12 +156,13 @@ export const layerTreeLockVariants = () => layerTreeToggleVariants({ kind: 'lock
 
 /**
  * Drop line before / after a row: 2px along the edge from the text start, with an 8px ring dot at its start.
- * accent.solid, because canvas.selection is reserved for the canvas.
+ * accent.solid, because canvas.selection is reserved for the canvas. It fades in (opacity only) when it appears.
  */
 export const layerTreeDropVariants = cva(
   [
     // Centred in the 3px row gap: half the gap plus half the 2px line above the row edge.
-    'pointer-events-none absolute right-1.5 -top-[calc(var(--spacing)*0.625)] h-0.5 rounded-2xs',
+    // The enter offsets reset to rest: they inherit from a popover's enter modifiers, and the fade is opacity only.
+    'animate-enter [--cs-enter-x:0] [--cs-enter-y:0] [--cs-enter-scale:1] pointer-events-none absolute right-1.5 -top-[calc(var(--spacing)*0.625)] h-0.5 rounded-2xs',
     'left-[calc(var(--spacing)*1.5+var(--depth)*var(--cs-size-tree-indent))]',
     'before:absolute before:-left-1 before:-top-0.75 before:size-2 before:rounded-full before:bg-surface-base before:content-[""]',
     'data-[drop=after]:-bottom-[calc(var(--spacing)*0.625)] data-[drop=after]:top-auto',

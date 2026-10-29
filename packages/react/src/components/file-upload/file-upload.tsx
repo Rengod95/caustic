@@ -1,8 +1,12 @@
 'use client';
 import { FileText, FileX, Image, Trash2, Upload, X } from 'lucide-react';
-import { useRef, useState, type ChangeEvent, type ComponentProps, type DragEvent, type KeyboardEvent, type ReactNode } from 'react';
+import {
+  useRef, useState, type AnimationEvent, type ChangeEvent, type ComponentProps, type DragEvent, type KeyboardEvent, type ReactNode,
+} from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
+import { useFlip } from '../../hooks/use-flip.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { Button } from '../button/button.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { Progress } from '../progress/progress.tsx';
@@ -59,11 +63,22 @@ const rowIcon = (f: FileUploadItem) => f.icon ?? (f.status === 'error' ? <FileX 
 /** Dashed dropzone plus the file list. The host app uploads and feeds the rows back through `files`. */
 export function FileUpload({
   files = [], label = 'Drop files or', browseLabel = 'browse', hint, accept, multiple = true, disabled = false, dragOver, uploadLabel = 'Upload files',
-  onFilesSelected, onRemove, tone, variant, radius, shadow, size, className, ...props
+  onFilesSelected, onRemove, tone, variant, radius, shadow, size, className, ref, ...props
 }: FileUploadProps) {
   const picker = useRef<HTMLInputElement>(null);
+  const root = useRef<HTMLDivElement | null>(null);
   const [dragging, setDragging] = useState(false);
   const over = dragOver ?? dragging;
+  // Rows there at the first paint do not rise; a file added later does. A removed row stays drawn, leaving, until its exit has
+  // played, and the rows after it then slide up (useFlip).
+  const [mounted] = useState(() => new Set(files.map(f => f.id)));
+  const { entries, exited } = usePresence(files, f => f.id);
+  useFlip(root, ':scope > ul > [data-flip-id]', 'flipId');
+  const setRoot = (el: HTMLDivElement | null) => {
+    root.current = el;
+    if (typeof ref === 'function') ref(el);
+    else if (ref) ref.current = el;
+  };
   const report = (list: FileList | null) => {
     const picked = Array.from(list ?? []);
     if (picked.length) onFilesSelected?.(multiple ? picked : picked.slice(0, 1));
@@ -74,7 +89,7 @@ export function FileUpload({
   const drop = (e: DragEvent<HTMLDivElement>) => { if (disabled) return; e.preventDefault(); setDragging(false); report(e.dataTransfer.files); };
   const change = (e: ChangeEvent<HTMLInputElement>) => { report(e.target.files); e.target.value = ''; };
   return (
-    <div data-slot="file-upload" className={cn(fileUploadVariants({ radius, shadow, size }), className)} {...props}>
+    <div ref={setRoot} data-slot="file-upload" className={cn(fileUploadVariants({ radius, shadow, size }), className)} {...props}>
       <div
         data-slot="file-upload-dropzone"
         role="button"
@@ -96,10 +111,14 @@ export function FileUpload({
         {hint != null && <span data-slot="file-upload-dropzone-hint" className="mt-1 text-ui-sm font-normal text-text-tertiary group-hover:text-text-secondary group-data-[dragging]:text-text-secondary">{hint}</span>}
         <input ref={picker} type="file" hidden accept={accept} multiple={multiple} disabled={disabled} onChange={change} onClick={e => e.stopPropagation()} />
       </div>
-      {files.length > 0 && (
+      {entries.length > 0 && (
         <ul data-slot="file-upload-list" className="grid gap-2">
-          {files.map(f => (
-            <li key={f.id} data-slot="file-upload-item" data-status={f.status} className={fileItemVariants({ status: f.status })}>
+          {entries.map(({ key, item: f, present }) => (
+            <li
+              key={key} data-flip-id={key} data-state={present ? undefined : 'closed'} aria-hidden={!present || undefined} inert={!present || undefined}
+              onAnimationEnd={(e: AnimationEvent<HTMLLIElement>) => { if (e.target === e.currentTarget) exited(key); }}
+              data-slot="file-upload-item" data-status={f.status} className={fileItemVariants({ status: f.status, enter: !mounted.has(key) })}
+            >
               <span data-slot="file-upload-item-icon" aria-hidden className={fileItemIconVariants({ status: f.status })}>{rowIcon(f)}</span>
               <div data-slot="file-upload-item-text" className="grid min-w-0 gap-1">
                 <b data-slot="file-upload-item-name" className="truncate text-ui-strong">{f.name}</b>

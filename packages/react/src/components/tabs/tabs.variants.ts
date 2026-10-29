@@ -22,7 +22,8 @@ export const tabsVariants = cva('flex flex-col', {
   defaultVariants: { tone: 'accent' },
 });
 
-export const tabsListVariants = cva('flex', {
+// relative: the sliding thumb is drawn in the list, under the triggers. group/tabs-list: the moving state (data-moving).
+export const tabsListVariants = cva('relative group/tabs-list flex', {
   variants: {
     variant: {
       underline: 'gap-4.5 border-b border-border-subtle',
@@ -45,11 +46,13 @@ export const tabsTriggerVariants = cva(
   ],
   {
     variants: {
+      // While the list slides its thumb (data-moving), a pill's selected fill and edge are hidden at once (the thumb
+      // paints them; the (0,4,0) selectors beat the selected rules) and the pills do not transition.
       variant: {
         underline: '',
-        solid: 'rounded-md px-3 hover:bg-neutral-hover',
-        soft: 'rounded-md px-3 hover:bg-neutral-hover data-[state=active]:bg-(--tone-soft) data-[state=active]:text-(--tone-text)',
-        outline: 'rounded-md px-3 hover:bg-neutral-hover data-[state=active]:shadow-[inset_0_0_0_1px_var(--tone-border-strong)] data-[state=active]:focus-visible:shadow-[inset_0_0_0_1px_var(--tone-border-strong),var(--cs-focus)]',
+        solid: 'rounded-md px-3 hover:bg-neutral-hover group-data-[moving]/tabs-list:transition-none group-data-[moving]/tabs-list:data-[state=active]:not-disabled:bg-transparent',
+        soft: 'rounded-md px-3 hover:bg-neutral-hover data-[state=active]:bg-(--tone-soft) data-[state=active]:text-(--tone-text) group-data-[moving]/tabs-list:transition-none group-data-[moving]/tabs-list:data-[state=active]:not-disabled:bg-transparent',
+        outline: 'rounded-md px-3 hover:bg-neutral-hover data-[state=active]:shadow-[inset_0_0_0_1px_var(--tone-border-strong)] data-[state=active]:focus-visible:shadow-[inset_0_0_0_1px_var(--tone-border-strong),var(--cs-focus)] group-data-[moving]/tabs-list:transition-none group-data-[moving]/tabs-list:data-[state=active]:not-disabled:shadow-none',
         ghost: 'rounded-md px-3 hover:bg-neutral-hover data-[state=active]:text-(--tone-text)',
       },
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
@@ -77,13 +80,50 @@ export const tabsTriggerVariants = cva(
  *  as a count, not part of the name. Tertiary numerals; disabled.text when the tab is disabled. */
 export const tabsCountVariants = cva('inline-flex items-center rounded-full bg-neutral-track px-1.5 text-ui-xs tabular-nums text-text-tertiary group-disabled:text-disabled-text');
 
-/** The 2px bar under the selected underline tab, on the list hairline; the pill variants have none. Hovering an
- *  unselected tab shows the bar in border.strong as a hint that it is clickable (owner 2026-10-28). */
+/** The 2px bar under each underline tab, on the list hairline. The selected tab shows it; hovering an unselected tab shows
+ *  it in border.strong as a hint that it is clickable (owner 2026-10-28). While the list slides its thumb, no bar of its own
+ *  is shown, so the thumb is the only bar. */
 export const tabsIndicatorVariants = cva(
-  'absolute inset-x-0 -bottom-px h-0.5 rounded-xs bg-(--tone-solid) opacity-0 transition-[opacity,background-color] duration-base ease-out group-data-[state=active]:opacity-100 group-data-[state=inactive]:group-hover:bg-border-strong group-data-[state=inactive]:group-hover:opacity-100 group-disabled:bg-disabled-text',
+  'absolute inset-x-0 -bottom-px h-0.5 rounded-xs bg-(--tone-solid) opacity-0 transition-[opacity,background-color] duration-base ease-out group-data-[state=active]:opacity-100 group-data-[state=inactive]:group-hover:bg-border-strong group-data-[state=inactive]:group-hover:opacity-100 group-disabled:bg-disabled-text group-data-[moving]/tabs-list:transition-none group-data-[moving]/tabs-list:group-data-[state=active]:opacity-0',
   {
     variants: { variant: { underline: '', solid: 'hidden', soft: 'hidden', outline: 'hidden', ghost: 'hidden' } },
     defaultVariants: { variant: 'underline' },
+  },
+);
+
+/**
+ * The sliding thumb of the list: the bar of an underline list, or the fill (ring) of a selected pill, drawn once under the
+ * triggers at the selected tab's box (--thumb-* from useIndicator). Invisible at rest, where the tab draws its own look.
+ * While the list has data-moving it is opaque and slides; after the move it stays opaque until the tab's own look is back
+ * (the opacity delay), so nothing flickers. A disabled selected tab takes the disabled look.
+ */
+export const tabsThumbVariants = cva(
+  [
+    'pointer-events-none absolute opacity-0',
+    '[transition-property:translate,width,height,opacity] ease-snappy',
+    '[transition-duration:var(--cs-duration-snappy),var(--cs-duration-snappy),var(--cs-duration-snappy),var(--cs-duration-instant)]',
+    '[transition-delay:var(--cs-duration-instant),var(--cs-duration-instant),var(--cs-duration-instant),var(--cs-duration-quick)]',
+    'group-data-[moving]/tabs-list:opacity-100 group-data-[moving]/tabs-list:[transition-delay:var(--cs-duration-instant)]',
+  ],
+  {
+    variants: {
+      look: {
+        underline: '-bottom-px left-0 h-0.5 w-(--thumb-w) translate-x-(--thumb-x) rounded-xs bg-(--tone-solid) group-has-[[role=tab][data-state=active]:disabled]/tabs-list:bg-disabled-text',
+        solid: '',
+        soft: '',
+        outline: '',
+      },
+      tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
+    },
+    compoundVariants: [
+      { look: ['solid', 'soft', 'outline'], className: 'top-0 left-0 h-(--thumb-h) w-(--thumb-w) translate-x-(--thumb-x) translate-y-(--thumb-y) rounded-(--thumb-r) group-has-[[role=tab][data-state=active]:disabled]/tabs-list:bg-disabled-fill group-has-[[role=tab][data-state=active]:disabled]/tabs-list:shadow-none' },
+      // The neutral solid tab is a selected item (ink); see the trigger's selected compound.
+      { look: 'solid', tone: 'neutral', className: 'selected' },
+      { look: 'solid', tone: ['accent', 'success', 'warning', 'danger', 'info', 'agent'], className: 'bg-(--tone-solid)' },
+      { look: 'soft', className: 'bg-(--tone-soft)' },
+      { look: 'outline', className: 'shadow-[inset_0_0_0_1px_var(--tone-border-strong)]' },
+    ],
+    defaultVariants: { tone: 'accent' },
   },
 );
 

@@ -16,8 +16,9 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export const sidePanelVariants = cva(
   [
     'relative flex min-h-0 flex-none flex-col self-stretch font-ui text-text-primary',
-    // The width eases on open and close only: a drag or a key step (data-resizing) moves it at once.
-    'transition-[width,visibility] duration-base ease-standard data-[resizing]:transition-none',
+    // The width eases on open and close only: a drag or a key step (data-resizing) moves it at once. The panel fades with its
+    // width, so the content that re-flows from the narrow box is faint while it is narrow.
+    'transition-[width,visibility,opacity] duration-base ease-standard data-[resizing]:transition-none',
   ],
   {
     variants: {

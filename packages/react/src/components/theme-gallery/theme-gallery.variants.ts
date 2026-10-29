@@ -27,7 +27,8 @@ export const themeGalleryVariants = cva('grid grid-cols-[repeat(auto-fill,minmax
 export const themeGalleryItemVariants = cva([
   'grid overflow-hidden rounded-2xl bg-surface-base text-left font-ui text-ui text-text-primary outline-none',
   'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
-  'transition-[translate,scale,box-shadow] duration-spring ease-spring lift press',
+  // Position and size on the spring; the ring and the elevation (box-shadow) run on quick / out.
+  'transition-[translate,scale,box-shadow] duration-[var(--cs-duration-spring),var(--cs-duration-spring),var(--cs-duration-quick)] ease-[var(--cs-ease-spring),var(--cs-ease-spring),var(--cs-ease-out)] lift press',
   'hover:shadow-[var(--cs-elevation-3)]',
   'aria-checked:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-fill),var(--cs-elevation-3)]',
   'aria-checked:hover:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-fill),var(--cs-elevation-3)]',

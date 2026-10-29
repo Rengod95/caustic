@@ -65,7 +65,7 @@ export function Button({ tone: toneProp, variant: variantProp, radius: radiusPro
       {...props}
     >
       {loading ? (
-        <span data-slot="button-spinner" className="inline-flex"><LoaderCircle className="animate-spinner" aria-hidden /></span>
+        <span data-slot="button-spinner" className="inline-flex animate-enter [animation-duration:var(--cs-duration-quick)]"><LoaderCircle className="animate-spinner" aria-hidden /></span>
       ) : iconStart ? (
         <span data-slot="button-icon" aria-hidden className="inline-flex">{iconStart}</span>
       ) : null}

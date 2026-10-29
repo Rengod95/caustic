@@ -176,7 +176,8 @@ export const cardReadingVariants = cva('[&_[data-slot=card-body]]:text-text-prim
  */
 export const cardTargetVariants = cva([
   'cursor-pointer text-left no-underline outline-none',
-  'transition-[translate,scale,box-shadow,background-color] duration-spring ease-spring',
+  // Position and size move on the spring; colour, shadow and the selected text colour run on quick / out (springs only move).
+  'transition-[translate,scale,box-shadow,background-color,color] duration-[var(--cs-duration-spring),var(--cs-duration-spring),var(--cs-duration-quick),var(--cs-duration-quick),var(--cs-duration-quick)] ease-[var(--cs-ease-spring),var(--cs-ease-spring),var(--cs-ease-out),var(--cs-ease-out),var(--cs-ease-out)]',
   'lift press',
   'hover:shadow-[var(--cs-elevation-lift)]',
   'focus-visible:shadow-focus',
@@ -263,7 +264,7 @@ export const cardVisualVariants = cva('mt-auto grid min-h-feature-visual-min fle
 /** Link card: arrow-up-right at the trailing end of the header; nudges on card hover. */
 export const cardArrowVariants = cva([
   'inline-flex size-icon-sm flex-none text-text-tertiary hover:text-text-primary [&_svg]:size-full',
-  'transition-[translate,color] duration-spring ease-spring',
+  'transition-[translate,color] duration-[var(--cs-duration-spring),var(--cs-duration-quick)] ease-[var(--cs-ease-spring),var(--cs-ease-out)]',
   'group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 group-hover/card:text-text-primary',
 ]);
 

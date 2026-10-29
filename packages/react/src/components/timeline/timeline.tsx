@@ -1,9 +1,11 @@
 'use client';
 import { Check } from 'lucide-react';
-import { createContext, useContext, useId, useRef, useState, type ComponentProps, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useId, useLayoutEffect, useReducer, useRef, useState, type ComponentProps, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useFlip } from '../../hooks/use-flip.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { Button } from '../button/button.tsx';
 import {
   timelineBodyVariants, timelineCheckVariants, timelineConfirmVariants, timelineDetailVariants, timelineDotVariants, timelineFooterVariants,
@@ -27,8 +29,12 @@ interface Ctx {
   cancelLabel: string;
   restoreDisabled: boolean;
   onRestore?: ((event: MouseEvent<HTMLButtonElement>) => void) | undefined;
+  /** False until the list has painted once: entries mounted before that do not rise in. */
+  settled: { readonly current: boolean };
+  /** Re-renders the list, so its useFlip measures again after an entry changed its own height. */
+  relayout: () => void;
 }
-const TimelineContext = createContext<Ctx>({ single: false, restore: 'none', value: '', select: () => {}, restoreLabel: 'Restore', cancelLabel: 'Cancel', restoreDisabled: false });
+const TimelineContext = createContext<Ctx>({ single: false, restore: 'none', value: '', select: () => {}, restoreLabel: 'Restore', cancelLabel: 'Cancel', restoreDisabled: false, settled: { current: true }, relayout: () => {} });
 
 export interface TimelineProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange'>, CommonProps {
   /** Accessible name of the list. */
@@ -63,6 +69,11 @@ export function Timeline({
   const [current, setCurrent] = useControllableState({ value, defaultValue, onChange: onValueChange });
   const listRef = useRef<HTMLOListElement>(null);
   const noteId = useId();
+  const settled = useRef(false);
+  useEffect(() => { settled.current = true; }, []);
+  const [, relayout] = useReducer((n: number) => n + 1, 0);
+  // Entries that appear or disappear slide their neighbours. Entries without an itemId are not tracked.
+  useFlip(listRef, '[data-slot="timeline-item"][data-item-id]:not([data-item-id=""])', 'itemId');
   const label = restoreLabel ?? (restore === 'footer' ? 'Restore this version' : 'Restore');
   // Selection follows focus: arrows and Home/End choose the entry they move to.
   const onKeyDown = (e: KeyboardEvent<HTMLOListElement>) => {
@@ -80,7 +91,7 @@ export function Timeline({
     if (next.dataset.itemId !== undefined) setCurrent(next.dataset.itemId);
   };
   return (
-    <TimelineContext.Provider value={{ tone, variant, size, single, restore, value: current, select: setCurrent, restoreLabel: label, cancelLabel, restoreDisabled, onRestore }}>
+    <TimelineContext.Provider value={{ tone, variant, size, single, restore, value: current, select: setCurrent, restoreLabel: label, cancelLabel, restoreDisabled, onRestore, settled, relayout }}>
       <div data-slot="timeline" data-selection-mode={selectionMode} className={cn(timelineVariants({ radius, shadow }), className)} {...props}>
         <ol
           ref={listRef} role={single ? 'listbox' : undefined} aria-label={ariaLabel} data-slot="timeline-list"
@@ -156,10 +167,17 @@ function NodeItem({
   const selected = selectedProp ?? (itemId != null && ctx.value === itemId);
   const dotAuthor = selected ? 'human' : author;
   const [confirming, setConfirming] = useState(defaultConfirming);
+  const [rise] = useState(() => ctx.settled.current);
   const confirmId = useId();
   const trigger = useRef<HTMLButtonElement>(null);
   const cancel = useRef<HTMLButtonElement>(null);
   const showAction = selected && ctx.restore === 'item';
+  // The confirm step stays mounted while it closes, so its exit plays; then the list drops it.
+  const confirmSteps = usePresence(showAction && confirming && confirmMessage != null ? [{ message: confirmMessage }] : [], () => 'confirm');
+  // The panel mounting or unmounting changes this entry's height: the list re-measures before paint, so the entries below glide.
+  const panelCount = confirmSteps.entries.length;
+  const relayout = ctx.relayout;
+  useLayoutEffect(() => { relayout(); }, [panelCount, relayout]);
   const close = () => { setConfirming(false); trigger.current?.focus(); };
   const onTrigger = (e: MouseEvent<HTMLButtonElement>) => {
     if (confirmMessage == null) { ctx.onRestore?.(e); return; }
@@ -172,7 +190,7 @@ function NodeItem({
   };
   const label = typeof title === 'string' ? `${ctx.restoreLabel} ${title}` : undefined;
   return (
-    <li data-slot="timeline-item" data-layout="node" data-author={author} data-item-id={itemId} aria-current={selected ? 'true' : undefined} className={cn(timelineItemVariants({ size }), className)} {...props}>
+    <li data-slot="timeline-item" data-layout="node" data-author={author} data-item-id={itemId} aria-current={selected ? 'true' : undefined} className={cn(timelineItemVariants({ size, rise }), className)} {...props}>
       <span data-slot="timeline-spine" aria-hidden="true" className={cn(timelineSpineVariants({ size }))} />
       <span data-slot="timeline-node" aria-hidden="true" className={cn(timelineNodeVariants({ selected, tone, variant, size }))}>
         <span data-slot="timeline-dot" className={cn(timelineDotVariants({ author: dotAuthor, selected, running, tone, variant, size }))} />
@@ -191,15 +209,19 @@ function NodeItem({
       ) : time != null && (
         <time data-slot="timeline-time" dateTime={dateTime} className={cn(timelineTimeVariants({ size }))}>{time}</time>
       )}
-      {showAction && confirming && confirmMessage != null && (
-        <div id={confirmId} role="group" aria-label={label} data-slot="timeline-confirm" className={cn(timelineConfirmVariants())} onKeyDown={onConfirmKeyDown}>
-          <p data-slot="timeline-confirm-message" className="m-0 text-ui-sm font-normal text-text-secondary">{confirmMessage}</p>
+      {confirmSteps.entries.map(({ item, present }) => (
+        <div
+          key="confirm" id={confirmId} role="group" aria-label={label} data-slot="timeline-confirm" data-state={present ? 'open' : 'closed'}
+          aria-hidden={present ? undefined : true} inert={!present} className={cn(timelineConfirmVariants())} onKeyDown={onConfirmKeyDown}
+          onAnimationEnd={e => { if (e.target === e.currentTarget) confirmSteps.exited('confirm'); }}
+        >
+          <p data-slot="timeline-confirm-message" className="m-0 text-ui-sm font-normal text-text-secondary">{item.message}</p>
           <div data-slot="timeline-confirm-actions" className="flex flex-wrap justify-end gap-1.5">
             <Button ref={cancel} data-slot="timeline-cancel" tone="ghost" size="xs" onClick={close}>{ctx.cancelLabel}</Button>
             <Button data-slot="timeline-confirm-action" tone="destructive" size="xs" onClick={e => { setConfirming(false); ctx.onRestore?.(e); }}>{ctx.restoreLabel}</Button>
           </div>
         </div>
-      )}
+      ))}
     </li>
   );
 }
@@ -213,10 +235,11 @@ function RowItem({
   const tone = itemTone ?? ctx.tone, variant = itemVariant ?? ctx.variant, size = ctx.size;
   const chosen = selectedProp ?? ctx.value === itemId;
   const dotAuthor = chosen ? 'human' : author;
+  const [rise] = useState(() => ctx.settled.current);
   return (
     <li
       role="option" tabIndex={chosen || !ctx.value ? 0 : -1} aria-selected={chosen} data-slot="timeline-item" data-layout="row" data-item-id={itemId} data-author={author}
-      className={cn(timelineRowVariants({ tone, variant, size }), className)}
+      className={cn(timelineRowVariants({ tone, variant, size, rise }), className)}
       onClick={e => { onClick?.(e); if (!e.defaultPrevented) ctx.select(itemId); }}
       onKeyDown={e => { onKeyDown?.(e); if (!e.defaultPrevented && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); ctx.select(itemId); } }}
       {...props}
@@ -245,8 +268,9 @@ function MarkerItem({
   const ctx = useContext(TimelineContext);
   const tone = itemTone ?? ctx.tone, variant = itemVariant ?? ctx.variant, size = ctx.size;
   const selected = selectedProp ?? (itemId != null && ctx.value === itemId);
+  const [rise] = useState(() => ctx.settled.current);
   return (
-    <li data-slot="timeline-item" data-layout="marker" data-author={author} data-item-id={itemId} aria-current={selected ? 'true' : undefined} className={cn(timelineMarkerItemVariants({ size }), className)} {...props}>
+    <li data-slot="timeline-item" data-layout="marker" data-author={author} data-item-id={itemId} aria-current={selected ? 'true' : undefined} className={cn(timelineMarkerItemVariants({ size, rise }), className)} {...props}>
       <span data-slot="timeline-spine" aria-hidden="true" className={cn(timelineMarkerSpineVariants({ size }))} />
       <span data-slot="timeline-marker" className={cn(timelineMarkerVariants({ size }))}>
         {marker != null ? marker : (

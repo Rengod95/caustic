@@ -80,7 +80,7 @@ export default defineSpec({
     { slot: 'padding-fields', expect: { gap: 6 } },
     { slot: 'clip', expect: { fg: 'text.primary', text: 'footnote' } },
     { slot: 'side', expect: { gap: 12 } },
-    { slot: 'preview', when: { preview: true }, expect: { bg: 'bg.inset', radius: 'xl', height: 'size-layout-preview', padX: 10, padY: 10, gap: 8 }, note: 'Specimen: 1px dashed outline in accent.border-strong, outline-offset -1px. Transitions the layout properties with duration-gentle and ease-spring.' },
+    { slot: 'preview', when: { preview: true }, expect: { bg: 'bg.inset', radius: 'xl', height: 'size-layout-preview', padX: 10, padY: 10, gap: 8 }, note: 'Specimen: 1px dashed outline in accent.border-strong, outline-offset -1px. Gap, and the left and top of free items, transition with duration-spring and ease-spring; a scrub of a field in this block turns them off so the preview follows the pointer. The outline colour changes with duration-quick.' },
     { slot: 'preview-item', when: { preview: true }, expect: { bg: 'surface.base', edge: 'border.default', radius: 'sm', width: 34, height: 26 }, note: 'Second item is 40px tall, third 18px. One depth cue: the hairline, no elevation.' },
     { slot: 'preview', when: { preview: true, state: 'disabled' }, expect: { bg: 'bg.inset' }, note: 'Disabled is a colour, not opacity: the dashed outline takes disabled.border and the accent tone drops out; the items keep their neutral fill and edge (outline colour is not a style key).' },
     { slot: 'padding-title', when: { state: 'disabled' }, expect: { fg: 'disabled.text' } },

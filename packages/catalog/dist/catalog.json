@@ -6661,7 +6661,7 @@
             "full"
           ],
           "default": "md",
-          "description": "Corner radius; unset keeps the size radius (xs sm, sm/md md, lg lg). full is the pill (the deprecated shape=\"pill\")."
+          "description": "Corner radius; unset keeps the size radius (xs md, sm/md lg, lg xl; one step up from the field radius, owner 2026-10-29). full is the pill (the deprecated shape=\"pill\")."
         },
         "shadow": {
           "values": [
@@ -29013,7 +29013,7 @@
             "full"
           ],
           "default": "md",
-          "description": "Corner radius token (common prop). Unset keeps the size radius (xs sm, sm/md md, lg lg); full is the circle (the deprecated shape=\"circle\")."
+          "description": "Corner radius token (common prop). Unset keeps the size radius (xs md, sm/md lg, lg xl, as in Button; owner 2026-10-29); full is the circle (the deprecated shape=\"circle\")."
         },
         "shadow": {
           "values": [
@@ -53177,7 +53177,7 @@
         },
         "onDismiss": {
           "payload": "void",
-          "when": "the duration elapses, Escape is pressed on a focused toast, or the item is swiped away"
+          "when": "the duration elapses, Escape is pressed on a focused toast, or the close button is clicked"
         }
       },
       "keyboard": {
@@ -55517,6 +55517,12 @@
             "static"
           ]
         },
+        "open": {
+          "type": "boolean",
+          "default": false,
+          "required": false,
+          "description": "The zoom menu is open: the readout sets aria-expanded and its chevron turns up."
+        },
         "size": {
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
@@ -55576,6 +55582,12 @@
             "type": "(event: MouseEvent<HTMLButtonElement, MouseEvent>) => void",
             "required": false,
             "description": ""
+          },
+          "open": {
+            "type": "boolean",
+            "default": false,
+            "required": false,
+            "description": "The zoom menu is open: the readout sets aria-expanded and its chevron turns up."
           },
           "radius": {
             "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",

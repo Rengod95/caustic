@@ -71,7 +71,7 @@ export default defineSpec({
   ],
   behavior: {
     keyboard: { ArrowRight: 'select next (horizontal)', ArrowLeft: 'select previous (horizontal)', ArrowDown: 'select next', ArrowUp: 'select previous', Home: 'select first', End: 'select last', Tab: 'moves focus to the selected segment, then out' },
-    pointer: ['click selects a segment', 'selection color, background and shadow animate with duration-base and ease-out'],
+    pointer: ['click selects a segment', 'the selected thumb slides to the clicked segment with duration-snappy and ease-snappy; a keyboard selection is instant'],
     scenarios: [
       { name: 'arrow selects next', props: { defaultValue: 'design' }, steps: [{ do: 'focus', slot: 'item' }, { do: 'press', key: 'ArrowRight' }], expect: [{ event: 'onValueChange', args: ['prototype'] }] },
       { name: 'click selects a segment', props: { defaultValue: 'design' }, steps: [{ do: 'click', slot: 'item' }], expect: [{ slot: 'item', attr: { 'aria-checked': 'true' } }] },

@@ -60,6 +60,7 @@ export function StackRow({
 }: StackRowProps) {
   const suffix = actionLabel ? ` ${actionLabel}` : '';
   const busy = { 'aria-busy': reserved || undefined, 'data-reserved': reserved || undefined };
+  const pressable = props.onClick !== undefined && !disabled && !reserved;
   return (
     <div
       data-slot="stack-row"
@@ -68,7 +69,7 @@ export function StackRow({
       data-state={hidden ? 'hidden' : undefined}
       aria-busy={reserved || undefined}
       data-reserved={reserved || undefined}
-      className={cn(stackRowVariants({ tone, variant, size, radius: radius ?? null, shadow: shadow ?? null }), className)}
+      className={cn(stackRowVariants({ tone, variant, size, radius: radius ?? null, shadow: shadow ?? null, pressable }), className)}
       {...props}
     >
       {lead === 'icon' ? (

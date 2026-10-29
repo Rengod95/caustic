@@ -63,7 +63,7 @@ export default defineSpec({
   ],
   behavior: {
     keyboard: { ArrowRight: 'focus and activate next tab', ArrowLeft: 'focus and activate previous tab', Home: 'first tab', End: 'last tab' },
-    pointer: ['click activates a tab', 'the color change uses duration-base'],
+    pointer: ['click activates a tab', 'the selected bar (or pill) slides to the clicked tab with duration-snappy and ease-snappy; a keyboard activation is instant'],
     scenarios: [
       { name: 'arrow activates next', props: { defaultValue: 'tokens' }, steps: [{ do: 'focus', slot: 'trigger' }, { do: 'press', key: 'ArrowRight' }], expect: [{ event: 'onValueChange', args: ['components'] }] },
       { name: 'click activates', props: { defaultValue: 'tokens' }, steps: [{ do: 'click', slot: 'trigger' }], expect: [{ slot: 'trigger', attr: { 'aria-selected': 'true' } }] },

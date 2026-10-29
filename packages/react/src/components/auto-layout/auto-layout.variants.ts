@@ -55,8 +55,10 @@ export const autoLayoutRow = cva('flex items-center justify-between text-footnot
 
 // A live illustration: flow, alignment and gap come from the value (--gap is data). Disabled drops the accent tone:
 // the dashed outline takes disabled-border; the items are neutral and keep their fill and edge.
+// The gap moves on the spring; the outline colour is its own quick colour change (a spring must not fade a colour).
+// While a NumberField of this block is scrubbing (data-scrubbing), nothing transitions: the preview follows the pointer.
 export const autoLayoutPreview = cva(
-  'relative flex h-layout-preview gap-(--gap) rounded-xl bg-bg-inset p-2.5 outline outline-1 outline-dashed -outline-offset-1 transition-colors duration-quick ease-standard group-aria-disabled/auto-layout:outline-disabled-border',
+  '[transition:gap_var(--cs-duration-spring)_var(--cs-ease-spring),outline-color_var(--cs-duration-quick)_var(--cs-ease-standard)] group-has-[[data-scrubbing]]/auto-layout:transition-none relative flex h-layout-preview gap-(--gap) rounded-xl bg-bg-inset p-2.5 outline outline-1 outline-dashed -outline-offset-1 group-aria-disabled/auto-layout:outline-disabled-border',
   {
     variants: {
       tone: {
@@ -72,7 +74,7 @@ export const autoLayoutPreview = cva(
 );
 
 export const autoLayoutPreviewItem = cva(
-  'w-toolbar-item flex-none rounded-sm bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+  'w-toolbar-item flex-none rounded-sm bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-[left,top] duration-spring ease-spring',
   {
     variants: {
       // The three sample heights (not the common size axis).

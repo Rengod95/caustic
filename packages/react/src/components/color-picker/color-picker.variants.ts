@@ -29,7 +29,9 @@ export const colorPickerVariants = cva('relative grid max-w-full text-ui text-te
 
 export const colorPickerHeaderVariants = cva('flex items-center gap-1 px-2 pt-2');
 
-export const colorPickerTypesVariants = cva('flex gap-0.5 px-2 pt-2');
+// The custom tab's parts (types, body, swatch foot) fade in when the tab changes to them. The enter offsets are reset to
+// rest: they inherit from a Radix popover's enter modifiers, and this fade is opacity only.
+export const colorPickerTypesVariants = cva(['flex gap-0.5 px-2 pt-2', 'animate-enter [--cs-enter-x:0] [--cs-enter-y:0] [--cs-enter-scale:1]']);
 
 export const colorPickerTypeVariants = cva(
   [
@@ -66,7 +68,7 @@ export const colorPickerGlyphVariants = cva('block size-icon-sm rounded-xs shado
   defaultVariants: { kind: 'solid' },
 });
 
-export const colorPickerBodyVariants = cva('grid', {
+export const colorPickerBodyVariants = cva(['grid', 'animate-enter [--cs-enter-x:0] [--cs-enter-y:0] [--cs-enter-scale:1]'], {
   variants: {
     embedded: { false: '', true: '' },
     bodySize: { xs: 'gap-1.5', sm: 'gap-2', md: 'gap-2.5', lg: 'gap-3' },
@@ -105,7 +107,7 @@ export const colorPickerFormatVariants = cva(
   ],
 );
 
-export const colorPickerFootVariants = cva('grid gap-1.5 border-t border-border-subtle px-2.5 py-2');
+export const colorPickerFootVariants = cva(['grid gap-1.5 border-t border-border-subtle px-2.5 py-2', 'animate-enter [--cs-enter-x:0] [--cs-enter-y:0] [--cs-enter-scale:1]']);
 
 /** The painted layer of the preview: the picked color, or the hatch of a mixed selection. */
 export const colorPickerPreviewFillVariants = cva('absolute inset-0', {

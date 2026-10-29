@@ -72,8 +72,8 @@ export const constraintsPinVariants = cva(
   },
 );
 
-/** The open select list, under its select: one elevation, no edge. */
-export const constraintsListboxVariants = cva('absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2 animate-enter enter-scale origin-top');
+/** The open select list, under its select: one elevation, no edge. It exits with its data-state (the component keeps it mounted while it closes). */
+export const constraintsListboxVariants = cva('absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2 data-[state=open]:animate-enter data-[state=closed]:animate-exit data-[state=closed]:pointer-events-none enter-scale origin-top');
 
 /** One option; the selected one inverts (selected utility). */
 export const constraintsOptionVariants = cva(

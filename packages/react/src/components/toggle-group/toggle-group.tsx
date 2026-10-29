@@ -1,14 +1,22 @@
 'use client';
 import * as G from '@radix-ui/react-toggle-group';
-import { createContext, useContext, type ComponentProps, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Size, Tone } from '../../lib/common-props.ts';
 import { defined } from '../../lib/defined.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { useIndicator } from '../../hooks/use-indicator.ts';
 import { Tooltip } from '../tooltip/tooltip.tsx';
-import { toggleGroupItem, toggleGroupVariants } from './toggle-group.variants.ts';
+import { toggleGroupItem, toggleGroupThumb, toggleGroupVariants } from './toggle-group.variants.ts';
 
 const ItemCtx = createContext<{ tone?: Tone | undefined; size?: Size | undefined; current?: string | string[] | undefined }>({});
+
+/** The snappy duration in ms (--cs-duration-snappy, read from the stylesheet; 210 when none defines it). */
+function snappyMs(): number {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue('--cs-duration-snappy').trim();
+  const value = Number.parseFloat(raw);
+  return Number.isFinite(value) ? (raw.endsWith('ms') ? value : raw.endsWith('s') ? value * 1000 : value) : 210;
+}
 
 type Common = Omit<ComponentProps<'div'>, 'defaultValue' | 'onChange' | 'dir'> & CommonProps & {
   /** @deprecated use variant: filled = soft, outline = outline. */
@@ -33,11 +41,42 @@ export function ToggleGroup({
   const [current, setCurrent] = useControllableState<string | string[]>({
     value, defaultValue: defaultValue ?? (type === 'single' ? '' : []), onChange: onValueChange,
   });
+  const ref = useRef<HTMLDivElement>(null);
+  const single = type === 'single';
+  // Single groups only: the on item's box, where the thumb is drawn once measured; null until then.
+  const box = useIndicator(ref, '[data-slot="toggle-group-item"]', '[data-slot="toggle-group-item"][data-state="on"]', current);
+  // A pointer press flags the next change as a pointer move, which slides the thumb (data-moving on the group). A keyboard
+  // press (arrows only move focus here; Space and Enter toggle) clears the flag. Multiple groups have no thumb: no moves.
+  const pointer = useRef(false);
+  const [moves, setMoves] = useState(0);
+  useLayoutEffect(() => {
+    if (!pointer.current) return;
+    pointer.current = false;
+    if (single) setMoves(n => n + 1);
+  }, [current, single]);
+  // Each pointer move re-arms the guard: the thumb is done after its translate transition, or after snappy + 50 ms.
+  useEffect(() => {
+    if (!moves) return;
+    const timer = window.setTimeout(() => setMoves(0), snappyMs() + 50);
+    return () => window.clearTimeout(timer);
+  }, [moves]);
   const look = variant ?? (appearance === 'outline' ? 'outline' : 'soft');
   const root = cn(toggleGroupVariants({ variant: look, orientation, radius, shadow }), className);
-  const common = { 'data-variant': look, orientation, ...defined({ disabled }), className: root, ...props };
-  const items = <ItemCtx.Provider value={{ tone, size, current }}>{children}</ItemCtx.Provider>;
-  if (type === 'single') {
+  const common = {
+    'data-variant': look, orientation, ...defined({ disabled }), className: root, ref,
+    onPointerDownCapture: () => { pointer.current = true; }, onKeyDownCapture: () => { pointer.current = false; },
+    'data-moving': moves ? '' : undefined, ...props,
+  };
+  const thumb = single && box && (
+    <span
+      aria-hidden
+      onTransitionEnd={e => { if (e.target === e.currentTarget && e.propertyName === 'translate') setMoves(0); }}
+      className={toggleGroupThumb()}
+      style={{ '--thumb-x': `${box.x}px`, '--thumb-y': `${box.y}px`, '--thumb-w': `${box.w}px`, '--thumb-h': `${box.h}px`, '--thumb-r': box.r } as CSSProperties}
+    />
+  );
+  const items = <ItemCtx.Provider value={{ tone, size, current }}>{thumb}{children}</ItemCtx.Provider>;
+  if (single) {
     // Radix lets the on item turn off (value ''); a single group keeps one item on.
     return <G.Root data-slot="toggle-group" role="group" type="single" value={current as string} onValueChange={(v: string) => { if (v !== '') setCurrent(v); }} {...common}>{items}</G.Root>;
   }

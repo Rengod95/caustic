@@ -1,10 +1,12 @@
 'use client';
 import { Grid2x2, Plus, X } from 'lucide-react';
-import { Fragment, useId, type ComponentProps, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
+import { Fragment, useId, useLayoutEffect, useRef, useState, type ComponentProps, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { useFieldContract } from '../../hooks/use-field-contract.ts';
+import { useFlip } from '../../hooks/use-flip.ts';
+import { usePresence } from '../../hooks/use-presence.ts';
 import { Button } from '../button/button.tsx';
 import { ColorWell } from '../color-well/color-well.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
@@ -13,7 +15,8 @@ import { NumberField, type NumberFieldDraft } from '../number-field/number-field
 import { Popover } from '../popover/popover.tsx';
 import { StackRow } from '../stack-row/stack-row.tsx';
 import {
-  propertyStackBareVariants, propertyStackListVariants, propertyStackRowSelectedVariants, propertyStackTitleVariants, propertyStackVariants,
+  propertyStackBareVariants, propertyStackDetailVariants, propertyStackListVariants, propertyStackRowMotionVariants, propertyStackRowSelectedVariants,
+  propertyStackTitleVariants, propertyStackVariants,
 } from './property-stack.variants.ts';
 
 export type PropertyStackKind = 'paint' | 'effect';
@@ -132,6 +135,16 @@ export interface PropertyStackProps extends Omit<ComponentProps<'section'>, 'tit
 const flagged = (flags: boolean | Record<string, boolean> | undefined, id: string) => flags === true || (typeof flags === 'object' && flags[id] === true);
 const say = (label: PropertyStackActionLabel, name: string) => (typeof label === 'function' ? label(name) : name ? `${label} ${name}` : label);
 
+/** The open inline editor under its row. It is mounted only while open (the spec's contract) and rises once when a pointer opens it. */
+function InlineDetail({ id, label, instant, children }: { id: string; label?: string | undefined; instant: boolean; children: ReactNode }) {
+  const [enter] = useState(() => !instant);
+  return (
+    <div data-slot="property-stack-detail" role="listitem" aria-label={label} data-flip-id={`detail:${id}`} className={propertyStackDetailVariants({ enter })}>
+      {children}
+    </div>
+  );
+}
+
 /** A titled stack of inspector properties (paint layers or effects) built from StackRows, or the bare list when untitled. */
 export function PropertyStack({
   kind = 'paint', title, items = [], mixed = false, disabled = false, commitMode = 'live', reserved, labels, selected, detail,
@@ -149,17 +162,29 @@ export function PropertyStack({
   const busy = { 'aria-busy': all || undefined, 'data-reserved': all || undefined };
   // A bare stack has no box to style: tone, variant and size go to the rows (StackRow owns the row look).
   const rowLook = bare ? { tone, variant, size } : {};
+  // Rows present at first render stay still; a row added later rises, and a removed one plays its exit (usePresence) before it
+  // goes. The rows below an added, removed or moved row slide to their place (useFlip). A keyboard open of an effect detail is
+  // instant: the keyboard sets `keys` for its commit.
+  const initial = useRef<Set<string> | null>(null);
+  if (initial.current === null) initial.current = new Set(items.map(item => item.id));
+  const { entries: stackRows, exited } = usePresence(items, item => item.id);
+  const listRef = useRef<HTMLDivElement>(null);
+  const [keys, setKeys] = useState(false);
+  useFlip(listRef, '[data-slot="property-stack-row"], [data-slot="property-stack-detail"]', 'flipId', !keys);
+  useLayoutEffect(() => { if (keys) setKeys(false); }, [keys]);
 
-  const list = items.length > 0 ? (
-    <div data-slot="property-stack-list" role="list" aria-label={labels.list} className={cn(propertyStackListVariants({ kind, bare, size }))}>
-      {items.map((item, index) => {
+  const list = stackRows.length > 0 ? (
+    <div ref={listRef} data-slot="property-stack-list" role="list" aria-label={labels.list} className={cn(propertyStackListVariants({ kind, bare, size }))}>
+      {stackRows.map(({ key, item, present }) => {
+        // A leaving row keeps its last look and takes no input: it is inert and hidden from the accessibility tree while it exits.
+        const index = present ? items.indexOf(item) : -1;
         const name = item.name ?? (typeof item.label === 'string' ? item.label : '');
         const off = flagged(disabled, item.id);
         const held = flagged(reserved, item.id);
         const opacityKey = `opacity:${item.id}`;
         const bad = invalid?.[item.id] === true || contract.isInvalid(opacityKey);
         const body = item.detail ?? detail?.(item);
-        const opened = open === item.id && body != null;
+        const opened = present && open === item.id && body != null;
         const current = selected === item.id || (effect && opened);
         // An effect row opens its editor when pressed; a paint layer opens it from the swatch.
         const choose = () => { onSelect?.(item.id); if (effect && body != null && !off) setOpen(opened ? null : item.id); };
@@ -175,7 +200,9 @@ export function PropertyStack({
         );
         const row = (
           <StackRow
-            key={item.id} data-slot="property-stack-row" role="listitem" {...rowLook}
+            data-slot="property-stack-row" data-flip-id={`row:${item.id}`} role="listitem" {...rowLook}
+            data-state={present ? undefined : 'closed'} inert={!present || undefined} aria-hidden={!present || undefined}
+            onAnimationEnd={e => { if (!present && e.target === e.currentTarget) exited(key); }}
             data-invalid={bad || undefined} data-field={effect ? undefined : 'opacity'}
             lead={effect ? 'icon' : 'swatch'} actions={effect ? 'always' : 'hover'}
             mono={item.mono} title={item.label} meta={item.meta} hidden={item.hidden} disabled={off} reserved={held}
@@ -216,19 +243,25 @@ export function PropertyStack({
             onRemove={() => onRemove?.(item.id)}
             aria-current={current || undefined}
             onClick={(e: MouseEvent<HTMLDivElement>) => { if (!(e.target as HTMLElement).closest('button, input')) choose(); }}
-            className={cn(interactive && 'outline-none focus-visible:shadow-focus', current && propertyStackRowSelectedVariants())}
+            className={cn(interactive && 'outline-none focus-visible:shadow-focus', current && propertyStackRowSelectedVariants(), propertyStackRowMotionVariants({ enter: initial.current?.has(item.id) !== true, leaving: !present }))}
             {...(interactive ? {
               tabIndex: 0,
-              onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => { if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); choose(); } },
+              onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
+                if (e.target !== e.currentTarget || (e.key !== 'Enter' && e.key !== ' ')) return;
+                e.preventDefault();
+                if (effect && body != null) setKeys(true);
+                choose();
+              },
             } : {})}
           />
         );
-        return mode === 'inline' && opened ? (
-          <Fragment key={item.id}>
+        // The row and its detail share one keyed fragment, so opening a detail does not remount the row (focus stays on it).
+        return (
+          <Fragment key={key}>
             {row}
-            <div data-slot="property-stack-detail" role="listitem" aria-label={item.detailLabel} className="grid gap-2">{body}</div>
+            {mode === 'inline' && opened ? <InlineDetail id={item.id} label={item.detailLabel} instant={keys}>{body}</InlineDetail> : null}
           </Fragment>
-        ) : row;
+        );
       })}
     </div>
   ) : null;

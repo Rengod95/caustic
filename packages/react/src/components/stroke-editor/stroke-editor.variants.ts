@@ -64,7 +64,11 @@ export const strokeEditorPreviewLineVariants = cva(
 export const strokeEditorIndependentVariants = cva('flex items-center justify-between gap-2 text-footnote text-text-primary');
 
 // 3 x 3: 36px middle column and row (the box); the side fields hug the box, centred as one group.
-export const strokeEditorSidesVariants = cva('grid grid-cols-[auto_var(--cs-field-compact-md)_auto] justify-center grid-rows-[auto_var(--cs-field-compact-md)_auto] items-center justify-items-center gap-1');
+// It rises when the switch turns it on (enter); a group present at the first paint stays still.
+export const strokeEditorSidesVariants = cva('grid grid-cols-[auto_var(--cs-field-compact-md)_auto] justify-center grid-rows-[auto_var(--cs-field-compact-md)_auto] items-center justify-items-center gap-1', {
+  variants: { enter: { true: 'animate-rise', false: '' } },
+  defaultVariants: { enter: false },
+});
 
 export const strokeEditorSideVariants = cva('flex w-16', {
   variants: {

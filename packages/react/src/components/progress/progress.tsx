@@ -28,7 +28,7 @@ export function Progress({
   const tone = toneProp === 'default' || toneProp === undefined ? (ring ? 'neutral' : 'accent') : toneProp;
   const unknown = indeterminate ?? value === undefined;
   const pct = Math.max(0, Math.min(100, value ?? 0));
-  const fill = unknown ? undefined : { ['--progress' as string]: `${pct}%` };
+  const fill = unknown ? undefined : { ['--cs-progress' as string]: `${pct}%` };
   const name = label ?? (ring ? 'Loading' : undefined);
   return (
     <div

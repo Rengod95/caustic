@@ -89,10 +89,13 @@ export const messageBodyVariants = cva('font-voice text-text-primary [&_p]:mb-2'
   defaultVariants: { size: 'md' },
 });
 
-/** The agent spectrum orb dot; rendered only for the agent author. */
+/** The agent spectrum orb dot; rendered only for the agent author. It turns only while the agent is writing (streaming); a finished turn keeps the still dot. */
 export const messageOrbVariants = cva('', {
-  variants: { author: { user: '', agent: 'orb orb-dot' } },
-  defaultVariants: { author: 'agent' },
+  variants: {
+    author: { user: '', agent: 'orb orb-dot' },
+    streaming: { true: '', false: 'animate-none' },
+  },
+  defaultVariants: { author: 'agent', streaming: false },
 });
 
 /**
@@ -101,5 +104,5 @@ export const messageOrbVariants = cva('', {
  * devices without hover. Hidden by opacity, so the buttons stay in the tab order and focusing one reveals the cluster.
  */
 export const messageActionsVariants = cva(
-  'ml-auto flex items-center gap-2 opacity-0 transition-opacity duration-quick ease-out group-hover/message:opacity-100 group-focus-within/message:opacity-100 [@media(hover:none)]:opacity-100',
+  'ml-auto flex items-center gap-2 opacity-0 transition-control group-hover/message:opacity-100 group-focus-within/message:opacity-100 [@media(hover:none)]:opacity-100',
 );
