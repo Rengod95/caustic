@@ -24,6 +24,18 @@ const NavContext = createContext<{
 
 /** Nesting depth of the list an entry sits in: 1 = a top-level item, 2 = a sub-item, 3 = a sub-item of a sub-item (the last level). */
 const DepthContext = createContext(1);
+
+/**
+ * An expanded row's sub-list. It stays mounted and opens with reveal, so closing animates; closed it is inert and hidden from
+ * assistive tech. The 2px lead above the list is the list's own top margin, inside the clip (a gap on the row would hold it open).
+ */
+function NavReveal({ open, children }: { open: boolean; children: ReactNode }) {
+  return (
+    <div className="reveal" data-state={open ? 'open' : 'closed'} inert={!open || undefined} aria-hidden={!open || undefined}>
+      <div>{children}</div>
+    </div>
+  );
+}
 /** Deepest level that renders: an entry at this depth ignores its `sub`. */
 const MAX_DEPTH = 3;
 /** Development builds (the bundler replaces process.env.NODE_ENV); false where process does not exist. */
@@ -194,12 +206,14 @@ export function ListNavigationItem({
   else if (href != null) link = <a data-slot="list-navigation-link" href={href} {...common}>{inner}</a>;
   else link = <button type="button" data-slot="list-navigation-link" {...(common as ComponentProps<'button'>)}>{inner}</button>;
   return (
-    <li data-slot="list-navigation-item" className="grid gap-0.5">
+    <li data-slot="list-navigation-item" className="grid">
       {link}
-      {disclosure && open && (
-        <DepthContext.Provider value={2}>
-          <ul data-slot="list-navigation-sub" data-depth={2} id={subId} role="list" className={listNavigationSub({ depth: 2 })}>{sub}</ul>
-        </DepthContext.Provider>
+      {disclosure && (
+        <NavReveal open={open}>
+          <DepthContext.Provider value={2}>
+            <ul data-slot="list-navigation-sub" data-depth={2} id={subId} role="list" className={listNavigationSub({ depth: 2 })}>{sub}</ul>
+          </DepthContext.Provider>
+        </NavReveal>
       )}
     </li>
   );
@@ -245,12 +259,14 @@ export function ListNavigationSubItem({
   else if (href != null) link = <a data-slot="list-navigation-sub-link" href={href} {...common}>{inner}</a>;
   else link = <button type="button" data-slot="list-navigation-sub-link" {...(common as ComponentProps<'button'>)}>{inner}</button>;
   return (
-    <li data-slot="list-navigation-sub-item" className="grid gap-0.5">
+    <li data-slot="list-navigation-sub-item" className="grid">
       {link}
-      {disclosure && open && (
-        <DepthContext.Provider value={depth + 1}>
-          <ul data-slot="list-navigation-sub" data-depth={depth + 1} id={subId} role="list" className={listNavigationSub({ depth: 3 })}>{sub}</ul>
-        </DepthContext.Provider>
+      {disclosure && (
+        <NavReveal open={open}>
+          <DepthContext.Provider value={depth + 1}>
+            <ul data-slot="list-navigation-sub" data-depth={depth + 1} id={subId} role="list" className={listNavigationSub({ depth: 3 })}>{sub}</ul>
+          </DepthContext.Provider>
+        </NavReveal>
       )}
     </li>
   );

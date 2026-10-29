@@ -48,7 +48,8 @@ export const cardVariants = cva(
         ghost: '',
         glass: 'glass [--cs-shadow:var(--cs-elevation-2)] [--card-cover-panel:var(--cs-color-material-regular)]',
         outline: [
-          'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-shadow duration-quick hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
+          // transition-shadow, not transition-control: a CardLink adds its own list, and tailwind-merge drops this one there.
+          'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-shadow hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
           '[&_[data-slot=card-title]]:text-ui-lg [&_[data-slot=card-description]]:text-text-tertiary',
         ],
         dashed: 'min-h-card-add flex-row items-center justify-center gap-1.5 bg-transparent text-ui text-text-secondary outline-1 -outline-offset-1 outline-dashed outline-border-strong',
@@ -170,19 +171,20 @@ export const cardReadingVariants = cva('[&_[data-slot=card-body]]:text-text-prim
 
 /**
  * CardLink and CardChoice: the whole card is one target. It lifts on hover (the lift elevation replaces the hairline,
- * 2px up; no transform under reduced motion) and draws the focus ring; a card with a cover adds elevation 2 to the ring.
+ * 2px up on the spring) and presses to 0.97; both respect reduced motion. It draws the focus ring; a card with a cover
+ * adds elevation 2 to the ring.
  */
 export const cardTargetVariants = cva([
   'cursor-pointer text-left no-underline outline-none',
-  'transition-[transform,box-shadow,background-color] duration-base ease-spring',
-  'hover:-translate-y-0.5 hover:shadow-[var(--cs-elevation-lift)]',
-  'motion-reduce:transition-[box-shadow,background-color] motion-reduce:hover:translate-y-0',
+  'transition-[translate,scale,box-shadow,background-color] duration-spring ease-spring',
+  'lift press',
+  'hover:shadow-[var(--cs-elevation-lift)]',
   'focus-visible:shadow-focus',
   'has-[[data-slot=card-cover]]:hover:shadow-[var(--cs-elevation-lift)] has-[[data-slot=card-cover]]:focus-visible:shadow-[var(--cs-focus),var(--cs-elevation-2)]',
 ]);
 
 /** The dashed add card answers with the neutral hover fill instead of the lift; a neutral one also lifts its label to primary text. */
-export const cardAddTargetVariants = cva('cursor-pointer transition-colors duration-quick hover:bg-neutral-hover focus-visible:shadow-focus', {
+export const cardAddTargetVariants = cva('cursor-pointer transition-control press hover:bg-neutral-hover focus-visible:shadow-focus', {
   variants: { neutral: { true: 'hover:text-text-primary', false: '' } },
 });
 
@@ -261,14 +263,13 @@ export const cardVisualVariants = cva('mt-auto grid min-h-feature-visual-min fle
 /** Link card: arrow-up-right at the trailing end of the header; nudges on card hover. */
 export const cardArrowVariants = cva([
   'inline-flex size-icon-sm flex-none text-text-tertiary hover:text-text-primary [&_svg]:size-full',
-  'transition-[transform,color] duration-base ease-spring',
+  'transition-[translate,color] duration-spring ease-spring',
   'group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 group-hover/card:text-text-primary',
-  'motion-reduce:group-hover/card:translate-x-0 motion-reduce:group-hover/card:translate-y-0',
 ]);
 
 /** Choice card: the decorative radio (or checkbox) mark; it fills with the accent solid slot when the card is checked. */
 export const cardIndicatorVariants = cva([
-  'pointer-events-none inline-grid size-check flex-none place-items-center rounded-full bg-surface-base text-accent-on [&_svg]:size-3',
+  'pointer-events-none inline-grid size-check flex-none place-items-center rounded-full bg-surface-base text-accent-on transition-control [&_svg]:size-3',
   'shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
   'group-data-[type=checkbox]/card:rounded-sm',
   'group-data-[state=checked]/card:bg-accent-solid group-data-[state=checked]/card:shadow-none',

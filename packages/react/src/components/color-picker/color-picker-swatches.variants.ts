@@ -28,7 +28,7 @@ export const colorPickerSwatchVariants = cva(
   [
     'relative aspect-square min-w-0 cursor-pointer rounded-sm bg-(--swatch) outline-none',
     'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
-    'transition-shadow duration-120 ease-out',
+    'transition-control',
     // Checked draws no ring or border of its own: the check alone overlays the swatch (owner 2026-10-28). Keyboard focus
     // keeps the focus ring, checked or not.
     'focus-visible:shadow-focus',

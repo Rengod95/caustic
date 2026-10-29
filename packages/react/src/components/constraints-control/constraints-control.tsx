@@ -174,7 +174,7 @@ function ConstraintSelect<T extends string>({ slot, label, icon, options, value,
               onClick={() => { onPick(v); setOpen(false); }}
             >
               {name}
-              {!mixed && v === value && <Check data-slot="constraints-control-option-check" aria-hidden className="size-icon-xs shrink-0 stroke-[1.75]" />}
+              {!mixed && v === value && <Check data-slot="constraints-control-option-check" aria-hidden className="size-icon-xs shrink-0 stroke-[1.75] animate-pop" />}
             </button>
           ))}
         </div>

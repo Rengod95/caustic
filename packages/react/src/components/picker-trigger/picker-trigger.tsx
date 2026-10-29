@@ -46,7 +46,7 @@ export function PickerTrigger({ tone, variant, radius, shadow, size, indicator =
       {hasValue
         ? <span data-slot="picker-trigger-value" className="min-w-0 flex-1 truncate">{children}</span>
         : <span data-slot="picker-trigger-placeholder" className="min-w-0 flex-1 truncate text-text-placeholder">{placeholder}</span>}
-      <span data-slot="picker-trigger-indicator" aria-hidden="true" className="inline-flex shrink-0 items-center text-text-tertiary [&_svg]:size-icon-sm"><Indicator /></span>
+      <span data-slot="picker-trigger-indicator" aria-hidden="true" className={cn('inline-flex shrink-0 items-center text-text-tertiary [&_svg]:size-icon-sm', indicator === 'dropdown' && 'transition-[rotate] duration-snappy ease-snappy group-data-[state=open]:rotate-180')}><Indicator /></span>
     </Comp>
   );
 }

@@ -13,7 +13,7 @@ export const selectOptionVariants = cva([
 ]);
 
 /** Trailing check of the chosen option, at the menu end position. Secondary text, which reads selection.on-secondary on the inverted option; disabled colour. */
-export const selectCheckVariants = cva('ml-auto inline-flex shrink-0 items-center text-text-secondary group-data-[disabled]:text-disabled-text [&_svg]:size-icon-sm [&_svg]:stroke-[2]');
+export const selectCheckVariants = cva('ml-auto inline-flex shrink-0 items-center text-text-secondary group-data-[disabled]:text-disabled-text animate-pop [&_svg]:size-icon-sm [&_svg]:stroke-[2]');
 
 /**
  * Common props (owner 2026-10-26). The listbox is the shared Menu surface, so tone / variant / radius / shadow are

@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 /** Name and size of a frame, written above it. Artboard labels are canvas.label with a diamond (canvas.selection when selected); frame labels are quieter. */
-export const frameLabelVariants = cva('pointer-events-none absolute top-(--rect-t) left-(--rect-l) flex items-center text-ui-xs font-medium whitespace-nowrap', {
+export const frameLabelVariants = cva('pointer-events-none absolute top-(--rect-t) left-(--rect-l) flex items-center text-ui-xs font-medium whitespace-nowrap transition-colors duration-quick ease-standard', {
   variants: {
     kind: {
       artboard: 'gap-1.25 text-canvas-label',

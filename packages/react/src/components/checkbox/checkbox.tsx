@@ -36,7 +36,7 @@ export function Checkbox({
     >
       <span data-slot="checkbox-indicator" aria-hidden className="col-start-1 row-start-1 inline-grid place-items-center">
         {on && <Check className={cn(checkboxMarkVariants({ size }))} />}
-        {mixed && <span className="h-0.5 w-2 rounded-xs bg-current" />}
+        {mixed && <span className="h-0.5 w-2 rounded-xs bg-current animate-pop" />}
       </span>
     </button>
   );

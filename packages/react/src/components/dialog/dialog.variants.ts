@@ -16,10 +16,12 @@ export const dialogVariants = cva(
   'glass text-text-primary outline-none',
   {
     variants: {
+      // Motion by placement: a centred dialog fades in at gentle from the centre (scale 0.96); a side sheet slides in from
+      // its edge on the drawer curve (enter gentle, exit base).
       placement: {
-        center: 'w-full',
-        right: 'z-60 inset-y-2.5 right-2.5',
-        bottom: 'z-60 inset-x-2 bottom-2 max-h-[70dvh]',
+        center: 'w-full data-[state=open]:animate-enter-dialog data-[state=closed]:animate-exit enter-scale',
+        right: 'z-60 inset-y-2.5 right-2.5 data-[state=open]:animate-enter-panel data-[state=closed]:animate-exit-panel enter-from-end',
+        bottom: 'z-60 inset-x-2 bottom-2 max-h-[70dvh] data-[state=open]:animate-enter-panel data-[state=closed]:animate-exit-panel enter-from-bottom',
       },
       frame: { compact: 'grid gap-3 px-inset-regular-x py-inset-regular-y', sectioned: 'flex flex-col overflow-hidden' },
       kind: { dialog: '', alert: '' },

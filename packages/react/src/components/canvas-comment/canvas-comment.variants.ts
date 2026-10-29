@@ -15,7 +15,7 @@ export const canvasCommentVariants = cva('relative inline-flex items-start gap-1
  */
 export const canvasCommentPinVariants = cva(
   [
-    'inline-grid shrink-0 cursor-pointer place-items-center rounded-toolbar rounded-bl-xs font-ui font-semibold select-none',
+    'inline-grid shrink-0 cursor-pointer place-items-center rounded-toolbar rounded-bl-xs font-ui font-semibold select-none transition-[scale] duration-quick ease-out',
     'shadow-[0_0_0_2px_var(--pin-ring),var(--pin-elev)]',
     'outline-none focus-visible:shadow-focus',
   ],
@@ -44,10 +44,10 @@ export const canvasCommentPinVariants = cva(
         '5': '[--pin-elev:var(--cs-elevation-5)]',
       },
       size: {
-        xs: 'size-control-2xs text-micro',
-        sm: 'size-control-xs text-micro',
-        md: 'size-control-sm text-micro',
-        lg: 'size-control-md text-ui-sm',
+        xs: 'size-control-2xs text-micro press-sm',
+        sm: 'size-control-xs text-micro press-sm',
+        md: 'size-control-sm text-micro press-sm',
+        lg: 'size-control-md text-ui-sm press',
       },
       radius: { none: '', '2xs': '', xs: '', sm: '', md: '', lg: '', xl: '', '2xl': '', '3xl': '', '4xl': '', full: '' },
     },
@@ -75,7 +75,7 @@ export const canvasCommentOrbVariants = cva('', {
  * colour (author variants below). radius is applied by the part with radiusClass (the tail corner stays square).
  * placed = a rect relative to the comment root replaces the place beside the pin.
  */
-export const canvasCommentBubbleVariants = cva('-mt-0.5 max-w-comment-max rounded-toolbar rounded-bl-none font-ui text-text-primary', {
+export const canvasCommentBubbleVariants = cva('animate-enter enter-scale origin-bottom-left -mt-0.5 max-w-comment-max rounded-toolbar rounded-bl-none font-ui text-text-primary', {
   variants: {
     placed: { true: 'absolute top-(--rect-t) left-(--rect-l) mt-0', false: '' },
     surface: {

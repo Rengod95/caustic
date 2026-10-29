@@ -41,11 +41,11 @@ export const activityTreeVariants = cva('grid gap-3.5', {
 
 
 /** List rows: glyph column, text, auto meta column. */
-export const activityStepVariants = cva('grid grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 text-text-primary', {
+export const activityStepVariants = cva('grid animate-rise grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 text-text-primary', {
   variants: { size: { xs: 'min-h-6 text-ui-xs', sm: 'min-h-6 text-ui-sm', md: 'min-h-7 text-ui-dense', lg: 'min-h-8 text-ui' } },
   defaultVariants: { size: 'md' },
 });
-export const activityCallVariants = cva('grid grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 pl-check text-text-secondary', {
+export const activityCallVariants = cva('grid animate-rise grid-cols-[var(--cs-size-check)_1fr_auto] items-center gap-2 pl-check text-text-secondary', {
   variants: { size: { xs: 'min-h-6 text-ui-xs', sm: 'min-h-6 text-ui-sm', md: 'min-h-7 text-ui-dense', lg: 'min-h-8 text-ui' } },
   defaultVariants: { size: 'md' },
 });
@@ -55,7 +55,7 @@ export const activityLabelVariants = cva('', {
   defaultVariants: { status: 'done' },
 });
 
-export const activityStepGlyphVariants = cva('grid size-icon-md place-items-center [&_svg]:size-icon-sm', {
+export const activityStepGlyphVariants = cva('grid size-icon-md animate-pop place-items-center [&_svg]:size-icon-sm', {
   variants: { failed: { true: 'text-danger-text', false: 'text-success-text' } },
   defaultVariants: { failed: false },
 });

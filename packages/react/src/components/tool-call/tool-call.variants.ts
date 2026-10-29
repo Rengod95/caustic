@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // no hairline; soft = neutral.well, no hairline; ghost = no fill, no hairline. status draws over it: running = the agent
 // rim with elevation 1, failed = the danger.border edge. Header and body share the card's one background (owner 2026-10-28:
 // no separator, no second fill).
-export const toolCallVariants = cva('relative overflow-hidden rounded-xl text-text-primary', {
+export const toolCallVariants = cva('relative overflow-hidden rounded-xl text-text-primary transition-control', {
   variants: {
     variant: {
       outline: 'bg-surface-base [--card-edge:var(--cs-color-border-subtle)]',

@@ -85,7 +85,7 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
             </PickerTrigger>
           </RS.Trigger>
           <RS.Portal>
-            <RS.Content data-slot="select" position="popper" sideOffset={6} className={cn(surface, 'z-60 min-w-[var(--radix-select-trigger-width)] max-h-(--radix-select-content-available-height) overflow-y-auto', listboxClassName)}>
+            <RS.Content data-slot="select" position="popper" sideOffset={6} className={cn(surface, 'z-60 min-w-[var(--radix-select-trigger-width)] max-h-(--radix-select-content-available-height) origin-(--radix-select-content-transform-origin) overflow-y-auto', listboxClassName)}>
               <RS.Viewport>{children}</RS.Viewport>
             </RS.Content>
           </RS.Portal>

@@ -5,7 +5,9 @@ import { cva } from 'class-variance-authority';
 // with a 1px tone.border edge and elevation 3; ghost = surface.raised, elevation only. The text and the shortcut sit 12px apart
 // (8px at xs) so "Undo ⌘Z" does not read as one word (owner 2026-10-28).
 export const tooltipVariants = cva(
-  'group z-60 inline-flex items-center gap-3 whitespace-nowrap rounded-md bg-(--tip-bg) font-ui shadow-3 select-none',
+  // The tooltip state is delayed-open (a first open after the hover delay), instant-open (moving between tooltips, not animated)
+  // or closed. Only the delayed open enters; the exit runs on closed.
+  'group z-60 inline-flex items-center gap-3 whitespace-nowrap rounded-md bg-(--tip-bg) font-ui shadow-3 select-none data-[state=delayed-open]:animate-enter data-[state=closed]:animate-exit enter-scale enter-from-side origin-(--radix-tooltip-content-transform-origin)',
   {
     variants: {
       tone: {

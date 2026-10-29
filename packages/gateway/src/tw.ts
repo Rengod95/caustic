@@ -16,6 +16,7 @@ export async function twCompiler() {
 }
 
 const escapeClass = (c: string) => c.replace(/[^a-zA-Z0-9_-]/g, m => '\\' + m);
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 /** Returns the classes that produce no CSS (not backed by the Caustic theme). */
 export async function unknownClasses(candidates: string[]): Promise<string[]> {
@@ -26,7 +27,9 @@ export async function unknownClasses(candidates: string[]): Promise<string[]> {
     if (/^(group|peer)(\/[a-z0-9-]+)?$/.test(cand)) continue;
     const out = c.build([cand]);
     const bare = cand.split(':').pop()!.replace(/^!/, '');
-    if (!out.includes('.' + escapeClass(cand)) && !out.includes(escapeClass(bare))) unknown.push(cand);
+    // The bare class as a whole selector token (after "." or an escaped colon): --cs-duration-base does not count.
+    const selector = new RegExp(`(?:\\.|\\\\:)${escapeRe(escapeClass(bare))}(?![a-zA-Z0-9_-]|\\\\)`);
+    if (!out.includes('.' + escapeClass(cand)) && !selector.test(out)) unknown.push(cand);
   }
   return unknown;
 }

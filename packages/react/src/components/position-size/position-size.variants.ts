@@ -56,7 +56,7 @@ export const positionSizeTurnRow = cva('flex items-center justify-between gap-1.
 // second value. A mode glyph and the label name the mode; no hue encodes it.
 export const positionSizeMode = cva(
   [
-    '-mr-1 inline-flex h-control-compact-2xs cursor-pointer items-center gap-0.5 rounded-xs px-1.25 text-ui-xs font-medium outline-none',
+    '-mr-1 inline-flex h-control-compact-2xs cursor-pointer items-center gap-0.5 rounded-xs px-1.25 text-ui-xs font-medium outline-none transition-control',
     'bg-neutral-tint text-text-tertiary hover:bg-neutral-hover hover:text-text-primary active:bg-neutral-pressed',
     'focus-visible:shadow-focus',
     '[&_svg]:text-neutral-graphic disabled:[&_svg]:text-disabled-text',
@@ -74,6 +74,7 @@ export const positionSizeMode = cva(
  *  like the mode pills, tertiary text and neutral.graphic glyphs, neutral.hover and primary text under the pointer; on,
  *  they take the chip's neutral selection, which re-points both. */
 export const positionSizeFlip = cva([
+  'transition-control',
   'not-aria-pressed:not-disabled:bg-neutral-tint not-aria-pressed:not-disabled:hover:bg-neutral-hover not-aria-pressed:not-disabled:active:bg-neutral-pressed',
   'not-aria-pressed:not-disabled:text-text-tertiary not-aria-pressed:not-disabled:[&_svg]:text-neutral-graphic not-aria-pressed:not-disabled:hover:text-text-primary',
 ]);

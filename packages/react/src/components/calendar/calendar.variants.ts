@@ -58,7 +58,7 @@ export const calendarHeaderVariants = cva('flex items-center justify-between px-
 
 /** The title is a button that opens the month/year picker: the month title plus a small chevron, neutral.hover on hover. */
 export const calendarTitleVariants = cva(
-  'inline-flex h-control-xs items-center gap-1 rounded-md px-1.5 text-ui-md text-text-primary outline-none hover:bg-neutral-hover focus-visible:focus-ring data-[state=open]:bg-neutral-hover',
+  'group inline-flex h-control-xs items-center gap-1 rounded-md px-1.5 text-ui-md text-text-primary outline-none transition-control hover:bg-neutral-hover focus-visible:focus-ring data-[state=open]:bg-neutral-hover',
 );
 
 /** No column gap: the range span is one continuous box per week. The rows keep a 2px gap. */
@@ -77,7 +77,7 @@ export const calendarWeekdayVariants = cva('grid h-control-xs place-items-center
  */
 export const calendarDayVariants = cva(
   [
-    'group relative rounded-md tabular-nums text-text-primary outline-none',
+    'group relative rounded-md tabular-nums text-text-primary outline-none transition-control',
     'not-data-[today]:hover:bg-neutral-hover focus-visible:z-10 focus-visible:focus-ring',
     'data-[today]:not-data-[selected]:not-data-[in-range]:bg-neutral-track data-[today]:not-data-[selected]:not-data-[in-range]:hover:bg-neutral-selected',
     'data-[in-range]:not-disabled:selected data-[in-range]:hover:bg-selection-fill-hover',
@@ -114,5 +114,5 @@ export const calendarPickerColumnVariants = cva('relative grid max-h-listbox-max
 
 /** A month or year row: 32px, md radius, neutral.hover on hover; the shown month and year use the selected utility. */
 export const calendarPickerOptionVariants = cva(
-  'flex h-control-md shrink-0 cursor-default select-none items-center rounded-md px-2.5 text-ui tabular-nums text-text-primary outline-none hover:bg-neutral-hover focus-visible:focus-ring data-[selected]:selected data-[selected]:hover:bg-selection-fill-hover',
+  'flex h-control-md shrink-0 cursor-default select-none items-center rounded-md px-2.5 text-ui tabular-nums text-text-primary outline-none transition-control hover:bg-neutral-hover focus-visible:focus-ring data-[selected]:selected data-[selected]:hover:bg-selection-fill-hover',
 );

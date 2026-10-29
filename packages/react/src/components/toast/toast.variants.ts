@@ -9,9 +9,10 @@ import { cva } from 'class-variance-authority';
 export const toastVariants = cva(
   [
     'flex min-h-toast-min min-w-0 items-center gap-3 rounded-toast py-2.5 pl-3.5 font-ui text-ui text-text-primary',
-    'transition-[opacity,translate] duration-480 ease-spring starting:translate-y-2 starting:opacity-0',
-    'data-[state=closed]:translate-y-2 data-[state=closed]:opacity-0 data-[state=closed]:duration-320 data-[state=closed]:ease-out',
-    'motion-reduce:translate-y-0 motion-reduce:starting:translate-y-0 motion-reduce:data-[state=closed]:translate-y-0',
+    // Enter (gentle, ease-out) from the starting style; exit (base) when Toaster sets data-state=closed. The store removes
+    // the toast after the same base duration (toast.store.ts reads it). Reduced motion is global, so no variant is needed.
+    'transition-[opacity,translate] duration-gentle ease-out starting:translate-y-2 starting:opacity-0',
+    'data-[state=closed]:translate-y-2 data-[state=closed]:opacity-0 data-[state=closed]:duration-base data-[state=closed]:ease-out',
   ],
   {
     variants: {

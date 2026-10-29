@@ -27,7 +27,7 @@ export const zoomControlVariants = cva(
 export const zoomButtonVariants = cva(
   [
     'inline-grid shrink-0 place-items-center select-none rounded-toolbar-item bg-transparent text-text-secondary',
-    'transition-[background-color,box-shadow,color] duration-120 ease-out',
+    'transition-control',
     // Pressed reads as neutral.pressed (owner 2026-10-28): the canvas may apply the zoom late, so the button answers the press itself.
     'outline-none hover:bg-neutral-hover hover:text-text-primary active:bg-neutral-pressed focus-visible:shadow-focus',
     'disabled:pointer-events-none disabled:text-disabled-text',
@@ -47,7 +47,7 @@ export const zoomReadoutVariants = cva(
       readout: {
         menu: [
           'gap-1 rounded-toolbar-item bg-transparent pl-2.5 pr-1.5 text-mono-strong select-none',
-          'transition-[background-color,box-shadow] duration-120 ease-out outline-none hover:bg-neutral-hover focus-visible:shadow-focus',
+          'transition-control outline-none hover:bg-neutral-hover focus-visible:shadow-focus',
         ],
         static: 'h-control-inline px-1 text-mono-md',
       },

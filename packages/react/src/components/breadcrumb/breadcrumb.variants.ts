@@ -22,7 +22,7 @@ const corner = {
 // The ancestor just before the current page takes text.secondary (owner 2026-10-27, A): the likeliest step back stands out
 // from the tertiary trail. Hover still lifts every item to primary.
 export const breadcrumbItem = cva(
-  'inline-flex items-center gap-1.5 rounded-sm text-text-tertiary no-underline outline-none transition-[background-color,color] duration-120 ease-out group-data-[parent=true]/crumb:not-hover:text-text-secondary hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
+  'inline-flex items-center gap-1.5 rounded-sm text-text-tertiary no-underline outline-none transition-control group-data-[parent=true]/crumb:not-hover:text-text-secondary hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
   { variants: { size: pad, radius: corner }, defaultVariants: { size: 'md', radius: 'sm' } },
 );
 

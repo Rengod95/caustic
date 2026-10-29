@@ -24,7 +24,7 @@ export const toggleGroupVariants = cva(
 export const toggleGroupItem = cva(
   [
     'inline-grid shrink-0 place-items-center rounded-md bg-transparent text-text-secondary',
-    'transition-[color,background-color,box-shadow] duration-base ease-out outline-none',
+    'transition-control outline-none',
     // An off item hovers as a neutral.hover well inside the track (owner 2026-10-28): text colour alone was too weak a cue on a 32px icon target.
     'hover:text-text-primary data-[state=off]:hover:bg-neutral-hover focus-visible:shadow-focus',
     // On = the segment thumb (control family): raised fill + control edge.
@@ -45,7 +45,8 @@ export const toggleGroupItem = cva(
         info: 'data-[state=on]:text-info-text',
         agent: 'data-[state=on]:text-agent-text',
       },
-      size: { xs: 'size-control-xs', sm: 'size-control-sm', md: 'size-control-md', lg: 'size-control-lg' },
+      // Icon targets at 28px and under press to 0.94 (press-sm); larger ones to 0.97.
+      size: { xs: 'size-control-xs press-sm', sm: 'size-control-sm press-sm', md: 'size-control-md press', lg: 'size-control-lg press' },
     },
     defaultVariants: { tone: 'neutral', size: 'md' },
   },

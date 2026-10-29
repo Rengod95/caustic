@@ -6,11 +6,12 @@ export const suggestionsVariants = cva('grid grid-cols-[repeat(auto-fit,minmax(v
 // variant: glass = thin floating glass (the specimen); solid = tone.solid card with tone.on text; soft = tone.soft card;
 // outline = transparent card with a tone.border hairline; ghost = no fill until hover. tone colours the icon on glass, soft
 // and outline, and the whole card on solid. shadow drives the glass elevation (glass-shadow) and the plain shadow alike.
+// Cards rise in as a group (Suggestions sets --cs-stagger-index). The hover lift and the press are springs: they move
+// position and scale only, so the colour changes snap.
 export const suggestionVariants = cva(
   [
-    'grid min-w-0 cursor-pointer gap-1 rounded-toolbar px-3 py-2.5 text-left text-ui-dense text-text-primary',
-    'outline-none transition-transform duration-base ease-spring hover:-translate-y-0.5 focus-visible:shadow-focus',
-    'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
+    'animate-rise stagger grid min-w-0 cursor-pointer gap-1 rounded-toolbar px-3 py-2.5 text-left text-ui-dense text-text-primary',
+    'outline-none transition-[translate,scale] ease-spring duration-spring lift press focus-visible:shadow-focus',
   ],
   {
     variants: {

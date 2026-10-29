@@ -105,7 +105,7 @@ export function AccordionTrigger({ icon, accessory, className, children, ...prop
             )}
           >{accessory}</span>
         ) : null}
-        <ChevronDown data-slot="accordion-chevron" aria-hidden className={cn('ms-auto size-icon-md transition-transform duration-base ease-out group-data-[state=open]:rotate-180', accordionGlyphVariants({ tone }))} />
+        <ChevronDown data-slot="accordion-chevron" aria-hidden className={cn('ms-auto size-icon-md transition-[rotate] duration-base ease-out group-data-[state=open]:rotate-180', accordionGlyphVariants({ tone }))} />
       </A.Trigger>
     </A.Header>
   );
@@ -114,7 +114,11 @@ export function AccordionTrigger({ icon, accessory, className, children, ...prop
 export interface AccordionContentProps extends ComponentProps<typeof A.Content> {}
 
 /** Stays in the DOM (hidden) while closed so its text remains searchable and measurable. */
-export function AccordionContent({ className, ...props }: AccordionContentProps) {
+export function AccordionContent({ className, children, ...props }: AccordionContentProps) {
   const { variant } = useContext(LookCtx);
-  return <A.Content forceMount data-slot="accordion-content" className={cn(accordionContentVariants({ variant }), className)} {...props} />;
+  return (
+    <A.Content forceMount data-slot="accordion-content" className={cn(accordionContentVariants({ variant }), className)} {...props}>
+      <div className="min-h-0 overflow-hidden">{children}</div>
+    </A.Content>
+  );
 }

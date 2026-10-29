@@ -55,5 +55,5 @@ export function TabsTrigger({ count, disabled, className, children, ...props }: 
 }
 
 export function TabsContent({ className, ...props }: ComponentProps<typeof T.Content>) {
-  return <T.Content data-slot="tabs-panel" className={cn('outline-none focus-visible:shadow-focus', className)} {...props} />;
+  return <T.Content data-slot="tabs-panel" className={cn('animate-rise outline-none focus-visible:shadow-focus', className)} {...props} />;
 }

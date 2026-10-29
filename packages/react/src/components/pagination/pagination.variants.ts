@@ -21,7 +21,7 @@ export const paginationVariants = cva('items-center font-ui', {
 export const paginationButton = cva([
   'inline-flex items-center justify-center gap-1 px-2',
   'font-ui tabular-nums text-text-secondary outline-none select-none',
-  'transition-[background-color,color,box-shadow] duration-120 ease-out',
+  'transition-control press',
   'hover:text-text-primary focus-visible:shadow-focus',
   'disabled:pointer-events-none disabled:bg-transparent disabled:text-disabled-text disabled:shadow-none',
   'aria-[current=page]:bg-control-raised aria-[current=page]:font-semibold aria-[current=page]:text-text-primary',

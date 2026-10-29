@@ -27,10 +27,11 @@
   ],
   "durations": [
     0,
-    120,
+    100,
+    150,
     200,
-    320,
-    480,
+    250,
+    400,
     700,
     1400,
     1600,
@@ -38,6 +39,17 @@
     2400,
     2600,
     4800
+  ],
+  "durationNames": [
+    "instant",
+    "quick",
+    "swift",
+    "base",
+    "gentle",
+    "slow",
+    "snappy",
+    "spring",
+    "bounce"
   ],
   "zIndex": [
     0,

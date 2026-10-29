@@ -58,7 +58,7 @@ export const listDescriptionFrameVariants = cva('', {
 export const listDescriptionRow = cva(
   [
     'group grid grid-cols-[var(--cs-size-list-term)_minmax(0,1fr)_auto] items-center gap-3 font-ui text-text-primary',
-    'transition-[background-color] duration-120 ease-out hover:bg-neutral-hover',
+    'transition-colors duration-quick ease-standard hover:bg-neutral-hover',
     'not-first:border-t not-first:border-border-subtle',
     'max-[480px]:grid-cols-[1fr_auto]',
   ],

@@ -340,7 +340,7 @@ function deriveComponent(spec: ComponentSpec, entry: CatalogEntry, impl: Record<
 /** Token names an author writes after a utility prefix, grouped. Read from the built Tailwind theme and allowlist. */
 function deriveTokens(): Record<string, string[]> {
   const css = readFileSync(join(tokensDist, 'theme.css'), 'utf8');
-  const allow = readJson(join(tokensDist, 'allowlist.json')) as { spacingSteps: number[]; durations: number[]; fontWeights: string[] };
+  const allow = readJson(join(tokensDist, 'allowlist.json')) as { spacingSteps: number[]; durationNames: string[]; fontWeights: string[] };
   const theme = css.slice(css.indexOf('@theme'), css.indexOf('\n}', css.indexOf('@theme')));
   const ns = (prefix: string) => [...theme.matchAll(new RegExp(`^\\s*--${prefix}-([a-z0-9][a-z0-9-]*?)(?:--[a-z-]+)?:`, 'gm'))].map(m => m[1] ?? '');
   const uniq = (xs: string[]) => [...new Set(xs)];
@@ -354,7 +354,7 @@ function deriveTokens(): Record<string, string[]> {
     shadow: uniq(ns('shadow')),
     text: uniq(ns('text')),
     font: uniq([...ns('font'), ...allow.fontWeights]),
-    motion: uniq([...[...allow.durations].sort(byNumber).map(ms => `duration-${ms}`), ...ns('ease').map(n => `ease-${n}`), ...ns('animate').map(n => `animate-${n}`)]),
+    motion: uniq([...allow.durationNames.map(n => `duration-${n}`), ...ns('ease').map(n => `ease-${n}`), ...ns('animate').map(n => `animate-${n}`)]),
     material: uniq(utilities),
   };
 }

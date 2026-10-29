@@ -16,6 +16,25 @@ interface ClassUse { cls: string; file: string; line: number; context: string }
 
 export const pascal = (id: string) => id.split('-').map(s => s[0]!.toUpperCase() + s.slice(1)).join('');
 
+/**
+ * Motion classes in one class string that move scale, translate or rotate, against the arbitrary transition lists in the
+ * same string: a list that names transform but not the property moves nothing (Tailwind 4 writes them as their own properties).
+ */
+export function motionGaps(utils: string[]): { cls: string; kind: 'scale' | 'translate' | 'rotate'; transition: string }[] {
+  const moves = new Map<'scale' | 'translate' | 'rotate', string>();
+  for (const u of utils) {
+    const kind = /^scale-|^press(-sm)?$/.test(u) ? 'scale' : /^-?translate-|^lift$/.test(u) ? 'translate' : /^-?rotate-/.test(u) ? 'rotate' : undefined;
+    if (kind && !moves.has(kind)) moves.set(kind, u);
+  }
+  const gaps: { cls: string; kind: 'scale' | 'translate' | 'rotate'; transition: string }[] = [];
+  for (const u of utils) {
+    const list = u.match(/^transition-\[(.+)\]$/)?.[1]?.split(',');
+    if (!list?.includes('transform')) continue;
+    for (const [kind, cls] of moves) if (!list.includes(kind)) gaps.push({ cls, kind, transition: u });
+  }
+  return gaps;
+}
+
 export async function g2(c: Collector, spec: ComponentSpec) {
   const dir = join(componentsDir, spec.id);
   if (!existsSync(dir)) { c.fail({ gate: 'G2', check: 'files', message: `components/${spec.id}/ does not exist.` }); return; }
@@ -38,12 +57,15 @@ export async function g2(c: Collector, spec: ComponentSpec) {
     if (file === main && !/^['"]use client['"]/.test(text.trimStart())) c.fail({ gate: 'G2', check: 'use-client', where: rel, message: 'Component module must start with "use client".' });
 
     const collectStrings = (n: ts.Node, context: string) => {
+      const COMPARE = [ts.SyntaxKind.EqualsEqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsEqualsToken, ts.SyntaxKind.EqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsToken];
       const visit = (m: ts.Node) => {
+        // Arguments of another call (variants({ size: 'md' })) and comparison operands ((tone ?? 'neutral') === 'neutral')
+        // are values that pick classes, not classes.
+        if (m !== n && ts.isCallExpression(m) && !(ts.isIdentifier(m.expression) && m.expression.text === 'cn')) return;
+        if (ts.isBinaryExpression(m) && COMPARE.includes(m.operatorToken.kind)) return;
         if (ts.isStringLiteral(m) || ts.isNoSubstitutionTemplateLiteral(m)) {
           // Object keys are names, except in cn({ 'class': condition }).
           if (ts.isPropertyAssignment(m.parent) && m.parent.name === m && context !== 'cn') return;
-          // Operands of comparisons (orientation === 'horizontal') are values, not classes.
-          if (ts.isBinaryExpression(m.parent) && [ts.SyntaxKind.EqualsEqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsEqualsToken, ts.SyntaxKind.EqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsToken].includes(m.parent.operatorToken.kind)) return;
           if (ts.isCaseClause(m.parent)) return;
           for (const cls of m.text.split(/\s+/).filter(Boolean)) uses.push({ cls, file: rel, line: lineOf(m), context });
         } else if (ts.isTemplateExpression(m)) {
@@ -119,6 +141,7 @@ export async function g2(c: Collector, spec: ComponentSpec) {
 
   // Class rules
   const tw: string[] = [];
+  const byLine = new Map<string, string[]>(); // the utilities of one class string (file:line), for motion-property
   for (const u of uses) {
     const where = `${u.file}:${u.line}`;
     const parts = u.cls.split(':'); const util = parts.pop()!.replace(/^!/, ''); const variants = parts;
@@ -144,13 +167,17 @@ export async function g2(c: Collector, spec: ComponentSpec) {
     }
     const num = util.match(/^-?(p|px|py|pt|pr|pb|pl|ps|pe|m|mx|my|mt|mr|mb|ml|gap|gap-x|gap-y|space-x|space-y|inset|inset-x|inset-y|top|right|bottom|left|w|h|size|min-w|min-h|max-w|max-h)-(\d+(?:\.\d+)?)$/);
     if (num && !t.allow.spacingSteps.includes(Number(num[2]))) c.fail({ gate: 'G2', check: 'space-scale', where, message: `"${u.cls}" = ${Number(num[2]) * 4}px is off the space scale (${t.allow.spacingSteps.map(s => s * 4).join(', ')}).`, fix: 'Use a scale step or a named token (px-inset-regular-x, h-field-md…).' });
-    const dur = util.match(/^duration-(\d+)$/); if (dur && !t.allow.durations.includes(Number(dur[1]))) c.fail({ gate: 'G2', check: 'motion-token', where, message: `"${u.cls}" is not a duration token (${t.allow.durations.join(', ')}).` });
+    const dur = util.match(/^(duration|delay)-\d+$/); if (dur) c.fail({ gate: 'G2', check: 'motion-token', where, message: `"${u.cls}" hard-codes a duration; use duration-quick|swift|base|gentle|slow or a spring (duration-snappy…).` });
     const z = util.match(/^-?z-(\d+)$/); if (z && !t.allow.zIndex.includes(Number(z[1]))) c.fail({ gate: 'G2', check: 'z-token', where, message: `"${u.cls}" is not a z-index token (${t.allow.zIndex.join(', ')}).` });
     const op = util.match(/^opacity-(\d+)$/); if (op && !t.allow.opacity.includes(Number(op[1]))) c.fail({ gate: 'G2', check: 'opacity-token', where, message: `"${u.cls}" is not an opacity token (${t.allow.opacity.join(', ')}).` });
     const fw = util.match(/^font-(thin|extralight|light|bold|extrabold|black)$/); if (fw) c.fail({ gate: 'G2', check: 'font-weight', where, message: `"${u.cls}": weights come from type roles (400/500/600).` });
     if (/^(bg|text|border|ring|outline|fill|stroke|shadow|from|to|via|decoration|accent|caret|divide)-[a-z0-9-]+\/\d+$/.test(util)) c.fail({ gate: 'G2', check: 'color-alpha', where, message: `"${u.cls}" adds alpha to a token. Alpha lives in tokens.` });
     tw.push(u.cls);
+    if (!byLine.has(where)) byLine.set(where, []);
+    byLine.get(where)!.push(util);
   }
+  for (const [where, utils] of byLine) for (const g of motionGaps(utils))
+    c.fail({ gate: 'G2', check: 'motion-property', where, message: `"${g.cls}" moves ${g.kind}, but "${g.transition}" lists transform without ${g.kind}.`, fix: 'list scale/translate (Tailwind 4 writes them as their own properties) or use transition-control' });
   const unknown = await unknownClasses(tw);
   for (const cls of unknown) {
     const u = uses.find(x => x.cls === cls)!;

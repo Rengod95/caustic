@@ -19,7 +19,7 @@ import { cva } from 'class-variance-authority';
  */
 export const otpCellVariants = cva([
   'min-w-0 border-0 bg-surface-translucent p-0 text-center font-mono text-text-primary outline-none',
-  'caret-accent-solid transition-[box-shadow,background-color,color] duration-120 ease-out',
+  'caret-accent-solid transition-control',
   // The current-cell caret mark, drawn as a background image (an input has no pseudo-elements). --otp-cue is the tone colour.
   '[--otp-cue:var(--cs-color-accent-solid)] bg-center bg-no-repeat bg-[length:calc(var(--spacing)*0.5)_1em]',
   'data-[current]:not-focus:bg-[image:linear-gradient(var(--otp-cue),var(--otp-cue))]',

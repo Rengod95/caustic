@@ -9,7 +9,7 @@ export const angleDialVariants = cva(
   [
     'group/dial relative inline-block shrink-0 cursor-grab touch-none select-none rounded-full bg-neutral-well align-middle outline-none',
     'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
-    'active:cursor-grabbing focus-visible:shadow-focus',
+    'active:cursor-grabbing focus-visible:shadow-focus transition-control',
     'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
   ],
   {
@@ -65,7 +65,7 @@ const markTone = {
 // While the dial has keyboard focus the needle and hub take accent.graphic (owner 2026-10-27, proposal B): the part that
 // answers the arrow keys is marked, not only ringed.
 export const angleDialNeedleVariants = cva(
-  'pointer-events-none absolute top-1/2 left-1/2 h-0.5 origin-left rounded-2xs group-focus-visible/dial:bg-accent-graphic in-data-[disabled]:bg-disabled-text [transform:rotate(calc(var(--dial-angle)_-_90deg))]',
+  'pointer-events-none absolute top-1/2 left-1/2 h-0.5 origin-left rounded-2xs transition-colors duration-quick ease-standard group-focus-visible/dial:bg-accent-graphic in-data-[disabled]:bg-disabled-text [transform:rotate(calc(var(--dial-angle)_-_90deg))]',
   {
     variants: {
       tone: markTone,
@@ -76,7 +76,7 @@ export const angleDialNeedleVariants = cva(
 );
 
 export const angleDialHubVariants = cva(
-  'pointer-events-none absolute top-1/2 left-1/2 size-1 -translate-1/2 rounded-full group-focus-visible/dial:bg-accent-graphic in-data-[disabled]:bg-disabled-text',
+  'pointer-events-none absolute top-1/2 left-1/2 size-1 -translate-1/2 rounded-full transition-colors duration-quick ease-standard group-focus-visible/dial:bg-accent-graphic in-data-[disabled]:bg-disabled-text',
   { variants: { tone: markTone }, defaultVariants: { tone: 'neutral' } },
 );
 

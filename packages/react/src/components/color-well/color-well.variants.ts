@@ -2,7 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 export const colorWellVariants = cva(
   [
-    'relative inline-block shrink-0 overflow-hidden align-middle',
+    'relative inline-block shrink-0 overflow-hidden align-middle transition-control',
     'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
     // Selected is the ink selection ring (selection.fill) outside a surface gap; focus draws its own ring inside it, so both show.
     'data-[selected]:shadow-[0_0_0_2px_var(--cs-color-surface-base),0_0_0_3.5px_var(--cs-color-selection-fill)]',
@@ -30,7 +30,7 @@ export const colorWellVariants = cva(
  * 2px in the graphic 8, soft = a 3px mat in the soft 3, ghost = none. Disabled always draws the disabled.border hairline.
  */
 export const colorWellPaintVariants = cva(
-  'absolute inset-0 rounded-[inherit] in-aria-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'absolute inset-0 rounded-[inherit] transition-colors duration-quick ease-standard in-aria-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
   {
     variants: {
       split: { true: '[clip-path:polygon(100%_0,100%_100%,0_100%)]', false: '' },
@@ -67,12 +67,12 @@ export const colorWellPaintVariants = cva(
 
 /** Split only: the opaque top-left triangle; it repeats the disabled edge so a split well shows it on all four sides. */
 export const colorWellSolidVariants = cva(
-  'absolute inset-0 z-10 [background:var(--well-solid,var(--well-color))] [clip-path:polygon(0_0,100%_0,0_100%)] in-aria-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'absolute inset-0 z-10 transition-colors duration-quick ease-standard [background:var(--well-solid,var(--well-color))] [clip-path:polygon(0_0,100%_0,0_100%)] in-aria-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
 );
 
 /** Selected only: a check on a round surface badge with an ink (selection.fill) hairline, bottom-right above the paint, so it reads on any user colour. */
 export const colorWellCheckVariants = cva(
-  'pointer-events-none absolute right-0.5 bottom-0.5 z-20 inline-grid place-items-center rounded-full bg-surface-base text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-selection-fill)] [&_svg]:size-full [&_svg]:stroke-3',
+  'animate-enter pointer-events-none absolute right-0.5 bottom-0.5 z-20 inline-grid place-items-center rounded-full bg-surface-base text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-selection-fill)] [&_svg]:size-full [&_svg]:stroke-3',
   {
     variants: { size: { xs: 'size-2.5 p-px', sm: 'size-2.5 p-px', md: 'size-3.5 p-0.5', lg: 'size-4 p-0.5' } },
     defaultVariants: { size: 'md' },

@@ -372,7 +372,7 @@ function LayoutChoice<T extends string>({ label, options, value, mixed, mixedLab
         {text}
       </PickerTrigger>
       {isOpen && (
-        <div id={listId} data-slot="auto-layout-listbox" role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2">
+        <div id={listId} data-slot="auto-layout-listbox" role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2 animate-enter enter-scale origin-top">
           {options.map(([v, name]) => (
             <button
               key={v}
@@ -380,11 +380,11 @@ function LayoutChoice<T extends string>({ label, options, value, mixed, mixedLab
               data-slot="auto-layout-option"
               role="option"
               aria-selected={!mixed && v === value}
-              className="flex h-control-sm cursor-pointer items-center justify-between gap-2 rounded-md bg-transparent px-2 text-left outline-none hover:bg-neutral-hover focus-visible:shadow-focus aria-selected:not-disabled:selected aria-selected:not-disabled:hover:bg-selection-fill-hover"
+              className="flex h-control-sm cursor-pointer items-center justify-between gap-2 rounded-md bg-transparent px-2 text-left outline-none hover:bg-neutral-hover focus-visible:shadow-focus aria-selected:not-disabled:selected aria-selected:not-disabled:hover:bg-selection-fill-hover transition-control press"
               onClick={() => { onValueChange(v); setOpen(false); }}
             >
               {name}
-              {!mixed && v === value && <Check data-slot="auto-layout-option-check" aria-hidden className="size-icon-xs shrink-0 stroke-[1.75]" />}
+              {!mixed && v === value && <Check data-slot="auto-layout-option-check" aria-hidden className="size-icon-xs shrink-0 stroke-[1.75] animate-pop" />}
             </button>
           ))}
         </div>

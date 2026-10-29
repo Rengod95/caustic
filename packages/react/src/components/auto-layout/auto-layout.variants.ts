@@ -56,7 +56,7 @@ export const autoLayoutRow = cva('flex items-center justify-between text-footnot
 // A live illustration: flow, alignment and gap come from the value (--gap is data). Disabled drops the accent tone:
 // the dashed outline takes disabled-border; the items are neutral and keep their fill and edge.
 export const autoLayoutPreview = cva(
-  'relative flex h-layout-preview gap-(--gap) rounded-xl bg-bg-inset p-2.5 outline outline-1 outline-dashed -outline-offset-1 transition-all duration-gentle ease-spring group-aria-disabled/auto-layout:outline-disabled-border',
+  'relative flex h-layout-preview gap-(--gap) rounded-xl bg-bg-inset p-2.5 outline outline-1 outline-dashed -outline-offset-1 transition-colors duration-quick ease-standard group-aria-disabled/auto-layout:outline-disabled-border',
   {
     variants: {
       tone: {
@@ -72,7 +72,7 @@ export const autoLayoutPreview = cva(
 );
 
 export const autoLayoutPreviewItem = cva(
-  'w-toolbar-item flex-none rounded-sm bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-all duration-gentle ease-spring',
+  'w-toolbar-item flex-none rounded-sm bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
   {
     variants: {
       // The three sample heights (not the common size axis).

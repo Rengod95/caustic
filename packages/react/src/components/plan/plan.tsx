@@ -1,5 +1,6 @@
 'use client';
 import { useId, type ReactNode } from 'react';
+import { cn } from '../../lib/cn.ts';
 import { Stepper, StepperCount, StepperHeader, StepperTitle, type StepperProps, type StepperStatus, type StepperStep } from '../stepper/stepper.tsx';
 
 export interface PlanStep extends StepperStep {
@@ -21,11 +22,11 @@ export interface PlanProps extends Omit<StepperProps, 'variant' | 'orientation' 
 }
 
 /** The live checklist of what the agent will do: `<Stepper variant="checklist" tone="agent">` with the plan header. Not interactive. */
-export function Plan({ title, steps, countLabel, statusLabels, tone = 'agent', variant: _variant, ...props }: PlanProps) {
+export function Plan({ title, steps, countLabel, statusLabels, tone = 'agent', variant: _variant, className, ...props }: PlanProps) {
   const titleId = useId();
   const done = steps.filter(s => s.status === 'done').length;
   return (
-    <Stepper data-slot="plan" variant="checklist" tone={tone} aria-labelledby={titleId} steps={steps} statusLabels={{ failed: 'Failed', ...statusLabels }} {...props}>
+    <Stepper data-slot="plan" variant="checklist" tone={tone} aria-labelledby={titleId} steps={steps} statusLabels={{ failed: 'Failed', ...statusLabels }} className={cn('animate-rise', className)} {...props}>
       <StepperHeader data-slot="plan-header">
         <StepperTitle data-slot="plan-title" id={titleId}>{title}</StepperTitle>
         <StepperCount data-slot="plan-count">{countLabel(done, steps.length)}</StepperCount>

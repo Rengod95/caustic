@@ -40,13 +40,13 @@ export const tableHeadingVariants = cva('sticky top-0 z-10 whitespace-nowrap bg-
 
 /** Body row: 32 / 40 / 48 / 64px; divider.line hairline (one step lighter than border.subtle, owner 2026-10-28); hover fill;
  *  a selected row inverts (owner 2026-10-26, proposal B). */
-export const tableRowVariants = cva('border-b border-divider-line last:border-b-0 hover:bg-neutral-hover aria-selected:selected aria-selected:hover:bg-selection-fill-hover', {
+export const tableRowVariants = cva('border-b border-divider-line last:border-b-0 transition-colors duration-quick ease-standard hover:bg-neutral-hover aria-selected:selected aria-selected:hover:bg-selection-fill-hover', {
   variants: { size: { xs: 'h-8', sm: 'h-10', md: 'h-12', lg: 'h-16' } },
   defaultVariants: { size: 'md' },
 });
 
 /** Data cell: follows the row height, with matching padding and type. */
-export const tableCellVariants = cva('text-text-primary', {
+export const tableCellVariants = cva('text-text-primary transition-colors duration-quick ease-standard', {
   variants: { size: { xs: 'h-8 px-2 text-ui-sm', sm: 'h-10 px-2.5 text-ui-sm', md: 'h-12 px-3 text-ui', lg: 'h-16 px-4 text-ui-lg' } },
   defaultVariants: { size: 'md' },
 });

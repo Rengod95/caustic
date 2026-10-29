@@ -261,8 +261,8 @@ export function CardArrow({ className, ...props }: ComponentProps<'span'>) {
 export function CardIndicator({ className, ...props }: ComponentProps<'span'>) {
   return (
     <span aria-hidden data-slot="card-indicator" className={cn(cardIndicatorVariants(), className)} {...props}>
-      <span data-slot="card-indicator-dot" className="size-radio-dot rounded-full bg-accent-on opacity-0 group-data-[state=checked]/card:opacity-100 group-data-[type=checkbox]/card:hidden" />
-      <Check className="hidden opacity-0 group-data-[type=checkbox]/card:block group-data-[state=checked]/card:opacity-100" />
+      <span data-slot="card-indicator-dot" className="size-radio-dot rounded-full bg-accent-on opacity-0 group-data-[state=checked]/card:opacity-100 group-data-[state=checked]/card:animate-pop group-data-[type=checkbox]/card:hidden" />
+      <Check className="hidden opacity-0 group-data-[type=checkbox]/card:block group-data-[state=checked]/card:opacity-100 group-data-[state=checked]/card:animate-pop" />
     </span>
   );
 }
@@ -289,7 +289,7 @@ export interface CardImageProps extends ComponentProps<'img'> {}
  * card hover. In the cover layout it fills the whole card (behind the frosted content panel); in overlay, the cover.
  */
 export function CardImage({ className, alt = '', ...props }: CardImageProps) {
-  const cls = cn('absolute inset-0 size-full object-cover transition-transform duration-480 ease-out group-hover/card:scale-104 group-focus-visible/card:scale-104', className);
+  const cls = cn('absolute inset-0 size-full object-cover transition-transform duration-slow ease-out group-hover/card:scale-104 group-focus-visible/card:scale-104', className);
   if (props.src != null) return <img data-slot="card-image" alt={alt} className={cls} {...props} />;
   return <div data-slot="card-image" aria-hidden className={cls} {...(props as ComponentProps<'div'>)} />;
 }

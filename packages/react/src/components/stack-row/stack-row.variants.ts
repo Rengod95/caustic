@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // outline row. radius / shadow shape the row (null when unset keeps md and flat). size steps the row height (field-
 // compact sm / md / lg; control-md at xs) and the label type (md = 36px / ui-sm, today).
 export const stackRowVariants = cva(
-  'group/stack-row grid grid-cols-[auto_1fr_auto_auto] items-center gap-1.5 rounded-md pl-1 pr-0.5 font-ui',
+  'animate-rise transition-control group/stack-row grid grid-cols-[auto_1fr_auto_auto] items-center gap-1.5 rounded-md pl-1 pr-0.5 font-ui',
   {
     variants: {
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
@@ -44,7 +44,7 @@ export const stackRowVariants = cva(
 
 // A hidden layer (data-state=hidden) takes the disabled colour (PROPOSAL A9): name, detail, meta and icon use
 // disabled-text and the meta no longer brightens. The swatch is user paint (content), so it only steps back to 64 %.
-export const stackRowLeadVariants = cva('inline-flex shrink-0', {
+export const stackRowLeadVariants = cva('inline-flex shrink-0 transition-control', {
   variants: {
     lead: {
       swatch: 'group-data-[state=hidden]/stack-row:opacity-64',
@@ -54,7 +54,7 @@ export const stackRowLeadVariants = cva('inline-flex shrink-0', {
   defaultVariants: { lead: 'swatch' },
 });
 
-export const stackRowLabelVariants = cva('flex min-w-0 items-baseline gap-1.5 overflow-hidden whitespace-nowrap font-normal text-text-primary group-data-[state=hidden]/stack-row:text-disabled-text', {
+export const stackRowLabelVariants = cva('transition-control flex min-w-0 items-baseline gap-1.5 overflow-hidden whitespace-nowrap font-normal text-text-primary group-data-[state=hidden]/stack-row:text-disabled-text', {
   variants: { size: { xs: 'text-ui-xs', sm: 'text-ui-sm', md: 'text-ui-sm', lg: 'text-ui-md' } },
   defaultVariants: { size: 'md' },
 });
@@ -77,7 +77,7 @@ export const stackRowMetaVariants = cva('shrink-0 text-hint tabular-nums text-te
 
 // A hidden layer pins the actions (pinned: always visible), so it can be shown again. A touch screen has no hover, so on a
 // coarse pointer the actions are always shown (owner 2026-10-28, B).
-export const stackRowActionsVariants = cva('flex transition-opacity duration-120 ease-out motion-reduce:transition-none', {
+export const stackRowActionsVariants = cva('flex transition-opacity duration-quick ease-out', {
   variants: {
     actions: {
       hover: 'opacity-0 group-hover/stack-row:opacity-100 group-focus-within/stack-row:opacity-100 pointer-coarse:opacity-100',

@@ -38,7 +38,7 @@ export const segmentedControlVariants = cva(
 export const segmentedItemVariants = cva(
   [
     'inline-flex shrink-0 items-center gap-1.25 whitespace-nowrap font-ui font-medium text-text-secondary',
-    'transition-[color,background-color,box-shadow] duration-base ease-out outline-none',
+    'transition-control press outline-none',
     'hover:text-text-primary focus-visible:shadow-focus',
     'data-[state=checked]:text-text-primary data-[state=checked]:focus-visible:shadow-focus',
     // Disabled is a colour, not opacity: the label takes disabled.text and a checked segment flattens to disabled.fill.

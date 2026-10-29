@@ -112,7 +112,7 @@ export function AgentRequest({
       variant={rim ? 'agent' : 'plain'} size={s}
       role={kind === 'review' && !record ? 'dialog' : 'group'} aria-modal={kind === 'review' && !record ? false : undefined} aria-labelledby={titleId}
       data-slot="agent-request" data-kind={kind} data-status={status} data-tone={tone}
-      className={cn(skin, className)}
+      className={cn(skin, 'transition-control', kind === 'review' ? 'animate-enter enter-scale' : 'animate-rise', className)}
       {...props}
     >
       <div data-slot="agent-request-header" className={cn(agentRequestHeaderVariants({ kind: k, record, size: s }))}>

@@ -85,10 +85,10 @@ export const listNavigationLink = cva(
       kind: {
         navigation: [
           'gap-2.5 rounded-lg px-2.5 text-text-secondary hover:text-text-primary',
-          'transition-[color,background-color,box-shadow] duration-base [&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
+          'transition-control [&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
         ],
-        pages: 'gap-2 rounded-md px-2 text-text-primary transition-[background-color,box-shadow] duration-120',
-        sessions: 'gap-2 rounded-lg px-2 text-text-primary',
+        pages: 'gap-2 rounded-md px-2 text-text-primary transition-control',
+        sessions: 'gap-2 rounded-lg px-2 text-text-primary transition-control',
       },
       size: { xs: '', sm: '', md: '', lg: '' },
     },
@@ -148,7 +148,7 @@ export const listNavigationOrb = cva('', { variants: { status: { running: 'orb o
 export const listNavigationDot = cva('size-radio-dot rounded-full bg-current');
 
 /** Done check: icon-sm with a heavier stroke (2.5, owner 2026-10-28) so it holds its own next to the dots and the orb. */
-export const listNavigationCheck = cva('size-icon-sm stroke-[2.5]');
+export const listNavigationCheck = cva('size-icon-sm animate-pop stroke-[2.5]');
 
 /**
  * The count. A hot count is a pill whose emphasis is the variant and whose colour is the tone (lib/common-props): solid
@@ -215,7 +215,7 @@ export const listNavigationCount = cva('ms-auto shrink-0 font-ui', {
   defaultVariants: { hot: false, kind: 'navigation', tone: 'accent', variant: 'solid' },
 });
 
-export const listNavigationChevron = cva('ms-auto size-icon-sm shrink-0 text-neutral-graphic transition-transform duration-base ease-out data-[expanded=true]:rotate-90');
+export const listNavigationChevron = cva('ms-auto size-icon-sm shrink-0 text-neutral-graphic transition-[rotate] duration-base ease-out data-[expanded=true]:rotate-90');
 
 /**
  * A nested list. Up to three levels (owner 2026-10-28): depth 2 under a top-level item, depth 3 under a sub-item. Each draws
@@ -226,7 +226,7 @@ export const listNavigationChevron = cva('ms-auto size-icon-sm shrink-0 text-neu
  * of the parent icon (10 + --nav-icon / 2); depth 3 4px before its rows' fill (32), right of the depth-2 fill edge.
  */
 export const listNavigationSub = cva(
-  'relative m-0 grid list-none gap-0.5 py-0 pe-0 before:pointer-events-none before:absolute before:inset-y-0 before:w-px before:bg-text-secondary',
+  'relative mx-0 mb-0 mt-0.5 grid list-none gap-0.5 py-0 pe-0 before:pointer-events-none before:absolute before:inset-y-0 before:w-px before:bg-text-secondary',
   {
     variants: {
       depth: {
@@ -241,7 +241,7 @@ export const listNavigationSub = cva(
 export const listNavigationSubLink = cva(
   [
     'flex w-full cursor-pointer items-center gap-2.5 rounded-lg pe-2.5 text-start font-ui text-text-secondary no-underline outline-none',
-    'transition-[color,background-color,box-shadow] duration-base ease-out',
+    'transition-control',
     'hover:bg-neutral-hover hover:text-text-primary',
     'aria-[current=page]:bg-control-raised aria-[current=page]:font-medium aria-[current=page]:text-text-primary',
     'aria-[current=page]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',

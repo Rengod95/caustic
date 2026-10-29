@@ -16,7 +16,7 @@ export const gridTracksFrameVariants = cva('', {
 export const gridTracksHeading = cva('text-ui-xs font-semibold text-text-tertiary group-aria-disabled/grid-tracks:text-disabled-text');
 
 /** One track row: as tall as the NumberField beside the switch (32px); lg rows are 40px. */
-export const gridTracksRow = cva('flex items-center gap-1.5', {
+export const gridTracksRow = cva('animate-rise flex items-center gap-1.5', {
   variants: { size: { xs: 'h-control-md', sm: 'h-control-md', md: 'h-control-md', lg: 'h-control-lg' } },
   defaultVariants: { size: 'md' },
 });
@@ -43,7 +43,7 @@ export const gridTracksUnit = cva('inline-grid shrink-0 grid-flow-col auto-cols-
 export const gridTracksUnitItem = cva(
   [
     'cursor-pointer whitespace-nowrap bg-transparent px-1.75 font-ui font-medium text-text-tertiary outline-none',
-    'transition-[color,background-color,box-shadow] duration-120 ease-out hover:text-text-primary focus-visible:shadow-focus',
+    'transition-control hover:text-text-primary focus-visible:shadow-focus',
     'aria-checked:bg-control-raised aria-checked:text-text-primary aria-checked:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
     'aria-checked:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]',
     'disabled:pointer-events-none disabled:text-disabled-text disabled:aria-checked:text-disabled-text',
@@ -70,7 +70,7 @@ export const gridTracksAdd = cva(
   [
     // mt-2: 12px from the last track (the list gap is 4), so the add row reads as its own part (owner 2026-10-27).
     'mt-2 flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-md border border-dashed px-3 font-ui outline-none',
-    'transition-[color,background-color,box-shadow] duration-120 ease-out focus-visible:shadow-focus',
+    'transition-control focus-visible:shadow-focus',
     'disabled:pointer-events-none disabled:border-disabled-border disabled:bg-transparent disabled:text-disabled-text',
   ],
   {

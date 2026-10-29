@@ -11,7 +11,7 @@ import { cva } from 'class-variance-authority';
  * The state rules are (0,2,0) and win over the variant fills and edges (0,1,0).
  */
 export const numberFieldVariants = cva([
-  'relative flex min-w-0 items-center bg-neutral-well transition-[background-color,box-shadow] duration-120 ease-out',
+  'relative flex min-w-0 items-center bg-neutral-well transition-control',
   // Focus wins over hover (hover:focus-within keeps the focus fill under the pointer).
   'focus-within:bg-neutral-well hover:focus-within:bg-neutral-well focus-within:shadow-focus-field',
   // The invalid edge is for an enabled field: disabled drops the tone, so no danger edge while disabled.
@@ -80,7 +80,7 @@ export const numberFieldUnitVariants = cva(
 export const numberFieldHexVariants = cva(
   [
     'relative flex min-w-0 items-center gap-1.5 font-mono font-normal',
-    'transition-[background-color,box-shadow] duration-120 ease-out',
+    'transition-control',
     // Focus: neutral.well on a white or bare field, surface.base on the grey soft well (owner 2026-10-28, proposal 2).
     'focus-within:bg-neutral-well focus-within:shadow-focus-field',
     // Invalid is the danger border-strong edge; invalid + focus keeps it and adds the outer focus ring.
@@ -172,7 +172,7 @@ export const numberFieldHexTokenVariants = cva('min-w-0 truncate text-accent-tex
 // Focus, invalid and disabled are drawn on top of every variant and never change with it.
 export const numberFieldStepperVariants = cva(
   [
-    'inline-flex items-stretch overflow-hidden rounded-xl text-ui transition-[box-shadow,background-color] duration-120 ease-out',
+    'inline-flex items-stretch overflow-hidden rounded-xl text-ui transition-control',
     // Focus: neutral.well, surface.base on the grey soft fill (owner 2026-10-28, field/input proposal 2).
     'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field)]',
     // The invalid edge is for an enabled field: disabled drops the tone, so a disabled invalid field shows the disabled edge.
@@ -209,9 +209,10 @@ export const numberFieldStepperVariants = cva(
 
 /** − and +: full height, about as wide as the field is tall (40 at md). */
 export const numberFieldStepButtonVariants = cva(
-  'grid h-full shrink-0 place-items-center text-text-secondary transition-[background-color,color] duration-120 ease-out hover:bg-neutral-hover hover:text-text-primary disabled:pointer-events-none disabled:text-disabled-text [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]',
+  'grid h-full shrink-0 place-items-center text-text-secondary transition-control hover:bg-neutral-hover hover:text-text-primary disabled:pointer-events-none disabled:text-disabled-text [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]',
   {
-    variants: { size: { xs: 'w-7', sm: 'w-8', md: 'w-10', lg: 'w-12' } },
+    // Press: the icon targets at xs to md (28px tall at md) press to 0.94, lg to 0.97.
+    variants: { size: { xs: 'w-7 press-sm', sm: 'w-8 press-sm', md: 'w-10 press-sm', lg: 'w-12 press' } },
     defaultVariants: { size: 'md' },
   },
 );

@@ -23,7 +23,7 @@ export const tokenGraphVariants = cva('relative h-graph-h w-full overflow-hidden
 export const tokenGraphWiresVariants = cva('pointer-events-none absolute inset-0 size-full');
 
 // While a node is traced, every wire off the trace steps back to border.subtle (data-dimmed) so the traced path stands out.
-export const tokenGraphWireVariants = cva('fill-none stroke-border-strong stroke-[1.5px] data-[dimmed]:stroke-border-subtle data-[traced]:stroke-(--tone-solid) data-[traced]:stroke-2');
+export const tokenGraphWireVariants = cva('fill-none stroke-border-strong stroke-[1.5px] transition-[stroke,stroke-width] duration-base ease-standard data-[dimmed]:stroke-border-subtle data-[traced]:stroke-(--tone-solid) data-[traced]:stroke-2');
 
 export const tokenGraphTierVariants = cva('absolute top-2.5 text-caption text-text-tertiary uppercase', {
   variants: { at: { start: 'left-4', center: 'left-[38%]', end: 'right-4' } },
@@ -33,6 +33,7 @@ export const tokenGraphTierVariants = cva('absolute top-2.5 text-caption text-te
 export const tokenGraphNodeVariants = cva(
   [
     'group absolute top-(--y) left-(--x) grid w-graph-node-w cursor-pointer gap-0.5 rounded-lg px-2.5 py-1.75 font-ui text-ui-xs outline-none',
+    'transition-control press',
     'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
     'focus-visible:shadow-focus',
   ],
@@ -60,7 +61,7 @@ export const tokenGraphNodeVariants = cva(
   },
 );
 
-export const tokenGraphNameVariants = cva('truncate py-px font-mono text-mono-sm text-text-primary group-data-[dimmed]:text-text-tertiary group-data-[missing]:text-danger-text');
+export const tokenGraphNameVariants = cva('truncate py-px font-mono text-mono-sm text-text-primary transition-colors duration-quick ease-standard group-data-[dimmed]:text-text-tertiary group-data-[missing]:text-danger-text');
 
 export const tokenGraphMetaVariants = cva('flex items-center gap-1.25 text-ui-xs font-normal text-text-tertiary');
 
@@ -68,7 +69,7 @@ export const tokenGraphSwatchVariants = cva('size-2.5 shrink-0 rounded-xs bg-(--
 
 export const tokenGraphPortVariants = cva(
   [
-    'pointer-events-none absolute top-1/2 size-2 -translate-y-1/2 rounded-full bg-surface-base',
+    'pointer-events-none absolute top-1/2 size-2 -translate-y-1/2 rounded-full bg-surface-base transition-control',
     'shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
     'group-data-[traced]:bg-(--tone-solid) group-data-[traced]:shadow-[inset_0_0_0_1.5px_var(--tone-solid)]',
   ],

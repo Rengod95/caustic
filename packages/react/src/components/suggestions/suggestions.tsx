@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, type ComponentProps, type ReactNode } from 'react';
+import { Children, cloneElement, createContext, isValidElement, useContext, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Tone, Radius, Shadow, Size } from '../../lib/common-props.ts';
 import { suggestionsVariants, suggestionVariants } from './suggestions.variants.ts';
@@ -20,10 +20,14 @@ export interface SuggestionsProps extends ComponentProps<'div'>, Omit<CommonProp
 }
 
 /** A responsive row of quick prompts under the composer. */
-export function Suggestions({ 'aria-label': ariaLabel = 'Suggestions', tone, variant, radius, shadow, size, className, ...props }: SuggestionsProps) {
+export function Suggestions({ 'aria-label': ariaLabel = 'Suggestions', tone, variant, radius, shadow, size, className, children, ...props }: SuggestionsProps) {
+  // The cards rise in as one group: each gets its position as --cs-stagger-index (an index the consumer set wins).
+  const cards = Children.toArray(children).map((child, i) =>
+    isValidElement<{ style?: CSSProperties }>(child) ? cloneElement(child, { style: { '--cs-stagger-index': i, ...child.props.style } as CSSProperties }) : child,
+  );
   return (
     <LookCtx.Provider value={{ tone, variant, radius, shadow, size }}>
-      <div data-slot="suggestions" role="group" aria-label={ariaLabel} className={cn(suggestionsVariants(), className)} {...props} />
+      <div data-slot="suggestions" role="group" aria-label={ariaLabel} className={cn(suggestionsVariants(), className)} {...props}>{cards}</div>
     </LookCtx.Provider>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 import { Check, TriangleAlert, X } from 'lucide-react';
-import { createContext, useContext, type ComponentProps, type ReactNode } from 'react';
+import { Children, cloneElement, createContext, isValidElement, useContext, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Size } from '../../lib/common-props.ts';
 import { Chip } from '../chip/chip.tsx';
@@ -46,7 +46,11 @@ export function PolicyFindings({ summary, 'aria-label': ariaLabel, tone, variant
         <Chip appearance="soft" tone="success" size="sm">{passes} pass</Chip>
       </div>
       <SizeContext.Provider value={size}>
-        <ul data-slot="policy-findings-list" role="list" aria-label={ariaLabel} className={policyFindingsListVariants()}>{children}</ul>
+        <ul data-slot="policy-findings-list" role="list" aria-label={ariaLabel} className={policyFindingsListVariants()}>
+          {Children.map(children, (child, i) => (isValidElement<{ style?: CSSProperties }>(child)
+            ? cloneElement(child, { style: { '--cs-stagger-index': i, ...child.props.style } as CSSProperties })
+            : child))}
+        </ul>
       </SizeContext.Provider>
     </div>
   );

@@ -14,7 +14,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // Hover and press exist only on interactive chips (buttons): see the `interactive: true` compounds below.
 export const chipVariants = cva(
   [
-    'inline-flex shrink-0 items-center justify-center whitespace-nowrap align-middle select-none font-ui',
+    'inline-flex shrink-0 items-center justify-center whitespace-nowrap align-middle select-none font-ui transition-control',
     'outline-none focus-visible:shadow-focus',
     // Disabled is a colour, not opacity: the tone drops out.
     'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-none',
@@ -56,7 +56,7 @@ export const chipVariants = cva(
       radius: { none: '', '2xs': '', xs: '', sm: '', md: '', lg: '', xl: '', '2xl': '', '3xl': '', '4xl': '', full: '' },
       shadow: { none: '', '1': '', '2': '', '3': '', '4': '', '5': '' },
       // Set by Chip, not a prop: a chip is a button (onClick, pressed or defaultPressed) or a static span.
-      interactive: { true: 'cursor-pointer', false: '' },
+      interactive: { true: 'cursor-pointer press', false: '' },
     },
     compoundVariants: [
       { shape: 'rounded', className: 'h-chip-h gap-1.5 rounded-md pl-2 pr-1.5 text-ui-sm' },
@@ -171,7 +171,7 @@ export const chipCheckVariants = cva('me-0.5 inline-flex shrink-0 [&_svg]:size-f
 
 /** The × target: fully round on the pill, concentric with its end (owner 2026-10-27, B); xs on the rounded form. */
 export const chipRemoveVariants = cva(
-  'inline-grid size-icon-md shrink-0 place-items-center text-text-tertiary outline-none hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-xs',
+  'inline-grid size-icon-md shrink-0 place-items-center text-text-tertiary outline-none transition-control press-sm hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-xs',
   {
     variants: { shape: { pill: 'rounded-full', rounded: 'rounded-xs' } },
     defaultVariants: { shape: 'pill' },

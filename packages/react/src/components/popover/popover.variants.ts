@@ -9,10 +9,14 @@ import { cva, type VariantProps } from 'class-variance-authority';
  * size: xs 240 with 10px padding and ui-sm · sm 240 · md 280 · lg 320 with 18px padding.
  */
 export const popoverVariants = cva(
-  'group glass z-40 grid grid-rows-[minmax(0,1fr)] max-w-full gap-2.5 rounded-2xl text-ui text-text-primary outline-none',
+  'group glass z-40 grid grid-rows-[minmax(0,1fr)] max-w-full gap-2.5 rounded-2xl text-ui text-text-primary outline-none data-[state=open]:animate-enter data-[state=closed]:animate-exit enter-scale enter-from-side',
   {
     variants: {
-      trigger: { click: 'max-h-(--radix-popover-content-available-height)', hover: 'max-h-(--radix-hover-card-content-available-height)' },
+      // The panel grows from its trigger: the Radix transform origin of the primitive that opened it.
+      trigger: {
+        click: 'max-h-(--radix-popover-content-available-height) origin-(--radix-popover-content-transform-origin)',
+        hover: 'max-h-(--radix-hover-card-content-available-height) origin-(--radix-hover-card-content-transform-origin)',
+      },
       size: {
         xs: 'w-popover-sm px-2.5 py-2.5 text-ui-sm', sm: 'w-popover-sm px-3.5 py-3.5', md: 'w-popover-md px-3.5 py-3.5',
         lg: 'w-dialog-sm px-4.5 py-4.5',

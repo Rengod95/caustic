@@ -12,7 +12,7 @@ export const accordionVariants = cva('grid w-full', {
 });
 
 /** One item. Tone, radius and shadow land here (the root is a bare grid). */
-export const accordionItemVariants = cva('', {
+export const accordionItemVariants = cva('transition-control', {
   variants: {
     variant: {
       flush: 'border-b border-border-subtle',
@@ -72,7 +72,7 @@ export const accordionItemVariants = cva('', {
 export const accordionTriggerVariants = cva(
   [
     'group flex w-full cursor-pointer items-center gap-2.5 rounded-md px-0.5 py-1 text-start font-ui text-text-primary',
-    'outline-none focus-visible:rounded-md focus-visible:shadow-focus disabled:pointer-events-none disabled:text-disabled-text',
+    'outline-none focus-visible:rounded-md focus-visible:shadow-focus disabled:pointer-events-none disabled:text-disabled-text transition-control',
   ],
   {
     variants: {
@@ -114,8 +114,13 @@ export const accordionHeaderVariants = cva('m-0', {
   defaultVariants: { variant: 'flush' },
 });
 
-/** Content: on a card it carries the card's inline inset (moved off the item with the trigger's). */
-export const accordionContentVariants = cva('max-w-[64ch] data-[state=closed]:hidden px-0.5 pb-3.5 text-ui-relaxed text-text-secondary', {
+/** Content (the Radix panel, kept mounted by forceMount): it opens from 0fr to 1fr, the same grid collapse as reveal (Radix
+ *  animate-collapse needs a measured height that forceMount does not refresh in time). Closed it takes no height and is
+ *  invisible (out of the a11y tree and the tab order); the bottom padding closes with it. On a card it carries the card's
+ *  inline inset (moved off the item with the trigger's). */
+export const accordionContentVariants = cva(['max-w-[64ch] px-0.5 pb-3.5 text-ui-relaxed text-text-secondary',
+  'grid grid-rows-[0fr] invisible opacity-0 data-[state=closed]:pb-0 transition-[grid-template-rows,padding-bottom,opacity,visibility] duration-base ease-out',
+  'data-[state=open]:visible data-[state=open]:grid-rows-[1fr] data-[state=open]:opacity-100'], {
   variants: {
     variant: {
       flush: '', separated: 'px-inset-regular-x', solid: 'px-inset-regular-x', soft: 'px-inset-regular-x', outline: 'px-inset-regular-x',

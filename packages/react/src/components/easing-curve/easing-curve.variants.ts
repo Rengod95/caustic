@@ -44,7 +44,7 @@ export const easingCurveBallVariants = cva(
   [
     'absolute top-3.5 size-7 rounded-md bg-ink-solid shadow-2',
     'left-[calc(var(--spacing)*3+(100%-var(--spacing)*13)*var(--p))] scale-(--s) opacity-(--o)',
-    'transition-[left,transform,opacity] [transition-duration:var(--dur)] [transition-timing-function:var(--ease)] motion-reduce:transition-none',
+    'transition-[left,scale,opacity] [transition-duration:var(--dur)] [transition-timing-function:var(--ease)]',
   ],
   {
     variants: {

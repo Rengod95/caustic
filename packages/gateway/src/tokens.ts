@@ -15,7 +15,7 @@ export interface TokenIndex {
   elevation: string[];
   studio: Record<string, number>;
   allow: {
-    spacingSteps: number[]; durations: number[]; zIndex: number[]; opacity: number[]; fontWeights: string[];
+    spacingSteps: number[]; durations: number[]; durationNames: string[]; zIndex: number[]; opacity: number[]; fontWeights: string[];
     arbitraryPx: string[]; semanticColors: string[]; textRoles: string[]; radii: string[];
   };
   raw: any;

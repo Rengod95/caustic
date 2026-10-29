@@ -74,7 +74,7 @@ export const appShellStartVariants = cva('flex min-h-0 flex-none empty:contents'
     layout: {
       wide: '',
       medium: '',
-      compact: 'pointer-events-none absolute inset-0 z-20 w-full *:pointer-events-auto',
+      compact: 'pointer-events-none absolute inset-0 z-20 w-full *:pointer-events-auto animate-enter-panel enter-from-start',
     },
   },
   defaultVariants: { layout: 'wide' },
@@ -84,8 +84,8 @@ export const appShellEndVariants = cva('flex min-h-0 flex-none', {
   variants: {
     layout: {
       wide: '',
-      medium: 'pointer-events-none absolute inset-y-0 end-0 z-20 max-w-[76%] *:pointer-events-auto *:shadow-3',
-      compact: 'pointer-events-none absolute inset-y-0 end-0 z-20 w-full *:pointer-events-auto *:shadow-3',
+      medium: 'pointer-events-none absolute inset-y-0 end-0 z-20 max-w-[76%] *:pointer-events-auto *:shadow-3 animate-enter-panel enter-from-end',
+      compact: 'pointer-events-none absolute inset-y-0 end-0 z-20 w-full *:pointer-events-auto *:shadow-3 animate-enter-panel enter-from-end',
     },
   },
   defaultVariants: { layout: 'wide' },

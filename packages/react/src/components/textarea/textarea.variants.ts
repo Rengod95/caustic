@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // The invalid and readonly looks apply only while enabled, so a disabled field drops its tone and shows the disabled axis.
 export const textareaVariants = cva(
   [
-    'grid min-w-0 cursor-text rounded-xl transition-[box-shadow,background-color] duration-120 ease-out',
+    'grid min-w-0 cursor-text rounded-xl transition-control',
     'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field)] hover:focus-within:shadow-[var(--cs-focus-field)]',
     'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
     'data-[readonly]:not-data-[disabled]:bg-bg-inset data-[readonly]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] data-[readonly]:focus-within:shadow-[var(--cs-focus-field)]',

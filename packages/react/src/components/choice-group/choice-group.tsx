@@ -178,7 +178,7 @@ export function ChoiceGroupItem({ value, title, description, icon, price, priceU
       onClick={choose} {...props}
     >
       <span data-slot="choice-group-indicator" aria-hidden="true" className={choiceGroupAnswerIndicatorVariants({ type: ctx.type, tone })}>
-        {checked && (multiple ? <Check aria-hidden className="size-icon-sm stroke-3" /> : <span className="size-radio-dot rounded-full bg-current" />)}
+        {checked && (multiple ? <Check aria-hidden className="size-icon-sm stroke-3 animate-pop" /> : <span className="size-radio-dot rounded-full bg-current animate-pop" />)}
       </span>
       <span data-slot="choice-group-title" className="block">
         {title}

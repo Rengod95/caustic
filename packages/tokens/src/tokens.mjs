@@ -613,14 +613,22 @@ export const elevation = {
 export const blur = { control: 12, ultrathin: 14, thin: 20, regular: 24, thick: 36, overlay: 40 };
 
 export const motion = {
-  duration: { instant: 0, quick: 120, base: 200, gentle: 320, slow: 480, spin: 700, indeterminate: 1400, orb: 1600, shimmer: 2200, slide: 2400, scan: 2600, agent: 4800 },
+  // UI durations (ms). Loops below them keep their names.
+  duration: { instant: 0, quick: 100, swift: 150, base: 200, gentle: 250, slow: 400,
+    spin: 700, indeterminate: 1400, orb: 1600, shimmer: 2200, slide: 2400, scan: 2600, agent: 4800 },
   easing: {
-    standard: 'cubic-bezier(0.2, 0, 0, 1)',
-    out: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+    standard: 'cubic-bezier(0.2, 0, 0, 1)',      // colour, size, anything that stays on screen
+    out: 'cubic-bezier(0.23, 1, 0.32, 1)',       // enter and exit
+    'in-out': 'cubic-bezier(0.77, 0, 0.175, 1)', // on-screen moves
+    drawer: 'cubic-bezier(0.32, 0.72, 0, 1)',    // sheets and side panels
     in: 'cubic-bezier(0.4, 0, 1, 1)',
-    spring: 'linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1)',
     linear: 'linear',
   },
+  // Springs move things (position, size, scale); colour and opacity use curves. Mass 1; damping is the ratio ζ.
+  spring: { snappy: { stiffness: 700, damping: 0.9 }, spring: { stiffness: 380, damping: 0.8 }, bounce: { stiffness: 300, damping: 0.55 } },
+  scale: { press: 0.97, 'press-sm': 0.94, enter: 0.96 },
+  shift: { enter: 4, lift: 2 },
+  stagger: { step: 40, max: 8 },
 };
 
 export const opacity = { disabled: 0.42, muted: 0.64 };

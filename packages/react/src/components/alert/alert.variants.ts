@@ -24,7 +24,7 @@ const PAGE_EDGE = {
 } as const;
 
 export const alertVariants = cva(
-  'items-center rounded-xl font-ui',
+  'animate-enter items-center rounded-xl font-ui',
   {
     variants: {
       variant: { solid: '', soft: '', outline: '', ghost: '' },

@@ -32,11 +32,16 @@ export function Thinking({ open, defaultOpen = false, onOpenChange, status, labe
         onClick={() => setOpen(!isOpen)}
         className={thinkingSummaryVariants({ size })}
       >
-        <ChevronRight data-slot="thinking-chevron" aria-hidden className={cn('size-icon-sm shrink-0 transition-transform duration-base ease-out', isOpen && 'rotate-90')} />
+        <ChevronRight data-slot="thinking-chevron" aria-hidden className={cn('size-icon-sm shrink-0 transition-[rotate] duration-base ease-out', isOpen && 'rotate-90')} />
         <span data-slot="thinking-label" className={thinkingLabelVariants({ status })}>{label}</span>
       </button>
-      {isOpen && children != null && (
-        <div id={bodyId} data-slot="thinking-body" className="ml-1.5 mt-1 border-l border-(color:--tone-rule) py-0.5 pl-3.5 pr-0 font-voice text-thought italic tracking-[var(--cs-text-voice-tracking)] text-text-secondary">{children}</div>
+      {children != null && (
+        // Kept mounted and opened by reveal; the clip has no margin or padding, so a closed body takes no height.
+        <div data-state={isOpen ? 'open' : 'closed'} inert={!isOpen || undefined} aria-hidden={!isOpen || undefined} className="reveal">
+          <div>
+            <div id={bodyId} data-slot="thinking-body" className="ml-1.5 mt-1 border-l border-(color:--tone-rule) py-0.5 pl-3.5 pr-0 font-voice text-thought italic tracking-[var(--cs-text-voice-tracking)] text-text-secondary">{children}</div>
+          </div>
+        </div>
       )}
     </div>
   );

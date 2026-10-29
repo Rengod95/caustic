@@ -55,7 +55,7 @@ export const importPanelFrameVariants = cva('', {
   defaultVariants: { radius: 'none', shadow: 'none', size: 'md' },
 });
 
-export const importPanelOptionsVariants = cva('grid grid-cols-2 items-center gap-1.5');
+export const importPanelOptionsVariants = cva('animate-rise grid grid-cols-2 items-center gap-1.5');
 export const importPanelDeviceVariants = cva('justify-self-end');
 /** Starts the input section: 12px more above it than the stack gap. */
 export const importPanelFieldVariants = cva('mt-3');

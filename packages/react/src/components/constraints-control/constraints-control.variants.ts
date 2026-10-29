@@ -34,7 +34,7 @@ export const constraintsFrameVariants = cva(
 // 4px bar did not read as on. Hover steps to solid-hover; focus adds the ring. Disabled drops the tone.
 export const constraintsPinVariants = cva(
   [
-    'absolute cursor-pointer rounded-2xs bg-border-strong outline-none transition-colors duration-120 ease-out before:absolute hover:bg-text-secondary focus-visible:shadow-focus',
+    'absolute cursor-pointer rounded-2xs bg-border-strong outline-none transition-control before:absolute hover:bg-text-secondary focus-visible:shadow-focus',
     'disabled:pointer-events-none disabled:bg-disabled-border disabled:aria-pressed:bg-disabled-text',
   ],
   {
@@ -73,11 +73,11 @@ export const constraintsPinVariants = cva(
 );
 
 /** The open select list, under its select: one elevation, no edge. */
-export const constraintsListboxVariants = cva('absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2');
+export const constraintsListboxVariants = cva('absolute inset-x-0 top-full z-10 mt-1 grid gap-px rounded-lg bg-surface-base p-1 text-ui-sm text-text-primary shadow-2 animate-enter enter-scale origin-top');
 
 /** One option; the selected one inverts (selected utility). */
 export const constraintsOptionVariants = cva(
-  'flex h-control-sm cursor-pointer items-center justify-between gap-2 rounded-md bg-transparent px-2 text-left outline-none hover:bg-neutral-hover focus-visible:shadow-focus aria-selected:not-disabled:selected aria-selected:not-disabled:hover:bg-selection-fill-hover',
+  'flex h-control-sm cursor-pointer items-center justify-between gap-2 rounded-md bg-transparent px-2 text-left outline-none hover:bg-neutral-hover focus-visible:shadow-focus aria-selected:not-disabled:selected aria-selected:not-disabled:hover:bg-selection-fill-hover transition-control press',
 );
 
 export const constraintsColumnVariants = cva('grid gap-2');

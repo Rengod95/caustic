@@ -40,7 +40,7 @@ export const inspectorBindingsPropertyIconVariants = cva('inline-flex size-icon-
 export const inspectorBindingsActionVariants = cva('flex items-center justify-self-end', {
   variants: {
     reveal: {
-      true: 'opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 pointer-coarse:opacity-100',
+      true: 'opacity-0 transition-opacity duration-quick ease-out group-hover/row:opacity-100 group-focus-within/row:opacity-100 pointer-coarse:opacity-100',
       false: '',
     },
   },
@@ -56,7 +56,7 @@ export const inspectorBindingsActionVariants = cva('flex items-center justify-se
 export const inspectorBindingsSelectorVariants = cva(
   [
     'col-span-full flex w-full min-w-0 cursor-pointer items-center gap-1.5 rounded-md border-0 ps-1 pe-1.5 text-start font-mono font-normal text-text-primary outline-none',
-    'transition-[background-color,box-shadow] duration-120 ease-out focus-visible:shadow-focus',
+    'transition-control focus-visible:shadow-focus',
   ],
   {
     variants: {
@@ -154,7 +154,7 @@ export const inspectorBindingsContextVariants = cva('col-span-full flex flex-wra
 export const inspectorBindingsAddVariants = cva(
   [
     'flex w-full cursor-pointer items-center gap-1.5 rounded-lg border border-dashed border-border-strong bg-transparent px-3 text-start font-ui text-ui-dense text-text-secondary outline-none',
-    'transition-[background-color,color] duration-120 ease-out hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
+    'transition-control hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
     'disabled:pointer-events-none disabled:border-disabled-border disabled:text-disabled-text',
     '[&_svg]:size-icon-sm [&_svg]:flex-none [&_svg]:stroke-[1.75]',
   ],

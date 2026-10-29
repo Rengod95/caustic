@@ -122,7 +122,7 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
             return (
               <li key={step.id ?? i} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} className={cn(stepperChecklistItem({ status: s, size }))}>
                 <span data-slot="stepper-indicator" data-status={s} aria-hidden className={stepperChecklistIndicator({ status: s })}>
-                  {s === 'done' && <Check />}
+                  {s === 'done' && <Check className="animate-pop" />}
                   {s === 'current' && <span data-slot="stepper-orb" className={stepperChecklistMark({ tone })} />}
                   {s === 'failed' && <CircleAlert />}
                   {s === 'upcoming' && <span data-slot="stepper-todo-ring" className={stepperTodoRingClass} />}
@@ -153,7 +153,7 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
               <li key={step.id ?? i} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} className={stepperItem({ orientation: o })}>
                 {hasConnector && <span data-slot="stepper-connector" aria-hidden className={stepperConnector({ orientation: o, active })} />}
                 <span data-slot="stepper-indicator" data-status={s} className={cn(stepperIndicator({ status: s, variant, size, radius, shadow }))}>
-                  {s === 'done' ? (<><Check className="size-3.5" strokeWidth={3} aria-hidden /><span className="sr-only">{word(s) ?? 'completed'}</span></>)
+                  {s === 'done' ? (<><Check className="size-3.5 animate-pop" strokeWidth={3} aria-hidden /><span className="sr-only">{word(s) ?? 'completed'}</span></>)
                     : s === 'failed' ? (<><CircleAlert className="size-3.5" aria-hidden /><span className="sr-only">{word(s) ?? 'failed'}</span></>)
                     : (<>{i + 1}{word(s) != null && <span className="sr-only"> {word(s)}</span>}</>)}
                 </span>

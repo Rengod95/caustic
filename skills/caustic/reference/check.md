@@ -73,7 +73,8 @@ Severity: `error` for colours and for lengths where a token exists; `warning` fo
 
 **Catches** a literal colour or px/rem length in an arbitrary value or in `style`: `bg-[#0a84ff]`, `w-[312px]`,
 `style={{ color: 'rgb(0 0 0)' }}`. Hairlines (`0.5px`, `1px`, `1.5px`, `2px`), `var(--cs-*)` and CSS custom
-properties are allowed.
+properties are allowed. A numeric `duration-200` or `delay-150` is a warning: use `duration-quick`, `swift`, `base`,
+`gentle`, `slow` or a spring pair (`ease-spring duration-spring`).
 
 | Literal | Severity | Examples |
 |---|---|---|

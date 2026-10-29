@@ -50,6 +50,13 @@ describe('caustic check', () => {
     ]);
   });
 
+  it('token-literal: numeric durations and delays are warnings that name the tokens', async () => {
+    const fs = await findings('token-duration.tsx', { rules: ['token-literal'] });
+    assert.deepEqual(fs.map(f => `${f.line}:${f.severity}:${f.snippet}`), ['4:warning:duration-200', '4:warning:hover:delay-150']);
+    assert.equal(fs[0]!.message, '"duration-200" hard-codes 200ms.');
+    assert.match(fs[0]!.fix, /duration-quick \(100\), swift \(150\), base \(200\), gentle \(250\), slow \(400\)/);
+  });
+
   it('token-dark-variant', async () => {
     const fs = await findings('token-dark-variant.tsx');
     assert.deepEqual(pick(fs, 'token-dark-variant'), ['4:dark:bg-surface-raised', '4:hover:dark:text-text-primary']);

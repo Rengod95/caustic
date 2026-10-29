@@ -30,7 +30,7 @@ export const radioGroupVariants = cva('flex', {
 
 export const radioItemVariants = cva(
   [
-    'inline-grid shrink-0 place-items-center rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)]',
+    'inline-grid shrink-0 place-items-center rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] transition-control press',
     'outline-none focus-visible:shadow-focus data-[state=checked]:focus-visible:shadow-focus',
     'data-[state=unchecked]:not-disabled:not-focus-visible:hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
     'in-[label:hover]:data-[state=unchecked]:not-disabled:not-focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
@@ -83,7 +83,7 @@ export const radioItemVariants = cva(
   },
 );
 
-export const radioIndicatorVariants = cva('rounded-full bg-current', {
+export const radioIndicatorVariants = cva('animate-pop rounded-full bg-current', {
   variants: { size: { xs: 'size-1.5', sm: 'size-1.5', md: 'size-2', lg: 'size-2.5' } },
   defaultVariants: { size: 'md' },
 });

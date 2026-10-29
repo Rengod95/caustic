@@ -51,7 +51,7 @@ export const fontOptionsStageVariants = cva('grid place-items-center rounded-xl 
 
 /** The sample is set in the user font (runtime --face), with the axis and feature settings as runtime variables. */
 export const fontOptionsSampleVariants = cva(
-  'text-center text-stat pb-[0.5px] text-text-primary text-balance transition-[font-variation-settings] duration-base ease-out motion-reduce:transition-none [font-family:var(--face)] [font-variation-settings:var(--fvs)] [font-feature-settings:var(--ffs)]',
+  'text-center text-stat pb-[0.5px] text-text-primary text-balance [font-family:var(--face)] [font-variation-settings:var(--fvs)] [font-feature-settings:var(--ffs)]',
 );
 
 export const fontOptionsAxesVariants = cva('flex flex-col gap-2');
@@ -65,7 +65,7 @@ export const fontOptionsFeaturesVariants = cva('flex flex-wrap items-center gap-
 
 export const fontOptionsFeatureVariants = cva([
   'group inline-flex h-chip-h items-center gap-1.5 rounded-md px-2 text-ui-sm font-normal whitespace-nowrap text-text-primary outline-none',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-[background-color,box-shadow,color] duration-120 ease-out motion-reduce:transition-none',
+  'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-control',
   'hover:bg-neutral-hover focus-visible:shadow-focus',
   // On = selected (owner 2026-10-27, proposal A): the selected inversion, selection.fill with selection.on text, no edge,
   // a leading check; hover selection.fill-hover; focus keeps the focus ring only.
@@ -76,7 +76,7 @@ export const fontOptionsFeatureVariants = cva([
 ]);
 
 /** Leading check of an enabled feature: takes the label colour (selection.on, disabled text) through currentColor. */
-export const fontOptionsFeatureCheckVariants = cva('size-icon-sm shrink-0 stroke-[1.75]');
+export const fontOptionsFeatureCheckVariants = cva('size-icon-sm shrink-0 stroke-[1.75] animate-enter');
 
 export const fontOptionsFeatureCodeVariants = cva('font-mono text-mono-sm text-text-tertiary group-aria-pressed:group-enabled:text-selection-on-secondary group-disabled:text-disabled-text');
 

@@ -179,7 +179,7 @@ export const agentRequestIconVariants = cva('grid shrink-0 place-items-center', 
     },
     record: {
       false: 'size-card-tile rounded-lg [&_svg]:size-card-glyph',
-      true: 'size-icon-lg rounded-sm [&_svg]:size-icon-xs',
+      true: 'size-icon-lg rounded-sm animate-pop [&_svg]:size-icon-xs',
     },
   },
   defaultVariants: { tone: 'warning', record: false },

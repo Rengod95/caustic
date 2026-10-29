@@ -52,7 +52,7 @@ export const progressVariants = cva('relative overflow-hidden', {
   defaultVariants: { shape: 'bar', tone: 'accent', variant: 'solid', radius: 'sm', shadow: 'none', size: 'md' },
 });
 
-export const progressIndicator = cva('block h-full w-(--progress) rounded-[inherit] transition-[width] duration-320 ease-out', {
+export const progressIndicator = cva('block h-full w-(--progress) rounded-[inherit] transition-[width] duration-gentle ease-standard', {
   variants: {
     tone: {
       neutral: 'bg-neutral-solid', accent: 'bg-accent-solid', success: 'bg-success-solid', warning: 'bg-warning-solid',

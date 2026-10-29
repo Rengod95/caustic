@@ -15,8 +15,9 @@ import { cva } from 'class-variance-authority';
  * as long as the popup is open, tying the trigger to its list. Both are (0,2,0) and give way to focus, invalid, disabled.
  */
 export const pickerTriggerVariants = cva([
-  'flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-xl bg-surface-translucent text-left text-text-primary outline-none',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-[box-shadow,background-color] duration-120 ease-out',
+  // group: the indicator turns on data-state=open (dropdown indicator).
+  'group flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-xl bg-surface-translucent text-left text-text-primary outline-none',
+  'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-control',
   'focus-visible:bg-neutral-well focus-visible:shadow-[var(--cs-focus-field)] hover:focus-visible:shadow-[var(--cs-focus-field)]',
   'data-[state=open]:shadow-[var(--cs-focus-field)] data-[state=open]:hover:shadow-[var(--cs-focus-field)]',
   // Invalid is the danger border-strong edge; invalid + focus keeps it and adds the outer focus ring.

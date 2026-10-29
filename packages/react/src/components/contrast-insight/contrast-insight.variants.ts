@@ -61,7 +61,7 @@ export const contrastInsightLevelsVariants = cva('mt-2 flex flex-wrap gap-1.5');
 
 /** One level badge: soft status tint, a check, a triangle or a cross so the result is not only color. */
 export const contrastInsightLevelVariants = cva(
-  'inline-flex h-control-compact-xs items-center gap-1 rounded-sm px-2 text-micro [&_svg]:size-icon-xs [&_svg]:flex-none [&_svg]:stroke-[3]',
+  'inline-flex h-control-compact-xs items-center gap-1 rounded-sm px-2 text-micro transition-colors duration-quick ease-standard [&_svg]:size-icon-xs [&_svg]:flex-none [&_svg]:stroke-[3]',
   {
     variants: {
       result: {
@@ -78,12 +78,12 @@ export type ContrastInsightLevelVariantProps = VariantProps<typeof contrastInsig
 
 /** The measured pair as "Aa": the colors come from the --pair-bg and --pair-fg custom properties. */
 export const contrastInsightSampleVariants = cva(
-  'grid h-contrast-sample-h w-contrast-sample-w place-items-center rounded-xl bg-(--pair-bg) text-sample text-(--pair-fg) shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
+  'grid h-contrast-sample-h w-contrast-sample-w place-items-center rounded-xl bg-(--pair-bg) text-sample text-(--pair-fg) shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)] transition-colors duration-quick ease-standard',
 );
 
 /** The agent suggestion card: opaque, with the agent rim; the regular inset like the readout card (owner 2026-10-27, proposal C). */
 export const contrastInsightSuggestionVariants = cva(
-  'agent-rim relative grid gap-2 overflow-hidden rounded-xl bg-surface-base px-inset-regular-x py-inset-regular-y shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+  'agent-rim relative grid gap-2 overflow-hidden rounded-xl bg-surface-base px-inset-regular-x py-inset-regular-y shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] animate-rise',
 );
 
 export const contrastInsightSuggestionTextVariants = cva('text-footnote text-text-secondary');

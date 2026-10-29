@@ -9,7 +9,7 @@ import { cva } from 'class-variance-authority';
  */
 export const checkboxVariants = cva(
   [
-    'inline-grid size-check shrink-0 place-items-center rounded-sm bg-surface-base text-accent-on transition-[background-color] duration-120 ease-out',
+    'inline-grid size-check shrink-0 place-items-center rounded-sm bg-surface-base text-accent-on transition-control',
     'shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] outline-none focus-visible:shadow-focus',
     // Invalid: scoped to enabled boxes because disabled wins (the tone drops out). The extra :enabled also lifts it
     // above data-[state=checked|indeterminate]:shadow-none, so checked and mixed boxes keep it.
@@ -68,7 +68,7 @@ export const checkboxShapeVariants = cva('', {
 });
 
 /** The check mark (or the mixed dash) centered in the box; it steps with the box size. */
-export const checkboxMarkVariants = cva('stroke-3', {
+export const checkboxMarkVariants = cva('stroke-3 animate-pop', {
   variants: { size: { xs: 'size-2.5', sm: 'size-icon-xs', md: 'size-icon-sm', lg: 'size-icon-md' } },
   defaultVariants: { size: 'lg' },
 });
