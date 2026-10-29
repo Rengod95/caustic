@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useRef, type ComponentProps, type
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
-import { floatingBarGroupVariants, floatingBarIconVariants, floatingBarItemVariants, floatingBarSeparatorVariants, floatingBarShortcutVariants, floatingBarVariants } from './floating-bar.variants.ts';
+import { floatingBarGroupVariants, floatingBarIconVariants, floatingBarItemVariants, floatingBarSeparatorVariants, floatingBarShortcutVariants, floatingBarBadgeVariants, floatingBarVariants } from './floating-bar.variants.ts';
 
 const SizeContext = createContext<Size>('lg');
 const OrientationContext = createContext<'horizontal' | 'vertical'>('horizontal');
@@ -103,12 +103,14 @@ export interface FloatingBarItemProps extends Omit<ComponentProps<'button'>, 'ch
   onPressedChange?: ((pressed: boolean) => void) | undefined;
   /** The agent tool: spectrum rim. */
   agent?: boolean | undefined;
+  /** Small count on the item's top end corner (pending requests). Decorative: put the number in aria-label as well. */
+  badge?: ReactNode | undefined;
   disabled?: boolean | undefined;
 }
 
 /** One tool or toggle. aria-label is required by the toolbar contract. */
 export function FloatingBarItem({
-  icon, shortcut, active, pressed, defaultPressed, onPressedChange, agent = false, disabled = false, className, onClick, ...props
+  icon, shortcut, active, pressed, defaultPressed, onPressedChange, agent = false, badge, disabled = false, className, onClick, ...props
 }: FloatingBarItemProps) {
   const size = useContext(SizeContext);
   const toggle = pressed !== undefined || defaultPressed !== undefined;
@@ -129,6 +131,7 @@ export function FloatingBarItem({
     >
       {icon != null && <span data-slot="floating-bar-icon" aria-hidden className={floatingBarIconVariants({ size })}>{icon}</span>}
       {shortcut != null && <span data-slot="floating-bar-shortcut" aria-hidden className={floatingBarShortcutVariants({ disabled })}>{shortcut}</span>}
+      {badge != null && <span data-slot="floating-bar-badge" aria-hidden className={floatingBarBadgeVariants()}>{badge}</span>}
     </button>
   );
 }

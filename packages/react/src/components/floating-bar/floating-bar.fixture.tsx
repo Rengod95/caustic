@@ -39,7 +39,7 @@ export default defineFixture({
           </FloatingBarGroup>
           <FloatingBarSeparator />
           <FloatingBarGroup>
-            <FloatingBarItem aria-label="Comment C" icon={<MessageCircle />} />
+            <FloatingBarItem aria-label="Comment C, 3 open" icon={<MessageCircle />} badge="3" />
             <FloatingBarItem aria-label="Ask agent" icon={<WandSparkles />} agent />
           </FloatingBarGroup>
         </FloatingBar>
@@ -67,7 +67,7 @@ export default defineFixture({
           </FloatingBarGroup>
           <FloatingBarSeparator />
           <FloatingBarGroup>
-            <FloatingBarItem aria-label="Comment C" icon={<MessageCircle />} />
+            <FloatingBarItem aria-label="Comment C, 3 open" icon={<MessageCircle />} badge="3" />
             <FloatingBarItem aria-label="Ask agent" icon={<WandSparkles />} agent />
           </FloatingBarGroup>
         </FloatingBar>
