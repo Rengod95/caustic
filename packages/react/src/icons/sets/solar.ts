@@ -1,39 +1,6 @@
 // Solar icon set. One export per caustic icon name (lucide names, so call sites did not change).
-// Edit the table by hand: name, glyph, and for the other set the same name in ./phosphor.ts.
-// Gaps drawn from Phosphor (this set has no fitting glyph): AlignCenter (Phosphor TextAlignCenter), AlignJustify (Phosphor
-// TextAlignJustify), AlignLeft (Phosphor TextAlignLeft), AlignRight (Phosphor TextAlignRight), AtSign (Phosphor At), Baseline (Phosphor
-// TextAUnderline), Blend (Phosphor Intersect), Circle (Phosphor Circle), Component (Phosphor DiamondsFour), Contrast (Phosphor CircleHalf),
-// CornerUpRight (Phosphor ArrowBendUpRight), Diamond (Phosphor Diamond), Hand (Phosphor Hand), LoaderCircle (Phosphor CircleNotch), Octagon
-// (Phosphor Octagon), PaintBucket (Phosphor PaintBucket), PenTool (Phosphor PenNib), Scan (Phosphor Scan), Shapes (Phosphor Shapes), Spline
-// (Phosphor BezierCurve), SquareStack (Phosphor Cards), Strikethrough (Phosphor TextStrikethrough), SwatchBook (Phosphor Swatches), Type
-// (Phosphor TextT).
+// Edit the table by hand: name and glyph. Names Solar has no fitting glyph for are caustic-drawn in ../gaps.tsx.
 // Solar glyphs are CC BY 4.0 (480 Design); see ../../../ICONS-NOTICE.md.
-import {
-  ArrowBendUpRightIcon as PhArrowBendUpRight,
-  AtIcon as PhAt,
-  BezierCurveIcon as PhBezierCurve,
-  CardsIcon as PhCards,
-  CircleIcon as PhCircle,
-  CircleHalfIcon as PhCircleHalf,
-  CircleNotchIcon as PhCircleNotch,
-  DiamondIcon as PhDiamond,
-  DiamondsFourIcon as PhDiamondsFour,
-  HandIcon as PhHand,
-  IntersectIcon as PhIntersect,
-  OctagonIcon as PhOctagon,
-  PaintBucketIcon as PhPaintBucket,
-  PenNibIcon as PhPenNib,
-  ScanIcon as PhScan,
-  ShapesIcon as PhShapes,
-  SwatchesIcon as PhSwatches,
-  TextAUnderlineIcon as PhTextAUnderline,
-  TextAlignCenterIcon as PhTextAlignCenter,
-  TextAlignJustifyIcon as PhTextAlignJustify,
-  TextAlignLeftIcon as PhTextAlignLeft,
-  TextAlignRightIcon as PhTextAlignRight,
-  TextStrikethroughIcon as PhTextStrikethrough,
-  TextTIcon as PhTextT,
-} from '@phosphor-icons/react';
 import {
   AddIcon as SoAddBold,
   AlignBottomIcon as SoAlignBottomBold,
@@ -184,6 +151,13 @@ import {
   UserPlusIcon as SoUserPlusBold,
   WaterdropIcon as SoWaterdropBold,
   WidgetIcon as SoWidgetBold,
+  MentionCircleIcon as SoMentionCircleBold,
+  PaintRollerIcon as SoPaintRollerBold,
+  Pen2Icon as SoPen2Bold,
+  ObjectScanIcon as SoObjectScanBold,
+  LayersMinimalisticIcon as SoLayersMinimalisticBold,
+  TextCrossIcon as SoTextCrossBold,
+  Palette2Icon as SoPalette2Bold,
 } from '@solar-icons/react/bold';
 import {
   AddIcon as SoAdd,
@@ -336,23 +310,26 @@ import {
   UserPlusIcon as SoUserPlus,
   WaterdropIcon as SoWaterdrop,
   WidgetIcon as SoWidget,
+  MentionCircleIcon as SoMentionCircle,
+  PaintRollerIcon as SoPaintRoller,
+  Pen2Icon as SoPen2,
+  ObjectScanIcon as SoObjectScan,
+  LayersMinimalisticIcon as SoLayersMinimalistic,
+  TextCrossIcon as SoTextCross,
+  Palette2Icon as SoPalette2,
 } from '@solar-icons/react/linear';
-import { phosphorIcon } from '../lib/phosphor.tsx';
 import { solarIcon } from '../lib/solar.tsx';
 import type { Icon, IconSetName } from '../lib/types.ts';
 
 export const iconSet: IconSetName = 'solar';
 export * from '../custom.tsx';
+export * from '../gaps.tsx';
 
-export const AlignCenter: Icon = phosphorIcon(PhTextAlignCenter, 'AlignCenter', { selected: 'bold' });
 export const AlignCenterHorizontal: Icon = solarIcon(SoAlignHorizontalCenter, SoAlignHorizontalCenterBold, 'AlignCenterHorizontal');
 export const AlignCenterVertical: Icon = solarIcon(SoAlignVerticalCenter, SoAlignVerticalCenterBold, 'AlignCenterVertical');
 export const AlignEndHorizontal: Icon = solarIcon(SoAlignBottom, SoAlignBottomBold, 'AlignEndHorizontal');
 export const AlignEndVertical: Icon = solarIcon(SoAlignRight, SoAlignRightBold, 'AlignEndVertical');
 export const AlignHorizontalDistributeCenter: Icon = solarIcon(SoAlignHorizontalSpacing, SoAlignHorizontalSpacingBold, 'AlignHorizontalDistributeCenter');
-export const AlignJustify: Icon = phosphorIcon(PhTextAlignJustify, 'AlignJustify', { selected: 'bold' });
-export const AlignLeft: Icon = phosphorIcon(PhTextAlignLeft, 'AlignLeft', { selected: 'bold' });
-export const AlignRight: Icon = phosphorIcon(PhTextAlignRight, 'AlignRight', { selected: 'bold' });
 export const AlignStartHorizontal: Icon = solarIcon(SoAlignTop, SoAlignTopBold, 'AlignStartHorizontal');
 export const AlignStartVertical: Icon = solarIcon(SoAlignLeft, SoAlignLeftBold, 'AlignStartVertical');
 export const AlignVerticalDistributeCenter: Icon = solarIcon(SoAlignVerticalSpacing, SoAlignVerticalSpacingBold, 'AlignVerticalDistributeCenter');
@@ -365,10 +342,9 @@ export const ArrowRightToLine: Icon = solarIcon(SoArrowRightToLine, SoArrowRight
 export const ArrowUp: Icon = solarIcon(SoArrowUp, SoArrowUpBold, 'ArrowUp');
 export const ArrowUpRight: Icon = solarIcon(SoArrowRightUp, SoArrowRightUpBold, 'ArrowUpRight');
 export const ArrowUpToLine: Icon = solarIcon(SoArrowUpToLine, SoArrowUpToLineBold, 'ArrowUpToLine');
-export const AtSign: Icon = phosphorIcon(PhAt, 'AtSign', { selected: 'bold' });
-export const Baseline: Icon = phosphorIcon(PhTextAUnderline, 'Baseline', { selected: 'bold' });
+export const AtSign: Icon = solarIcon(SoMentionCircle, SoMentionCircleBold, 'AtSign');
+export const Baseline: Icon = solarIcon(SoTextUnderline, SoTextUnderlineBold, 'Baseline');
 export const Bell: Icon = solarIcon(SoBell, SoBellBold, 'Bell');
-export const Blend: Icon = phosphorIcon(PhIntersect, 'Blend');
 export const Bold: Icon = solarIcon(SoTextBold, SoTextBoldBold, 'Bold');
 export const Braces: Icon = solarIcon(SoBraces, SoBracesBold, 'Braces');
 export const Calendar: Icon = solarIcon(SoCalendar, SoCalendarBold, 'Calendar');
@@ -379,7 +355,6 @@ export const ChevronLeft: Icon = solarIcon(SoAltArrowLeft, SoAltArrowLeftBold, '
 export const ChevronRight: Icon = solarIcon(SoAltArrowRight, SoAltArrowRightBold, 'ChevronRight');
 export const ChevronUp: Icon = solarIcon(SoAltArrowUp, SoAltArrowUpBold, 'ChevronUp');
 export const ChevronsUpDown: Icon = solarIcon(SoChevronsUpDown, SoChevronsUpDownBold, 'ChevronsUpDown');
-export const Circle: Icon = phosphorIcon(PhCircle, 'Circle');
 export const CircleAlert: Icon = solarIcon(SoDangerCircle, SoDangerCircleBold, 'CircleAlert');
 export const CircleCheck: Icon = solarIcon(SoCheckCircle, SoCheckCircleBold, 'CircleCheck');
 export const CircleDot: Icon = solarIcon(SoCircleDot, SoCircleDotBold, 'CircleDot');
@@ -390,12 +365,8 @@ export const Clock: Icon = solarIcon(SoClockCircle, SoClockCircleBold, 'Clock');
 export const CodeXml: Icon = solarIcon(SoCode, SoCodeBold, 'CodeXml');
 export const Command: Icon = solarIcon(SoCommand, SoCommandBold, 'Command');
 export const Compass: Icon = solarIcon(SoCompass, SoCompassBold, 'Compass');
-export const Component: Icon = phosphorIcon(PhDiamondsFour, 'Component');
-export const Contrast: Icon = phosphorIcon(PhCircleHalf, 'Contrast');
 export const Copy: Icon = solarIcon(SoCopy, SoCopyBold, 'Copy');
-export const CornerUpRight: Icon = phosphorIcon(PhArrowBendUpRight, 'CornerUpRight');
 export const Crop: Icon = solarIcon(SoCrop, SoCropBold, 'Crop');
-export const Diamond: Icon = phosphorIcon(PhDiamond, 'Diamond');
 export const Download: Icon = solarIcon(SoDownloadMinimalistic, SoDownloadMinimalisticBold, 'Download');
 export const Droplet: Icon = solarIcon(SoWaterdrop, SoWaterdropBold, 'Droplet');
 export const Ellipsis: Icon = solarIcon(SoMenuDots, SoMenuDotsBold, 'Ellipsis');
@@ -423,7 +394,6 @@ export const Globe: Icon = solarIcon(SoGlobe, SoGlobeBold, 'Globe');
 export const Grid2x2: Icon = solarIcon(SoGrid2x2, SoGrid2x2Bold, 'Grid2x2');
 export const Grid3x3: Icon = solarIcon(SoGrid3x3, SoGrid3x3Bold, 'Grid3x3');
 export const GripVertical: Icon = solarIcon(SoGripVertical, SoGripVerticalBold, 'GripVertical');
-export const Hand: Icon = phosphorIcon(PhHand, 'Hand');
 export const History: Icon = solarIcon(SoHistory, SoHistoryBold, 'History');
 export const House: Icon = solarIcon(SoHome, SoHomeBold, 'House');
 export const Image: Icon = solarIcon(SoGallery, SoGalleryBold, 'Image');
@@ -441,7 +411,6 @@ export const Lightbulb: Icon = solarIcon(SoLightbulb, SoLightbulbBold, 'Lightbul
 export const Link: Icon = solarIcon(SoLink, SoLinkBold, 'Link');
 export const Link2: Icon = solarIcon(SoLinkMinimalistic, SoLinkMinimalisticBold, 'Link2');
 export const ListChecks: Icon = solarIcon(SoChecklist, SoChecklistBold, 'ListChecks');
-export const LoaderCircle: Icon = phosphorIcon(PhCircleNotch, 'LoaderCircle');
 export const Lock: Icon = solarIcon(SoLock, SoLockBold, 'Lock');
 export const LockOpen: Icon = solarIcon(SoLockUnlocked, SoLockUnlockedBold, 'LockOpen');
 export const Magnet: Icon = solarIcon(SoMagnet, SoMagnetBold, 'Magnet');
@@ -460,16 +429,15 @@ export const MousePointer2: Icon = solarIcon(SoCursor, SoCursorBold, 'MousePoint
 export const Move: Icon = solarIcon(SoMove, SoMoveBold, 'Move');
 export const MoveHorizontal: Icon = solarIcon(SoMoveHorizontal, SoMoveHorizontalBold, 'MoveHorizontal');
 export const MoveVertical: Icon = solarIcon(SoMoveVertical, SoMoveVerticalBold, 'MoveVertical');
-export const Octagon: Icon = phosphorIcon(PhOctagon, 'Octagon');
 export const Package: Icon = solarIcon(SoBox, SoBoxBold, 'Package');
-export const PaintBucket: Icon = phosphorIcon(PhPaintBucket, 'PaintBucket');
+export const PaintBucket: Icon = solarIcon(SoPaintRoller, SoPaintRollerBold, 'PaintBucket');
 export const Palette: Icon = solarIcon(SoPalette, SoPaletteBold, 'Palette');
 export const PanelBottom: Icon = solarIcon(SoPanelBottom, SoPanelBottomBold, 'PanelBottom');
 export const PanelLeft: Icon = solarIcon(SoPanelLeft, SoPanelLeftBold, 'PanelLeft');
 export const PanelRight: Icon = solarIcon(SoPanelRight, SoPanelRightBold, 'PanelRight');
 export const Paperclip: Icon = solarIcon(SoPaperclip, SoPaperclipBold, 'Paperclip');
 export const Pause: Icon = solarIcon(SoPause, SoPauseBold, 'Pause');
-export const PenTool: Icon = phosphorIcon(PhPenNib, 'PenTool');
+export const PenTool: Icon = solarIcon(SoPen2, SoPen2Bold, 'PenTool');
 export const Pencil: Icon = solarIcon(SoPen, SoPenBold, 'Pencil');
 export const Pipette: Icon = solarIcon(SoPipette, SoPipetteBold, 'Pipette');
 export const Play: Icon = solarIcon(SoPlay, SoPlayBold, 'Play');
@@ -480,12 +448,11 @@ export const RotateCcw: Icon = solarIcon(SoRestart, SoRestartBold, 'RotateCcw', 
 export const RotateCw: Icon = solarIcon(SoRestart, SoRestartBold, 'RotateCw');
 export const Rows3: Icon = solarIcon(SoRows3, SoRows3Bold, 'Rows3');
 export const Ruler: Icon = solarIcon(SoRuler, SoRulerBold, 'Ruler');
-export const Scan: Icon = phosphorIcon(PhScan, 'Scan');
+export const Scan: Icon = solarIcon(SoObjectScan, SoObjectScanBold, 'Scan');
 export const Scissors: Icon = solarIcon(SoScissors, SoScissorsBold, 'Scissors');
 export const Search: Icon = solarIcon(SoMagnifier, SoMagnifierBold, 'Search');
 export const SearchX: Icon = solarIcon(SoMagnifierClose, SoMagnifierCloseBold, 'SearchX');
 export const Settings: Icon = solarIcon(SoSettings, SoSettingsBold, 'Settings');
-export const Shapes: Icon = phosphorIcon(PhShapes, 'Shapes');
 export const Share: Icon = solarIcon(SoExport, SoExportBold, 'Share');
 export const Shield: Icon = solarIcon(SoShield, SoShieldBold, 'Shield');
 export const ShieldCheck: Icon = solarIcon(SoShieldCheck, SoShieldCheckBold, 'ShieldCheck');
@@ -493,22 +460,20 @@ export const SlashSquare: Icon = solarIcon(SoSlashSquare, SoSlashSquareBold, 'Sl
 export const SlidersHorizontal: Icon = solarIcon(SoTuning, SoTuningBold, 'SlidersHorizontal');
 export const Smartphone: Icon = solarIcon(SoSmartphone, SoSmartphoneBold, 'Smartphone');
 export const Sparkles: Icon = solarIcon(SoStars, SoStarsBold, 'Sparkles');
-export const Spline: Icon = phosphorIcon(PhBezierCurve, 'Spline');
 export const Square: Icon = solarIcon(SoStop, SoStopBold, 'Square');
 export const SquareDashed: Icon = solarIcon(SoSquareDashed, SoSquareDashedBold, 'SquareDashed');
 export const SquarePen: Icon = solarIcon(SoPenNewSquare, SoPenNewSquareBold, 'SquarePen');
-export const SquareStack: Icon = phosphorIcon(PhCards, 'SquareStack');
+export const SquareStack: Icon = solarIcon(SoLayersMinimalistic, SoLayersMinimalisticBold, 'SquareStack');
 export const Stop: Icon = solarIcon(SoStop, SoStopBold, 'Stop');
-export const Strikethrough: Icon = phosphorIcon(PhTextStrikethrough, 'Strikethrough', { selected: 'bold' });
+export const Strikethrough: Icon = solarIcon(SoTextCross, SoTextCrossBold, 'Strikethrough');
 export const Sun: Icon = solarIcon(SoSun, SoSunBold, 'Sun');
-export const SwatchBook: Icon = phosphorIcon(PhSwatches, 'SwatchBook');
+export const SwatchBook: Icon = solarIcon(SoPalette2, SoPalette2Bold, 'SwatchBook');
 export const Tablet: Icon = solarIcon(SoTablet, SoTabletBold, 'Tablet');
 export const Target: Icon = solarIcon(SoTarget, SoTargetBold, 'Target');
 export const Terminal: Icon = solarIcon(SoProgramming, SoProgrammingBold, 'Terminal');
 export const Trash2: Icon = solarIcon(SoTrashBinTrash, SoTrashBinTrashBold, 'Trash2');
 export const TriangleAlert: Icon = solarIcon(SoDangerTriangle, SoDangerTriangleBold, 'TriangleAlert');
 export const Tv: Icon = solarIcon(SoTv, SoTvBold, 'Tv');
-export const Type: Icon = phosphorIcon(PhTextT, 'Type', { selected: 'bold' });
 export const Underline: Icon = solarIcon(SoTextUnderline, SoTextUnderlineBold, 'Underline');
 export const Undo2: Icon = solarIcon(SoUndoLeft, SoUndoLeftBold, 'Undo2');
 export const Unlink: Icon = solarIcon(SoUnlink, SoUnlinkBold, 'Unlink');

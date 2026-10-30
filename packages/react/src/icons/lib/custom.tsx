@@ -4,7 +4,7 @@ import { useIconEmphasis } from './emphasis.tsx';
 import type { Icon } from './types.ts';
 
 /**
- * A caustic-drawn stroke glyph on a 24 grid, for shapes neither set has. Drawn at 1.5 to sit with Phosphor regular and Solar linear;
+ * A caustic-drawn stroke glyph on a 24 grid, for shapes Solar does not have. Drawn at 1.5 to sit with Solar linear;
  * selected thickens to 2 (stroke glyphs have no fill form). `children` are the shapes, stroked in currentColor.
  */
 export function customIcon(name: string, children: ReactNode): Icon {

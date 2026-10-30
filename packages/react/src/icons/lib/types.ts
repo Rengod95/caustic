@@ -1,8 +1,7 @@
 import type { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react';
 
 /**
- * How loud a glyph reads. Each set maps it to its own weight or style:
- * Phosphor muted = light, default = regular, selected = fill; Solar muted and default = linear, selected = bold.
+ * How loud a glyph reads. Solar: muted and default = Linear, selected = Bold; caustic-drawn glyphs step the stroke (1.25 / 1.5 / 2).
  */
 export type IconEmphasis = 'muted' | 'default' | 'selected';
 
@@ -22,4 +21,4 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'ref'> {
 export type Icon = ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
 
 /** Name of the active icon set. */
-export type IconSetName = 'phosphor' | 'solar';
+export type IconSetName = 'solar';

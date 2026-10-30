@@ -1,12 +1,6 @@
 # Icon notices
 
-`@caustic/react/icons` draws its glyphs from two third-party sets. Which set ships depends on the build (see `src/icons/index.ts`). Both sets borrow a few glyphs from each other for gaps, so a build of either set contains glyphs from both.
-
-## Phosphor Icons
-
-- Package: `@phosphor-icons/react` 2.1.10
-- Copyright (c) 2020 Phosphor Icons
-- License: MIT (glyphs and React package). Keep the copyright and permission notice with redistributed copies.
+`@caustic/react/icons` draws its glyphs from the Solar set (third-party, below) plus a few caustic-drawn glyphs for names Solar does not cover.
 
 ## Solar Icons
 
@@ -19,4 +13,4 @@
 
 ## Caustic-drawn glyphs
 
-`Space` (`src/icons/custom.tsx`) is drawn by caustic. `CallArrow` is adapted from Lucide's `corner-down-right` (ISC License, Copyright (c) Lucide Contributors) with a tighter elbow.
+`Space` (`src/icons/custom.tsx`) and the gap glyphs in `src/icons/gaps.tsx` (text alignment, Blend, Circle, Component, Contrast, Diamond, Octagon, Shapes, Spline, Type) are drawn by caustic. `Hand`, `LoaderCircle` and `CornerUpRight` in `gaps.tsx` follow Lucide's `hand`, `loader-circle` and `corner-up-right` outlines (ISC License, Copyright (c) Lucide Contributors). `CallArrow` is adapted from Lucide's `corner-down-right` (ISC License, Copyright (c) Lucide Contributors) with a tighter elbow.

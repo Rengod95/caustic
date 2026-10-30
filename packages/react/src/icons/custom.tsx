@@ -1,7 +1,7 @@
 import { customIcon } from './lib/custom.tsx';
 import type { Icon } from './lib/types.ts';
 
-// Glyphs neither set draws. Same in both sets.
+// Glyphs Solar does not draw (caustic-specific shapes).
 
 /** The space bar (a tray under the baseline). */
 export const Space: Icon = customIcon('Space', <path d="M4 14v3.5h16V14" />);
