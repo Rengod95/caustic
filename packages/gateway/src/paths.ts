@@ -10,5 +10,3 @@ export const reportsDir = process.env.CAUSTIC_REPORTS_DIR ?? join(root, 'package
 export const selftest = process.env.CAUSTIC_SELFTEST === '1';
 export const baselinesDir = join(root, 'baselines');
 export const tokensDist = join(root, 'packages/tokens/dist');
-/** The approved HTML specimens (visual source of truth until React baselines replace them). */
-export const specimenRoot = resolve(root, '../caustic-preview');

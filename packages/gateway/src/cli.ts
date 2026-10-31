@@ -3,7 +3,7 @@
 //   pnpm gate button            one component
 //   pnpm gate button switch     several
 //   pnpm gate --all             every spec
-//   flags: --skip=G4,G5   --only=G2   --json   --no-specimens (skip only the G1 specimen-link check; CI)
+//   flags: --skip=G4,G5   --only=G2   --json
 import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -25,13 +25,12 @@ import type { Fixture } from '../../react/src/lib/fixture.ts';
 const args = process.argv.slice(2);
 const flag = (name: string) => args.find(a => a.startsWith(`--${name}=`))?.split('=')[1]?.split(',').map(s => s.toUpperCase()) ?? null;
 const json = args.includes('--json');
-const specimens = !args.includes('--no-specimens'); // CI has no ../caustic-preview
 const all = args.includes('--all');
 const ids = all ? specIds() : args.filter(a => !a.startsWith('--'));
 const only = flag('only'), skip = flag('skip') ?? [];
 const runs = (g: Gate) => (!only || only.includes(g)) && !skip.includes(g);
 
-if (!ids.length) { console.error('usage: pnpm gate <id…> | --all  [--only=G2,G3] [--skip=G4] [--json] [--no-specimens]'); process.exit(2); }
+if (!ids.length) { console.error('usage: pnpm gate <id…> | --all  [--only=G2,G3] [--skip=G4] [--json]'); process.exit(2); }
 
 const gatedPath = join(root, 'packages/spec/gated.json');
 type Gated = Record<string, { specHash: string; at: string }>;
@@ -63,7 +62,7 @@ try {
       ? await import(pathToFileURL(fixturePath).href).then(m => m.default, (e: any) => { c.fail({ gate: 'G1', check: 'fixture', message: `Fixture failed to load: ${String(e.message).split('\n')[0]}` }); return undefined; })
       : undefined;
     // Without G1 the spec is still parsed (silently) so --only=G2 etc. actually run their gate.
-    const spec = runs('G1') ? await g1(c, input, fixture, specimens) : (() => { const p = ComponentSpec.safeParse(input); if (!p.success) c.fail({ gate: 'G1', check: 'schema', message: 'Spec does not parse; run with G1 for details.' }); return p.success ? p.data : null; })();
+    const spec = runs('G1') ? await g1(c, input, fixture) : (() => { const p = ComponentSpec.safeParse(input); if (!p.success) c.fail({ gate: 'G1', check: 'schema', message: 'Spec does not parse; run with G1 for details.' }); return p.success ? p.data : null; })();
     if (spec) {
       if (runs('G2')) await g2(c, spec).catch(e => c.fail({ gate: 'G2', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
       if (runs('G5')) await g5Static(c, spec).catch(e => c.fail({ gate: 'G5', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));

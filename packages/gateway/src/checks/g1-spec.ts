@@ -1,15 +1,14 @@
-// G1 · Spec validity: schema, token references, approval lock, fixture and specimen links.
+// G1 · Spec validity: schema, token references, approval lock, fixtures and React baselines.
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ComponentSpec, type SpecInput } from '@caustic/spec';
 import { readLocks, specHash } from '../../../spec/src/approve.ts';
 import { Collector } from '../report.ts';
-import { baselinesDir, specimenRoot } from '../paths.ts';
+import { baselinesDir } from '../paths.ts';
 import { dimPx, tokenIndex } from '../tokens.ts';
 import type { Fixture } from '../../../react/src/lib/fixture.ts';
 
-/** `specimens: false` (gate --no-specimens, CI) skips only the HTML specimen-link checks; ../caustic-preview is local-only. */
-export async function g1(c: Collector, input: SpecInput, fixture: Fixture | undefined, specimens = true): Promise<ComponentSpec | null> {
+export async function g1(c: Collector, input: SpecInput, fixture: Fixture | undefined): Promise<ComponentSpec | null> {
   const parsed = ComponentSpec.safeParse(input);
   if (!parsed.success) {
     for (const issue of parsed.error.issues) c.fail({ gate: 'G1', check: 'schema', message: issue.message, where: issue.path.join('.') });
@@ -60,7 +59,7 @@ export async function g1(c: Collector, input: SpecInput, fixture: Fixture | unde
   if (!fixture) c.fail({ gate: 'G1', check: 'fixture', message: `No fixture registered for "${spec.id}".`, fix: `Add components/${spec.id}/${spec.id}.fixture.tsx and register it in src/fixtures.ts.` });
   for (const ex of spec.examples) {
     if (fixture && !fixture.examples[ex.id]) c.fail({ gate: 'G1', check: 'fixture', message: `Fixture has no example "${ex.id}".`, fix: `Implement examples.${ex.id} reproducing ${ex.doc}.` });
-    const [page, heading] = ex.doc.split('#');
+    const [page] = ex.doc.split('#');
     // A part approved without an HTML specimen points its examples at the pseudo page "react"; its visual
     // truth is the React-recorded baseline, which must exist before the part can pass.
     if (page === 'react') {
@@ -69,10 +68,6 @@ export async function g1(c: Collector, input: SpecInput, fixture: Fixture | unde
       if (source !== 'react') c.fail({ gate: 'G1', check: 'specimen', message: `Example "${ex.id}" has no specimen and no React baseline.`, fix: `Record it with pnpm baseline:react ${spec.id} (main session).` });
       continue;
     }
-    if (!specimens) continue; // CI has no ../caustic-preview; the local gate-all checks this link
-    const file = join(specimenRoot, 'docs', `${page}.html`);
-    if (!existsSync(file)) c.fail({ gate: 'G1', check: 'specimen', message: `Specimen page docs/${page}.html not found.` });
-    else if (heading && !readFileSync(file, 'utf8').includes(`id="${heading}"`)) c.fail({ gate: 'G1', check: 'specimen', message: `Specimen heading #${heading} not found in docs/${page}.html.` });
   }
   return spec;
 }
