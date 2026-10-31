@@ -53,8 +53,8 @@ The registries are generated; do not edit them. Run `pnpm registry` after adding
 - **Behavior:**
   - Use `useControllableState` for value, open and checked props: `value` / `defaultValue` / `onValueChange`, and the same pattern for `open` and `checked`.
   - Radix is allowed only for what the spec lists in `composition.radix`.
-  - Icons come from `lucide-react`.
-  - The only runtime dependencies are `@radix-ui/react-*`, `class-variance-authority`, `tailwind-merge` and `lucide-react`.
+  - Icons come from the caustic icon adapter, `import { Check } from '../../icons/index.ts'` (public path `@caustic/react/icons`). Solar is the only set and is reached only through the adapter; never import `@solar-icons/react` or `lucide-react` in a component. Names follow lucide; a name Solar lacks is drawn in `icons/gaps.tsx`. Solar is CC BY 4.0, see `packages/react/ICONS-NOTICE.md`.
+  - The only runtime dependencies are `@radix-ui/react-*`, `class-variance-authority`, `tailwind-merge` and `@solar-icons/react` (the adapter's source). `lucide-react` stays only for the docs app.
 - **Imports:** a component may import from `lib/`, `hooks/`, its own directory, and the directories of components listed in `composition.uses`. Nothing else.
 - **SSR:** do not touch `window` or `document` during render.
 

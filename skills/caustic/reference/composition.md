@@ -9,7 +9,7 @@ component; this file explains the patterns that hold across all of them.
 - The app imports the stylesheet once: `import '@caustic/react/styles.css'`. It brings Tailwind, the tokens and the
   theme; you do not add a Tailwind config of your own for Caustic.
 - Light and dark follow the system. Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force one.
-- Icons are `lucide-react`. Pass them as elements (`icon={<Plus />}`); components size them.
+- Icons come from `@caustic/react/icons` (Solar set, CC BY 4.0). Pass them as elements (`icon={<Plus />}`); components size them.
 
 ## Compound components and parts
 

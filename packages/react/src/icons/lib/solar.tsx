@@ -28,7 +28,6 @@ export function solarIcon(Linear: SolarGlyph, Bold: SolarGlyph, name: string, op
     return (
       <Glyph
         ref={ref}
-        color="currentColor"
         strokeWidth={STROKE}
         style={{ fontSize: typeof size === 'number' ? `${size}px` : size, ...(options.mirrored ? { transform: 'scaleX(-1)' } : {}), ...style }}
         data-icon={name}

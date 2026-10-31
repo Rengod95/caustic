@@ -1,5 +1,5 @@
 // Uses real components the way the showcase samples do; `caustic check` must report nothing here.
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search } from '@caustic/react/icons';
 import { useState } from 'react';
 import {
   Badge, Button, Card, CardBody, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Field, IconButton, Input,
