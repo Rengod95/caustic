@@ -72,6 +72,7 @@ import listDescription from './components/list-description/list-description.fixt
 import listNavigation from './components/list-navigation/list-navigation.fixture.tsx';
 import menu from './components/menu/menu.fixture.tsx';
 import message from './components/message/message.fixture.tsx';
+import meter from './components/meter/meter.fixture.tsx';
 import motionTimeline from './components/motion-timeline/motion-timeline.fixture.tsx';
 import nodeGraph from './components/node-graph/node-graph.fixture.tsx';
 import numberField from './components/number-field/number-field.fixture.tsx';
@@ -191,6 +192,7 @@ export const fixtures: Record<string, Fixture> = {
   'list-navigation': listNavigation,
   'menu': menu,
   'message': message,
+  'meter': meter,
   'motion-timeline': motionTimeline,
   'node-graph': nodeGraph,
   'number-field': numberField,

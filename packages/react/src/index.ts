@@ -75,6 +75,7 @@ export * from './components/list-description/index.ts';
 export * from './components/list-navigation/index.ts';
 export * from './components/menu/index.ts';
 export * from './components/message/index.ts';
+export * from './components/meter/index.ts';
 export * from './components/motion-timeline/index.ts';
 export * from './components/node-graph/index.ts';
 export * from './components/number-field/index.ts';

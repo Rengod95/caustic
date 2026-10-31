@@ -1,6 +1,6 @@
 # Caustic components
 
-> 117 React components for agent-native design tools, imported from '@caustic/react'.
+> 118 React components for agent-native design tools, imported from '@caustic/react'.
 
 Use the `caustic` CLI (package @caustic/cli) for detail instead of guessing:
 - `caustic find "<need>"` routes a need to fitting components; `caustic list --tree` shows the whole set.
@@ -89,6 +89,7 @@ Every command takes `--json`. Full data: @caustic/catalog/catalog.json.
 
 - CardStat (card-stat): Show one KPI: a label, a large value, a coloured change with a note and an optional sparkline.
 - ContextAnalytics (context-analytics): Show how much of the model context window a session uses, per round and by what fills it.
+- Meter (meter): Show a bounded measurement against a limit, such as a budget spent or a quota left, with warning and danger thresholds.
 
 ## display.data: Show structured data: tables, token values, graphs, diffs.
 

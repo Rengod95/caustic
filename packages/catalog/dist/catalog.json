@@ -133,7 +133,8 @@
       "components": [
         "card-stat",
         "context-analytics",
-        "contrast-insight"
+        "contrast-insight",
+        "meter"
       ]
     },
     "display.data": {
@@ -594,6 +595,7 @@
         "input",
         "kbd",
         "menu",
+        "meter",
         "number-field",
         "picker-trigger",
         "popover",
@@ -757,6 +759,7 @@
         "icon-button",
         "list-description",
         "menu",
+        "meter",
         "pagination",
         "plan",
         "policy-findings",
@@ -794,6 +797,7 @@
         "form-layout",
         "list",
         "list-description",
+        "meter",
         "node-graph",
         "otp-input",
         "pagination",
@@ -823,6 +827,7 @@
         "hex-input",
         "input",
         "kbd",
+        "meter",
         "number-field",
         "progress",
         "separator",
@@ -35406,6 +35411,195 @@
           "code": "<div className=\"grid gap-3\">\n  <Message author=\"user\">Generate a dark variant of Lagoon. Keep the accent recognizable.</Message>\n  <Thinking defaultOpen>Dark surfaces need a lighter accent step to hold contrast. Moving accent/solid from 600 to 400 keeps the hue and passes on surface.</Thinking>\n  <Message meta=\"Caustic · 3 tool calls · 12s\" onCopy={() => {}} onRetry={() => {}} copyLabel=\"Copy\" retryLabel=\"Retry\">\n    <p>I derived 14 tokens for dark. The accent moves from <MessageCode>lagoon/600</MessageCode> to <MessageCode>lagoon/400</MessageCode>, so buttons stay recognizable and pass AA on every surface.</p>\n  </Message>\n</div>"
         }
       ]
+    },
+    "meter": {
+      "id": "meter",
+      "name": "Meter",
+      "category": "data",
+      "status": "ready",
+      "intent": "Show a bounded measurement against a limit, such as a budget spent or a quota left, with warning and danger thresholds.",
+      "roles": [
+        "display.metric"
+      ],
+      "alsoFits": [
+        "feedback.progress"
+      ],
+      "placement": [
+        "inline",
+        "toolbar",
+        "card",
+        "page"
+      ],
+      "keywords": [
+        "gauge",
+        "budget bar",
+        "quota",
+        "usage meter",
+        "limit"
+      ],
+      "pairs": [
+        "card-stat",
+        "progress"
+      ],
+      "consider": [
+        {
+          "id": "progress",
+          "when": "the bar shows work that is running, not a measurement against a limit"
+        }
+      ],
+      "guidance": [
+        "Pass high as 50% of max for a budget so half spent reads warning and the full budget reads danger.",
+        "The tone is on the bar only; keep the label and value as neutral text."
+      ],
+      "import": "import { Meter } from '@caustic/react';",
+      "exports": [
+        "Meter",
+        "meterLevel"
+      ],
+      "el": "div",
+      "props": {
+        "value": {
+          "type": "number",
+          "required": false,
+          "description": "Current measurement, 0 to max."
+        },
+        "max": {
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": "Upper bound. A value at or over max reads danger."
+        },
+        "low": {
+          "type": "number",
+          "required": false,
+          "description": "A value at or under this reads warning (a quota that is running out)."
+        },
+        "high": {
+          "type": "number",
+          "required": false,
+          "description": "A value at or over this reads warning (a budget that is half spent: pass 50% of max)."
+        },
+        "level": {
+          "type": "'normal' | 'warning' | 'danger'",
+          "required": false,
+          "description": "Force a level; unset resolves it from value, low, high and max.",
+          "values": [
+            "normal",
+            "warning",
+            "danger"
+          ]
+        },
+        "size": {
+          "type": "'sm' | 'md'",
+          "default": "md",
+          "required": false,
+          "description": "Bar height: sm 4px, md size-progress-h (6px).",
+          "values": [
+            "sm",
+            "md"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "required": false,
+          "description": "Accessible name (aria-label)."
+        },
+        "valueText": {
+          "type": "string",
+          "required": false,
+          "description": "Human text for the value (aria-valuetext), e.g. \"6.2 of 10 hours\"."
+        }
+      },
+      "exportProps": {
+        "Meter": {
+          "high": {
+            "type": "number",
+            "required": false,
+            "description": "A value at or over this reads warning (a budget that is half spent: pass 50% of max)."
+          },
+          "label": {
+            "type": "string",
+            "required": false,
+            "description": "Accessible name (aria-label)."
+          },
+          "level": {
+            "type": "MeterLevel",
+            "required": false,
+            "description": "Force a level; unset resolves it from value, low, high and max.",
+            "values": [
+              "warning",
+              "danger",
+              "normal"
+            ]
+          },
+          "low": {
+            "type": "number",
+            "required": false,
+            "description": "A value at or under this reads warning (a quota that is running out)."
+          },
+          "max": {
+            "type": "number",
+            "default": "100",
+            "required": false,
+            "description": "Upper bound. A value at or over max reads danger."
+          },
+          "size": {
+            "type": "\"sm\" | \"md\"",
+            "default": "md",
+            "required": false,
+            "description": "Bar height: sm 4px, md size-progress-h (6px).",
+            "values": [
+              "sm",
+              "md"
+            ]
+          },
+          "value": {
+            "type": "number",
+            "required": true,
+            "description": "Current measurement, 0 to max."
+          },
+          "valueText": {
+            "type": "string",
+            "required": false,
+            "description": "Human text for the value (aria-valuetext), e.g. \"6.2 of 10 hours\"."
+          }
+        }
+      },
+      "variants": {
+        "level": {
+          "values": [
+            "normal",
+            "warning",
+            "danger"
+          ],
+          "default": "normal",
+          "description": "Resolved from value and thresholds unless the level prop forces it: value at or over max is danger; at or over high, or at or under low, is warning; otherwise normal. Colours the bar only."
+        }
+      },
+      "sizes": {
+        "values": [
+          "sm",
+          "md"
+        ],
+        "default": "md"
+      },
+      "parts": [],
+      "events": {},
+      "keyboard": {},
+      "a11y": {
+        "labelRequired": true,
+        "notes": [
+          "The level is also in aria-valuetext when the consumer passes valueText; colour alone never carries it."
+        ]
+      },
+      "flags": {
+        "agent": false,
+        "floating": false,
+        "field": false
+      },
+      "uses": [],
+      "usedBy": [],
+      "examples": []
     },
     "motion-timeline": {
       "id": "motion-timeline",

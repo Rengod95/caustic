@@ -72,6 +72,7 @@ import listDescription from './list-description.spec.ts';
 import listNavigation from './list-navigation.spec.ts';
 import menu from './menu.spec.ts';
 import message from './message.spec.ts';
+import meter from './meter.spec.ts';
 import motionTimeline from './motion-timeline.spec.ts';
 import nodeGraph from './node-graph.spec.ts';
 import numberField from './number-field.spec.ts';
@@ -191,6 +192,7 @@ export const registry: Record<string, SpecInput> = {
   'list-navigation': listNavigation,
   'menu': menu,
   'message': message,
+  'meter': meter,
   'motion-timeline': motionTimeline,
   'node-graph': nodeGraph,
   'number-field': numberField,
