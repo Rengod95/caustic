@@ -50,7 +50,7 @@
   "expression-editor": "6d64dc75665a3df8",
   "field": "f92f7005efbf81db",
   "file-upload": "9935be08f8d8a63c",
-  "floating-bar": "5b994b2c48040fb3",
+  "floating-bar": "6923beba29ff613b",
   "font-options": "4f4233102fdbcfc0",
   "form-layout": "ffcc745e288d8c1b",
   "foundation-toolbar": "b3775174c4988050",
@@ -102,7 +102,7 @@
   "suggestions": "a4a6b3245302f818",
   "switch": "4ef911b7a36a0cbd",
   "table": "9db24599bdd0dee3",
-  "tabs": "50d4c61dd751349f",
+  "tabs": "20dd766a4e9ef778",
   "tag-input": "9537eb02c46aabed",
   "text-properties": "ec9b06a9666aff70",
   "textarea": "5643f2ad5e12040c",
@@ -113,7 +113,7 @@
   "toggle-group": "65979e2283ca6159",
   "token-diff": "d31fde63cf0aef3d",
   "token-graph": "2c598e0de4e40763",
-  "tool-call": "8a61c69fa2de81e0",
+  "tool-call": "2381ae4ecb8cb17a",
   "tooltip": "3f0fc0a87b4bd02f",
   "zoom-control": "aed1fb277283fb25"
 }

@@ -14,6 +14,7 @@ export default defineSpec({
     { name: 'item', el: 'button', parent: 'group', description: 'One tool or toggle (FloatingBarItem): square, toolbar-item radius (10, concentric with 14 - 4), quiet until hover. aria-label required, e.g. "Move V". Items may also sit directly in the root.' },
     { name: 'icon', el: 'any', parent: 'item', description: 'icon: 16px at lg, 14px at md and sm.' },
     { name: 'shortcut', el: 'span', parent: 'item', required: false, description: 'One-letter shortcut hint pinned to the bottom-right of the item (3px / 2px), mono 8px 600, text.tertiary. Hidden (opacity 0) until its item is hovered or has keyboard focus, so the resting capsule shows icons only. aria-hidden; the shortcut is also in the aria-label.' },
+    { name: 'badge', el: 'span', parent: 'item', required: false, description: 'A count on the item (badge prop): a small neutral.solid pill on the top end corner, above the icon, 14px tall, no ring. Same fill in every state.' },
     { name: 'separator', el: 'span', parent: 'root', required: false, role: 'separator', description: 'Hairline in divider.line (the divider role, E15; same look as border.default) with 8px margin each side along the bar axis (FloatingBarSeparator): in a horizontal bar 1px wide by 16px tall (a vertical line, aria-orientation="vertical"); in a vertical bar 16px wide by 1px tall (a horizontal line, aria-orientation="horizontal").' },
   ],
   variants: {

@@ -115,5 +115,5 @@ export type FloatingBarVariantProps = VariantProps<typeof floatingBarVariants>;
 
 /** The count on an item: a small neutral pill on the top end corner, above the icon. One emphasis: the pill fill, no ring. */
 export const floatingBarBadgeVariants = cva(
-  'pointer-events-none absolute -top-0.5 -end-0.5 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-neutral-solid px-0.5 font-ui text-micro font-semibold tabular-nums text-neutral-on group-data-[pressed]/item:bg-control-raised group-data-[pressed]/item:text-text-primary',
+  'pointer-events-none absolute -top-0.5 -end-0.5 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-neutral-solid px-0.5 font-ui text-micro font-semibold tabular-nums text-neutral-on',
 );

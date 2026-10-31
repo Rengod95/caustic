@@ -78,7 +78,7 @@ export const tabsTriggerVariants = cva(
 
 /** The count after the label: a small neutral.track pill (full radius, 6px inline padding, owner 2026-10-28) so it reads
  *  as a count, not part of the name. Tertiary numerals; disabled.text when the tab is disabled. */
-export const tabsCountVariants = cva('inline-flex items-center rounded-full bg-neutral-track px-1.5 text-ui-xs tabular-nums text-text-tertiary group-disabled:text-disabled-text');
+export const tabsCountVariants = cva('inline-flex items-center rounded-full bg-neutral-track px-1.5 text-ui-xs tabular-nums text-text-secondary group-disabled:text-disabled-text');
 
 /** The 2px bar under each underline tab, on the list hairline. The selected tab shows it; hovering an unselected tab shows
  *  it in border.strong as a hint that it is clickable (owner 2026-10-28). While the list slides its thumb, no bar of its own
