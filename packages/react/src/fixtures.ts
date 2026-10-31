@@ -73,6 +73,7 @@ import listNavigation from './components/list-navigation/list-navigation.fixture
 import menu from './components/menu/menu.fixture.tsx';
 import message from './components/message/message.fixture.tsx';
 import motionTimeline from './components/motion-timeline/motion-timeline.fixture.tsx';
+import nodeGraph from './components/node-graph/node-graph.fixture.tsx';
 import numberField from './components/number-field/number-field.fixture.tsx';
 import otpInput from './components/otp-input/otp-input.fixture.tsx';
 import pagination from './components/pagination/pagination.fixture.tsx';
@@ -191,6 +192,7 @@ export const fixtures: Record<string, Fixture> = {
   'menu': menu,
   'message': message,
   'motion-timeline': motionTimeline,
+  'node-graph': nodeGraph,
   'number-field': numberField,
   'otp-input': otpInput,
   'pagination': pagination,
