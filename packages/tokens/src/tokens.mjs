@@ -527,8 +527,9 @@ export const font = {
   mono: '"Geist Mono", ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace',
 };
 
-// The web fonts every app loads: import @caustic/tokens/fonts.css before any other stylesheet. It imports fontHref (Google
-// Fonts: Geist, Geist Mono, Newsreader, Noto Serif KR for the Korean voice) and declares the self-hosted SUIT (fontFaces).
+// The web fonts: import @caustic/tokens/fonts.css before any other stylesheet. It declares only the self-hosted faces (fontFaces) and
+// makes no remote request. fontHref is the Google Fonts URL for Geist, Geist Mono, Newsreader and Noto Serif KR; an app that wants
+// those faces puts it in a <link>, fonts.css never imports it.
 export const fontHref = 'https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Noto+Serif+KR:wght@400..600&display=swap';
 // Self-hosted faces. `src` is relative to dist/fonts.css; Vite and other bundlers resolve and copy the file. The
 // unicode-range is Hangul (jamo, compatibility jamo, extended A/B, syllables), CJK symbols and punctuation and the

@@ -88,7 +88,7 @@ Naming:
 - Geist for the interface and human input; Hangul falls to SUIT Variable (owner decision O3; self-hosted since 2026-10-29), then Apple SD Gothic Neo, Malgun Gothic.
 - Newsreader (Korean fallback: Noto Serif KR) for agent prose; its italic for agent reasoning.
 - Geist Mono for tool names, token names, numbers and diffs.
-- Apps load the fonts once: `import "@caustic/tokens/fonts.css"` before any other stylesheet. It imports Geist, Geist Mono, Newsreader and Noto Serif KR from Google Fonts and declares the self-hosted SUIT Variable (`packages/tokens/fonts/suit`, SUIT v2.0.5, SIL OFL 1.1, 625 KB woff2, weights 100–900) with a Hangul-only unicode-range and `font-display: swap`. Bundlers resolve its relative `url()`. Without it Hangul falls to a system face; on Linux and Windows that face has only Regular and Bold, so 500 renders as 400 and 600 as 700.
+- Apps load the fonts once: `import "@caustic/tokens/fonts.css"` before any other stylesheet. It makes no remote request: it declares only the self-hosted SUIT Variable (`packages/tokens/fonts/suit`, SUIT v2.0.5, SIL OFL 1.1, 625 KB woff2, weights 100–900) with a Hangul-only unicode-range and `font-display: swap`. Bundlers resolve its relative `url()`. Without it Hangul falls to a system face (Geist, Geist Mono, Newsreader and Noto Serif KR load only when the app adds the Google Fonts `<link>` from `fontHref`); on Linux and Windows that face has only Regular and Bold, so 500 renders as 400 and 600 as 700.
 
 **Roles**
 - 15 roles: display, title-1/2/3, body, ui, ui-strong, footnote, label, caption, voice, voice-sm, thought, mono, mono-sm.
