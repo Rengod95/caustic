@@ -12,7 +12,7 @@ export default defineSpec({
     { name: 'root', el: 'div', role: 'toolbar', description: 'The capsule: inline-flex (a row; a column when vertical), centered, 2px gap, toolbar radius (14), regular glass, elevation 4 (3 for md). Needs an accessible name.' },
     { name: 'group', el: 'span', parent: 'root', required: false, role: 'group', description: 'Inline-flex run of items with a 2px gap (FloatingBarGroup); a row in a horizontal bar, a column in a vertical bar. Tool groups are separated by a separator.' },
     { name: 'item', el: 'button', parent: 'group', description: 'One tool or toggle (FloatingBarItem): square, toolbar-item radius (10, concentric with 14 - 4), quiet until hover. aria-label required, e.g. "Move V". Items may also sit directly in the root.' },
-    { name: 'icon', el: 'any', parent: 'item', description: 'lucide icon: 16px at lg, 14px at md and sm.' },
+    { name: 'icon', el: 'any', parent: 'item', description: 'icon: 16px at lg, 14px at md and sm.' },
     { name: 'shortcut', el: 'span', parent: 'item', required: false, description: 'One-letter shortcut hint pinned to the bottom-right of the item (3px / 2px), mono 8px 600, text.tertiary. Hidden (opacity 0) until its item is hovered or has keyboard focus, so the resting capsule shows icons only. aria-hidden; the shortcut is also in the aria-label.' },
     { name: 'separator', el: 'span', parent: 'root', required: false, role: 'separator', description: 'Hairline in divider.line (the divider role, E15; same look as border.default) with 8px margin each side along the bar axis (FloatingBarSeparator): in a horizontal bar 1px wide by 16px tall (a vertical line, aria-orientation="vertical"); in a vertical bar 16px wide by 1px tall (a horizontal line, aria-orientation="horizontal").' },
   ],
@@ -44,7 +44,7 @@ export default defineSpec({
     agent: { type: 'boolean', default: false, description: 'FloatingBarItem prop. The agent tool (wand-sparkles): primary text with the spectrum rim (not when disabled).' },
     disabled: { type: 'boolean', default: false, description: 'FloatingBarItem prop. Native disabled.' },
     shortcut: { type: 'string', description: 'FloatingBarItem prop. The one-letter hint.' },
-    icon: { type: 'ReactNode', description: 'FloatingBarItem prop. The lucide icon.' },
+    icon: { type: 'ReactNode', description: 'FloatingBarItem prop. The icon.' },
     children: { type: 'ReactNode', required: true, description: 'FloatingBarGroup, FloatingBarItem, FloatingBarSeparator, or a composed control such as ZoomControl or an agent Button.' },
   },
   events: {

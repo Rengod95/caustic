@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 
 // The graph host. surface grid = the dot-grid canvas fill (canvas-grid); none = transparent, for a host that already is the
 // canvas (an app's transparent centre). radius and shadow shape the host (none, flat by default).
-export const nodeGraphVariants = cva('relative', {
+export const nodeGraphVariants = cva('relative h-(--graph-h) w-(--graph-w)', {
   variants: {
     surface: { grid: 'canvas-grid', none: '' },
     radius: { none: '', '2xs': 'rounded-2xs', xs: 'rounded-xs', sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-lg', xl: 'rounded-xl', '2xl': 'rounded-2xl', '3xl': 'rounded-3xl', '4xl': 'rounded-4xl', full: 'rounded-full' },
@@ -43,12 +43,12 @@ export const nodeGraphWireEndVariants = cva('', {
 
 // Edge label: sits on the wire's midpoint over a canvas-coloured plate so the wire does not run through the text.
 export const nodeGraphLabelVariants = cva(
-  'pointer-events-none absolute z-[1] -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-xs bg-[var(--graph-plate,var(--cs-color-bg-canvas))] px-1 font-ui text-ui-xs font-normal leading-4',
+  'pointer-events-none absolute z-[1] -translate-x-1/2 -translate-y-1/2 top-(--label-y) left-(--label-x) whitespace-nowrap rounded-xs bg-[var(--graph-plate,var(--cs-color-bg-canvas))] px-1 font-ui text-ui-xs font-normal',
   {
     variants: {
       state: {
         idle: 'text-text-tertiary', done: 'text-text-tertiary', active: 'text-text-primary', draft: 'text-text-secondary',
-        invalid: 'text-danger-text', muted: 'text-text-disabled',
+        invalid: 'text-danger-text', muted: 'text-disabled-text',
       },
     },
     defaultVariants: { state: 'idle' },
@@ -72,14 +72,14 @@ export const graphNodeVariants = cva(
         ghost: 'bg-transparent outline-dashed outline-1 -outline-offset-1 outline-border-strong',
       },
       // idle; active = the run is here (tone ring 1.5px); done = ran (name steps to secondary); failed and invalid = the danger
-      // container (tint fill, danger border); dimmed = off the selection or not yet reachable (55% opacity).
+      // container (tint fill, danger border); dimmed = off the selection or not yet reachable (64% opacity).
       state: {
         idle: '',
         active: 'shadow-[inset_0_0_0_1.5px_var(--tone-solid),var(--cs-elevation-2)]',
         done: '',
-        failed: 'bg-danger-tint shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)]',
-        invalid: 'bg-danger-tint shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)]',
-        dimmed: 'opacity-55',
+        failed: 'bg-danger-tint shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)] focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border),var(--cs-focus)]',
+        invalid: 'bg-danger-tint shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
+        dimmed: 'opacity-64',
       },
       selected: { true: 'shadow-[inset_0_0_0_1.5px_var(--tone-solid),var(--cs-elevation-1)]', false: '' },
     },

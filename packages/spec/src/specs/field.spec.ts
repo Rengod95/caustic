@@ -17,7 +17,7 @@ export default defineSpec({
     { name: 'warning', el: 'span', parent: 'root', required: false, description: 'Caution message with a triangle-alert icon; replaces the hint and does not mark the control invalid. Referenced by aria-describedby.' },
     { name: 'success', el: 'span', parent: 'root', required: false, description: 'Positive validation message with a check icon; replaces the hint. Referenced by aria-describedby.' },
     { name: 'error', el: 'span', parent: 'root', required: false, role: 'alert', description: 'Replaces the hint and marks the control invalid. Leading circle-alert icon. role="alert" (an assertive live region), so a message that appears or changes is announced without moving focus; it is also the control\'s aria-describedby target.' },
-    { name: 'icon', el: 'any', parent: 'hint', required: false, description: '13px lucide icon leading a hint, warning, success or error message.' },
+    { name: 'icon', el: 'any', parent: 'hint', required: false, description: '13px icon leading a hint, warning, success or error message.' },
   ],
   states: { invalid: { props: { error: 'Use lowercase letters, numbers and dashes.' } } },
   variants: {

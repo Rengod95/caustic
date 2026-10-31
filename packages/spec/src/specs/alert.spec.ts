@@ -10,7 +10,7 @@ export default defineSpec({
   role: 'status',
   slots: [
     { name: 'root', el: 'div', description: 'layout inline: three-column grid (icon, body, action; a fourth column for dismiss). layout page: full-width flex row. Danger uses role="alert"; the other tones role="status".' },
-    { name: 'icon', el: 'any', parent: 'root', description: '16px lucide icon in the tone graphic color (info, circle-check, triangle-alert, circle-alert).' },
+    { name: 'icon', el: 'any', parent: 'root', description: '16px icon in the tone graphic color (info, circle-check, triangle-alert, circle-alert).' },
     { name: 'body', el: 'div', parent: 'root', description: 'Message in the tone text color (inherited from the root); a <b> lead-in is weight 600. layout page: takes the free width. emphasis lead: the message in text.primary and only the <b> lead-in in the tone text.' },
     { name: 'action', el: 'div', parent: 'root', required: false, description: 'Row of actions, 6px gap. From actions: Button xs in the alert tone, the primary one the tone solid button and the others the tone soft button (a solid alert uses the raised neutral button for all). Free action content follows as given. The column collapses when empty.' },
     { name: 'dismiss', el: 'button', parent: 'root', required: false, description: 'IconButton xs with an x icon; aria-label from the dismissLabel prop.' },

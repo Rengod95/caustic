@@ -142,6 +142,7 @@
         "context-analytics",
         "list-description",
         "motion-timeline",
+        "node-graph",
         "table",
         "token-graph"
       ]
@@ -378,7 +379,8 @@
     "canvas.surface": {
       "description": "The design surface and its frames.",
       "components": [
-        "canvas-artboard"
+        "canvas-artboard",
+        "node-graph"
       ]
     },
     "canvas.annotation": {
@@ -448,6 +450,7 @@
         "floating-bar",
         "foundation-toolbar",
         "motion-timeline",
+        "node-graph",
         "resize-handle",
         "suggestions",
         "table",
@@ -572,6 +575,7 @@
         "empty-state",
         "floating-bar",
         "frame-label",
+        "node-graph",
         "zoom-control"
       ]
     },
@@ -790,6 +794,7 @@
         "form-layout",
         "list",
         "list-description",
+        "node-graph",
         "otp-input",
         "pagination",
         "policy-findings",
@@ -7098,7 +7103,7 @@
         "labelRequired": true,
         "notes": [
           "The group needs an aria-label (\"Align\"); every IconButton item needs its own label.",
-          "Alignment icons are lucide align-start-vertical / align-center-vertical / align-end-vertical (left, horizontal centers, right) and align-start-horizontal / align-center-horizontal / align-end-horizontal (top, vertical centers, bottom), 14px at tight and 16px at regular."
+          "Alignment icons are align-start-vertical / align-center-vertical / align-end-vertical (left, horizontal centers, right) and align-start-horizontal / align-center-horizontal / align-end-horizontal (top, vertical centers, bottom), 14px at tight and 16px at regular."
         ]
       },
       "flags": {
@@ -11029,7 +11034,7 @@
           "el": "span",
           "parent": "CardHeader",
           "required": true,
-          "description": "Leading tile with an 18px lucide glyph (aria-hidden). Neutral or accent tone."
+          "description": "Leading tile with an 18px glyph (aria-hidden). Neutral or accent tone."
         },
         {
           "name": "CardOrb",
@@ -25255,7 +25260,7 @@
         "icon": {
           "type": "ReactNode",
           "required": false,
-          "description": "FloatingBarItem prop. The lucide icon."
+          "description": "FloatingBarItem prop. The icon."
         },
         "children": {
           "type": "ReactNode",
@@ -25370,6 +25375,11 @@
             "required": false,
             "description": "FloatingBarItem prop. The agent tool (wand-sparkles): primary text with the spectrum rim (not when disabled)."
           },
+          "badge": {
+            "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
+            "required": false,
+            "description": ""
+          },
           "defaultPressed": {
             "type": "boolean",
             "required": false,
@@ -25384,7 +25394,7 @@
           "icon": {
             "type": "ReactNode",
             "required": false,
-            "description": "FloatingBarItem prop. The lucide icon."
+            "description": "FloatingBarItem prop. The icon."
           },
           "onPressedChange": {
             "type": "(pressed: boolean) => void",
@@ -25548,7 +25558,7 @@
         {
           "id": "tool-capsule",
           "title": "Tool capsule",
-          "code": "const stage = 'canvas-grid flex flex-col items-center gap-3.5 rounded-xl py-7 [background-size:var(--cs-space-4)_var(--cs-space-4)]';\n\n<div className={stage}>\n  <FloatingBar label=\"Canvas tools\">\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Move V\" icon={<MousePointer2 />} shortcut=\"V\" active />\n      <FloatingBarItem aria-label=\"Hand H\" icon={<Hand />} shortcut=\"H\" />\n    </FloatingBarGroup>\n    <FloatingBarSeparator />\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Frame F\" icon={<Frame />} shortcut=\"F\" />\n      <FloatingBarItem aria-label=\"Rectangle R\" icon={<Square />} shortcut=\"R\" />\n      <FloatingBarItem aria-label=\"Text T\" icon={<Type />} shortcut=\"T\" />\n      <FloatingBarItem aria-label=\"Pen P\" icon={<PenTool />} shortcut=\"P\" />\n    </FloatingBarGroup>\n    <FloatingBarSeparator />\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Comment C\" icon={<MessageCircle />} />\n      <FloatingBarItem aria-label=\"Ask agent\" icon={<WandSparkles />} agent />\n    </FloatingBarGroup>\n  </FloatingBar>\n  <FloatingBar label=\"Canvas options\" size=\"md\">\n    <FloatingBarItem aria-label=\"Show grid\" icon={<Grid3x3 />} pressed />\n    <FloatingBarItem aria-label=\"Snap to grid\" icon={<Magnet />} pressed={false} />\n    <FloatingBarSeparator />\n    <ZoomControl value=\"64%\" appearance=\"bare\" label=\"Zoom\" zoomOutLabel=\"Zoom out\" zoomInLabel=\"Zoom in\" />\n  </FloatingBar>\n</div>"
+          "code": "const stage = 'canvas-grid flex flex-col items-center gap-3.5 rounded-xl py-7 [background-size:var(--cs-space-4)_var(--cs-space-4)]';\n\n<div className={stage}>\n  <FloatingBar label=\"Canvas tools\">\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Move V\" icon={<MousePointer2 />} shortcut=\"V\" active />\n      <FloatingBarItem aria-label=\"Hand H\" icon={<Hand />} shortcut=\"H\" />\n    </FloatingBarGroup>\n    <FloatingBarSeparator />\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Frame F\" icon={<Frame />} shortcut=\"F\" />\n      <FloatingBarItem aria-label=\"Rectangle R\" icon={<Square />} shortcut=\"R\" />\n      <FloatingBarItem aria-label=\"Text T\" icon={<Type />} shortcut=\"T\" />\n      <FloatingBarItem aria-label=\"Pen P\" icon={<PenTool />} shortcut=\"P\" />\n    </FloatingBarGroup>\n    <FloatingBarSeparator />\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Comment C, 3 open\" icon={<MessageCircle />} badge=\"3\" />\n      <FloatingBarItem aria-label=\"Ask agent\" icon={<WandSparkles />} agent />\n    </FloatingBarGroup>\n  </FloatingBar>\n  <FloatingBar label=\"Canvas options\" size=\"md\">\n    <FloatingBarItem aria-label=\"Show grid\" icon={<Grid3x3 />} pressed />\n    <FloatingBarItem aria-label=\"Snap to grid\" icon={<Magnet />} pressed={false} />\n    <FloatingBarSeparator />\n    <ZoomControl value=\"64%\" appearance=\"bare\" label=\"Zoom\" zoomOutLabel=\"Zoom out\" zoomInLabel=\"Zoom in\" />\n  </FloatingBar>\n</div>"
         },
         {
           "id": "capsule",
@@ -25558,7 +25568,7 @@
         {
           "id": "vertical-dock",
           "title": "Vertical tool dock",
-          "code": "const stage = 'canvas-grid flex flex-col items-center gap-3.5 rounded-xl py-7 [background-size:var(--cs-space-4)_var(--cs-space-4)]';\n\n<div className={stage}>\n  <FloatingBar label=\"Canvas tools\" orientation=\"vertical\">\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Move V\" icon={<MousePointer2 />} shortcut=\"V\" active />\n      <FloatingBarItem aria-label=\"Hand H\" icon={<Hand />} shortcut=\"H\" />\n    </FloatingBarGroup>\n    <FloatingBarSeparator />\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Frame F\" icon={<Frame />} shortcut=\"F\" />\n      <FloatingBarItem aria-label=\"Rectangle R\" icon={<Square />} shortcut=\"R\" />\n      <FloatingBarItem aria-label=\"Text T\" icon={<Type />} shortcut=\"T\" />\n      <FloatingBarItem aria-label=\"Pen P\" icon={<PenTool />} shortcut=\"P\" />\n    </FloatingBarGroup>\n    <FloatingBarSeparator />\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Comment C\" icon={<MessageCircle />} />\n      <FloatingBarItem aria-label=\"Ask agent\" icon={<WandSparkles />} agent />\n    </FloatingBarGroup>\n  </FloatingBar>\n</div>"
+          "code": "const stage = 'canvas-grid flex flex-col items-center gap-3.5 rounded-xl py-7 [background-size:var(--cs-space-4)_var(--cs-space-4)]';\n\n<div className={stage}>\n  <FloatingBar label=\"Canvas tools\" orientation=\"vertical\">\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Move V\" icon={<MousePointer2 />} shortcut=\"V\" active />\n      <FloatingBarItem aria-label=\"Hand H\" icon={<Hand />} shortcut=\"H\" />\n    </FloatingBarGroup>\n    <FloatingBarSeparator />\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Frame F\" icon={<Frame />} shortcut=\"F\" />\n      <FloatingBarItem aria-label=\"Rectangle R\" icon={<Square />} shortcut=\"R\" />\n      <FloatingBarItem aria-label=\"Text T\" icon={<Type />} shortcut=\"T\" />\n      <FloatingBarItem aria-label=\"Pen P\" icon={<PenTool />} shortcut=\"P\" />\n    </FloatingBarGroup>\n    <FloatingBarSeparator />\n    <FloatingBarGroup>\n      <FloatingBarItem aria-label=\"Comment C, 3 open\" icon={<MessageCircle />} badge=\"3\" />\n      <FloatingBarItem aria-label=\"Ask agent\" icon={<WandSparkles />} agent />\n    </FloatingBarGroup>\n  </FloatingBar>\n</div>"
         }
       ]
     },
@@ -36028,6 +36038,667 @@
           "id": "timeline",
           "title": "Timeline",
           "code": "const lanes: TimelineLane[] = [\n  { id: 'card', icon: <Square />, label: 'Card', start: 0, end: 40, keyframes: [0, 40] },\n  { id: 'title', icon: <Type />, label: 'Title · opacity', start: 15, end: 50, keyframes: [15, 50] },\n  { id: 'button', icon: <Component />, label: 'Button · y', start: 30, end: 85, keyframes: [30, 60, 85] },\n  { id: 'photo', icon: <Image />, label: 'Photo · scale', start: 5, end: 95, keyframes: [5, 95] },\n];\n\nconst labels: MotionTimelineLabels = {\n  play: 'Play',\n  pause: 'Pause',\n  time: (milliseconds, total) => `${milliseconds} / ${total} ms`,\n  ruler: milliseconds => (milliseconds === 0 ? '0s' : (milliseconds / 1000).toFixed(1)),\n  keyframe: (laneName, index, milliseconds) => `${laneName} keyframe ${index + 1} at ${(milliseconds / 1000).toFixed(2)} s`,\n  modeGroup: 'Motion type',\n  mode: { easing: 'Easing', spring: 'Spring' },\n  apply: 'Apply',\n  resume: 'Resume',\n  reset: 'Reset',\n  seek: (milliseconds, total) => `Timeline ${milliseconds} / ${total} ms`,\n};\n\n<MotionTimeline lanes={lanes} defaultTime={0.32} labels={labels} selectedKeyframe={{ lane: 0, index: 1 }} />"
+        }
+      ]
+    },
+    "node-graph": {
+      "id": "node-graph",
+      "name": "NodeGraph",
+      "category": "canvas",
+      "status": "ready",
+      "intent": "A canvas of positioned nodes with ports and measured wires, for state machines, flows and composition maps.",
+      "roles": [
+        "display.data",
+        "canvas.surface"
+      ],
+      "alsoFits": [
+        "display.token"
+      ],
+      "placement": [
+        "stage",
+        "canvas",
+        "page"
+      ],
+      "keywords": [
+        "state machine",
+        "flow chart",
+        "graph editor",
+        "wires",
+        "ports",
+        "composition map",
+        "dependency"
+      ],
+      "pairs": [
+        "zoom-control",
+        "floating-bar",
+        "badge"
+      ],
+      "consider": [
+        {
+          "id": "token-graph",
+          "when": "the nodes are design tokens in three tiers with tracing"
+        }
+      ],
+      "guidance": [
+        "Node positions, edge states and labels are your data; the graph measures the port dots and draws the wires.",
+        "Use state on nodes, ports and edges for run progress (active, done, failed); set tone for the active colour.",
+        "Wires and port dots are decorative, so give each node a text name and list its links where a screen reader can reach them."
+      ],
+      "import": "import { NodeGraph, NodeGraphNode, NodeGraphPort, GraphNode, GraphPort } from '@caustic/react';",
+      "exports": [
+        "NodeGraph",
+        "NodeGraphNode",
+        "NodeGraphPort",
+        "GraphNode",
+        "GraphPort",
+        "nodeGraphVariants",
+        "graphNodeVariants",
+        "graphPortVariants",
+        "graphPortDotVariants",
+        "nodeGraphWireVariants"
+      ],
+      "el": "div",
+      "props": {
+        "tone": {
+          "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
+          "default": "accent",
+          "required": false,
+          "description": "Colour of active and draft wires and selected nodes.",
+          "values": [
+            "neutral",
+            "accent",
+            "success",
+            "warning",
+            "danger",
+            "info",
+            "agent"
+          ]
+        },
+        "surface": {
+          "type": "'grid' | 'none'",
+          "default": "none",
+          "required": false,
+          "description": "Canvas fill of the host.",
+          "values": [
+            "grid",
+            "none"
+          ]
+        },
+        "radius": {
+          "type": "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'",
+          "default": "none",
+          "required": false,
+          "description": "Host corner by radius token.",
+          "values": [
+            "none",
+            "2xs",
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+            "2xl",
+            "3xl",
+            "4xl",
+            "full"
+          ]
+        },
+        "shadow": {
+          "type": "'none' | '1' | '2' | '3' | '4' | '5'",
+          "default": "none",
+          "required": false,
+          "description": "Host elevation by elevation token.",
+          "values": [
+            "none",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]
+        },
+        "width": {
+          "type": "number",
+          "required": true,
+          "description": "Graph width in px. Nodes are placed in this space; a host may scale it with a CSS transform."
+        },
+        "height": {
+          "type": "number",
+          "required": true,
+          "description": "Graph height in px."
+        },
+        "edges": {
+          "type": "GraphEdge[]",
+          "required": true,
+          "description": "Wires: { id?, from, to, state?, dashed?, label? } where from and to are GraphPort portIds."
+        },
+        "draft": {
+          "type": "GraphDraft | null",
+          "default": null,
+          "required": false,
+          "description": "The wire being connected: { from, to: { x, y }, label? }, drawn above the others."
+        },
+        "aria-label": {
+          "type": "string",
+          "required": true,
+          "description": "Accessible name of the graph."
+        },
+        "x": {
+          "type": "number",
+          "required": true,
+          "description": "GraphNode prop. Left edge in graph px."
+        },
+        "y": {
+          "type": "number",
+          "required": true,
+          "description": "GraphNode prop. Top edge in graph px."
+        },
+        "title": {
+          "type": "ReactNode",
+          "required": true,
+          "description": "GraphNode prop. Node title."
+        },
+        "meta": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "GraphNode prop. Small text after the title."
+        },
+        "icon": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "GraphNode prop. Head icon on a tone face."
+        },
+        "iconTone": {
+          "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
+          "default": "neutral",
+          "required": false,
+          "description": "GraphNode prop. Tone of the icon face.",
+          "values": [
+            "neutral",
+            "accent",
+            "success",
+            "warning",
+            "danger",
+            "info",
+            "agent"
+          ]
+        },
+        "state": {
+          "type": "'idle' | 'active' | 'done' | 'failed' | 'invalid' | 'dimmed'",
+          "default": "idle",
+          "required": false,
+          "description": "GraphNode and GraphPort prop. Node: where the run is (active ring, done, failed and invalid danger container, dimmed). Port: idle, connected, target, invalid, active, off.",
+          "values": [
+            "idle",
+            "active",
+            "done",
+            "failed",
+            "invalid",
+            "dimmed"
+          ]
+        },
+        "selected": {
+          "type": "boolean",
+          "default": false,
+          "required": false,
+          "description": "GraphNode prop. Tone ring on the node."
+        },
+        "portId": {
+          "type": "string",
+          "required": true,
+          "description": "GraphPort prop. Identity used by GraphEdge from and to; unique in the graph."
+        },
+        "side": {
+          "type": "'start' | 'end' | 'top' | 'bottom'",
+          "default": "start",
+          "required": false,
+          "description": "GraphPort prop. Node edge the dot sits on.",
+          "values": [
+            "start",
+            "end",
+            "top",
+            "bottom"
+          ]
+        }
+      },
+      "exportProps": {
+        "NodeGraph": {
+          "draft": {
+            "type": "GraphDraft",
+            "default": null,
+            "required": false,
+            "description": "The wire being connected: { from, to: { x, y }, label? }, drawn above the others."
+          },
+          "edges": {
+            "type": "GraphEdge[]",
+            "required": true,
+            "description": "Wires: { id?, from, to, state?, dashed?, label? } where from and to are GraphPort portIds."
+          },
+          "height": {
+            "type": "number",
+            "required": true,
+            "description": "Graph height in px."
+          },
+          "radius": {
+            "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",
+            "default": "none",
+            "required": false,
+            "description": "Host corner by radius token.",
+            "values": [
+              "none",
+              "2xs",
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+              "2xl",
+              "3xl",
+              "4xl",
+              "full"
+            ]
+          },
+          "shadow": {
+            "type": "\"none\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\"",
+            "default": "none",
+            "required": false,
+            "description": "Host elevation by elevation token.",
+            "values": [
+              "none",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ]
+          },
+          "surface": {
+            "type": "\"none\" | \"grid\"",
+            "default": "none",
+            "required": false,
+            "description": "Canvas fill of the host.",
+            "values": [
+              "none",
+              "grid"
+            ]
+          },
+          "tone": {
+            "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
+            "default": "accent",
+            "required": false,
+            "description": "Colour of active and draft wires and selected nodes.",
+            "values": [
+              "neutral",
+              "accent",
+              "success",
+              "warning",
+              "danger",
+              "info",
+              "agent"
+            ]
+          },
+          "width": {
+            "type": "number",
+            "required": true,
+            "description": "Graph width in px. Nodes are placed in this space; a host may scale it with a CSS transform."
+          }
+        },
+        "NodeGraphNode": {
+          "icon": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "GraphNode prop. Head icon on a tone face."
+          },
+          "iconTone": {
+            "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
+            "default": "neutral",
+            "required": false,
+            "description": "GraphNode prop. Tone of the icon face.",
+            "values": [
+              "neutral",
+              "accent",
+              "success",
+              "warning",
+              "danger",
+              "info",
+              "agent"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "required": false,
+            "description": ""
+          },
+          "meta": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "GraphNode prop. Small text after the title."
+          },
+          "selected": {
+            "type": "boolean",
+            "default": false,
+            "required": false,
+            "description": "GraphNode prop. Tone ring on the node."
+          },
+          "state": {
+            "type": "GraphNodeState",
+            "default": "idle",
+            "required": false,
+            "description": "GraphNode and GraphPort prop. Node: where the run is (active ring, done, failed and invalid danger container, dimmed). Port: idle, connected, target, invalid, active, off.",
+            "values": [
+              "done",
+              "invalid",
+              "idle",
+              "failed",
+              "active",
+              "dimmed"
+            ]
+          },
+          "title": {
+            "type": "ReactNode",
+            "required": true,
+            "description": "GraphNode prop. Node title."
+          },
+          "variant": {
+            "type": "\"solid\" | \"soft\" | \"outline\" | \"ghost\"",
+            "required": false,
+            "description": "",
+            "values": [
+              "solid",
+              "soft",
+              "outline",
+              "ghost"
+            ]
+          },
+          "width": {
+            "type": "number",
+            "required": false,
+            "description": "Graph width in px. Nodes are placed in this space; a host may scale it with a CSS transform."
+          },
+          "x": {
+            "type": "number",
+            "required": true,
+            "description": "GraphNode prop. Left edge in graph px."
+          },
+          "y": {
+            "type": "number",
+            "required": true,
+            "description": "GraphNode prop. Top edge in graph px."
+          }
+        },
+        "NodeGraphPort": {
+          "portId": {
+            "type": "string",
+            "required": true,
+            "description": "GraphPort prop. Identity used by GraphEdge from and to; unique in the graph."
+          },
+          "side": {
+            "type": "GraphPortSide",
+            "default": "start",
+            "required": false,
+            "description": "GraphPort prop. Node edge the dot sits on.",
+            "values": [
+              "start",
+              "end",
+              "top",
+              "bottom"
+            ]
+          },
+          "state": {
+            "type": "GraphPortState",
+            "default": "idle",
+            "required": false,
+            "description": "GraphNode and GraphPort prop. Node: where the run is (active ring, done, failed and invalid danger container, dimmed). Port: idle, connected, target, invalid, active, off.",
+            "values": [
+              "off",
+              "target",
+              "invalid",
+              "idle",
+              "active",
+              "connected"
+            ],
+            "deprecatedValues": [
+              "off",
+              "target",
+              "connected"
+            ]
+          }
+        },
+        "GraphNode": {
+          "icon": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "GraphNode prop. Head icon on a tone face."
+          },
+          "iconTone": {
+            "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
+            "default": "neutral",
+            "required": false,
+            "description": "GraphNode prop. Tone of the icon face.",
+            "values": [
+              "neutral",
+              "accent",
+              "success",
+              "warning",
+              "danger",
+              "info",
+              "agent"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "required": false,
+            "description": ""
+          },
+          "meta": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "GraphNode prop. Small text after the title."
+          },
+          "selected": {
+            "type": "boolean",
+            "default": false,
+            "required": false,
+            "description": "GraphNode prop. Tone ring on the node."
+          },
+          "state": {
+            "type": "GraphNodeState",
+            "default": "idle",
+            "required": false,
+            "description": "GraphNode and GraphPort prop. Node: where the run is (active ring, done, failed and invalid danger container, dimmed). Port: idle, connected, target, invalid, active, off.",
+            "values": [
+              "done",
+              "invalid",
+              "idle",
+              "failed",
+              "active",
+              "dimmed"
+            ]
+          },
+          "title": {
+            "type": "ReactNode",
+            "required": true,
+            "description": "GraphNode prop. Node title."
+          },
+          "variant": {
+            "type": "\"solid\" | \"soft\" | \"outline\" | \"ghost\"",
+            "required": false,
+            "description": "",
+            "values": [
+              "solid",
+              "soft",
+              "outline",
+              "ghost"
+            ]
+          },
+          "width": {
+            "type": "number",
+            "required": false,
+            "description": "Graph width in px. Nodes are placed in this space; a host may scale it with a CSS transform."
+          },
+          "x": {
+            "type": "number",
+            "required": true,
+            "description": "GraphNode prop. Left edge in graph px."
+          },
+          "y": {
+            "type": "number",
+            "required": true,
+            "description": "GraphNode prop. Top edge in graph px."
+          }
+        },
+        "GraphPort": {
+          "portId": {
+            "type": "string",
+            "required": true,
+            "description": "GraphPort prop. Identity used by GraphEdge from and to; unique in the graph."
+          },
+          "side": {
+            "type": "GraphPortSide",
+            "default": "start",
+            "required": false,
+            "description": "GraphPort prop. Node edge the dot sits on.",
+            "values": [
+              "start",
+              "end",
+              "top",
+              "bottom"
+            ]
+          },
+          "state": {
+            "type": "GraphPortState",
+            "default": "idle",
+            "required": false,
+            "description": "GraphNode and GraphPort prop. Node: where the run is (active ring, done, failed and invalid danger container, dimmed). Port: idle, connected, target, invalid, active, off.",
+            "values": [
+              "off",
+              "target",
+              "invalid",
+              "idle",
+              "active",
+              "connected"
+            ],
+            "deprecatedValues": [
+              "off",
+              "target",
+              "connected"
+            ]
+          }
+        }
+      },
+      "variants": {
+        "tone": {
+          "values": [
+            "neutral",
+            "accent",
+            "success",
+            "warning",
+            "danger",
+            "info",
+            "agent"
+          ],
+          "default": "accent",
+          "description": "Colour of active and draft wires, active and selected nodes and drop targets (--tone-solid)."
+        },
+        "surface": {
+          "values": [
+            "grid",
+            "none"
+          ],
+          "default": "none",
+          "description": "grid = the dot-grid canvas fill; none = transparent, when the host already is the canvas."
+        },
+        "radius": {
+          "values": [
+            "none",
+            "2xs",
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+            "2xl",
+            "3xl",
+            "4xl",
+            "full"
+          ],
+          "default": "none",
+          "description": "Host corner by radius token."
+        },
+        "shadow": {
+          "values": [
+            "none",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "default": "none",
+          "description": "Host elevation by elevation token; none keeps it flat."
+        }
+      },
+      "parts": [
+        {
+          "name": "NodeGraphNode",
+          "slot": "node",
+          "el": "div",
+          "parent": "NodeGraph",
+          "required": false,
+          "description": "A GraphNode placed at x / y (--node-x, --node-y), 168px wide by default (--node-w). Focusable for keyboard selection. data-state is the node state, data-selected marks the selected one."
+        },
+        {
+          "name": "NodeGraphPort",
+          "slot": "port",
+          "el": "div",
+          "parent": "NodeGraphNode",
+          "required": false,
+          "description": "A port row: dot on the node edge plus a label. data-port-id is the edge key, data-side and data-state describe it."
+        },
+        {
+          "name": "GraphNode",
+          "slot": "",
+          "el": "",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "GraphPort",
+          "slot": "",
+          "el": "",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "events": {},
+      "keyboard": {
+        "Tab": "moves focus through the nodes in document order"
+      },
+      "a11y": {
+        "labelRequired": true,
+        "notes": [
+          "The host is a group with an accessible name; each node is a group named by its title (or label).",
+          "Wires and port dots are decorative. The relationships they show must also be available as text by the consumer (for example in port labels or a list).",
+          "State is never colour alone: active nodes and wires change ring and line style, done wires change tone and dash, failed nodes keep their title text."
+        ]
+      },
+      "flags": {
+        "agent": false,
+        "floating": false,
+        "field": false
+      },
+      "uses": [],
+      "usedBy": [],
+      "examples": [
+        {
+          "id": "state-machine",
+          "title": "State machine",
+          "code": "const edges: GraphEdge[] = [\n  { from: 'a-out', to: 'b-in', state: 'done', label: 'ready' },\n  { from: 'b-out', to: 'c-in', state: 'active', label: 'started' },\n  { from: 'b-fail', to: 'd-in', dashed: true, label: 'failed' },\n];\n\nconst Graph = (props: Partial<NodeGraphProps>) => (\n  <NodeGraph aria-label=\"State machine\" surface=\"grid\" radius=\"xl\" width={720} height={240} edges={edges} {...props}>\n    <NodeGraphNode x={24} y={80} width={140} title=\"Idle\" meta=\"start\" state=\"done\">\n      <NodeGraphPort portId=\"a-out\" side=\"end\" state=\"connected\">next</NodeGraphPort>\n    </NodeGraphNode>\n    <NodeGraphNode x={230} y={70} width={160} title=\"Explore\" meta=\"spawn 3\" state=\"active\">\n      <NodeGraphPort portId=\"b-in\" state=\"connected\">in</NodeGraphPort>\n      <NodeGraphPort portId=\"b-out\" side=\"end\" state=\"active\">all settled</NodeGraphPort>\n      <NodeGraphPort portId=\"b-fail\" side=\"end\">all failed</NodeGraphPort>\n    </NodeGraphNode>\n    <NodeGraphNode x={500} y={40} width={150} title=\"Converge\" state=\"dimmed\">\n      <NodeGraphPort portId=\"c-in\" state=\"connected\">in</NodeGraphPort>\n    </NodeGraphNode>\n    <NodeGraphNode x={500} y={150} width={150} title=\"End\" variant=\"ghost\">\n      <NodeGraphPort portId=\"d-in\">in</NodeGraphPort>\n    </NodeGraphNode>\n  </NodeGraph>\n);\n\n<Graph />"
+        },
+        {
+          "id": "connecting",
+          "title": "Connecting two ports",
+          "code": "const edges: GraphEdge[] = [\n  { from: 'a-out', to: 'b-in', state: 'done', label: 'ready' },\n  { from: 'b-out', to: 'c-in', state: 'active', label: 'started' },\n  { from: 'b-fail', to: 'd-in', dashed: true, label: 'failed' },\n];\n\nconst Graph = (props: Partial<NodeGraphProps>) => (\n  <NodeGraph aria-label=\"State machine\" surface=\"grid\" radius=\"xl\" width={720} height={240} edges={edges} {...props}>\n    <NodeGraphNode x={24} y={80} width={140} title=\"Idle\" meta=\"start\" state=\"done\">\n      <NodeGraphPort portId=\"a-out\" side=\"end\" state=\"connected\">next</NodeGraphPort>\n    </NodeGraphNode>\n    <NodeGraphNode x={230} y={70} width={160} title=\"Explore\" meta=\"spawn 3\" state=\"active\">\n      <NodeGraphPort portId=\"b-in\" state=\"connected\">in</NodeGraphPort>\n      <NodeGraphPort portId=\"b-out\" side=\"end\" state=\"active\">all settled</NodeGraphPort>\n      <NodeGraphPort portId=\"b-fail\" side=\"end\">all failed</NodeGraphPort>\n    </NodeGraphNode>\n    <NodeGraphNode x={500} y={40} width={150} title=\"Converge\" state=\"dimmed\">\n      <NodeGraphPort portId=\"c-in\" state=\"connected\">in</NodeGraphPort>\n    </NodeGraphNode>\n    <NodeGraphNode x={500} y={150} width={150} title=\"End\" variant=\"ghost\">\n      <NodeGraphPort portId=\"d-in\">in</NodeGraphPort>\n    </NodeGraphNode>\n  </NodeGraph>\n);\n\n<Graph draft={{ from: 'b-fail', to: { x: 470, y: 205 }, label: 'connect' }} />"
         }
       ]
     },
@@ -46925,7 +47596,7 @@
         "leading": {
           "type": "ReactNode",
           "required": false,
-          "description": "lead swatch: a ColorWell sm. lead icon: the lucide icon drawn inside the tile."
+          "description": "lead swatch: a ColorWell sm. lead icon: the icon drawn inside the tile."
         },
         "title": {
           "type": "ReactNode",
@@ -47006,7 +47677,7 @@
           "leading": {
             "type": "ReactNode",
             "required": false,
-            "description": "lead swatch: a ColorWell sm. lead icon: the lucide icon drawn inside the tile."
+            "description": "lead swatch: a ColorWell sm. lead icon: the icon drawn inside the tile."
           },
           "meta": {
             "type": "ReactNode",

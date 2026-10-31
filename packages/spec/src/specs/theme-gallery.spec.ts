@@ -23,7 +23,7 @@ export default defineSpec({
     { name: 'meta', el: 'div', parent: 'item', description: 'Name row: flex, centered, 8px gap, 12px inline padding, 2px top and 12px bottom padding.' },
     { name: 'name', el: 'b', parent: 'meta', description: 'Theme name ("Lagoon"): ui-dense semibold, grows to push the dots to the end.' },
     { name: 'caption', el: 'span', parent: 'meta', required: false, description: 'One-line description under the name ("Caustic default"): footnote, tertiary. The name and caption stack in a grid that takes the free width.' },
-    { name: 'check', el: 'span', parent: 'meta', required: false, description: 'Check mark shown only on the checked card: an 18px accent.solid circle with an accent.on check (lucide Check, 14px, stroke 3), between the name and the dots. Decorative (aria-hidden, no pointer events).' },
+    { name: 'check', el: 'span', parent: 'meta', required: false, description: 'Check mark shown only on the checked card: an 18px accent.solid circle with an accent.on check (Check, 14px, stroke 3), between the name and the dots. Decorative (aria-hidden, no pointer events).' },
     { name: 'swatches', el: 'span', parent: 'meta', description: 'Three overlapping dots (accent, ink, page): decorative.' },
     { name: 'swatch', el: 'i', parent: 'swatches', description: 'A 12px circle with a 1.5px ring in the card\'s base surface; each dot overlaps the previous by 3px. Fill from the theme color.' },
   ],

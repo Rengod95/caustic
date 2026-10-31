@@ -80,7 +80,7 @@ export function NodeGraph({ edges, draft = null, surface, width, height, tone, r
     const scale = root.offsetWidth > 0 ? r.width / root.offsetWidth : 1;
     const ports = new Map<string, Pt>();
     root.querySelectorAll<HTMLElement>('[data-port-id]').forEach(el => {
-      const dot = el.querySelector<HTMLElement>('[data-slot="graph-port-dot"]') ?? el;
+      const dot = el.querySelector<HTMLElement>('[data-slot="node-graph-port-dot"]') ?? el;
       const b = dot.getBoundingClientRect();
       ports.set(el.dataset.portId!, {
         x: (b.left + b.width / 2 - r.left) / scale,
@@ -114,7 +114,7 @@ export function NodeGraph({ edges, draft = null, surface, width, height, tone, r
     if (!root) return;
     const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(() => draw());
     ro?.observe(root);
-    root.querySelectorAll('[data-slot="graph-node"]').forEach(n => ro?.observe(n));
+    root.querySelectorAll('[data-slot="node-graph-node"]').forEach(n => ro?.observe(n));
     window.addEventListener('resize', draw);
     void document.fonts?.ready.then(draw);
     const frame = requestAnimationFrame(draw);
@@ -125,7 +125,7 @@ export function NodeGraph({ edges, draft = null, surface, width, height, tone, r
     <div
       ref={rootRef} data-slot="node-graph" role="group"
       className={cn(nodeGraphVariants({ surface, radius, shadow }), nodeGraphToneVariants({ tone }), className)}
-      style={{ width, height, ...style }}
+      style={{ '--graph-w': `${width}px`, '--graph-h': `${height}px`, ...style } as CSSProperties}
       {...props}
     >
       <svg data-slot="node-graph-wires" aria-hidden="true" className={nodeGraphWiresVariants()}>
@@ -141,7 +141,7 @@ export function NodeGraph({ edges, draft = null, surface, width, height, tone, r
         // Labels come from the current props (not the measured state), so new label content never forces a redraw.
         const label = w.key === 'draft' ? draft?.label : edges.find((e, i) => edgeKey(e, i) === w.key)?.label;
         return label == null ? null : (
-          <span key={`${w.key}-label`} data-slot="node-graph-label" data-state={w.state} className={nodeGraphLabelVariants({ state: w.state })} style={{ left: w.mid.x, top: w.mid.y }}>
+          <span key={`${w.key}-label`} data-slot="node-graph-label" data-state={w.state} className={nodeGraphLabelVariants({ state: w.state })} style={{ '--label-x': `${w.mid.x}px`, '--label-y': `${w.mid.y}px` } as CSSProperties}>
             {label}
           </span>
         );
@@ -151,7 +151,7 @@ export function NodeGraph({ edges, draft = null, surface, width, height, tone, r
   );
 }
 
-export interface GraphNodeProps extends Omit<ComponentProps<'div'>, 'title'> {
+export interface NodeGraphNodeProps extends Omit<ComponentProps<'div'>, 'title'> {
   /** Left and top edge in graph px. */
   x: number;
   y: number;
@@ -173,26 +173,26 @@ export interface GraphNodeProps extends Omit<ComponentProps<'div'>, 'title'> {
 }
 
 /** A node on the graph: head (icon face, title, meta), then ports and any body. Focusable for keyboard selection. */
-export function GraphNode({ x, y, width = 168, title, meta, icon, iconTone, state = 'idle', selected = false, variant, label, className, style, children, ...props }: GraphNodeProps) {
+export function NodeGraphNode({ x, y, width = 168, title, meta, icon, iconTone, state = 'idle', selected = false, variant, label, className, style, children, ...props }: NodeGraphNodeProps) {
   return (
     <div
-      data-slot="graph-node" data-state={state} data-selected={selected ? '' : undefined}
+      data-slot="node-graph-node" data-state={state} data-selected={selected ? '' : undefined}
       role="group" aria-label={label ?? (typeof title === 'string' ? title : undefined)} tabIndex={0}
       className={cn(graphNodeVariants({ variant, state, selected }), className)}
       style={{ '--node-x': `${x}px`, '--node-y': `${y}px`, '--node-w': `${width}px`, ...style } as CSSProperties}
       {...props}
     >
-      <div data-slot="graph-node-head" className={graphNodeHeadVariants()}>
+      <div data-slot="node-graph-node-head" className={graphNodeHeadVariants()}>
         {icon != null && <span aria-hidden className={graphNodeIconVariants({ tone: iconTone })}>{icon}</span>}
-        <span data-slot="graph-node-title" className={graphNodeTitleVariants()}>{title}</span>
-        {meta != null && <span data-slot="graph-node-meta" className={graphNodeMetaVariants()}>{meta}</span>}
+        <span data-slot="node-graph-node-title" className={graphNodeTitleVariants()}>{title}</span>
+        {meta != null && <span data-slot="node-graph-node-meta" className={graphNodeMetaVariants()}>{meta}</span>}
       </div>
       {children}
     </div>
   );
 }
 
-export interface GraphPortProps extends ComponentProps<'div'> {
+export interface NodeGraphPortProps extends ComponentProps<'div'> {
   /** Identity used by GraphEdge.from / to. Unique in the graph. */
   portId: string;
   /** Which node edge the dot sits on: start (inputs, default), end (outputs), top, bottom. */
@@ -201,11 +201,17 @@ export interface GraphPortProps extends ComponentProps<'div'> {
 }
 
 /** A port row: a dot on the node edge and its label (children). */
-export function GraphPort({ portId, side = 'start', state = 'idle', className, children, ...props }: GraphPortProps) {
+export function NodeGraphPort({ portId, side = 'start', state = 'idle', className, children, ...props }: NodeGraphPortProps) {
   return (
-    <div data-slot="graph-port" data-port-id={portId} data-side={side} data-state={state} className={cn(graphPortVariants({ side, state }), className)} {...props}>
-      <span data-slot="graph-port-dot" aria-hidden className={graphPortDotVariants({ side, state })} />
+    <div data-slot="node-graph-port" data-port-id={portId} data-side={side} data-state={state} className={cn(graphPortVariants({ side, state }), className)} {...props}>
+      <span data-slot="node-graph-port-dot" aria-hidden className={graphPortDotVariants({ side, state })} />
       {children}
     </div>
   );
 }
+
+/** @deprecated Renamed NodeGraphNode and NodeGraphPort so the parts follow the NodeGraph* naming of the gate. */
+export const GraphNode = NodeGraphNode;
+export const GraphPort = NodeGraphPort;
+export type GraphNodeProps = NodeGraphNodeProps;
+export type GraphPortProps = NodeGraphPortProps;

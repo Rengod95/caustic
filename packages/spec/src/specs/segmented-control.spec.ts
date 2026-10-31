@@ -11,7 +11,7 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'div', role: 'radiogroup', description: 'Sunken track. 4px padding, 2px gap between segments. Inline-flex; stacks segments in a column when orientation is vertical.' },
     { name: 'item', el: 'button', parent: 'root', role: 'radio', description: 'One segment. Text, an icon, or an icon with text. Renders as a radio (aria-checked, data-state) and takes its value from the item value prop.' },
-    { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Leading lucide icon, 16px (14px when vertical).' },
+    { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Leading icon, 16px (14px when vertical).' },
     { name: 'count', el: 'span', parent: 'item', required: false, description: 'Trailing count pushed to the end of a vertical item (margin-left auto).' },
   ],
   variants: {

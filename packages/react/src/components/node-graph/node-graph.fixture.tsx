@@ -1,5 +1,5 @@
 import { defineFixture } from '../../lib/fixture.ts';
-import { GraphNode, GraphPort, NodeGraph, type GraphEdge, type NodeGraphProps } from './node-graph.tsx';
+import { NodeGraphNode, NodeGraphPort, NodeGraph, type GraphEdge, type NodeGraphProps } from './node-graph.tsx';
 
 const edges: GraphEdge[] = [
   { from: 'a-out', to: 'b-in', state: 'done', label: 'ready' },
@@ -9,20 +9,20 @@ const edges: GraphEdge[] = [
 
 const Graph = (props: Partial<NodeGraphProps>) => (
   <NodeGraph aria-label="State machine" surface="grid" radius="xl" width={720} height={240} edges={edges} {...props}>
-    <GraphNode x={24} y={80} width={140} title="Idle" meta="start" state="done">
-      <GraphPort portId="a-out" side="end" state="connected">next</GraphPort>
-    </GraphNode>
-    <GraphNode x={230} y={70} width={160} title="Explore" meta="spawn 3" state="active">
-      <GraphPort portId="b-in" state="connected">in</GraphPort>
-      <GraphPort portId="b-out" side="end" state="active">all settled</GraphPort>
-      <GraphPort portId="b-fail" side="end">all failed</GraphPort>
-    </GraphNode>
-    <GraphNode x={500} y={40} width={150} title="Converge" state="dimmed">
-      <GraphPort portId="c-in" state="connected">in</GraphPort>
-    </GraphNode>
-    <GraphNode x={500} y={150} width={150} title="End" variant="ghost">
-      <GraphPort portId="d-in">in</GraphPort>
-    </GraphNode>
+    <NodeGraphNode x={24} y={80} width={140} title="Idle" meta="start" state="done">
+      <NodeGraphPort portId="a-out" side="end" state="connected">next</NodeGraphPort>
+    </NodeGraphNode>
+    <NodeGraphNode x={230} y={70} width={160} title="Explore" meta="spawn 3" state="active">
+      <NodeGraphPort portId="b-in" state="connected">in</NodeGraphPort>
+      <NodeGraphPort portId="b-out" side="end" state="active">all settled</NodeGraphPort>
+      <NodeGraphPort portId="b-fail" side="end">all failed</NodeGraphPort>
+    </NodeGraphNode>
+    <NodeGraphNode x={500} y={40} width={150} title="Converge" state="dimmed">
+      <NodeGraphPort portId="c-in" state="connected">in</NodeGraphPort>
+    </NodeGraphNode>
+    <NodeGraphNode x={500} y={150} width={150} title="End" variant="ghost">
+      <NodeGraphPort portId="d-in">in</NodeGraphPort>
+    </NodeGraphNode>
   </NodeGraph>
 );
 

@@ -61,7 +61,7 @@ export default defineSpec({
     labelRequired: true,
     minHit: 24,
     attrs: { root: ['aria-label'], item: ['aria-label'] },
-    notes: ['The group needs an aria-label ("Align"); every IconButton item needs its own label.', 'Alignment icons are lucide align-start-vertical / align-center-vertical / align-end-vertical (left, horizontal centers, right) and align-start-horizontal / align-center-horizontal / align-end-horizontal (top, vertical centers, bottom), 14px at tight and 16px at regular.'],
+    notes: ['The group needs an aria-label ("Align"); every IconButton item needs its own label.', 'Alignment icons are align-start-vertical / align-center-vertical / align-end-vertical (left, horizontal centers, right) and align-start-horizontal / align-center-horizontal / align-end-horizontal (top, vertical centers, bottom), 14px at tight and 16px at regular.'],
   },
   policies: ['P5', 'P6'],
   composition: { uses: ['icon-button', 'button'] },

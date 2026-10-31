@@ -11,7 +11,7 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'div', role: 'group', description: 'Inset track holding the items; 4px padding, 2px gap.' },
     { name: 'item', el: 'button', parent: 'root', description: '32px square icon toggle. Needs a name: label (aria-label + tooltip) or aria-label.' },
-    { name: 'icon', el: 'any', parent: 'item', description: 'lucide icon, 14px.' },
+    { name: 'icon', el: 'any', parent: 'item', description: 'icon, 14px.' },
   ],
   variants: {
     tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'neutral', description: 'Colour of the icon of an on item; the on item stays the control-raised thumb (neutral = text.primary, the specimen).' },
