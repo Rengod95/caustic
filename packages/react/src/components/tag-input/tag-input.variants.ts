@@ -14,9 +14,9 @@ export const tagInputVariants = cva(
     'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field)]',
     // The invalid edge is for an enabled field: disabled drops the tone, so a disabled invalid field shows the disabled edge.
     'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
-    'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
     // Tags in a disabled field drop their colour with it (the chips are inert, not disabled), the remove glyph included.
-    'data-[disabled]:[&_[data-slot=chip]]:text-disabled-text data-[disabled]:[&_[data-slot=chip]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'data-[disabled]:[&_[data-slot=chip]]:text-disabled-text data-[disabled]:[&_[data-slot=chip]]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
     'data-[disabled]:[&_[data-slot=chip-remove]]:text-disabled-text',
   ],
   {

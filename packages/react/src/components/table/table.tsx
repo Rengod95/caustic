@@ -58,7 +58,7 @@ export interface TableProps extends Omit<ComponentProps<'div'>, 'children'>, Com
 
 const pageButton = 'inline-flex h-control-md min-w-control-md items-center justify-center gap-1 rounded-md px-2 text-ui tabular-nums text-text-secondary outline-none transition-control press hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus [&_svg]:size-icon-sm';
 /** The current page is the segment thumb (control family, §4 B2): control-raised fill and the control edge, control-raised-hover under the pointer; focus keeps the edge. */
-const pageCurrent = 'bg-control-raised font-semibold text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]';
+const pageCurrent = 'bg-control-raised font-semibold text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)] hover:bg-control-raised-hover focus-visible:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2),var(--cs-focus)]';
 
 /** Data table: toolbar, row selection, sortable columns, row actions and a footer with summary and pager. */
 export function Table({

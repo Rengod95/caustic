@@ -32,10 +32,10 @@ export const radioItemVariants = cva(
   [
     'inline-grid shrink-0 place-items-center rounded-full bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] transition-control press',
     'outline-none focus-visible:shadow-focus data-[state=checked]:focus-visible:shadow-focus',
-    'data-[state=unchecked]:not-disabled:not-focus-visible:hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
-    'in-[label:hover]:data-[state=unchecked]:not-disabled:not-focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
+    'data-[state=unchecked]:not-disabled:not-focus-visible:hover:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]',
+    'in-[label:hover]:data-[state=unchecked]:not-disabled:not-focus-visible:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]',
     // Disabled is a colour, not opacity: the tone drops out and the dot takes disabled.text.
-    'disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] disabled:data-[state=checked]:bg-disabled-fill',
+    'disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)] disabled:data-[state=checked]:bg-disabled-fill',
   ],
   {
     variants: {

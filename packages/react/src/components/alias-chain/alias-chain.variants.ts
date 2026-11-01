@@ -21,7 +21,7 @@ export const aliasChainItemVariants = cva('inline-flex items-center', {
 });
 
 /** A node on the way: the name in a small hairline box (border.default, xs radius), secondary text. */
-export const aliasChainNameVariants = cva('rounded-xs px-1 text-text-secondary shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]');
+export const aliasChainNameVariants = cva('rounded-xs px-1 text-text-secondary shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]');
 
 /** Connector: a long arrow (shaft + head, 1.5px stroke at every size) whose shaft runs edge to edge, from node to node;
  *  secondary by default, a tone colours it with the graphic step. */
@@ -63,20 +63,20 @@ export const aliasChainResolvedVariants = cva('rounded-xs px-1 font-medium text-
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft text-danger-text' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft text-info-text' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft text-agent-text' },
-    { variant: 'outline', tone: 'neutral', className: 'bg-transparent text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'bg-transparent text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'bg-transparent text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'bg-transparent text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'bg-transparent text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
     { variant: 'outline', tone: 'danger', className: 'bg-transparent text-danger-text shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)]' },
     { variant: 'outline', tone: 'info', className: 'bg-transparent text-info-text shadow-[inset_0_0_0_1px_var(--cs-color-info-border)]' },
     { variant: 'outline', tone: 'agent', className: 'bg-transparent text-agent-text shadow-[inset_0_0_0_1px_var(--cs-color-agent-border)]' },
-    { variant: 'ghost', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },
-    { variant: 'ghost', tone: 'accent', className: 'bg-transparent text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },
-    { variant: 'ghost', tone: 'success', className: 'bg-transparent text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },
-    { variant: 'ghost', tone: 'warning', className: 'bg-transparent text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },
-    { variant: 'ghost', tone: 'danger', className: 'bg-transparent text-danger-text shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },
-    { variant: 'ghost', tone: 'info', className: 'bg-transparent text-info-text shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },
-    { variant: 'ghost', tone: 'agent', className: 'bg-transparent text-agent-text shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },
+    { variant: 'ghost', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]' },
+    { variant: 'ghost', tone: 'accent', className: 'bg-transparent text-accent-text shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]' },
+    { variant: 'ghost', tone: 'success', className: 'bg-transparent text-success-text shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]' },
+    { variant: 'ghost', tone: 'warning', className: 'bg-transparent text-warning-text shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]' },
+    { variant: 'ghost', tone: 'danger', className: 'bg-transparent text-danger-text shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]' },
+    { variant: 'ghost', tone: 'info', className: 'bg-transparent text-info-text shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]' },
+    { variant: 'ghost', tone: 'agent', className: 'bg-transparent text-agent-text shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]' },
   ],
   defaultVariants: { variant: 'ghost', tone: 'neutral', radius: 'xs', shadow: 'none' },
 });

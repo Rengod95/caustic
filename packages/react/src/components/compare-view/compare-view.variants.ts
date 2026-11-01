@@ -42,7 +42,7 @@ export const compareViewLabelVariants = cva('absolute top-2.5 z-10 grid place-it
     labelVariant: {
       solid: 'glass glass-thick',
       soft: 'bg-neutral-track',
-      outline: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+      outline: 'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
       ghost: 'bg-transparent',
     },
     labelTone: {

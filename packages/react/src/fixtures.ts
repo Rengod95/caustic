@@ -68,6 +68,7 @@ import inspectorBindings from './components/inspector-bindings/inspector-binding
 import inspectorPanel from './components/inspector-panel/inspector-panel.fixture.tsx';
 import kbd from './components/kbd/kbd.fixture.tsx';
 import layerTree from './components/layer-tree/layer-tree.fixture.tsx';
+import lineGrid from './components/line-grid/line-grid.fixture.tsx';
 import list from './components/list/list.fixture.tsx';
 import listDescription from './components/list-description/list-description.fixture.tsx';
 import listNavigation from './components/list-navigation/list-navigation.fixture.tsx';
@@ -191,6 +192,7 @@ export const fixtures: Record<string, Fixture> = {
   'inspector-panel': inspectorPanel,
   'kbd': kbd,
   'layer-tree': layerTree,
+  'line-grid': lineGrid,
   'list': list,
   'list-description': listDescription,
   'list-navigation': listNavigation,

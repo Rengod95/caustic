@@ -25,8 +25,8 @@ export const paginationButton = cva([
   'hover:text-text-primary focus-visible:shadow-focus',
   'disabled:pointer-events-none disabled:bg-transparent disabled:text-disabled-text disabled:shadow-none',
   'aria-[current=page]:bg-control-raised aria-[current=page]:font-semibold aria-[current=page]:text-text-primary',
-  'aria-[current=page]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] aria-[current=page]:hover:bg-control-raised-hover',
-  'aria-[current=page]:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]',
+  'aria-[current=page]:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)] aria-[current=page]:hover:bg-control-raised-hover',
+  'aria-[current=page]:focus-visible:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2),var(--cs-focus)]',
 ], {
   variants: {
     tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
@@ -54,7 +54,7 @@ export const paginationButton = cva([
       { variant: 'soft', tone: 'danger', className: 'bg-danger-soft text-danger-text hover:bg-danger-soft-hover hover:text-danger-text' },
       { variant: 'soft', tone: 'info', className: 'bg-info-soft text-info-text hover:bg-info-soft-hover hover:text-info-text' },
       { variant: 'soft', tone: 'agent', className: 'bg-agent-soft text-agent-text hover:bg-agent-soft-hover hover:text-agent-text' },
-      { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)] text-accent-text hover:bg-accent-tint hover:text-accent-text' },
       { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)] text-success-text hover:bg-success-tint hover:text-success-text' },
       { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)] text-warning-text hover:bg-warning-tint hover:text-warning-text' },

@@ -16,7 +16,7 @@ export const checkboxVariants = cva(
     'enabled:aria-invalid:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] enabled:aria-invalid:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
     'data-[state=checked]:bg-accent-solid data-[state=checked]:shadow-none data-[state=indeterminate]:bg-accent-solid data-[state=indeterminate]:shadow-none',
     'data-[state=checked]:focus-visible:shadow-focus data-[state=indeterminate]:focus-visible:shadow-focus',
-    'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
     'disabled:data-[state=checked]:bg-disabled-fill disabled:data-[state=indeterminate]:bg-disabled-fill',
   ],
   {

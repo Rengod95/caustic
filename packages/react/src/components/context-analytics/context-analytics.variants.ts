@@ -37,7 +37,7 @@ export const contextAnalyticsRound = cva('relative block h-[var(--ca-h)] w-full 
     column: {
       soft: 'bg-neutral-track',
       solid: 'bg-neutral-graphic',
-      outline: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]',
+      outline: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]',
       ghost: 'bg-transparent',
     },
     selected: { true: 'shadow-[0_0_0_1px_var(--cs-color-surface-base),0_0_0_3px_var(--cs-color-selection-fill)]', false: '' },

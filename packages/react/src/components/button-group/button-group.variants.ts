@@ -14,7 +14,7 @@ export const buttonGroupVariants = cva(
     // Items nest in the track: md = the track radius minus its padding (Buttons alone are one step rounder).
     '*:data-[slot=button-group-item]:rounded-md',
     '*:data-[variant=ghost]:hover:bg-control-raised *:data-[variant=ghost]:hover:text-text-primary',
-    '*:data-[variant=ghost]:hover:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
+    '*:data-[variant=ghost]:hover:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)]',
   ],
   {
     variants: {
@@ -41,7 +41,7 @@ export const buttonGroupVariants = cva(
       { variant: 'soft', tone: 'danger', className: 'bg-danger-tint' },
       { variant: 'soft', tone: 'info', className: 'bg-info-tint' },
       { variant: 'soft', tone: 'agent', className: 'bg-agent-tint' },
-      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

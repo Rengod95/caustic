@@ -44,8 +44,8 @@ export const gridTracksUnitItem = cva(
   [
     'cursor-pointer whitespace-nowrap bg-transparent px-1.75 font-ui font-medium text-text-tertiary outline-none',
     'transition-control hover:text-text-primary focus-visible:shadow-focus',
-    'aria-checked:bg-control-raised aria-checked:text-text-primary aria-checked:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
-    'aria-checked:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]',
+    'aria-checked:bg-control-raised aria-checked:text-text-primary aria-checked:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)]',
+    'aria-checked:focus-visible:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2),var(--cs-focus)]',
     'disabled:pointer-events-none disabled:text-disabled-text disabled:aria-checked:text-disabled-text',
   ],
   {

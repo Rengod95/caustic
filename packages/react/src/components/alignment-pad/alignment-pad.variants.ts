@@ -7,7 +7,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 //                   the selected bars (accent by default: the own look).
 //   radius / shadow the well (lg, flat). size: the pad box, lg = the own 96px; md 72, sm 64, xs 48 (dense: cells under 24px).
 export const alignmentPadVariants = cva(
-  'group/pad grid shrink-0 grid-cols-3 grid-rows-3 rounded-lg bg-neutral-well font-ui shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] aria-disabled:pointer-events-none aria-disabled:bg-disabled-fill aria-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'group/pad grid shrink-0 grid-cols-3 grid-rows-3 rounded-lg bg-neutral-well font-ui shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] aria-disabled:pointer-events-none aria-disabled:bg-disabled-fill aria-disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   {
     variants: {
       variant: { solid: '', soft: '', outline: '', ghost: '' },
@@ -32,7 +32,7 @@ export const alignmentPadVariants = cva(
       { variant: 'soft', tone: 'danger', className: 'bg-danger-tint' },
       { variant: 'soft', tone: 'info', className: 'bg-info-tint' },
       { variant: 'soft', tone: 'agent', className: 'bg-agent-tint' },
-      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -56,8 +56,8 @@ export const alignmentPadVariants = cva(
 // pad drops the thumb.
 export const alignmentPadCell = cva([
   'group grid cursor-pointer place-items-center rounded-xs bg-transparent outline-none focus-visible:shadow-focus transition-control',
-  'aria-checked:bg-control-raised aria-checked:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
-  'aria-checked:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]',
+  'aria-checked:bg-control-raised aria-checked:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)]',
+  'aria-checked:focus-visible:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2),var(--cs-focus)]',
   'group-aria-disabled/pad:aria-checked:bg-transparent group-aria-disabled/pad:aria-checked:shadow-none',
 ]);
 

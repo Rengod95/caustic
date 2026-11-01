@@ -29,7 +29,7 @@ export const timelineRowVariants = cva(
       // rise: as timelineMarkerItemVariants (rows of the first paint stay still).
       rise: { true: 'animate-rise', false: '' },
       variant: {
-        solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover aria-selected:shadow-none',
+        solid: 'bg-control-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)] hover:bg-control-raised-hover aria-selected:shadow-none',
         soft: '',
         outline: 'hover:bg-neutral-hover aria-selected:shadow-none',
         ghost: 'hover:bg-neutral-hover',
@@ -45,7 +45,7 @@ export const timelineRowVariants = cva(
       { variant: 'soft', tone: 'danger', className: 'bg-danger-soft hover:bg-danger-soft-hover' },
       { variant: 'soft', tone: 'info', className: 'bg-info-soft hover:bg-info-soft-hover' },
       { variant: 'soft', tone: 'agent', className: 'bg-agent-soft hover:bg-agent-soft-hover' },
-      { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -138,7 +138,7 @@ export const timelineIconVariants = cva('grid place-items-center rounded-full', 
     variant: {
       solid: 'bg-ink-solid text-ink-on',
       soft: 'bg-neutral-track text-text-secondary',
-      outline: 'bg-transparent text-text-secondary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]',
+      outline: 'bg-transparent text-text-secondary shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]',
       ghost: 'bg-transparent text-text-secondary',
     },
     size: {

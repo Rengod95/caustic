@@ -51,7 +51,7 @@ export const codeRealizationMarkerVariants = cva('grid size-3.5 shrink-0 place-i
     { phase: 'done', variant: 'ghost', className: 'text-success-text' },
     { phase: 'todo', variant: 'soft', className: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-border-strong)]' },
     { phase: 'todo', variant: 'solid', className: 'bg-neutral-track' },
-    { phase: 'todo', variant: 'outline', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { phase: 'todo', variant: 'outline', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { phase: 'todo', variant: 'ghost', className: 'after:size-1.5 after:rounded-full after:bg-neutral-graphic after:content-[""]' },
   ],
   defaultVariants: { phase: 'todo', variant: 'soft' },

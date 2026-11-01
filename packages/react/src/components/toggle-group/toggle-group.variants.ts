@@ -4,12 +4,12 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // transparent + border.default hairline (the old "outline"); solid = neutral.track fill, no edge; ghost = no fill, no edge.
 // relative and group: a single group draws its sliding thumb in the track (toggleGroupThumb), under the items.
 export const toggleGroupVariants = cva(
-  'relative group/toggle-group inline-flex gap-0.5 rounded-xl p-1',
+  'relative group/toggle-group inline-flex gap-0.5 rounded-2xl p-1',
   {
     variants: {
       variant: {
-        soft: 'bg-bg-inset shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
-        outline: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+        soft: 'bg-bg-inset shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
+        outline: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
         solid: 'bg-neutral-track',
         ghost: 'bg-transparent',
       },
@@ -31,7 +31,7 @@ export const toggleGroupItem = cva(
     'hover:text-text-primary data-[state=off]:hover:bg-neutral-hover focus-visible:shadow-focus',
     // On = the segment thumb (control family): raised fill + control edge.
     'data-[state=on]:bg-control-raised data-[state=on]:text-text-primary',
-    'data-[state=on]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] data-[state=on]:focus-visible:shadow-focus',
+    'data-[state=on]:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)] data-[state=on]:focus-visible:shadow-focus',
     // Disabled is a colour, not opacity: the label takes disabled.text and an on thumb flattens to disabled.fill.
     'disabled:pointer-events-none disabled:text-disabled-text disabled:data-[state=on]:bg-disabled-fill disabled:data-[state=on]:text-disabled-text disabled:data-[state=on]:shadow-none',
     // While the thumb slides (data-moving on the group) the on item has no fill of its own and nothing transitions.
@@ -63,7 +63,7 @@ export const toggleGroupItem = cva(
  * disabled look.
  */
 export const toggleGroupThumb = cva([
-  'pointer-events-none absolute top-0 left-0 h-(--thumb-h) w-(--thumb-w) translate-x-(--thumb-x) translate-y-(--thumb-y) rounded-(--thumb-r) bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] opacity-0',
+  'pointer-events-none absolute top-0 left-0 h-(--thumb-h) w-(--thumb-w) translate-x-(--thumb-x) translate-y-(--thumb-y) rounded-(--thumb-r) bg-control-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)] opacity-0',
   '[transition-property:translate,width,height,opacity] ease-snappy',
   '[transition-duration:var(--cs-duration-snappy),var(--cs-duration-snappy),var(--cs-duration-snappy),var(--cs-duration-instant)]',
   '[transition-delay:var(--cs-duration-instant),var(--cs-duration-instant),var(--cs-duration-instant),var(--cs-duration-quick)]',

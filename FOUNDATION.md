@@ -1,5 +1,7 @@
 # Caustic foundation 1.0
 
+> Design language pass (2026-11-01, branch xeon/m4-language): warm neutrals, ink primary on both themes, neutral selection, half-pixel rings, drop shadows at .04 or less, four-step radius, SaaS type scale, line cell grid. Sections below reflect it; the reasoning is in the PR.
+
 Caustic is the design-system foundation for an agent-first design studio. Its look comes from three sources:
 
 - **Codex and Claude Code desktop:** calm neutral chrome, 13px interface text, ink primary buttons.
@@ -43,7 +45,7 @@ Naming:
 ## Color
 
 **Ramps**
-- One neutral ramp (Graphite, 11 steps named 1 to 11, 1 = lightest, 11 = darkest). It is a true neutral gray (chroma 0), in both themes.
+- One neutral ramp per mode (Warm Grey, 11 steps named 1 to 11, step 1 is the background end). A faint warm hue (about 75°, chroma under .015), authored step by step.
 - Five hued ramps with 11 steps each, named 1 to 11 (1 = lightest, 11 = darkest): Lagoon (accent), Mint (success), Amber (warning), Coral (danger), Iris (info).
 - All hued ramps share one lightness/chroma profile; only the hue changes. A given step therefore has nearly the same contrast in every hue.
 
@@ -91,13 +93,14 @@ Naming:
 - Apps load the fonts once: `import "@caustic/tokens/fonts.css"` before any other stylesheet. It makes no remote request: it declares only the self-hosted SUIT Variable (`packages/tokens/fonts/suit`, SUIT v2.0.5, SIL OFL 1.1, 625 KB woff2, weights 100–900) with a Hangul-only unicode-range and `font-display: swap`. Bundlers resolve its relative `url()`. Without it Hangul falls to a system face (Geist, Geist Mono, Newsreader and Noto Serif KR load only when the app adds the Google Fonts `<link>` from `fontHref`); on Linux and Windows that face has only Regular and Bold, so 500 renders as 400 and 600 as 700.
 
 **Roles**
-- 15 roles: display, title-1/2/3, body, ui, ui-strong, footnote, label, caption, voice, voice-sm, thought, mono, mono-sm.
+- Product scale: title-1 24/32/600 (page), title-2 18/26/600 (section), title-3 15/22/500 (card and row), body 14/22/400 (copy and descriptions), footnote 12/18/400 (meta), figure 20/28/500 (value cells, tabular). No uppercase labels.
+- Other roles: display, ui, ui-strong, label, caption, voice, voice-sm, thought, mono, mono-sm and their dense variants.
 - Each role is `--cs-text-<role>` (a `font` shorthand) plus `--cs-text-<role>-tracking`. The `.cs-<role>` classes apply both.
 - The default interface size is 13/18.
 
 **Korean** (DP-11, 2026-10-29)
 - `word-break: keep-all`.
-- Tracking follows the language, not the class. Under `[lang|="ko"]` every ui and voice role takes the Hangul step for its size (tokens.mjs `hangul`): ≥ 30px −0.02em, ≥ 18px −0.015em, ≥ 13.5px −0.01em, ≥ 12.5px −0.005em, smaller 0 (tuned for SUIT, which is spaced tighter than Noto or Source Han). `caption` is 0 (no uppercase spread); mono roles keep their grid.
+- Tracking follows the language, not the class. Under `[lang|="ko"]` every ui and voice role takes the Hangul step for its size (tokens.mjs `hangul`): ≥ 24px −0.02em, ≥ 18px −0.01em, ≥ 13.5px −0.01em, ≥ 12.5px −0.005em, smaller +0.01em (tuned for SUIT, which is spaced tighter than Noto or Source Han); mono roles keep their grid.
 - The lang block re-points both `--cs-text-<role>-tracking` and the Tailwind `--text-<role>--letter-spacing`, so `.cs-<role>` classes and `text-<role>` utilities both follow it. Any other `[lang]` subtree (an `en` island in a Korean page) gets the Latin values back. Pages without a `lang` attribute stay Latin.
 - Geist's tracking is tuned for Latin; Hangul at the Latin values (−0.003em at 13px) reads loose.
 - Weight: SUIT 400 and 500 match Geist. SUIT 600 reads lighter than Geist 600 at heading sizes, so under ko the 600 ui roles of 18px and up (display, title-1, title-2, title-feature, title-overlay, stat, sample, figure) render at 700. The same lang block re-declares their `--cs-text-<role>` shorthand and `--text-<role>--font-weight`.
@@ -111,16 +114,16 @@ Naming:
 
 **Space:** a 4pt grid with half steps (2, 6, 10) for chips and insets. `--cs-space-<n>`, where n × 4 = px.
 
-**Radius:** xs 4, sm 6, md 8, lg 10, xl 12, 2xl 16, 3xl 22, 4xl 28, 5xl 32, full.
+**Radius:** four steps. Pill for chips, badges and filters (full); 12 for cards and containers (2xl, 3xl, 4xl, 5xl); 8 for buttons and fields (md, lg, xl, well-inner); 4 for small marks (xs, sm). 2xs stays 2 for hairline bars. Names are kept because specs pin them.
 
 **Concentric rule:** inner radius = outer radius − padding, snapped to the scale. The studio chain:
 
 | Layer | Radius | Inset to the next layer |
 |---|---|---|
-| Window | 32 | 10 |
-| Panel | 22 | 6 |
-| Composer, menu | 16 | 6 |
-| Item | 10 | — |
+| Window | 22 | 10 |
+| Panel | 12 | — |
+| Composer, menu | 12 | 6 |
+| Item | 8 (P5 tolerance 2) | — |
 
 **Container inset:** two sizes, `--cs-inset-*` (also `-y` and `-x`).
 
@@ -143,9 +146,9 @@ Naming:
 |---|---|
 | Inspector controls (number, hex, select, segmented units, wells) | 32 (`--cs-control-md`) |
 | Form fields | 36 · 40 · 44 (`--cs-field-*`) |
-| Segmented container | 4px padding; container radius 12, segment radius 8 |
-| Toolbars (capsule, zoom, context bar) | radius 14, items 10 (`--cs-studio-toolbar-radius`, `-item-radius`); never a full pill |
-| Toast | min height 60, radius 22 (`--cs-studio-toast-radius`), solid `material.regular`, one elevation shadow |
+| Segmented container | 4px padding; container radius 12 (2xl), segment radius 8 (md) |
+| Toolbars (capsule, zoom, context bar) | radius 12, items 8 (`--cs-studio-toolbar-radius`, `-item-radius`); never a full pill |
+| Toast | min height 60, radius 12 (`--cs-studio-toast-radius`), solid `material.regular`, one elevation shadow |
 | Tool call header | 40 |
 | Switch | iOS proportions: 46 × 28, thumb 24; stretches while pressed. Small 38 × 23 |
 | Checkbox, radio | 18 |
@@ -153,7 +156,7 @@ Naming:
 
 **Solid controls:** buttons, tooltips, list containers and rows, fields and chips use opaque fills (`control.raised`, `ink.solid`, `surface.translucent` are now solid; the names are kept). No backdrop blur.
 
-**Field radius:** one step above the control scale. Fields 12 (sm 10, lg 16), inspector fields 10.
+**Field radius:** 8, the same step as buttons (a large field is 12).
 
 **Card spacing:** a card section carries only inline padding. The first and last section take the outer inset (14), each following section adds one 10px gap, and a divided footer has 12 above and below. Header, body and footer never double a gap.
 
@@ -161,7 +164,9 @@ Naming:
 
 ## Depth and materials
 
-**Elevation:** levels 1–5. Each pairs a short contact shadow with a long diffuse one, defined per theme. Dark mode uses deeper shadows; its floating surfaces are one step lighter than the base surface. A surface carries a hairline or a shadow, never both.
+**Elevation:** drop shadows never pass .04 alpha. `raised` (controls, active tabs, chips) is a .5px ring plus a short drop; `pop` (popovers, menus, sheets; levels 3–5) is two soft layers. Resting cards carry `ring-card`, an inset .5px ring on the soft fill. Dark mode replaces drop shadows with a white ring and floats one step lighter.
+
+**Lines:** one line colour per mode (`grid.line`, `divider.line`, `border.default`): black .08 light, white .1 dark. Rails beside showcase content use `divider.rail`. Hierarchy never comes from line weight.
 
 **Floating recipe (`.cs-glass`, alias kept):**
 - solid `material.*` fill;
@@ -200,18 +205,19 @@ Naming:
 
 1. **Solid surfaces, one depth cue.** (replaces "Glass only for what floats")
    - Floating (rail, panels, toolbars, popovers, toasts, cursor tags): solid fill plus one elevation shadow.
-   - Resting (lists, inputs, cards): solid fill plus a 1px hairline, no shadow.
+   - Resting (lists, inputs, cards): solid fill plus a .5px ring, no drop shadow.
+   - Raised controls (secondary button, segmented thumb, chip): white fill, .5px ring and the short `raised` drop.
    - No `backdrop-filter`, no translucent fills, no border plus shadow, no accent fill plus accent border.
 2. **Light means agent.**
    - The spectrum (`.cs-agent` rim, `.cs-orb`, `.cs-shimmer`, agent cursor) appears only where the agent is present, working, or left provenance.
    - It is never decoration.
 3. **Ink first, accent once.**
    - Primary actions use ink.
-   - Buttons are flat, the iOS way: a solid fill and a 1px `control.edge` hairline, no shadow. No sheen, no specular top edge, no bevel.
-   - Ink is near-black in light mode and a lifted graphite (`neutral.7`) in dark mode, never white.
+   - Buttons are flat: a solid fill and a .5px `control.edge` ring. No sheen, no specular top edge, no bevel.
+   - Ink is black on white in light mode and white on black in dark mode.
    - Secondary buttons, segmented thumbs and the current nav item use `control.raised`, one step lighter than the surface (white in light mode, `neutral.8` in dark).
    - Selected indicators that are not buttons (step dots, slider fills, pucks) use `text.primary`, not ink.
-   - The accent is for selection, focus, links, toggles and at most one confirming action per view.
+   - Selection is neutral: `selection.fill` (the track step) with ink text, or the `ring-selected` 1.5px ink ring. The accent is for focus, links, toggles and at most one confirming action per view.
    - Status colors only mean status.
 4. **Two voices.** Sans for the interface and people, serif for the agent, mono for machine values.
 5. **Concentric corners.** Never put a larger radius inside a smaller one.

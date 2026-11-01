@@ -13,7 +13,7 @@ export const inspectorPanelVariants = cva('w-full overflow-clip rounded-panel bg
     variant: {
       solid: '',
       soft: 'bg-neutral-soft shadow-none',
-      outline: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+      outline: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
       ghost: 'bg-transparent shadow-none',
     },
   },

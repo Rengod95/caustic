@@ -32,7 +32,7 @@ export const effectEditorStageVariants = cva('relative grid h-effect-stage-h pla
     { variant: 'soft', tone: 'danger', className: 'bg-danger-tint' },
     { variant: 'soft', tone: 'info', className: 'bg-info-tint' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-tint' },
-    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

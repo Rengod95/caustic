@@ -23,7 +23,7 @@ export const gradientStripSlotVariants = cva('mt-2.5');
 
 export const gradientPreviewVariants = cva([
   'relative h-gradient-preview-h touch-none rounded-xl select-none',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
+  'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]',
   'bg-[image:var(--gradient),conic-gradient(var(--cs-color-canvas-checker-b)_25%,var(--cs-color-canvas-checker-a)_0_50%,var(--cs-color-canvas-checker-b)_0_75%,var(--cs-color-canvas-checker-a)_0)]',
   'bg-size-[100%_100%,calc(var(--spacing)*2.5)_calc(var(--spacing)*2.5)]',
 ], {
@@ -41,13 +41,13 @@ export const gradientPreviewVariants = cva([
     { variant: 'solid', tone: 'danger', className: 'shadow-[inset_0_0_0_2px_var(--cs-color-danger-graphic)]' },
     { variant: 'solid', tone: 'info', className: 'shadow-[inset_0_0_0_2px_var(--cs-color-info-graphic)]' },
     { variant: 'solid', tone: 'agent', className: 'shadow-[inset_0_0_0_2px_var(--cs-color-agent-graphic)]' },
-    { variant: 'soft', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-neutral-track)]' },
-    { variant: 'soft', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-accent-soft)]' },
-    { variant: 'soft', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-success-soft)]' },
-    { variant: 'soft', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-warning-soft)]' },
-    { variant: 'soft', tone: 'danger', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-danger-soft)]' },
-    { variant: 'soft', tone: 'info', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-info-soft)]' },
-    { variant: 'soft', tone: 'agent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-agent-soft)]' },
+    { variant: 'soft', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-neutral-track)]' },
+    { variant: 'soft', tone: 'accent', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-accent-soft)]' },
+    { variant: 'soft', tone: 'success', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-success-soft)]' },
+    { variant: 'soft', tone: 'warning', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-warning-soft)]' },
+    { variant: 'soft', tone: 'danger', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-danger-soft)]' },
+    { variant: 'soft', tone: 'info', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-info-soft)]' },
+    { variant: 'soft', tone: 'agent', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge),0_0_0_2px_var(--cs-color-agent-soft)]' },
     { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -82,7 +82,7 @@ export const gradientHandleVariants = cva(
   {
     variants: {
       end: {
-        false: 'bg-canvas-handle shadow-thumb-sm focus-visible:shadow-focus data-[on-stop]:not-focus-visible:shadow-none data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+        false: 'bg-canvas-handle shadow-thumb-sm focus-visible:shadow-focus data-[on-stop]:not-focus-visible:shadow-none data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
         // The ring is --ring wide: 3px, 2px inside a stop diamond.
         true: '[--ring:calc(var(--spacing)*0.75)] data-[on-stop]:[--ring:calc(var(--spacing)*0.5)] bg-transparent shadow-[inset_0_0_0_var(--ring)_var(--cs-color-canvas-handle),var(--cs-elevation-thumb-sm)] focus-visible:shadow-[inset_0_0_0_var(--ring)_var(--cs-color-canvas-handle),var(--cs-focus)] data-[on-stop]:not-focus-visible:shadow-[inset_0_0_0_var(--ring)_var(--cs-color-canvas-handle)] data-[disabled]:shadow-[inset_0_0_0_3px_var(--cs-color-disabled-fill),inset_0_0_0_4px_var(--cs-color-disabled-border)]',
       },

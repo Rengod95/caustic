@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
  * hairline, soft the tone's soft 3 without edge, outline no fill with the tone's border 6 edge, ghost no fill or edge.
  * radius replaces the xl corner; shadow adds an elevation (it replaces the hairline: one depth cue).
  */
-export const motionTimelineVariants = cva('overflow-hidden rounded-xl bg-surface-base font-ui text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]', {
+export const motionTimelineVariants = cva('overflow-hidden rounded-xl bg-surface-base font-ui text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]', {
   variants: {
     tone: {
       neutral: '[--mt-key:var(--cs-color-neutral-solid)]',
@@ -29,7 +29,7 @@ export const motionTimelineVariants = cva('overflow-hidden rounded-xl bg-surface
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft shadow-none' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft shadow-none' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft shadow-none' },
-    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

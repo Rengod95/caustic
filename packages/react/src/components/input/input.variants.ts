@@ -15,19 +15,19 @@ export const inputVariants = cva(
   [
     'flex min-w-0 cursor-text items-center gap-2 text-text-tertiary transition-control',
     'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
-    'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   ],
   {
     variants: {
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       variant: {
-        solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] focus-within:bg-neutral-well focus-within:shadow-focus-field',
+        solid: 'bg-control-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)] focus-within:bg-neutral-well focus-within:shadow-focus-field',
         soft: 'bg-neutral-soft hover:bg-neutral-soft-hover focus-within:bg-surface-raised hover:focus-within:bg-surface-raised focus-within:shadow-focus-field',
         outline: [
-          'bg-surface-translucent shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
-          'hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+          'bg-surface-translucent shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
+          'hover:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
           'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field)] hover:focus-within:shadow-[var(--cs-focus-field)]',
-          'data-[readonly]:not-data-[disabled]:bg-bg-inset data-[readonly]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] data-[readonly]:focus-within:shadow-[var(--cs-focus-field)]',
+          'data-[readonly]:not-data-[disabled]:bg-bg-inset data-[readonly]:not-data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] data-[readonly]:focus-within:shadow-[var(--cs-focus-field)]',
           // A read-only field still shows focus: its grey inset fill turns surface.base (the soft rule), the text stays secondary.
           'data-[readonly]:not-data-[disabled]:focus-within:bg-surface-base',
         ],

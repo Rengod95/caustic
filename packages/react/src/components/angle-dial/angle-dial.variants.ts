@@ -8,9 +8,9 @@ import { cva } from 'class-variance-authority';
 export const angleDialVariants = cva(
   [
     'group/dial relative inline-block shrink-0 cursor-grab touch-none select-none rounded-full bg-neutral-well align-middle outline-none',
-    'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+    'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
     'active:cursor-grabbing focus-visible:shadow-focus transition-control',
-    'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   ],
   {
     variants: {
@@ -37,7 +37,7 @@ export const angleDialVariants = cva(
       { variant: 'soft', tone: 'danger', className: 'bg-danger-tint' },
       { variant: 'soft', tone: 'info', className: 'bg-info-tint' },
       { variant: 'soft', tone: 'agent', className: 'bg-agent-tint' },
-      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

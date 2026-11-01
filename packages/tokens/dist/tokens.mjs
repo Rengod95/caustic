@@ -321,179 +321,265 @@ export default {
     }
   },
   "neutral": {
-    "name": "Deep Black",
-    "hue": 0,
-    "chroma": 0,
+    "name": "Warm Grey",
     "light": [
-      0.995,
-      0.975,
-      0.93,
-      0.875,
-      0.79,
-      0.6,
-      0.55,
-      0.5,
-      0.44,
-      0.34,
-      0.12
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0.9918,
+        0.0011,
+        17.2
+      ],
+      [
+        0.9651,
+        0.0034,
+        67.8
+      ],
+      [
+        0.9322,
+        0.0063,
+        75.4
+      ],
+      [
+        0.8661,
+        0.0099,
+        72.7
+      ],
+      [
+        0.6296,
+        0.0138,
+        75.3
+      ],
+      [
+        0.5994,
+        0.014,
+        75.3
+      ],
+      [
+        0.5377,
+        0.0143,
+        75.3
+      ],
+      [
+        0.5101,
+        0.0133,
+        71.8
+      ],
+      [
+        0.449,
+        0.0104,
+        67.6
+      ],
+      [
+        0,
+        0,
+        0
+      ]
     ],
     "dark": [
-      0.09,
-      0.135,
-      0.18,
-      0.225,
-      0.345,
-      0.535,
-      0.595,
-      0.62,
-      0.68,
-      0.76,
-      0.96
+      [
+        0.192,
+        0.0026,
+        67.7
+      ],
+      [
+        0.2142,
+        0.0025,
+        67.7
+      ],
+      [
+        0.2439,
+        0.004,
+        84.6
+      ],
+      [
+        0.2648,
+        0.004,
+        84.6
+      ],
+      [
+        0.2945,
+        0.0046,
+        67.6
+      ],
+      [
+        0.3807,
+        0.0078,
+        75.3
+      ],
+      [
+        0.588,
+        0.0102,
+        78.2
+      ],
+      [
+        0.6747,
+        0.0099,
+        78.3
+      ],
+      [
+        0.7262,
+        0.0079,
+        80.7
+      ],
+      [
+        0.8643,
+        0.0018,
+        67.8
+      ],
+      [
+        1,
+        0,
+        0
+      ]
     ]
   },
   "ramps": {
     "neutral": {
-      "name": "Deep Black",
+      "name": "Warm Grey",
       "light": [
         [
-          0.995,
+          1,
           0,
           0
         ],
         [
-          0.975,
-          0,
-          0
+          0.9918,
+          0.0011,
+          17.2
         ],
         [
-          0.93,
-          0,
-          0
+          0.9651,
+          0.0034,
+          67.8
         ],
         [
-          0.875,
-          0,
-          0
+          0.9322,
+          0.0063,
+          75.4
         ],
         [
-          0.79,
-          0,
-          0
+          0.8661,
+          0.0099,
+          72.7
         ],
         [
-          0.6,
-          0,
-          0
+          0.6296,
+          0.0138,
+          75.3
         ],
         [
-          0.55,
-          0,
-          0
+          0.5994,
+          0.014,
+          75.3
         ],
         [
-          0.5,
-          0,
-          0
+          0.5377,
+          0.0143,
+          75.3
         ],
         [
-          0.44,
-          0,
-          0
+          0.5101,
+          0.0133,
+          71.8
         ],
         [
-          0.34,
-          0,
-          0
+          0.449,
+          0.0104,
+          67.6
         ],
         [
-          0.12,
+          0,
           0,
           0
         ]
       ],
       "dark": [
         [
-          0.09,
-          0,
-          0
+          0.192,
+          0.0026,
+          67.7
         ],
         [
-          0.135,
-          0,
-          0
+          0.2142,
+          0.0025,
+          67.7
         ],
         [
-          0.18,
-          0,
-          0
+          0.2439,
+          0.004,
+          84.6
         ],
         [
-          0.225,
-          0,
-          0
+          0.2648,
+          0.004,
+          84.6
         ],
         [
-          0.345,
-          0,
-          0
+          0.2945,
+          0.0046,
+          67.6
         ],
         [
-          0.535,
-          0,
-          0
+          0.3807,
+          0.0078,
+          75.3
         ],
         [
-          0.595,
-          0,
-          0
+          0.588,
+          0.0102,
+          78.2
         ],
         [
-          0.62,
-          0,
-          0
+          0.6747,
+          0.0099,
+          78.3
         ],
         [
-          0.68,
-          0,
-          0
+          0.7262,
+          0.0079,
+          80.7
         ],
         [
-          0.76,
-          0,
-          0
+          0.8643,
+          0.0018,
+          67.8
         ],
         [
-          0.96,
+          1,
           0,
           0
         ]
       ],
       "hex": {
         "light": [
-          "#fdfdfd",
-          "#f7f7f7",
-          "#e8e8e8",
-          "#d6d6d6",
-          "#bababa",
-          "#808080",
-          "#717171",
-          "#636363",
-          "#525252",
-          "#383838",
-          "#060606"
+          "#ffffff",
+          "#fdfcfc",
+          "#f5f3f1",
+          "#ebe8e4",
+          "#d7d2cc",
+          "#8e8880",
+          "#857f77",
+          "#736d65",
+          "#6b655e",
+          "#59544f",
+          "#000000"
         ],
         "dark": [
-          "#020202",
-          "#080808",
-          "#121212",
-          "#1c1c1c",
-          "#393939",
-          "#6d6d6d",
-          "#7f7f7f",
-          "#868686",
-          "#989898",
-          "#b1b1b1",
-          "#f2f2f2"
+          "#151413",
+          "#1a1918",
+          "#21201e",
+          "#262523",
+          "#2e2c2a",
+          "#45423e",
+          "#807c76",
+          "#9a9690",
+          "#a9a6a1",
+          "#d3d2d1",
+          "#ffffff"
         ]
       },
       "on": {
@@ -2183,7 +2269,7 @@ export default {
       "bg.canvas": "neutral.3",
       "bg.inset": "neutral.11/0.04",
       "bg.scrim": "neutral.11/0.24",
-      "surface.base": "neutral.1",
+      "surface.base": "neutral.3",
       "surface.raised": "neutral.1",
       "surface.raised-translucent": "neutral.1",
       "surface.translucent": "neutral.1",
@@ -2200,16 +2286,21 @@ export default {
       "text.tertiary": "neutral.9",
       "text.placeholder": "neutral.8",
       "text.inverse": "neutral.1",
-      "border.subtle": "neutral.11/0.05",
+      "border.subtle": "neutral.11/0.075",
       "border.default": "neutral.11/0.08",
       "divider.line": "neutral.11/0.08",
-      "border.strong": "neutral.11/0.13",
+      "divider.rail": "neutral.11/0.05",
+      "grid.line": "neutral.11/0.08",
+      "grid.mark": "neutral.6",
+      "grid.hatch": "neutral.11/0.08",
+      "border.strong": "neutral.11/0.125",
       "border.control": "neutral.6",
       "control.off": "neutral.6",
       "control.thumb": "neutral-light.1",
+      "ring.control": "neutral.5",
       "control.raised": "neutral.1",
       "control.raised-hover": "neutral.2",
-      "control.edge": "neutral.11/0.07",
+      "control.edge": "neutral.11/0.125",
       "ink.solid": "neutral.11",
       "ink.solid-hover": "neutral.10",
       "ink.on": "neutral-light.1",
@@ -2242,17 +2333,17 @@ export default {
       "neutral.border": "neutral.6",
       "neutral.border-strong": "neutral.7",
       "neutral.graphic": "neutral.8",
-      "neutral.solid": "neutral.9",
-      "neutral.solid-hover": "neutral.10",
+      "neutral.solid": "neutral.5",
+      "neutral.solid-hover": "neutral.4",
       "neutral.text": "neutral.11",
-      "neutral.on": "neutral.on",
+      "neutral.on": "neutral.11",
       "success.tint": "success.2",
       "success.soft": "success.3",
       "success.soft-hover": "success.4",
       "success.soft-pressed": "success.5",
       "success.border": "success.6",
       "success.border-strong": "success.7",
-      "success.graphic": "success.8",
+      "success.graphic": "success.11",
       "success.solid": "success.9",
       "success.solid-hover": "success.10",
       "success.text": "success.11",
@@ -2263,7 +2354,7 @@ export default {
       "warning.soft-pressed": "warning.5",
       "warning.border": "warning.6",
       "warning.border-strong": "warning.7",
-      "warning.graphic": "warning.8",
+      "warning.graphic": "warning.11",
       "warning.solid": "warning.9",
       "warning.solid-hover": "warning.10",
       "warning.text": "warning.11",
@@ -2301,20 +2392,20 @@ export default {
       "agent.solid-hover": "agent-1.10",
       "agent.text": "agent-1.11",
       "agent.on": "agent-1.on",
-      "neutral.hover": "neutral.11/0.045",
+      "neutral.hover": "neutral.11/0.05",
       "neutral.pressed": "neutral.11/0.075",
-      "neutral.selected": "neutral.11/0.11",
-      "neutral.selected-hover": "neutral.11/0.145",
-      "neutral.track": "neutral.11/0.075",
-      "neutral.well": "neutral.11/0.035",
+      "neutral.selected": "neutral.11/0.08",
+      "neutral.selected-hover": "neutral.11/0.11",
+      "neutral.track": "neutral.4",
+      "neutral.well": "neutral.3",
       "focus.ring": "accent.9",
       "focus.offset": "=surface.base",
       "selection.edge": "neutral.7",
-      "selection.fill": "=ink.solid",
-      "selection.fill-hover": "=ink.solid-hover",
-      "selection.on": "=ink.on",
-      "selection.on-secondary": "neutral-light.4",
-      "selection.on-tertiary": "neutral-light.5",
+      "selection.fill": "neutral.4",
+      "selection.fill-hover": "neutral.5",
+      "selection.on": "neutral.11",
+      "selection.on-secondary": "neutral.10",
+      "selection.on-tertiary": "neutral.9",
       "disabled.fill": "neutral.3",
       "disabled.text": "neutral.6",
       "disabled.border": "neutral.4",
@@ -2398,20 +2489,25 @@ export default {
       "text.tertiary": "neutral.9",
       "text.placeholder": "neutral.8",
       "text.inverse": "neutral.2",
-      "border.subtle": "white/0.05",
-      "border.default": "white/0.07",
-      "divider.line": "white/0.07",
-      "border.strong": "white/0.12",
-      "border.control": "neutral.6",
-      "control.off": "neutral.6",
+      "border.subtle": "white/0.08",
+      "border.default": "white/0.1",
+      "divider.line": "white/0.1",
+      "divider.rail": "white/0.06",
+      "grid.line": "white/0.1",
+      "grid.mark": "neutral.7",
+      "grid.hatch": "white/0.07",
+      "border.strong": "white/0.14",
+      "border.control": "neutral.7",
+      "control.off": "neutral.7",
       "control.thumb": "neutral-light.1",
+      "ring.control": "neutral.6",
       "control.raised": "neutral.4",
       "control.raised-hover": "neutral.5",
-      "control.edge": "white/0.06",
-      "ink.solid": "neutral.5",
-      "ink.solid-hover": "neutral.6",
-      "ink.on": "neutral-light.1",
-      "ink.on-muted": "neutral-light.1/0.75",
+      "control.edge": "white/0.1",
+      "ink.solid": "neutral-dark.11",
+      "ink.solid-hover": "neutral-dark.10",
+      "ink.on": "neutral-light.11",
+      "ink.on-muted": "neutral-light.11/0.75",
       "ink.kbd": "white/0.09",
       "swatch.edge": "black/0.1",
       "media.on": "white/1",
@@ -2440,10 +2536,10 @@ export default {
       "neutral.border": "neutral.6",
       "neutral.border-strong": "neutral.7",
       "neutral.graphic": "neutral.8",
-      "neutral.solid": "neutral.9",
-      "neutral.solid-hover": "neutral.10",
+      "neutral.solid": "neutral.6",
+      "neutral.solid-hover": "neutral.5",
       "neutral.text": "neutral.11",
-      "neutral.on": "neutral.on",
+      "neutral.on": "neutral.11",
       "success.tint": "success.2",
       "success.soft": "success.3",
       "success.soft-hover": "success.4",
@@ -2499,22 +2595,22 @@ export default {
       "agent.solid-hover": "agent-1.10",
       "agent.text": "agent-1.11",
       "agent.on": "agent-1.on",
-      "neutral.hover": "white/0.05",
+      "neutral.hover": "white/0.06",
       "neutral.pressed": "white/0.08",
-      "neutral.selected": "white/0.12",
-      "neutral.selected-hover": "white/0.16",
-      "neutral.track": "white/0.08",
-      "neutral.well": "white/0.04",
+      "neutral.selected": "white/0.1",
+      "neutral.selected-hover": "white/0.14",
+      "neutral.track": "neutral.5",
+      "neutral.well": "neutral.3",
       "focus.ring": "accent.9",
       "focus.offset": "=surface.base",
       "selection.edge": "neutral.7",
-      "selection.fill": "=ink.solid",
-      "selection.fill-hover": "=ink.solid-hover",
-      "selection.on": "=ink.on",
-      "selection.on-secondary": "neutral-dark.11",
-      "selection.on-tertiary": "neutral-dark.10",
+      "selection.fill": "neutral.5",
+      "selection.fill-hover": "neutral.6",
+      "selection.on": "neutral.11",
+      "selection.on-secondary": "neutral.10",
+      "selection.on-tertiary": "neutral.9",
       "disabled.fill": "neutral.4",
-      "disabled.text": "neutral.6",
+      "disabled.text": "neutral.7",
       "disabled.border": "neutral.5",
       "required.mark": "=text.tertiary",
       "chart.1": "accent.8",
@@ -2578,51 +2674,51 @@ export default {
   "resolved": {
     "light": {
       "bg.app": {
-        "hex": "#f7f7f7",
+        "hex": "#fdfcfc",
         "alpha": 1
       },
       "bg.canvas": {
-        "hex": "#e8e8e8",
+        "hex": "#f5f3f1",
         "alpha": 1
       },
       "bg.inset": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 0.04
       },
       "bg.scrim": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 0.24
       },
       "surface.base": {
-        "hex": "#fdfdfd",
+        "hex": "#f5f3f1",
         "alpha": 1
       },
       "surface.raised": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "surface.raised-translucent": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "surface.translucent": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "material.ultrathin": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "material.thin": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "material.regular": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "material.thick": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "material.rim": {
@@ -2630,7 +2726,7 @@ export default {
         "alpha": 0
       },
       "material.edge": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 0
       },
       "material.specular": {
@@ -2642,79 +2738,99 @@ export default {
         "alpha": 0
       },
       "text.primary": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "text.secondary": {
-        "hex": "#383838",
+        "hex": "#59544f",
         "alpha": 1
       },
       "text.tertiary": {
-        "hex": "#525252",
+        "hex": "#6b655e",
         "alpha": 1
       },
       "text.placeholder": {
-        "hex": "#636363",
+        "hex": "#736d65",
         "alpha": 1
       },
       "text.inverse": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "border.subtle": {
-        "hex": "#060606",
-        "alpha": 0.05
+        "hex": "#000000",
+        "alpha": 0.075
       },
       "border.default": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 0.08
       },
       "divider.line": {
-        "hex": "#060606",
+        "hex": "#000000",
+        "alpha": 0.08
+      },
+      "divider.rail": {
+        "hex": "#000000",
+        "alpha": 0.05
+      },
+      "grid.line": {
+        "hex": "#000000",
+        "alpha": 0.08
+      },
+      "grid.mark": {
+        "hex": "#8e8880",
+        "alpha": 1
+      },
+      "grid.hatch": {
+        "hex": "#000000",
         "alpha": 0.08
       },
       "border.strong": {
-        "hex": "#060606",
-        "alpha": 0.13
+        "hex": "#000000",
+        "alpha": 0.125
       },
       "border.control": {
-        "hex": "#808080",
+        "hex": "#8e8880",
         "alpha": 1
       },
       "control.off": {
-        "hex": "#808080",
+        "hex": "#8e8880",
         "alpha": 1
       },
       "control.thumb": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
+        "alpha": 1
+      },
+      "ring.control": {
+        "hex": "#d7d2cc",
         "alpha": 1
       },
       "control.raised": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "control.raised-hover": {
-        "hex": "#f7f7f7",
+        "hex": "#fdfcfc",
         "alpha": 1
       },
       "control.edge": {
-        "hex": "#060606",
-        "alpha": 0.07
+        "hex": "#000000",
+        "alpha": 0.125
       },
       "ink.solid": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "ink.solid-hover": {
-        "hex": "#383838",
+        "hex": "#59544f",
         "alpha": 1
       },
       "ink.on": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "ink.on-muted": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 0.75
       },
       "ink.kbd": {
@@ -2750,7 +2866,7 @@ export default {
         "alpha": 1
       },
       "shadow.ambient": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "shadow.contact": {
@@ -2798,51 +2914,51 @@ export default {
         "alpha": 1
       },
       "accent.on": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "neutral.tint": {
-        "hex": "#f7f7f7",
+        "hex": "#fdfcfc",
         "alpha": 1
       },
       "neutral.soft": {
-        "hex": "#e8e8e8",
+        "hex": "#f5f3f1",
         "alpha": 1
       },
       "neutral.soft-hover": {
-        "hex": "#d6d6d6",
+        "hex": "#ebe8e4",
         "alpha": 1
       },
       "neutral.soft-pressed": {
-        "hex": "#bababa",
+        "hex": "#d7d2cc",
         "alpha": 1
       },
       "neutral.border": {
-        "hex": "#808080",
+        "hex": "#8e8880",
         "alpha": 1
       },
       "neutral.border-strong": {
-        "hex": "#717171",
+        "hex": "#857f77",
         "alpha": 1
       },
       "neutral.graphic": {
-        "hex": "#636363",
+        "hex": "#736d65",
         "alpha": 1
       },
       "neutral.solid": {
-        "hex": "#525252",
+        "hex": "#d7d2cc",
         "alpha": 1
       },
       "neutral.solid-hover": {
-        "hex": "#383838",
+        "hex": "#ebe8e4",
         "alpha": 1
       },
       "neutral.text": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "neutral.on": {
-        "hex": "#fdfdfd",
+        "hex": "#000000",
         "alpha": 1
       },
       "success.tint": {
@@ -2870,7 +2986,7 @@ export default {
         "alpha": 1
       },
       "success.graphic": {
-        "hex": "#3eea90",
+        "hex": "#007742",
         "alpha": 1
       },
       "success.solid": {
@@ -2886,7 +3002,7 @@ export default {
         "alpha": 1
       },
       "success.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "warning.tint": {
@@ -2914,7 +3030,7 @@ export default {
         "alpha": 1
       },
       "warning.graphic": {
-        "hex": "#d9f06c",
+        "hex": "#627000",
         "alpha": 1
       },
       "warning.solid": {
@@ -2930,7 +3046,7 @@ export default {
         "alpha": 1
       },
       "warning.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "danger.tint": {
@@ -2974,7 +3090,7 @@ export default {
         "alpha": 1
       },
       "danger.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "info.tint": {
@@ -3018,7 +3134,7 @@ export default {
         "alpha": 1
       },
       "info.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "agent.tint": {
@@ -3062,79 +3178,79 @@ export default {
         "alpha": 1
       },
       "agent.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "neutral.hover": {
-        "hex": "#060606",
-        "alpha": 0.045
+        "hex": "#000000",
+        "alpha": 0.05
       },
       "neutral.pressed": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 0.075
       },
       "neutral.selected": {
-        "hex": "#060606",
-        "alpha": 0.11
+        "hex": "#000000",
+        "alpha": 0.08
       },
       "neutral.selected-hover": {
-        "hex": "#060606",
-        "alpha": 0.145
+        "hex": "#000000",
+        "alpha": 0.11
       },
       "neutral.track": {
-        "hex": "#060606",
-        "alpha": 0.075
+        "hex": "#ebe8e4",
+        "alpha": 1
       },
       "neutral.well": {
-        "hex": "#060606",
-        "alpha": 0.035
+        "hex": "#f5f3f1",
+        "alpha": 1
       },
       "focus.ring": {
         "hex": "#040404",
         "alpha": 1
       },
       "focus.offset": {
-        "hex": "#fdfdfd",
+        "hex": "#f5f3f1",
         "alpha": 1
       },
       "selection.edge": {
-        "hex": "#717171",
+        "hex": "#857f77",
         "alpha": 1
       },
       "selection.fill": {
-        "hex": "#060606",
+        "hex": "#ebe8e4",
         "alpha": 1
       },
       "selection.fill-hover": {
-        "hex": "#383838",
+        "hex": "#d7d2cc",
         "alpha": 1
       },
       "selection.on": {
-        "hex": "#fdfdfd",
+        "hex": "#000000",
         "alpha": 1
       },
       "selection.on-secondary": {
-        "hex": "#d6d6d6",
+        "hex": "#59544f",
         "alpha": 1
       },
       "selection.on-tertiary": {
-        "hex": "#bababa",
+        "hex": "#6b655e",
         "alpha": 1
       },
       "disabled.fill": {
-        "hex": "#e8e8e8",
+        "hex": "#f5f3f1",
         "alpha": 1
       },
       "disabled.text": {
-        "hex": "#808080",
+        "hex": "#8e8880",
         "alpha": 1
       },
       "disabled.border": {
-        "hex": "#d6d6d6",
+        "hex": "#ebe8e4",
         "alpha": 1
       },
       "required.mark": {
-        "hex": "#525252",
+        "hex": "#6b655e",
         "alpha": 1
       },
       "chart.1": {
@@ -3206,11 +3322,11 @@ export default {
         "alpha": 1
       },
       "syntax.comment": {
-        "hex": "#383838",
+        "hex": "#59544f",
         "alpha": 1
       },
       "canvas.dot": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 0.13
       },
       "canvas.selection": {
@@ -3218,11 +3334,11 @@ export default {
         "alpha": 1
       },
       "canvas.handle": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "canvas.selection-on": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "canvas.guide": {
@@ -3230,7 +3346,7 @@ export default {
         "alpha": 1
       },
       "canvas.guide-on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "canvas.guide-user": {
@@ -3246,19 +3362,19 @@ export default {
         "alpha": 0.14
       },
       "canvas.label": {
-        "hex": "#525252",
+        "hex": "#6b655e",
         "alpha": 1
       },
       "canvas.checker-a": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "canvas.checker-b": {
-        "hex": "#e8e8e8",
+        "hex": "#f5f3f1",
         "alpha": 1
       },
       "canvas.artboard": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "category.component": {
@@ -3286,31 +3402,31 @@ export default {
         "alpha": 1
       },
       "identity.slate": {
-        "hex": "#525252",
+        "hex": "#6b655e",
         "alpha": 1
       },
       "identity.on-coral": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "identity.on-iris": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "identity.on-mint": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "identity.on-amber": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "identity.on-slate": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "identity.on": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "accent.hover": {
@@ -3318,7 +3434,7 @@ export default {
         "alpha": 1
       },
       "ink.hover": {
-        "hex": "#383838",
+        "hex": "#59544f",
         "alpha": 1
       },
       "accent.fill": {
@@ -3338,20 +3454,20 @@ export default {
         "alpha": 1
       },
       "text.disabled": {
-        "hex": "#808080",
+        "hex": "#8e8880",
         "alpha": 1
       },
       "fill.hover": {
-        "hex": "#060606",
-        "alpha": 0.045
+        "hex": "#000000",
+        "alpha": 0.05
       },
       "fill.pressed": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 0.075
       },
       "fill.selected": {
-        "hex": "#060606",
-        "alpha": 0.11
+        "hex": "#000000",
+        "alpha": 0.08
       },
       "diff.add": {
         "hex": "#bcfbd1",
@@ -3364,11 +3480,11 @@ export default {
     },
     "dark": {
       "bg.app": {
-        "hex": "#080808",
+        "hex": "#1a1918",
         "alpha": 1
       },
       "bg.canvas": {
-        "hex": "#020202",
+        "hex": "#151413",
         "alpha": 1
       },
       "bg.inset": {
@@ -3380,35 +3496,35 @@ export default {
         "alpha": 0.5
       },
       "surface.base": {
-        "hex": "#121212",
+        "hex": "#21201e",
         "alpha": 1
       },
       "surface.raised": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "surface.raised-translucent": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "surface.translucent": {
-        "hex": "#121212",
+        "hex": "#21201e",
         "alpha": 1
       },
       "material.ultrathin": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "material.thin": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "material.regular": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "material.thick": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "material.rim": {
@@ -3428,79 +3544,99 @@ export default {
         "alpha": 0
       },
       "text.primary": {
-        "hex": "#f2f2f2",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "text.secondary": {
-        "hex": "#b1b1b1",
+        "hex": "#d3d2d1",
         "alpha": 1
       },
       "text.tertiary": {
-        "hex": "#989898",
+        "hex": "#a9a6a1",
         "alpha": 1
       },
       "text.placeholder": {
-        "hex": "#868686",
+        "hex": "#9a9690",
         "alpha": 1
       },
       "text.inverse": {
-        "hex": "#080808",
+        "hex": "#1a1918",
         "alpha": 1
       },
       "border.subtle": {
         "hex": "#ffffff",
-        "alpha": 0.05
+        "alpha": 0.08
       },
       "border.default": {
         "hex": "#ffffff",
-        "alpha": 0.07
+        "alpha": 0.1
       },
       "divider.line": {
+        "hex": "#ffffff",
+        "alpha": 0.1
+      },
+      "divider.rail": {
+        "hex": "#ffffff",
+        "alpha": 0.06
+      },
+      "grid.line": {
+        "hex": "#ffffff",
+        "alpha": 0.1
+      },
+      "grid.mark": {
+        "hex": "#807c76",
+        "alpha": 1
+      },
+      "grid.hatch": {
         "hex": "#ffffff",
         "alpha": 0.07
       },
       "border.strong": {
         "hex": "#ffffff",
-        "alpha": 0.12
+        "alpha": 0.14
       },
       "border.control": {
-        "hex": "#6d6d6d",
+        "hex": "#807c76",
         "alpha": 1
       },
       "control.off": {
-        "hex": "#6d6d6d",
+        "hex": "#807c76",
         "alpha": 1
       },
       "control.thumb": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
+        "alpha": 1
+      },
+      "ring.control": {
+        "hex": "#45423e",
         "alpha": 1
       },
       "control.raised": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "control.raised-hover": {
-        "hex": "#393939",
+        "hex": "#2e2c2a",
         "alpha": 1
       },
       "control.edge": {
         "hex": "#ffffff",
-        "alpha": 0.06
+        "alpha": 0.1
       },
       "ink.solid": {
-        "hex": "#393939",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "ink.solid-hover": {
-        "hex": "#6d6d6d",
+        "hex": "#d3d2d1",
         "alpha": 1
       },
       "ink.on": {
-        "hex": "#fdfdfd",
+        "hex": "#000000",
         "alpha": 1
       },
       "ink.on-muted": {
-        "hex": "#fdfdfd",
+        "hex": "#000000",
         "alpha": 0.75
       },
       "ink.kbd": {
@@ -3584,51 +3720,51 @@ export default {
         "alpha": 1
       },
       "accent.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "neutral.tint": {
-        "hex": "#080808",
+        "hex": "#1a1918",
         "alpha": 1
       },
       "neutral.soft": {
-        "hex": "#121212",
+        "hex": "#21201e",
         "alpha": 1
       },
       "neutral.soft-hover": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "neutral.soft-pressed": {
-        "hex": "#393939",
+        "hex": "#2e2c2a",
         "alpha": 1
       },
       "neutral.border": {
-        "hex": "#6d6d6d",
+        "hex": "#45423e",
         "alpha": 1
       },
       "neutral.border-strong": {
-        "hex": "#7f7f7f",
+        "hex": "#807c76",
         "alpha": 1
       },
       "neutral.graphic": {
-        "hex": "#868686",
+        "hex": "#9a9690",
         "alpha": 1
       },
       "neutral.solid": {
-        "hex": "#989898",
+        "hex": "#45423e",
         "alpha": 1
       },
       "neutral.solid-hover": {
-        "hex": "#b1b1b1",
+        "hex": "#2e2c2a",
         "alpha": 1
       },
       "neutral.text": {
-        "hex": "#f2f2f2",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "neutral.on": {
-        "hex": "#060606",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "success.tint": {
@@ -3672,7 +3808,7 @@ export default {
         "alpha": 1
       },
       "success.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "warning.tint": {
@@ -3716,7 +3852,7 @@ export default {
         "alpha": 1
       },
       "warning.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "danger.tint": {
@@ -3760,7 +3896,7 @@ export default {
         "alpha": 1
       },
       "danger.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "info.tint": {
@@ -3804,7 +3940,7 @@ export default {
         "alpha": 1
       },
       "info.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "agent.tint": {
@@ -3848,12 +3984,12 @@ export default {
         "alpha": 1
       },
       "agent.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "neutral.hover": {
         "hex": "#ffffff",
-        "alpha": 0.05
+        "alpha": 0.06
       },
       "neutral.pressed": {
         "hex": "#ffffff",
@@ -3861,66 +3997,66 @@ export default {
       },
       "neutral.selected": {
         "hex": "#ffffff",
-        "alpha": 0.12
+        "alpha": 0.1
       },
       "neutral.selected-hover": {
         "hex": "#ffffff",
-        "alpha": 0.16
+        "alpha": 0.14
       },
       "neutral.track": {
-        "hex": "#ffffff",
-        "alpha": 0.08
+        "hex": "#2e2c2a",
+        "alpha": 1
       },
       "neutral.well": {
-        "hex": "#ffffff",
-        "alpha": 0.04
+        "hex": "#21201e",
+        "alpha": 1
       },
       "focus.ring": {
         "hex": "#f5f5f5",
         "alpha": 1
       },
       "focus.offset": {
-        "hex": "#121212",
+        "hex": "#21201e",
         "alpha": 1
       },
       "selection.edge": {
-        "hex": "#7f7f7f",
+        "hex": "#807c76",
         "alpha": 1
       },
       "selection.fill": {
-        "hex": "#393939",
+        "hex": "#2e2c2a",
         "alpha": 1
       },
       "selection.fill-hover": {
-        "hex": "#6d6d6d",
+        "hex": "#45423e",
         "alpha": 1
       },
       "selection.on": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "selection.on-secondary": {
-        "hex": "#f2f2f2",
+        "hex": "#d3d2d1",
         "alpha": 1
       },
       "selection.on-tertiary": {
-        "hex": "#b1b1b1",
+        "hex": "#a9a6a1",
         "alpha": 1
       },
       "disabled.fill": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "disabled.text": {
-        "hex": "#6d6d6d",
+        "hex": "#807c76",
         "alpha": 1
       },
       "disabled.border": {
-        "hex": "#393939",
+        "hex": "#2e2c2a",
         "alpha": 1
       },
       "required.mark": {
-        "hex": "#989898",
+        "hex": "#a9a6a1",
         "alpha": 1
       },
       "chart.1": {
@@ -3992,7 +4128,7 @@ export default {
         "alpha": 1
       },
       "syntax.comment": {
-        "hex": "#b1b1b1",
+        "hex": "#d3d2d1",
         "alpha": 1
       },
       "canvas.dot": {
@@ -4004,11 +4140,11 @@ export default {
         "alpha": 1
       },
       "canvas.handle": {
-        "hex": "#020202",
+        "hex": "#151413",
         "alpha": 1
       },
       "canvas.selection-on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "canvas.guide": {
@@ -4016,7 +4152,7 @@ export default {
         "alpha": 1
       },
       "canvas.guide-on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "canvas.guide-user": {
@@ -4032,19 +4168,19 @@ export default {
         "alpha": 0.14
       },
       "canvas.label": {
-        "hex": "#989898",
+        "hex": "#a9a6a1",
         "alpha": 1
       },
       "canvas.checker-a": {
-        "hex": "#1c1c1c",
+        "hex": "#262523",
         "alpha": 1
       },
       "canvas.checker-b": {
-        "hex": "#393939",
+        "hex": "#2e2c2a",
         "alpha": 1
       },
       "canvas.artboard": {
-        "hex": "#fdfdfd",
+        "hex": "#ffffff",
         "alpha": 1
       },
       "category.component": {
@@ -4072,31 +4208,31 @@ export default {
         "alpha": 1
       },
       "identity.slate": {
-        "hex": "#989898",
+        "hex": "#a9a6a1",
         "alpha": 1
       },
       "identity.on-coral": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "identity.on-iris": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "identity.on-mint": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "identity.on-amber": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "identity.on-slate": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "identity.on": {
-        "hex": "#060606",
+        "hex": "#000000",
         "alpha": 1
       },
       "accent.hover": {
@@ -4104,7 +4240,7 @@ export default {
         "alpha": 1
       },
       "ink.hover": {
-        "hex": "#6d6d6d",
+        "hex": "#d3d2d1",
         "alpha": 1
       },
       "accent.fill": {
@@ -4124,12 +4260,12 @@ export default {
         "alpha": 1
       },
       "text.disabled": {
-        "hex": "#6d6d6d",
+        "hex": "#807c76",
         "alpha": 1
       },
       "fill.hover": {
         "hex": "#ffffff",
-        "alpha": 0.05
+        "alpha": 0.06
       },
       "fill.pressed": {
         "hex": "#ffffff",
@@ -4137,7 +4273,7 @@ export default {
       },
       "fill.selected": {
         "hex": "#ffffff",
-        "alpha": 0.12
+        "alpha": 0.1
       },
       "diff.add": {
         "hex": "#00351b",
@@ -4151,17 +4287,17 @@ export default {
   },
   "primitiveHex": {
     "neutral": {
-      "1": "#fdfdfd",
-      "2": "#f7f7f7",
-      "3": "#e8e8e8",
-      "4": "#d6d6d6",
-      "5": "#bababa",
-      "6": "#808080",
-      "7": "#717171",
-      "8": "#636363",
-      "9": "#525252",
-      "10": "#383838",
-      "11": "#060606"
+      "1": "#ffffff",
+      "2": "#fdfcfc",
+      "3": "#f5f3f1",
+      "4": "#ebe8e4",
+      "5": "#d7d2cc",
+      "6": "#8e8880",
+      "7": "#857f77",
+      "8": "#736d65",
+      "9": "#6b655e",
+      "10": "#59544f",
+      "11": "#000000"
     },
     "accent": {
       "1": "#fafafa",
@@ -4346,15 +4482,15 @@ export default {
   "radius": {
     "none": 0,
     "xs": 4,
-    "sm": 6,
+    "sm": 4,
     "md": 8,
-    "lg": 10,
-    "xl": 12,
-    "2xl": 16,
-    "3xl": 22,
-    "4xl": 28,
-    "5xl": 32,
-    "well-inner": 18,
+    "lg": 8,
+    "xl": 8,
+    "2xl": 12,
+    "3xl": 12,
+    "4xl": 12,
+    "5xl": 12,
+    "well-inner": 8,
     "2xs": 2,
     "full": 999
   },
@@ -4534,12 +4670,12 @@ export default {
     "lang": "ko",
     "tracking": [
       [
-        30,
+        24,
         -0.02
       ],
       [
         18,
-        -0.015
+        -0.01
       ],
       [
         13.5,
@@ -4551,12 +4687,10 @@ export default {
       ],
       [
         0,
-        0
+        0.01
       ]
     ],
-    "except": {
-      "caption": 0
-    },
+    "except": {},
     "heavier": {
       "from": 18,
       "weights": {
@@ -4574,59 +4708,59 @@ export default {
     ],
     "title-1": [
       "ui",
-      26,
+      24,
       32,
       600,
-      -0.022
+      -0.02
     ],
     "title-2": [
       "ui",
-      20,
+      18,
       26,
       600,
-      -0.016
+      -0.01
     ],
     "title-3": [
       "ui",
       15,
-      20,
-      600,
-      -0.01
+      22,
+      500,
+      -0.005
     ],
     "title-4": [
       "ui",
-      13.5,
+      14,
       20,
-      600,
-      -0.01
+      500,
+      -0.003
     ],
     "title-feature": [
       "ui",
-      19,
-      24,
+      18,
+      26,
       600,
-      -0.02
+      -0.01
     ],
     "title-overlay": [
       "ui",
       18,
-      22,
+      26,
       600,
-      -0.015
+      -0.01
     ],
     "stat": [
       "ui",
-      30,
-      34,
-      600,
-      -0.035
+      20,
+      28,
+      500,
+      -0.01
     ],
     "stat-lg": [
       "ui",
-      34,
-      34,
-      600,
-      -0.03
+      20,
+      28,
+      500,
+      -0.01
     ],
     "sample": [
       "ui",
@@ -4638,7 +4772,7 @@ export default {
     "body": [
       "ui",
       14,
-      21,
+      22,
       400,
       -0.003
     ],
@@ -4661,7 +4795,7 @@ export default {
       12,
       18,
       500,
-      0
+      0.01
     ],
     "ui-lg": [
       "ui",
@@ -4673,24 +4807,23 @@ export default {
     "footnote": [
       "ui",
       12,
-      16,
+      18,
       400,
-      0
+      0.01
     ],
     "caption": [
       "ui",
-      11,
-      14,
+      12,
+      18,
       500,
-      0.06,
-      "uppercase"
+      0.01
     ],
     "label": [
       "ui",
-      11.5,
-      14,
+      12,
+      18,
       500,
-      0
+      0.01
     ],
     "voice": [
       "voice",
@@ -4744,10 +4877,10 @@ export default {
     ],
     "hint": [
       "ui",
-      11.5,
+      12,
       18,
       400,
-      0
+      0.01
     ],
     "micro": [
       "ui",
@@ -4758,10 +4891,10 @@ export default {
     ],
     "ui-xs": [
       "ui",
-      11,
+      12,
       18,
       400,
-      0
+      0.01
     ],
     "ui-md": [
       "ui",
@@ -4772,24 +4905,24 @@ export default {
     ],
     "ui-relaxed": [
       "ui",
-      13,
-      19,
+      14,
+      22,
       400,
       -0.003
     ],
     "ui-dense-relaxed": [
       "ui",
-      12.5,
-      19,
+      14,
+      22,
       400,
       -0.003
     ],
     "figure": [
       "ui",
       20,
-      18,
-      600,
-      -0.02
+      28,
+      500,
+      -0.01
     ],
     "mono-md": [
       "mono",
@@ -4857,33 +4990,45 @@ export default {
   },
   "elevation": {
     "light": {
-      "1": "0 1px 2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06)",
-      "2": "0 1px 2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.05), 0 4px 12px -2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.08)",
-      "3": "0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 12px 28px -6px oklch(from var(--cs-color-shadow-ambient) l c h / 0.12)",
-      "4": "0 4px 8px oklch(from var(--cs-color-shadow-ambient) l c h / 0.05), 0 24px 48px -12px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)",
-      "5": "0 8px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06), 0 40px 80px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.28)",
-      "thumb": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)",
-      "thumb-sm": "0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)",
-      "thumb-swatch": "inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm)",
-      "card": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 12px 32px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)",
-      "lift": "0 14px 30px -14px oklch(from var(--cs-color-shadow-ambient) l c h / 0.3)",
-      "well": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 6px 18px -10px oklch(from var(--cs-color-shadow-ambient) l c h / 0.25)",
+      "1": "0 1px 1px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "2": "0 1px 1px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "3": "0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 6px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "4": "0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 6px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "5": "0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 6px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
       "agent": "0 8px 30px -12px var(--cs-color-agent-glow)",
+      "thumb-swatch": "inset 0 0 0 0.5px var(--cs-color-swatch-edge), var(--cs-elevation-thumb)",
+      "ring-selected": "inset 0 0 0 1.5px var(--cs-color-text-primary)",
+      "ring-control": "inset 0 0 0 0.5px var(--cs-color-ring-control)",
+      "raised": "0 0 0 0.5px oklch(from var(--cs-color-shadow-ambient) l c h / 0.125), 0 1px 1px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "pop": "0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 6px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "ring-card": "inset 0 0 0 0.5px oklch(from var(--cs-color-shadow-ambient) l c h / 0.075)",
+      "ring-card-strong": "inset 0 0 0 0.5px oklch(from var(--cs-color-shadow-ambient) l c h / 0.1)",
+      "thumb": "0 0 0 0.5px oklch(from var(--cs-color-shadow-ambient) l c h / 0.125), 0 1px 1px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "thumb-sm": "0 0 0 0.5px oklch(from var(--cs-color-shadow-ambient) l c h / 0.125), 0 1px 1px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "card": "inset 0 0 0 0.5px oklch(from var(--cs-color-shadow-ambient) l c h / 0.075)",
+      "lift": "0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 6px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "well": "inset 0 0 0 0.5px oklch(from var(--cs-color-shadow-ambient) l c h / 0.075)",
       "artboard": "0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)"
     },
     "dark": {
-      "1": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.3)",
-      "2": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 4px 12px -2px oklch(from var(--cs-color-shadow-contact) l c h / 0.35)",
-      "3": "0 2px 4px oklch(from var(--cs-color-shadow-contact) l c h / 0.25), 0 12px 28px -6px oklch(from var(--cs-color-shadow-contact) l c h / 0.45)",
-      "4": "0 4px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25), 0 24px 48px -12px oklch(from var(--cs-color-shadow-contact) l c h / 0.55)",
-      "5": "0 8px 16px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 40px 80px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.65)",
-      "thumb": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)",
-      "thumb-sm": "0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)",
-      "thumb-swatch": "inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm)",
-      "card": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 12px 32px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.6)",
-      "lift": "0 14px 30px -14px oklch(from var(--cs-color-shadow-contact) l c h / 0.7)",
-      "well": "0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 6px 18px -10px oklch(from var(--cs-color-shadow-contact) l c h / 0.55)",
+      "1": "0 0 0 0.5px oklch(1 0 0 / 0.08)",
+      "2": "0 0 0 0.5px oklch(1 0 0 / 0.1)",
+      "3": "0 0 0 0.5px oklch(1 0 0 / 0.1)",
+      "4": "0 0 0 0.5px oklch(1 0 0 / 0.1)",
+      "5": "0 0 0 0.5px oklch(1 0 0 / 0.1)",
       "agent": "0 8px 30px -12px var(--cs-color-agent-glow)",
+      "thumb-swatch": "inset 0 0 0 0.5px var(--cs-color-swatch-edge), var(--cs-elevation-thumb)",
+      "ring-selected": "inset 0 0 0 1.5px var(--cs-color-text-primary)",
+      "ring-control": "inset 0 0 0 0.5px var(--cs-color-ring-control)",
+      "raised": "0 0 0 0.5px oklch(1 0 0 / 0.1)",
+      "pop": "0 0 0 0.5px oklch(1 0 0 / 0.1)",
+      "ring-card": "inset 0 0 0 0.5px oklch(1 0 0 / 0.08)",
+      "ring-card-strong": "inset 0 0 0 0.5px oklch(1 0 0 / 0.1)",
+      "thumb": "0 0 0 0.5px oklch(1 0 0 / 0.1), 0 1px 1px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "thumb-sm": "0 0 0 0.5px oklch(1 0 0 / 0.1), 0 1px 1px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04)",
+      "card": "inset 0 0 0 0.5px oklch(1 0 0 / 0.08)",
+      "lift": "0 0 0 0.5px oklch(1 0 0 / 0.14)",
+      "well": "inset 0 0 0 0.5px oklch(1 0 0 / 0.08)",
       "artboard": "0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.5)"
     }
   },
@@ -4968,9 +5113,9 @@ export default {
     "wide": 1440
   },
   "studio": {
-    "window-radius": 32,
+    "window-radius": 22,
     "window-inset": 10,
-    "panel-radius": 22,
+    "panel-radius": 12,
     "titlebar-h": 44,
     "rail-w": 48,
     "pane-w": 352,
@@ -4980,9 +5125,9 @@ export default {
     "inspector-min": 240,
     "inspector-max": 360,
     "toolbar-h": 42,
-    "toolbar-radius": 14,
-    "toolbar-item-radius": 10,
-    "toast-radius": 22
+    "toolbar-radius": 12,
+    "toolbar-item-radius": 8,
+    "toast-radius": 12
   },
   "contrastRules": [
     [
@@ -5230,12 +5375,6 @@ export default {
       "ink.solid",
       7,
       "primary button"
-    ],
-    [
-      "ink.on",
-      "ink.solid-hover",
-      4.5,
-      "primary button hover"
     ],
     [
       "ink.on-muted",
@@ -5529,29 +5668,25 @@ export default {
       "selection.on",
       "neutral.solid",
       4.5,
-      "selected choice card, solid fill",
-      "warn:dark"
+      "selected choice card, solid fill"
     ],
     [
       "selection.on",
       "neutral.solid-hover",
       4.5,
-      "selected choice card, solid fill, hover",
-      "warn:dark"
+      "selected choice card, solid fill, hover"
     ],
     [
       "selection.on-secondary",
       "neutral.solid",
       4.5,
-      "selected choice card, solid fill, secondary text",
-      "warn:dark"
+      "selected choice card, solid fill, secondary text"
     ],
     [
       "selection.on-secondary",
       "neutral.solid-hover",
       4.5,
-      "selected choice card, solid fill, secondary text, hover",
-      "warn:dark"
+      "selected choice card, solid fill, secondary text, hover"
     ],
     [
       "neutral.graphic",
@@ -5564,6 +5699,24 @@ export default {
       "surface.base",
       4.5,
       "AA link"
+    ],
+    [
+      "grid.mark",
+      "bg.app",
+      3,
+      "line grid cross mark (1.4.11)"
+    ],
+    [
+      "text.tertiary",
+      "neutral.track",
+      4.5,
+      "muted text on a track fill, segmented off state"
+    ],
+    [
+      "ink.on",
+      "ink.solid-hover",
+      7,
+      "primary button hover"
     ],
     [
       "text.secondary",

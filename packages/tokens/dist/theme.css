@@ -43,10 +43,15 @@
   --color-border-subtle: var(--cs-color-border-subtle);
   --color-border-default: var(--cs-color-border-default);
   --color-divider-line: var(--cs-color-divider-line);
+  --color-divider-rail: var(--cs-color-divider-rail);
+  --color-grid-line: var(--cs-color-grid-line);
+  --color-grid-mark: var(--cs-color-grid-mark);
+  --color-grid-hatch: var(--cs-color-grid-hatch);
   --color-border-strong: var(--cs-color-border-strong);
   --color-border-control: var(--cs-color-border-control);
   --color-control-off: var(--cs-color-control-off);
   --color-control-thumb: var(--cs-color-control-thumb);
+  --color-ring-control: var(--cs-color-ring-control);
   --color-control-raised: var(--cs-color-control-raised);
   --color-control-raised-hover: var(--cs-color-control-raised-hover);
   --color-control-edge: var(--cs-color-control-edge);
@@ -402,44 +407,44 @@
   --text-display--line-height: 44px;
   --text-display--letter-spacing: var(--cs-text-display-tracking);
   --text-display--font-weight: 600;
-  --text-title-1: 26px;
+  --text-title-1: 24px;
   --text-title-1--line-height: 32px;
   --text-title-1--letter-spacing: var(--cs-text-title-1-tracking);
   --text-title-1--font-weight: 600;
-  --text-title-2: 20px;
+  --text-title-2: 18px;
   --text-title-2--line-height: 26px;
   --text-title-2--letter-spacing: var(--cs-text-title-2-tracking);
   --text-title-2--font-weight: 600;
   --text-title-3: 15px;
-  --text-title-3--line-height: 20px;
+  --text-title-3--line-height: 22px;
   --text-title-3--letter-spacing: var(--cs-text-title-3-tracking);
-  --text-title-3--font-weight: 600;
-  --text-title-4: 13.5px;
+  --text-title-3--font-weight: 500;
+  --text-title-4: 14px;
   --text-title-4--line-height: 20px;
   --text-title-4--letter-spacing: var(--cs-text-title-4-tracking);
-  --text-title-4--font-weight: 600;
-  --text-title-feature: 19px;
-  --text-title-feature--line-height: 24px;
+  --text-title-4--font-weight: 500;
+  --text-title-feature: 18px;
+  --text-title-feature--line-height: 26px;
   --text-title-feature--letter-spacing: var(--cs-text-title-feature-tracking);
   --text-title-feature--font-weight: 600;
   --text-title-overlay: 18px;
-  --text-title-overlay--line-height: 22px;
+  --text-title-overlay--line-height: 26px;
   --text-title-overlay--letter-spacing: var(--cs-text-title-overlay-tracking);
   --text-title-overlay--font-weight: 600;
-  --text-stat: 30px;
-  --text-stat--line-height: 34px;
+  --text-stat: 20px;
+  --text-stat--line-height: 28px;
   --text-stat--letter-spacing: var(--cs-text-stat-tracking);
-  --text-stat--font-weight: 600;
-  --text-stat-lg: 34px;
-  --text-stat-lg--line-height: 34px;
+  --text-stat--font-weight: 500;
+  --text-stat-lg: 20px;
+  --text-stat-lg--line-height: 28px;
   --text-stat-lg--letter-spacing: var(--cs-text-stat-lg-tracking);
-  --text-stat-lg--font-weight: 600;
+  --text-stat-lg--font-weight: 500;
   --text-sample: 22px;
   --text-sample--line-height: 26px;
   --text-sample--letter-spacing: var(--cs-text-sample-tracking);
   --text-sample--font-weight: 600;
   --text-body: 14px;
-  --text-body--line-height: 21px;
+  --text-body--line-height: 22px;
   --text-body--letter-spacing: var(--cs-text-body-tracking);
   --text-body--font-weight: 400;
   --text-ui: 13px;
@@ -459,15 +464,15 @@
   --text-ui-lg--letter-spacing: var(--cs-text-ui-lg-tracking);
   --text-ui-lg--font-weight: 500;
   --text-footnote: 12px;
-  --text-footnote--line-height: 16px;
+  --text-footnote--line-height: 18px;
   --text-footnote--letter-spacing: var(--cs-text-footnote-tracking);
   --text-footnote--font-weight: 400;
-  --text-caption: 11px;
-  --text-caption--line-height: 14px;
+  --text-caption: 12px;
+  --text-caption--line-height: 18px;
   --text-caption--letter-spacing: var(--cs-text-caption-tracking);
   --text-caption--font-weight: 500;
-  --text-label: 11.5px;
-  --text-label--line-height: 14px;
+  --text-label: 12px;
+  --text-label--line-height: 18px;
   --text-label--letter-spacing: var(--cs-text-label-tracking);
   --text-label--font-weight: 500;
   --text-voice: 16px;
@@ -498,7 +503,7 @@
   --text-ui-dense--line-height: 18px;
   --text-ui-dense--letter-spacing: var(--cs-text-ui-dense-tracking);
   --text-ui-dense--font-weight: 400;
-  --text-hint: 11.5px;
+  --text-hint: 12px;
   --text-hint--line-height: 18px;
   --text-hint--letter-spacing: var(--cs-text-hint-tracking);
   --text-hint--font-weight: 400;
@@ -506,7 +511,7 @@
   --text-micro--line-height: 14px;
   --text-micro--letter-spacing: var(--cs-text-micro-tracking);
   --text-micro--font-weight: 600;
-  --text-ui-xs: 11px;
+  --text-ui-xs: 12px;
   --text-ui-xs--line-height: 18px;
   --text-ui-xs--letter-spacing: var(--cs-text-ui-xs-tracking);
   --text-ui-xs--font-weight: 400;
@@ -514,18 +519,18 @@
   --text-ui-md--line-height: 18px;
   --text-ui-md--letter-spacing: var(--cs-text-ui-md-tracking);
   --text-ui-md--font-weight: 500;
-  --text-ui-relaxed: 13px;
-  --text-ui-relaxed--line-height: 19px;
+  --text-ui-relaxed: 14px;
+  --text-ui-relaxed--line-height: 22px;
   --text-ui-relaxed--letter-spacing: var(--cs-text-ui-relaxed-tracking);
   --text-ui-relaxed--font-weight: 400;
-  --text-ui-dense-relaxed: 12.5px;
-  --text-ui-dense-relaxed--line-height: 19px;
+  --text-ui-dense-relaxed: 14px;
+  --text-ui-dense-relaxed--line-height: 22px;
   --text-ui-dense-relaxed--letter-spacing: var(--cs-text-ui-dense-relaxed-tracking);
   --text-ui-dense-relaxed--font-weight: 400;
   --text-figure: 20px;
-  --text-figure--line-height: 18px;
+  --text-figure--line-height: 28px;
   --text-figure--letter-spacing: var(--cs-text-figure-tracking);
-  --text-figure--font-weight: 600;
+  --text-figure--font-weight: 500;
   --text-mono-md: 11.5px;
   --text-mono-md--line-height: 18px;
   --text-mono-md--letter-spacing: var(--cs-text-mono-md-tracking);
@@ -569,13 +574,19 @@
   --shadow-3: var(--cs-elevation-3);
   --shadow-4: var(--cs-elevation-4);
   --shadow-5: var(--cs-elevation-5);
+  --shadow-agent: var(--cs-elevation-agent);
+  --shadow-thumb-swatch: var(--cs-elevation-thumb-swatch);
+  --shadow-ring-selected: var(--cs-elevation-ring-selected);
+  --shadow-ring-control: var(--cs-elevation-ring-control);
+  --shadow-raised: var(--cs-elevation-raised);
+  --shadow-pop: var(--cs-elevation-pop);
+  --shadow-ring-card: var(--cs-elevation-ring-card);
+  --shadow-ring-card-strong: var(--cs-elevation-ring-card-strong);
   --shadow-thumb: var(--cs-elevation-thumb);
   --shadow-thumb-sm: var(--cs-elevation-thumb-sm);
-  --shadow-thumb-swatch: var(--cs-elevation-thumb-swatch);
   --shadow-card: var(--cs-elevation-card);
   --shadow-lift: var(--cs-elevation-lift);
   --shadow-well: var(--cs-elevation-well);
-  --shadow-agent: var(--cs-elevation-agent);
   --shadow-artboard: var(--cs-elevation-artboard);
   --shadow-focus: var(--cs-focus);
   --shadow-focus-field: var(--cs-focus-field);
@@ -677,7 +688,7 @@
   --color-accent-on: var(--cs-color-selection-fill);
   --color-border-control: var(--cs-color-selection-on-secondary);
   --color-surface-base: var(--cs-color-selection-fill);
-  /* fields and wells inside a selected item read the fills composited over the ink */
+  /* fields and wells inside a selected item read the fills composited over the selection fill */
   --cs-color-neutral-hover: var(--cs-color-neutral-hover--on-selection-fill);
   --color-neutral-hover: var(--cs-color-neutral-hover--on-selection-fill);
   --cs-color-fill-hover: var(--cs-color-neutral-hover--on-selection-fill);
@@ -699,6 +710,14 @@
   --cs-color-bg-inset: var(--cs-color-bg-inset--on-selection-fill);
   --color-bg-inset: var(--cs-color-bg-inset--on-selection-fill);
 }
+/* Line cell grid: each cell draws only its top and left line; the layer's clip trims the outer edge, so lines never double. */
+@utility line-cell { box-shadow: inset 0 1px 0 0 var(--cs-color-grid-line), inset 1px 0 0 0 var(--cs-color-grid-line); }
+/* An empty cell: -45 degree, 1px lines every 6px. */
+@utility line-cell-hatch { background-image: repeating-linear-gradient(-45deg, var(--cs-color-grid-hatch) 0 1px, transparent 1px 6px); }
+/* A list row separator: 1px dots every 6px along the bottom edge. */
+@utility dotted-rule { background-image: repeating-linear-gradient(90deg, var(--cs-color-grid-line) 0 1px, transparent 1px 6px); background-size: 100% 1px; background-repeat: no-repeat; background-position: bottom; }
+/* Page rails beside showcase content. */
+@utility page-rails { box-shadow: -1px 0 0 0 var(--cs-color-divider-rail), 1px 0 0 0 var(--cs-color-divider-rail); }
 @utility agent-glow { box-shadow: 0 8px 30px -6px var(--cs-color-agent-glow); }
 @utility orb {
   --orb: 14px; --orb-hole: 3.4px;

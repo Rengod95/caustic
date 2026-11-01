@@ -26,7 +26,7 @@ export const contrastInsightSummaryVariants = cva(
       cardTone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
     },
     compoundVariants: [
-      { card: 'outline', cardTone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]' },
+      { card: 'outline', cardTone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]' },
       { card: 'outline', cardTone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { card: 'outline', cardTone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { card: 'outline', cardTone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -78,12 +78,12 @@ export type ContrastInsightLevelVariantProps = VariantProps<typeof contrastInsig
 
 /** The measured pair as "Aa": the colors come from the --pair-bg and --pair-fg custom properties. */
 export const contrastInsightSampleVariants = cva(
-  'grid h-contrast-sample-h w-contrast-sample-w place-items-center rounded-xl bg-(--pair-bg) text-sample text-(--pair-fg) shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)] transition-colors duration-quick ease-standard',
+  'grid h-contrast-sample-h w-contrast-sample-w place-items-center rounded-xl bg-(--pair-bg) text-sample text-(--pair-fg) shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)] transition-colors duration-quick ease-standard',
 );
 
 /** The agent suggestion card: opaque, with the agent rim; the regular inset like the readout card (owner 2026-10-27, proposal C). */
 export const contrastInsightSuggestionVariants = cva(
-  'agent-rim relative grid gap-2 overflow-hidden rounded-xl bg-surface-base px-inset-regular-x py-inset-regular-y shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] animate-rise',
+  'agent-rim relative grid gap-2 overflow-hidden rounded-xl bg-surface-base px-inset-regular-x py-inset-regular-y shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] animate-rise',
 );
 
 export const contrastInsightSuggestionTextVariants = cva('text-footnote text-text-secondary');

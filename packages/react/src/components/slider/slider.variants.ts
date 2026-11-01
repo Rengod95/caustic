@@ -34,11 +34,11 @@ export const sliderTrack = cva('relative grow', {
     variant: {
       solid: 'h-1 overflow-hidden rounded-xs bg-neutral-track data-[disabled]:bg-disabled-fill',
       soft: 'h-1 overflow-hidden rounded-xs data-[disabled]:bg-disabled-fill',
-      outline: 'h-1 overflow-hidden rounded-xs bg-transparent data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+      outline: 'h-1 overflow-hidden rounded-xs bg-transparent data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
       ghost: 'h-1 overflow-hidden rounded-xs bg-transparent',
-      gradient: 'h-3 rounded-sm bg-(image:--track) shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+      gradient: 'h-3 rounded-sm bg-(image:--track) shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
       alpha: [
-        'h-3 rounded-sm shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+        'h-3 rounded-sm shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
         'bg-[image:var(--track),conic-gradient(var(--cs-color-canvas-checker-b)_25%,var(--cs-color-canvas-checker-a)_0_50%,var(--cs-color-canvas-checker-b)_0_75%,var(--cs-color-canvas-checker-a)_0)]',
         'bg-size-[100%_100%,calc(var(--spacing)*2)_calc(var(--spacing)*2)]',
       ],
@@ -72,7 +72,7 @@ export const sliderTrack = cva('relative grow', {
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft' },
-    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -115,8 +115,8 @@ export const sliderThumb = cva(
     variants: {
       variant: {
         solid: '', soft: '', outline: '', ghost: '',
-        gradient: 'size-5 bg-(color:--swatch) shadow-thumb-swatch focus-visible:shadow-focus data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border),var(--cs-elevation-thumb-sm)]',
-        alpha: 'size-5 bg-(color:--swatch) shadow-thumb-swatch focus-visible:shadow-focus data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border),var(--cs-elevation-thumb-sm)]',
+        gradient: 'size-5 bg-(color:--swatch) shadow-thumb-swatch focus-visible:shadow-focus data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border),var(--cs-elevation-thumb-sm)]',
+        alpha: 'size-5 bg-(color:--swatch) shadow-thumb-swatch focus-visible:shadow-focus data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border),var(--cs-elevation-thumb-sm)]',
         ruler: 'h-slider-ruler-h w-0.5 rounded-xs shadow-none hover:scale-100 group-active:scale-100 data-[disabled]:bg-disabled-text',
         dots: '',
         bars: '',

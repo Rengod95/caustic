@@ -9,7 +9,7 @@ export const colorPickerPlaneVariants = cva(
   [
     'group/plane relative h-color-plane-h w-full cursor-crosshair touch-none select-none overflow-hidden rounded-xl',
     'bg-[linear-gradient(0deg,var(--cs-color-media-shade),transparent),linear-gradient(90deg,var(--cs-color-media-on),var(--plane-color))]',
-    'data-[disabled]:pointer-events-none data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'data-[disabled]:pointer-events-none data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   ],
   {
     variants: {
@@ -17,7 +17,7 @@ export const colorPickerPlaneVariants = cva(
       frameTone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
     },
     compoundVariants: [
-      { frame: 'outline', frameTone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]' },
+      { frame: 'outline', frameTone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]' },
       { frame: 'outline', frameTone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { frame: 'outline', frameTone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { frame: 'outline', frameTone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

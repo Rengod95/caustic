@@ -34,7 +34,7 @@ export const tokenGraphNodeVariants = cva(
   [
     'group absolute top-(--y) left-(--x) grid w-graph-node-w cursor-pointer gap-0.5 rounded-lg px-2.5 py-1.75 font-ui text-ui-xs outline-none',
     'transition-control press',
-    'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+    'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
     'focus-visible:shadow-focus',
   ],
   {
@@ -56,7 +56,7 @@ export const tokenGraphNodeVariants = cva(
       // tokenGraphNameVariants) and the outline hairline to border.subtle. A missing node keeps its danger look.
       dimmed: { true: '', false: '' },
     },
-    compoundVariants: [{ variant: 'outline', dimmed: true, className: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]' }],
+    compoundVariants: [{ variant: 'outline', dimmed: true, className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]' }],
     defaultVariants: { variant: 'outline', size: 'md', traced: false, missing: false, dimmed: false },
   },
 );
@@ -65,7 +65,7 @@ export const tokenGraphNameVariants = cva('truncate py-px font-mono text-mono-sm
 
 export const tokenGraphMetaVariants = cva('flex items-center gap-1.25 text-ui-xs font-normal text-text-tertiary');
 
-export const tokenGraphSwatchVariants = cva('size-2.5 shrink-0 rounded-xs bg-(--swatch) shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]');
+export const tokenGraphSwatchVariants = cva('size-2.5 shrink-0 rounded-xs bg-(--swatch) shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]');
 
 export const tokenGraphPortVariants = cva(
   [

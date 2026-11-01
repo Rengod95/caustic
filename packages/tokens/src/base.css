@@ -63,7 +63,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .cs-ui-strong { font: var(--cs-text-ui-strong); letter-spacing: var(--cs-text-ui-strong-tracking); }
 .cs-footnote  { font: var(--cs-text-footnote); letter-spacing: var(--cs-text-footnote-tracking); }
 .cs-label     { font: var(--cs-text-label);    letter-spacing: var(--cs-text-label-tracking); }
-.cs-caption   { font: var(--cs-text-caption);  letter-spacing: var(--cs-text-caption-tracking); text-transform: uppercase; }
+.cs-caption   { font: var(--cs-text-caption);  letter-spacing: var(--cs-text-caption-tracking); }
 .cs-voice     { font: var(--cs-text-voice);    letter-spacing: var(--cs-text-voice-tracking); font-optical-sizing: auto; text-wrap: pretty; }
 .cs-voice-sm  { font: var(--cs-text-voice-sm); letter-spacing: var(--cs-text-voice-sm-tracking); font-optical-sizing: auto; }
 .cs-thought   { font: var(--cs-text-thought);  font-style: italic; color: var(--cs-color-text-secondary); }

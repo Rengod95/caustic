@@ -80,8 +80,8 @@ export const fileItemVariants = cva(
   {
     variants: {
       status: {
-        done: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
-        uploading: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+        done: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
+        uploading: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
         warning: 'shadow-[0_0_0_1px_var(--cs-color-warning-border-strong)]',
         error: 'shadow-[0_0_0_1px_var(--cs-color-danger-border-strong)]',
       },

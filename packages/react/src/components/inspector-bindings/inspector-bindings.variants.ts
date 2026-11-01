@@ -21,7 +21,7 @@ export const inspectorBindingsFrameVariants = cva('', {
  * above the selector, most visibly next to the mixed count badge), solid base surface with a subtle hairline edge.
  */
 export const inspectorBindingsRowVariants = cva(
-  'group/row grid grid-cols-[1fr_auto] items-center gap-1.5 rounded-lg bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+  'group/row grid grid-cols-[1fr_auto] items-center gap-1.5 rounded-lg bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
   {
     variants: { size: { xs: 'p-1.5', sm: 'p-1.5', md: 'p-2', lg: 'p-2.5' } },
     defaultVariants: { size: 'md' },
@@ -64,7 +64,7 @@ export const inspectorBindingsSelectorVariants = cva(
       variant: {
         solid: 'bg-ink-solid text-ink-on',
         soft: 'bg-neutral-soft',
-        outline: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]',
+        outline: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]',
         ghost: 'bg-transparent',
       },
       binding: { bound: '', mixed: '' },
@@ -129,7 +129,7 @@ export const inspectorBindingsGlyphVariants = cva('size-icon-xs flex-none stroke
 });
 
 /** Token color: an 18px square with a 1px inset ring; the fill is the --swatch custom property. */
-export const inspectorBindingsSwatchVariants = cva('inline-flex size-check flex-none rounded-xs bg-(--swatch) shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]');
+export const inspectorBindingsSwatchVariants = cva('inline-flex size-check flex-none rounded-xs bg-(--swatch) shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]');
 
 export const inspectorBindingsNameVariants = cva('min-w-0 truncate');
 

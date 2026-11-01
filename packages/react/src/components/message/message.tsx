@@ -46,7 +46,7 @@ export function Message({ author, tone, variant, radius, shadow, size, streaming
     <div data-slot="message" data-author="agent" aria-busy={busy} className={cn('group/message', messageVariants({ author: 'agent', ...look }), className)} {...props}>
       <div data-slot="message-body" data-streaming={streaming || undefined} className={messageBodyVariants({ size, streaming })}>{children}</div>
       {hasMeta && (
-        <div data-slot="message-meta" className="flex items-center gap-1.5 text-hint tracking-[var(--cs-text-voice-tracking)] text-text-tertiary">
+        <div data-slot="message-meta" className="flex items-center gap-1.5 text-hint text-text-tertiary">
           <span data-slot="message-orb" aria-hidden className={messageOrbVariants({ author: 'agent', streaming })} />
           {meta != null && <span data-slot="message-summary">{meta}</span>}
           {(onCopy !== undefined || onRetry !== undefined) && (

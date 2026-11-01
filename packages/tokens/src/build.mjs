@@ -109,7 +109,7 @@ function hueRamp(pick, mode, surface, textPick) {
 /* ── Ramps ── RAMP[name][mode] = 11 × [L, C, h] (as emitted: L and C at 4 decimals, chroma floored into gamut) */
 const r4 = n => +n.toFixed(4);
 const emitLch = ([L, C, h]) => [r4(L), Math.floor(C * 1e4) / 1e4, r4(h)];
-const RAMP = { neutral: Object.fromEntries(MODES.map(m => [m, T.neutral[m].map(L => [L, T.neutral.chroma, T.neutral.hue])])) };
+const RAMP = { neutral: Object.fromEntries(MODES.map(m => [m, T.neutral[m].map(step => [...step])])) };
 const parse = spec => {
   if (spec.startsWith('=')) return { ref: spec.slice(1), alpha: 1 };
   const [refPart, a] = spec.split('/');
@@ -194,14 +194,13 @@ const UNDER = {
   'material.regular': ['bg-material-regular', 'glass', 'cs-glass'], 'material.thin': ['bg-material-thin', 'glass-thin', 'cs-thin'],
   'material.thick': ['bg-material-thick', 'glass-thick', 'cs-thick'], 'material.ultrathin': ['bg-material-ultrathin', 'glass-ultrathin', 'cs-ultrathin'],
   'control.raised': ['bg-control-raised'],
-  // the inverted selected item (the selected utility re-points the fills itself; no static class)
+  // the selected item (the selected utility re-points the fills itself; no static class)
   'selection.fill': [],
 };
 const fillAliases = f => Object.entries(T.aliases).filter(([, to]) => to === f).map(([from]) => from);
 const onVar = (f, u) => `${P}-color-${kebab(f)}--on-${kebab(u)}`;
-// Over the inverted selection the fill direction flips too: it reads the dark theme's fill (paper alpha) on the ink.
 const opaqueOver = (theme, f, u) => {
-  const rgb = u === 'selection.fill' ? (fd => over(fd.rgb, fd.alpha, layer(theme, u)))(resolveRgb('dark', f)) : layer(theme, `${f}@${u}`);
+  const rgb = layer(theme, `${f}@${u}`);
   const [r, g, b] = rgb.map(x => Math.round(Math.min(1, Math.max(0, x)) * 255)); return `rgb(${r} ${g} ${b})`;
 };
 
@@ -332,7 +331,7 @@ const themeBlock = theme => {
   for (const [k, s] of Object.entries(T.elevation[theme])) out.push(v(`elevation-${k}`, s));
   // A focused text field keeps its resting border.default hairline; the fill change (neutral.well on a white field,
   // surface.base on a grey one) is the focus cue (owner 2026-10-28, field/input proposal 2: no black 1.5px edge).
-  out.push(v('focus-field', `inset 0 0 0 1px var(--${P}-color-border-default)`));
+  out.push(v('focus-field', `inset 0 0 0 0.5px var(--${P}-color-border-default)`));
   out.push(v('focus', `0 0 0 1px var(--${P}-color-focus-offset), 0 0 0 3px var(--${P}-color-focus-ring)`));
   return out.join('\n');
 };
@@ -612,9 +611,17 @@ ${[['text-primary', 'selection-on'], ['text-secondary', 'selection-on-secondary'
 ${[['accent-text', 'selection-on'], ['accent-solid', 'selection-on'], ['accent-on', 'selection-fill'], ['border-control', 'selection-on-secondary'],
   ['surface-base', 'selection-fill']]
   .map(([k, to]) => `  --color-${k}: var(--${P}-color-${to});`).join('\n')}
-  /* fields and wells inside a selected item read the fills composited over the ink */
+  /* fields and wells inside a selected item read the fills composited over the selection fill */
 ${fillDecls('selection.fill').join('\n')}
 }
+/* Line cell grid: each cell draws only its top and left line; the layer's clip trims the outer edge, so lines never double. */
+@utility line-cell { box-shadow: inset 0 1px 0 0 var(--${P}-color-grid-line), inset 1px 0 0 0 var(--${P}-color-grid-line); }
+/* An empty cell: -45 degree, 1px lines every 6px. */
+@utility line-cell-hatch { background-image: repeating-linear-gradient(-45deg, var(--${P}-color-grid-hatch) 0 1px, transparent 1px 6px); }
+/* A list row separator: 1px dots every 6px along the bottom edge. */
+@utility dotted-rule { background-image: repeating-linear-gradient(90deg, var(--${P}-color-grid-line) 0 1px, transparent 1px 6px); background-size: 100% 1px; background-repeat: no-repeat; background-position: bottom; }
+/* Page rails beside showcase content. */
+@utility page-rails { box-shadow: -1px 0 0 0 var(--${P}-color-divider-rail), 1px 0 0 0 var(--${P}-color-divider-rail); }
 @utility agent-glow { box-shadow: 0 8px 30px -6px var(--${P}-color-agent-glow); }
 @utility orb {
   --orb: 14px; --orb-hole: 3.4px;

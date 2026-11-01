@@ -73,8 +73,8 @@ export const choiceGroupCardTitleVariants = cva('col-start-1 row-start-1 font-se
 export const choiceGroupCardIndicatorVariants = cva(
   [
     'col-start-2 row-start-1 [&_[data-slot=card-indicator-dot]]:bg-current [&_svg]:size-icon-sm',
-    'group-disabled/card:bg-disabled-fill group-disabled/card:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
-    'group-data-[state=checked]/card:group-disabled/card:bg-disabled-fill group-data-[state=checked]/card:group-disabled/card:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'group-disabled/card:bg-disabled-fill group-disabled/card:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
+    'group-data-[state=checked]/card:group-disabled/card:bg-disabled-fill group-data-[state=checked]/card:group-disabled/card:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   ],
   {
     variants: {
@@ -119,10 +119,10 @@ export const choiceGroupPriceUnitVariants = cva('ms-1 text-hint text-text-tertia
 export const choiceGroupTileVariants = cva(
   [
     'group relative grid content-center place-items-center bg-transparent font-ui outline-none transition-control press',
-    'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+    'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
     'aria-checked:not-disabled:selected aria-checked:not-disabled:shadow-none aria-checked:not-disabled:hover:bg-selection-fill-hover',
     'focus-visible:shadow-focus aria-checked:not-disabled:focus-visible:shadow-focus',
-    'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
     'disabled:[&_[data-slot^=choice-group-]]:text-disabled-text',
   ],
   {
@@ -198,14 +198,14 @@ export const choiceGroupAnswerVariants = cva(
     'data-[state=checked]:not-disabled:selected data-[state=checked]:not-disabled:shadow-none',
     'data-[state=checked]:not-disabled:hover:bg-selection-fill-hover data-[state=checked]:not-disabled:focus-visible:shadow-focus',
     // Disabled is a colour: the tone drops out to the disabled text and border; a selected disabled row drops the inversion.
-    'disabled:pointer-events-none disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'disabled:pointer-events-none disabled:text-disabled-text disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
     'data-[state=checked]:disabled:shadow-[inset_0_0_0_1.5px_var(--cs-color-disabled-border)]',
   ],
   {
     variants: {
       variant: {
         // Hover keeps the hairline and steps it to border.strong, so the filled row reads raised, not faded (round 2).
-        outline: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] hover:not-data-[state=checked]:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
+        outline: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)] hover:not-data-[state=checked]:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]',
         soft: 'bg-neutral-track',
         solid: 'bg-surface-raised',
         ghost: '',
@@ -224,8 +224,8 @@ export const choiceGroupAnswerVariants = cva(
 export const choiceGroupAnswerIndicatorVariants = cva(
   [
     'pointer-events-none inline-grid size-check shrink-0 place-items-center bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] group-data-[state=checked]:shadow-none transition-control',
-    'group-disabled:bg-disabled-fill group-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
-    'group-data-[state=checked]:group-disabled:bg-disabled-fill group-data-[state=checked]:group-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'group-disabled:bg-disabled-fill group-disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
+    'group-data-[state=checked]:group-disabled:bg-disabled-fill group-data-[state=checked]:group-disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
     'group-disabled:text-disabled-text',
   ],
   {

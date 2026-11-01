@@ -17,7 +17,7 @@ export const imageFillStageVariants = cva(
       variant: {
         solid: 'after:shadow-[inset_0_0_0_1.5px_var(--cs-color-ink-solid)]',
         soft: 'shadow-[0_0_0_3px_var(--cs-color-neutral-soft)]',
-        outline: 'after:shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+        outline: 'after:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
         ghost: '',
       },
       // Off-scale stage heights borrow existing size tokens until the owner names image-preview sizes (xs 64, sm 72, lg 150).
@@ -97,7 +97,7 @@ export const imageFillStageBoxVariants = cva('relative grid gap-2.5');
 export const imageFillCropEditVariants = cva('absolute top-2 right-2 z-20');
 /** The large 4:3 canvas: checkerboard, lg radius, the swatch.edge hairline, the image clipped to it. */
 export const imageFillCropCanvasVariants = cva(
-  'checker relative aspect-4/3 w-full touch-none overflow-hidden rounded-lg shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
+  'checker relative aspect-4/3 w-full touch-none overflow-hidden rounded-lg shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]',
 );
 /** The image covers the canvas at its zoom, scaled from the centre. */
 export const imageFillCropImageVariants = cva('absolute inset-0 scale-(--zoom) bg-(image:--img) bg-cover bg-center');

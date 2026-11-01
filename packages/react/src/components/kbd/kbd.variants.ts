@@ -10,7 +10,7 @@ export const kbdVariants = cva('inline-flex items-center justify-center gap-0.5 
     variant: {
       solid: 'bg-ink-solid text-ink-on',
       soft: 'bg-neutral-well text-text-tertiary',
-      outline: 'bg-neutral-well text-text-tertiary shadow-[inset_0_0_0_1px_var(--cs-color-border-default),inset_0_-1px_0_var(--cs-color-border-default)]',
+      outline: 'bg-neutral-well text-text-tertiary shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default),inset_0_-1px_0_var(--cs-color-border-default)]',
       ghost: 'bg-transparent text-text-tertiary',
     },
     size: {

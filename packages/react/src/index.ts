@@ -71,6 +71,7 @@ export * from './components/inspector-bindings/index.ts';
 export * from './components/inspector-panel/index.ts';
 export * from './components/kbd/index.ts';
 export * from './components/layer-tree/index.ts';
+export * from './components/line-grid/index.ts';
 export * from './components/list/index.ts';
 export * from './components/list-description/index.ts';
 export * from './components/list-navigation/index.ts';

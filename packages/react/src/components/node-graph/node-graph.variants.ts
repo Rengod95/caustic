@@ -66,7 +66,7 @@ export const graphNodeVariants = cva(
       // outline = surface.base + border.default hairline + elevation 1 (lifted off the dot grid); solid = surface.raised, no
       // hairline; soft = neutral.well; ghost = a drop place: dashed border.strong edge, no fill.
       variant: {
-        outline: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--cs-elevation-1)]',
+        outline: 'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default),var(--cs-elevation-1)]',
         solid: 'bg-surface-raised shadow-1',
         soft: 'bg-neutral-well',
         ghost: 'bg-transparent outline-dashed outline-1 -outline-offset-1 outline-border-strong',
@@ -131,7 +131,7 @@ export const graphPortDotVariants = cva('absolute size-2 rounded-full transition
       target: 'scale-150 bg-surface-base shadow-[inset_0_0_0_1.5px_var(--tone-solid),0_0_0_3px_color-mix(in_oklab,var(--tone-solid)_22%,transparent)]',
       invalid: 'bg-danger-solid',
       active: 'bg-(--tone-solid)',
-      off: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+      off: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
     },
   },
   defaultVariants: { side: 'start', state: 'idle' },

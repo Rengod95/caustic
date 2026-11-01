@@ -32,7 +32,7 @@ export const autoLayoutVariants = cva('group/auto-layout grid grid-cols-[repeat(
     { variant: 'soft', tone: 'danger', className: 'bg-danger-tint' },
     { variant: 'soft', tone: 'info', className: 'bg-info-tint' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-tint' },
-    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -74,7 +74,7 @@ export const autoLayoutPreview = cva(
 );
 
 export const autoLayoutPreviewItem = cva(
-  'w-toolbar-item flex-none rounded-sm bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-[left,top] duration-spring ease-spring',
+  'w-toolbar-item flex-none rounded-sm bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)] transition-[left,top] duration-spring ease-spring',
   {
     variants: {
       // The three sample heights (not the common size axis).

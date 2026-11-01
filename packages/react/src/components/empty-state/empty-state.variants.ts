@@ -50,7 +50,7 @@ export const emptyStateIcon = cva('grid place-items-center rounded-xl bg-neutral
     { variant: ['soft', 'dashed', 'agent'], tone: 'danger', className: 'bg-danger-soft text-danger-text shadow-none' },
     { variant: ['soft', 'dashed', 'agent'], tone: 'info', className: 'bg-info-soft text-info-text shadow-none' },
     { variant: ['soft', 'dashed', 'agent'], tone: 'agent', className: 'bg-agent-soft text-agent-text shadow-none' },
-    { variant: 'outline', tone: 'neutral', className: 'bg-transparent text-text-secondary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'bg-transparent text-text-secondary shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'bg-transparent text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'bg-transparent text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'bg-transparent text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

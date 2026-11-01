@@ -26,7 +26,7 @@ export const themeGalleryVariants = cva('grid grid-cols-[repeat(auto-fill,minmax
  */
 export const themeGalleryItemVariants = cva([
   'grid overflow-hidden rounded-2xl bg-surface-base text-left font-ui text-ui text-text-primary outline-none',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+  'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
   // Position and size on the spring; the ring and the elevation (box-shadow) run on quick / out.
   'transition-[translate,scale,box-shadow] duration-[var(--cs-duration-spring),var(--cs-duration-spring),var(--cs-duration-quick)] ease-[var(--cs-ease-spring),var(--cs-ease-spring),var(--cs-ease-out)] lift press',
   'hover:shadow-[var(--cs-elevation-3)]',
@@ -52,7 +52,7 @@ export const themeGalleryItemVariants = cva([
 });
 
 export const themeGalleryPreviewVariants = cva(
-  'm-2 grid h-theme-preview-h grid-cols-[calc(var(--spacing)*8)_1fr] gap-1.5 overflow-hidden rounded-md bg-(--m-bg) p-2 shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
+  'm-2 grid h-theme-preview-h grid-cols-[calc(var(--spacing)*8)_1fr] gap-1.5 overflow-hidden rounded-md bg-(--m-bg) p-2 shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]',
 );
 export const themeGallerySidebarVariants = cva('grid content-start gap-1 rounded-sm bg-(--m-surf) p-1.25');
 export const themeGallerySidebarItemVariants = cva('h-1 rounded-2xs bg-(--m-muted) first:bg-(--m-acc)');

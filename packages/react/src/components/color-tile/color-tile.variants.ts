@@ -19,7 +19,7 @@ export const colorTileVariants = cva('grid', {
     shadow: { none: '', '1': '', '2': '', '3': '', '4': '', '5': '' },
   },
   compoundVariants: [
-    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]' },
+    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]' },
     { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -39,7 +39,7 @@ export const colorTileVariants = cva('grid', {
 export const colorTileSwatchVariants = cva('flex items-start justify-between bg-(--tile-bg) text-(--tile-fg)', {
   variants: {
     swatchSize: { xs: 'h-12 p-1.5', sm: 'h-16 p-2', md: 'h-tile-swatch-h p-2', lg: 'h-tile-swatch-h p-2.5' },
-    bare: { true: 'rounded-xl shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]', false: '' },
+    bare: { true: 'rounded-xl shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]', false: '' },
   },
   defaultVariants: { swatchSize: 'md', bare: false },
 });

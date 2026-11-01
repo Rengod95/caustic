@@ -1,6 +1,6 @@
 # Caustic components
 
-> 121 React components for agent-native design tools, imported from '@caustic/react'.
+> 122 React components for agent-native design tools, imported from '@caustic/react'.
 
 Use the `caustic` CLI (package @caustic/cli) for detail instead of guessing:
 - `caustic find "<need>"` routes a need to fitting components; `caustic list --tree` shows the whole set.
@@ -94,6 +94,7 @@ Every command takes `--json`. Full data: @caustic/catalog/catalog.json.
 
 ## display.data: Show structured data: tables, token values, graphs, diffs.
 
+- LineGrid (line-grid): Lay out a matrix, metric group, compare block or summary cells on shared hairlines, with hatched cells for what does not apply.
 - ListDescription (list-description): Show facts about one object as label and value pairs, with an optional copy button.
 - NodeGraph (node-graph): A canvas of positioned nodes with ports and measured wires, for state machines, flows and composition maps.
 - Table (table): A data table with sortable columns, row selection, row actions, a toolbar and a pager.

@@ -33,7 +33,7 @@ export const readingOrderRowVariants = cva(
         agent: 'data-[drop=above]:shadow-[inset_0_2px_0_var(--cs-color-agent-solid)] data-[drop=below]:shadow-[inset_0_-2px_0_var(--cs-color-agent-solid)]',
       },
       variant: {
-        solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover',
+        solid: 'bg-control-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)] hover:bg-control-raised-hover',
         soft: '',
         outline: 'bg-transparent hover:bg-neutral-hover',
         ghost: 'bg-transparent hover:bg-neutral-hover',
@@ -53,7 +53,7 @@ export const readingOrderRowVariants = cva(
       { variant: 'soft', tone: 'danger', className: 'bg-danger-soft hover:bg-danger-soft-hover' },
       { variant: 'soft', tone: 'info', className: 'bg-info-soft hover:bg-info-soft-hover' },
       { variant: 'soft', tone: 'agent', className: 'bg-agent-soft hover:bg-agent-soft-hover' },
-      { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

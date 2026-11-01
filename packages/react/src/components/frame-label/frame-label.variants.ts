@@ -31,7 +31,7 @@ export const frameLabelVariants = cva('pointer-events-none absolute top-(--rect-
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft px-1 text-danger-text *:text-current' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft px-1 text-info-text *:text-current' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft px-1 text-agent-text *:text-current' },
-    { variant: 'outline', tone: 'neutral', className: 'px-1 text-text-secondary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)] *:text-current' },
+    { variant: 'outline', tone: 'neutral', className: 'px-1 text-text-secondary shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)] *:text-current' },
     { variant: 'outline', tone: 'accent', className: 'px-1 text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)] *:text-current' },
     { variant: 'outline', tone: 'success', className: 'px-1 text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)] *:text-current' },
     { variant: 'outline', tone: 'warning', className: 'px-1 text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)] *:text-current' },

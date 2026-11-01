@@ -15,7 +15,7 @@ export const positionSizeVariants = cva('grid font-ui', {
     size: { xs: 'gap-1', sm: 'gap-1.5', md: 'gap-2', lg: 'gap-3' },
   },
   compoundVariants: [
-    { variant: 'solid', tone: 'neutral', className: 'bg-surface-raised p-2 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]' },
+    { variant: 'solid', tone: 'neutral', className: 'bg-surface-raised p-2 shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]' },
     { variant: 'solid', tone: 'accent', className: 'bg-surface-raised p-2 shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'solid', tone: 'success', className: 'bg-surface-raised p-2 shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'solid', tone: 'warning', className: 'bg-surface-raised p-2 shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -29,7 +29,7 @@ export const positionSizeVariants = cva('grid font-ui', {
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft p-2' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft p-2' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft p-2' },
-    { variant: 'outline', tone: 'neutral', className: 'p-2 shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'p-2 shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'p-2 shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'p-2 shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'p-2 shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

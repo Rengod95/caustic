@@ -23,12 +23,12 @@ export const otpCellVariants = cva([
   // The current-cell caret mark, drawn as a background image (an input has no pseudo-elements). --otp-cue is the tone colour.
   '[--otp-cue:var(--cs-color-accent-solid)] bg-center bg-no-repeat bg-[length:calc(var(--spacing)*0.5)_1em]',
   'data-[current]:not-focus:bg-[image:linear-gradient(var(--otp-cue),var(--otp-cue))]',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+  'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
   'focus:shadow-[var(--cs-focus-field)] not-data-[inverted]:focus:bg-neutral-well data-[inverted]:focus:bg-selection-fill-hover',
   // Invalid is the danger border-strong edge for an enabled cell; invalid + focus keeps it and adds the outer focus ring.
   'data-[invalid]:not-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
   // Disabled is a colour, not opacity; a disabled cell keeps the disabled edge (the tone drops out).
-  'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   // Inverted (set on a filled cell that is neither invalid nor disabled): ink inversion, no edge; focus lightens the ink (above).
   'data-[inverted]:selected data-[inverted]:not-focus:shadow-none',
 ], {

@@ -40,7 +40,7 @@ export const exportControlsStatusVariants = cva('flex items-center gap-2 text-ui
     { variant: 'soft', tone: 'danger', className: 'bg-danger-tint' },
     { variant: 'soft', tone: 'info', className: 'bg-info-tint' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-tint' },
-    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

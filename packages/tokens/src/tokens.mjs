@@ -15,16 +15,16 @@ export const meta = {
    the same rule as the builder's hueRamp() (apps/docs/src/showcase/builder/language.ts). */
 export const rampSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-// Deep Black neutrals. Chroma 0. Dark is "A bit more" (decision 5): links stay canvas 1, app 2, surface 3, raised 4.
+// Warm Grey neutrals (design language §9, 2026-11-01): one faint warm hue instead of chroma 0, so surfaces read as paper.
+// Authored step by step as [L, C, h]. Roles, light: 1 raised, 2 app, 3 card/soft, 4 track, 5 strong ring, 6 control boundary
+// and disabled (3:1), 7 selection edge, 8 placeholder, 9 muted, 10 secondary, 11 ink. Roles, dark: 1 canvas, 2 app, 3 card,
+// 4 raised, 5 track, 6 strong ring, 7 control boundary and disabled (3:1), 8 placeholder, 9 muted, 10 secondary, 11 ink.
+// Values come from the measured reference; muted, placeholder and disabled were darkened to clear the contrast rules
+// (muted #777169 measures 3.98:1 on a pressed fill; faint #A59F97 measures 2.37:1 on a card).
 export const neutral = {
-  name: 'Deep Black',
-  hue: 0,
-  chroma: 0,
-  // Text inks are steps 11/10/9/8 (primary, secondary, tertiary, placeholder). DP-11 (2026-10-29): light 10 .29 → .34 and
-  // dark 8–10 .645/.70/.795 → .62/.68/.76 so the inks step more evenly in contrast on surface.base (light 20 : 11.6 : 7.7,
-  // was 20 : 13.9 : 7.7; dark 16.7 : 8.8 : 6.6, was 16.7 : 9.9 : 7.0): primary and secondary no longer read as one black.
-  light: [.995, .975, .93, .875, .79, .6, .55, .5, .44, .34, .12],
-  dark: [.09, .135, .18, .225, .345, .535, .595, .62, .68, .76, .96],
+  name: 'Warm Grey',
+  light: [[1, 0, 0], [0.9918, 0.0011, 17.2], [0.9651, 0.0034, 67.8], [0.9322, 0.0063, 75.4], [0.8661, 0.0099, 72.7], [0.6296, 0.0138, 75.3], [0.5994, 0.014, 75.3], [0.5377, 0.0143, 75.3], [0.5101, 0.0133, 71.8], [0.449, 0.0104, 67.6], [0, 0, 0]],
+  dark: [[0.192, 0.0026, 67.7], [0.2142, 0.0025, 67.7], [0.2439, 0.004, 84.6], [0.2648, 0.004, 84.6], [0.2945, 0.0046, 67.6], [0.3807, 0.0078, 75.3], [0.588, 0.0102, 78.2], [0.6747, 0.0099, 78.3], [0.7262, 0.0079, 80.7], [0.8643, 0.0018, 67.8], [1, 0, 0]],
 };
 
 /* ── AUTHORED SOLIDS ── the only hued values a person picks. ───────────────────────
@@ -105,7 +105,8 @@ export const themes = {
     'bg.inset': 'neutral.11/0.04',
     'bg.scrim': 'neutral.11/0.24',
 
-    'surface.base': 'neutral.1',
+    // Resting cards are the soft fill with a hairline ring; anything raised (controls, floats) is the white step.
+    'surface.base': 'neutral.3',
     'surface.raised': 'neutral.1',
     'surface.raised-translucent': 'neutral.1',
     'surface.translucent': 'neutral.1',
@@ -126,20 +127,27 @@ export const themes = {
     'text.placeholder': 'neutral.8',
     'text.inverse': 'neutral.1',
 
-    'border.subtle': 'neutral.11/0.05',
+    'border.subtle': 'neutral.11/0.075',
     'border.default': 'neutral.11/0.08',
     // A separator drawn as a 1px fill (align-bar): its own role, not a border token used as a fill (E15). Same look.
     'divider.line': 'neutral.11/0.08',
-    'border.strong': 'neutral.11/0.13',
+    // Page rails beside showcase content, lighter than a section line.
+    'divider.rail': 'neutral.11/0.05',
+    // Line cell grid: one line colour, and the cross mark where the grid meets a rail.
+    'grid.line': 'neutral.11/0.08',
+    'grid.mark': 'neutral.6',
+    'grid.hatch': 'neutral.11/0.08',
+    'border.strong': 'neutral.11/0.125',
     'border.control': 'neutral.6',
 
     'control.off': 'neutral.6',
     'control.thumb': 'neutral-light.1',
+    'ring.control': 'neutral.5',
     'control.raised': 'neutral.1',
     'control.raised-hover': 'neutral.2',
-    'control.edge': 'neutral.11/0.07',
+    'control.edge': 'neutral.11/0.125',
 
-    // Ink stays its own family (decision 1): in dark it is a grey button, accent is white.
+    // Ink stays its own family (decision 1). Primary is black on white in light, white on black in dark (design language §9).
     'ink.solid': 'neutral.11',
     'ink.solid-hover': 'neutral.10',
     'ink.on': 'neutral-light.1',
@@ -161,24 +169,32 @@ export const themes = {
 
     // Neutral interaction slots are authored as alpha (the same difference over app, surface, raised and glass) but are
     // emitted opaque per surface (decision 9, 2026-10-26; build.mjs FILLS / UNDER): nothing paints them translucent.
-    'neutral.hover': 'neutral.11/0.045',
+    'neutral.hover': 'neutral.11/0.05',
     'neutral.pressed': 'neutral.11/0.075',
-    'neutral.selected': 'neutral.11/0.11',
-    'neutral.selected-hover': 'neutral.11/0.145',
-    'neutral.track': 'neutral.11/0.075',
-    'neutral.well': 'neutral.11/0.035',
+    'neutral.selected': 'neutral.11/0.08',
+    'neutral.selected-hover': 'neutral.11/0.11',
+    'neutral.track': 'neutral.4',
+    'neutral.well': 'neutral.3',
+    // Status dots mean the person has to act, so they must be seen: on paper the light solids (yellow, green) would measure
+    // under 1.5:1 as a 6px mark. In light these two graphics take their text step; the dark theme keeps the solid.
+    'warning.graphic': 'warning.11',
+    'success.graphic': 'success.11',
+    // A neutral solid is a quiet grey, not a second ink: only the primary button is ink.
+    'neutral.solid': 'neutral.5',
+    'neutral.solid-hover': 'neutral.4',
+    'neutral.on': 'neutral.11',
 
     // Axis tokens.
     'focus.ring': 'accent.9',
     'focus.offset': '=surface.base',
     'selection.edge': 'neutral.7',
-    // Selected items invert like the solid chip (owner 2026-10-26, proposal B): ink fill, paper text, no edge.
-    // Secondary and tertiary text on the fill are opaque steps, not alpha.
-    'selection.fill': '=ink.solid',
-    'selection.fill-hover': '=ink.solid-hover',
-    'selection.on': '=ink.on',
-    'selection.on-secondary': 'neutral-light.4',
-    'selection.on-tertiary': 'neutral-light.5',
+    // Selected items are neutral (design language §9, replaces the 2026-10-26 inversion): the track fill with ink text.
+    // Secondary and tertiary text on the fill keep their usual steps.
+    'selection.fill': 'neutral.4',
+    'selection.fill-hover': 'neutral.5',
+    'selection.on': 'neutral.11',
+    'selection.on-secondary': 'neutral.10',
+    'selection.on-tertiary': 'neutral.9',
     'disabled.fill': 'neutral.3',
     'disabled.text': 'neutral.6',
     'disabled.border': 'neutral.4',
@@ -263,22 +279,27 @@ export const themes = {
     'text.placeholder': 'neutral.8',
     'text.inverse': 'neutral.2',
 
-    'border.subtle': 'white/0.05',
-    'border.default': 'white/0.07',
-    'divider.line': 'white/0.07',
-    'border.strong': 'white/0.12',
-    'border.control': 'neutral.6',
+    'border.subtle': 'white/0.08',
+    'border.default': 'white/0.1',
+    'divider.line': 'white/0.1',
+    'divider.rail': 'white/0.06',
+    'grid.line': 'white/0.1',
+    'grid.mark': 'neutral.7',
+    'grid.hatch': 'white/0.07',
+    'border.strong': 'white/0.14',
+    'border.control': 'neutral.7',
 
-    'control.off': 'neutral.6',
+    'control.off': 'neutral.7',
     'control.thumb': 'neutral-light.1',
+    'ring.control': 'neutral.6',
     'control.raised': 'neutral.4',
     'control.raised-hover': 'neutral.5',
-    'control.edge': 'white/0.06',
+    'control.edge': 'white/0.1',
 
-    'ink.solid': 'neutral.5',
-    'ink.solid-hover': 'neutral.6',
-    'ink.on': 'neutral-light.1',
-    'ink.on-muted': 'neutral-light.1/0.75',
+    'ink.solid': 'neutral-dark.11',
+    'ink.solid-hover': 'neutral-dark.10',
+    'ink.on': 'neutral-light.11',
+    'ink.on-muted': 'neutral-light.11/0.75',
     'ink.kbd': 'white/0.09',
     'swatch.edge': 'black/0.1',
     'media.on': 'white/1',
@@ -292,23 +313,26 @@ export const themes = {
 
     ...toneSlots(),
 
-    'neutral.hover': 'white/0.05',
+    'neutral.hover': 'white/0.06',
     'neutral.pressed': 'white/0.08',
-    'neutral.selected': 'white/0.12',
-    'neutral.selected-hover': 'white/0.16',
-    'neutral.track': 'white/0.08',
-    'neutral.well': 'white/0.04',
+    'neutral.selected': 'white/0.1',
+    'neutral.selected-hover': 'white/0.14',
+    'neutral.track': 'neutral.5',
+    'neutral.well': 'neutral.3',
+    'neutral.solid': 'neutral.6',
+    'neutral.solid-hover': 'neutral.5',
+    'neutral.on': 'neutral.11',
 
     'focus.ring': 'accent.9',
     'focus.offset': '=surface.base',
     'selection.edge': 'neutral.7',
-    'selection.fill': '=ink.solid',
-    'selection.fill-hover': '=ink.solid-hover',
-    'selection.on': '=ink.on',
-    'selection.on-secondary': 'neutral-dark.11',
-    'selection.on-tertiary': 'neutral-dark.10',
+    'selection.fill': 'neutral.5',
+    'selection.fill-hover': 'neutral.6',
+    'selection.on': 'neutral.11',
+    'selection.on-secondary': 'neutral.10',
+    'selection.on-tertiary': 'neutral.9',
     'disabled.fill': 'neutral.4',
-    'disabled.text': 'neutral.6',
+    'disabled.text': 'neutral.7',
     'disabled.border': 'neutral.5',
     'required.mark': '=text.tertiary',
 
@@ -416,21 +440,22 @@ export const contrastRules = [
   ['selection.on-secondary', 'selection.fill-hover', 4.5, 'selected item hovered: secondary text'],
   ['selection.on-tertiary', 'selection.fill', 3, 'selected item: meta, shortcut, icon'],
   ['ink.on', 'ink.solid', 7, 'primary button'],
-  ['ink.on', 'ink.solid-hover', 4.5, 'primary button hover'],
   ['ink.on-muted', 'ink.kbd@ink.solid', 4.5, 'tooltip shortcut'],
   ['media.on', 'media.scrim@surface.base', 4.5, 'badge over media'],
 
   ...hued.flatMap(slotRules),
   ['neutral.text', 'surface.base', 4.5, 'slot: text 11 on surface'],
   ['neutral.on', 'neutral.solid', 3, 'slot: on vs solid 9'],
-  // choice-group selectedFill="solid" keeps the selected utility's paper text on neutral.solid (owner 2026-10-28,
-  // light-oriented): it passes in light; in dark neutral.solid is a light grey, a design-over-contrast warning there.
-  ['selection.on', 'neutral.solid', 4.5, 'selected choice card, solid fill', 'warn:dark'],
-  ['selection.on', 'neutral.solid-hover', 4.5, 'selected choice card, solid fill, hover', 'warn:dark'],
-  ['selection.on-secondary', 'neutral.solid', 4.5, 'selected choice card, solid fill, secondary text', 'warn:dark'],
-  ['selection.on-secondary', 'neutral.solid-hover', 4.5, 'selected choice card, solid fill, secondary text, hover', 'warn:dark'],
+  // choice-group selectedFill="solid": neutral.solid is a quiet grey in both modes now, so ink text passes without a waiver.
+  ['selection.on', 'neutral.solid', 4.5, 'selected choice card, solid fill'],
+  ['selection.on', 'neutral.solid-hover', 4.5, 'selected choice card, solid fill, hover'],
+  ['selection.on-secondary', 'neutral.solid', 4.5, 'selected choice card, solid fill, secondary text'],
+  ['selection.on-secondary', 'neutral.solid-hover', 4.5, 'selected choice card, solid fill, secondary text, hover'],
   ['neutral.graphic', 'surface.base', 3, 'slot: graphic 8 on surface'],
   ['text.link', 'surface.base', 4.5, 'AA link'],
+  ['grid.mark', 'bg.app', 3, 'line grid cross mark (1.4.11)'],
+  ['text.tertiary', 'neutral.track', 4.5, 'muted text on a track fill, segmented off state'],
+  ['ink.on', 'ink.solid-hover', 7, 'primary button hover'],
   ['text.secondary', 'accent.soft', 4.5, 'selected choice card text'],
   ['text.secondary', 'accent.tint', 4.5, 'selected action card'],
 
@@ -470,7 +495,9 @@ export const space = { 0: 0, 0.25: 1, 0.5: 2, 0.75: 3, 1: 4, 1.25: 5, 1.5: 6, 1.
 // sits optically even with the inline inset around 13/18 text.
 export const inset = { compact: [12, 12], regular: [14, 15] };
 
-export const radius = { none: 0, xs: 4, sm: 6, md: 8, lg: 10, xl: 12, '2xl': 16, '3xl': 22, '4xl': 28, '5xl': 32, 'well-inner': 18, '2xs': 2, full: 999 };
+// Four steps (design language §4): pill for chips, 12 for cards and containers (2xl and up), 8 for buttons and fields (md, lg, xl), 4 for small marks.
+// The names stay because specs pin them; several names now share one step. 2xs stays 2 for hairline bars.
+export const radius = { none: 0, xs: 4, sm: 4, md: 8, lg: 8, xl: 8, '2xl': 12, '3xl': 12, '4xl': 12, '5xl': 12, 'well-inner': 8, '2xs': 2, full: 999 };
 
 export const size = {
   control: { '2xs': 20, xs: 24, sm: 28, md: 32, lg: 40, xl: 48 },
@@ -542,23 +569,23 @@ export const fontFaces = [
 // [family, size, lineHeight, weight, tracking(em), extra]
 export const type = {
   display: ['ui', 40, 44, 600, -0.035],
-  'title-1': ['ui', 26, 32, 600, -0.022],
-  'title-2': ['ui', 20, 26, 600, -0.016],
-  'title-3': ['ui', 15, 20, 600, -0.01],
-  'title-4': ['ui', 13.5, 20, 600, -0.01],
-  'title-feature': ['ui', 19, 24, 600, -0.02],
-  'title-overlay': ['ui', 18, 22, 600, -0.015],
-  stat: ['ui', 30, 34, 600, -0.035],
-  'stat-lg': ['ui', 34, 34, 600, -0.03],
+  'title-1': ['ui', 24, 32, 600, -0.02],
+  'title-2': ['ui', 18, 26, 600, -0.01],
+  'title-3': ['ui', 15, 22, 500, -0.005],
+  'title-4': ['ui', 14, 20, 500, -0.003],
+  'title-feature': ['ui', 18, 26, 600, -0.01],
+  'title-overlay': ['ui', 18, 26, 600, -0.01],
+  stat: ['ui', 20, 28, 500, -0.01],
+  'stat-lg': ['ui', 20, 28, 500, -0.01],
   sample: ['ui', 22, 26, 600, -0.02],
-  body: ['ui', 14, 21, 400, -0.003],
+  body: ['ui', 14, 22, 400, -0.003],
   ui: ['ui', 13, 18, 400, -0.003],
   'ui-strong': ['ui', 13, 18, 500, -0.003],
-  'ui-sm': ['ui', 12, 18, 500, 0],
+  'ui-sm': ['ui', 12, 18, 500, 0.01],
   'ui-lg': ['ui', 14, 20, 500, -0.003],
-  footnote: ['ui', 12, 16, 400, 0],
-  caption: ['ui', 11, 14, 500, 0.06, 'uppercase'],
-  label: ['ui', 11.5, 14, 500, 0],
+  footnote: ['ui', 12, 18, 400, 0.01],
+  caption: ['ui', 12, 18, 500, 0.01],
+  label: ['ui', 12, 18, 500, 0.01],
   voice: ['voice', 16, 25, 400, -0.003],
   'voice-sm': ['voice', 15, 23, 400, -0.003],
   thought: ['voice', 14, 22, 400, 0, 'italic'],
@@ -566,15 +593,15 @@ export const type = {
   'mono-sm': ['mono', 11, 16, 500, 0],
   'mono-strong': ['mono', 12, 18, 500, 0],
   'ui-dense': ['ui', 12.5, 18, 400, -0.003],
-  hint: ['ui', 11.5, 18, 400, 0],
+  hint: ['ui', 12, 18, 400, 0.01],
   micro: ['ui', 11, 14, 600, 0],
   // Weight variants of a role use the weight override (font-normal / font-medium / font-semibold),
   // so roles below only add new size / line-height pairs.
-  'ui-xs': ['ui', 11, 18, 400, 0],
+  'ui-xs': ['ui', 12, 18, 400, 0.01],
   'ui-md': ['ui', 13.5, 18, 500, -0.003],
-  'ui-relaxed': ['ui', 13, 19, 400, -0.003],
-  'ui-dense-relaxed': ['ui', 12.5, 19, 400, -0.003],
-  figure: ['ui', 20, 18, 600, -0.02],
+  'ui-relaxed': ['ui', 14, 22, 400, -0.003],
+  'ui-dense-relaxed': ['ui', 14, 22, 400, -0.003],
+  figure: ['ui', 20, 28, 500, -0.01],
   'mono-md': ['mono', 11.5, 18, 500, 0],
   'mono-relaxed': ['mono', 12, 20, 400, 0],
   'ui-md-relaxed': ['ui', 13.5, 20, 400, -0.003],
@@ -597,53 +624,65 @@ export const hangul = {
   lang: 'ko',
   // [from size px, tracking em]: the first row whose size the role reaches
   // SUIT is spaced tighter than Noto/Source Han, so these sit one step milder than the first (Noto) pass (owner 2026-10-29).
-  tracking: [[30, -0.02], [18, -0.015], [13.5, -0.01], [12.5, -0.005], [0, 0]],
+  tracking: [[24, -0.02], [18, -0.01], [13.5, -0.01], [12.5, -0.005], [0, 0.01]],
   // roles that do not follow the size rule
-  except: { caption: 0 },
+  except: {},
   // SUIT 400 and 500 match Geist; SUIT 600 reads lighter than Geist 600 at heading sizes, so ui roles from this size
   // up take the next weight under ko (600 → 700). Smaller 600 (title-3, title-4, micro) stays.
   heavier: { from: 18, weights: { 600: 700 } },
 };
 
 // Elevation: a short contact shadow + a long diffuse one. Values per theme.
+const a = (alpha, tok = 'ambient') => `oklch(from var(--cs-color-shadow-${tok}) l c h / ${alpha})`;
+const raisedDrop = `0 1px 1px ${a(0.04)}, 0 2px 4px ${a(0.04)}`;
+const popDrop = `0 2px 4px ${a(0.04)}, 0 6px 16px ${a(0.04)}`;
+const thumbLight = `0 0 0 0.5px ${a(0.125)}, ${raisedDrop}`;
+const whiteRing = alpha => `0 0 0 0.5px oklch(1 0 0 / ${alpha})`;
+// Named depth steps (design language §9). A drop shadow never exceeds .04 alpha; the raised ring carries the edge. Dark has no
+// drop shadow worth seeing, so its surfaces are separated by a white ring. Specs pin the numbered names, so the numbers stay.
+const shared = {
+  // Agent glow and artboard are content marks, not surface depth.
+  agent: '0 8px 30px -12px var(--cs-color-agent-glow)',
+  'thumb-swatch': 'inset 0 0 0 0.5px var(--cs-color-swatch-edge), var(--cs-elevation-thumb)',
+  'ring-selected': 'inset 0 0 0 1.5px var(--cs-color-text-primary)',
+  'ring-control': 'inset 0 0 0 0.5px var(--cs-color-ring-control)',
+};
 export const elevation = {
   light: {
-    1: '0 1px 2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06)',
-    2: '0 1px 2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.05), 0 4px 12px -2px oklch(from var(--cs-color-shadow-ambient) l c h / 0.08)',
-    3: '0 2px 4px oklch(from var(--cs-color-shadow-ambient) l c h / 0.04), 0 12px 28px -6px oklch(from var(--cs-color-shadow-ambient) l c h / 0.12)',
-    4: '0 4px 8px oklch(from var(--cs-color-shadow-ambient) l c h / 0.05), 0 24px 48px -12px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)',
-    5: '0 8px 16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.06), 0 40px 80px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.28)',
-    // Control thumbs (sliders, steppers): a hairline, a contact shadow and a short lift. Same in both themes.
-    thumb: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)',
-    'thumb-sm': '0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)',
-    // Swatch thumb (gradient / alpha slider; channel-slider proposal 2, owner 2026-10-28): no white ring, a 1px swatch.edge
-    // hairline and the thumb shadow doubled with thumb-sm.
-    'thumb-swatch': 'inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm)',
-    // Surfaces with their own depth: resting card, hover lift, inset well panel, agent glow.
-    card: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 12px 32px -16px oklch(from var(--cs-color-shadow-ambient) l c h / 0.18)',
-    lift: '0 14px 30px -14px oklch(from var(--cs-color-shadow-ambient) l c h / 0.3)',
-    well: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.05), 0 6px 18px -10px oklch(from var(--cs-color-shadow-ambient) l c h / 0.25)',
-    agent: '0 8px 30px -12px var(--cs-color-agent-glow)',
-    artboard: '0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)',
+    ...shared,
+    1: `0 1px 1px ${a(0.04)}`,
+    2: raisedDrop,
+    3: popDrop,
+    4: popDrop,
+    5: popDrop,
+    raised: `0 0 0 0.5px ${a(0.125)}, ${raisedDrop}`,
+    pop: popDrop,
+    'ring-card': `inset 0 0 0 0.5px ${a(0.075)}`,
+    'ring-card-strong': `inset 0 0 0 0.5px ${a(0.1)}`,
+    thumb: thumbLight,
+    'thumb-sm': thumbLight,
+    card: `inset 0 0 0 0.5px ${a(0.075)}`,
+    lift: popDrop,
+    well: `inset 0 0 0 0.5px ${a(0.075)}`,
+    artboard: `0 6px 20px -8px ${a(0.2, 'contact')}`,
   },
   dark: {
-    1: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.3)',
-    2: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 4px 12px -2px oklch(from var(--cs-color-shadow-contact) l c h / 0.35)',
-    3: '0 2px 4px oklch(from var(--cs-color-shadow-contact) l c h / 0.25), 0 12px 28px -6px oklch(from var(--cs-color-shadow-contact) l c h / 0.45)',
-    4: '0 4px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.25), 0 24px 48px -12px oklch(from var(--cs-color-shadow-contact) l c h / 0.55)',
-    5: '0 8px 16px oklch(from var(--cs-color-shadow-contact) l c h / 0.3), 0 40px 80px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.65)',
-    // Control thumbs (sliders, steppers): a hairline, a contact shadow and a short lift. Same in both themes.
-    thumb: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.16), 0 3px 8px oklch(from var(--cs-color-shadow-contact) l c h / 0.12)',
-    'thumb-sm': '0 2px 6px oklch(from var(--cs-color-shadow-contact) l c h / 0.2)',
-    // Swatch thumb (gradient / alpha slider; channel-slider proposal 2, owner 2026-10-28): no white ring, a 1px swatch.edge
-    // hairline and the thumb shadow doubled with thumb-sm.
-    'thumb-swatch': 'inset 0 0 0 1px var(--cs-color-swatch-edge), var(--cs-elevation-thumb), var(--cs-elevation-thumb-sm)',
-    // Surfaces with their own depth: resting card, hover lift, inset well panel, agent glow.
-    card: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 12px 32px -16px oklch(from var(--cs-color-shadow-contact) l c h / 0.6)',
-    lift: '0 14px 30px -14px oklch(from var(--cs-color-shadow-contact) l c h / 0.7)',
-    well: '0 1px 2px oklch(from var(--cs-color-shadow-contact) l c h / 0.4), 0 6px 18px -10px oklch(from var(--cs-color-shadow-contact) l c h / 0.55)',
-    agent: '0 8px 30px -12px var(--cs-color-agent-glow)',
-    artboard: '0 6px 20px -8px oklch(from var(--cs-color-shadow-contact) l c h / 0.5)',
+    ...shared,
+    1: whiteRing(0.08),
+    2: whiteRing(0.1),
+    3: whiteRing(0.1),
+    4: whiteRing(0.1),
+    5: whiteRing(0.1),
+    raised: whiteRing(0.1),
+    pop: whiteRing(0.1),
+    'ring-card': `inset 0 0 0 0.5px oklch(1 0 0 / 0.08)`,
+    'ring-card-strong': `inset 0 0 0 0.5px oklch(1 0 0 / 0.1)`,
+    thumb: `${whiteRing(0.1)}, ${raisedDrop}`,
+    'thumb-sm': `${whiteRing(0.1)}, ${raisedDrop}`,
+    card: `inset 0 0 0 0.5px oklch(1 0 0 / 0.08)`,
+    lift: whiteRing(0.14),
+    well: `inset 0 0 0 0.5px oklch(1 0 0 / 0.08)`,
+    artboard: `0 6px 20px -8px ${a(0.5, 'contact')}`,
   },
 };
 
@@ -677,9 +716,9 @@ export const breakpoint = { compact: 720, medium: 1100, wide: 1440 };
 
 // Studio shell metrics. Window radius minus inset equals panel radius (concentric).
 export const studio = {
-  'window-radius': 32, 'window-inset': 10, 'panel-radius': 22, 'titlebar-h': 44,
+  'window-radius': 22, 'window-inset': 10, 'panel-radius': 12, 'titlebar-h': 44,
   'rail-w': 48, 'pane-w': 352, 'pane-min': 320, 'pane-max': 480,
   'inspector-w': 272, 'inspector-min': 240, 'inspector-max': 360, 'toolbar-h': 42,
-  // Toolbars are squircle-ish: rounder than a card, never a full pill. Items stay concentric (14 − 4 = 10).
-  'toolbar-radius': 14, 'toolbar-item-radius': 10, 'toast-radius': 22,
+  // Toolbars are squircle-ish: rounder than a card, never a full pill. Items stay concentric (12 − 4 = 8).
+  'toolbar-radius': 12, 'toolbar-item-radius': 8, 'toast-radius': 12,
 };
