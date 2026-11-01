@@ -2495,7 +2495,7 @@ export default {
       "divider.rail": "white/0.06",
       "grid.line": "white/0.1",
       "grid.mark": "neutral.7",
-      "grid.hatch": "white/0.1",
+      "grid.hatch": "white/0.07",
       "border.strong": "white/0.14",
       "border.control": "neutral.7",
       "control.off": "neutral.7",
@@ -3589,7 +3589,7 @@ export default {
       },
       "grid.hatch": {
         "hex": "#ffffff",
-        "alpha": 0.1
+        "alpha": 0.07
       },
       "border.strong": {
         "hex": "#ffffff",

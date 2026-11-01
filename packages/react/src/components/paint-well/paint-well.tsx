@@ -153,7 +153,7 @@ export function PaintWell({
             className={paintWellTokenVariants()}
           >
             <Badge
-              mono tone="accent" variant="ghost" size={size === 'xs' ? 'xs' : size === 'sm' ? 'sm' : 'md'} icon={<Link2 />}
+              mono tone="accent" variant="ghost" radius="xs" size={size === 'xs' ? 'xs' : size === 'sm' ? 'sm' : 'md'} icon={<Link2 />}
               className="min-w-0 shrink text-accent-text [&_[data-slot=badge-icon]]:text-accent-text [&_[data-slot=badge-label]]:truncate"
             >
               {tokenLabel ?? token}

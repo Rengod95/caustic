@@ -194,14 +194,13 @@ const UNDER = {
   'material.regular': ['bg-material-regular', 'glass', 'cs-glass'], 'material.thin': ['bg-material-thin', 'glass-thin', 'cs-thin'],
   'material.thick': ['bg-material-thick', 'glass-thick', 'cs-thick'], 'material.ultrathin': ['bg-material-ultrathin', 'glass-ultrathin', 'cs-ultrathin'],
   'control.raised': ['bg-control-raised'],
-  // the inverted selected item (the selected utility re-points the fills itself; no static class)
+  // the selected item (the selected utility re-points the fills itself; no static class)
   'selection.fill': [],
 };
 const fillAliases = f => Object.entries(T.aliases).filter(([, to]) => to === f).map(([from]) => from);
 const onVar = (f, u) => `${P}-color-${kebab(f)}--on-${kebab(u)}`;
-// Over the inverted selection the fill direction flips too: it reads the dark theme's fill (paper alpha) on the ink.
 const opaqueOver = (theme, f, u) => {
-  const rgb = u === 'selection.fill' ? (fd => over(fd.rgb, fd.alpha, layer(theme, u)))(resolveRgb('dark', f)) : layer(theme, `${f}@${u}`);
+  const rgb = layer(theme, `${f}@${u}`);
   const [r, g, b] = rgb.map(x => Math.round(Math.min(1, Math.max(0, x)) * 255)); return `rgb(${r} ${g} ${b})`;
 };
 
@@ -612,7 +611,7 @@ ${[['text-primary', 'selection-on'], ['text-secondary', 'selection-on-secondary'
 ${[['accent-text', 'selection-on'], ['accent-solid', 'selection-on'], ['accent-on', 'selection-fill'], ['border-control', 'selection-on-secondary'],
   ['surface-base', 'selection-fill']]
   .map(([k, to]) => `  --color-${k}: var(--${P}-color-${to});`).join('\n')}
-  /* fields and wells inside a selected item read the fills composited over the ink */
+  /* fields and wells inside a selected item read the fills composited over the selection fill */
 ${fillDecls('selection.fill').join('\n')}
 }
 /* Line cell grid: each cell draws only its top and left line; the layer's clip trims the outer edge, so lines never double. */

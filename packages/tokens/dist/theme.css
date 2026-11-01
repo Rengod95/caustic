@@ -688,7 +688,7 @@
   --color-accent-on: var(--cs-color-selection-fill);
   --color-border-control: var(--cs-color-selection-on-secondary);
   --color-surface-base: var(--cs-color-selection-fill);
-  /* fields and wells inside a selected item read the fills composited over the ink */
+  /* fields and wells inside a selected item read the fills composited over the selection fill */
   --cs-color-neutral-hover: var(--cs-color-neutral-hover--on-selection-fill);
   --color-neutral-hover: var(--cs-color-neutral-hover--on-selection-fill);
   --cs-color-fill-hover: var(--cs-color-neutral-hover--on-selection-fill);
