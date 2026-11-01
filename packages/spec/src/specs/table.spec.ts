@@ -38,6 +38,7 @@ export default defineSpec({
   states: {
     hover: { pseudo: ['hover'], target: 'row' },
     selected: { props: { selectable: true, defaultSelectedKeys: ['mina'], page: 1, pageCount: 2 } },
+    'single-selected': { props: { selectionMode: 'single', defaultSelectedKeys: ['mina'] } },
   },
   props: {
     columns: { type: 'TableColumn[]', required: true, description: '{ key: string; header: ReactNode; align?: "start" | "end"; sortable?: boolean; width?: number }. align "end" is for numeric columns (tabular numerals).' },
@@ -46,6 +47,9 @@ export default defineSpec({
     rowLabel: { type: '(row: TableRow) => string', description: 'Accessible name for the row checkbox ("Select Mina"). Defaults to the first column value.' },
     rowActions: { type: '(row: TableRow) => ReactNode', description: 'Adds a trailing 40px column with an empty header; render an IconButton xs with aria-label "Row actions".' },
     toolbar: { type: 'ReactNode', description: 'Content of the toolbar row (search field, filter and primary buttons; use a flexible spacer to push actions to the end).' },
+    selectionMode: { type: "'none' | 'single'", default: 'none', description: 'single: one row is chosen by click, Enter or Space; no checkbox column. The chosen row (aria-selected) is one raised surface, the same fill and edge as the current item of a navigation (control.raised, control.edge, lg corners on its first and last cell), not the inverted multi-select row. Uses selectedKeys / defaultSelectedKeys / onSelectedKeysChange with at most one key.' },
+    onRowActivate: { type: '(row: TableRow) => void', description: 'A row is activated by click, Enter or Space (a click on a button, link or input inside the row is ignored). With selectionMode single the row is chosen first. Rows are focusable with a roving tab stop (the chosen row, else the first) and arrow keys, Home and End move between them.' },
+    dividers: { type: 'boolean', default: true, description: 'false drops the hairlines between rows and under the header; the row hover fill moves to the cells and rounds (lg) at the row ends, so the table sits on the page without lines. Default true keeps the divider.line hairlines.' },
     selectable: { type: 'boolean', default: false, description: 'Adds the checkbox column and aria-selected on rows.' },
     selectedKeys: { type: 'string[]', description: 'Controlled selection.' },
     defaultSelectedKeys: { type: 'string[]', default: [], description: 'Uncontrolled initial selection.' },
@@ -62,6 +66,7 @@ export default defineSpec({
   },
   events: {
     onSelectedKeysChange: { payload: 'string[]', when: 'a row checkbox or select-all is toggled; select-all from mixed selects every row' },
+    onRowActivate: { payload: 'TableRow', when: 'a row is clicked or activated from the keyboard' },
     onSortChange: { payload: "{ key: string; direction: 'ascending' | 'descending' }", when: 'a sort button is activated; an unsorted or descending column becomes ascending, an ascending one descending' },
     onPageChange: { payload: 'number', when: 'a page button, previous or next is activated' },
   },
@@ -73,6 +78,7 @@ export default defineSpec({
     { slot: 'row', expect: { height: 48 }, note: '1px divider.line hairline below every row but the last: one step lighter than border.subtle so rows with avatars and badges do not read as stripes (owner 2026-10-28).' },
     { slot: 'row', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
     { slot: 'row', when: { state: 'selected' }, expect: { bg: 'selection.fill', fg: 'selection.on' }, note: 'A selected row (aria-selected) inverts (owner 2026-10-26, proposal B): selection.fill (ink), selection.on text, no edge; its checkbox and text roles invert with it. selection.fill-hover under the pointer. The current page button is location, not selection: it keeps the control-raised thumb.' },
+    { slot: 'cell', when: { state: 'single-selected' }, expect: { bg: 'control.raised', fg: 'text.primary', radius: 'lg' }, note: 'selectionMode single: the chosen row is one raised surface drawn on its cells (control.raised, control.edge inset, rounded at the row ends); control.raised-hover under the pointer. No inversion.' },
     { slot: 'cell', when: { state: 'selected' }, expect: { fg: 'selection.on' }, note: 'Cells of the selected row read selection.on; tertiary text in them (e-mail) reads selection.on-tertiary.' },
     { slot: 'cell', expect: { height: 48, padX: 12, text: 'ui', fg: 'text.primary' }, note: 'Numeric columns: text-align end + tabular-nums. A member cell is Avatar sm + 10px gap + a stack of name (weight 500) and e-mail (ui-sm, weight 400, text.tertiary).' },
     { slot: 'footer', expect: { padX: 12, padY: 8, gap: 8, fg: 'text.tertiary', text: 'ui-sm', weight: 400 }, note: '1px border.subtle divider on the block start; wraps.' },
@@ -95,6 +101,8 @@ export default defineSpec({
     scenarios: [
       { name: 'select all', props: { selectable: true, defaultSelectedKeys: [] }, steps: [{ do: 'click', slot: 'head-check' }], expect: [{ event: 'onSelectedKeysChange', calls: 1 }, { slot: 'head-check', attr: { 'aria-checked': 'true' } }] },
       { name: 'select a row', props: { selectable: true, defaultSelectedKeys: [] }, steps: [{ do: 'click', slot: 'row-check' }], expect: [{ event: 'onSelectedKeysChange', calls: 1 }, { slot: 'row', attr: { 'aria-selected': 'true' } }, { slot: 'head-check', attr: { 'aria-checked': 'mixed' } }] },
+      { name: 'single mode chooses and activates a row', props: { selectionMode: 'single', defaultSelectedKeys: [] }, steps: [{ do: 'click', slot: 'row' }], expect: [{ event: 'onSelectedKeysChange', calls: 1 }, { event: 'onRowActivate', calls: 1 }, { slot: 'row', attr: { 'aria-selected': 'true' } }] },
+      { name: 'Enter activates a focused row', steps: [{ do: 'focus', slot: 'row' }, { do: 'press', key: 'Enter' }], expect: [{ event: 'onRowActivate', calls: 1 }] },
       { name: 'sort button reports', props: { sort: null }, steps: [{ do: 'click', slot: 'sort' }], expect: [{ event: 'onSortChange', calls: 1 }] },
       { name: 'next page', props: { page: 1, pageCount: 2 }, steps: [{ do: 'click', slot: 'page-next' }], expect: [{ event: 'onPageChange', args: [2] }] },
     ],
@@ -106,6 +114,7 @@ export default defineSpec({
       'Native table: th scope="col" in thead; the actions column header is empty but present.',
       'A sorted heading sets aria-sort="ascending" or "descending"; the sort control is a real button and its glyph is aria-hidden.',
       'Row checkboxes are named "Select <name>"; the header one "Select all", with the mixed state.',
+      'With selectionMode single or onRowActivate the rows are focusable (roving tabindex, arrow keys); the chosen row is also marked by its raised surface and aria-selected, not by tint alone.',
       'Selected rows set aria-selected; selection is also shown by the checkbox, not by tint alone.',
       'The pager is a nav labelled "Pagination"; the current page has aria-current="page".',
       'Status badges in cells carry text, never color alone.',

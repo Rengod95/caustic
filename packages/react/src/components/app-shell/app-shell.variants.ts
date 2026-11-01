@@ -101,3 +101,11 @@ export const appShellStageVariants = cva([
 ]);
 
 export const appShellOverlayVariants = cva('pointer-events-none absolute inset-0 z-20 *:pointer-events-auto');
+
+/** The statusbar (C-03): a 28px strip under the body, inside the window inset. */
+export const appShellStatusbarVariants = cva('flex h-control-sm flex-none items-center gap-1 font-ui text-ui-dense text-text-secondary');
+
+export const appShellStatusbarCellVariants = cva('inline-flex min-w-0 items-center gap-1.5', {
+  variants: { align: { start: '', end: 'ms-auto' } },
+  defaultVariants: { align: 'start' },
+});

@@ -1,6 +1,6 @@
 # Caustic components
 
-> 117 React components for agent-native design tools, imported from '@caustic/react'.
+> 121 React components for agent-native design tools, imported from '@caustic/react'.
 
 Use the `caustic` CLI (package @caustic/cli) for detail instead of guessing:
 - `caustic find "<need>"` routes a need to fitting components; `caustic list --tree` shows the whole set.
@@ -80,6 +80,7 @@ Every command takes `--json`. Full data: @caustic/catalog/catalog.json.
 
 - Badge (badge): A small read-only label for a status, a count, a design token name or a contrast result.
 - Kbd (kbd): Show a keyboard key or shortcut chord inline with text, menus or tooltips.
+- StatusDot (status-dot): Show a short state as a small coloured dot followed by its words, in a table cell, a map cell or a row.
 
 ## display.identity: Show who: a person, an agent, a team.
 
@@ -89,6 +90,7 @@ Every command takes `--json`. Full data: @caustic/catalog/catalog.json.
 
 - CardStat (card-stat): Show one KPI: a label, a large value, a coloured change with a note and an optional sparkline.
 - ContextAnalytics (context-analytics): Show how much of the model context window a session uses, per round and by what fills it.
+- Meter (meter): Show a bounded measurement against a limit, such as a budget spent or a quota left, with warning and danger thresholds.
 
 ## display.data: Show structured data: tables, token values, graphs, diffs.
 
@@ -149,6 +151,7 @@ Every command takes `--json`. Full data: @caustic/catalog/catalog.json.
 
 ## overlay.modal: Take over the screen for a focused task or a decision.
 
+- CommandPalette (command-palette): Let the person run any command or jump anywhere by typing, from a global shortcut, with commands in groups and their shortcuts shown.
 - Dialog (dialog): Ask for a decision, a short input or a form on top of the page, or hold a secondary task at an edge.
 - Sheet (sheet): A panel that slides in at the right or bottom edge for settings, filters or a short sharing flow.
 
@@ -217,6 +220,7 @@ Every command takes `--json`. Full data: @caustic/catalog/catalog.json.
 
 - Composer (composer): The box where a person writes to the agent, with context chips, attach, model, context usage and send or stop.
 - Message (message): One turn of the agent conversation: the person in a bubble, the agent in prose with a meta row to copy or retry.
+- SystemRow (system-row): Show something the system did in a chat transcript as one quiet line with a muted icon and at most one action.
 - Thinking (thinking): Show the agent reasoning as a collapsible aside that shimmers while the agent is still thinking.
 - ToolCall (tool-call): One tool the agent ran, shown in the transcript as running, done with its time, or failed with a reason.
 

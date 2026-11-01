@@ -22,6 +22,8 @@ export interface FieldProps extends Omit<ComponentProps<'div'>, 'children'> {
   optional?: boolean;
   /** Text of the optional mark; required with optional. */
   optionalLabel?: string | undefined;
+  /** Where the optional mark sits: inside the label element (default, read as part of the label) or beside it in the label row, outside the label, so the control's name stays the label alone. */
+  optionalPlacement?: 'label' | 'row' | undefined;
   /** Trailing label-row content, e.g. a character count. */
   count?: ReactNode;
   /** Colours the count as an error when the limit is exceeded. */
@@ -47,7 +49,7 @@ export interface FieldProps extends Omit<ComponentProps<'div'>, 'children'> {
 const message = fieldMessageVariants();
 const icon = fieldIconVariants();
 
-export function Field({ label, hint, hintIcon, error, warning, success, required = false, optional = false, optionalLabel, count, overLimit = false, group = false, disabled = false, controlId, tone, variant, radius, shadow, size, className, children, ...props }: FieldProps) {
+export function Field({ label, hint, hintIcon, error, warning, success, required = false, optional = false, optionalLabel, optionalPlacement = 'label', count, overLimit = false, group = false, disabled = false, controlId, tone, variant, radius, shadow, size, className, children, ...props }: FieldProps) {
   const auto = useId();
   const id = controlId ?? `field-${auto}`;
   const labelId = `${id}-label`;
@@ -69,9 +71,10 @@ export function Field({ label, hint, hintIcon, error, warning, success, required
           <div className="flex items-baseline justify-between gap-2">
             {label && (
               group
-                ? <span data-slot="field-label" id={labelId} className={cn(fieldLabelVariants({ size }))}>{label}{marks(required, optional, optionalLabel)}</span>
-                : <label data-slot="field-label" id={labelId} htmlFor={id} className={cn(fieldLabelVariants({ size }))}>{label}{marks(required, optional, optionalLabel)}</label>
+                ? <span data-slot="field-label" id={labelId} className={cn(fieldLabelVariants({ size }))}>{label}{marks(required, optional && optionalPlacement === 'label', optionalLabel)}</span>
+                : <label data-slot="field-label" id={labelId} htmlFor={id} className={cn(fieldLabelVariants({ size }))}>{label}{marks(required, optional && optionalPlacement === 'label', optionalLabel)}</label>
             )}
+            {label && optional && optionalPlacement === 'row' && <span data-slot="field-optional-mark" className="me-auto text-hint text-text-tertiary">{optionalLabel}</span>}
             {count && <span data-slot="field-count" className={cn('text-hint tabular-nums text-text-tertiary transition-colors duration-quick ease-standard', overLimit && 'text-danger-text')}>{count}</span>}
           </div>
         )}

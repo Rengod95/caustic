@@ -3,7 +3,7 @@ import { createContext, useContext, useLayoutEffect, useRef, useState, type Comp
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
-import { radioGroupVariants, radioIndicatorVariants, radioItemVariants, radioLabelVariants } from './radio-group.variants.ts';
+import { radioGroupVariants, radioIndicatorVariants, radioItemVariants, radioLabelVariants, radioNameVariants } from './radio-group.variants.ts';
 
 /** stop: value of the one item in the Tab order (the checked enabled item, else the first enabled one); undefined before layout. */
 interface Ctx extends CommonProps { value: string; select: (v: string) => void; disabled: boolean; stop: string | null | undefined }
@@ -54,9 +54,11 @@ export function RadioGroup({ value, defaultValue = '', onValueChange, disabled =
 export interface RadioGroupItemProps extends Omit<ComponentProps<'button'>, 'value' | 'children'> {
   value: string;
   children?: ReactNode;
+  /** Quiet second line under the label; the circle aligns to the first line and the label wraps over several lines. */
+  description?: ReactNode;
 }
 
-export function RadioGroupItem({ value, disabled, className, children, ...props }: RadioGroupItemProps) {
+export function RadioGroupItem({ value, disabled, className, children, description, ...props }: RadioGroupItemProps) {
   const ctx = useContext(RadioCtx);
   const checked = ctx?.value === value;
   const off = disabled || ctx?.disabled;
@@ -74,5 +76,14 @@ export function RadioGroupItem({ value, disabled, className, children, ...props 
     </button>
   );
   if (!children) return radio;
-  return <label data-slot="radio-group-label" className={radioLabelVariants({ size: ctx?.size })}>{radio}{children}</label>;
+  if (description == null) return <label data-slot="radio-group-label" className={radioLabelVariants({ size: ctx?.size })}>{radio}{children}</label>;
+  return (
+    <label data-slot="radio-group-label" data-checked={checked || undefined} className={radioLabelVariants({ size: ctx?.size, multiline: true })}>
+      {radio}
+      <span data-slot="radio-group-text" className="grid min-w-0 gap-0.5">
+        <span data-slot="radio-group-name" className={radioNameVariants({ checked })}>{children}</span>
+        <span data-slot="radio-group-description" className="text-hint text-text-tertiary has-disabled:text-disabled-text">{description}</span>
+      </span>
+    </label>
+  );
 }

@@ -16,10 +16,11 @@ export default defineSpec({
     { name: 'title', el: 'span', parent: 'header', required: false, description: 'StepperTitle: the name of the steps; names the root group (aria-labelledby).' },
     { name: 'count', el: 'span', parent: 'header', required: false, description: 'StepperCount: "3 of 6", done steps over total, text from countLabel; tertiary, normal weight, tabular numerals; text.placeholder on the checklist (round 4).' },
     { name: 'steps', el: 'ol', parent: 'root', role: 'list', description: 'The list, no list style. Progress horizontal: flex row, items start. Progress vertical: grid, max-width 420. Checklist: grid, 1px gap. Not live: the status slot announces changes.' },
+    { name: 'press', el: 'button', parent: 'item', required: false, description: 'onStepClick, checklist: the row body (indicator, label, detail) as a button filling the row. Progress look: the indicator itself is the button, named by the step label (aria-labelledby). A step with clickable false renders none.' },
     { name: 'status', el: 'span', parent: 'root', required: false, role: 'status', description: 'Checklist only. Visually hidden status region (role status, polite) after the list: when step statuses change it holds the changed step (the one that became current or failed, else the last changed) as "<status word>: <label>", so only that step is announced, not the whole list. Empty on mount.' },
     { name: 'item', el: 'li', parent: 'steps', description: 'One step. data-status done | current | upcoming | failed; aria-current="step" on the current step. Progress horizontal: flex-1 grid, centred, 8px gap, text centred. Progress vertical: two columns (28px indicator, 1fr content), 12px gap, 18px bottom padding. Checklist: flex row, 8px gap, 28px minimum height, 6px inline padding, radius sm.' },
     { name: 'connector', el: 'span', parent: 'item', required: false, description: 'Progress only. The 2px line (height 2 horizontal, width 2 vertical, full radius, not probed because it is absent on one end) to the previous step (horizontal) or to the next step (vertical). Hidden on the first (horizontal) / last (vertical) item. tone.solid when the step is done or current (horizontal) or done (vertical); border.default otherwise. aria-hidden.' },
-    { name: 'indicator', el: 'span', parent: 'item', description: 'Progress: 28px circle, the step number (one type step larger on the current step, tertiary on upcoming steps), a 14px check (stroke 3) when done, the danger glyph on danger.soft when failed. Checklist: 16px box (aria-hidden) with the mark: success check disc (done), the now mark, the danger glyph (failed) or the dashed circle (todo).' },
+    { name: 'indicator', el: 'any', parent: 'item', description: 'A span, or a button when onStepClick makes the step pressable (progress look). Progress: 28px circle, the step number (one type step larger on the current step, tertiary on upcoming steps), a 14px check (stroke 3) when done, the danger glyph on danger.soft when failed. Checklist: 16px box (aria-hidden) with the mark: success check disc (done), the now mark, the danger glyph (failed) or the dashed circle (todo).' },
     { name: 'orb', el: 'span', parent: 'indicator', required: false, description: 'Checklist, current step only: the 12px spectrum orb with tone agent; a 12px 2px tone ring with any other tone.' },
     { name: 'todo-ring', el: 'span', parent: 'indicator', required: false, description: 'Checklist, upcoming steps only: 12px dashed border.strong circle.' },
     { name: 'label', el: 'any', parent: 'item', description: 'Step title. Progress (<b>): current ui-lg semibold text.primary; done text.secondary; upcoming text.tertiary; failed danger.text. Checklist (<span>): inherits the row; done struck through in border.subtle.' },
@@ -40,6 +41,8 @@ export default defineSpec({
     unchecked: { props: { value: 0 } },
   },
   props: {
+    onStepClick: { type: '(index: number, step: StepperStep) => void', description: 'Makes steps pressable, e.g. to reopen a finished step: each step (except those with clickable false) becomes a button. Without it steps stay read-only.' },
+    bare: { type: 'boolean', default: 'false', description: 'Checklist only: no card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one.' },
     value: { type: 'number', default: 0, description: 'Current step, 1-based, for steps without a status. Earlier steps are done, later ones upcoming. 0 = none started. State probes: checked = first item done (value 2), selected = first item current (value 1), unchecked = first item upcoming (value 0).' },
     orientation: { type: "'horizontal' | 'vertical'", default: 'horizontal', description: 'Layout of the progress look.' },
     steps: { type: "{ id?: string; label: ReactNode; description?: ReactNode; status?: 'done' | 'now' | 'todo' | 'failed'; detail?: ReactNode }[]", required: true, description: 'The steps in order. status overrides the value index for that step; description belongs to the progress look, detail to the checklist.' },
@@ -53,7 +56,9 @@ export default defineSpec({
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: 'none', description: 'Indicator elevation (progress) or card elevation (checklist) by elevation token.' },
     size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Progress: indicator diameter xs 20 / sm 24 / md 28 / lg 32 (control-2xs … control-md) with ui-xs / ui-xs / ui-sm / ui numbers; connectors and the vertical column follow the diameter. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.' },
   },
-  events: {},
+  events: {
+    onStepClick: { payload: '(index: number, step: StepperStep)', when: 'a pressable step is pressed' },
+  },
   styles: [
     { slot: 'item', when: { orientation: 'horizontal' }, expect: { gap: 8 } },
     { slot: 'item', when: { orientation: 'vertical' }, expect: { gap: 12 } },

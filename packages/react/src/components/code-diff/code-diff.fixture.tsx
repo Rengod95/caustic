@@ -1,5 +1,5 @@
 import { defineFixture } from '../../lib/fixture.ts';
-import { CodeDiff, CodeDiffLine, CodeDiffToken as T, type CodeDiffKind, type CodeDiffSyntax } from './code-diff.tsx';
+import { CodeDiff, CodeDiffComment, CodeDiffHunk, CodeDiffLine, CodeDiffToken as T, type CodeDiffDecision, type CodeDiffKind, type CodeDiffSyntax } from './code-diff.tsx';
 
 const lines = (kind?: CodeDiffKind, syntax?: CodeDiffSyntax) => (
   <>
@@ -16,9 +16,18 @@ const lines = (kind?: CodeDiffKind, syntax?: CodeDiffSyntax) => (
 export default defineFixture({
   id: 'code-diff',
   // Line and token props (kind, syntax) apply to the first line / token.
-  render: ({ kind, syntax, number: _n, ...props }) => (
+  // Hunk review: a decision (or a hunk header) renders the lines as one hunk with a comment after the first added line; onComment and onDecide go to the first line and the hunk.
+  render: ({ kind, syntax, number: _n, decision, header, onDecide, onComment, ...props }) => (
     <CodeDiff aria-label="Changes to PricingCard.tsx" filename="PricingCard.tsx" added={3} removed={2} {...props}>
-      {lines(kind as CodeDiffKind | undefined, syntax as CodeDiffSyntax | undefined)}
+      {decision !== undefined || header !== undefined
+        ? (
+          <CodeDiffHunk header={typeof header === 'string' ? header : '@@ -12,5 +12,6 @@ PricingCard'} decision={(decision as CodeDiffDecision | undefined) ?? 'pending'} onDecide={onDecide as ((d: 'accepted' | 'rejected') => void) | undefined}>
+            <CodeDiffLine number={12} commentLabel="Comment on line 12" onComment={onComment as (() => void) | undefined}><T syntax="keyword">export function</T> PricingCard({'{ plan }'}) {'{'}</CodeDiffLine>
+            <CodeDiffComment author="Mina">Bind the radius to the card token.</CodeDiffComment>
+            <CodeDiffLine number={13} kind="add">{'  '}<T syntax="keyword">return</T> &lt;Card <T syntax="property">radius</T>=<T syntax="string">"card"</T>&gt;</CodeDiffLine>
+          </CodeDiffHunk>
+        )
+        : lines(kind as CodeDiffKind | undefined, syntax as CodeDiffSyntax | undefined)}
     </CodeDiff>
   ),
   examples: {

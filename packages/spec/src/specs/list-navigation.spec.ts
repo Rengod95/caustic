@@ -46,6 +46,7 @@ export default defineSpec({
     'selected-hover': { pseudo: ['hover'], target: 'link', props: { current: true } },
   },
   props: {
+    statusLabels: { type: 'Partial<Record<\'running\' | \'review\' | \'failed\' | \'done\', string>>', description: 'ListNavigationItem: the hidden status words read before the label (defaults Running, Needs review, Failed, Done); pass them to translate.' },
     'aria-label': { type: 'string', required: true, description: 'Accessible name of the landmark ("Workspace").' },
     kind: { type: "'navigation' | 'pages' | 'sessions'", default: 'navigation', description: 'What the column holds; sets the row metrics (see variants).' },
     as: { type: "'nav' | 'div'", default: 'nav', description: 'Root element: a nav landmark, or a div with role group for a column that is not site navigation (a session list).' },

@@ -38,7 +38,7 @@ export default defineSpec({
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: 'none', description: 'Elevation of the bubble or panel. Default none.' },
     size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Type and inset. User bubble: xs 4 / 8 ui-sm · sm 6 / 10 ui · md 8 / 12 ui-relaxed · lg 10 / 14 ui-lg. Agent prose: xs and sm voice-sm · md voice · lg voice-lg.' },
     author: { type: "'user' | 'agent'", default: 'agent', description: 'Who is speaking.' },
-    streaming: { type: 'boolean', default: false, description: 'The agent is still writing this message: aria-busy while true so partial text is not announced.' },
+    streaming: { type: 'boolean', default: false, description: 'The agent is still writing this message: aria-busy while true so partial text is not announced; the body carries data-streaming and a still writing cursor (a 2px bar after the last paragraph, text.primary, never blinking) that goes when the turn is done.' },
     meta: { type: 'ReactNode', description: 'Agent only. Summary text of the meta row; the row (and its orb) renders when this or an action handler is given.' },
     onCopy: { type: '() => void', description: 'Agent only. Shows the copy IconButton.' },
     onRetry: { type: '() => void', description: 'Agent only. Shows the retry IconButton.' },
@@ -72,7 +72,7 @@ export default defineSpec({
     scenarios: [
       { name: 'copy', props: { copyLabel: 'Copy' }, steps: [{ do: 'click', slot: 'copy' }], expect: [{ event: 'onCopy', calls: 1 }] },
       { name: 'retry', props: { retryLabel: 'Retry' }, steps: [{ do: 'click', slot: 'retry' }], expect: [{ event: 'onRetry', calls: 1 }] },
-      { name: 'streaming is busy', props: { streaming: true }, steps: [], expect: [{ slot: 'root', attr: { 'aria-busy': 'true' } }] },
+      { name: 'streaming is busy', props: { streaming: true }, steps: [], expect: [{ slot: 'root', attr: { 'aria-busy': 'true' } }, { slot: 'body', attr: { 'data-streaming': 'true' } }] },
     ],
   },
   a11y: {

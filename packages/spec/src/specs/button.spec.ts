@@ -33,6 +33,7 @@ export default defineSpec({
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", description: 'Elevation. Unset keeps the variant depth cue.' },
     shape: { type: "'rounded' | 'pill'", default: 'rounded', description: 'Deprecated: use radius="full" for the pill.' },
     size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Control height 24 · 28 · 32 · 40.' },
+    fieldHeight: { type: 'boolean', default: 'false', description: 'Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = control-md, field-sm, field-md, field-lg) so a button beside a field lines up without stepping size. Off keeps the control heights above.' },
     loading: { type: 'boolean', default: false, description: 'Shows a spinner, sets aria-busy and blocks activation.' },
     disabled: { type: 'boolean', default: false, description: 'Native disabled.' },
     asChild: { type: 'boolean', default: false, description: 'Render the child element (e.g. a link) with button styling.' },

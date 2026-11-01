@@ -11,7 +11,7 @@ import { useFlip } from '../../hooks/use-flip.ts';
 import { usePresence } from '../../hooks/use-presence.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import {
-  listActionIconVariants, listActionLabelVariants, listActionVariants, listAddVariants, listBehaviourVariants, listBodyVariants, listChevronVariants,
+  listActionIconVariants, listActionLabelVariants, listActionVariants, listAddVariants, listBehaviourVariants, listDividersVariants, listBodyVariants, listChevronVariants,
   listDescriptionVariants, listDotVariants, listDurationVariants, listEndVariants, listGlyphVariants, listGroupFooterVariants, listGroupHeadingVariants,
   listGroupVariants, listHandleVariants, listHeadingEndVariants, listHeadingTitleVariants, listHeadingVariants, listIndexVariants, listIndicatorVariants,
   listInlineDescriptionVariants, listInlineEndVariants, listInlineTextVariants, listItemsVariants, listLeadVariants, listLeadWrapVariants,
@@ -81,6 +81,8 @@ interface ListBaseProps extends Omit<ComponentProps<'div'>, 'defaultValue' | 'on
   heading?: ReactNode;
   /** Count, meta or one IconButton xs at the end of the heading. */
   headingEnd?: ReactNode;
+  /** false drops the separators between rows and rounds each row (lg), for a surface-less list (variant ghost) whose rows fill on hover. Default true. */
+  dividers?: boolean;
   /** Puts the heading on a bg.inset band. Default false. */
   headingBand?: boolean;
   /** Accessible name when there is no heading. */
@@ -144,7 +146,7 @@ const rowText = (title: ReactNode) => (typeof title === 'string' ? title : undef
  */
 export function List(props: ListProps) {
   const {
-    size = 'md', tone, variant, radius, shadow, heading, headingEnd, headingBand = false, 'aria-label': ariaLabel, disabled = false,
+    size = 'md', tone, variant, radius, shadow, heading, headingEnd, headingBand = false, dividers = true, 'aria-label': ariaLabel, disabled = false,
     selectionMode = 'none', indicator = 'check', value, defaultValue, onValueChange, selection: selectionProp,
     reorderable = false, order, defaultOrder, onReorder, numbered = false, reorder: reorderProp, rowActions = 'none',
     handleLabel, instructions, announce, className, children, onKeyDown, ref, ...rest
@@ -225,14 +227,14 @@ export function List(props: ListProps) {
       <SelectionContext.Provider value={selection}>
         <ReorderContext.Provider value={reorder}>
           <div
-            ref={setRoot} data-slot="list" data-size={size} data-variant={surfaceVariant}
+            ref={setRoot} data-slot="list" data-size={size} data-variant={surfaceVariant} data-dividers={dividers ? undefined : 'false'}
             data-selection={selection?.mode} data-indicator={selection?.mode === 'single' ? selection.indicator : undefined}
             data-pointer-drag={reorder?.drag ? '' : undefined} data-settling={reorder?.settling ? '' : undefined}
             role={selection ? (selection.mode === 'single' ? 'radiogroup' : 'group') : undefined}
             aria-labelledby={selection && heading != null ? headingId : undefined} aria-label={selection && heading == null ? ariaLabel : undefined}
             className={cn(
               listVariants({ tone, variant: surfaceVariant, radius, shadow }), surface === 'opaque' && listOpaqueVariants({ size }),
-              listBehaviourVariants({ marks, grip: marks }), className,
+              listBehaviourVariants({ marks, grip: marks }), listDividersVariants({ dividers }), className,
             )}
             onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => { onKeyDown?.(e); selection?.onKeyDown(e); }}
             {...rest}

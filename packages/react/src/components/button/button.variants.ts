@@ -22,6 +22,8 @@ export const buttonVariants = cva(
         agent: 'agent-rim disabled:after:hidden aria-disabled:after:hidden',
       },
       variant: { solid: '', soft: '', outline: '', ghost: '' },
+      // Opt-in: the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44) for a button beside a field.
+      fieldHeight: { true: '', false: '' },
       size: {
         xs: 'h-control-xs gap-1 px-2 text-ui-sm rounded-md [&_svg]:size-icon-sm',
         sm: 'h-control-sm gap-1.5 px-2.5 text-ui-strong rounded-lg [&_svg]:size-icon-md',
@@ -30,6 +32,10 @@ export const buttonVariants = cva(
       },
     },
     compoundVariants: [
+      { fieldHeight: true, size: 'xs', className: 'h-control-md' },
+      { fieldHeight: true, size: 'sm', className: 'h-field-sm' },
+      { fieldHeight: true, size: 'md', className: 'h-field-md' },
+      { fieldHeight: true, size: 'lg', className: 'h-field-lg' },
       // solid: 9 → hover 10 → pressed 10 + a 1px text-11 edge; elevation 1 (neutral = ink: the control edge, no elevation)
       { variant: 'solid', tone: 'neutral', className: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-ink-solid-hover active:bg-ink-solid-hover' },
       { variant: 'solid', tone: 'accent', className: ['bg-accent-solid text-accent-on shadow-1 hover:bg-accent-solid-hover', 'active:bg-accent-solid-hover active:shadow-[inset_0_0_0_1px_var(--cs-color-accent-text),var(--cs-elevation-1)] active:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-accent-text),var(--cs-focus)]'] },
@@ -65,7 +71,7 @@ export const buttonVariants = cva(
       { variant: 'ghost', tone: 'info', className: 'bg-transparent text-info-text hover:bg-info-tint active:bg-info-soft disabled:bg-transparent aria-disabled:bg-transparent' },
       { variant: 'ghost', tone: 'agent', className: 'bg-transparent text-agent-text hover:bg-agent-tint active:bg-agent-soft disabled:bg-transparent aria-disabled:bg-transparent' },
     ],
-    defaultVariants: { tone: 'neutral', variant: 'solid', size: 'md' },
+    defaultVariants: { tone: 'neutral', variant: 'solid', size: 'md', fieldHeight: false },
   },
 );
 

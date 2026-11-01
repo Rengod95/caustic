@@ -36,6 +36,7 @@ import colorPicker from './color-picker.spec.ts';
 import colorTile from './color-tile.spec.ts';
 import colorWell from './color-well.spec.ts';
 import combobox from './combobox.spec.ts';
+import commandPalette from './command-palette.spec.ts';
 import compareView from './compare-view.spec.ts';
 import composer from './composer.spec.ts';
 import constraintsControl from './constraints-control.spec.ts';
@@ -72,6 +73,7 @@ import listDescription from './list-description.spec.ts';
 import listNavigation from './list-navigation.spec.ts';
 import menu from './menu.spec.ts';
 import message from './message.spec.ts';
+import meter from './meter.spec.ts';
 import motionTimeline from './motion-timeline.spec.ts';
 import nodeGraph from './node-graph.spec.ts';
 import numberField from './number-field.spec.ts';
@@ -98,10 +100,12 @@ import sidePanel from './side-panel.spec.ts';
 import skeleton from './skeleton.spec.ts';
 import slider from './slider.spec.ts';
 import stackRow from './stack-row.spec.ts';
+import statusDot from './status-dot.spec.ts';
 import stepper from './stepper.spec.ts';
 import strokeEditor from './stroke-editor.spec.ts';
 import suggestions from './suggestions.spec.ts';
 import switch_ from './switch.spec.ts';
+import systemRow from './system-row.spec.ts';
 import table from './table.spec.ts';
 import tabs from './tabs.spec.ts';
 import tagInput from './tag-input.spec.ts';
@@ -155,6 +159,7 @@ export const registry: Record<string, SpecInput> = {
   'color-tile': colorTile,
   'color-well': colorWell,
   'combobox': combobox,
+  'command-palette': commandPalette,
   'compare-view': compareView,
   'composer': composer,
   'constraints-control': constraintsControl,
@@ -191,6 +196,7 @@ export const registry: Record<string, SpecInput> = {
   'list-navigation': listNavigation,
   'menu': menu,
   'message': message,
+  'meter': meter,
   'motion-timeline': motionTimeline,
   'node-graph': nodeGraph,
   'number-field': numberField,
@@ -217,10 +223,12 @@ export const registry: Record<string, SpecInput> = {
   'skeleton': skeleton,
   'slider': slider,
   'stack-row': stackRow,
+  'status-dot': statusDot,
   'stepper': stepper,
   'stroke-editor': strokeEditor,
   'suggestions': suggestions,
   'switch': switch_,
+  'system-row': systemRow,
   'table': table,
   'tabs': tabs,
   'tag-input': tagInput,

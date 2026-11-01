@@ -9,11 +9,12 @@ export default defineSpec({
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Card. Header and body share its one background: no separator between them, no second fill.' },
-    { name: 'header', el: 'div', parent: 'root', description: '40px row.' },
+    { name: 'header', el: 'div', parent: 'root', description: '40px row. A button (aria-expanded, full width) when collapsible.' },
     { name: 'icon', el: 'span', parent: 'header', required: false, description: 'Bare 14px tool icon, no tile behind it; the tone colours the glyph.' },
     { name: 'name', el: 'span', parent: 'header', description: 'Tool id, mono.' },
     { name: 'detail', el: 'span', parent: 'header', required: false, description: 'Argument summary, truncates.' },
     { name: 'status', el: 'span', parent: 'header', description: 'Activity, duration or the failed label (failedLabel prop) in a pill: neutral.track, full radius, 24px tall with an equal 5px inset around the 14px content row (leading-none); failed = danger text on danger.tint. The running activity shimmers on its inner span.' },
+    { name: 'chevron', el: 'svg', parent: 'header', required: false, description: 'Collapsible only: chevron at the header end, 14px, text.tertiary; turned -90 degrees when the result is folded.' },
     { name: 'progress', el: 'div', parent: 'root', required: false, description: 'Agent progress while running.' },
     { name: 'body', el: 'div', parent: 'root', required: false, description: 'Result or failure reason, on the card background (no separator, no fill of its own); 10px inline, 0 top, 10px bottom padding.' },
   ],
@@ -26,6 +27,11 @@ export default defineSpec({
   },
   sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   props: {
+    collapsible: { type: 'boolean', default: 'false', description: 'The header becomes a toggle (button with aria-expanded) that folds the result; a chevron ends the row. Without a result there is nothing to fold.' },
+    defaultOpen: { type: 'boolean', default: 'true', description: 'Uncontrolled initial open state with collapsible.' },
+    open: { type: 'boolean', description: 'Controlled open state with collapsible.' },
+    onOpenChange: { type: '(open: boolean) => void', description: 'Called with the new open state when a collapsible header is activated.' },
+    bare: { type: 'boolean', default: 'false', description: 'No card of its own (no fill, hairline, danger edge, rim, elevation or corner clip) for use inside a well or panel that already draws one; the status pill still carries the state.' },
     name: { type: 'string', required: true, description: 'Tool id.' },
     detail: { type: 'ReactNode', description: 'Argument summary.' },
     icon: { type: 'ReactNode', description: 'Tool icon.' },
@@ -40,6 +46,9 @@ export default defineSpec({
     radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: 'xl', description: 'Card corner by radius token.' },
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: 'none', description: 'Card elevation by elevation token.' },
     size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Header height and type: 28 ui-xs / 32 ui-sm / 40 ui-dense (the specimen) / 48 ui.' },
+  },
+  events: {
+    onOpenChange: { payload: 'boolean', when: 'a collapsible header is activated, with the new open state' },
   },
   styles: [
     { slot: 'root', expect: { bg: 'surface.base', radius: 'xl', edge: 'border.subtle' }, note: 'One depth cue (d8f79e8): a done card rests on the border.subtle hairline and draws no elevation; a running card draws elevation 1 under the spectrum rim instead.' },
@@ -60,6 +69,13 @@ export default defineSpec({
     { slot: 'root', when: { radius: 'lg' }, expect: { radius: 'lg' } },
     { slot: 'root', when: { shadow: '2' }, expect: { shadow: '2' } },
   ],
+  behavior: {
+    keyboard: { 'Enter / Space': 'on a focused collapsible header: folds or opens the result' },
+    scenarios: [
+      { name: 'collapsible header folds the result', props: { collapsible: true }, steps: [{ do: 'click', slot: 'header' }], expect: [{ event: 'onOpenChange', args: [false] }, { slot: 'header', attr: { 'aria-expanded': 'false' } }, { hidden: 'body' }] },
+      { name: 'defaultOpen false starts folded', props: { collapsible: true, defaultOpen: false }, steps: [], expect: [{ slot: 'header', attr: { 'aria-expanded': 'false' } }, { hidden: 'body' }] },
+    ],
+  },
   a11y: { notes: ['Status is text, not color alone (the failedLabel text, the duration, the activity label).', 'Every built-in English string is a prop (activity, failedLabel, progressLabel) with no default; the fixture passes "Failed", "Running" and n => `${n} progress`, and the examples pass the same strings as before ("Deriving" for the running example), so the baselines stay identical.'] },
   policies: ['P2', 'P4', 'P6'],
   flags: { agent: { status: ['running'] } },
