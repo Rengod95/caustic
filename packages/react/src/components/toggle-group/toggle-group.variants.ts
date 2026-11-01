@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // transparent + border.default hairline (the old "outline"); solid = neutral.track fill, no edge; ghost = no fill, no edge.
 // relative and group: a single group draws its sliding thumb in the track (toggleGroupThumb), under the items.
 export const toggleGroupVariants = cva(
-  'relative group/toggle-group inline-flex gap-0.5 rounded-xl p-1',
+  'relative group/toggle-group inline-flex gap-0.5 rounded-2xl p-1',
   {
     variants: {
       variant: {

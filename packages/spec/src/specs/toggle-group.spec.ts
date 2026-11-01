@@ -43,7 +43,7 @@ export default defineSpec({
   },
   events: { onValueChange: { payload: 'string | string[]', when: 'an item is toggled (single: only when the selection changes to another item)' } },
   styles: [
-    { slot: 'root', expect: { bg: 'bg.inset', edge: 'border.subtle', radius: 'xl', padX: 4, padY: 4, gap: 2 } },
+    { slot: 'root', expect: { bg: 'bg.inset', edge: 'border.subtle', radius: '2xl', padX: 4, padY: 4, gap: 2 } },
     { slot: 'root', when: { variant: 'outline' }, expect: { bg: 'transparent', edge: 'border.default' } },
     { slot: 'root', when: { variant: 'solid' }, expect: { bg: 'neutral.track' } },
     { slot: 'item', when: { state: 'pressed', tone: 'accent' }, expect: { bg: 'control.raised', fg: 'accent.text' } },
