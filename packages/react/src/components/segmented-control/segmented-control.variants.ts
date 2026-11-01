@@ -2,23 +2,23 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 // Common props (owner 2026-10-26). variant is the track and selection treatment (the deprecated appearance maps onto
 // it: raised = solid, outline = outline, subtle = ghost):
-//   solid   sunken bg.inset track with a border.subtle edge; the checked segment is the raised thumb (control family):
+//   solid   neutral.track track with a border.subtle edge; the checked segment is the raised thumb (control family):
 //           control.raised, the control edge and elevation 1 under it (owner 2026-10-28, like the Switch and Tabs thumbs)
-//   soft    sunken bg.inset track, no edge; the checked segment is the tone soft fill
+//   soft    neutral.track track, no edge; the checked segment is the tone soft fill
 //   outline transparent track with a border.default edge; the checked segment is flat neutral.selected (tone soft)
 //   ghost   no track; the checked segment is flat neutral.selected (tone soft)
 // tone colours the checked segment: neutral = today; another tone takes its soft fill and text colour (on the solid
 // thumb only the label takes the tone text colour, the thumb stays control.raised).
-// radius: xl (the default) keeps the size's own concentric radii (track xl / segment md; lg / sm at xs and sm, P5);
+// radius: xl (the default) keeps the size's own concentric radii (track 2xl / segment md; lg / sm at xs and sm, P5);
 // another value sets the track, and none / full carry to the segments (the deprecated shape="pill" = radius full).
 export const segmentedControlVariants = cva(
-  'inline-flex gap-0.5 p-1 bg-bg-inset shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] rounded-xl',
+  'inline-flex gap-0.5 p-1 bg-neutral-track shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] rounded-2xl',
   {
     variants: {
       variant: {
         solid: '',
         soft: 'shadow-none',
-        outline: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+        outline: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
         ghost: 'bg-transparent shadow-none',
       },
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
@@ -52,7 +52,7 @@ export const segmentedItemVariants = cva(
     variants: {
       variant: {
         // Solid: the segment thumb (control family). The others: a flat selection fill (compound variants).
-        solid: 'data-[state=checked]:bg-control-raised data-[state=checked]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)]',
+        solid: 'data-[state=checked]:bg-control-raised data-[state=checked]:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2),var(--cs-elevation-1)]',
         soft: '',
         outline: '',
         ghost: '',
@@ -108,7 +108,7 @@ export const segmentedThumbVariants = cva(
   {
     variants: {
       variant: {
-        solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-elevation-1)]',
+        solid: 'bg-control-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2),var(--cs-elevation-1)]',
         soft: '',
         outline: '',
         ghost: '',

@@ -68,6 +68,7 @@ import inspectorBindings from './inspector-bindings.spec.ts';
 import inspectorPanel from './inspector-panel.spec.ts';
 import kbd from './kbd.spec.ts';
 import layerTree from './layer-tree.spec.ts';
+import lineGrid from './line-grid.spec.ts';
 import list from './list.spec.ts';
 import listDescription from './list-description.spec.ts';
 import listNavigation from './list-navigation.spec.ts';
@@ -191,6 +192,7 @@ export const registry: Record<string, SpecInput> = {
   'inspector-panel': inspectorPanel,
   'kbd': kbd,
   'layer-tree': layerTree,
+  'line-grid': lineGrid,
   'list': list,
   'list-description': listDescription,
   'list-navigation': listNavigation,
