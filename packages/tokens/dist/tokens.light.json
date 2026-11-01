@@ -637,7 +637,7 @@
     },
     "graphic": {
       "$type": "color",
-      "$value": "{color.success-light.8}"
+      "$value": "{color.success-light.11}"
     },
     "solid": {
       "$type": "color",
@@ -683,7 +683,7 @@
     },
     "graphic": {
       "$type": "color",
-      "$value": "{color.warning-light.8}"
+      "$value": "{color.warning-light.11}"
     },
     "solid": {
       "$type": "color",

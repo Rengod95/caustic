@@ -175,6 +175,10 @@ export const themes = {
     'neutral.selected-hover': 'neutral.11/0.11',
     'neutral.track': 'neutral.4',
     'neutral.well': 'neutral.3',
+    // Status dots mean the person has to act, so they must be seen: on paper the light solids (yellow, green) would measure
+    // under 1.5:1 as a 6px mark. In light these two graphics take their text step; the dark theme keeps the solid.
+    'warning.graphic': 'warning.11',
+    'success.graphic': 'success.11',
     // A neutral solid is a quiet grey, not a second ink: only the primary button is ink.
     'neutral.solid': 'neutral.5',
     'neutral.solid-hover': 'neutral.4',

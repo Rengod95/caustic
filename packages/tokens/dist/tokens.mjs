@@ -2343,7 +2343,7 @@ export default {
       "success.soft-pressed": "success.5",
       "success.border": "success.6",
       "success.border-strong": "success.7",
-      "success.graphic": "success.8",
+      "success.graphic": "success.11",
       "success.solid": "success.9",
       "success.solid-hover": "success.10",
       "success.text": "success.11",
@@ -2354,7 +2354,7 @@ export default {
       "warning.soft-pressed": "warning.5",
       "warning.border": "warning.6",
       "warning.border-strong": "warning.7",
-      "warning.graphic": "warning.8",
+      "warning.graphic": "warning.11",
       "warning.solid": "warning.9",
       "warning.solid-hover": "warning.10",
       "warning.text": "warning.11",
@@ -2986,7 +2986,7 @@ export default {
         "alpha": 1
       },
       "success.graphic": {
-        "hex": "#3eea90",
+        "hex": "#007742",
         "alpha": 1
       },
       "success.solid": {
@@ -3030,7 +3030,7 @@ export default {
         "alpha": 1
       },
       "warning.graphic": {
-        "hex": "#d9f06c",
+        "hex": "#627000",
         "alpha": 1
       },
       "warning.solid": {
