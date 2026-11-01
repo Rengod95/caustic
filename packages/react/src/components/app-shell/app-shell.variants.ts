@@ -32,7 +32,7 @@ export const appShellVariants = cva(
       { variant: 'soft', tone: 'danger', className: 'bg-danger-tint' },
       { variant: 'soft', tone: 'info', className: 'bg-info-tint' },
       { variant: 'soft', tone: 'agent', className: 'bg-agent-tint' },
-      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -96,8 +96,8 @@ export const appShellEndVariants = cva('flex min-h-0 flex-none', {
  *  an ::after ring above its content (a canvas that fills the stage would cover an inset shadow). */
 export const appShellStageVariants = cva([
   'relative isolate min-h-0 min-w-0 flex-1 cursor-default overflow-hidden rounded-2xl outline-none',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
-  'after:pointer-events-none after:absolute after:inset-0 after:z-30 after:rounded-[inherit] after:shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] after:content-[""]',
+  'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] focus-visible:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
+  'after:pointer-events-none after:absolute after:inset-0 after:z-30 after:rounded-[inherit] after:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] after:content-[""]',
 ]);
 
 export const appShellOverlayVariants = cva('pointer-events-none absolute inset-0 z-20 *:pointer-events-auto');

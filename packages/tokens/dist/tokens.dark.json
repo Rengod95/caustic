@@ -158,7 +158,7 @@
           0,
           0
         ],
-        "alpha": 0.05
+        "alpha": 0.08
       }
     },
     "default": {
@@ -170,7 +170,7 @@
           0,
           0
         ],
-        "alpha": 0.07
+        "alpha": 0.1
       }
     },
     "strong": {
@@ -182,12 +182,12 @@
           0,
           0
         ],
-        "alpha": 0.12
+        "alpha": 0.14
       }
     },
     "control": {
       "$type": "color",
-      "$value": "{color.neutral-dark.6}"
+      "$value": "{color.neutral-dark.7}"
     }
   },
   "divider": {
@@ -200,14 +200,56 @@
           0,
           0
         ],
-        "alpha": 0.07
+        "alpha": 0.1
+      }
+    },
+    "rail": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1,
+          0,
+          0
+        ],
+        "alpha": 0.06
+      }
+    }
+  },
+  "grid": {
+    "line": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1,
+          0,
+          0
+        ],
+        "alpha": 0.1
+      }
+    },
+    "mark": {
+      "$type": "color",
+      "$value": "{color.neutral-dark.7}"
+    },
+    "hatch": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1,
+          0,
+          0
+        ],
+        "alpha": 0.1
       }
     }
   },
   "control": {
     "off": {
       "$type": "color",
-      "$value": "{color.neutral-dark.6}"
+      "$value": "{color.neutral-dark.7}"
     },
     "thumb": {
       "$type": "color",
@@ -230,34 +272,40 @@
           0,
           0
         ],
-        "alpha": 0.06
+        "alpha": 0.1
       }
+    }
+  },
+  "ring": {
+    "control": {
+      "$type": "color",
+      "$value": "{color.neutral-dark.6}"
     }
   },
   "ink": {
     "solid": {
       "$type": "color",
-      "$value": "{color.neutral-dark.5}"
+      "$value": "{color.neutral-dark.11}"
     },
     "solid-hover": {
       "$type": "color",
-      "$value": "{color.neutral-dark.6}"
+      "$value": "{color.neutral-dark.10}"
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral-light.1}"
+      "$value": "{color.neutral-light.11}"
     },
     "on-muted": {
       "$type": "color",
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.995,
+          0,
           0,
           0
         ],
         "alpha": 0.75,
-        "hex": "#fdfdfd"
+        "hex": "#000000"
       }
     },
     "kbd": {
@@ -484,11 +532,11 @@
     },
     "solid": {
       "$type": "color",
-      "$value": "{color.neutral-dark.9}"
+      "$value": "{color.neutral-dark.6}"
     },
     "solid-hover": {
       "$type": "color",
-      "$value": "{color.neutral-dark.10}"
+      "$value": "{color.neutral-dark.5}"
     },
     "text": {
       "$type": "color",
@@ -496,7 +544,7 @@
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral-light.11}"
+      "$value": "{color.neutral-dark.11}"
     },
     "hover": {
       "$type": "color",
@@ -507,7 +555,7 @@
           0,
           0
         ],
-        "alpha": 0.05
+        "alpha": 0.06
       }
     },
     "pressed": {
@@ -531,7 +579,7 @@
           0,
           0
         ],
-        "alpha": 0.12
+        "alpha": 0.1
       }
     },
     "selected-hover": {
@@ -543,32 +591,16 @@
           0,
           0
         ],
-        "alpha": 0.16
+        "alpha": 0.14
       }
     },
     "track": {
       "$type": "color",
-      "$value": {
-        "colorSpace": "oklch",
-        "components": [
-          1,
-          0,
-          0
-        ],
-        "alpha": 0.08
-      }
+      "$value": "{color.neutral-dark.5}"
     },
     "well": {
       "$type": "color",
-      "$value": {
-        "colorSpace": "oklch",
-        "components": [
-          1,
-          0,
-          0
-        ],
-        "alpha": 0.04
-      }
+      "$value": "{color.neutral-dark.3}"
     }
   },
   "success": {
@@ -843,23 +875,23 @@
     },
     "fill": {
       "$type": "color",
-      "$value": "{ink.solid}"
+      "$value": "{color.neutral-dark.5}"
     },
     "fill-hover": {
       "$type": "color",
-      "$value": "{ink.solid-hover}"
+      "$value": "{color.neutral-dark.6}"
     },
     "on": {
       "$type": "color",
-      "$value": "{ink.on}"
+      "$value": "{color.neutral-dark.11}"
     },
     "on-secondary": {
       "$type": "color",
-      "$value": "{color.neutral-dark.11}"
+      "$value": "{color.neutral-dark.10}"
     },
     "on-tertiary": {
       "$type": "color",
-      "$value": "{color.neutral-dark.10}"
+      "$value": "{color.neutral-dark.9}"
     }
   },
   "disabled": {
@@ -869,7 +901,7 @@
     },
     "text": {
       "$type": "color",
-      "$value": "{color.neutral-dark.6}"
+      "$value": "{color.neutral-dark.7}"
     },
     "border": {
       "$type": "color",

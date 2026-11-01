@@ -29,7 +29,7 @@ export interface CanvasHintItemProps extends ComponentProps<'span'> {
 export function CanvasHintItem({ keys, children, className, ...props }: CanvasHintItemProps) {
   return (
     <span data-slot="canvas-hint-item" className={cn('inline-flex items-center gap-0.75', className)} {...props}>
-      <Kbd data-slot="canvas-hint-key" className="h-icon-md rounded-xs bg-control-raised text-ui-xs font-medium shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]">{keys}</Kbd>
+      <Kbd data-slot="canvas-hint-key" className="h-icon-md rounded-xs bg-control-raised text-ui-xs font-medium shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)]">{keys}</Kbd>
       <span data-slot="canvas-hint-label">{children}</span>
     </span>
   );

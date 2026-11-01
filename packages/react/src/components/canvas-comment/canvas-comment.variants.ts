@@ -81,7 +81,7 @@ export const canvasCommentBubbleVariants = cva('animate-enter data-[state=closed
     surface: {
       solid: 'glass glass-thick',
       soft: 'bg-neutral-track',
-      outline: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+      outline: 'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
       ghost: 'bg-transparent',
     },
     elevation: { none: '[--cs-shadow:none]', '1': 'glass-shadow-1', '2': 'glass-shadow-2', '3': 'glass-shadow-3', '4': 'glass-shadow-4', '5': 'glass-shadow-5' },

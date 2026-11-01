@@ -99,7 +99,7 @@ export function AccordionTrigger({ icon, accessory, className, children, ...prop
             className={cn(
               'ms-1.5 inline-flex',
               'group-disabled:[&_[data-slot=badge]]:bg-disabled-fill group-disabled:[&_[data-slot=badge]]:text-disabled-text',
-              'group-disabled:[&_[data-slot=badge][data-variant=outline]]:bg-transparent group-disabled:[&_[data-slot=badge][data-variant=outline]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+              'group-disabled:[&_[data-slot=badge][data-variant=outline]]:bg-transparent group-disabled:[&_[data-slot=badge][data-variant=outline]]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
               'group-disabled:[&_[data-slot=badge][data-tone=agent]]:after:hidden',
               'group-disabled:[&_[data-slot=badge-orb]]:[animation:none] group-disabled:[&_[data-slot=badge-orb]]:[background:var(--cs-color-disabled-text)]',
             )}

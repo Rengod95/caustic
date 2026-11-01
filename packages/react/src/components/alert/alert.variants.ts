@@ -32,7 +32,7 @@ export const alertVariants = cva(
       // Before radius, so an explicit radius still wins over page.
       placement: { inline: '', page: 'rounded-none' },
       tone: {
-        neutral: 'bg-neutral-tint text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]',
+        neutral: 'bg-neutral-tint text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]',
         accent: 'bg-accent-tint text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]',
         info: 'bg-info-tint text-info-text shadow-[inset_0_0_0_1px_var(--cs-color-info-border)]',
         success: 'bg-success-tint text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]',

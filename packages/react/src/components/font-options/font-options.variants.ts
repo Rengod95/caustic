@@ -31,7 +31,7 @@ export const fontOptionsStageVariants = cva('grid place-items-center rounded-xl 
     { variant: 'soft', tone: 'danger', className: 'bg-danger-tint' },
     { variant: 'soft', tone: 'info', className: 'bg-info-tint' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-tint' },
-    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -65,14 +65,14 @@ export const fontOptionsFeaturesVariants = cva('flex flex-wrap items-center gap-
 
 export const fontOptionsFeatureVariants = cva([
   'group inline-flex h-chip-h items-center gap-1.5 rounded-md px-2 text-ui-sm font-normal whitespace-nowrap text-text-primary outline-none',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-control',
+  'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)] transition-control',
   'hover:bg-neutral-hover focus-visible:shadow-focus',
   // On = selected (owner 2026-10-27, proposal A): the selected inversion, selection.fill with selection.on text, no edge,
   // a leading check; hover selection.fill-hover; focus keeps the focus ring only.
   'aria-pressed:not-disabled:selected aria-pressed:not-disabled:shadow-none aria-pressed:not-disabled:hover:bg-selection-fill-hover aria-pressed:not-disabled:focus-visible:shadow-focus',
   // Disabled, on or off: disabled fill, text and border; the accent drops out.
-  'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
-  'disabled:aria-pressed:bg-disabled-fill disabled:aria-pressed:text-disabled-text disabled:aria-pressed:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
+  'disabled:aria-pressed:bg-disabled-fill disabled:aria-pressed:text-disabled-text disabled:aria-pressed:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
 ]);
 
 /** Leading check of an enabled feature: takes the label colour (selection.on, disabled text) through currentColor. */

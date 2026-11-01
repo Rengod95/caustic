@@ -71,4 +71,4 @@ export const changeDetailArrowVariants = cva('inline-flex size-icon-sm shrink-0 
   variants: { tone: { neutral: '', accent: 'text-accent-graphic', success: 'text-success-graphic', warning: 'text-warning-graphic', danger: 'text-danger-graphic', info: 'text-info-graphic', agent: 'text-agent-graphic' } },
   defaultVariants: { tone: 'neutral' },
 });
-export const changeDetailSwatchVariants = cva('size-2.5 shrink-0 rounded-xs bg-(--swatch) shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]');
+export const changeDetailSwatchVariants = cva('size-2.5 shrink-0 rounded-xs bg-(--swatch) shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]');

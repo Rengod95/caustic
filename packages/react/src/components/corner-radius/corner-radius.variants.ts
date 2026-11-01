@@ -52,7 +52,7 @@ export const cornerRadiusShape = cva(
       { variant: 'outline', tone: 'danger', className: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-danger-graphic)]' },
       { variant: 'outline', tone: 'info', className: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-info-graphic)]' },
       { variant: 'outline', tone: 'agent', className: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-agent-graphic)]' },
-      { variant: 'ghost', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'ghost', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'ghost', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'ghost', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'ghost', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

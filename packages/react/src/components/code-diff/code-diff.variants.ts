@@ -20,7 +20,7 @@ export const codeDiffVariants = cva('m-0 max-w-full min-w-0 overflow-hidden roun
     shadow: { none: '', '1': '', '2': '', '3': '', '4': '', '5': '' },
   },
   compoundVariants: [
-    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] [--code-diff-edge:var(--cs-color-border-subtle)]' },
+    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] [--code-diff-edge:var(--cs-color-border-subtle)]' },
     { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)] [--code-diff-edge:var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)] [--code-diff-edge:var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)] [--code-diff-edge:var(--cs-color-warning-border)]' },

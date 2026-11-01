@@ -98,9 +98,9 @@ export const agentRequestCardVariants = cva('grid min-w-0 max-w-full gap-0 round
   variants: {
     status: {
       pending: 'bg-surface-base',
-      answered: 'bg-surface-raised shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
-      allowed: 'bg-surface-raised shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
-      denied: 'bg-surface-raised shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+      answered: 'bg-surface-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
+      allowed: 'bg-surface-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
+      denied: 'bg-surface-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
     },
     tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
     variant: { solid: '', soft: '', outline: '', ghost: 'bg-transparent shadow-none' },
@@ -119,7 +119,7 @@ export const agentRequestCardVariants = cva('grid min-w-0 max-w-full gap-0 round
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft' },
-    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

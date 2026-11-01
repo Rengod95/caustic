@@ -13,7 +13,7 @@ export const composerVariants = cva([
   // Disabled is a colour, not opacity: the box takes the disabled fill and edge (the elevation is kept) and the context
   // chips drop to the disabled text and edge (they are inert, not disabled); the tone drops out.
   'data-[disabled]:pointer-events-none',
-  'data-[disabled]:[&_[data-slot=chip]]:text-disabled-text data-[disabled]:[&_[data-slot=chip]]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'data-[disabled]:[&_[data-slot=chip]]:text-disabled-text data-[disabled]:[&_[data-slot=chip]]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   'data-[disabled]:[&_[data-slot=chip-icon]]:text-disabled-text data-[disabled]:[&_[data-slot=chip-remove]]:text-disabled-text',
 ], {
   variants: {
@@ -21,20 +21,20 @@ export const composerVariants = cva([
       solid: [
         'glass [--cs-shadow:var(--composer-elev)]',
         'focus-within:bg-neutral-well focus-within:[--cs-shadow:var(--cs-focus-field),var(--composer-elev)]',
-        'data-[disabled]:[--cs-material:var(--cs-color-disabled-fill)] data-[disabled]:[--cs-shadow:inset_0_0_0_1px_var(--cs-color-disabled-border),var(--composer-elev)]',
+        'data-[disabled]:[--cs-material:var(--cs-color-disabled-fill)] data-[disabled]:[--cs-shadow:inset_0_0_0_0.5px_var(--cs-color-disabled-border),var(--composer-elev)]',
       ],
       outline: [
-        'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default),var(--composer-elev)]',
+        'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default),var(--composer-elev)]',
         'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field),var(--composer-elev)]',
-        'data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border),var(--composer-elev)]',
+        'data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border),var(--composer-elev)]',
       ],
       soft: [
         'bg-neutral-track shadow-[var(--composer-elev)] focus-within:bg-surface-base focus-within:shadow-[var(--cs-focus-field),var(--composer-elev)]',
-        'data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border),var(--composer-elev)]',
+        'data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border),var(--composer-elev)]',
       ],
       ghost: [
         'bg-transparent shadow-[var(--composer-elev)] focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field),var(--composer-elev)]',
-        'data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border),var(--composer-elev)]',
+        'data-[disabled]:bg-disabled-fill data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border),var(--composer-elev)]',
       ],
     },
     shadow: {

@@ -98,7 +98,7 @@ export const canvasSelectionLabelVariants = cva('absolute -bottom-6 left-1/2 inl
     { chipTone: 'danger', chipVariant: 'soft', class: 'bg-danger-soft text-danger-text' },
     { chipTone: 'info', chipVariant: 'soft', class: 'bg-info-soft text-info-text' },
     { chipTone: 'agent', chipVariant: 'soft', class: 'bg-agent-soft text-agent-text' },
-    { chipTone: 'neutral', chipVariant: 'outline', class: 'bg-transparent text-neutral-text shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { chipTone: 'neutral', chipVariant: 'outline', class: 'bg-transparent text-neutral-text shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { chipTone: 'accent', chipVariant: 'outline', class: 'bg-transparent text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { chipTone: 'success', chipVariant: 'outline', class: 'bg-transparent text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { chipTone: 'warning', chipVariant: 'outline', class: 'bg-transparent text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

@@ -17,7 +17,7 @@ export const stepperVariants = cva('w-full', {
     },
     variant: {
       solid: '', soft: '', outline: '', ghost: '',
-      checklist: 'relative grid gap-px overflow-hidden rounded-xl bg-surface-base p-1.5 [--stepper-r:var(--cs-radius-xl)] text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+      checklist: 'relative grid gap-px overflow-hidden rounded-xl bg-surface-base p-1.5 [--stepper-r:var(--cs-radius-xl)] text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
     },
     size: {
       xs: '[--ind:var(--cs-control-2xs)]',

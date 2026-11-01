@@ -29,7 +29,7 @@ export const gradientStripFrameVariants = cva('', {
  */
 export const gradientStripBarVariants = cva(
   [
-    'absolute inset-0 rounded-[inherit] in-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'absolute inset-0 rounded-[inherit] in-data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
     'bg-[image:var(--gradient),conic-gradient(var(--cs-color-canvas-checker-b)_25%,var(--cs-color-canvas-checker-a)_0_50%,var(--cs-color-canvas-checker-b)_0_75%,var(--cs-color-canvas-checker-a)_0)]',
     'bg-size-[100%_100%,calc(var(--spacing)*2)_calc(var(--spacing)*2)]',
   ],
@@ -39,7 +39,7 @@ export const gradientStripBarVariants = cva(
       barVariant: {
         solid: 'shadow-[inset_0_0_0_1.5px_var(--cs-color-ink-solid)]',
         soft: 'shadow-[0_0_0_2px_var(--cs-color-neutral-soft)]',
-        outline: 'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
+        outline: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]',
         ghost: 'shadow-none',
       },
     },
@@ -88,7 +88,7 @@ export const gradientStripStemVariants = cva(
 export const gradientStripSwatchVariants = cva(
   [
     'pointer-events-none absolute top-1.5 left-0 size-4.5 rounded-sm bg-(--stop-color)',
-    'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge),var(--cs-elevation-thumb),var(--cs-elevation-thumb-sm)]',
-    'group-focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge),var(--cs-focus)]',
+    'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge),var(--cs-elevation-thumb),var(--cs-elevation-thumb-sm)]',
+    'group-focus-visible:shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge),var(--cs-focus)]',
   ],
 );

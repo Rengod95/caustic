@@ -22,7 +22,7 @@ export const listVariants = cva(
   [
     // overflow clip (not hidden) clips the corners without making the list a scroll container, so the heading can stick
     // inside a scrolling parent. --list-edge is the hairline colour, redrawn by the heading band over its own fill.
-    'group/list w-full overflow-clip rounded-2xl bg-surface-translucent font-ui text-ui text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] [--list-edge:var(--cs-color-border-subtle)]',
+    'group/list w-full overflow-clip rounded-2xl bg-surface-translucent font-ui text-ui text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] [--list-edge:var(--cs-color-border-subtle)]',
     // One separator column (owner 2026-10-27): every separator starts at 14 + the widest leading element + 12, so a mixed list
     // draws one clean column of hairlines. Each leading kind present publishes its width; the rows take the max.
     'has-[[data-lead=tile]]:[--li-max-tile:var(--cs-size-list-tile)] has-[[data-lead=avatar]]:[--li-max-avatar:var(--cs-size-avatar-lg)]',
@@ -62,7 +62,7 @@ export const listVariants = cva(
       { variant: 'soft', tone: 'danger', className: 'bg-danger-soft shadow-none [--list-edge:transparent]' },
       { variant: 'soft', tone: 'info', className: 'bg-info-soft shadow-none [--list-edge:transparent]' },
       { variant: 'soft', tone: 'agent', className: 'bg-agent-soft shadow-none [--list-edge:transparent]' },
-      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)] [--list-edge:var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)] [--list-edge:var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)] [--list-edge:var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)] [--list-edge:var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)] [--list-edge:var(--cs-color-warning-border)]' },
@@ -289,7 +289,7 @@ export const listTileVariants = cva(
 );
 
 export const listThumbVariants = cva(
-  'relative block h-thumb-h w-16 flex-none overflow-hidden rounded-md shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)] [&>img]:size-full [&>img]:object-cover',
+  'relative block h-thumb-h w-16 flex-none overflow-hidden rounded-md shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)] [&>img]:size-full [&>img]:object-cover',
 );
 
 export const listDurationVariants = cva(
@@ -339,7 +339,7 @@ export const listIndicatorVariants = cva(
   [
     'relative grid size-check flex-none place-items-center bg-surface-base text-accent-on shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] transition-[background-color] duration-quick ease-standard',
     'data-[state=checked]:bg-accent-solid data-[state=checked]:shadow-none',
-    'data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] data-[disabled]:data-[state=checked]:bg-disabled-fill',
+    'data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)] data-[disabled]:data-[state=checked]:bg-disabled-fill',
   ],
   {
     variants: {
@@ -407,7 +407,7 @@ export const listActionVariants = cva(
       { emphasis: 'soft', intent: 'danger', className: 'bg-danger-soft text-danger-text hover:bg-danger-soft-hover active:bg-danger-soft-pressed' },
       { emphasis: 'soft', intent: 'info', className: 'bg-info-soft text-info-text hover:bg-info-soft-hover active:bg-info-soft-pressed' },
       { emphasis: 'soft', intent: 'agent', className: 'bg-agent-soft text-agent-text hover:bg-agent-soft-hover active:bg-agent-soft-pressed' },
-      { emphasis: 'outline', intent: 'neutral', className: 'bg-transparent text-neutral-text shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)] hover:bg-neutral-tint active:bg-neutral-soft' },
+      { emphasis: 'outline', intent: 'neutral', className: 'bg-transparent text-neutral-text shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)] hover:bg-neutral-tint active:bg-neutral-soft' },
       { emphasis: 'outline', intent: 'accent', className: 'bg-transparent text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)] hover:bg-accent-tint active:bg-accent-soft' },
       { emphasis: 'outline', intent: 'success', className: 'bg-transparent text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)] hover:bg-success-tint active:bg-success-soft' },
       { emphasis: 'outline', intent: 'warning', className: 'bg-transparent text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)] hover:bg-warning-tint active:bg-warning-soft' },

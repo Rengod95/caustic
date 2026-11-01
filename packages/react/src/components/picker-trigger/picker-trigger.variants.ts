@@ -17,14 +17,14 @@ import { cva } from 'class-variance-authority';
 export const pickerTriggerVariants = cva([
   // group: the indicator turns on data-state=open (dropdown indicator).
   'group flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-xl bg-surface-translucent text-left text-text-primary outline-none',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-control press',
+  'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)] transition-control press',
   'focus-visible:bg-neutral-well focus-visible:shadow-[var(--cs-focus-field)] hover:focus-visible:shadow-[var(--cs-focus-field)]',
   'data-[state=open]:shadow-[var(--cs-focus-field)] data-[state=open]:hover:shadow-[var(--cs-focus-field)]',
   // Invalid is the danger border-strong edge; invalid + focus keeps it and adds the outer focus ring.
   // It is for an enabled trigger: the invalid danger edge drops while disabled (the tone drops out).
   'data-[invalid]:not-disabled:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
   // Disabled is a colour, not opacity: fill, text and edge from the disabled axis; the glyphs follow.
-  'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   'disabled:[&_[data-slot^=picker-trigger-]]:text-disabled-text',
 ], {
   variants: {
@@ -37,7 +37,7 @@ export const pickerTriggerVariants = cva([
     size: { xs: 'h-control-md px-2 text-ui-sm', sm: 'h-field-sm px-2.5 text-ui', md: 'h-field-md px-3 text-ui', lg: 'h-field-lg px-3.5 text-ui-md' },
   },
   compoundVariants: [
-    { variant: 'solid', tone: 'neutral', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },
+    { variant: 'solid', tone: 'neutral', className: 'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)] hover:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]' },
     { variant: 'solid', tone: 'accent', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)] hover:shadow-[inset_0_0_0_1px_var(--cs-color-accent-border-strong)]' },
     { variant: 'solid', tone: 'success', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-success-border)] hover:shadow-[inset_0_0_0_1px_var(--cs-color-success-border-strong)]' },
     { variant: 'solid', tone: 'warning', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)] hover:shadow-[inset_0_0_0_1px_var(--cs-color-warning-border-strong)]' },
@@ -64,7 +64,7 @@ export const pickerTriggerVariants = cva([
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft hover:bg-danger-soft-hover' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft hover:bg-info-soft-hover' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft hover:bg-agent-soft-hover' },
-    { variant: 'outline', tone: 'neutral', className: 'hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },
+    { variant: 'outline', tone: 'neutral', className: 'hover:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]' },
     { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)] hover:shadow-[inset_0_0_0_1px_var(--cs-color-accent-border-strong)]' },
     { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)] hover:shadow-[inset_0_0_0_1px_var(--cs-color-success-border-strong)]' },
     { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)] hover:shadow-[inset_0_0_0_1px_var(--cs-color-warning-border-strong)]' },

@@ -23,7 +23,7 @@ export const formLayoutSectionVariants = cva('flex flex-wrap gap-x-6 gap-y-3 [[d
     variant: { solid: '', soft: '', outline: '', ghost: '' },
   },
   compoundVariants: [
-    { variant: 'solid', tone: 'neutral', className: 'rounded-xl p-4 bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]' },
+    { variant: 'solid', tone: 'neutral', className: 'rounded-xl p-4 bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]' },
     { variant: 'solid', tone: 'accent', className: 'rounded-xl p-4 bg-accent-soft' },
     { variant: 'solid', tone: 'success', className: 'rounded-xl p-4 bg-success-soft' },
     { variant: 'solid', tone: 'warning', className: 'rounded-xl p-4 bg-warning-soft' },

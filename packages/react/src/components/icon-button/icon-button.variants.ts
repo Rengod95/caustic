@@ -10,15 +10,15 @@ export const iconButtonVariants = cva(
     'transition-control',
     'outline-none focus-visible:shadow-focus',
     'aria-pressed:not-disabled:selected aria-pressed:not-disabled:shadow-none aria-pressed:not-disabled:hover:bg-selection-fill-hover aria-pressed:not-disabled:focus-visible:shadow-focus',
-    'disabled:pointer-events-none disabled:text-disabled-text disabled:aria-pressed:bg-disabled-fill disabled:aria-pressed:text-disabled-text disabled:aria-pressed:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'disabled:pointer-events-none disabled:text-disabled-text disabled:aria-pressed:bg-disabled-fill disabled:aria-pressed:text-disabled-text disabled:aria-pressed:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   ],
   {
     variants: {
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       variant: {
-        solid: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:scale-[1.06] disabled:bg-disabled-fill disabled:shadow-none',
+        solid: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)] hover:scale-[1.06] disabled:bg-disabled-fill disabled:shadow-none',
         soft: 'bg-neutral-soft text-text-primary hover:bg-neutral-soft-hover active:bg-neutral-soft-pressed disabled:bg-disabled-fill',
-        outline: 'bg-transparent text-text-secondary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)] hover:bg-neutral-hover hover:text-text-primary disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+        outline: 'bg-transparent text-text-secondary shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)] hover:bg-neutral-hover hover:text-text-primary disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
         ghost: 'bg-transparent text-text-secondary hover:bg-neutral-hover hover:text-text-primary',
       },
       size: {

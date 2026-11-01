@@ -46,7 +46,7 @@ export const agentCursorTagVariants = cva(
       { variant: 'soft', tone: 'agent', className: 'isolate overflow-hidden bg-transparent text-agent-on after:hidden' },
       // The own tag is not glass, so its default elevation is set here; another shadow value sets its own.
       { variant: 'soft', tone: 'agent', shadow: '3', className: 'shadow-3' },
-      { variant: 'outline', tone: 'neutral', className: 'bg-transparent text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'bg-transparent text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'bg-transparent text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'bg-transparent text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'bg-transparent text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

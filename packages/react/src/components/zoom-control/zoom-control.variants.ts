@@ -11,7 +11,7 @@ export const zoomControlVariants = cva(
         glass: 'glass p-1',
         solid: 'bg-surface-raised p-1',
         soft: 'bg-neutral-track p-1',
-        outline: 'bg-transparent p-1 shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+        outline: 'bg-transparent p-1 shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
         ghost: 'bg-transparent p-0',
       },
       // The own corner is the toolbar radius (14px), which has no common key: xl stands for it and keeps it.

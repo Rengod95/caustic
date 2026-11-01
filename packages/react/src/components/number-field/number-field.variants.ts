@@ -35,14 +35,14 @@ export const numberFieldVariants = cva([
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft hover:bg-danger-soft-hover' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft hover:bg-info-soft-hover' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft hover:bg-agent-soft-hover' },
-    { variant: 'solid', tone: 'neutral', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]' },
+    { variant: 'solid', tone: 'neutral', className: 'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]' },
     { variant: 'solid', tone: 'accent', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'solid', tone: 'success', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'solid', tone: 'warning', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
     { variant: 'solid', tone: 'danger', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-danger-border)]' },
     { variant: 'solid', tone: 'info', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-info-border)]' },
     { variant: 'solid', tone: 'agent', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-agent-border)]' },
-    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -94,9 +94,9 @@ export const numberFieldHexVariants = cva(
     variants: {
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       variant: {
-        solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
+        solid: 'bg-control-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)]',
         soft: 'bg-neutral-well focus-within:bg-surface-base',
-        outline: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+        outline: 'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
         ghost: 'bg-transparent hover:bg-neutral-hover hover:focus-within:bg-neutral-well',
       },
       size: {
@@ -177,7 +177,7 @@ export const numberFieldStepperVariants = cva(
     'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field)]',
     // The invalid edge is for an enabled field: disabled drops the tone, so a disabled invalid field shows the disabled edge.
     'data-[invalid]:not-data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong)] data-[invalid]:focus-within:shadow-[inset_0_0_0_1px_var(--cs-color-danger-border-strong),var(--cs-focus)]',
-    'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+    'data-[disabled]:pointer-events-none data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   ],
   {
     variants: {

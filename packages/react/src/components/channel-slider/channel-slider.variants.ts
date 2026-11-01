@@ -20,7 +20,7 @@ export const channelSliderShapeVariants = cva('', {
 });
 
 /** Swatch of the current colour (the colour itself is the --c custom property), with an inset hairline. 40px, lg radius at md. */
-export const channelSliderWellVariants = cva('shrink-0 bg-(color:--c) shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]', {
+export const channelSliderWellVariants = cva('shrink-0 bg-(color:--c) shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]', {
   variants: {
     size: {
       xs: 'size-control-md rounded-md',

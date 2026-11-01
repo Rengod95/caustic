@@ -50,7 +50,7 @@ export const badgeVariants = cva(
       { variant: 'solid', tone: 'danger', className: 'bg-danger-solid text-danger-on' },
       { variant: 'solid', tone: 'info', className: 'bg-info-solid text-info-on' },
       { variant: 'solid', tone: 'agent', className: 'bg-agent-solid text-agent-on' },
-      { variant: 'outline', tone: 'neutral', className: 'bg-transparent text-text-secondary shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]' },
+      { variant: 'outline', tone: 'neutral', className: 'bg-transparent text-text-secondary shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]' },
       { variant: 'outline', tone: 'accent', className: 'bg-transparent text-accent-text shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'bg-transparent text-success-text shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'bg-transparent text-warning-text shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -147,7 +147,7 @@ export const badgeMonoVariants = cva(
 /** The colour swatch (from TokenChip): 12 / 14 / 16 / 16px, xs radius. The ring is border.default (owner 2026-10-28), not
  *  swatch.edge: white and paper swatches vanished on the neutral.well fill. The fill is --swatch, set by Badge. */
 export const badgeSwatchVariants = cva(
-  'inline-flex shrink-0 overflow-hidden rounded-xs bg-(--swatch) shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+  'inline-flex shrink-0 overflow-hidden rounded-xs bg-(--swatch) shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
   {
     variants: { size: { xs: 'size-icon-xs', sm: 'size-icon-sm', md: 'size-icon-md', lg: 'size-icon-md' } },
     defaultVariants: { size: 'sm' },

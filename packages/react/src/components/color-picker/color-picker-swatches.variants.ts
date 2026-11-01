@@ -27,7 +27,7 @@ export const colorPickerSwatchesVariants = cva('grid grid-cols-(--swatch-cols) g
 export const colorPickerSwatchVariants = cva(
   [
     'relative aspect-square min-w-0 cursor-pointer rounded-sm bg-(--swatch) outline-none',
-    'shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
+    'shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]',
     'transition-control',
     // Checked draws no ring or border of its own: the check alone overlays the swatch (owner 2026-10-28). Keyboard focus
     // keeps the focus ring, checked or not.
@@ -39,7 +39,7 @@ export const colorPickerSwatchVariants = cva(
         outline: '',
         solid: 'shadow-none',
         soft: '',
-        ghost: 'shadow-none hover:shadow-[inset_0_0_0_1px_var(--cs-color-swatch-edge)]',
+        ghost: 'shadow-none hover:shadow-[inset_0_0_0_0.5px_var(--cs-color-swatch-edge)]',
       },
       // The default key keeps the own swatch corner (sm); every other key sets that radius token.
       swatchRadius: { none: 'rounded-none', '2xs': 'rounded-2xs', xs: 'rounded-xs', sm: '', md: 'rounded-md', lg: 'rounded-lg', xl: 'rounded-xl', '2xl': 'rounded-2xl', '3xl': 'rounded-3xl', '4xl': 'rounded-4xl', full: 'rounded-full' },

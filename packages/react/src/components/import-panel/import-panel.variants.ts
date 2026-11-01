@@ -13,7 +13,7 @@ export const importPanelVariants = cva('grid gap-3', {
     variant: {
       solid: 'rounded-xl bg-surface-base p-3.5',
       soft: 'rounded-xl bg-neutral-soft p-3.5',
-      outline: 'rounded-xl p-3.5 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+      outline: 'rounded-xl p-3.5 shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
       ghost: '',
     },
   },

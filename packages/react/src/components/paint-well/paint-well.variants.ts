@@ -13,7 +13,7 @@ export const paintWellVariants = cva('flex min-w-0 flex-col gap-2', {
     shadow: { none: '', '1': 'shadow-1', '2': 'shadow-2', '3': 'shadow-3', '4': 'shadow-4', '5': 'shadow-5' },
   },
   compoundVariants: [
-    { variant: 'solid', tone: 'neutral', className: 'bg-surface-raised p-1.5 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]' },
+    { variant: 'solid', tone: 'neutral', className: 'bg-surface-raised p-1.5 shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]' },
     { variant: 'solid', tone: 'accent', className: 'bg-surface-raised p-1.5 shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'solid', tone: 'success', className: 'bg-surface-raised p-1.5 shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'solid', tone: 'warning', className: 'bg-surface-raised p-1.5 shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -27,7 +27,7 @@ export const paintWellVariants = cva('flex min-w-0 flex-col gap-2', {
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft p-1.5' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft p-1.5' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft p-1.5' },
-    { variant: 'outline', tone: 'neutral', className: 'p-1.5 shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'p-1.5 shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'p-1.5 shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'p-1.5 shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'p-1.5 shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
@@ -52,7 +52,7 @@ export const paintWellRowVariants = cva('grid grid-cols-[auto_1fr_var(--cs-size-
  */
 export const paintWellTokenVariants = cva([
   'col-span-2 flex h-full min-w-0 items-center gap-1 rounded-lg bg-accent-soft pl-1 pr-0.5 shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]',
-  'data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'data-[disabled]:bg-disabled-fill data-[disabled]:text-disabled-text data-[disabled]:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
   'data-[disabled]:[&_[data-slot^=badge]]:text-disabled-text',
 ]);
 

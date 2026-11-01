@@ -76,9 +76,9 @@ export const listNavigationLink = cva(
     'group flex w-full cursor-pointer items-center text-start font-ui no-underline outline-none ease-out',
     'hover:bg-neutral-hover',
     'aria-[current=page]:bg-control-raised aria-[current=page]:font-medium aria-[current=page]:text-text-primary',
-    'aria-[current=page]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
+    'aria-[current=page]:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)]',
     'aria-[current=page]:hover:bg-control-raised-hover',
-    'focus-visible:shadow-focus aria-[current=page]:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]',
+    'focus-visible:shadow-focus aria-[current=page]:focus-visible:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2),var(--cs-focus)]',
   ],
   {
     variants: {
@@ -181,7 +181,7 @@ export const listNavigationCount = cva('ms-auto shrink-0 font-ui', {
     },
     { hot: true, variant: 'solid', tone: 'neutral', className: 'bg-ink-solid text-ink-on' },
     { hot: true, variant: 'soft', tone: 'neutral', className: 'bg-neutral-soft text-neutral-text' },
-    { hot: true, variant: 'outline', tone: 'neutral', className: 'text-text-secondary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { hot: true, variant: 'outline', tone: 'neutral', className: 'text-text-secondary shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { hot: true, variant: 'ghost', tone: 'neutral', className: 'text-text-secondary' },
     // solid × tone
     { hot: true, variant: 'solid', tone: 'accent', className: 'bg-accent-solid text-accent-on' },
@@ -244,9 +244,9 @@ export const listNavigationSubLink = cva(
     'transition-control',
     'hover:bg-neutral-hover hover:text-text-primary',
     'aria-[current=page]:bg-control-raised aria-[current=page]:font-medium aria-[current=page]:text-text-primary',
-    'aria-[current=page]:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)]',
+    'aria-[current=page]:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)]',
     'aria-[current=page]:hover:bg-control-raised-hover',
-    'focus-visible:shadow-focus aria-[current=page]:focus-visible:shadow-[inset_0_0_0_1px_var(--cs-color-control-edge),var(--cs-focus)]',
+    'focus-visible:shadow-focus aria-[current=page]:focus-visible:shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2),var(--cs-focus)]',
   ],
   {
     variants: {

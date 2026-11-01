@@ -12,8 +12,8 @@ export const constraintsControlVariants = cva('group/constraints grid grid-cols-
 export const constraintsBoxVariants = cva('relative size-pad-box rounded-lg group-aria-disabled/constraints:bg-disabled-fill', {
   variants: {
     variant: {
-      soft: 'bg-neutral-well shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
-      outline: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+      soft: 'bg-neutral-well shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
+      outline: 'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
       solid: 'bg-surface-raised',
       ghost: 'bg-transparent',
     },
@@ -26,7 +26,7 @@ export const constraintsBoxVariants = cva('relative size-pad-box rounded-lg grou
 });
 
 export const constraintsFrameVariants = cva(
-  'absolute top-1/2 left-1/2 size-card-tile -translate-x-1/2 -translate-y-1/2 rounded-xs bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] group-aria-disabled/constraints:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+  'absolute top-1/2 left-1/2 size-card-tile -translate-x-1/2 -translate-y-1/2 rounded-xs bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] group-aria-disabled/constraints:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
 );
 
 // Pins are 2 to 4px wide (the edge pins step with the size: 2 · 3 · 4 · 5): the ::before extends the pointer target to

@@ -30,7 +30,7 @@ export const propertyStackVariants = cva('', {
     { variant: 'soft', tone: 'danger', className: 'bg-danger-soft' },
     { variant: 'soft', tone: 'info', className: 'bg-info-soft' },
     { variant: 'soft', tone: 'agent', className: 'bg-agent-soft' },
-    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

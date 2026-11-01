@@ -25,9 +25,9 @@ export const chipVariants = cva(
       variant: {
         soft: 'bg-neutral-track text-text-primary',
         outline: [
-          'bg-transparent text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]',
+          'bg-transparent text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]',
           // Disabled keeps a disabled.border edge whether on or off; the tone drops out.
-          'disabled:bg-transparent disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)] disabled:aria-pressed:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
+          'disabled:bg-transparent disabled:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)] disabled:aria-pressed:shadow-[inset_0_0_0_0.5px_var(--cs-color-disabled-border)]',
         ],
         // The count reads the tertiary slot elsewhere; on a solid fill it keeps the on colour.
         solid: 'bg-ink-solid text-ink-on aria-pressed:bg-ink-solid-hover [&_[data-slot=chip-count]]:text-inherit',
@@ -38,7 +38,7 @@ export const chipVariants = cva(
           'disabled:bg-transparent disabled:outline-disabled-border disabled:aria-pressed:outline-disabled-border',
         ],
         surface: [
-          'bg-surface-translucent text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-default)]',
+          'bg-surface-translucent text-text-primary shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)]',
           // On inverts in every tone (the tone only ever coloured the text): the selected utility re-points the text.
           'aria-pressed:not-disabled:selected aria-pressed:not-disabled:shadow-none aria-pressed:not-disabled:focus-visible:shadow-focus',
         ],

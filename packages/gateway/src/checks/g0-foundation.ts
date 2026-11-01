@@ -30,9 +30,10 @@ export async function g0(c: Collector) {
   for (const theme of Object.keys(t.raw.themes)) for (const [name, spec] of Object.entries<string>(t.raw.themes[theme])) {
     if (!/^(neutral|accent|success|warning|danger|info|agent-[123]|extra-[12]|canvas-guide)(-light|-dark)?\.(\d+|on)(\/[\d.]+)?$|^(white|black)\/[\d.]+$|^=[a-z]+\.[a-z0-9-]+$/.test(spec)) c.fail({ gate: 'G0', check: 'semantic-refs', message: `${theme}.${name} = "${spec}" does not reference a primitive, a mode ramp or another semantic token.` });
   }
-  // 4. Concentric studio chain: window − inset = panel; panel − 6 = composer (2xl); 2xl − 6 = lg.
+  // 4. Concentric studio chain (four-step radius scale, design language §4): window − inset = panel; panel, composer and menu
+  // share the container step (2xl); an item inset 6 in a container takes the control step (lg), within the P5 tolerance of 2.
   const s = t.studio, r = t.radius as Record<string, number>;
-  const chain: [string, number, number][] = [['window − inset = panel', s['window-radius']! - s['window-inset']!, s['panel-radius']!], ['panel − 6 = radius-2xl', s['panel-radius']! - 6, r['2xl']!], ['radius-2xl − 6 = radius-lg', r['2xl']! - 6, r['lg']!], ['toolbar − 4 = toolbar-item', s['toolbar-radius']! - 4, s['toolbar-item-radius']!]];
+  const chain: [string, number, number][] = [['window − inset = panel', s['window-radius']! - s['window-inset']!, s['panel-radius']!], ['panel = radius-2xl', s['panel-radius']!, r['2xl']!], ['2xl − 6 + 2 = lg', r['2xl']! - 6 + 2, r['lg']!]];
   for (const [label, got, want] of chain) if (got !== want) c.fail({ gate: 'G0', check: 'concentric-chain', message: `Concentric rule broken: ${label}.`, expected: String(want), actual: String(got) });
   // 5. FOUNDATION.md metrics stay in sync with tokens.
   const doc = readFileSync(join(root, 'FOUNDATION.md'), 'utf8');

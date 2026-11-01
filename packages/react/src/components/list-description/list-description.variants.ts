@@ -12,7 +12,7 @@ export const listDescriptionVariants = cva('m-0 grid w-full overflow-hidden roun
     variant: {
       solid: 'bg-surface-base',
       soft: 'bg-neutral-soft',
-      outline: 'bg-surface-translucent shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+      outline: 'bg-surface-translucent shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
       ghost: 'bg-transparent',
     },
   },

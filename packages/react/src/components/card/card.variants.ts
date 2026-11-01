@@ -43,20 +43,20 @@ export const cardVariants = cva(
       },
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       variant: {
-        surface: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] has-[[data-slot=card-cover]]:shadow-[0_0_0_1px_var(--cs-color-border-subtle)]',
+        surface: 'bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] has-[[data-slot=card-cover]]:shadow-[0_0_0_1px_var(--cs-color-border-subtle)]',
         plain: '',
         ghost: '',
         glass: 'glass [--cs-shadow:var(--cs-elevation-2)] [--card-cover-panel:var(--cs-color-material-regular)]',
         outline: [
           // transition-shadow, not transition-control: a CardLink adds its own list, and tailwind-merge drops this one there.
-          'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] transition-shadow hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
+          'bg-transparent shadow-[inset_0_0_0_0.5px_var(--cs-color-border-default)] transition-shadow hover:shadow-[inset_0_0_0_0.5px_var(--cs-color-border-strong)]',
           '[&_[data-slot=card-title]]:text-ui-lg [&_[data-slot=card-description]]:text-text-tertiary',
         ],
         dashed: 'min-h-card-add flex-row items-center justify-center gap-1.5 bg-transparent text-ui text-text-secondary outline-1 -outline-offset-1 outline-dashed outline-border-strong',
-        well: 'gap-0 bg-neutral-well p-1 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] [--card-cover-panel:var(--cs-color-neutral-well)]',
+        well: 'gap-0 bg-neutral-well p-1 shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] [--card-cover-panel:var(--cs-color-neutral-well)]',
         agent: 'bg-surface-base agent-rim shadow-agent bg-linear-to-b from-agent-tint to-surface-base to-45% [&_[data-slot=card-orb]]:orb',
         spotlight: [
-          'isolate overflow-hidden bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+          'isolate overflow-hidden bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
           'before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-0 before:transition-opacity before:duration-base before:content-[""]',
           'before:bg-[radial-gradient(var(--cs-size-spotlight-glow)_circle_at_var(--mx,50%)_var(--my,0%),var(--cs-color-accent-soft),transparent_60%)]',
           'after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:p-[1px] after:opacity-0 after:transition-opacity after:duration-base after:content-[""]',
@@ -66,7 +66,7 @@ export const cardVariants = cva(
           'hover:before:opacity-100 hover:after:opacity-100',
         ],
         feature: [
-          'isolate overflow-hidden bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+          'isolate overflow-hidden bg-surface-base shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
           'before:pointer-events-none before:absolute before:-top-[40%] before:-right-[30%] before:-z-10 before:aspect-square before:w-4/5 before:rounded-full before:content-[""]',
           'before:bg-[radial-gradient(closest-side,var(--cs-color-accent-soft),transparent)]',
         ],
@@ -252,7 +252,7 @@ export const cardAboveCoverVariants = cva('group-has-[[data-slot=card-cover][dat
 /** Inset surface panel of the well card: concentric with the shell (well-inner = 3xl − the 4px bezel). */
 export const cardPanelVariants = cva([
   'grid min-w-0 gap-2.5 rounded-well-inner bg-surface-base px-inset-regular-x py-inset-regular-y font-ui text-ui-relaxed text-text-secondary',
-  'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] [&_p]:m-0',
+  'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)] [&_p]:m-0',
 ]);
 
 /** Large title of a hero tile (feature); small tiles use CardTitle titleSize="sm". */

@@ -20,7 +20,7 @@ export const strokeEditorVariants = cva('flex min-w-0 flex-col gap-3 font-ui', {
     variant: {
       ghost: '',
       soft: 'bg-neutral-well p-3',
-      outline: 'p-3 shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
+      outline: 'p-3 shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]',
       solid: 'bg-surface-raised p-3',
     },
     size: { xs: 'gap-2', sm: 'gap-2.5', md: '', lg: 'gap-4' },

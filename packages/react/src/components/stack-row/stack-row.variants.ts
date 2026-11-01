@@ -10,7 +10,7 @@ export const stackRowVariants = cva(
     variants: {
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       variant: {
-        solid: 'bg-control-raised shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-control-raised-hover',
+        solid: 'bg-control-raised shadow-[inset_0_0_0_0.5px_var(--cs-color-control-edge),var(--cs-elevation-2)] hover:bg-control-raised-hover',
         soft: '',
         outline: 'hover:bg-neutral-hover',
         ghost: 'hover:bg-neutral-hover',
@@ -32,7 +32,7 @@ export const stackRowVariants = cva(
       { variant: 'soft', tone: 'danger', className: 'bg-danger-soft hover:bg-danger-soft-hover' },
       { variant: 'soft', tone: 'info', className: 'bg-info-soft hover:bg-info-soft-hover' },
       { variant: 'soft', tone: 'agent', className: 'bg-agent-soft hover:bg-agent-soft-hover' },
-      { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+      { variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
       { variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
       { variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
       { variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },

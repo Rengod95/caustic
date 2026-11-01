@@ -32,7 +32,7 @@ export const progressVariants = cva('relative overflow-hidden', {
     { shape: 'ring', size: 'lg', className: 'size-spinner-lg' },
     // The hairline is the solid track's own shadow; an explicit elevation replaces it (as before the merge).
     { shape: 'bar', variant: 'solid', className: 'bg-neutral-track' },
-    { shape: 'bar', variant: 'solid', shadow: 'none', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]' },
+    { shape: 'bar', variant: 'solid', shadow: 'none', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-border-subtle)]' },
     { shape: 'bar', variant: ['outline', 'ghost'], className: 'bg-transparent' },
     { shape: 'bar', variant: 'soft', tone: 'neutral', className: 'bg-neutral-soft' },
     { shape: 'bar', variant: 'soft', tone: 'accent', className: 'bg-accent-soft' },
@@ -41,7 +41,7 @@ export const progressVariants = cva('relative overflow-hidden', {
     { shape: 'bar', variant: 'soft', tone: 'danger', className: 'bg-danger-soft' },
     { shape: 'bar', variant: 'soft', tone: 'info', className: 'bg-info-soft' },
     { shape: 'bar', variant: 'soft', tone: 'agent', className: 'bg-agent-soft' },
-    { shape: 'bar', variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)]' },
+    { shape: 'bar', variant: 'outline', tone: 'neutral', className: 'shadow-[inset_0_0_0_0.5px_var(--cs-color-neutral-border)]' },
     { shape: 'bar', variant: 'outline', tone: 'accent', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-accent-border)]' },
     { shape: 'bar', variant: 'outline', tone: 'success', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-success-border)]' },
     { shape: 'bar', variant: 'outline', tone: 'warning', className: 'shadow-[inset_0_0_0_1px_var(--cs-color-warning-border)]' },
