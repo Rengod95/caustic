@@ -1367,7 +1367,19 @@
         "nodes": {
           "type": "ActivityNode[]",
           "required": true,
-          "description": "In order: { id; kind: \"step\" | \"call\"; label: ReactNode (step text or call \"name · argument\"); meta?: ReactNode; status?: \"done\" | \"active\" | \"failed\" (steps); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others."
+          "description": "In order: { id; kind: \"step\" | \"call\"; label: ReactNode (step text or call \"name · argument\"); meta?: ReactNode; status?: \"done\" | \"active\" | \"failed\" | \"pending\" | \"skipped\" (steps); collapsible?: boolean, defaultOpen?: boolean (default true), onOpenChange?: (open: boolean) => void (steps: fold the calls that follow); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others."
+        },
+        "pendingLabel": {
+          "type": "string",
+          "default": "Pending",
+          "required": false,
+          "description": "Visually hidden status word before a pending step."
+        },
+        "skippedLabel": {
+          "type": "string",
+          "default": "Skipped",
+          "required": false,
+          "description": "Visually hidden status word before a skipped step."
         },
         "failedLabel": {
           "type": "string",
@@ -1480,7 +1492,13 @@
           "nodes": {
             "type": "ActivityNode[]",
             "required": true,
-            "description": "In order: { id; kind: \"step\" | \"call\"; label: ReactNode (step text or call \"name · argument\"); meta?: ReactNode; status?: \"done\" | \"active\" | \"failed\" (steps); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others."
+            "description": "In order: { id; kind: \"step\" | \"call\"; label: ReactNode (step text or call \"name · argument\"); meta?: ReactNode; status?: \"done\" | \"active\" | \"failed\" | \"pending\" | \"skipped\" (steps); collapsible?: boolean, defaultOpen?: boolean (default true), onOpenChange?: (open: boolean) => void (steps: fold the calls that follow); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others."
+          },
+          "pendingLabel": {
+            "type": "string",
+            "default": "Pending",
+            "required": false,
+            "description": "Visually hidden status word before a pending step."
           },
           "radius": {
             "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",
@@ -1524,6 +1542,12 @@
               "md",
               "lg"
             ]
+          },
+          "skippedLabel": {
+            "type": "string",
+            "default": "Skipped",
+            "required": false,
+            "description": "Visually hidden status word before a skipped step."
           },
           "tone": {
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
@@ -1624,13 +1648,16 @@
       },
       "parts": [],
       "events": {},
-      "keyboard": {},
+      "keyboard": {
+        "Enter / Space": "on a focused toggle: folds or opens the step"
+      },
       "a11y": {
         "labelRequired": false,
         "notes": [
           "A flat list: call rows carry data-depth=\"1\" and follow their step, and a visually hidden \"Tool call\" prefix names the row kind.",
           "Status is text or a glyph, never color alone: check for done, orb plus shimmer for active, the word \"running\", the help glyph plus the word \"Unassigned\".",
           "The tree is not a live region by itself; the transcript announces progress. aria-busy is set while a step is active.",
+          "A collapsible step exposes aria-expanded on its toggle button; pending and skipped are an empty circle or a minus plus a hidden word (pendingLabel, skippedLabel), never colour alone.",
           "Reduced motion stops the orbs and shimmers (the global rule)."
         ]
       },
@@ -14099,9 +14126,11 @@
       "guidance": [
         "Inside a hunk put removed lines before added ones; removed lines carry the old number, others the new one."
       ],
-      "import": "import { CodeDiff, CodeDiffLine, CodeDiffToken } from '@caustic/react';",
+      "import": "import { CodeDiff, CodeDiffComment, CodeDiffHunk, CodeDiffLine, CodeDiffToken } from '@caustic/react';",
       "exports": [
         "CodeDiff",
+        "CodeDiffComment",
+        "CodeDiffHunk",
         "CodeDiffLine",
         "CodeDiffToken",
         "codeDiffVariants",
@@ -14235,7 +14264,43 @@
           "type": "boolean",
           "default": true,
           "required": false,
-          "description": "Show Reject and Accept."
+          "description": "CodeDiff: show Reject and Accept in the header. CodeDiffHunk: show them in the hunk header."
+        },
+        "header": {
+          "type": "ReactNode",
+          "required": true,
+          "description": "CodeDiffHunk prop. The hunk header text, e.g. \"@@ -12,5 +12,6 @@ PricingCard\". Fixture convention: setting it renders the lines as one hunk with a comment."
+        },
+        "decision": {
+          "type": "'pending' | 'accepted' | 'rejected'",
+          "default": "pending",
+          "required": false,
+          "description": "CodeDiffHunk prop. The review decision of the hunk: sets data-decision and which button is pressed. Fixture convention: setting it renders the lines as one hunk with a comment.",
+          "values": [
+            "pending",
+            "accepted",
+            "rejected"
+          ]
+        },
+        "onDecide": {
+          "type": "(decision: 'accepted' | 'rejected') => void",
+          "required": false,
+          "description": "CodeDiffHunk prop. Called when the hunk Reject or Accept is pressed."
+        },
+        "onComment": {
+          "type": "() => void",
+          "required": false,
+          "description": "CodeDiffLine prop. Shows the add-comment button over the line number; called when it is pressed."
+        },
+        "commentLabel": {
+          "type": "string",
+          "required": false,
+          "description": "CodeDiffLine prop. aria-label of the add-comment button; required with onComment, no built-in default."
+        },
+        "author": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "CodeDiffComment prop. Who wrote the comment (bold, before the text)."
         }
       },
       "exportProps": {
@@ -14244,7 +14309,7 @@
             "type": "boolean",
             "default": true,
             "required": false,
-            "description": "Show Reject and Accept."
+            "description": "CodeDiff: show Reject and Accept in the header. CodeDiffHunk: show them in the hunk header."
           },
           "added": {
             "type": "number",
@@ -14354,11 +14419,57 @@
             ]
           }
         },
+        "CodeDiffComment": {
+          "author": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "CodeDiffComment prop. Who wrote the comment (bold, before the text)."
+          }
+        },
+        "CodeDiffHunk": {
+          "actions": {
+            "type": "boolean",
+            "default": true,
+            "required": false,
+            "description": "CodeDiff: show Reject and Accept in the header. CodeDiffHunk: show them in the hunk header."
+          },
+          "children": {
+            "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
+            "required": false,
+            "description": ""
+          },
+          "decision": {
+            "type": "CodeDiffDecision",
+            "default": "pending",
+            "required": false,
+            "description": "CodeDiffHunk prop. The review decision of the hunk: sets data-decision and which button is pressed. Fixture convention: setting it renders the lines as one hunk with a comment.",
+            "values": [
+              "pending",
+              "accepted",
+              "rejected"
+            ]
+          },
+          "header": {
+            "type": "ReactNode",
+            "required": true,
+            "description": "CodeDiffHunk prop. The hunk header text, e.g. \"@@ -12,5 +12,6 @@ PricingCard\". Fixture convention: setting it renders the lines as one hunk with a comment."
+          },
+          "onDecide": {
+            "type": "(decision: \"accepted\" | \"rejected\") => void",
+            "required": false,
+            "description": "CodeDiffHunk prop. Called when the hunk Reject or Accept is pressed."
+          }
+        },
         "CodeDiffLine": {
           "children": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
             "required": false,
             "description": ""
+          },
+          "commentLabel": {
+            "type": "string",
+            "required": false,
+            "description": "CodeDiffLine prop. aria-label of the add-comment button; required with onComment, no built-in default."
           },
           "kind": {
             "type": "CodeDiffKind",
@@ -14375,6 +14486,11 @@
             "type": "number",
             "required": true,
             "description": "CodeDiffLine prop. Line number (old for removed, new for added and context)."
+          },
+          "onComment": {
+            "type": "() => void",
+            "required": false,
+            "description": "CodeDiffLine prop. Shows the add-comment button over the line number; called when it is pressed."
           }
         },
         "CodeDiffToken": {
@@ -14476,6 +14592,22 @@
       },
       "parts": [
         {
+          "name": "CodeDiffComment",
+          "slot": "comment",
+          "el": "span",
+          "parent": "CodeDiff",
+          "required": false,
+          "description": "CodeDiffComment: a review comment placed after a line. Display block, surface.raised fill, hairline top and bottom, 8px 12px padding with the start inset to 48px (past the number and sign columns), ui-sm text.primary in the interface voice. Optional bold author first."
+        },
+        {
+          "name": "CodeDiffHunk",
+          "slot": "hunk",
+          "el": "span",
+          "parent": "CodeDiff",
+          "required": false,
+          "description": "CodeDiffHunk: one hunk of the diff, display block (a span, since the body is a pre), data-decision pending | accepted | rejected. Holds its header, its lines and any comments."
+        },
+        {
           "name": "CodeDiffLine",
           "slot": "line",
           "el": "span",
@@ -14500,6 +14632,14 @@
         "onAccept": {
           "payload": "React.MouseEvent<HTMLButtonElement>",
           "when": "Accept is activated"
+        },
+        "onDecide": {
+          "payload": "'accepted' | 'rejected'",
+          "when": "a hunk Reject or Accept is activated"
+        },
+        "onComment": {
+          "payload": "void",
+          "when": "the add-comment button of a line is activated"
         }
       },
       "keyboard": {
@@ -18464,6 +18604,17 @@
           "required": false,
           "description": "Disables the input, the bar controls and the send control; the box takes disabled fill, edge and text."
         },
+        "locked": {
+          "type": "boolean",
+          "default": false,
+          "required": false,
+          "description": "Observing: someone else holds the prompt. The text is read-only, Enter and send do nothing, attach, mode, model and send are disabled and the observing band shows. Unlike disabled the box keeps its look (no disabled fill) and the text stays selectable."
+        },
+        "lockedLabel": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "Text of the observing band (e.g. \"Observing: Mina is driving\"). Required whenever locked is true; no built-in default."
+        },
         "sendDisabled": {
           "type": "boolean",
           "default": false,
@@ -18514,6 +18665,17 @@
             "type": "Ref<HTMLTextAreaElement>",
             "required": false,
             "description": "Ref to the native textarea (focus, auto-size, selection). The Composer ref prop keeps pointing at the form."
+          },
+          "locked": {
+            "type": "boolean",
+            "default": false,
+            "required": false,
+            "description": "Observing: someone else holds the prompt. The text is read-only, Enter and send do nothing, attach, mode, model and send are disabled and the observing band shows. Unlike disabled the box keeps its look (no disabled fill) and the text stays selectable."
+          },
+          "lockedLabel": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "Text of the observing band (e.g. \"Observing: Mina is driving\"). Required whenever locked is true; no built-in default."
           },
           "maxLength": {
             "type": "number",
@@ -32606,6 +32768,12 @@
           "required": false,
           "description": "List prop. Count, meta or one IconButton xs at the end of the heading."
         },
+        "dividers": {
+          "type": "boolean",
+          "default": true,
+          "required": false,
+          "description": "List prop. false drops the separators between rows (and the opaque border-top) and gives each row lg corners, so a surface-less list (variant ghost: no fill, no edge, transparent) reads as rows that fill on hover. Pair it with ListRow description for the two-line row (title above one tertiary secondary line). Default true keeps the separators."
+        },
         "headingBand": {
           "type": "boolean",
           "default": false,
@@ -32837,6 +33005,12 @@
             "default": false,
             "required": false,
             "description": "List prop: disables every choice, handle and trigger. ListRow prop: this row cannot be chosen or moved (other rows skip over it)."
+          },
+          "dividers": {
+            "type": "boolean",
+            "default": true,
+            "required": false,
+            "description": "List prop. false drops the separators between rows (and the opaque border-top) and gives each row lg corners, so a surface-less list (variant ghost: no fill, no edge, transparent) reads as rows that fill on hover. Pair it with ListRow description for the two-line row (title above one tertiary secondary line). Default true keeps the separators."
           },
           "handleLabel": {
             "type": "((title: string) => string) | ((title: string) => string)",
@@ -35206,7 +35380,7 @@
           "type": "boolean",
           "default": false,
           "required": false,
-          "description": "The agent is still writing this message: aria-busy while true so partial text is not announced."
+          "description": "The agent is still writing this message: aria-busy while true so partial text is not announced; the body carries data-streaming and a still writing cursor (a 2px bar after the last paragraph, text.primary, never blinking) that goes when the turn is done."
         },
         "meta": {
           "type": "ReactNode",
@@ -35330,7 +35504,7 @@
             "type": "boolean",
             "default": false,
             "required": false,
-            "description": "The agent is still writing this message: aria-busy while true so partial text is not announced."
+            "description": "The agent is still writing this message: aria-busy while true so partial text is not announced; the body carries data-streaming and a still writing cursor (a 2px bar after the last paragraph, text.primary, never blinking) that goes when the turn is done."
           },
           "tone": {
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
@@ -50153,6 +50327,27 @@
           "required": false,
           "description": "Content of the toolbar row (search field, filter and primary buttons; use a flexible spacer to push actions to the end)."
         },
+        "selectionMode": {
+          "type": "'none' | 'single'",
+          "default": "none",
+          "required": false,
+          "description": "single: one row is chosen by click, Enter or Space; no checkbox column. The chosen row (aria-selected) is one raised surface, the same fill and edge as the current item of a navigation (control.raised, control.edge, lg corners on its first and last cell), not the inverted multi-select row. Uses selectedKeys / defaultSelectedKeys / onSelectedKeysChange with at most one key.",
+          "values": [
+            "none",
+            "single"
+          ]
+        },
+        "onRowActivate": {
+          "type": "(row: TableRow) => void",
+          "required": false,
+          "description": "A row is activated by click, Enter or Space (a click on a button, link or input inside the row is ignored). With selectionMode single the row is chosen first. Rows are focusable with a roving tab stop (the chosen row, else the first) and arrow keys, Home and End move between them."
+        },
+        "dividers": {
+          "type": "boolean",
+          "default": true,
+          "required": false,
+          "description": "false drops the hairlines between rows and under the header; the row hover fill moves to the cells and rounds (lg) at the row ends, so the table sits on the page without lines. Default true keeps the divider.line hairlines."
+        },
         "selectable": {
           "type": "boolean",
           "default": false,
@@ -50281,6 +50476,12 @@
             "required": false,
             "description": "Uncontrolled initial selection."
           },
+          "dividers": {
+            "type": "boolean",
+            "default": true,
+            "required": false,
+            "description": "false drops the hairlines between rows and under the header; the row hover fill moves to the cells and rounds (lg) at the row ends, so the table sits on the page without lines. Default true keeps the divider.line hairlines."
+          },
           "maxHeight": {
             "type": "number",
             "required": false,
@@ -50290,6 +50491,11 @@
             "type": "(page: number) => void",
             "required": false,
             "description": ""
+          },
+          "onRowActivate": {
+            "type": "(row: TableRow) => void",
+            "required": false,
+            "description": "A row is activated by click, Enter or Space (a click on a button, link or input inside the row is ignored). With selectionMode single the row is chosen first. Rows are focusable with a roving tab stop (the chosen row, else the first) and arrow keys, Home and End move between them."
           },
           "onSelectedKeysChange": {
             "type": "(keys: string[]) => void",
@@ -50365,6 +50571,16 @@
             "type": "string[]",
             "required": false,
             "description": "Controlled selection."
+          },
+          "selectionMode": {
+            "type": "\"none\" | \"single\"",
+            "default": "none",
+            "required": false,
+            "description": "single: one row is chosen by click, Enter or Space; no checkbox column. The chosen row (aria-selected) is one raised surface, the same fill and edge as the current item of a navigation (control.raised, control.edge, lg corners on its first and last cell), not the inverted multi-select row. Uses selectedKeys / defaultSelectedKeys / onSelectedKeysChange with at most one key.",
+            "values": [
+              "none",
+              "single"
+            ]
           },
           "shadow": {
             "type": "\"none\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\"",
@@ -50505,6 +50721,10 @@
           "payload": "string[]",
           "when": "a row checkbox or select-all is toggled; select-all from mixed selects every row"
         },
+        "onRowActivate": {
+          "payload": "TableRow",
+          "when": "a row is clicked or activated from the keyboard"
+        },
         "onSortChange": {
           "payload": "{ key: string; direction: 'ascending' | 'descending' }",
           "when": "a sort button is activated; an unsorted or descending column becomes ascending, an ascending one descending"
@@ -50525,6 +50745,7 @@
           "Native table: th scope=\"col\" in thead; the actions column header is empty but present.",
           "A sorted heading sets aria-sort=\"ascending\" or \"descending\"; the sort control is a real button and its glyph is aria-hidden.",
           "Row checkboxes are named \"Select <name>\"; the header one \"Select all\", with the mixed state.",
+          "With selectionMode single or onRowActivate the rows are focusable (roving tabindex, arrow keys); the chosen row is also marked by its raised surface and aria-selected, not by tint alone.",
           "Selected rows set aria-selected; selection is also shown by the checkbox, not by tint alone.",
           "The pager is a nav labelled \"Pagination\"; the current page has aria-current=\"page\".",
           "Status badges in cells carry text, never color alone."
@@ -55503,6 +55724,28 @@
       ],
       "el": "div",
       "props": {
+        "collapsible": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "The header becomes a toggle (button with aria-expanded) that folds the result; a chevron ends the row. Without a result there is nothing to fold."
+        },
+        "defaultOpen": {
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Uncontrolled initial open state with collapsible."
+        },
+        "open": {
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state with collapsible."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Called with the new open state when a collapsible header is activated."
+        },
         "bare": {
           "type": "boolean",
           "default": "false",
@@ -55651,6 +55894,18 @@
             "required": false,
             "description": ""
           },
+          "collapsible": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "The header becomes a toggle (button with aria-expanded) that folds the result; a chevron ends the row. Without a result there is nothing to fold."
+          },
+          "defaultOpen": {
+            "type": "boolean",
+            "default": "true",
+            "required": false,
+            "description": "Uncontrolled initial open state with collapsible."
+          },
           "detail": {
             "type": "ReactNode",
             "required": false,
@@ -55675,6 +55930,16 @@
             "type": "string",
             "required": true,
             "description": "Tool id."
+          },
+          "onOpenChange": {
+            "type": "(open: boolean) => void",
+            "required": false,
+            "description": "Called with the new open state when a collapsible header is activated."
+          },
+          "open": {
+            "type": "boolean",
+            "required": false,
+            "description": "Controlled open state with collapsible."
           },
           "progress": {
             "type": "number",
@@ -55843,8 +56108,15 @@
         "default": "md"
       },
       "parts": [],
-      "events": {},
-      "keyboard": {},
+      "events": {
+        "onOpenChange": {
+          "payload": "boolean",
+          "when": "a collapsible header is activated, with the new open state"
+        }
+      },
+      "keyboard": {
+        "Enter / Space": "on a focused collapsible header: folds or opens the result"
+      },
       "a11y": {
         "labelRequired": false,
         "notes": [

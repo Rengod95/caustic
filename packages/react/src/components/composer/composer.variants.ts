@@ -65,6 +65,9 @@ export const composerInputVariants = cva(
  *  the box are more specific and still win. */
 export const composerContextVariants = cva('flex flex-wrap gap-1.5 [&_[data-slot=chip]]:text-text-secondary');
 
+/** The observing band above the bar: an inset well with the eye glyph and one line of secondary text. */
+export const composerLockedVariants = cva('flex items-center gap-1.5 rounded-lg bg-bg-inset px-2 py-1.5 text-ui-sm text-text-secondary [&_svg]:size-icon-sm [&_svg]:shrink-0');
+
 export const composerBarVariants = cva('flex items-center gap-1');
 
 export const composerModelVariants = cva(

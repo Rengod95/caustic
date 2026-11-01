@@ -1,10 +1,10 @@
 'use client';
-import { CallArrow, CircleAlert, CircleCheck, CircleHelp } from '../../icons/index.ts';
+import { CallArrow, ChevronDown, Circle, CircleAlert, CircleCheck, CircleHelp, Minus } from '../../icons/index.ts';
 import { useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import { useFlip } from '../../hooks/use-flip.ts';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
-import { activityCallGlyphVariants, activityCallVariants, activityLabelVariants, activityOrbVariants, activityStepGlyphVariants, activityStepVariants, activityTreeVariants, activityWorkerOrbVariants } from './activity-tree.variants.ts';
+import { activityCallGlyphVariants, activityCallVariants, activityLabelVariants, activityOrbVariants, activityChevronVariants, activityStepGlyphVariants, activityStepVariants, activityToggleVariants, activityTreeVariants, activityWorkerOrbVariants } from './activity-tree.variants.ts';
 
 export interface ActivityNode {
   id: string;
@@ -14,7 +14,13 @@ export interface ActivityNode {
   /** End text: duration, "step 3", a count or "running". */
   meta?: ReactNode;
   /** Steps only. */
-  status?: 'done' | 'active' | 'failed';
+  status?: 'done' | 'active' | 'failed' | 'pending' | 'skipped';
+  /** Steps only: the step folds the calls that follow it (up to the next step); its label becomes a toggle button. */
+  collapsible?: boolean;
+  /** Steps only, with collapsible: starts open (default true). */
+  defaultOpen?: boolean;
+  /** Steps only, with collapsible: called with the new open state. */
+  onOpenChange?: (open: boolean) => void;
   /** Calls only: the call is in flight. Its meta stays static; only the active step's orb moves. */
   running?: boolean;
   /** Calls only: the call failed; danger glyph and meta. */
@@ -30,6 +36,10 @@ export interface ActivityTreeProps extends Omit<ComponentProps<'div'>, 'children
   worker?: { name: ReactNode; meta?: ReactNode };
   /** Hidden status word before a failed step or call. */
   failedLabel?: string;
+  /** Hidden status word before a pending step. */
+  pendingLabel?: string;
+  /** Hidden status word before a skipped step. */
+  skippedLabel?: string;
   /** Drops the box whatever variant says (same as ghost), for use inside a well or panel that already draws one. */
   bare?: boolean;
   'aria-label'?: string;
@@ -40,7 +50,7 @@ export interface ActivityTreeProps extends Omit<ComponentProps<'div'>, 'children
 const metaClass = 'text-ui-xs tabular-nums text-text-tertiary';
 
 /** The plan as a tree with tool calls attached to the step that made them. Read-only. */
-export function ActivityTree({ nodes, worker, failedLabel = 'Failed', tone, variant, radius, shadow, size, bare = false, className, 'aria-label': ariaLabel = 'Agent activity', ...props }: ActivityTreeProps) {
+export function ActivityTree({ nodes, worker, failedLabel = 'Failed', pendingLabel = 'Pending', skippedLabel = 'Skipped', tone, variant, radius, shadow, size, bare = false, className, 'aria-label': ariaLabel = 'Agent activity', ...props }: ActivityTreeProps) {
   const busy = nodes.some(n => n.kind === 'step' && n.status === 'active');
   const listRef = useRef<HTMLUListElement>(null);
   // Rows of the first paint stay still; a row or the worker line that appears later rises in.
@@ -48,21 +58,38 @@ export function ActivityTree({ nodes, worker, failedLabel = 'Failed', tone, vari
   const [workerAtMount] = useState(() => worker != null);
   // A row that appears or disappears slides the rows around it.
   useFlip(listRef, '[data-node-id]', 'nodeId');
+  // Steps the reader folded (or that start folded); a collapsible step is open unless it is here.
+  const [folded, setFolded] = useState(() => new Set(nodes.filter(n => n.kind === 'step' && n.collapsible && n.defaultOpen === false).map(n => n.id)));
+  const toggle = (n: ActivityNode) => {
+    const open = folded.has(n.id);
+    setFolded(prev => { const next = new Set(prev); if (open) next.delete(n.id); else next.add(n.id); return next; });
+    n.onOpenChange?.(open);
+  };
+  // Calls follow the step they belong to; an unassigned call matches no step and stays visible.
+  let owner: ActivityNode | undefined;
   return (
     <div data-slot="activity-tree" aria-label={ariaLabel} aria-busy={busy || undefined} className={cn(activityTreeVariants({ variant: bare ? 'ghost' : variant, tone, radius, shadow }), className)} {...props}>
       <ul ref={listRef} data-slot="activity-tree-list" role="list" className="m-0 grid list-none gap-0 p-0">
         {nodes.map(n => {
+          if (n.kind === 'step') owner = n;
+          else if (!n.unassigned && owner?.collapsible && folded.has(owner.id)) return null;
           const rise = !firstPaint.has(n.id);
           if (n.kind === 'step') {
             const status = n.status ?? 'done';
             const active = status === 'active';
             const failed = status === 'failed';
+            const quiet = status === 'pending' || status === 'skipped';
+            const open = !folded.has(n.id);
+            const word = failed ? failedLabel : status === 'pending' ? pendingLabel : status === 'skipped' ? skippedLabel : undefined;
+            const label = <span data-slot="activity-tree-label" className={activityLabelVariants({ status })}>{word && <span className="sr-only">{word}: </span>}{n.label}</span>;
             return (
               <li key={n.id} data-node-id={n.id} data-slot="activity-tree-step" data-status={status} className={activityStepVariants({ size, rise })}>
                 {active
                   ? <span data-slot="activity-tree-orb" aria-hidden className={activityOrbVariants()} />
-                  : <span data-slot="activity-tree-step-glyph" aria-hidden className={activityStepGlyphVariants({ failed })}>{failed ? <CircleAlert /> : <CircleCheck />}</span>}
-                <span data-slot="activity-tree-label" className={activityLabelVariants({ status })}>{failed && <span className="sr-only">{failedLabel}: </span>}{n.label}</span>
+                  : <span data-slot="activity-tree-step-glyph" aria-hidden className={activityStepGlyphVariants({ state: failed ? 'failed' : quiet ? 'quiet' : 'done' })}>{failed ? <CircleAlert /> : status === 'pending' ? <Circle /> : status === 'skipped' ? <Minus /> : <CircleCheck />}</span>}
+                {n.collapsible
+                  ? <button type="button" data-slot="activity-tree-toggle" aria-expanded={open} className={activityToggleVariants()} onClick={() => toggle(n)}>{label}<ChevronDown aria-hidden className={activityChevronVariants({ open })} /></button>
+                  : label}
                 {n.meta != null && <span data-slot="activity-tree-meta" className={cn(metaClass, failed && 'text-danger-text')}>{n.meta}</span>}
               </li>
             );

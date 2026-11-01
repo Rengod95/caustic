@@ -1,12 +1,12 @@
 'use client';
-import { FileCode } from '../../icons/index.ts';
+import { FileCode, Plus } from '../../icons/index.ts';
 import { Children, createContext, Fragment, isValidElement, useContext, useEffect, useRef, useState, type ComponentProps, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, shadowClass, type CommonProps, type Size } from '../../lib/common-props.ts';
 import { Button } from '../button/button.tsx';
 import {
   codeDiffActions, codeDiffBody, codeDiffContent, codeDiffFilename, codeDiffHeader, codeDiffIcon, codeDiffLine,
-  codeDiffNumber, codeDiffSign, codeDiffStatAdd, codeDiffStatDel, codeDiffToken, codeDiffVariants,
+  codeDiffCommentAdd, codeDiffComment, codeDiffCommentAuthor, codeDiffHunk, codeDiffHunkActions, codeDiffHunkHeader, codeDiffNumber, codeDiffSign, codeDiffStatAdd, codeDiffStatDel, codeDiffToken, codeDiffVariants,
 } from './code-diff.variants.ts';
 
 export type CodeDiffKind = 'context' | 'add' | 'remove';
@@ -17,8 +17,32 @@ export interface CodeDiffLineProps extends Omit<ComponentProps<'span'>, 'childre
   kind?: CodeDiffKind;
   /** Line number (old for removed, new for added and context). */
   number: number;
+  /** Shows the add-comment button over the line number on hover or focus. */
+  onComment?: () => void;
+  /** aria-label of the add-comment button; required with onComment. */
+  commentLabel?: string | undefined;
   /** The code; wrap syntax spans in CodeDiffToken. */
   children?: ReactNode;
+}
+
+export type CodeDiffDecision = 'pending' | 'accepted' | 'rejected';
+
+export interface CodeDiffHunkProps extends Omit<ComponentProps<'span'>, 'children'> {
+  /** The hunk header text, e.g. "@@ -12,5 +12,6 @@ PricingCard". */
+  header: ReactNode;
+  /** The review decision of this hunk. Default pending. */
+  decision?: CodeDiffDecision;
+  /** Reject or Accept of this hunk is pressed. */
+  onDecide?: (decision: 'accepted' | 'rejected') => void;
+  /** Show Reject and Accept in the hunk header. Default true. */
+  actions?: boolean;
+  /** CodeDiffLine and CodeDiffComment elements. */
+  children?: ReactNode;
+}
+
+export interface CodeDiffCommentProps extends ComponentProps<'span'> {
+  /** Who wrote the comment. */
+  author?: ReactNode;
 }
 
 export interface CodeDiffTokenProps extends ComponentProps<'span'> {
@@ -102,7 +126,7 @@ export function CodeDiff({
 }
 
 /** One unified diff line: number, sign and content. */
-export function CodeDiffLine({ kind = 'context', number, className, children, ...props }: CodeDiffLineProps) {
+export function CodeDiffLine({ kind = 'context', number, onComment, commentLabel, className, children, ...props }: CodeDiffLineProps) {
   const size = useContext(SizeCtx);
   return (
     // A span with display grid: the body is a <pre>, which only takes phrasing content.
@@ -113,6 +137,37 @@ export function CodeDiffLine({ kind = 'context', number, className, children, ..
         {kind !== 'context' && <span className="sr-only">{kind === 'add' ? 'added' : 'removed'}</span>}
       </span>
       <span data-slot="code-diff-content" className={codeDiffContent()}>{children}</span>
+      {onComment !== undefined && (
+        <button type="button" data-slot="code-diff-comment-add" aria-label={commentLabel ?? ''} className={codeDiffCommentAdd()} onClick={() => onComment()}><Plus aria-hidden /></button>
+      )}
+    </span>
+  );
+}
+
+/** One hunk of a diff: a header with the hunk's own Reject / Accept, then its lines (and comments). */
+export function CodeDiffHunk({ header, decision = 'pending', onDecide, actions = true, className, children, ...props }: CodeDiffHunkProps) {
+  return (
+    <span data-slot="code-diff-hunk" data-decision={decision} className={cn(codeDiffHunk(), className)} {...props}>
+      <span data-slot="code-diff-hunk-header" className={codeDiffHunkHeader()}>
+        <span data-slot="code-diff-hunk-title" className="min-w-0 break-all">{header}</span>
+        {actions && (
+          <span data-slot="code-diff-hunk-actions" className={codeDiffHunkActions()}>
+            <Button data-slot="code-diff-hunk-reject" tone={decision === 'rejected' ? 'danger' : 'ghost'} variant={decision === 'rejected' ? 'soft' : undefined} size="xs" aria-pressed={decision === 'rejected'} onClick={() => onDecide?.('rejected')}>Reject</Button>
+            <Button data-slot="code-diff-hunk-accept" tone={decision === 'accepted' ? 'success' : 'ink'} variant={decision === 'accepted' ? 'soft' : undefined} size="xs" aria-pressed={decision === 'accepted'} onClick={() => onDecide?.('accepted')}>Accept</Button>
+          </span>
+        )}
+      </span>
+      {children}
+    </span>
+  );
+}
+
+/** A review comment under a line, in the interface voice. */
+export function CodeDiffComment({ author, className, children, ...props }: CodeDiffCommentProps) {
+  return (
+    <span data-slot="code-diff-comment" role="note" className={cn(codeDiffComment(), className)} {...props}>
+      {author != null && <b data-slot="code-diff-comment-author" className={codeDiffCommentAuthor()}>{author}</b>}
+      {children}
     </span>
   );
 }

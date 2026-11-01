@@ -11,10 +11,11 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'div', description: 'Wrapper, 14px gap between the tree and the worker line. aria-label "Agent activity"; aria-busy while a step is active.' },
     { name: 'list', el: 'ul', parent: 'root', role: 'list', description: 'The flat list (grid, no gap, no list style). Call rows are siblings of their step with data-depth="1".' },
-    { name: 'step', el: 'li', parent: 'list', description: 'A plan step row: grid 18px glyph column, text, auto meta column; 8px gap, 28px minimum height. data-status done | active | failed.' },
-    { name: 'step-glyph', el: 'span', parent: 'step', required: false, description: 'Done steps: circle-check, 16px box, 13px glyph, success text.' },
+    { name: 'step', el: 'li', parent: 'list', description: 'A plan step row: grid 18px glyph column, text, auto meta column; 8px gap, 28px minimum height. data-status done | active | failed | pending | skipped.' },
+    { name: 'step-glyph', el: 'span', parent: 'step', required: false, description: 'Done steps: circle-check, 16px box, 13px glyph, success text. Pending: an empty circle; skipped: a minus; both text.tertiary.' },
+    { name: 'toggle', el: 'button', parent: 'step', required: false, role: 'button', description: 'A collapsible step: the label sits in a bare button (aria-expanded) followed by a chevron that turns when the step is folded. Folding hides the calls after the step, up to the next step; unassigned calls stay.' },
     { name: 'orb', el: 'span', parent: 'step', required: false, description: 'Active step: 12px spectrum orb in the glyph column.' },
-    { name: 'label', el: 'span', parent: 'step', description: 'Step text: text.secondary when done, text.primary at 500 weight when active (shimmer), danger.text when failed.' },
+    { name: 'label', el: 'span', parent: 'step', description: 'Step text: text.secondary when done, text.primary at 500 weight when active (shimmer), danger.text when failed, text.tertiary when pending, text.tertiary struck through when skipped.' },
     { name: 'meta', el: 'span', parent: 'list', required: false, description: 'End text: "step 3", a count or "running" (steps carry no duration) (shimmer while running). Small tertiary, tabular numerals. In step and call rows (the first one in the default render is a call\'s).' },
     { name: 'call', el: 'li', parent: 'list', required: false, description: 'A tool call under its step: same row grid, 18px extra inline-start padding (data-depth 1), secondary text.' },
     { name: 'call-glyph', el: 'span', parent: 'call', description: 'A corner-down-right arrow with a tight 1.5 elbow (lucide geometry, createLucideIcon; circle-help when unassigned), 16px box, 14px glyph.' },
@@ -34,7 +35,9 @@ export default defineSpec({
   sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   props: {
     bare: { type: 'boolean', default: 'false', description: 'Drops the box whatever variant says (the ghost look), for use inside a well or panel that already draws one.' },
-    nodes: { type: 'ActivityNode[]', required: true, description: 'In order: { id; kind: "step" | "call"; label: ReactNode (step text or call "name · argument"); meta?: ReactNode; status?: "done" | "active" | "failed" (steps); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others.' },
+    nodes: { type: 'ActivityNode[]', required: true, description: 'In order: { id; kind: "step" | "call"; label: ReactNode (step text or call "name · argument"); meta?: ReactNode; status?: "done" | "active" | "failed" | "pending" | "skipped" (steps); collapsible?: boolean, defaultOpen?: boolean (default true), onOpenChange?: (open: boolean) => void (steps: fold the calls that follow); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others.' },
+    pendingLabel: { type: 'string', default: 'Pending', description: 'Visually hidden status word before a pending step.' },
+    skippedLabel: { type: 'string', default: 'Skipped', description: 'Visually hidden status word before a skipped step.' },
     failedLabel: { type: 'string', default: 'Failed', description: 'Visually hidden status word before a failed step or call.' },
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'ghost', description: 'Box emphasis; ghost (default) is the bare tree.' },
     tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Box colour family and call glyph colour.' },
@@ -68,12 +71,20 @@ export default defineSpec({
     { slot: 'worker-name', expect: { weight: 500 } },
     { slot: 'worker-meta', expect: { text: 'ui-xs', fg: 'text.tertiary' } },
   ],
-  behavior: { pointer: ['read-only: no pointer or keyboard behavior; rows are not focusable'] },
+  behavior: {
+    pointer: ['read-only unless a step is collapsible: only its toggle button is focusable and folds the calls that follow the step; other rows are not focusable'],
+    keyboard: { 'Enter / Space': 'on a focused toggle: folds or opens the step' },
+    scenarios: [
+      { name: 'a collapsible step folds its calls', props: { nodes: [{ id: 's', kind: 'step', status: 'done', label: 'Read tokens', collapsible: true }, { id: 'c', kind: 'call', label: 'read_tokens · lagoon' }] }, steps: [{ do: 'click', slot: 'toggle' }], expect: [{ slot: 'toggle', attr: { 'aria-expanded': 'false' } }, { hidden: 'call' }] },
+      { name: 'defaultOpen false starts folded', props: { nodes: [{ id: 's', kind: 'step', status: 'done', label: 'Read tokens', collapsible: true, defaultOpen: false }, { id: 'c', kind: 'call', label: 'read_tokens · lagoon' }] }, steps: [{ do: 'click', slot: 'toggle' }], expect: [{ slot: 'toggle', attr: { 'aria-expanded': 'true' } }, { visible: 'call' }] },
+    ],
+  },
   a11y: {
     notes: [
       'A flat list: call rows carry data-depth="1" and follow their step, and a visually hidden "Tool call" prefix names the row kind.',
       'Status is text or a glyph, never color alone: check for done, orb plus shimmer for active, the word "running", the help glyph plus the word "Unassigned".',
       'The tree is not a live region by itself; the transcript announces progress. aria-busy is set while a step is active.',
+      'A collapsible step exposes aria-expanded on its toggle button; pending and skipped are an empty circle or a minus plus a hidden word (pendingLabel, skippedLabel), never colour alone.',
       'Reduced motion stops the orbs and shimmers (the global rule).',
     ],
   },

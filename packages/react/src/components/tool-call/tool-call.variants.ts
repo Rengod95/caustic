@@ -33,6 +33,14 @@ export const toolHeader = cva('flex min-w-0 items-center gap-2 px-2.5', {
   defaultVariants: { size: 'md' },
 });
 
+/** A collapsible header is a bare button across the card: full width, start-aligned, focus inside the card's clip. */
+export const toolHeaderToggle = cva('w-full cursor-pointer rounded-[inherit] text-start outline-none focus-visible:shadow-focus');
+/** The fold chevron at the header's end; it turns away when the result is folded. */
+export const toolChevron = cva('size-icon-sm shrink-0 text-text-tertiary transition-control', {
+  variants: { open: { true: '', false: '-rotate-90' } },
+  defaultVariants: { open: true },
+});
+
 /** The bare tool icon (no tile: owner 2026-10-28); tone colours the glyph (text.secondary when neutral). */
 export const toolIcon = cva('inline-grid size-icon-sm shrink-0 place-items-center [&_svg]:size-icon-sm', {
   variants: {
