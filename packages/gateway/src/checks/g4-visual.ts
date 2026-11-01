@@ -14,7 +14,7 @@ const THEMES = ['light', 'dark'] as const;
 export async function g4(c: Collector, spec: ComponentSpec, rt: Runtime) {
   for (const ex of spec.examples) {
     const metaPath = join(baselinesDir, spec.id, `${ex.id}.json`);
-    if (!existsSync(metaPath)) { c.fail({ gate: 'G4', check: 'baseline', where: ex.id, message: `No baseline for example "${ex.id}".`, fix: `Run \`pnpm baseline ${spec.id}\` (captures ${ex.doc} from the specimen).` }); continue; }
+    if (!existsSync(metaPath)) { c.fail({ gate: 'G4', check: 'baseline', where: ex.id, message: `No baseline for example "${ex.id}".`, fix: `Record it from the React render with \`pnpm baseline:react ${spec.id}\` once the owner approves the look.` }); continue; }
     const meta = JSON.parse(readFileSync(metaPath, 'utf8')) as { width: number };
     for (const theme of THEMES) {
       const basePath = join(baselinesDir, spec.id, `${ex.id}-${theme}.png`);

@@ -4,7 +4,7 @@ This guide is written for agents (and people) adding or fixing components. The d
 
 1. **Tokens.** `packages/tokens/src/tokens.mjs` is the only place a color, size, radius, shadow, type role or duration is defined.
 2. **Specs.** `packages/spec/src/specs/<id>.spec.ts` is the approved contract for a component. Each spec is locked by hash in `locks.json`.
-3. **Specimens.** The HTML docs pages in `../caustic-preview` are captured into `baselines/<id>/` and serve as the visual truth.
+3. **Baselines.** `baselines/<id>/` holds the approved look of each example, recorded from the React render (`pnpm baseline:react`). The original HTML specimens (caustic-preview) were the reference until every component matched them; they are archived and no check reads them.
 
 Implementation follows these sources; it never leads them. The gateway (`pnpm gate`) is how that is enforced.
 
@@ -118,16 +118,16 @@ A full pass records the component in `packages/spec/gated.json`. Never edit that
 
 ## Spec authoring (main session only)
 
-1. Draft `<id>.spec.ts` from the specimen page, using `defineSpec`. Scenario steps act on the first matching slot unless `nth` picks another (0-based; -1 is the last). Asymmetric insets use padStart / padEnd / padTop / padBottom (padX / padY assert both sides). State names are free kebab-case; a state whose pseudo-classes belong on a part needs `target`, and a rule on a slot that only some variants render needs `when` (G1 rejects a focus ring measured away from the focused slot). Cover slots, variants and sizes with defaults, states, props, events, style rules (`slot` / `when` / `expect` in token names), behavior scenarios, a11y, policies, flags, composition, examples and usage.
-2. Run `pnpm baseline <id>` to capture the specimen sections that the examples point to.
+1. Draft `<id>.spec.ts` from the design, using `defineSpec`. Scenario steps act on the first matching slot unless `nth` picks another (0-based; -1 is the last). Asymmetric insets use padStart / padEnd / padTop / padBottom (padX / padY assert both sides). State names are free kebab-case; a state whose pseudo-classes belong on a part needs `target`, and a rule on a slot that only some variants render needs `when` (G1 rejects a focus ring measured away from the focused slot). Cover slots, variants and sizes with defaults, states, props, events, style rules (`slot` / `when` / `expect` in token names), behavior scenarios, a11y, policies, flags, composition, examples and usage.
+2. Point new examples at the pseudo page `react` (`doc: 'react'`) and, once the owner approves the look, record them with `pnpm baseline:react <id>`.
 3. Review, then run `pnpm spec:approve <id>`. Any later edit to the spec invalidates its lock until it is re-approved.
 4. Run `pnpm registry`, then hand the id to an implementer.
 
 ## Baselines, full runs and docs
 
-Baselines are now recorded from the React render (`source: "react"` in each `baselines/<id>/<example>.json`); the HTML specimens were the reference until every component matched them. To change a component's look on purpose: change the spec, get it approved, then re-record with `pnpm baseline:react <id>` (main session only). `pnpm baseline <id>` still captures from a specimen page for new components.
+Baselines are now recorded from the React render (`source: "react"` in each `baselines/<id>/<example>.json`); the HTML specimens were the reference until every component matched them. To change a component's look on purpose: change the spec, get it approved, then re-record with `pnpm baseline:react <id>` (main session only).
 
-`pnpm gate:all` runs the whole gate in parallel shards and needs `../caustic-preview` (G1 checks each example's specimen link). CI runs it with `--no-specimens`, which skips only that link check, because the specimens repo is not in CI; run `just gate-all` locally before a spec change is approved. `pnpm docs:dev` serves the docs app (apps/docs, port 5180); `pnpm docs:build` builds it.
+`pnpm gate:all` runs the whole gate in parallel shards (all 116 components; heavy, so day to day gate the ids you changed with `just gate <id…>`). `pnpm docs:dev` serves the docs app (apps/docs, port 5180); `pnpm docs:build` builds it.
 
 After changing the gateway, run `pnpm gate:selftest`. It applies known-bad mutations to Button and fails if any one slips through.
 
