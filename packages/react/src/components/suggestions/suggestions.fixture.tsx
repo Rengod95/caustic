@@ -1,4 +1,4 @@
-import { Contrast, FileCode, WandSparkles } from 'lucide-react';
+import { Contrast, FileCode, WandSparkles } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { SuggestionsItem, Suggestions } from './suggestions.tsx';
 

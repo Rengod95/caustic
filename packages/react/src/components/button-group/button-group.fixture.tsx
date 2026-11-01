@@ -1,7 +1,7 @@
 import {
   AlignCenterHorizontal, AlignCenterVertical, AlignEndHorizontal, AlignEndVertical, AlignStartHorizontal, AlignStartVertical,
   Copy, Scissors, Trash2,
-} from 'lucide-react';
+} from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';

@@ -1,5 +1,5 @@
 'use client';
-import { Check, ChevronRight, Plus } from 'lucide-react';
+import { Check, ChevronRight, IconEmphasisProvider, Plus } from '../../icons/index.ts';
 import { cloneElement, createContext, isValidElement, useContext, useEffect, useId, type ComponentProps, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
@@ -188,7 +188,7 @@ export function ListNavigationItem({
         {status === 'done' && <Check data-slot="list-navigation-check" className={listNavigationCheck()} />}
       </span>
     );
-  } else if (icon != null) lead = <span data-slot="list-navigation-icon" aria-hidden="true" className={listNavigationIcon({ kind, size })}>{icon}</span>;
+  } else if (icon != null) lead = <span data-slot="list-navigation-icon" aria-hidden="true" className={listNavigationIcon({ kind, size })}><IconEmphasisProvider value={current ? 'selected' : undefined}>{icon}</IconEmphasisProvider></span>;
   else if (leading != null) lead = <span data-slot="list-navigation-leading" className={listNavigationLeading()}>{leading}</span>;
   const inner = (
     <>
@@ -196,7 +196,7 @@ export function ListNavigationItem({
       <span data-slot="list-navigation-label" className={listNavigationLabel({ status })}>
         {status != null && <span className="sr-only">{STATUS_WORD[status]}: </span>}{children}
       </span>
-      {meta != null && <span data-slot="list-navigation-meta" className={listNavigationMeta()}>{meta}</span>}
+      {meta != null && <span data-slot="list-navigation-meta" className={listNavigationMeta()}><IconEmphasisProvider value="muted">{meta}</IconEmphasisProvider></span>}
       {count != null && <span data-slot="list-navigation-count" data-hot={hot || undefined} className={listNavigationCount({ hot, kind, tone, variant })}>{count}</span>}
       {disclosure && <ChevronRight data-slot="list-navigation-chevron" data-expanded={open} aria-hidden="true" className={listNavigationChevron()} />}
     </>

@@ -38,7 +38,7 @@ export const cardStatShapeVariants = cva('', {
  * value). The colour is the tone graphic step, the brighter one, not the text step.
  */
 export const cardStatDeltaVariants = cva(
-  'inline-flex h-control-2xs items-center gap-0.75 font-ui text-hint font-semibold [&_svg]:size-3 [&_svg]:stroke-[2.5]',
+  'inline-flex h-control-2xs items-center gap-0.75 font-ui text-hint font-semibold [&_svg]:size-3',
   {
     variants: {
       deltaTone: {

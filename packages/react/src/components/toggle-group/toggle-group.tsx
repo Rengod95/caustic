@@ -84,7 +84,7 @@ export function ToggleGroup({
 }
 
 export interface ToggleGroupItemProps extends ComponentProps<typeof G.Item> {
-  /** lucide icon, 14px. */
+  /** Icon, 14px. */
   icon?: ReactNode;
   /** Name of an icon-only item: rendered as aria-label and shown in a Tooltip on hover and focus. */
   label?: string;
@@ -103,7 +103,7 @@ export function ToggleGroupItem({ icon, label, value, className, children, ...pr
       className={cn(toggleGroupItem({ tone: look.tone, size: look.size }), className)}
       {...props}
     >
-      {icon != null && <span data-slot="toggle-group-icon" aria-hidden className="inline-grid size-icon-sm place-items-center [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]">{icon}</span>}
+      {icon != null && <span data-slot="toggle-group-icon" aria-hidden className="inline-grid size-icon-sm place-items-center [&_svg]:size-icon-sm">{icon}</span>}
       {children}
     </G.Item>
   );

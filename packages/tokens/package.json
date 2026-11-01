@@ -6,6 +6,7 @@
   "exports": {
     "./caustic.css": "./dist/caustic.css",
     "./theme.css": "./dist/theme.css",
+    "./fonts.css": "./dist/fonts.css",
     "./tokens.css": "./dist/caustic.tokens.css",
     "./tokens": "./dist/tokens.mjs",
     "./source": "./src/tokens.mjs",

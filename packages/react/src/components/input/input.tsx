@@ -4,6 +4,7 @@ import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Variant } from '../../lib/common-props.ts';
 import { useFieldContext } from '../field/field-context.ts';
 import { inputAddonVariants, inputFrameVariants, inputPrefixVariants, inputSuffixClass, inputVariants } from './input.variants.ts';
+import { IconEmphasisProvider } from '../../icons/index.ts';
 
 export type InputVariant = Variant | 'sunken';
 
@@ -45,7 +46,7 @@ export function Input({ size, tone, variant: variantProp, appearance, radius, sh
       // A press focuses the control; an add-on may hold its own control (a Copy button), which keeps its press.
       onMouseDown={e => { if (e.target !== ref.current && !(addons && (e.target as HTMLElement).closest('button,a,input,select,textarea,[role=button]'))) { e.preventDefault(); ref.current?.focus(); } }}
     >
-      {prefix != null && <span data-slot="input-prefix" className={addons ? cn(inputAddonVariants({ side: 'start', size })) : inputPrefixVariants({ variant })}>{prefix}</span>}
+      {prefix != null && <span data-slot="input-prefix" className={addons ? cn(inputAddonVariants({ side: 'start', size })) : inputPrefixVariants({ variant })}>{addons ? prefix : <IconEmphasisProvider value="muted">{prefix}</IconEmphasisProvider>}</span>}
       <input
         ref={ref}
         data-slot="input-control"

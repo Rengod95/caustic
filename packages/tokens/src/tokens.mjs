@@ -20,8 +20,11 @@ export const neutral = {
   name: 'Deep Black',
   hue: 0,
   chroma: 0,
-  light: [.995, .975, .93, .875, .79, .6, .55, .5, .44, .29, .12],
-  dark: [.09, .135, .18, .225, .345, .535, .595, .645, .70, .795, .96],
+  // Text inks are steps 11/10/9/8 (primary, secondary, tertiary, placeholder). DP-11 (2026-10-29): light 10 .29 → .34 and
+  // dark 8–10 .645/.70/.795 → .62/.68/.76 so the inks step more evenly in contrast on surface.base (light 20 : 11.6 : 7.7,
+  // was 20 : 13.9 : 7.7; dark 16.7 : 8.8 : 6.6, was 16.7 : 9.9 : 7.0): primary and secondary no longer read as one black.
+  light: [.995, .975, .93, .875, .79, .6, .55, .5, .44, .34, .12],
+  dark: [.09, .135, .18, .225, .345, .535, .595, .62, .68, .76, .96],
 };
 
 /* ── AUTHORED SOLIDS ── the only hued values a person picks. ───────────────────────
@@ -512,11 +515,29 @@ export const size = {
   'hit-min': 24,
 };
 
+// Hangul (DP-11): Geist has no Hangul, so Korean takes the next face in the stack: SUIT Variable (owner decision O3, and
+// owner 2026-10-29: self-hosted, not a Google font). caustic ships it (fonts/suit, SIL OFL 1.1) with an @font-face in
+// @caustic/tokens/fonts.css limited to Hangul and CJK punctuation, so Latin and digits stay Geist. It is variable 100–900,
+// so 400/500/600/700 are real weights on every machine; a system face (Noto Sans CJK on Linux, Malgun Gothic on Windows)
+// has only Regular and Bold, where 500 renders as 400 and 600 as 700. Apple SD Gothic Neo and Malgun Gothic are the
+// fallbacks for a page that does not load fonts.css.
 export const font = {
-  ui: '"Geist", "SUIT", "Pretendard Variable", "Pretendard", "Noto Sans KR", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
+  ui: '"Geist", "SUIT Variable", "SUIT", "Apple SD Gothic Neo", "Malgun Gothic", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
   voice: '"Newsreader", "Noto Serif KR", ui-serif, Georgia, serif',
   mono: '"Geist Mono", ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace',
 };
+
+// The web fonts: import @caustic/tokens/fonts.css before any other stylesheet. It declares only the self-hosted faces (fontFaces) and
+// makes no remote request. fontHref is the Google Fonts URL for Geist, Geist Mono, Newsreader and Noto Serif KR; an app that wants
+// those faces puts it in a <link>, fonts.css never imports it.
+export const fontHref = 'https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Noto+Serif+KR:wght@400..600&display=swap';
+// Self-hosted faces. `src` is relative to dist/fonts.css; Vite and other bundlers resolve and copy the file. The
+// unicode-range is Hangul (jamo, compatibility jamo, extended A/B, syllables), CJK symbols and punctuation and the
+// full-width forms, so the browser fetches SUIT only for a page with Korean text and never uses it for Latin.
+export const fontFaces = [
+  { family: 'SUIT Variable', src: '../fonts/suit/SUIT-Variable.woff2', format: 'woff2', weight: '100 900', license: 'SIL OFL 1.1, fonts/suit/OFL.txt', version: 'SUIT v2.0.5 (github.com/sun-typeface/SUIT)',
+    unicodeRange: 'U+1100-11FF, U+3000-303F, U+3130-318F, U+A960-A97F, U+AC00-D7A3, U+D7B0-D7FF, U+FF00-FFEF' },
+];
 
 // [family, size, lineHeight, weight, tracking(em), extra]
 export const type = {
@@ -565,6 +586,23 @@ export const type = {
   // Owner 2026-10-27: the canvas-empty title one step up; dense mono for nested, low-priority call names.
   'voice-xl': ['voice', 22, 30, 400, -0.01],
   'mono-dense': ['mono', 11, 16, 400, -0.02],
+};
+
+// Korean tracking (DP-11). The `type` tracking is tuned for Geist; Hangul at those values reads loose (CJK faces carry wide
+// side bearings) and the uppercase spread of `caption` means nothing to Hangul. Under [lang|="ko"] every ui and voice role
+// takes the step for its size instead; mono roles keep their grid. Emitted as a lang block in caustic.tokens.css that
+// re-points --cs-text-<role>-tracking and the Tailwind --text-<role>--letter-spacing, so text-<role> utilities follow it.
+// Latin inside Korean text gets the same value; at ≤ −0.02em that is within Geist's own heading range.
+export const hangul = {
+  lang: 'ko',
+  // [from size px, tracking em]: the first row whose size the role reaches
+  // SUIT is spaced tighter than Noto/Source Han, so these sit one step milder than the first (Noto) pass (owner 2026-10-29).
+  tracking: [[30, -0.02], [18, -0.015], [13.5, -0.01], [12.5, -0.005], [0, 0]],
+  // roles that do not follow the size rule
+  except: { caption: 0 },
+  // SUIT 400 and 500 match Geist; SUIT 600 reads lighter than Geist 600 at heading sizes, so ui roles from this size
+  // up take the next weight under ko (600 → 700). Smaller 600 (title-3, title-4, micro) stays.
+  heavier: { from: 18, weights: { 600: 700 } },
 };
 
 // Elevation: a short contact shadow + a long diffuse one. Values per theme.

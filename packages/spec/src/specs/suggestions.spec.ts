@@ -11,7 +11,7 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'div', role: 'group', description: 'Grid, 8px gap, columns auto-fit at a 150px minimum (repeat(auto-fit, minmax(150px, 1fr))).' },
     { name: 'item', el: 'button', parent: 'root', role: 'button', description: 'One suggestion: thin glass, toolbar (14px) radius, 10px 12px padding, grid with 4px gap, start-aligned text. Lifts 2px on hover (duration-base, ease-spring).' },
-    { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Leading lucide icon, 15px, accent text.' },
+    { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Leading icon, 15px, accent text.' },
     { name: 'title', el: 'span', parent: 'item', description: 'The action, primary text.' },
     { name: 'hint', el: 'span', parent: 'item', required: false, description: 'Context hint on its own line: tertiary, small, one line only (nowrap, ellipsis; proposal C). The full text stays in the accessible name.' },
   ],

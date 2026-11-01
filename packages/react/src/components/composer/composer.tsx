@@ -1,5 +1,5 @@
 'use client';
-import { ArrowUp, ChevronDown, Plus } from 'lucide-react';
+import { ArrowUp, ChevronDown, Plus } from '../../icons/index.ts';
 import { Children, isValidElement, useRef, useState, type ComponentProps, type FormEvent, type KeyboardEvent, type MouseEvent, type ReactNode, type Ref } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, type CommonProps } from '../../lib/common-props.ts';

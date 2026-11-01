@@ -11,7 +11,7 @@ export default defineSpec({
     { name: 'root', el: 'div', description: 'Full-width grid of items. 8px gap in the separated variant.' },
     { name: 'item', el: 'div', parent: 'root', description: 'One section. Flush: bottom hairline. Separated: opaque card with a 1px inset border.subtle hairline (one depth cue, no elevation); open, the edge becomes a 1px border.default ring.' },
     { name: 'trigger', el: 'button', parent: 'item', role: 'button', description: 'Header row (inside an h3 header), at least 48px tall, with a trailing chevron. Toggles aria-expanded. Hover fills the row (md radius) with neutral.hover and lifts a neutral chevron to text.secondary. On a card the row carries the card inset and corners, so the fill runs edge to edge inside the card.' },
-    { name: 'icon', el: 'any', parent: 'trigger', required: false, description: 'Leading 14px lucide icon, tertiary color.' },
+    { name: 'icon', el: 'any', parent: 'trigger', required: false, description: 'Leading 14px icon, tertiary color.' },
     { name: 'accessory', el: 'any', parent: 'trigger', required: false, description: 'Inline count or Badge after the label (6px extra leading margin, 16px total from the label). On a disabled trigger a plain count inherits disabled.text and a Badge drops its tone: filled tones take disabled.fill and disabled.text, the outline tone takes disabled.border, the agent tone loses its rim and its orb.' },
     { name: 'chevron', el: 'any', parent: 'trigger', description: 'Trailing chevron-down, pushed to the end. Rotates 180° when open.' },
     { name: 'content', el: 'div', parent: 'item', description: 'Body text of the open section; max 64ch wide.' },

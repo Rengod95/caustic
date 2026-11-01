@@ -1,5 +1,5 @@
 'use client';
-import { Copy } from 'lucide-react';
+import { Copy } from '../../icons/index.ts';
 import { createContext, useContext, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Size } from '../../lib/common-props.ts';

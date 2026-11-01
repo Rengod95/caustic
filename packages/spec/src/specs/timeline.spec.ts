@@ -29,7 +29,7 @@ export default defineSpec({
     { name: 'confirm-actions', el: 'div', parent: 'confirm', required: false, description: 'End-aligned row, 6px gap: cancel, then the destructive confirm.' },
     { name: 'cancel', el: 'button', parent: 'confirm-actions', required: false, description: 'Cancel: a Button ghost xs; takes focus when the step opens.' },
     { name: 'confirm-action', el: 'button', parent: 'confirm-actions', required: false, description: 'Restore: a Button destructive xs.' },
-    { name: 'check', el: 'span', parent: 'item', required: false, description: 'Row entries: the trailing 14px check cell, kept on every row so the times align; decorative. Holds a check glyph (lucide Check, currentColor) on the chosen row only.' },
+    { name: 'check', el: 'span', parent: 'item', required: false, description: 'Row entries: the trailing 14px check cell, kept on every row so the times align; decorative. Holds a check glyph (Check, currentColor) on the chosen row only.' },
     { name: 'footer', el: 'div', parent: 'root', required: false, description: 'restore="footer" or a note: flex, space between, centred, 8px gap.' },
     { name: 'note', el: 'span', parent: 'footer', required: false, description: 'Why Restore may be unavailable: "Restore is blocked while a field is being edited." Hint, tertiary. Linked to the footer action with aria-describedby.' },
     { name: 'footer-action', el: 'button', parent: 'footer', required: false, description: 'restore="footer": Button primary xs (lg: sm) "Restore this version", for the chosen entry. Disabled while restoreDisabled.' },

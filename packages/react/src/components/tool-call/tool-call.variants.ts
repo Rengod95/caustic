@@ -46,9 +46,11 @@ export const toolIcon = cva('inline-grid size-icon-sm shrink-0 place-items-cente
   defaultVariants: { tone: 'neutral' },
 });
 
-/** The status pill: neutral.track, full radius, 6px inline padding; failed = danger text on danger.tint. The running label
- * shimmers on its inner span (the shimmer clips its own background to the text, so it cannot share the pill's fill). */
-export const toolStatus = cva('ml-auto flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-1.5 text-hint [&_svg]:size-icon-sm', {
+/** The status pill: neutral.track, full radius; failed = danger text on danger.tint. The running label shimmers on its inner span
+ *  (the shimmer clips its own background to the text, so it cannot share the pill's fill). Sized like Chip md: a fixed 24px box (h-control-xs) with one 5px inset on all four sides around a 14px content row
+ *  (the 14px glyph, and the text at leading-none), so it is as roomy at the sides as above and below. Without the fixed box the pill took
+ *  its height from the 18px text line, leaving 2px above a 14px glyph against 6px at the sides. Glyph to text 5px. */
+export const toolStatus = cva('ml-auto flex h-control-xs shrink-0 items-center gap-1.25 whitespace-nowrap rounded-full px-1.25 text-hint leading-none [&_svg]:size-icon-sm', {
   variants: { status: { running: 'bg-neutral-track', done: 'bg-neutral-track text-text-tertiary', failed: 'bg-danger-tint text-danger-text' } },
   defaultVariants: { status: 'done' },
 });

@@ -1,5 +1,5 @@
 'use client';
-import { ChevronDown, FlipHorizontal2, FlipVertical2, Link, Maximize2, Minimize2, MoveHorizontal, MoveVertical, RotateCw, SlidersHorizontal } from 'lucide-react';
+import { ChevronDown, FlipHorizontal2, FlipVertical2, Link, Maximize2, Minimize2, MoveHorizontal, MoveVertical, RotateCw, SlidersHorizontal } from '../../icons/index.ts';
 import { useState, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

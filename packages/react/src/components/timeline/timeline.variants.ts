@@ -90,7 +90,7 @@ export const timelineRowTitleVariants = cva('block truncate font-ui font-medium 
 export const timelineRowDetailVariants = cva('block font-ui text-ui-xs font-normal text-text-tertiary transition-colors duration-quick ease-standard group-aria-selected:text-text-secondary');
 export const timelineRowTimeVariants = cva('font-ui text-ui-xs font-normal text-text-tertiary tabular-nums transition-colors duration-quick ease-standard group-aria-selected:text-text-secondary');
 /** Trailing check cell: kept on every row so the times align; the check shows on the chosen entry in primary text (selection.on on the inverted row). */
-export const timelineCheckVariants = cva('inline-grid size-icon-sm shrink-0 place-items-center text-text-primary [&_svg]:size-full [&_svg]:stroke-[2]');
+export const timelineCheckVariants = cva('inline-grid size-icon-sm shrink-0 place-items-center text-text-primary [&_svg]:size-full');
 
 /* ── marker layout (an Avatar or an icon disc) ─────────────────────────────────────────────────────────────────────── */
 

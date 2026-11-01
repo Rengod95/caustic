@@ -1,4 +1,4 @@
-import { Blend, Contrast, FileCode, SwatchBook } from 'lucide-react';
+import { Blend, Contrast, FileCode, SwatchBook } from '../../icons/index.ts';
 import { Fragment } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { ToolCall } from './tool-call.tsx';

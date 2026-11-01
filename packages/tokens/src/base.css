@@ -70,9 +70,8 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .cs-mono      { font: var(--cs-text-mono); font-variant-numeric: tabular-nums; }
 .cs-mono-sm   { font: var(--cs-text-mono-sm); font-variant-numeric: tabular-nums; }
 .cs-num       { font-variant-numeric: tabular-nums; }
-/* Hangul does not take negative tracking */
-:lang(ko) :is(.cs-display, .cs-title-1, .cs-title-2, .cs-title-3) { letter-spacing: -0.01em; }
-:lang(ko) .cs-caption { letter-spacing: 0.02em; }
+/* Korean tracking is token-driven: a [lang|="ko"] block in the token layer re-points every --cs-text-<role>-tracking
+   (tokens.mjs `hangul`, DP-11), so the classes above need no per-language rule. */
 
 /* ── Surfaces ───────────────────────────────────────────────────────
    Floating layers are solid: a flat fill plus one elevation shadow. No blur,

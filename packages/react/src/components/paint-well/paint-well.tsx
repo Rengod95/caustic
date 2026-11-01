@@ -1,5 +1,5 @@
 'use client';
-import { Link2, Unlink } from 'lucide-react';
+import { Link2, Unlink } from '../../icons/index.ts';
 import { useId, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import type * as React from 'react';
 import { cn } from '../../lib/cn.ts';

@@ -1,5 +1,5 @@
 'use client';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight } from '../../icons/index.ts';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

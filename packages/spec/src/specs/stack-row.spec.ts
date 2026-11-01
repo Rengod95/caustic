@@ -54,7 +54,7 @@ export default defineSpec({
     reserved: { type: 'boolean', default: false, description: 'The row is being written or held elsewhere: every action is inert with aria-busy="true" and data-reserved; the row stays readable.' },
     actions: { type: "'hover' | 'always'", default: 'hover', description: 'When the actions are visible.' },
     lead: { type: "'swatch' | 'icon'", default: 'swatch', description: 'Kind of the leading element.' },
-    leading: { type: 'ReactNode', description: 'lead swatch: a ColorWell sm. lead icon: the lucide icon drawn inside the tile.' },
+    leading: { type: 'ReactNode', description: 'lead swatch: a ColorWell sm. lead icon: the icon drawn inside the tile.' },
     title: { type: 'ReactNode', required: true, description: 'Row name.' },
     mono: { type: 'boolean', default: false, description: 'Draw the title in mono (token paths and hex).' },
     meta: { type: 'ReactNode', description: 'Quiet detail after the title.' },

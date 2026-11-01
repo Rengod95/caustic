@@ -52,7 +52,7 @@ export default defineSpec({
     { slot: 'trigger', when: { state: 'selected-disabled' }, expect: { fg: 'disabled.text' }, note: 'The active trigger also drops to disabled.text.' },
     { slot: 'indicator', when: { state: 'selected-disabled' }, expect: { bg: 'disabled.text', height: 2, radius: 'xs', opacity: 1 }, note: 'Disabled drops the tone: the accent bar takes disabled.text (a grey 2px bar stays on the active tab), like slider and Slider levels marks.' },
     { slot: 'count', when: { state: 'selected-disabled' }, expect: { fg: 'disabled.text' } },
-    { slot: 'count', expect: { fg: 'text.tertiary', text: 'ui-xs', bg: 'neutral.track', radius: 'full', padX: 6 }, note: 'A pill so the count does not read as part of the name (owner 2026-10-28).' },
+    { slot: 'count', expect: { fg: 'text.secondary', text: 'ui-xs', bg: 'neutral.track', radius: 'full', padX: 6 }, note: 'A pill so the count does not read as part of the name (owner 2026-10-28).' },
     { slot: 'indicator', when: { state: 'hover' }, expect: { bg: 'border.strong', opacity: 1 }, note: 'Underline variant: hovering an unselected tab shows the bar in border.strong as a clickable hint (owner 2026-10-28); the selected tab keeps its tone bar.' },
     { slot: 'indicator', when: { state: 'selected', tone: 'success' }, expect: { bg: 'success.solid' } },
     { slot: 'trigger', when: { state: 'selected', variant: 'soft' }, expect: { bg: 'accent.soft', fg: 'accent.text', radius: 'md' } },

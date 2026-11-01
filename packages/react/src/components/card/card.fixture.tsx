@@ -1,7 +1,7 @@
 import {
   ArrowUp, ArrowUpRight, Check, ChevronRight, Clock, Contrast, Download, Ellipsis, FileCode, FileUp, GitBranch, History, Info, Layers, Mail, MessageCircle,
   Monitor, Pencil, Plus, Smartphone, Sun, SwatchBook, WandSparkles,
-} from 'lucide-react';
+} from '../../icons/index.ts';
 import type { CSSProperties, ReactNode } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Avatar } from '../avatar/avatar.tsx';

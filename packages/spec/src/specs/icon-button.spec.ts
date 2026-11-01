@@ -10,7 +10,7 @@ export default defineSpec({
   role: 'button',
   slots: [
     { name: 'root', el: 'button', description: 'Square hit target. Renders type="button". aria-label is required.' },
-    { name: 'icon', el: 'any', parent: 'root', description: 'The lucide icon, 16px (14px at xs).' },
+    { name: 'icon', el: 'any', parent: 'root', description: 'The icon, 16px (14px at xs).' },
   ],
   variants: {
     tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'neutral', description: 'Colour family of the emphasis (common prop). The old values ghost and ink are deprecated aliases of variant ghost and solid.' },

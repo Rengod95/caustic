@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react';
+import { Plus } from '@caustic/react/icons';
 import { Field, IconButton, Input, Switch } from '@caustic/react';
 
 function NameInput() {

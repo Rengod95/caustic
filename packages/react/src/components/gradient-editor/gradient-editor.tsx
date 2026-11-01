@@ -1,5 +1,5 @@
 'use client';
-import { ChevronRight, FlipHorizontal2, Minus, Plus, RotateCw } from 'lucide-react';
+import { ChevronRight, FlipHorizontal2, Minus, Plus, RotateCw } from '../../icons/index.ts';
 import { useEffect, useLayoutEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type PointerEvent, type SyntheticEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';

@@ -77,7 +77,7 @@ export const foundationToolbarDomainVariants = cva([
   defaultVariants: { size: 'md' },
 });
 
-export const foundationToolbarDomainIconVariants = cva('inline-grid size-icon-lg shrink-0 place-items-center [&_svg]:size-full [&_svg]:stroke-[1.75]', {
+export const foundationToolbarDomainIconVariants = cva('inline-grid size-icon-lg shrink-0 place-items-center [&_svg]:size-full', {
   variants: { size: { xs: 'size-icon-sm', sm: 'size-icon-md', md: '', lg: '' } },
   defaultVariants: { size: 'md' },
 });

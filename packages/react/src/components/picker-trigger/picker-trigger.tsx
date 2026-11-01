@@ -1,6 +1,6 @@
 'use client';
 import { Slot } from '@radix-ui/react-slot';
-import { ChevronDown, ChevronsUpDown } from 'lucide-react';
+import { ChevronDown, ChevronsUpDown } from '../../icons/index.ts';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

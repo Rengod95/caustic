@@ -12,7 +12,7 @@ export const buttonVariants = cva(
     // Disabled is a colour (disabled axis), not opacity: the tone drops out.
     'disabled:pointer-events-none disabled:bg-disabled-fill disabled:text-disabled-text disabled:shadow-none',
     'aria-disabled:pointer-events-none aria-disabled:bg-disabled-fill aria-disabled:text-disabled-text aria-disabled:shadow-none',
-    '[&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
+    '[&_svg]:shrink-0',
   ],
   {
     variants: {

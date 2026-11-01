@@ -11,7 +11,7 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'span', description: 'The chip; a button when interactive. Rounded form padding is 8px start / 6px end (the remove target sits closer to the edge); pill form is symmetric.' },
     { name: 'check', el: 'span', parent: 'root', required: false, description: 'Leading check on an on toggle chip (aria-hidden), in the chip text colour (currentColor): 12px in the pill form, 13px in the rounded form; 2px extra space before the label.' },
-    { name: 'icon', el: 'any', parent: 'root', required: false, description: 'Leading lucide icon: 12px in the pill form (2px extra space before the label), 13px in the rounded form.' },
+    { name: 'icon', el: 'any', parent: 'root', required: false, description: 'Leading icon: 12px in the pill form (2px extra space before the label), 13px in the rounded form.' },
     { name: 'dot', el: 'span', parent: 'root', required: false, description: '6px status dot in the text color.' },
     { name: 'label', el: 'span', parent: 'root', description: 'The text.' },
     { name: 'count', el: 'span', parent: 'root', required: false, description: 'Trailing count, tabular numerals, the text.tertiary slot at full opacity (selection.on-tertiary when the chip inverts; the on colour on a solid chip), 2px extra space after the label.' },

@@ -1,4 +1,4 @@
-import { Check, Moon, Palette, Trash2, WandSparkles } from 'lucide-react';
+import { Check, Moon, Palette, Trash2, WandSparkles } from '../../icons/index.ts';
 import type { Tone } from '../../lib/common-props.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Badge } from '../badge/badge.tsx';

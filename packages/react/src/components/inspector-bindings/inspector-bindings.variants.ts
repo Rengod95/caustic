@@ -30,7 +30,7 @@ export const inspectorBindingsRowVariants = cva(
 
 export const inspectorBindingsPropertyVariants = cva('flex min-w-0 items-center gap-1.5 text-hint font-medium text-text-secondary');
 
-export const inspectorBindingsPropertyIconVariants = cva('inline-flex size-icon-sm flex-none items-center justify-center [&_svg]:size-full [&_svg]:stroke-[1.75]');
+export const inspectorBindingsPropertyIconVariants = cva('inline-flex size-icon-sm flex-none items-center justify-center [&_svg]:size-full');
 
 /**
  * End of the first line: Unbind or the count badge. Unbind shows only while its card is hovered or holds focus
@@ -156,7 +156,7 @@ export const inspectorBindingsAddVariants = cva(
     'flex w-full cursor-pointer items-center gap-1.5 rounded-lg border border-dashed border-border-strong bg-transparent px-3 text-start font-ui text-ui-dense text-text-secondary outline-none',
     'transition-control hover:bg-neutral-hover hover:text-text-primary focus-visible:shadow-focus',
     'disabled:pointer-events-none disabled:border-disabled-border disabled:text-disabled-text',
-    '[&_svg]:size-icon-sm [&_svg]:flex-none [&_svg]:stroke-[1.75]',
+    '[&_svg]:size-icon-sm [&_svg]:flex-none',
   ],
   {
     variants: { size: { xs: 'py-1.25 text-ui-xs', sm: 'py-1.75 text-ui-sm', md: 'py-2.25', lg: 'py-3 text-ui' } },

@@ -1,5 +1,5 @@
 'use client';
-import { Link2, Minus, Plus } from 'lucide-react';
+import { Link2, Minus, Plus } from '../../icons/index.ts';
 import { useRef, useState, type ComponentProps, type FocusEvent, type HTMLAttributes, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useScrub } from '../../hooks/use-scrub.ts';

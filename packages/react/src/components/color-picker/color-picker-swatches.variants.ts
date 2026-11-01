@@ -50,7 +50,7 @@ export const colorPickerSwatchVariants = cva(
 
 /** The selection check: a bare 14px check (stroke 3) centred on the checked swatch, media.on with a scrim drop shadow so it reads on any user colour (owner 2026-10-27). It pops when it mounts (the swatch was just picked). */
 export const colorPickerSwatchCheckVariants = cva(
-  'pointer-events-none absolute inset-0 m-auto grid size-icon-sm animate-pop place-items-center text-media-on [&_svg]:size-full [&_svg]:stroke-3 [&_svg]:[filter:drop-shadow(0_0_1px_var(--cs-color-media-scrim))]',
+  'pointer-events-none absolute inset-0 m-auto grid size-icon-sm animate-pop place-items-center text-media-on [&_svg]:size-full [&_svg]:[filter:drop-shadow(0_0_1px_var(--cs-color-media-scrim))]',
 );
 
 export const colorPickerSwatchDotVariants = cva(

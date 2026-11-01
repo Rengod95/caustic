@@ -16,7 +16,7 @@ export default defineSpec({
     { name: 'description', el: 'span', parent: 'text', required: false, description: 'One sentence, max 60ch.' },
     { name: 'action', el: 'div', parent: 'root', required: false, description: 'Flex wrapper (flex: none) around one action: a Button, a SegmentedControl, a Badge or a SectionHeaderLink.' },
     { name: 'link', el: 'a', parent: 'action', required: false, description: 'SectionHeaderLink: text link (text.link) with an optional trailing chevron (14px). The hover underline sits 2px below the baseline so it clears descenders.' },
-    { name: 'link-chevron', el: 'any', parent: 'link', required: false, description: 'Trailing chevron (lucide ChevronRight, 14px, currentColor), aria-hidden.' },
+    { name: 'link-chevron', el: 'any', parent: 'link', required: false, description: 'Trailing chevron (ChevronRight, 14px, currentColor), aria-hidden.' },
   ],
   variants: {
     eyebrowStyle: { values: ['muted', 'accent'], default: 'muted', description: 'Eyebrow colour: muted follows the tone (text.tertiary when neutral, today); accent = accent.text whatever the tone (owner 2026-10-28).' },

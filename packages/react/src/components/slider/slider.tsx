@@ -1,6 +1,6 @@
 'use client';
 import * as S from '@radix-ui/react-slider';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from '../../icons/index.ts';
 import { useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';

@@ -1,4 +1,4 @@
-import { Check, Palette, Paperclip, Plus, Ruler, Type } from 'lucide-react';
+import { Check, Palette, Paperclip, Plus, Ruler, Type } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import { Chip } from './chip.tsx';

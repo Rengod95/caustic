@@ -1,5 +1,5 @@
 'use client';
-import { ArrowDown, ArrowRight, Check, LayoutGrid, Move, MoveHorizontal, MoveVertical, Space } from 'lucide-react';
+import { ArrowDown, ArrowRight, Check, LayoutGrid, Move, MoveHorizontal, MoveVertical, Space } from '../../icons/index.ts';
 import { useId, useState, type ComponentProps, type CSSProperties, type FocusEvent, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

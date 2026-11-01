@@ -1,5 +1,5 @@
 'use client';
-import { Minus, Plus } from 'lucide-react';
+import { Minus, Plus } from '../../icons/index.ts';
 import { useRef, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';

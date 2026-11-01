@@ -1,5 +1,5 @@
 'use client';
-import { Grid2x2, Plus, X } from 'lucide-react';
+import { Grid2x2, Plus, X } from '../../icons/index.ts';
 import { Fragment, useId, useLayoutEffect, useRef, useState, type ComponentProps, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';

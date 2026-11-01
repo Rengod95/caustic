@@ -10,7 +10,7 @@ import { unknownClasses } from '../tw.ts';
 import { colorLanguage } from './color-language.ts';
 
 const LITERAL_COLOR = /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?|oklch|oklab|lab|lch|hwb|color-mix)\(/;
-const BASE_IMPORTS = new Set(['react', 'react/jsx-runtime', 'lucide-react', 'class-variance-authority']);
+const BASE_IMPORTS = new Set(['react', 'react/jsx-runtime', 'class-variance-authority']);
 
 interface ClassUse { cls: string; file: string; line: number; context: string }
 
@@ -129,10 +129,10 @@ export async function g2(c: Collector, spec: ComponentSpec) {
       }
       if (ts.isImportDeclaration(n) && ts.isStringLiteral(n.moduleSpecifier)) {
         const m = n.moduleSpecifier.text;
-        const ok = m.startsWith('./') || m.startsWith('../../lib/') || m.startsWith('../../hooks/') || BASE_IMPORTS.has(m)
+        const ok = m.startsWith('./') || m.startsWith('../../lib/') || m.startsWith('../../hooks/') || m.startsWith('../../icons/') || BASE_IMPORTS.has(m)
           || spec.composition.radix.includes(m)
           || spec.composition.uses.some(u => m.startsWith(`../${u}/`) && !m.includes('.fixture'));
-        if (!ok) c.fail({ gate: 'G2', check: 'imports', where: `${rel}:${lineOf(n)}`, message: `Import "${m}" is not allowed.`, fix: 'Allowed: local files, ../../lib, ../../hooks, react, lucide-react, cva, spec.composition.radix and components listed in spec.composition.uses.' });
+        if (!ok) c.fail({ gate: 'G2', check: 'imports', where: `${rel}:${lineOf(n)}`, message: `Import "${m}" is not allowed.`, fix: 'Allowed: local files, ../../lib, ../../hooks, ../../icons (the icon adapter; Solar is reached only through it), react, cva, spec.composition.radix and components listed in spec.composition.uses.' });
       }
       ts.forEachChild(n, visit);
     };

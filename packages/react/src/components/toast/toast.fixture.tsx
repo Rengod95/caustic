@@ -1,4 +1,4 @@
-import { Bell } from 'lucide-react';
+import { Bell } from '../../icons/index.ts';
 import { useId } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';

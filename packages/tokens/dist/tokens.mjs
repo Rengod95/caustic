@@ -334,7 +334,7 @@ export default {
       0.55,
       0.5,
       0.44,
-      0.29,
+      0.34,
       0.12
     ],
     "dark": [
@@ -345,9 +345,9 @@ export default {
       0.345,
       0.535,
       0.595,
-      0.645,
-      0.7,
-      0.795,
+      0.62,
+      0.68,
+      0.76,
       0.96
     ]
   },
@@ -401,7 +401,7 @@ export default {
           0
         ],
         [
-          0.29,
+          0.34,
           0,
           0
         ],
@@ -448,17 +448,17 @@ export default {
           0
         ],
         [
-          0.645,
+          0.62,
           0,
           0
         ],
         [
-          0.7,
+          0.68,
           0,
           0
         ],
         [
-          0.795,
+          0.76,
           0,
           0
         ],
@@ -479,7 +479,7 @@ export default {
           "#717171",
           "#636363",
           "#525252",
-          "#2b2b2b",
+          "#383838",
           "#060606"
         ],
         "dark": [
@@ -490,9 +490,9 @@ export default {
           "#393939",
           "#6d6d6d",
           "#7f7f7f",
-          "#8d8d8d",
-          "#9e9e9e",
-          "#bcbcbc",
+          "#868686",
+          "#989898",
+          "#b1b1b1",
           "#f2f2f2"
         ]
       },
@@ -2646,7 +2646,7 @@ export default {
         "alpha": 1
       },
       "text.secondary": {
-        "hex": "#2b2b2b",
+        "hex": "#383838",
         "alpha": 1
       },
       "text.tertiary": {
@@ -2706,7 +2706,7 @@ export default {
         "alpha": 1
       },
       "ink.solid-hover": {
-        "hex": "#2b2b2b",
+        "hex": "#383838",
         "alpha": 1
       },
       "ink.on": {
@@ -2834,7 +2834,7 @@ export default {
         "alpha": 1
       },
       "neutral.solid-hover": {
-        "hex": "#2b2b2b",
+        "hex": "#383838",
         "alpha": 1
       },
       "neutral.text": {
@@ -3106,7 +3106,7 @@ export default {
         "alpha": 1
       },
       "selection.fill-hover": {
-        "hex": "#2b2b2b",
+        "hex": "#383838",
         "alpha": 1
       },
       "selection.on": {
@@ -3206,7 +3206,7 @@ export default {
         "alpha": 1
       },
       "syntax.comment": {
-        "hex": "#2b2b2b",
+        "hex": "#383838",
         "alpha": 1
       },
       "canvas.dot": {
@@ -3318,7 +3318,7 @@ export default {
         "alpha": 1
       },
       "ink.hover": {
-        "hex": "#2b2b2b",
+        "hex": "#383838",
         "alpha": 1
       },
       "accent.fill": {
@@ -3432,15 +3432,15 @@ export default {
         "alpha": 1
       },
       "text.secondary": {
-        "hex": "#bcbcbc",
+        "hex": "#b1b1b1",
         "alpha": 1
       },
       "text.tertiary": {
-        "hex": "#9e9e9e",
+        "hex": "#989898",
         "alpha": 1
       },
       "text.placeholder": {
-        "hex": "#8d8d8d",
+        "hex": "#868686",
         "alpha": 1
       },
       "text.inverse": {
@@ -3612,15 +3612,15 @@ export default {
         "alpha": 1
       },
       "neutral.graphic": {
-        "hex": "#8d8d8d",
+        "hex": "#868686",
         "alpha": 1
       },
       "neutral.solid": {
-        "hex": "#9e9e9e",
+        "hex": "#989898",
         "alpha": 1
       },
       "neutral.solid-hover": {
-        "hex": "#bcbcbc",
+        "hex": "#b1b1b1",
         "alpha": 1
       },
       "neutral.text": {
@@ -3904,7 +3904,7 @@ export default {
         "alpha": 1
       },
       "selection.on-tertiary": {
-        "hex": "#bcbcbc",
+        "hex": "#b1b1b1",
         "alpha": 1
       },
       "disabled.fill": {
@@ -3920,7 +3920,7 @@ export default {
         "alpha": 1
       },
       "required.mark": {
-        "hex": "#9e9e9e",
+        "hex": "#989898",
         "alpha": 1
       },
       "chart.1": {
@@ -3992,7 +3992,7 @@ export default {
         "alpha": 1
       },
       "syntax.comment": {
-        "hex": "#bcbcbc",
+        "hex": "#b1b1b1",
         "alpha": 1
       },
       "canvas.dot": {
@@ -4032,7 +4032,7 @@ export default {
         "alpha": 0.14
       },
       "canvas.label": {
-        "hex": "#9e9e9e",
+        "hex": "#989898",
         "alpha": 1
       },
       "canvas.checker-a": {
@@ -4072,7 +4072,7 @@ export default {
         "alpha": 1
       },
       "identity.slate": {
-        "hex": "#9e9e9e",
+        "hex": "#989898",
         "alpha": 1
       },
       "identity.on-coral": {
@@ -4160,7 +4160,7 @@ export default {
       "7": "#717171",
       "8": "#636363",
       "9": "#525252",
-      "10": "#2b2b2b",
+      "10": "#383838",
       "11": "#060606"
     },
     "accent": {
@@ -4514,9 +4514,55 @@ export default {
     "hit-min": 24
   },
   "font": {
-    "ui": "\"Geist\", \"SUIT\", \"Pretendard Variable\", \"Pretendard\", \"Noto Sans KR\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "ui": "\"Geist\", \"SUIT Variable\", \"SUIT\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
     "voice": "\"Newsreader\", \"Noto Serif KR\", ui-serif, Georgia, serif",
     "mono": "\"Geist Mono\", ui-monospace, \"SF Mono\", \"Cascadia Code\", Consolas, monospace"
+  },
+  "fontHref": "https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Noto+Serif+KR:wght@400..600&display=swap",
+  "fontFaces": [
+    {
+      "family": "SUIT Variable",
+      "src": "../fonts/suit/SUIT-Variable.woff2",
+      "format": "woff2",
+      "weight": "100 900",
+      "license": "SIL OFL 1.1, fonts/suit/OFL.txt",
+      "version": "SUIT v2.0.5 (github.com/sun-typeface/SUIT)",
+      "unicodeRange": "U+1100-11FF, U+3000-303F, U+3130-318F, U+A960-A97F, U+AC00-D7A3, U+D7B0-D7FF, U+FF00-FFEF"
+    }
+  ],
+  "hangul": {
+    "lang": "ko",
+    "tracking": [
+      [
+        30,
+        -0.02
+      ],
+      [
+        18,
+        -0.015
+      ],
+      [
+        13.5,
+        -0.01
+      ],
+      [
+        12.5,
+        -0.005
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "except": {
+      "caption": 0
+    },
+    "heavier": {
+      "from": 18,
+      "weights": {
+        "600": 700
+      }
+    }
   },
   "type": {
     "display": [

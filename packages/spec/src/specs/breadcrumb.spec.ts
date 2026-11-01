@@ -12,7 +12,7 @@ export default defineSpec({
     { name: 'root', el: 'nav', role: 'navigation', description: 'The landmark. Flex row, centred, 4px gap, wraps. aria-label supplied by the consumer.' },
     { name: 'list', el: 'ol', parent: 'root', description: 'Flex row that holds the entries (display contents is acceptable: the root owns the gap and wrapping).' },
     { name: 'item', el: 'a', parent: 'list', required: false, description: 'An ancestor link: tertiary text, inline-flex, 6px gap, 3px 6px padding, sm radius. The ancestor right before the current page (its parent, the likeliest step back) is text.secondary. Hover lifts to primary text on neutral.hover.' },
-    { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Optional leading lucide icon, 14px (the home icon on the first item).' },
+    { name: 'icon', el: 'any', parent: 'item', required: false, description: 'Optional leading icon, 14px (the home icon on the first item).' },
     { name: 'separator', el: 'span', parent: 'list', description: 'A 14px chevron-right in neutral.graphic between entries. aria-hidden.' },
     { name: 'ellipsis', el: 'button', parent: 'list', required: false, description: 'Collapsed middle path: an xs IconButton with an ellipsis icon and an aria-label such as "Show 3 more". Press reveals the hidden entries (menu or expansion is the consumer’s).' },
     { name: 'current', el: 'span', parent: 'list', description: 'The current page: primary text, medium weight, 3px 6px padding, aria-current="page". Not a link.' },
@@ -72,7 +72,7 @@ export default defineSpec({
   examples: [{ id: 'trail', title: 'Breadcrumb', doc: 'breadcrumb#breadcrumb' }],
   usage: [
     'The example stacks two Breadcrumbs (the page column gap is 14px). First: a home icon + “Orbit” link, “Pricing refresh” link, “Pages” link, current “Pricing / Desktop”. Second: “Orbit” link, an ellipsis control labelled “Show 3 more”, current “Button / Primary”. A separator sits between every pair of entries.',
-    'The home icon is a lucide icon passed into the first item; the item supplies the 14px icon size and 6px gap.',
+    'The home icon is a icon passed into the first item; the item supplies the 14px icon size and 6px gap.',
     'Fixture convention: render(props) renders Orbit, Pricing refresh, Pages and the current page “Pricing / Desktop”; the harness probes item, separator and current. The probed item is the first (Orbit, tertiary); the secondary parent (Pages, owner 2026-10-27 A) is covered by the trail example baseline.',
     'Hover on the first item in the fixture needs an href so the link is focusable and hoverable.',
   ],

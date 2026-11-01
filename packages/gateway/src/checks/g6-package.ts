@@ -7,7 +7,7 @@ import { Collector } from '../report.ts';
 import { reactSrc, root } from '../paths.ts';
 import { pascal } from './g2-static.ts';
 
-const ALLOWED_DEPS = /^(@caustic\/tokens|@radix-ui\/react-[a-z-]+|class-variance-authority|tailwind-merge|lucide-react)$/;
+const ALLOWED_DEPS = /^(@caustic\/tokens|@radix-ui\/react-[a-z-]+|class-variance-authority|tailwind-merge|@solar-icons\/react|lucide-react)$/;
 
 export async function g6(c: Collector, spec: ComponentSpec) {
   const pkg = JSON.parse(readFileSync(join(root, 'packages/react/package.json'), 'utf8'));

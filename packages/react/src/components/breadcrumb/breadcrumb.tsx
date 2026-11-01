@@ -1,5 +1,5 @@
 'use client';
-import { ChevronRight, Ellipsis } from 'lucide-react';
+import { ChevronRight, Ellipsis } from '../../icons/index.ts';
 import { Children, createContext, isValidElement, useContext, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
@@ -39,7 +39,7 @@ export function Breadcrumb({ 'aria-label': ariaLabel, tone, variant, radius, sha
 }
 
 export interface BreadcrumbItemProps extends ComponentProps<'a'> {
-  /** Optional leading lucide icon (14px). */
+  /** Optional leading icon (14px). */
   icon?: ReactNode;
 }
 

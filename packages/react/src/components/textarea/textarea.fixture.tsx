@@ -1,4 +1,4 @@
-import { ArrowUp, AtSign, Paperclip } from 'lucide-react';
+import { ArrowUp, AtSign, Paperclip } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Field } from '../field/field.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';

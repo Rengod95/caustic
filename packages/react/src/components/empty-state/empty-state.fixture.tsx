@@ -1,6 +1,6 @@
 import {
   FileImage, FolderOpen, Frame, ImagePlus, LayoutTemplate, PenTool, Plus, SearchX, Shapes, SwatchBook, Upload, WandSparkles,
-} from 'lucide-react';
+} from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';
 import { EmptyState, type EmptyStateProps } from './empty-state.tsx';

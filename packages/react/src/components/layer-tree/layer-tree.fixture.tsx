@@ -1,4 +1,4 @@
-import { Component, Frame, Image, LayoutGrid, Eye, EyeOff, Lock, Rows3, Search, Square, Type } from 'lucide-react';
+import { Component, Frame, Image, LayoutGrid, Eye, EyeOff, Lock, Rows3, Search, Square, Type } from '../../icons/index.ts';
 import type { CSSProperties } from 'react';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Input } from '../input/input.tsx';

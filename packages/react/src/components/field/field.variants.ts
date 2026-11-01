@@ -22,7 +22,7 @@ export const fieldLabelVariants = cva('inline-flex items-center gap-1 text-ui-st
 export const fieldMessageVariants = cva('inline-flex items-center gap-1.25 text-hint animate-rise');
 
 /** The 13px glyph that leads a message. */
-export const fieldIconVariants = cva('inline-flex size-chip-icon shrink-0 [&_svg]:size-full [&_svg]:stroke-[1.75]');
+export const fieldIconVariants = cva('inline-flex size-chip-icon shrink-0 [&_svg]:size-full');
 
 // ghost (default) is today's hint: tertiary text. A tone colours it; soft, outline and solid box it (md radius, 4 / 8).
 export const fieldHintVariants = cva('inline-flex items-center gap-1.25 text-hint text-text-tertiary animate-rise', {

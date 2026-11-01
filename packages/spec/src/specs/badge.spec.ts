@@ -11,7 +11,7 @@ export default defineSpec({
   slots: [
     { name: 'root', el: 'span', description: 'Pill (or square) label, 20px high. With mono: the token chip (md radius, mono type, 4px start / 8px end padding at md, 3px / 6px at sm). With lead: the contrast chip (md radius, 4px start / 8px end padding, 6px gap).' },
     { name: 'swatch', el: 'span', parent: 'root', required: false, description: 'Colour square: 12 / 14 / 16 / 16px at xs / sm / md / lg, xs radius, 1px inset border.default ring so white and paper swatches hold their edge on the well fill. The fill is the consumer\'s colour (a CSS colour string), or a node rendered inside.' },
-    { name: 'icon', el: 'any', parent: 'root', required: false, description: 'Leading lucide icon, 12px (14px at lg). With mono it is the token kind icon (space, radius…): 12px at every size, text.tertiary.' },
+    { name: 'icon', el: 'any', parent: 'root', required: false, description: 'Leading icon, 12px (14px at lg). With mono it is the token kind icon (space, radius…): 12px at every size, text.tertiary.' },
     { name: 'dot', el: 'span', parent: 'root', required: false, description: '6px dot in the tone graphic colour (the step marks use elsewhere, lighter than the text), for live or active status. On a solid badge it is the on colour.' },
     { name: 'orb', el: 'span', parent: 'root', required: false, description: 'Agent tone only: 8px spectrum orb, rendered automatically.' },
     { name: 'lead', el: 'span', parent: 'root', required: false, description: 'The leading grade badge ("AA"): the tone\'s solid fill with its on colour, no edge (neutral: ink); on a solid badge it inverts to the soft fill with the tone text. xs radius, 4px inline padding, micro type, 16px tall (14 at xs).' },

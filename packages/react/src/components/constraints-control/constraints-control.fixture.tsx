@@ -1,7 +1,7 @@
 import {
   AlignCenterHorizontal, AlignCenterVertical, AlignEndHorizontal, AlignEndVertical, AlignHorizontalDistributeCenter,
   AlignStartHorizontal, AlignStartVertical, AlignVerticalDistributeCenter, Scan,
-} from 'lucide-react';
+} from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { ButtonGroup, ButtonGroupSeparator } from '../button-group/button-group.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';

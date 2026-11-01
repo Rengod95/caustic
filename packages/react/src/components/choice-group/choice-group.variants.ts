@@ -72,7 +72,7 @@ export const choiceGroupCardTitleVariants = cva('col-start-1 row-start-1 font-se
  */
 export const choiceGroupCardIndicatorVariants = cva(
   [
-    'col-start-2 row-start-1 [&_[data-slot=card-indicator-dot]]:bg-current [&_svg]:size-icon-sm [&_svg]:stroke-3',
+    'col-start-2 row-start-1 [&_[data-slot=card-indicator-dot]]:bg-current [&_svg]:size-icon-sm',
     'group-disabled/card:bg-disabled-fill group-disabled/card:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
     'group-data-[state=checked]/card:group-disabled/card:bg-disabled-fill group-data-[state=checked]/card:group-disabled/card:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
   ],

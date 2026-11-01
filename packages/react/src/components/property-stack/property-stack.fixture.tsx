@@ -1,4 +1,4 @@
-import { Droplet, SquareStack } from 'lucide-react';
+import { Droplet, SquareStack } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { EffectEditor, type EffectEditorLabels } from '../effect-editor/effect-editor.tsx';
 import { InspectorPanel } from '../inspector-panel/inspector-panel.tsx';

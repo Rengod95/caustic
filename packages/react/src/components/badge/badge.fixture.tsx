@@ -1,4 +1,4 @@
-import { Check, FileCode, Frame } from 'lucide-react';
+import { Check, FileCode, Frame } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Chip } from '../chip/chip.tsx';
 import { Kbd } from '../kbd/kbd.tsx';

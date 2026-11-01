@@ -1,4 +1,4 @@
-import { Braces, CodeXml, FileCode, FileImage, FileUp, Link } from 'lucide-react';
+import { Braces, CodeXml, FileCode, FileImage, FileUp, Link } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { ChoiceGroup, ChoiceGroupItem, type ChoiceGroupProps } from './choice-group.tsx';
 

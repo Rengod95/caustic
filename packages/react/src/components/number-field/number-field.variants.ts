@@ -160,7 +160,7 @@ export const numberFieldHexControlVariants = cva(
 );
 
 /** Bound only: the link glyph and the token path, in the accent text colour (disabled colour while disabled). */
-export const numberFieldHexIconVariants = cva('inline-grid size-icon-sm shrink-0 place-items-center text-accent-text in-data-[disabled]:text-disabled-text [&_svg]:size-full [&_svg]:stroke-[1.75]');
+export const numberFieldHexIconVariants = cva('inline-grid size-icon-sm shrink-0 place-items-center text-accent-text in-data-[disabled]:text-disabled-text [&_svg]:size-full');
 export const numberFieldHexTokenVariants = cva('min-w-0 truncate text-accent-text in-data-[disabled]:text-disabled-text');
 
 // ── appearance="stepper" (was stepper-input) ── the form quantity field.
@@ -209,7 +209,7 @@ export const numberFieldStepperVariants = cva(
 
 /** − and +: full height, about as wide as the field is tall (40 at md). */
 export const numberFieldStepButtonVariants = cva(
-  'grid h-full shrink-0 place-items-center text-text-secondary transition-control hover:bg-neutral-hover hover:text-text-primary disabled:pointer-events-none disabled:text-disabled-text [&_svg]:size-icon-sm [&_svg]:stroke-[1.75]',
+  'grid h-full shrink-0 place-items-center text-text-secondary transition-control hover:bg-neutral-hover hover:text-text-primary disabled:pointer-events-none disabled:text-disabled-text [&_svg]:size-icon-sm',
   {
     // Press: the icon targets at xs to md (28px tall at md) press to 0.94, lg to 0.97.
     variants: { size: { xs: 'w-7 press-sm', sm: 'w-8 press-sm', md: 'w-10 press-sm', lg: 'w-12 press' } },

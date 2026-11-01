@@ -1,5 +1,5 @@
 'use client';
-import { GripVertical } from 'lucide-react';
+import { GripVertical } from '../../icons/index.ts';
 import {
   Children, createContext, isValidElement, useContext, useId, useLayoutEffect, useRef, useState,
   type ComponentProps, type KeyboardEvent, type PointerEvent, type ReactElement, type ReactNode,

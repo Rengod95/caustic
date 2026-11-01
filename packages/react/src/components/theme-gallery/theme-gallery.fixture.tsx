@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react';
+import { Search } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Input } from '../input/index.ts';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/index.ts';

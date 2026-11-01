@@ -1,6 +1,6 @@
 'use client';
 import { Slot } from '@radix-ui/react-slot';
-import { ArrowUpRight, Check } from 'lucide-react';
+import { ArrowUpRight, Check } from '../../icons/index.ts';
 import type { ComponentProps, MouseEventHandler, PointerEvent, PointerEventHandler } from 'react';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { cn } from '../../lib/cn.ts';
@@ -149,7 +149,7 @@ export function CardHeader({ headerAlign, density, className, ...props }: CardHe
 
 export interface CardIconProps extends ComponentProps<'span'>, CardIconVariantProps {}
 
-/** Leading tile for an 18px lucide glyph. Decorative, so it is hidden from assistive technology. */
+/** Leading tile for an 18px icon glyph. Decorative, so it is hidden from assistive technology. */
 export function CardIcon({ iconTone, className, ...props }: CardIconProps) {
   return <span aria-hidden data-slot="card-icon" data-tone={iconTone ?? 'neutral'} className={cn(cardIconVariants({ iconTone }), className)} {...props} />;
 }

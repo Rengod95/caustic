@@ -1,5 +1,5 @@
 'use client';
-import { Check, ChevronRight, GripVertical, Plus } from 'lucide-react';
+import { Check, ChevronRight, GripVertical, Plus } from '../../icons/index.ts';
 import {
   Children, cloneElement, createContext, isValidElement, useContext, useId, useRef, useState,
   type AnimationEvent, type ComponentProps, type CSSProperties, type KeyboardEvent, type MouseEvent, type MouseEventHandler, type PointerEvent,

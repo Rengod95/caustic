@@ -1,6 +1,6 @@
 'use client';
 import * as P from '@radix-ui/react-popover';
-import { ChevronDown, Image as ImageIcon, Pipette, Plus, X } from 'lucide-react';
+import { ChevronDown, Image as ImageIcon, Pipette, Plus, X } from '../../icons/index.ts';
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type ReactNode, type RefObject, type SyntheticEvent } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, shadowClass, type CommonProps } from '../../lib/common-props.ts';

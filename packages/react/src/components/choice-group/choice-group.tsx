@@ -1,5 +1,5 @@
 'use client';
-import { Check } from 'lucide-react';
+import { Check } from '../../icons/index.ts';
 import { createContext, useContext, useId, useRef, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { shadowClass, type CommonProps, type Tone } from '../../lib/common-props.ts';

@@ -10,7 +10,7 @@ export default defineSpec({
   role: null,
   slots: [
     { name: 'root', el: 'div', description: 'Flex row, centered, no wrap. Absolutely placed by the canvas host, 18px above the frame.' },
-    { name: 'marker', el: 'span', parent: 'root', description: 'artboard: a 7px diamond (rotated square, 1.5px current-color ring, 2px radius). frame: a 12px lucide frame icon.' },
+    { name: 'marker', el: 'span', parent: 'root', description: 'artboard: a 7px diamond (rotated square, 1.5px current-color ring, 2px radius). frame: a 12px frame icon.' },
     { name: 'name', el: 'span', parent: 'root', description: 'The frame name, e.g. "Checkout / Desktop". One line, at most popover-sm (240) wide, ending in an ellipsis (the full name is the layer name). The size never shrinks.' },
     { name: 'size', el: 'span', parent: 'root', required: false, description: 'The dimensions, e.g. "960 × 600" (U+00D7).' },
   ],

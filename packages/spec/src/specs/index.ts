@@ -73,6 +73,7 @@ import listNavigation from './list-navigation.spec.ts';
 import menu from './menu.spec.ts';
 import message from './message.spec.ts';
 import motionTimeline from './motion-timeline.spec.ts';
+import nodeGraph from './node-graph.spec.ts';
 import numberField from './number-field.spec.ts';
 import otpInput from './otp-input.spec.ts';
 import pagination from './pagination.spec.ts';
@@ -191,6 +192,7 @@ export const registry: Record<string, SpecInput> = {
   'menu': menu,
   'message': message,
   'motion-timeline': motionTimeline,
+  'node-graph': nodeGraph,
   'number-field': numberField,
   'otp-input': otpInput,
   'pagination': pagination,

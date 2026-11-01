@@ -1,4 +1,4 @@
-import { SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Avatar } from '../avatar/avatar.tsx';
 import { Button } from '../button/button.tsx';

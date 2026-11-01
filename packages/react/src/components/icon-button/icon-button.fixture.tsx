@@ -1,4 +1,4 @@
-import { Eye, Grid3x3, Link, Lock, Ellipsis, Redo2, Scan, Undo2 } from 'lucide-react';
+import { Eye, Grid3x3, Link, Lock, Ellipsis, Redo2, Scan, Undo2 } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Tooltip } from '../tooltip/tooltip.tsx';
 import { IconButton } from './icon-button.tsx';

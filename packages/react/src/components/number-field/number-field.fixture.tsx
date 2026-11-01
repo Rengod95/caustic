@@ -1,4 +1,4 @@
-import { Lock, RotateCw, SquareDashed, X } from 'lucide-react';
+import { Lock, RotateCw, SquareDashed, X } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Avatar } from '../avatar/avatar.tsx';
 import { Button } from '../button/button.tsx';

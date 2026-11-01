@@ -1,4 +1,4 @@
-import { Undo2 } from 'lucide-react';
+import { Undo2 } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Tooltip } from './tooltip.tsx';
 

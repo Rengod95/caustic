@@ -97,7 +97,7 @@ export const floatingBarItemVariants = cva(
   },
 );
 
-export const floatingBarIconVariants = cva('inline-grid place-items-center [&_svg]:size-full [&_svg]:stroke-[1.75]', {
+export const floatingBarIconVariants = cva('inline-grid place-items-center [&_svg]:size-full', {
   variants: { size: { lg: 'size-icon-md', md: 'size-icon-sm', sm: 'size-icon-sm', xs: 'size-icon-xs' } },
   defaultVariants: { size: 'lg' },
 });
@@ -112,3 +112,8 @@ export const floatingBarShortcutVariants = cva(
 );
 
 export type FloatingBarVariantProps = VariantProps<typeof floatingBarVariants>;
+
+/** The count on an item: a small neutral pill on the top end corner, above the icon. One emphasis: the pill fill, no ring. */
+export const floatingBarBadgeVariants = cva(
+  'pointer-events-none absolute -top-0.5 -end-0.5 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-neutral-solid px-0.5 font-ui text-micro font-semibold tabular-nums text-neutral-on',
+);

@@ -1,4 +1,4 @@
-import { Component, Image, Square, Type } from 'lucide-react';
+import { Component, Image, Square, Type } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { MotionTimeline, type MotionTimelineLabels, type MotionTimelineProps, type TimelineLane } from './motion-timeline.tsx';
 

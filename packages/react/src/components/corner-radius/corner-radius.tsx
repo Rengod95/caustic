@@ -1,5 +1,5 @@
 'use client';
-import { Scan, Spline } from 'lucide-react';
+import { Scan, Spline } from '../../icons/index.ts';
 import { useState, type ComponentProps, type CSSProperties } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';

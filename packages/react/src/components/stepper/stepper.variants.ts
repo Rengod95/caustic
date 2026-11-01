@@ -190,7 +190,7 @@ export const stepperChecklistItem = cva('flex animate-rise items-center gap-2 ro
 export const stepperChecklistIndicator = cva('grid size-icon-md shrink-0 place-items-center transition-control', {
   variants: {
     status: {
-      done: 'rounded-full bg-success-soft text-success-text [&_svg]:size-icon-xs [&_svg]:stroke-3',
+      done: 'rounded-full bg-success-soft text-success-text [&_svg]:size-icon-xs',
       current: '',
       upcoming: '',
       failed: 'text-danger-text [&_svg]:size-icon-sm',

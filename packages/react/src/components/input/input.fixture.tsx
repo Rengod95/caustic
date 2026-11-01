@@ -1,4 +1,4 @@
-import { CircleX, Copy, Eye, Lock, Mail, Search } from 'lucide-react';
+import { CircleX, Copy, Eye, Lock, Mail, Search } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Field } from '../field/field.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';

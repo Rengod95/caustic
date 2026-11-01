@@ -1,5 +1,5 @@
 'use client';
-import { ChevronDown, Link2, Plus, Unlink } from 'lucide-react';
+import { ChevronDown, Link2, Plus, Unlink } from '../../icons/index.ts';
 import { cloneElement, createContext, Fragment, isValidElement, type ComponentProps, type CSSProperties, type MouseEvent, type ReactElement, type ReactNode, useContext } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { Badge } from '../badge/badge.tsx';

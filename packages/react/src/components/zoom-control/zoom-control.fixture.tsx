@@ -1,4 +1,4 @@
-import { Laptop, Monitor, Play, Smartphone, Tablet } from 'lucide-react';
+import { Laptop, Monitor, Play, Smartphone, Tablet } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Button } from '../button/button.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';

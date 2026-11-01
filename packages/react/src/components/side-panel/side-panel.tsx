@@ -1,6 +1,6 @@
 'use client';
 import { useId, useLayoutEffect, useRef, useState, type ComponentProps, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
-import { PanelLeft, PanelRight } from 'lucide-react';
+import { PanelLeft, PanelRight } from '../../icons/index.ts';
 import { cn } from '../../lib/cn.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import type { CommonProps, Size, Variant } from '../../lib/common-props.ts';

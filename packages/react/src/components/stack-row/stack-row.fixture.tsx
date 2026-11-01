@@ -1,4 +1,4 @@
-import { SquareStack } from 'lucide-react';
+import { SquareStack } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { ColorWell } from '../color-well/color-well.tsx';
 import { NumberField } from '../number-field/number-field.tsx';

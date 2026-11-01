@@ -1,6 +1,6 @@
 'use client';
 import * as Popover from '@radix-ui/react-popover';
-import { Check, Search } from 'lucide-react';
+import { Check, Search } from '../../icons/index.ts';
 import {
   Children, Fragment, isValidElement, useId, useRef, useState,
   type ComponentProps, type KeyboardEvent, type MouseEvent, type ReactElement, type ReactNode,

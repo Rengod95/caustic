@@ -1,5 +1,5 @@
 'use client';
-import { Check, TriangleAlert, X } from 'lucide-react';
+import { Check, TriangleAlert, X } from '../../icons/index.ts';
 import { Children, cloneElement, createContext, isValidElement, useContext, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Size } from '../../lib/common-props.ts';

@@ -46,7 +46,7 @@ export const segmentedItemVariants = cva(
     'disabled:pointer-events-none disabled:text-disabled-text disabled:data-[state=checked]:bg-disabled-fill disabled:data-[state=checked]:text-disabled-text disabled:data-[state=checked]:shadow-none',
     // While the thumb slides (data-moving on the track) the checked segment has no fill of its own and nothing transitions.
     'group-data-[moving]/seg:transition-none group-data-[moving]/seg:data-[state=checked]:bg-transparent group-data-[moving]/seg:data-[state=checked]:shadow-none',
-    '[&_svg]:shrink-0 [&_svg]:stroke-[1.75]',
+    '[&_svg]:shrink-0',
   ],
   {
     variants: {

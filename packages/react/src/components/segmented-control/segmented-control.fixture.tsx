@@ -1,4 +1,4 @@
-import { Monitor, Palette, Smartphone, Tablet } from 'lucide-react';
+import { Monitor, Palette, Smartphone, Tablet } from '../../icons/index.ts';
 import { defineFixture } from '../../lib/fixture.ts';
 import { Tabs, TabsList, TabsTrigger } from '../tabs/tabs.tsx';
 import { SegmentedControl, SegmentedControlItem } from './segmented-control.tsx';
