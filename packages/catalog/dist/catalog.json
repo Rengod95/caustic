@@ -119,7 +119,8 @@
       "components": [
         "badge",
         "chip",
-        "kbd"
+        "kbd",
+        "status-dot"
       ]
     },
     "display.identity": {
@@ -236,6 +237,7 @@
     "overlay.modal": {
       "description": "Take over the screen for a focused task or a decision.",
       "components": [
+        "command-palette",
         "dialog",
         "sheet"
       ]
@@ -344,6 +346,7 @@
       "components": [
         "composer",
         "message",
+        "system-row",
         "thinking",
         "tool-call"
       ]
@@ -522,6 +525,7 @@
         "code-realization",
         "color-picker",
         "combobox",
+        "command-palette",
         "compare-view",
         "composer",
         "context-analytics",
@@ -694,6 +698,7 @@
         "skeleton",
         "stepper",
         "suggestions",
+        "system-row",
         "thinking",
         "token-diff",
         "tool-call"
@@ -771,6 +776,7 @@
         "separator",
         "skeleton",
         "stack-row",
+        "status-dot",
         "stepper",
         "switch",
         "textarea",
@@ -790,6 +796,7 @@
         "change-detail",
         "choice-group",
         "color-tile",
+        "command-palette",
         "compare-view",
         "context-analytics",
         "empty-state",
@@ -806,6 +813,7 @@
         "section-header",
         "separator",
         "skeleton",
+        "status-dot",
         "stepper",
         "table",
         "tabs",
@@ -831,6 +839,7 @@
         "number-field",
         "progress",
         "separator",
+        "status-dot",
         "tooltip"
       ]
     }
@@ -2047,15 +2056,21 @@
       "el": "div",
       "props": {
         "kind": {
-          "type": "'proposal' | 'review' | 'permission'",
+          "type": "'proposal' | 'review' | 'permission' | 'question'",
           "default": "proposal",
           "required": false,
           "description": "Which request.",
           "values": [
             "proposal",
             "review",
-            "permission"
+            "permission",
+            "question"
           ]
+        },
+        "lead": {
+          "type": "string",
+          "required": false,
+          "description": "The quiet lead-in before the title, joined with \" · \". Unset: \"Proposal\" for a proposal, none for the other kinds, so a translated app passes its own word. Pass \"\" for none."
         },
         "status": {
           "type": "'pending' | 'answered' | 'allowed' | 'denied'",
@@ -2188,8 +2203,14 @@
             "values": [
               "proposal",
               "review",
-              "permission"
+              "permission",
+              "question"
             ]
+          },
+          "lead": {
+            "type": "string",
+            "required": false,
+            "description": "The quiet lead-in before the title, joined with \" · \". Unset: \"Proposal\" for a proposal, none for the other kinds, so a translated app passes its own word. Pass \"\" for none."
           },
           "onAction": {
             "type": "(id: string) => void",
@@ -2296,10 +2317,11 @@
           "values": [
             "proposal",
             "review",
-            "permission"
+            "permission",
+            "question"
           ],
           "default": "proposal",
-          "description": "proposal = the plan-mode proposal (was Proposal); review = the batch review panel (was ReviewRequest); permission = the permission prompt (was PermissionRequest). Sets the lead (orb or tile), the layout, the role and the default actions."
+          "description": "proposal = the plan-mode proposal (was Proposal); review = the batch review panel (was ReviewRequest); permission = the permission prompt (was PermissionRequest); question = the agent asks the person (C-26): the permission card with an info message tile, a free body for the choices (ChoiceGroup appearance answer, an Input) and the default actions Deny and Answer. Sets the lead (orb or tile), the layout, the role and the default actions."
         },
         "status": {
           "values": [
@@ -4279,7 +4301,7 @@
         "Regions carry no surface of their own; put a SidePanel in start and end to get the panel chrome.",
         "It adapts to compact and medium widths; mobile panel tabs are an app-level choice."
       ],
-      "import": "import { AppShell, AppShellTitlebar, AppShellStart, AppShellStage, AppShellOverlay, AppShellEnd } from '@caustic/react';",
+      "import": "import { AppShell, AppShellTitlebar, AppShellStart, AppShellStage, AppShellOverlay, AppShellEnd, AppShellStatusbar, AppShellStatusbarCell } from '@caustic/react';",
       "exports": [
         "AppShell",
         "AppShellTitlebar",
@@ -4287,6 +4309,8 @@
         "AppShellStage",
         "AppShellOverlay",
         "AppShellEnd",
+        "AppShellStatusbar",
+        "AppShellStatusbarCell",
         "appShellVariants"
       ],
       "el": "div",
@@ -4311,10 +4335,20 @@
           "required": false,
           "description": "aria-label of the main landmark. A prop of AppShellStage (part props live on the part, per CONTRIBUTING); the fixture forwards it. Supplied by the app so it can be translated, for example \"Design canvas\"."
         },
+        "align": {
+          "type": "'start' | 'end'",
+          "default": "start",
+          "required": false,
+          "description": "A prop of AppShellStatusbarCell: end pushes the cell and those after it to the end of the strip.",
+          "values": [
+            "start",
+            "end"
+          ]
+        },
         "children": {
           "type": "ReactNode",
           "required": false,
-          "description": "Titlebar and body parts in order."
+          "description": "Titlebar and body parts in order; an AppShellStatusbar goes last."
         },
         "tone": {
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
@@ -4392,7 +4426,7 @@
           "children": {
             "type": "ReactNode",
             "required": false,
-            "description": "Titlebar and body parts in order."
+            "description": "Titlebar and body parts in order; an AppShellStatusbar goes last."
           },
           "layout": {
             "type": "Layout",
@@ -4490,7 +4524,20 @@
           }
         },
         "AppShellOverlay": {},
-        "AppShellEnd": {}
+        "AppShellEnd": {},
+        "AppShellStatusbar": {},
+        "AppShellStatusbarCell": {
+          "align": {
+            "type": "\"start\" | \"end\"",
+            "default": "start",
+            "required": false,
+            "description": "A prop of AppShellStatusbarCell: end pushes the cell and those after it to the end of the strip.",
+            "values": [
+              "start",
+              "end"
+            ]
+          }
+        }
       },
       "variants": {
         "variant": {
@@ -4595,6 +4642,22 @@
           "parent": "AppShell",
           "required": false,
           "description": "AppShellEnd: region wrapper for the end side (normally a SidePanel side=\"end\"). Flex none, min-height 0. Medium and compact: absolute top 0 / bottom 0 / end 0 over the body, z-index chrome, elevation 3 on the panel it holds (the sheet), width the panel's own width capped at 76% of the body; compact: width 100%."
+        },
+        {
+          "name": "AppShellStatusbar",
+          "slot": "statusbar",
+          "el": "div",
+          "parent": "AppShell",
+          "required": false,
+          "description": "AppShellStatusbar: a strip under the body, inside the window inset: flex row, items centred, 4px gap, height control-sm (28), flex none, ui-dense type in text.secondary. Holds cells; present in every layout. The shell moves it after the body whatever its position among the children."
+        },
+        {
+          "name": "AppShellStatusbarCell",
+          "slot": "statusbar-cell",
+          "el": "span",
+          "parent": "AppShellStatusbar",
+          "required": false,
+          "description": "AppShellStatusbarCell: one cell of the strip: inline flex, items centred, 6px gap, min-width 0. Holds text, a Badge, a ghost Button or a Popover trigger. align end pushes it and the cells after it to the end of the strip."
         }
       ],
       "events": {},
@@ -4617,6 +4680,9 @@
         "field": false
       },
       "uses": [
+        "badge",
+        "button",
+        "popover",
         "resize-handle",
         "scroll-area",
         "side-panel"
@@ -4626,12 +4692,12 @@
         {
           "id": "wide",
           "title": "App shell · wide",
-          "code": "const rowNames = ['Frame', 'Header', 'Navigation', 'Content'];\n\nfunction Rows({ label }: { label: string }) {\n  return (\n    <div className=\"grid py-1\">\n      {rowNames.map(r => <div key={r} className=\"px-inset-regular-x py-2 font-ui text-ui-md text-text-secondary\">{label} · {r}</div>)}\n    </div>\n  );\n}\n\nfunction Shell({ stageLabel = 'Design canvas', skipLabel = 'Skip to canvas', endCollapsed = false, ...p }: Props) {\n  return (\n    <div className=\"h-[480px] w-[1200px]\">\n      <AppShell skipLabel={skipLabel} {...p}>\n        <AppShellTitlebar>\n          <span className=\"font-ui text-title-4 text-text-primary\">Axiom</span>\n          <IconButton size=\"sm\" label=\"Undo\"><Undo2 /></IconButton>\n          <IconButton size=\"sm\" label=\"Redo\"><Redo2 /></IconButton>\n        </AppShellTitlebar>\n        <AppShellStart>\n          <SidePanel label=\"Layers\" title=\"Layers\" size=\"pane\" collapseLabel=\"Hide layers panel\"><Rows label=\"Layers\" /></SidePanel>\n        </AppShellStart>\n        <AppShellStage stageLabel={stageLabel}>\n          <div className=\"canvas-grid absolute inset-0 [background-size:var(--cs-space-4)_var(--cs-space-4)]\" />\n          <AppShellOverlay>\n            <div className=\"absolute inset-x-0 bottom-3.5 flex justify-center\">\n              <FloatingBar label=\"Canvas tools\" size=\"md\">\n                <FloatingBarItem aria-label=\"Move\" icon={<MousePointer2 />} active />\n                <FloatingBarItem aria-label=\"Hand\" icon={<Hand />} />\n                <FloatingBarSeparator />\n                <FloatingBarItem aria-label=\"Frame\" icon={<Frame />} />\n                <FloatingBarItem aria-label=\"Text\" icon={<Type />} />\n              </FloatingBar>\n            </div>\n          </AppShellOverlay>\n        </AppShellStage>\n        <AppShellEnd>\n          <SidePanel label=\"Inspector\" title=\"Inspector\" side=\"end\" size=\"inspector\" collapseLabel=\"Hide inspector panel\" defaultCollapsed={endCollapsed}>\n            <Rows label=\"Inspector\" />\n          </SidePanel>\n        </AppShellEnd>\n      </AppShell>\n    </div>\n  );\n}\n\n<Shell layout=\"wide\" />"
+          "code": "const rowNames = ['Frame', 'Header', 'Navigation', 'Content'];\n\nfunction Rows({ label }: { label: string }) {\n  return (\n    <div className=\"grid py-1\">\n      {rowNames.map(r => <div key={r} className=\"px-inset-regular-x py-2 font-ui text-ui-md text-text-secondary\">{label} · {r}</div>)}\n    </div>\n  );\n}\n\nfunction Shell({ stageLabel = 'Design canvas', skipLabel = 'Skip to canvas', endCollapsed = false, statusbar = false, ...p }: Props) {\n  return (\n    <div className=\"h-[480px] w-[1200px]\">\n      <AppShell skipLabel={skipLabel} {...p}>\n        <AppShellTitlebar>\n          <span className=\"font-ui text-title-4 text-text-primary\">Axiom</span>\n          <IconButton size=\"sm\" label=\"Undo\"><Undo2 /></IconButton>\n          <IconButton size=\"sm\" label=\"Redo\"><Redo2 /></IconButton>\n        </AppShellTitlebar>\n        <AppShellStart>\n          <SidePanel label=\"Layers\" title=\"Layers\" size=\"pane\" collapseLabel=\"Hide layers panel\"><Rows label=\"Layers\" /></SidePanel>\n        </AppShellStart>\n        <AppShellStage stageLabel={stageLabel}>\n          <div className=\"canvas-grid absolute inset-0 [background-size:var(--cs-space-4)_var(--cs-space-4)]\" />\n          <AppShellOverlay>\n            <div className=\"absolute inset-x-0 bottom-3.5 flex justify-center\">\n              <FloatingBar label=\"Canvas tools\" size=\"md\">\n                <FloatingBarItem aria-label=\"Move\" icon={<MousePointer2 />} active />\n                <FloatingBarItem aria-label=\"Hand\" icon={<Hand />} />\n                <FloatingBarSeparator />\n                <FloatingBarItem aria-label=\"Frame\" icon={<Frame />} />\n                <FloatingBarItem aria-label=\"Text\" icon={<Type />} />\n              </FloatingBar>\n            </div>\n          </AppShellOverlay>\n        </AppShellStage>\n        <AppShellEnd>\n          <SidePanel label=\"Inspector\" title=\"Inspector\" side=\"end\" size=\"inspector\" collapseLabel=\"Hide inspector panel\" defaultCollapsed={endCollapsed}>\n            <Rows label=\"Inspector\" />\n          </SidePanel>\n        </AppShellEnd>\n        {statusbar && (\n          <AppShellStatusbar>\n            <AppShellStatusbarCell><Button size=\"xs\" tone=\"neutral\" variant=\"ghost\">main</Button></AppShellStatusbarCell>\n            <AppShellStatusbarCell>\n              <Popover anchor={<Button size=\"xs\" tone=\"neutral\" variant=\"ghost\">2 running</Button>}>\n                <PopoverDescription>Two agents are working.</PopoverDescription>\n              </Popover>\n            </AppShellStatusbarCell>\n            <AppShellStatusbarCell align=\"end\"><Badge size=\"xs\">Synced</Badge></AppShellStatusbarCell>\n          </AppShellStatusbar>\n        )}\n      </AppShell>\n    </div>\n  );\n}\n\n<Shell layout=\"wide\" />"
         },
         {
           "id": "compact",
           "title": "App shell · compact",
-          "code": "const rowNames = ['Frame', 'Header', 'Navigation', 'Content'];\n\nfunction Rows({ label }: { label: string }) {\n  return (\n    <div className=\"grid py-1\">\n      {rowNames.map(r => <div key={r} className=\"px-inset-regular-x py-2 font-ui text-ui-md text-text-secondary\">{label} · {r}</div>)}\n    </div>\n  );\n}\n\nfunction Shell({ stageLabel = 'Design canvas', skipLabel = 'Skip to canvas', endCollapsed = false, ...p }: Props) {\n  return (\n    <div className=\"h-[480px] w-[1200px]\">\n      <AppShell skipLabel={skipLabel} {...p}>\n        <AppShellTitlebar>\n          <span className=\"font-ui text-title-4 text-text-primary\">Axiom</span>\n          <IconButton size=\"sm\" label=\"Undo\"><Undo2 /></IconButton>\n          <IconButton size=\"sm\" label=\"Redo\"><Redo2 /></IconButton>\n        </AppShellTitlebar>\n        <AppShellStart>\n          <SidePanel label=\"Layers\" title=\"Layers\" size=\"pane\" collapseLabel=\"Hide layers panel\"><Rows label=\"Layers\" /></SidePanel>\n        </AppShellStart>\n        <AppShellStage stageLabel={stageLabel}>\n          <div className=\"canvas-grid absolute inset-0 [background-size:var(--cs-space-4)_var(--cs-space-4)]\" />\n          <AppShellOverlay>\n            <div className=\"absolute inset-x-0 bottom-3.5 flex justify-center\">\n              <FloatingBar label=\"Canvas tools\" size=\"md\">\n                <FloatingBarItem aria-label=\"Move\" icon={<MousePointer2 />} active />\n                <FloatingBarItem aria-label=\"Hand\" icon={<Hand />} />\n                <FloatingBarSeparator />\n                <FloatingBarItem aria-label=\"Frame\" icon={<Frame />} />\n                <FloatingBarItem aria-label=\"Text\" icon={<Type />} />\n              </FloatingBar>\n            </div>\n          </AppShellOverlay>\n        </AppShellStage>\n        <AppShellEnd>\n          <SidePanel label=\"Inspector\" title=\"Inspector\" side=\"end\" size=\"inspector\" collapseLabel=\"Hide inspector panel\" defaultCollapsed={endCollapsed}>\n            <Rows label=\"Inspector\" />\n          </SidePanel>\n        </AppShellEnd>\n      </AppShell>\n    </div>\n  );\n}\n\n<Shell layout=\"compact\" endCollapsed />"
+          "code": "const rowNames = ['Frame', 'Header', 'Navigation', 'Content'];\n\nfunction Rows({ label }: { label: string }) {\n  return (\n    <div className=\"grid py-1\">\n      {rowNames.map(r => <div key={r} className=\"px-inset-regular-x py-2 font-ui text-ui-md text-text-secondary\">{label} · {r}</div>)}\n    </div>\n  );\n}\n\nfunction Shell({ stageLabel = 'Design canvas', skipLabel = 'Skip to canvas', endCollapsed = false, statusbar = false, ...p }: Props) {\n  return (\n    <div className=\"h-[480px] w-[1200px]\">\n      <AppShell skipLabel={skipLabel} {...p}>\n        <AppShellTitlebar>\n          <span className=\"font-ui text-title-4 text-text-primary\">Axiom</span>\n          <IconButton size=\"sm\" label=\"Undo\"><Undo2 /></IconButton>\n          <IconButton size=\"sm\" label=\"Redo\"><Redo2 /></IconButton>\n        </AppShellTitlebar>\n        <AppShellStart>\n          <SidePanel label=\"Layers\" title=\"Layers\" size=\"pane\" collapseLabel=\"Hide layers panel\"><Rows label=\"Layers\" /></SidePanel>\n        </AppShellStart>\n        <AppShellStage stageLabel={stageLabel}>\n          <div className=\"canvas-grid absolute inset-0 [background-size:var(--cs-space-4)_var(--cs-space-4)]\" />\n          <AppShellOverlay>\n            <div className=\"absolute inset-x-0 bottom-3.5 flex justify-center\">\n              <FloatingBar label=\"Canvas tools\" size=\"md\">\n                <FloatingBarItem aria-label=\"Move\" icon={<MousePointer2 />} active />\n                <FloatingBarItem aria-label=\"Hand\" icon={<Hand />} />\n                <FloatingBarSeparator />\n                <FloatingBarItem aria-label=\"Frame\" icon={<Frame />} />\n                <FloatingBarItem aria-label=\"Text\" icon={<Type />} />\n              </FloatingBar>\n            </div>\n          </AppShellOverlay>\n        </AppShellStage>\n        <AppShellEnd>\n          <SidePanel label=\"Inspector\" title=\"Inspector\" side=\"end\" size=\"inspector\" collapseLabel=\"Hide inspector panel\" defaultCollapsed={endCollapsed}>\n            <Rows label=\"Inspector\" />\n          </SidePanel>\n        </AppShellEnd>\n        {statusbar && (\n          <AppShellStatusbar>\n            <AppShellStatusbarCell><Button size=\"xs\" tone=\"neutral\" variant=\"ghost\">main</Button></AppShellStatusbarCell>\n            <AppShellStatusbarCell>\n              <Popover anchor={<Button size=\"xs\" tone=\"neutral\" variant=\"ghost\">2 running</Button>}>\n                <PopoverDescription>Two agents are working.</PopoverDescription>\n              </Popover>\n            </AppShellStatusbarCell>\n            <AppShellStatusbarCell align=\"end\"><Badge size=\"xs\">Synced</Badge></AppShellStatusbarCell>\n          </AppShellStatusbar>\n        )}\n      </AppShell>\n    </div>\n  );\n}\n\n<Shell layout=\"compact\" endCollapsed />"
         }
       ]
     },
@@ -5931,6 +5997,7 @@
       "usedBy": [
         "accordion",
         "agent-request",
+        "app-shell",
         "card",
         "code-realization",
         "combobox",
@@ -6773,6 +6840,7 @@
       "usedBy": [
         "agent-request",
         "alert",
+        "app-shell",
         "button-group",
         "canvas-selection",
         "card",
@@ -6798,6 +6866,7 @@
         "section-header",
         "separator",
         "sheet",
+        "system-row",
         "table",
         "text-properties",
         "textarea",
@@ -17909,6 +17978,7 @@
         "select"
       ],
       "usedBy": [
+        "command-palette",
         "foundation-toolbar"
       ],
       "examples": [
@@ -17928,6 +17998,223 @@
           "code": "const tile = (initial: string) => <ComboboxTile tint=\"iris\">{initial}</ComboboxTile>;\n\nconst models = (sonnet: string): ComboboxGroupData[] => [\n  {\n    label: 'Anthropic · connected',\n    options: [\n      { value: 'claude-opus', label: 'Claude Opus', description: 'Deep · 1M context', leading: tile('A') },\n      { value: 'claude-sonnet', label: 'Claude Sonnet', description: sonnet, leading: tile('A') },\n    ],\n  },\n  { label: 'OpenAI · not connected', options: [] },\n];\n\nconst connect = (shimmer = true, onSelect?: never) => (\n  <ComboboxRow shimmer={shimmer} onSelect={onSelect} leading={<ComboboxTile tint=\"neutral\"><Plus /></ComboboxTile>}>Connect provider…</ComboboxRow>\n);\n\n<Combobox\n  mode=\"popup\" inline trigger={null} popupWidth=\"lg\" aria-label=\"Models\" searchLabel=\"Search models\" placeholder=\"Search models\" defaultValue=\"claude-opus\"\n  groups={models('Balanced')} footer={connect()}\n/>"
         }
       ]
+    },
+    "command-palette": {
+      "id": "command-palette",
+      "name": "CommandPalette",
+      "category": "overlay",
+      "status": "ready",
+      "intent": "Let the person run any command or jump anywhere by typing, from a global shortcut, with commands in groups and their shortcuts shown.",
+      "roles": [
+        "overlay.modal"
+      ],
+      "alsoFits": [
+        "input.pick",
+        "navigation.global"
+      ],
+      "placement": [
+        "overlay",
+        "page"
+      ],
+      "keywords": [
+        "command menu",
+        "command k",
+        "quick open",
+        "spotlight",
+        "action search",
+        "palette"
+      ],
+      "pairs": [
+        "kbd",
+        "app-shell",
+        "dialog",
+        "combobox"
+      ],
+      "consider": [
+        {
+          "id": "combobox",
+          "when": "the person picks one value for a field rather than running a command"
+        },
+        {
+          "id": "menu",
+          "when": "the commands are few and belong to one trigger or one object"
+        }
+      ],
+      "guidance": [
+        "Pass shortcut=\"mod+k\" to bind the global key; the shortcut on each command is only displayed, bind its key yourself.",
+        "Group commands under short headings; the search filters across groups."
+      ],
+      "import": "import { CommandPalette } from '@caustic/react';",
+      "exports": [
+        "CommandPalette",
+        "matchesShortcut"
+      ],
+      "el": "div",
+      "props": {
+        "groups": {
+          "type": "CommandPaletteGroup[]",
+          "required": true,
+          "description": "{ label, items } sections; an item is { value, label, description?, icon?, shortcut?, disabled? }. shortcut is shown in a Kbd and does not bind the key."
+        },
+        "label": {
+          "type": "string",
+          "required": true,
+          "description": "Accessible name of the dialog, the search field and the list. Supplied by the app so it can be translated."
+        },
+        "shortcut": {
+          "type": "string",
+          "required": false,
+          "description": "Global chord that toggles the palette, such as \"mod+k\" (mod is Command on Mac, Control elsewhere; shift and alt are modifiers). Unset binds nothing."
+        },
+        "open": {
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        },
+        "defaultOpen": {
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state when uncontrolled."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Called when the palette opens or closes."
+        },
+        "onSelect": {
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called with the value of the chosen command; the palette then closes."
+        },
+        "placeholder": {
+          "type": "string",
+          "required": false,
+          "description": "Hint in the empty search field."
+        },
+        "emptyMessage": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "Shown when nothing matches."
+        },
+        "resultsLabel": {
+          "type": "(count: number) => string",
+          "required": false,
+          "description": "Polite announcement of the result count."
+        },
+        "trigger": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "Element that opens the palette (rendered with asChild)."
+        },
+        "inline": {
+          "type": "boolean",
+          "default": false,
+          "required": false,
+          "description": "Render in place, open, without portal and overlay (docs, previews, tests)."
+        }
+      },
+      "exportProps": {
+        "CommandPalette": {
+          "defaultOpen": {
+            "type": "boolean",
+            "required": false,
+            "description": "Initial open state when uncontrolled."
+          },
+          "emptyMessage": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "Shown when nothing matches."
+          },
+          "groups": {
+            "type": "CommandPaletteGroup[]",
+            "required": true,
+            "description": "{ label, items } sections; an item is { value, label, description?, icon?, shortcut?, disabled? }. shortcut is shown in a Kbd and does not bind the key."
+          },
+          "inline": {
+            "type": "boolean",
+            "default": false,
+            "required": false,
+            "description": "Render in place, open, without portal and overlay (docs, previews, tests)."
+          },
+          "label": {
+            "type": "string",
+            "required": true,
+            "description": "Accessible name of the dialog, the search field and the list. Supplied by the app so it can be translated."
+          },
+          "onOpenChange": {
+            "type": "(open: boolean) => void",
+            "required": false,
+            "description": "Called when the palette opens or closes."
+          },
+          "onSelect": {
+            "type": "(value: string) => void",
+            "required": false,
+            "description": "Called with the value of the chosen command; the palette then closes."
+          },
+          "open": {
+            "type": "boolean",
+            "required": false,
+            "description": "Controlled open state."
+          },
+          "placeholder": {
+            "type": "string",
+            "required": false,
+            "description": "Hint in the empty search field."
+          },
+          "resultsLabel": {
+            "type": "(count: number) => string",
+            "required": false,
+            "description": "Polite announcement of the result count."
+          },
+          "shortcut": {
+            "type": "string",
+            "required": false,
+            "description": "Global chord that toggles the palette, such as \"mod+k\" (mod is Command on Mac, Control elsewhere; shift and alt are modifiers). Unset binds nothing."
+          },
+          "trigger": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "Element that opens the palette (rendered with asChild)."
+          }
+        }
+      },
+      "variants": {},
+      "parts": [],
+      "events": {
+        "onSelect": {
+          "payload": "string",
+          "when": "A command is chosen with Enter or a click."
+        },
+        "onOpenChange": {
+          "payload": "boolean",
+          "when": "The palette opens or closes: the shortcut, Escape, the outside press or a choice."
+        }
+      },
+      "keyboard": {
+        "ArrowDown": "highlights the next command, wrapping at the end",
+        "ArrowUp": "highlights the previous command",
+        "Enter": "runs the highlighted command and closes the palette",
+        "Escape": "closes the palette"
+      },
+      "a11y": {
+        "labelRequired": true,
+        "notes": [
+          "The dialog is modal: focus is trapped and returns to the trigger on close. The search field is role=combobox with an aria-activedescendant on the listbox.",
+          "A shortcut shown on a row is also text in a Kbd, never an icon only."
+        ]
+      },
+      "flags": {
+        "agent": false,
+        "floating": true,
+        "field": false
+      },
+      "uses": [
+        "combobox",
+        "dialog",
+        "kbd"
+      ],
+      "usedBy": [],
+      "examples": []
     },
     "compare-view": {
       "id": "compare-view",
@@ -22011,6 +22298,7 @@
         "tag-input"
       ],
       "usedBy": [
+        "command-palette",
         "sheet"
       ],
       "examples": [
@@ -31896,6 +32184,7 @@
       "usedBy": [
         "badge",
         "canvas-hint",
+        "command-palette",
         "input",
         "list-navigation",
         "menu",
@@ -40762,6 +41051,7 @@
         "number-field"
       ],
       "usedBy": [
+        "app-shell",
         "calendar",
         "image-fill",
         "property-stack"
@@ -48412,6 +48702,121 @@
       ],
       "examples": []
     },
+    "status-dot": {
+      "id": "status-dot",
+      "name": "StatusDot",
+      "category": "primitive",
+      "status": "ready",
+      "intent": "Show a short state as a small coloured dot followed by its words, in a table cell, a map cell or a row.",
+      "roles": [
+        "display.status"
+      ],
+      "alsoFits": [],
+      "placement": [
+        "inline",
+        "card",
+        "page"
+      ],
+      "keywords": [
+        "status dot",
+        "state indicator",
+        "health",
+        "on off",
+        "status cell"
+      ],
+      "pairs": [
+        "table",
+        "list",
+        "card-stat"
+      ],
+      "consider": [
+        {
+          "id": "badge",
+          "when": "the state is the focus of its row and should read as a pill"
+        }
+      ],
+      "guidance": [
+        "Write the whole state in the label, such as \"On · 2 failures\"; the dot tone only repeats it.",
+        "The tone colours the dot only; the label stays neutral secondary text."
+      ],
+      "import": "import { StatusDot } from '@caustic/react';",
+      "exports": [
+        "StatusDot"
+      ],
+      "el": "span",
+      "props": {
+        "tone": {
+          "type": "'neutral' | 'success' | 'warning' | 'danger' | 'info'",
+          "default": "neutral",
+          "required": false,
+          "description": "Colour of the dot.",
+          "values": [
+            "neutral",
+            "success",
+            "warning",
+            "danger",
+            "info"
+          ]
+        },
+        "label": {
+          "type": "ReactNode",
+          "required": true,
+          "description": "The state in words, e.g. \"On\" or \"On · 2 failures\"."
+        }
+      },
+      "exportProps": {
+        "StatusDot": {
+          "label": {
+            "type": "ReactNode",
+            "required": true,
+            "description": "The state in words, e.g. \"On\" or \"On · 2 failures\"."
+          },
+          "tone": {
+            "type": "\"neutral\" | \"success\" | \"warning\" | \"danger\" | \"info\"",
+            "default": "neutral",
+            "required": false,
+            "description": "Colour of the dot.",
+            "values": [
+              "neutral",
+              "success",
+              "warning",
+              "danger",
+              "info"
+            ]
+          }
+        }
+      },
+      "variants": {
+        "tone": {
+          "values": [
+            "neutral",
+            "success",
+            "warning",
+            "danger",
+            "info"
+          ],
+          "default": "neutral",
+          "description": "Colour of the dot only: neutral.graphic, success.graphic, warning.graphic, danger.graphic or info.graphic. The label stays text.secondary."
+        }
+      },
+      "parts": [],
+      "events": {},
+      "keyboard": {},
+      "a11y": {
+        "labelRequired": false,
+        "notes": [
+          "The state is the label text; the dot is decorative (aria-hidden) so colour alone never carries it."
+        ]
+      },
+      "flags": {
+        "agent": false,
+        "floating": false,
+        "field": false
+      },
+      "uses": [],
+      "usedBy": [],
+      "examples": []
+    },
     "stepper": {
       "id": "stepper",
       "name": "Stepper",
@@ -50246,6 +50651,116 @@
           "code": "const Row = ({ children }: { children: ReactNode }) => <div className=\"flex min-h-7 items-center gap-2.5\">{children}</div>;\n\n<div className=\"grid gap-2.5\">\n  <Row><span className=\"min-w-0 flex-1\">Snap to pixel grid</span><Switch defaultChecked aria-label=\"Snap to pixel grid\" /></Row>\n  <Row><span className=\"min-w-0 flex-1\">Let agent edit shared components</span><Switch aria-label=\"Let agent edit shared components\" /></Row>\n  <Row><Checkbox defaultChecked aria-label=\"Light\" /><span className=\"min-w-0 flex-1\">Light theme</span></Row>\n  <Row><Checkbox defaultChecked=\"indeterminate\" aria-label=\"All themes\" /><span className=\"min-w-0 flex-1\">All themes <span className=\"text-text-tertiary\">2 of 3</span></span></Row>\n  <Row><Checkbox aria-label=\"High contrast\" /><span className=\"min-w-0 flex-1\">High contrast</span></Row>\n  <RadioGroup defaultValue=\"hug\" orientation=\"horizontal\" className=\"min-h-7 gap-[22px]\">\n    <RadioGroupItem value=\"hug\" aria-label=\"Hug\">Hug</RadioGroupItem>\n    <RadioGroupItem value=\"fill\" aria-label=\"Fill\">Fill</RadioGroupItem>\n    <RadioGroupItem value=\"fixed\" aria-label=\"Fixed\">Fixed</RadioGroupItem>\n  </RadioGroup>\n</div>"
         }
       ]
+    },
+    "system-row": {
+      "id": "system-row",
+      "name": "SystemRow",
+      "category": "agent",
+      "status": "ready",
+      "intent": "Show something the system did in a chat transcript as one quiet line with a muted icon and at most one action.",
+      "roles": [
+        "agent.conversation"
+      ],
+      "alsoFits": [],
+      "placement": [
+        "transcript"
+      ],
+      "keywords": [
+        "system message",
+        "event row",
+        "transcript event",
+        "signal",
+        "handover",
+        "notice line"
+      ],
+      "pairs": [
+        "message",
+        "activity-tree"
+      ],
+      "consider": [
+        {
+          "id": "message",
+          "when": "the line is spoken by a person or the agent"
+        },
+        {
+          "id": "alert",
+          "when": "the notice needs attention and should stay visible above the transcript"
+        }
+      ],
+      "guidance": [
+        "Keep it to one line; the detail belongs in what the single action opens."
+      ],
+      "import": "import { SystemRow } from '@caustic/react';",
+      "exports": [
+        "SystemRow"
+      ],
+      "el": "div",
+      "props": {
+        "icon": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "The glyph before the text (an icon element); drawn muted."
+        },
+        "children": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "The one line of text."
+        },
+        "actionLabel": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "Label of the single action. Unset renders no action."
+        },
+        "onAction": {
+          "type": "() => void",
+          "required": false,
+          "description": "Called when the action is pressed."
+        }
+      },
+      "exportProps": {
+        "SystemRow": {
+          "actionLabel": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "Label of the single action. Unset renders no action."
+          },
+          "icon": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "The glyph before the text (an icon element); drawn muted."
+          },
+          "onAction": {
+            "type": "() => void",
+            "required": false,
+            "description": "Called when the action is pressed."
+          }
+        }
+      },
+      "variants": {},
+      "parts": [],
+      "events": {
+        "onAction": {
+          "payload": "void",
+          "when": "The action is pressed."
+        }
+      },
+      "keyboard": {},
+      "a11y": {
+        "labelRequired": false,
+        "notes": [
+          "The line is plain text in reading order; the icon is decorative and never the only carrier of the meaning."
+        ]
+      },
+      "flags": {
+        "agent": false,
+        "floating": false,
+        "field": false
+      },
+      "uses": [
+        "button"
+      ],
+      "usedBy": [],
+      "examples": []
     },
     "table": {
       "id": "table",

@@ -36,6 +36,7 @@ import colorPicker from './components/color-picker/color-picker.fixture.tsx';
 import colorTile from './components/color-tile/color-tile.fixture.tsx';
 import colorWell from './components/color-well/color-well.fixture.tsx';
 import combobox from './components/combobox/combobox.fixture.tsx';
+import commandPalette from './components/command-palette/command-palette.fixture.tsx';
 import compareView from './components/compare-view/compare-view.fixture.tsx';
 import composer from './components/composer/composer.fixture.tsx';
 import constraintsControl from './components/constraints-control/constraints-control.fixture.tsx';
@@ -99,10 +100,12 @@ import sidePanel from './components/side-panel/side-panel.fixture.tsx';
 import skeleton from './components/skeleton/skeleton.fixture.tsx';
 import slider from './components/slider/slider.fixture.tsx';
 import stackRow from './components/stack-row/stack-row.fixture.tsx';
+import statusDot from './components/status-dot/status-dot.fixture.tsx';
 import stepper from './components/stepper/stepper.fixture.tsx';
 import strokeEditor from './components/stroke-editor/stroke-editor.fixture.tsx';
 import suggestions from './components/suggestions/suggestions.fixture.tsx';
 import switch_ from './components/switch/switch.fixture.tsx';
+import systemRow from './components/system-row/system-row.fixture.tsx';
 import table from './components/table/table.fixture.tsx';
 import tabs from './components/tabs/tabs.fixture.tsx';
 import tagInput from './components/tag-input/tag-input.fixture.tsx';
@@ -156,6 +159,7 @@ export const fixtures: Record<string, Fixture> = {
   'color-tile': colorTile,
   'color-well': colorWell,
   'combobox': combobox,
+  'command-palette': commandPalette,
   'compare-view': compareView,
   'composer': composer,
   'constraints-control': constraintsControl,
@@ -219,10 +223,12 @@ export const fixtures: Record<string, Fixture> = {
   'skeleton': skeleton,
   'slider': slider,
   'stack-row': stackRow,
+  'status-dot': statusDot,
   'stepper': stepper,
   'stroke-editor': strokeEditor,
   'suggestions': suggestions,
   'switch': switch_,
+  'system-row': systemRow,
   'table': table,
   'tabs': tabs,
   'tag-input': tagInput,

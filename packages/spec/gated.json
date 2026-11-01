@@ -12,8 +12,8 @@
     "at": "2026-10-31T16:07:50.660Z"
   },
   "agent-request": {
-    "specHash": "b9faded8d2159cf8",
-    "at": "2026-10-31T16:08:26.764Z"
+    "specHash": "dff01a50229d669c",
+    "at": "2026-11-01T06:46:18.248Z"
   },
   "agent-work-area": {
     "specHash": "c09320d921adf8b4",
@@ -36,8 +36,8 @@
     "at": "2026-10-31T16:09:19.067Z"
   },
   "app-shell": {
-    "specHash": "4da5c8e1f52ba671",
-    "at": "2026-10-31T16:09:39.692Z"
+    "specHash": "eacfe3e2201120f6",
+    "at": "2026-11-01T06:42:54.852Z"
   },
   "auto-layout": {
     "specHash": "f2822b79a6ab2ed0",
@@ -142,6 +142,10 @@
   "combobox": {
     "specHash": "f5e04334f6f3e2e7",
     "at": "2026-10-31T16:16:52.902Z"
+  },
+  "command-palette": {
+    "specHash": "408580247bb16177",
+    "at": "2026-11-01T06:48:12.188Z"
   },
   "compare-view": {
     "specHash": "c9907d0bd9e68e5f",
@@ -395,6 +399,10 @@
     "specHash": "918b9bbfc3dedb53",
     "at": "2026-10-31T16:36:41.609Z"
   },
+  "status-dot": {
+    "specHash": "cd8ffdc82d3d5cde",
+    "at": "2026-11-01T06:40:23.634Z"
+  },
   "stepper": {
     "specHash": "39d5b1281619d783",
     "at": "2026-11-01T06:19:34.137Z"
@@ -410,6 +418,10 @@
   "switch": {
     "specHash": "4ef911b7a36a0cbd",
     "at": "2026-10-31T16:37:41.305Z"
+  },
+  "system-row": {
+    "specHash": "160883304e6d80e3",
+    "at": "2026-11-01T06:41:10.649Z"
   },
   "table": {
     "specHash": "3166289255e0cb35",

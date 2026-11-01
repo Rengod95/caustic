@@ -137,7 +137,7 @@ export const agentRequestCardVariants = cva('grid min-w-0 max-w-full gap-0 round
  */
 export const agentRequestHeaderVariants = cva('flex min-w-0 items-center', {
   variants: {
-    kind: { proposal: 'gap-2 font-semibold text-text-primary', review: 'gap-2.5', permission: 'gap-3' },
+    kind: { proposal: 'gap-2 font-semibold text-text-primary', review: 'gap-2.5', permission: 'gap-3', question: 'gap-3' },
     record: { true: 'gap-2', false: '' },
     size: { xs: '', sm: '', md: '', lg: '' },
   },
@@ -157,6 +157,7 @@ export const agentRequestOrbVariants = cva('orb flex-none', {
       proposal: '[--orb:var(--cs-icon-md)] [--orb-hole:calc(var(--cs-icon-md)*0.24)]',
       review: '[--orb:var(--cs-size-orb-md)] [--orb-hole:var(--cs-size-orb-md-hole)]',
       permission: '',
+      question: '',
     },
   },
   defaultVariants: { kind: 'proposal' },
@@ -197,7 +198,7 @@ export const agentRequestHeadingVariants = cva('min-w-0', {
  */
 export const agentRequestTitleVariants = cva('min-w-0', {
   variants: {
-    kind: { proposal: 'text-text-secondary', review: 'text-text-primary tabular-nums', permission: 'text-ui-strong font-semibold text-text-primary' },
+    kind: { proposal: 'text-text-secondary', review: 'text-text-primary tabular-nums', permission: 'text-ui-strong font-semibold text-text-primary', question: 'text-ui-strong font-semibold text-text-primary' },
     record: { false: '', true: 'shrink-0 text-ui-strong font-medium text-text-primary' },
     size: { xs: '', sm: '', md: '', lg: '' },
   },
@@ -213,7 +214,7 @@ export const agentRequestTitleVariants = cva('min-w-0', {
 /** Subtitle: the line under the title (review source line, permission consequence), or the record detail on the title line. */
 export const agentRequestSubtitleVariants = cva('font-normal', {
   variants: {
-    kind: { proposal: 'text-footnote text-text-tertiary', review: 'text-footnote text-text-tertiary', permission: 'mt-0.5 text-ui-sm text-text-secondary' },
+    kind: { proposal: 'text-footnote text-text-tertiary', review: 'text-footnote text-text-tertiary', permission: 'mt-0.5 text-ui-sm text-text-secondary', question: 'mt-0.5 text-ui-sm text-text-secondary' },
     record: { false: '', true: 'mt-0 min-w-0 truncate text-ui-sm text-text-tertiary' },
   },
   defaultVariants: { kind: 'proposal', record: false },
@@ -225,7 +226,7 @@ export const agentRequestSubtitleVariants = cva('font-normal', {
  */
 export const agentRequestBodyVariants = cva('grid min-w-0', {
   variants: {
-    kind: { proposal: '', review: '', permission: 'text-ui-sm text-text-secondary' },
+    kind: { proposal: '', review: '', permission: 'text-ui-sm text-text-secondary', question: 'text-ui-sm text-text-secondary' },
     size: { xs: '', sm: '', md: '', lg: '' },
   },
   compoundVariants: [
@@ -238,9 +239,13 @@ export const agentRequestBodyVariants = cva('grid min-w-0', {
     { kind: 'review', size: 'md', className: 'gap-3' },
     { kind: 'review', size: 'lg', className: 'gap-4' },
     { kind: 'permission', size: 'xs', className: 'gap-1.5' },
+    { kind: 'question', size: 'xs', className: 'gap-1.5' },
     { kind: 'permission', size: 'sm', className: 'gap-2' },
+    { kind: 'question', size: 'sm', className: 'gap-2' },
     { kind: 'permission', size: 'md', className: 'gap-2.5' },
+    { kind: 'question', size: 'md', className: 'gap-2.5' },
     { kind: 'permission', size: 'lg', className: 'gap-3' },
+    { kind: 'question', size: 'lg', className: 'gap-3' },
   ],
   defaultVariants: { kind: 'proposal', size: 'md' },
 });
@@ -264,6 +269,7 @@ export const agentRequestFooterVariants = cva('flex flex-wrap items-center', {
       proposal: 'gap-1.5 border-t border-border-subtle bg-surface-raised',
       review: 'justify-end gap-2',
       permission: 'mt-1.5 gap-1.5',
+      question: 'mt-1.5 gap-1.5',
     },
     rim: { true: '', false: '' },
     size: { xs: '', sm: '', md: '', lg: '' },
@@ -286,6 +292,7 @@ export const agentRequestButtonSize = {
   proposal: { xs: 'xs', sm: 'xs', md: 'sm', lg: 'md' },
   review: { xs: 'xs', sm: 'xs', md: 'sm', lg: 'md' },
   permission: { xs: 'xs', sm: 'xs', md: 'xs', lg: 'xs' },
+  question: { xs: 'xs', sm: 'xs', md: 'xs', lg: 'xs' },
 } as const;
 
 export type AgentRequestKind = NonNullable<VariantProps<typeof agentRequestHeaderVariants>['kind']>;
