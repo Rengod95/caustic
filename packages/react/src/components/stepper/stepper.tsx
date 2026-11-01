@@ -6,7 +6,7 @@ import type { CommonProps, Variant } from '../../lib/common-props.ts';
 import {
   stepperChecklistIndicator, stepperChecklistItem, stepperChecklistLabel, stepperChecklistMark, stepperChecklistShape,
   stepperConnector, stepperCountClass, stepperProgressClipClass, stepperDescription, stepperDetailClass, stepperHeaderClass, stepperIndicator, stepperItem,
-  stepperLabel, stepperProgressClass, stepperProgressFillClass, stepperSteps, stepperTodoRingClass, stepperVariants,
+  stepperBareClass, stepperLabel, stepperPressIndicatorClass, stepperPressRowClass, stepperProgressClass, stepperProgressFillClass, stepperSteps, stepperTodoRingClass, stepperVariants,
 } from './stepper.variants.ts';
 
 /** Status of one step. Unset falls back to the value index (before value done, at value now, after it todo). */
@@ -21,6 +21,8 @@ export interface StepperStep {
   status?: StepperStatus;
   /** End note at the row end, e.g. "Card form" (checklist). */
   detail?: ReactNode;
+  /** With onStepClick: false leaves this step unpressable (e.g. a step not reached yet). Default true. */
+  clickable?: boolean;
 }
 
 export interface StepperProps extends Omit<ComponentProps<'div'>, 'title' | 'children'>, Omit<CommonProps, 'variant'> {
@@ -37,6 +39,10 @@ export interface StepperProps extends Omit<ComponentProps<'div'>, 'title' | 'chi
   countLabel?: (done: number, total: number) => string;
   /** Visually hidden status word read with each step. */
   statusLabels?: Partial<Record<StepperStatus, string>>;
+  /** Makes steps pressable (reopen a finished step): called with the 0-based index and the step. Steps become buttons; set a step's clickable to false to leave it out. */
+  onStepClick?: (index: number, step: StepperStep) => void;
+  /** Checklist only: no card of its own (no fill, hairline, corner, inset or progress band), for use inside a well or panel that already draws one. */
+  bare?: boolean;
   /** A custom header built from StepperHeader, StepperTitle and StepperCount (replaces the one title renders). */
   children?: ReactNode;
 }
@@ -60,8 +66,8 @@ export function StepperCount({ className, ...props }: ComponentProps<'span'>) {
   return <span data-slot="stepper-count" className={cn(stepperCountClass, className)} {...props} />;
 }
 
-/** Progress through a sequence of steps: the numbered progress look, or the checklist of the agent plan. Not interactive. */
-export function Stepper({ value = 0, steps, orientation, variant, title, countLabel, statusLabels, children, tone, radius, shadow, size, className, ...props }: StepperProps) {
+/** Progress through a sequence of steps: the numbered progress look, or the checklist of the agent plan. Read-only unless onStepClick is set. */
+export function Stepper({ value = 0, steps, orientation, variant, title, countLabel, statusLabels, children, onStepClick, bare = false, tone, radius, shadow, size, className, ...props }: StepperProps) {
   const titleId = useId();
   const checklist = variant === 'checklist';
   const o = checklist || orientation === 'vertical' ? 'vertical' : 'horizontal';
@@ -104,10 +110,10 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
       data-variant={checklist ? 'checklist' : undefined}
       role={header ? 'group' : undefined}
       aria-labelledby={title != null && children == null ? titleId : undefined}
-      className={cn(stepperVariants({ tone, variant: look, size }), checklist && stepperChecklistShape({ radius, shadow }), className)}
+      className={cn(stepperVariants({ tone, variant: look, size }), checklist && stepperChecklistShape({ radius, shadow }), checklist && bare && stepperBareClass, className)}
       {...props}
     >
-      {checklist && (
+      {checklist && !bare && (
         <span aria-hidden className={stepperProgressClipClass}>
           <span data-slot="stepper-progress" className={stepperProgressClass}>
             <span data-slot="stepper-progress-fill" className={stepperProgressFillClass} style={{ '--stepper-progress': `${steps.length ? (done / steps.length) * 100 : 0}%` } as CSSProperties} />
@@ -119,8 +125,9 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
         <ol data-slot="stepper-steps" className={list}>
           {steps.map((step, i) => {
             const s = status[i]!;
-            return (
-              <li key={step.id ?? i} data-step-id={step.id} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} className={cn(stepperChecklistItem({ status: s, size }))}>
+            const press = onStepClick != null && step.clickable !== false;
+            const body = (
+              <>
                 <span data-slot="stepper-indicator" data-status={s} aria-hidden className={stepperChecklistIndicator({ status: s })}>
                   {s === 'done' && <Check className="animate-pop" />}
                   {s === 'current' && <span data-slot="stepper-orb" className={stepperChecklistMark({ tone })} />}
@@ -130,6 +137,11 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
                 {word(s) != null && <span className="sr-only">{word(s)}: </span>}
                 <span data-slot="stepper-label" className={stepperChecklistLabel({ status: s })}>{step.label}</span>
                 {step.detail != null && <span data-slot="stepper-detail" className={stepperDetailClass}>{step.detail}</span>}
+              </>
+            );
+            return (
+              <li key={step.id ?? i} data-step-id={step.id} data-slot="stepper-item" data-status={s} data-pressable={press || undefined} aria-current={s === 'current' ? 'step' : undefined} className={cn(stepperChecklistItem({ status: s, size }))}>
+                {press ? <button type="button" data-slot="stepper-press" className={stepperPressRowClass} onClick={() => onStepClick(i, step)}>{body}</button> : body}
               </li>
             );
           })}
@@ -141,9 +153,12 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
             const vertical = o === 'vertical';
             const hasConnector = vertical ? i < steps.length - 1 : i > 0;
             const active = vertical ? s === 'done' : s !== 'upcoming';
+            const press = onStepClick != null && step.clickable !== false;
+            const labelId = `${titleId}-step-${i}`;
+            const Indicator = press ? 'button' : 'span';
             const text = (
               <>
-                <b data-slot="stepper-label" className={cn(stepperLabel({ orientation: o, status: s }))}>{step.label}</b>
+                <b data-slot="stepper-label" id={press ? labelId : undefined} className={cn(stepperLabel({ orientation: o, status: s }))}>{step.label}</b>
                 {step.description != null && (vertical
                   ? <p data-slot="stepper-description" className={stepperDescription({ orientation: o })}>{step.description}</p>
                   : <span data-slot="stepper-description" className={stepperDescription({ orientation: o })}>{step.description}</span>)}
@@ -152,11 +167,11 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
             return (
               <li key={step.id ?? i} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} className={stepperItem({ orientation: o })}>
                 {hasConnector && <span data-slot="stepper-connector" aria-hidden className={stepperConnector({ orientation: o, active })} />}
-                <span data-slot="stepper-indicator" data-status={s} className={cn(stepperIndicator({ status: s, variant, size, radius, shadow }))}>
+                <Indicator data-slot="stepper-indicator" data-status={s} data-pressable={press || undefined} {...(press ? { type: 'button' as const, 'aria-labelledby': labelId, onClick: () => onStepClick(i, step) } : {})} className={cn(stepperIndicator({ status: s, variant, size, radius, shadow }), press && stepperPressIndicatorClass)}>
                   {s === 'done' ? (<><Check className="size-3.5 animate-pop" emphasis="selected" aria-hidden /><span className="sr-only">{word(s) ?? 'completed'}</span></>)
                     : s === 'failed' ? (<><CircleAlert className="size-3.5" aria-hidden /><span className="sr-only">{word(s) ?? 'failed'}</span></>)
                     : (<>{i + 1}{word(s) != null && <span className="sr-only"> {word(s)}</span>}</>)}
-                </span>
+                </Indicator>
                 {vertical ? <div>{text}</div> : text}
               </li>
             );

@@ -11,7 +11,9 @@ export default defineSpec({
     { name: 'root', el: 'div', role: 'radiogroup', description: 'Group container; arrow keys move the selection.' },
     { name: 'item', el: 'button', parent: 'root', role: 'radio', description: '18px circle.' },
     { name: 'indicator', el: 'span', parent: 'item', required: false, description: '8px (space-2) dot when selected (owner 2026-10-28; was 7px).' },
-    { name: 'label', el: 'label', parent: 'root', required: false, description: 'Wraps an item with its text.' },
+    { name: 'label', el: 'label', parent: 'root', required: false, description: 'Wraps an item with its text. With a description it aligns to the top (items-start) so the circle sits level with the first line, and the text may wrap.' },
+    { name: 'name', el: 'span', parent: 'label', required: false, description: 'Item with a description only: the name line; the chosen item takes medium weight (with the dot, DP-44).' },
+    { name: 'description', el: 'span', parent: 'label', required: false, description: 'Item with a description only: a quiet second line under the name, text.tertiary, text-hint, 2px under the name; dims with a disabled item.' },
   ],
   variants: {
     tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'accent', description: 'Colour family of the checked circle (default accent). Set on the group; every item reads it.' },
@@ -25,6 +27,7 @@ export default defineSpec({
     disabled: { props: { disabled: true } },
   },
   props: {
+    description: { type: 'ReactNode', description: 'RadioGroupItem: quiet second line under the label. The label then wraps over several lines with the circle aligned to the first line, and the chosen item adds weight to its name. Absent keeps the single-line label.' },
     tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'accent', description: 'Colour family of the checked circle (default accent). Set on the group; every item reads it.' },
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'solid', description: 'Emphasis of the checked circle: solid = tone solid fill with the dot in the tone on colour (default); soft = tone soft fill, tone border-strong edge, tone text dot; outline = surface fill, 1.5px tone solid edge, tone solid dot; ghost = the control edge stays, tone solid dot only.' },
     radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: 'full', description: 'Radius of the circles (the group container has no surface); unset keeps full.' },

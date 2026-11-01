@@ -4,7 +4,7 @@ import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { Progress } from '../progress/progress.tsx';
-import { toolActivity, toolBody, toolCallVariants, toolHeader, toolIcon, toolStatus, type ToolCallVariantProps } from './tool-call.variants.ts';
+import { toolActivity, toolBody, toolCallBareClass, toolCallVariants, toolHeader, toolIcon, toolStatus, type ToolCallVariantProps } from './tool-call.variants.ts';
 
 export interface ToolCallProps extends Omit<ComponentProps<'div'>, 'children'>, Pick<ToolCallVariantProps, 'status'>, CommonProps {
   /** Tool identifier, shown in mono. */
@@ -22,15 +22,17 @@ export interface ToolCallProps extends Omit<ComponentProps<'div'>, 'children'>, 
   progressLabel?: ((name: string) => string) | undefined;
   /** 0–100 while running; omit when unknown. */
   progress?: number;
+  /** No card of its own (no fill, hairline, rim, corner clip), for use inside a well or panel that already draws one; the status pill still carries the state. */
+  bare?: boolean;
   /** Expandable result: a diff, a log line or the failure reason. */
   children?: ReactNode;
 }
 
 /** One agent tool invocation: running (spectrum rim), done or failed. */
-export function ToolCall({ name, detail, icon, status, tone, variant, radius, shadow, size, duration, activity, failedLabel, progressLabel, progress, className, children, ...props }: ToolCallProps) {
+export function ToolCall({ name, detail, icon, status, tone, variant, radius, shadow, size, duration, activity, failedLabel, progressLabel, progress, bare = false, className, children, ...props }: ToolCallProps) {
   const s = status ?? 'done';
   return (
-    <div data-slot="tool-call" data-status={s} data-size={size ?? 'md'} className={cn(toolCallVariants({ variant, status, radius, shadow }), 'animate-rise', className)} {...props}>
+    <div data-slot="tool-call" data-status={s} data-size={size ?? 'md'} className={cn(toolCallVariants({ variant, status, radius, shadow }), bare && toolCallBareClass, 'animate-rise', className)} {...props}>
       <div data-slot="tool-call-header" className={toolHeader({ size })}>
         {icon != null && <span data-slot="tool-call-icon" aria-hidden className={toolIcon({ tone })}>{icon}</span>}
         <span data-slot="tool-call-name" className="whitespace-nowrap font-mono text-mono-strong text-text-primary">{name}</span>

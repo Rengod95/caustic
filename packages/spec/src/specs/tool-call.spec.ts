@@ -26,6 +26,7 @@ export default defineSpec({
   },
   sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   props: {
+    bare: { type: 'boolean', default: 'false', description: 'No card of its own (no fill, hairline, danger edge, rim, elevation or corner clip) for use inside a well or panel that already draws one; the status pill still carries the state.' },
     name: { type: 'string', required: true, description: 'Tool id.' },
     detail: { type: 'ReactNode', description: 'Argument summary.' },
     icon: { type: 'ReactNode', description: 'Tool icon.' },

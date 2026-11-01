@@ -4,8 +4,8 @@
     "at": "2026-10-31T16:07:29.217Z"
   },
   "activity-tree": {
-    "specHash": "53db258672080305",
-    "at": "2026-10-31T16:07:45.010Z"
+    "specHash": "418a968983596fea",
+    "at": "2026-11-01T06:20:31.475Z"
   },
   "agent-cursor": {
     "specHash": "668b7bbef21af135",
@@ -56,8 +56,8 @@
     "at": "2026-10-31T16:10:32.167Z"
   },
   "button": {
-    "specHash": "6f516477ac401685",
-    "at": "2026-10-31T16:10:52.020Z"
+    "specHash": "31a1043fca30f783",
+    "at": "2026-11-01T06:16:09.834Z"
   },
   "button-group": {
     "specHash": "b25a7cb405e2e4d3",
@@ -92,8 +92,8 @@
     "at": "2026-10-31T16:12:03.011Z"
   },
   "card": {
-    "specHash": "5d05cc3a625c3c0c",
-    "at": "2026-10-31T16:13:08.367Z"
+    "specHash": "7c91da90a55e5f82",
+    "at": "2026-11-01T06:17:47.551Z"
   },
   "card-stat": {
     "specHash": "9ee439e86286a507",
@@ -196,8 +196,8 @@
     "at": "2026-10-31T16:20:48.197Z"
   },
   "field": {
-    "specHash": "f92f7005efbf81db",
-    "at": "2026-10-31T16:21:07.393Z"
+    "specHash": "c442ddcc27bde4eb",
+    "at": "2026-11-01T06:22:21.566Z"
   },
   "file-upload": {
     "specHash": "9935be08f8d8a63c",
@@ -276,8 +276,8 @@
     "at": "2026-10-31T16:27:37.599Z"
   },
   "list-navigation": {
-    "specHash": "f73fae3a1198b19c",
-    "at": "2026-10-31T16:28:09.280Z"
+    "specHash": "df7fd36aee490f81",
+    "at": "2026-11-01T06:21:45.913Z"
   },
   "menu": {
     "specHash": "753c29a91c7d66b8",
@@ -320,8 +320,8 @@
     "at": "2026-10-31T16:31:23.403Z"
   },
   "plan": {
-    "specHash": "738d412e1bd75675",
-    "at": "2026-10-31T16:31:37.706Z"
+    "specHash": "ff15a51014c8e76d",
+    "at": "2026-11-01T06:20:02.947Z"
   },
   "policy-findings": {
     "specHash": "aa6dabcff71ba8a7",
@@ -344,8 +344,8 @@
     "at": "2026-10-31T16:33:13.397Z"
   },
   "radio-group": {
-    "specHash": "78feb76abd61faef",
-    "at": "2026-10-31T16:33:21.148Z"
+    "specHash": "30e0601b42b65fd4",
+    "at": "2026-11-01T06:18:04.852Z"
   },
   "reading-order": {
     "specHash": "1de134cd7b26ee16",
@@ -396,8 +396,8 @@
     "at": "2026-10-31T16:36:41.609Z"
   },
   "stepper": {
-    "specHash": "077129a7cef21f93",
-    "at": "2026-10-31T16:37:02.291Z"
+    "specHash": "39d5b1281619d783",
+    "at": "2026-11-01T06:19:34.137Z"
   },
   "stroke-editor": {
     "specHash": "0de8680516379758",
@@ -460,8 +460,8 @@
     "at": "2026-10-31T16:41:16.149Z"
   },
   "tool-call": {
-    "specHash": "2381ae4ecb8cb17a",
-    "at": "2026-10-31T17:03:17.564Z"
+    "specHash": "39f9482d6ab5cc2e",
+    "at": "2026-11-01T06:20:58.148Z"
   },
   "tooltip": {
     "specHash": "3f0fc0a87b4bd02f",

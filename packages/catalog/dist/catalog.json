@@ -1358,6 +1358,12 @@
       ],
       "el": "div",
       "props": {
+        "bare": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Drops the box whatever variant says (the ghost look), for use inside a well or panel that already draws one."
+        },
         "nodes": {
           "type": "ActivityNode[]",
           "required": true,
@@ -1458,6 +1464,12 @@
             "default": "Agent activity",
             "required": false,
             "description": "Accessible name."
+          },
+          "bare": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "Drops the box whatever variant says (the ghost look), for use inside a well or panel that already draws one."
           },
           "failedLabel": {
             "type": "string",
@@ -6486,6 +6498,12 @@
             "lg"
           ]
         },
+        "fieldHeight": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = control-md, field-sm, field-md, field-lg) so a button beside a field lines up without stepping size. Off keeps the control heights above."
+        },
         "loading": {
           "type": "boolean",
           "default": false,
@@ -6522,6 +6540,12 @@
             "type": "ReactNode",
             "required": false,
             "description": "Label, optionally with icons."
+          },
+          "fieldHeight": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = control-md, field-sm, field-md, field-lg) so a button beside a field lines up without stepping size. Off keeps the control heights above."
           },
           "iconEnd": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
@@ -9982,6 +10006,11 @@
       ],
       "el": "any",
       "props": {
+        "badge": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "CardHeader: one short Badge at the end of the header row (slot badge). Absent renders nothing; the header is unchanged."
+        },
         "variant": {
           "type": "'surface' | 'plain' | 'glass' | 'outline' | 'dashed' | 'well' | 'agent' | 'spotlight' | 'feature' | 'solid' | 'soft' | 'ghost'",
           "default": "surface",
@@ -10535,6 +10564,11 @@
           }
         },
         "CardHeader": {
+          "badge": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "CardHeader: one short Badge at the end of the header row (slot badge). Absent renders nothing; the header is unchanged."
+          },
           "density": {
             "type": "\"default\" | \"shell\"",
             "default": "default",
@@ -21545,6 +21579,11 @@
             "required": false,
             "description": "Body content with title; the parts of a custom layout without it."
           },
+          "fieldHeight": {
+            "type": "boolean",
+            "required": false,
+            "description": ""
+          },
           "iconEnd": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
             "required": false,
@@ -24266,6 +24305,16 @@
       ],
       "el": "div",
       "props": {
+        "optionalPlacement": {
+          "type": "'label' | 'row'",
+          "default": "label",
+          "required": false,
+          "description": "Where the optional mark sits. label (default): inside the label element, read as part of the label. row: a sibling after the label in the label row, outside the label element, so the control name stays the label alone.",
+          "values": [
+            "label",
+            "row"
+          ]
+        },
         "tone": {
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "neutral",
@@ -24466,6 +24515,16 @@
             "type": "string",
             "required": false,
             "description": "Text of the optional mark (e.g. \"Optional\"). Required whenever optional is true; no built-in default. Optional in the type only because it is unused when optional is false."
+          },
+          "optionalPlacement": {
+            "type": "\"label\" | \"row\"",
+            "default": "label",
+            "required": false,
+            "description": "Where the optional mark sits. label (default): inside the label element, read as part of the label. row: a sibling after the label in the label row, outside the label element, so the control name stays the label alone.",
+            "values": [
+              "label",
+              "row"
+            ]
           },
           "overLimit": {
             "type": "boolean",
@@ -33849,6 +33908,11 @@
       ],
       "el": "nav",
       "props": {
+        "statusLabels": {
+          "type": "Partial<Record<'running' | 'review' | 'failed' | 'done', string>>",
+          "required": false,
+          "description": "ListNavigationItem: the hidden status words read before the label (defaults Running, Needs review, Failed, Done); pass them to translate."
+        },
         "aria-label": {
           "type": "string",
           "required": true,
@@ -34246,6 +34310,11 @@
               "running",
               "failed"
             ]
+          },
+          "statusLabels": {
+            "type": "Partial<Record<ListNavigationStatus, string>>",
+            "required": false,
+            "description": "ListNavigationItem: the hidden status words read before the label (defaults Running, Needs review, Failed, Done); pass them to translate."
           },
           "sub": {
             "type": "ReactNode",
@@ -39397,13 +39466,24 @@
       ],
       "el": "div",
       "props": {
+        "onRowPress": {
+          "type": "(step: PlanStep, index: number) => void",
+          "required": false,
+          "description": "Makes each row a button (e.g. jump to the turn that made the step); a step with clickable false stays plain. Without it rows are read-only."
+        },
+        "bare": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "No card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one."
+        },
         "title": {
           "type": "ReactNode",
           "required": true,
           "description": "Plan name."
         },
         "steps": {
-          "type": "{ id: string; label: ReactNode; status: 'done' | 'now' | 'todo' | 'failed'; detail?: ReactNode }[]",
+          "type": "{ id: string; label: ReactNode; status: 'done' | 'now' | 'todo' | 'failed'; detail?: ReactNode; clickable?: boolean }[]",
           "required": true,
           "description": "Steps in order."
         },
@@ -39489,10 +39569,21 @@
       },
       "exportProps": {
         "Plan": {
+          "bare": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "No card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one."
+          },
           "countLabel": {
             "type": "(done: number, total: number) => string",
             "required": true,
             "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). No built-in default."
+          },
+          "onRowPress": {
+            "type": "(step: PlanStep, index: number) => void",
+            "required": false,
+            "description": "Makes each row a button (e.g. jump to the turn that made the step); a step with clickable false stays plain. Without it rows are read-only."
           },
           "radius": {
             "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",
@@ -42220,6 +42311,11 @@
       ],
       "el": "div",
       "props": {
+        "description": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "RadioGroupItem: quiet second line under the label. The label then wraps over several lines with the circle aligned to the first line, and the chosen item adds weight to its name. Absent keeps the single-line label."
+        },
         "tone": {
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "accent",
@@ -42428,6 +42524,11 @@
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
             "required": false,
             "description": ""
+          },
+          "description": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "RadioGroupItem: quiet second line under the label. The label then wraps over several lines with the circle aligned to the first line, and the chosen item adds weight to its name. Absent keeps the single-line label."
           },
           "value": {
             "type": "string",
@@ -48200,6 +48301,17 @@
       ],
       "el": "div",
       "props": {
+        "onStepClick": {
+          "type": "(index: number, step: StepperStep) => void",
+          "required": false,
+          "description": "Makes steps pressable, e.g. to reopen a finished step: each step (except those with clickable false) becomes a button. Without it steps stay read-only."
+        },
+        "bare": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Checklist only: no card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one."
+        },
         "value": {
           "type": "number",
           "default": 0,
@@ -48317,6 +48429,12 @@
       },
       "exportProps": {
         "Stepper": {
+          "bare": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "Checklist only: no card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one."
+          },
           "children": {
             "type": "ReactNode",
             "required": false,
@@ -48326,6 +48444,11 @@
             "type": "(done: number, total: number) => string",
             "required": false,
             "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). Supplied by the consumer so it can be translated and pluralized; no built-in default."
+          },
+          "onStepClick": {
+            "type": "(index: number, step: StepperStep) => void",
+            "required": false,
+            "description": "Makes steps pressable, e.g. to reopen a finished step: each step (except those with clickable false) becomes a button. Without it steps stay read-only."
           },
           "orientation": {
             "type": "\"horizontal\" | \"vertical\"",
@@ -48534,7 +48657,12 @@
           "description": "StepperTitle: the name of the steps; names the root group (aria-labelledby)."
         }
       ],
-      "events": {},
+      "events": {
+        "onStepClick": {
+          "payload": "(index: number, step: StepperStep)",
+          "when": "a pressable step is pressed"
+        }
+      },
       "keyboard": {},
       "a11y": {
         "labelRequired": false,
@@ -55375,6 +55503,12 @@
       ],
       "el": "div",
       "props": {
+        "bare": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "No card of its own (no fill, hairline, danger edge, rim, elevation or corner clip) for use inside a well or panel that already draws one; the status pill still carries the state."
+        },
         "name": {
           "type": "string",
           "required": true,
@@ -55505,6 +55639,12 @@
             "type": "string",
             "required": false,
             "description": "Running label (e.g. \"Running\", \"Deriving\"). Required whenever status is running; no built-in default."
+          },
+          "bare": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "No card of its own (no fill, hairline, danger edge, rim, elevation or corner clip) for use inside a well or panel that already draws one; the status pill still carries the state."
           },
           "children": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",

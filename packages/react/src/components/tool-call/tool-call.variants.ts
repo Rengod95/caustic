@@ -24,6 +24,9 @@ export const toolCallVariants = cva('relative overflow-hidden rounded-xl text-te
   defaultVariants: { variant: 'outline', status: 'done', radius: 'xl', shadow: 'none' },
 });
 
+/** bare: the card drops out (no fill, hairline, danger edge, rim or elevation, no corner clip); placed last it wins over variant and status. */
+export const toolCallBareClass = 'overflow-visible rounded-none bg-transparent shadow-none after:hidden';
+
 /** The header row; size steps its height and type (40px ui-dense at md, the specimen). */
 export const toolHeader = cva('flex min-w-0 items-center gap-2 px-2.5', {
   variants: { size: { xs: 'h-7 text-ui-xs', sm: 'h-8 text-ui-sm', md: 'h-10 text-ui-dense', lg: 'h-12 text-ui' } },

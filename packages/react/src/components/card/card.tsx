@@ -1,7 +1,7 @@
 'use client';
 import { Slot } from '@radix-ui/react-slot';
 import { ArrowUpRight, Check } from '../../icons/index.ts';
-import type { ComponentProps, MouseEventHandler, PointerEvent, PointerEventHandler } from 'react';
+import type { ComponentProps, MouseEventHandler, PointerEvent, PointerEventHandler, ReactNode } from 'react';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
@@ -129,21 +129,27 @@ export function CardChoice({
   );
 }
 
-export interface CardHeaderProps extends ComponentProps<'div'>, CardHeaderVariantProps {}
+export interface CardHeaderProps extends ComponentProps<'div'>, CardHeaderVariantProps {
+  /** One short badge at the end of the row (a well header: "Writes denied"). Long labels belong in the body, not here. */
+  badge?: ReactNode;
+}
 
 /**
  * Row: optional leading CardIcon (or CardOrb), a CardHeading (flexible) and an optional CardTrailing. Use
  * headerAlign="center" with a tile, badge or switch. density="shell" is the header of a well card (centred, its own
  * padding, a lighter title).
  */
-export function CardHeader({ headerAlign, density, className, ...props }: CardHeaderProps) {
+export function CardHeader({ headerAlign, density, badge, className, children, ...props }: CardHeaderProps) {
   const align = headerAlign ?? (density === 'shell' ? 'center' : 'start');
   return (
     <div
       data-slot="card-header" data-align={align} data-density={density ?? 'default'}
       className={cn(cardHeaderVariants({ headerAlign: align, density }), cardAboveCoverVariants(), className)}
       {...props}
-    />
+    >
+      {children}
+      {badge != null && <span data-slot="card-badge" className="flex flex-none items-center">{badge}</span>}
+    </div>
   );
 }
 

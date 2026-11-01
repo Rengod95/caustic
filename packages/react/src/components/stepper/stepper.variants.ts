@@ -226,3 +226,10 @@ export const stepperChecklistLabel = cva('', {
 export const stepperDetailClass = 'ms-auto text-ui-xs font-normal text-text-placeholder';
 
 export type StepperVariantProps = VariantProps<typeof stepperVariants>;
+
+/** bare checklist: no card of its own (no fill, hairline, corner, inset or progress band), for use inside a well or panel that already draws one. */
+export const stepperBareClass = 'rounded-none bg-transparent p-0 shadow-none';
+/** A pressable step (onStepClick): the checklist row body as a button filling the row. */
+export const stepperPressRowClass = 'press flex min-w-0 flex-1 cursor-pointer items-center gap-2 self-stretch rounded-sm text-left';
+/** A pressable step of the progress look: the indicator as a button. */
+export const stepperPressIndicatorClass = 'press cursor-pointer';

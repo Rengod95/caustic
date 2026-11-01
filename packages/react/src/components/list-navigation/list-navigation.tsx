@@ -62,6 +62,8 @@ export interface ListNavigationItemProps extends Omit<ComponentProps<'a'>, 'chil
   leading?: ReactNode;
   /** Agent session status: the mark in the leading column (running = spectrum orb, review / failed = dot, done = check) and a visually hidden status word. */
   status?: ListNavigationStatus;
+  /** The hidden status words read before the label, per status; set it to translate (defaults: Running, Needs review, Failed, Done). */
+  statusLabels?: Partial<Record<ListNavigationStatus, string>>;
   /** Trailing text before the count (session time, status word). */
   meta?: ReactNode;
   /** Count at the end. */
@@ -158,7 +160,7 @@ export function ListNavigationGroup({ heading, headingAction, addLabel, onAdd, c
 }
 
 export function ListNavigationItem({
-  icon, leading, status, meta, count, hot = false, current = false, href, sub, expanded, defaultExpanded = false, onExpandedChange, asChild = false,
+  icon, leading, status, statusLabels, meta, count, hot = false, current = false, href, sub, expanded, defaultExpanded = false, onExpandedChange, asChild = false,
   onClick, onSelect, className, children, ...props
 }: ListNavigationItemProps) {
   const subId = useId();
@@ -194,7 +196,7 @@ export function ListNavigationItem({
     <>
       {lead}
       <span data-slot="list-navigation-label" className={listNavigationLabel({ status })}>
-        {status != null && <span className="sr-only">{STATUS_WORD[status]}: </span>}{children}
+        {status != null && <span className="sr-only">{statusLabels?.[status] ?? STATUS_WORD[status]}: </span>}{children}
       </span>
       {meta != null && <span data-slot="list-navigation-meta" className={listNavigationMeta()}><IconEmphasisProvider value="muted">{meta}</IconEmphasisProvider></span>}
       {count != null && <span data-slot="list-navigation-count" data-hot={hot || undefined} className={listNavigationCount({ hot, kind, tone, variant })}>{count}</span>}

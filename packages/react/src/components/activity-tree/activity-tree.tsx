@@ -30,6 +30,8 @@ export interface ActivityTreeProps extends Omit<ComponentProps<'div'>, 'children
   worker?: { name: ReactNode; meta?: ReactNode };
   /** Hidden status word before a failed step or call. */
   failedLabel?: string;
+  /** Drops the box whatever variant says (same as ghost), for use inside a well or panel that already draws one. */
+  bare?: boolean;
   'aria-label'?: string;
   // Common props (lib/common-props.ts): variant boxes the tree (ghost = bare, default), tone colours the box and the
   // call glyphs, radius and shadow shape the box, size steps the rows (md = 28px ui-dense).
@@ -38,7 +40,7 @@ export interface ActivityTreeProps extends Omit<ComponentProps<'div'>, 'children
 const metaClass = 'text-ui-xs tabular-nums text-text-tertiary';
 
 /** The plan as a tree with tool calls attached to the step that made them. Read-only. */
-export function ActivityTree({ nodes, worker, failedLabel = 'Failed', tone, variant, radius, shadow, size, className, 'aria-label': ariaLabel = 'Agent activity', ...props }: ActivityTreeProps) {
+export function ActivityTree({ nodes, worker, failedLabel = 'Failed', tone, variant, radius, shadow, size, bare = false, className, 'aria-label': ariaLabel = 'Agent activity', ...props }: ActivityTreeProps) {
   const busy = nodes.some(n => n.kind === 'step' && n.status === 'active');
   const listRef = useRef<HTMLUListElement>(null);
   // Rows of the first paint stay still; a row or the worker line that appears later rises in.
@@ -47,7 +49,7 @@ export function ActivityTree({ nodes, worker, failedLabel = 'Failed', tone, vari
   // A row that appears or disappears slides the rows around it.
   useFlip(listRef, '[data-node-id]', 'nodeId');
   return (
-    <div data-slot="activity-tree" aria-label={ariaLabel} aria-busy={busy || undefined} className={cn(activityTreeVariants({ variant, tone, radius, shadow }), className)} {...props}>
+    <div data-slot="activity-tree" aria-label={ariaLabel} aria-busy={busy || undefined} className={cn(activityTreeVariants({ variant: bare ? 'ghost' : variant, tone, radius, shadow }), className)} {...props}>
       <ul ref={listRef} data-slot="activity-tree-list" role="list" className="m-0 grid list-none gap-0 p-0">
         {nodes.map(n => {
           const rise = !firstPaint.has(n.id);

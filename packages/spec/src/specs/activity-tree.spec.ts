@@ -33,6 +33,7 @@ export default defineSpec({
   },
   sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   props: {
+    bare: { type: 'boolean', default: 'false', description: 'Drops the box whatever variant says (the ghost look), for use inside a well or panel that already draws one.' },
     nodes: { type: 'ActivityNode[]', required: true, description: 'In order: { id; kind: "step" | "call"; label: ReactNode (step text or call "name · argument"); meta?: ReactNode; status?: "done" | "active" | "failed" (steps); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others.' },
     failedLabel: { type: 'string', default: 'Failed', description: 'Visually hidden status word before a failed step or call.' },
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'ghost', description: 'Box emphasis; ghost (default) is the bare tree.' },
