@@ -24,7 +24,7 @@ typecheck:
     pnpm typecheck
 
 # 기기에서 한 번에 하나(슬롯 1), 메모리 상한 3G(scripts/guard.sh). 전체 116개 검사는 just gate-all.
-# 완료 기준: 의존성, 타입, 토큰, 게이트(--no-specimens: 명세→특정 링크 검사만 뺀다, 로컬 gate-all이 한다), ws check (ws help justfile)
+# 완료 기준: 의존성, 타입, 토큰, 게이트, ws check (ws help justfile)
 [group('quality')]
 verify:
     WS_GUARD_SLOTS=1 WS_GUARD_VERIFY_MAX=3G scripts/guard.sh verify -- just _verify-steps
@@ -36,7 +36,7 @@ verify:
 _verify-steps: setup typecheck
     pnpm tokens:check
     pnpm catalog:check
-    pnpm gate:all --no-specimens --changed --shards=1
+    pnpm gate:all --changed --shards=1
 
 # 생성 파일 갱신: 토큰 빌드(dist)와 레지스트리(index, fixtures, specs index)
 [group('build')]
@@ -49,7 +49,7 @@ codegen:
 gate *ids:
     pnpm gate {{ids}}
 
-# 전체 게이트, 병렬 샤드. ../caustic-preview가 필요하다(명세→특정 링크 검사, 로컬 전용). verify는 이 검사만 뺀다
+# 전체 게이트, 병렬 샤드(116개 전부, 무겁다. 평소에는 just gate <id…>)
 [group('local')]
 gate-all:
     pnpm gate:all
