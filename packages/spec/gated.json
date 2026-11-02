@@ -4,16 +4,16 @@
     "at": "2026-10-31T16:07:29.217Z"
   },
   "activity-tree": {
-    "specHash": "53db258672080305",
-    "at": "2026-10-31T16:07:45.010Z"
+    "specHash": "22a1da0aa3609bae",
+    "at": "2026-11-01T06:26:19.790Z"
   },
   "agent-cursor": {
     "specHash": "668b7bbef21af135",
     "at": "2026-10-31T16:07:50.660Z"
   },
   "agent-request": {
-    "specHash": "b9faded8d2159cf8",
-    "at": "2026-10-31T16:08:26.764Z"
+    "specHash": "dff01a50229d669c",
+    "at": "2026-11-01T06:46:18.248Z"
   },
   "agent-work-area": {
     "specHash": "c09320d921adf8b4",
@@ -36,8 +36,8 @@
     "at": "2026-10-31T16:09:19.067Z"
   },
   "app-shell": {
-    "specHash": "4da5c8e1f52ba671",
-    "at": "2026-10-31T16:09:39.692Z"
+    "specHash": "eacfe3e2201120f6",
+    "at": "2026-11-01T06:42:54.852Z"
   },
   "auto-layout": {
     "specHash": "f2822b79a6ab2ed0",
@@ -56,8 +56,8 @@
     "at": "2026-10-31T16:10:32.167Z"
   },
   "button": {
-    "specHash": "6f516477ac401685",
-    "at": "2026-10-31T16:10:52.020Z"
+    "specHash": "31a1043fca30f783",
+    "at": "2026-11-01T06:16:09.834Z"
   },
   "button-group": {
     "specHash": "b25a7cb405e2e4d3",
@@ -92,8 +92,8 @@
     "at": "2026-10-31T16:12:03.011Z"
   },
   "card": {
-    "specHash": "5d05cc3a625c3c0c",
-    "at": "2026-10-31T16:13:08.367Z"
+    "specHash": "7c91da90a55e5f82",
+    "at": "2026-11-01T06:17:47.551Z"
   },
   "card-stat": {
     "specHash": "9ee439e86286a507",
@@ -120,8 +120,8 @@
     "at": "2026-10-31T16:14:59.987Z"
   },
   "code-diff": {
-    "specHash": "18dcb240b91d254f",
-    "at": "2026-10-31T16:15:11.122Z"
+    "specHash": "add874f841104a68",
+    "at": "2026-11-01T06:37:41.566Z"
   },
   "code-realization": {
     "specHash": "99948ef2de435efd",
@@ -143,13 +143,17 @@
     "specHash": "f5e04334f6f3e2e7",
     "at": "2026-10-31T16:16:52.902Z"
   },
+  "command-palette": {
+    "specHash": "408580247bb16177",
+    "at": "2026-11-01T06:48:12.188Z"
+  },
   "compare-view": {
     "specHash": "c9907d0bd9e68e5f",
     "at": "2026-10-31T16:17:04.638Z"
   },
   "composer": {
-    "specHash": "1a91e4a283c7545a",
-    "at": "2026-10-31T16:17:36.509Z"
+    "specHash": "b99123d969f1e20a",
+    "at": "2026-11-01T06:28:19.355Z"
   },
   "constraints-control": {
     "specHash": "b20586331cac972a",
@@ -196,8 +200,8 @@
     "at": "2026-10-31T16:20:48.197Z"
   },
   "field": {
-    "specHash": "f92f7005efbf81db",
-    "at": "2026-10-31T16:21:07.393Z"
+    "specHash": "c442ddcc27bde4eb",
+    "at": "2026-11-01T06:22:21.566Z"
   },
   "file-upload": {
     "specHash": "9935be08f8d8a63c",
@@ -268,24 +272,28 @@
     "at": "2026-10-31T16:26:08.782Z"
   },
   "list": {
-    "specHash": "f1902f72ffe2757f",
-    "at": "2026-10-31T16:27:26.745Z"
+    "specHash": "6d913faa9d385649",
+    "at": "2026-11-01T06:32:11.289Z"
   },
   "list-description": {
     "specHash": "f4e77c9b3c05a9d4",
     "at": "2026-10-31T16:27:37.599Z"
   },
   "list-navigation": {
-    "specHash": "f73fae3a1198b19c",
-    "at": "2026-10-31T16:28:09.280Z"
+    "specHash": "df7fd36aee490f81",
+    "at": "2026-11-01T06:21:45.913Z"
   },
   "menu": {
     "specHash": "753c29a91c7d66b8",
     "at": "2026-10-31T16:28:26.292Z"
   },
   "message": {
-    "specHash": "8e596e115f7221b0",
-    "at": "2026-10-31T16:28:40.504Z"
+    "specHash": "a4e3e2fd8eafa43d",
+    "at": "2026-11-01T06:29:03.244Z"
+  },
+  "meter": {
+    "specHash": "7e7b85fa87746842",
+    "at": "2026-10-31T17:06:57.869Z"
   },
   "motion-timeline": {
     "specHash": "c57df7e6b72cdd77",
@@ -316,8 +324,8 @@
     "at": "2026-10-31T16:31:23.403Z"
   },
   "plan": {
-    "specHash": "738d412e1bd75675",
-    "at": "2026-10-31T16:31:37.706Z"
+    "specHash": "ff15a51014c8e76d",
+    "at": "2026-11-01T06:20:02.947Z"
   },
   "policy-findings": {
     "specHash": "aa6dabcff71ba8a7",
@@ -340,8 +348,8 @@
     "at": "2026-10-31T16:33:13.397Z"
   },
   "radio-group": {
-    "specHash": "78feb76abd61faef",
-    "at": "2026-10-31T16:33:21.148Z"
+    "specHash": "30e0601b42b65fd4",
+    "at": "2026-11-01T06:18:04.852Z"
   },
   "reading-order": {
     "specHash": "1de134cd7b26ee16",
@@ -391,9 +399,13 @@
     "specHash": "918b9bbfc3dedb53",
     "at": "2026-10-31T16:36:41.609Z"
   },
+  "status-dot": {
+    "specHash": "cd8ffdc82d3d5cde",
+    "at": "2026-11-01T06:40:23.634Z"
+  },
   "stepper": {
-    "specHash": "077129a7cef21f93",
-    "at": "2026-10-31T16:37:02.291Z"
+    "specHash": "39d5b1281619d783",
+    "at": "2026-11-01T06:19:34.137Z"
   },
   "stroke-editor": {
     "specHash": "0de8680516379758",
@@ -407,9 +419,13 @@
     "specHash": "4ef911b7a36a0cbd",
     "at": "2026-10-31T16:37:41.305Z"
   },
+  "system-row": {
+    "specHash": "160883304e6d80e3",
+    "at": "2026-11-01T06:41:10.649Z"
+  },
   "table": {
-    "specHash": "9db24599bdd0dee3",
-    "at": "2026-10-31T16:38:02.724Z"
+    "specHash": "3166289255e0cb35",
+    "at": "2026-11-01T06:34:28.126Z"
   },
   "tabs": {
     "specHash": "20dd766a4e9ef778",
@@ -456,8 +472,8 @@
     "at": "2026-10-31T16:41:16.149Z"
   },
   "tool-call": {
-    "specHash": "2381ae4ecb8cb17a",
-    "at": "2026-10-31T17:03:17.564Z"
+    "specHash": "f5e87449d5d7fea3",
+    "at": "2026-11-01T06:26:45.710Z"
   },
   "tooltip": {
     "specHash": "3f0fc0a87b4bd02f",

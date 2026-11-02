@@ -4,7 +4,7 @@ import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Size } from '../../lib/common-props.ts';
 import {
   appShellBodyVariants, appShellEndVariants, appShellOverlayVariants, appShellSkipVariants, appShellStageVariants,
-  appShellStartVariants, appShellTitlebarVariants, appShellVariants,
+  appShellStartVariants, appShellStatusbarCellVariants, appShellStatusbarVariants, appShellTitlebarVariants, appShellVariants,
 } from './app-shell.variants.ts';
 
 type Layout = 'wide' | 'medium' | 'compact';
@@ -54,7 +54,8 @@ export function AppShell({ layout, skipLabel, tone, variant, radius, shadow, siz
   // The titlebar sits above the body row; everything else (start, stage, end) goes in the body.
   const parts = Children.toArray(children);
   const titlebar = parts.filter(c => isValidElement(c) && c.type === AppShellTitlebar);
-  const body = parts.filter(c => !titlebar.includes(c));
+  const statusbar = parts.filter(c => isValidElement(c) && c.type === AppShellStatusbar);
+  const body = parts.filter(c => !titlebar.includes(c) && !statusbar.includes(c));
 
   return (
     <ShellContext.Provider value={{ layout: current, stageId, size }}>
@@ -62,6 +63,7 @@ export function AppShell({ layout, skipLabel, tone, variant, radius, shadow, siz
         {skipLabel !== undefined && <a data-slot="app-shell-skip" href={`#${stageId}`} className={appShellSkipVariants()} onClick={skip}>{skipLabel}</a>}
         {titlebar}
         <div data-slot="app-shell-body" className={appShellBodyVariants({ size })}>{body}</div>
+        {statusbar}
       </div>
     </ShellContext.Provider>
   );
@@ -107,4 +109,21 @@ export interface AppShellEndProps extends ComponentProps<'div'> {}
 export function AppShellEnd({ className, ...props }: AppShellEndProps) {
   const { layout } = useContext(ShellContext);
   return <div data-slot="app-shell-end" className={cn(appShellEndVariants({ layout }), className)} {...props} />;
+}
+
+export interface AppShellStatusbarProps extends ComponentProps<'div'> {}
+
+/** A strip under the window: cells of text, Badge, ghost Button or Popover trigger. */
+export function AppShellStatusbar({ className, ...props }: AppShellStatusbarProps) {
+  return <div data-slot="app-shell-statusbar" className={cn(appShellStatusbarVariants(), className)} {...props} />;
+}
+
+export interface AppShellStatusbarCellProps extends ComponentProps<'span'> {
+  /** end pushes this cell and the ones after it to the end of the strip. */
+  align?: 'start' | 'end';
+}
+
+/** One cell of the statusbar. */
+export function AppShellStatusbarCell({ align, className, ...props }: AppShellStatusbarCellProps) {
+  return <span data-slot="app-shell-statusbar-cell" className={cn(appShellStatusbarCellVariants({ align }), className)} {...props} />;
 }

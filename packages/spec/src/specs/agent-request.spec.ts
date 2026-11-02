@@ -25,12 +25,13 @@ export default defineSpec({
     { name: 'action', el: 'button', parent: 'footer', required: false, role: 'button', description: 'One per actions entry, data-action = its id. primary: Button neutral solid (the ink fill). secondary: neutral soft in a proposal (a filled secondary, so it reads as a button next to the solid one), neutral ghost elsewhere. danger: neutral ghost. Size: proposal and review sm at md (xs at xs / sm, md at lg); permission xs.' },
   ],
   variants: {
-    kind: { values: ['proposal', 'review', 'permission'], default: 'proposal', description: 'proposal = the plan-mode proposal (was Proposal); review = the batch review panel (was ReviewRequest); permission = the permission prompt (was PermissionRequest). Sets the lead (orb or tile), the layout, the role and the default actions.' },
+    kind: { values: ['proposal', 'review', 'permission', 'question'], default: 'proposal', description: 'proposal = the plan-mode proposal (was Proposal); review = the batch review panel (was ReviewRequest); permission = the permission prompt (was PermissionRequest); question = the agent asks the person (C-26): the permission card with an info message tile, a free body for the choices (ChoiceGroup appearance answer, an Input) and the default actions Deny and Answer. Sets the lead (orb or tile), the layout, the role and the default actions.' },
     status: { values: ['pending', 'answered', 'allowed', 'denied'], default: 'pending', description: 'pending = the question; answered, allowed and denied collapse it into the one-line record (check on success; denied: x on the neutral track).' },
   },
   sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   props: {
-    kind: { type: "'proposal' | 'review' | 'permission'", default: 'proposal', description: 'Which request.' },
+    kind: { type: "'proposal' | 'review' | 'permission' | 'question'", default: 'proposal', description: 'Which request.' },
+    lead: { type: 'string', description: 'The quiet lead-in before the title, joined with " · ". Unset: "Proposal" for a proposal, none for the other kinds, so a translated app passes its own word. Pass "" for none.' },
     status: { type: "'pending' | 'answered' | 'allowed' | 'denied'", default: 'pending', description: 'Question or record.' },
     tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", description: 'Unset follows the kind: agent (proposal, review: the spectrum rim, plus the glow on a review), warning (permission tile), success (record), neutral (denied record). proposal / review: any other tone drops the rim for a 1px tone border edge (inset outline); review solid neutral draws none. permission and the record: the tile colour and the soft fill / outline edge.' },
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", description: 'Emphasis; unset = solid. proposal: solid surface.base, soft the tone soft fill, outline no fill and the edge, ghost no fill, edge, rim or elevation. review: solid thick material, soft the tone soft fill as the material, outline thick material plus the tone edge, ghost thick material without elevation (a floating panel keeps its fill). permission / record: solid the status surface, soft the tone soft 3, outline no fill and the tone border 6 edge, ghost no fill or edge.' },
@@ -88,6 +89,10 @@ export default defineSpec({
     { slot: 'root', when: { kind: 'permission', variant: 'outline', tone: 'neutral' }, expect: { bg: 'transparent', edge: 'neutral.border' } },
     { slot: 'root', when: { kind: 'permission', radius: 'lg' }, expect: { radius: 'lg' } },
     { slot: 'root', when: { kind: 'permission', size: 'lg' }, expect: { padX: 16, padY: 16, gap: 12 } },
+    // kind question (C-26)
+    { slot: 'root', when: { kind: 'question' }, expect: { bg: 'surface.base', radius: '2xl', padX: 'inset-compact-x', padY: 'inset-compact-y', gap: 10, shadow: '2' }, note: 'The permission card.' },
+    { slot: 'icon', when: { kind: 'question' }, expect: { bg: 'info.soft', fg: 'info.text', height: 'size-card-tile', width: 'size-card-tile', radius: 'lg' } },
+    { slot: 'title', when: { kind: 'question' }, expect: { text: 'ui-strong', weight: 600, fg: 'text.primary' } },
     // the record
     { slot: 'root', when: { status: 'allowed' }, expect: { bg: 'surface.raised', edge: 'border.subtle', radius: '2xl' }, note: 'Only the inset 1px edge: no elevation, no rim.' },
     { slot: 'header', when: { status: 'allowed' }, expect: { gap: 8 } },
@@ -109,6 +114,8 @@ export default defineSpec({
       { name: 'permission: Deny first', props: { kind: 'permission' }, steps: [{ do: 'click', slot: 'action' }], expect: [{ event: 'onAction', args: ['deny'] }] },
       { name: 'permission: Always for this project', props: { kind: 'permission' }, steps: [{ do: 'click', slot: 'action', nth: 1 }], expect: [{ event: 'onAction', args: ['always'] }] },
       { name: 'permission: Allow once last', props: { kind: 'permission' }, steps: [{ do: 'click', slot: 'action', nth: -1 }], expect: [{ event: 'onAction', args: ['once'] }] },
+      { name: 'question: Deny first', props: { kind: 'question' }, steps: [{ do: 'click', slot: 'action' }], expect: [{ event: 'onAction', args: ['deny'] }] },
+      { name: 'question: Answer last', props: { kind: 'question' }, steps: [{ do: 'click', slot: 'action', nth: -1 }], expect: [{ event: 'onAction', args: ['answer'] }] },
       { name: 'the record has no actions', props: { kind: 'permission', status: 'allowed' }, steps: [], expect: [{ hidden: 'footer' }] },
     ],
   },
@@ -131,6 +138,7 @@ export default defineSpec({
     { id: 'permission-request-permission-request', title: 'Permission request', doc: 'permission#permission-request' },
   ],
   usage: [
+    'question (C-26): fixture title "Expiry date", lead "Question", subtitle "Cards chat · 2:41 PM", and a ChoiceGroup appearance="answer" body; pass an Input for the free-text answer. Default actions Deny (id deny) and Answer (id answer). After the answer, switch status to answered for the record. lead is text from the app so the header can be translated: the proposal header is "Proposal · " only when lead is unset.',
     'Fixture requirements for render(props): kind picks the content. proposal (default): title "Add saved cards", badge "Plan mode", AgentRequestProse "I’ll add a list of up to three saved cards above the form, with an “Add card” row." and an AgentRequestSummary of two Chips (size sm soft: "+ 1 component", "4 layers"). review: title "Review 9 changes" (the 9 in AgentRequestCount), subtitle "Caustic · Pricing refresh", an AgentRequestSummary of three Chips (size sm: tone info "6 tokens"; soft "3 layers"; tone success "AA kept") and a TokenDiff of radius.card 12 to 20, space.card.pad 24 to 32, radius.control 8 to 10. permission: title "Edit the shared Button component?", subtitle "12 instances in 4 frames will change. You can undo this from history.". Any status but pending renders the record titled "Allowed once" with subtitle "Edited 12 instances · 2:41 PM". All with the default actions and onAction recorded.',
     'Example "proposal-proposal-and-clarification" (was proposal): a grid with 14px gap holding the proposal above and a ChoiceGroup appearance="answer" with question "Should saved cards show the expiry date?" and options "Show expiry" / "“Visa •••• 4242 · 08/27”" (selected) and "Hide expiry" / "Shorter rows, details on tap". The curly quotes and bullets are literal text.',
     'Example "review-request-review-request" (was review-request): the review panel rendered inline (no portal), full width of the example. The docs section is in modal.html.',

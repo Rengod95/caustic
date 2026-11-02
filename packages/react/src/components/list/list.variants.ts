@@ -81,6 +81,12 @@ export const listVariants = cva(
   },
 );
 
+/** dividers={false}: no separator between rows (the top-edge pseudo-element, or the opaque border-top) and each row takes lg corners so its hover fill reads as a pill. */
+export const listDividersVariants = cva('', {
+  variants: { dividers: { true: '', false: '[&_[data-slot=list-row]]:rounded-lg [&_[data-slot=list-row]]:border-t-0 [&_[data-slot=list-row]]:before:hidden' } },
+  defaultVariants: { dividers: true },
+});
+
 /** The opaque surface steps its type with the list size (md = ui-dense, the former AppendList). */
 export const listOpaqueVariants = cva('', {
   variants: { size: { xs: 'text-ui-xs', sm: 'text-ui-sm', md: 'text-ui-dense', lg: 'text-ui' } },

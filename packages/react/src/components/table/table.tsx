@@ -1,6 +1,6 @@
 'use client';
 import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown } from '../../icons/index.ts';
-import type { ComponentProps, CSSProperties, ReactNode } from 'react';
+import type { ComponentProps, CSSProperties, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
@@ -32,6 +32,12 @@ export interface TableProps extends Omit<ComponentProps<'div'>, 'children'>, Com
   toolbar?: ReactNode;
   /** Adds the checkbox column and aria-selected on rows. */
   selectable?: boolean;
+  /** single: one row is chosen by click, Enter or Space (no checkbox column); the chosen row is one raised surface, like the current item of a nav. Uses selectedKeys (at most one key). Default none. */
+  selectionMode?: 'none' | 'single';
+  /** A row is activated by click, Enter or Space (a click on a control inside the row does not count). With selectionMode single the row is chosen first. Rows become focusable (arrow keys move between them). */
+  onRowActivate?: (row: TableRow) => void;
+  /** false drops the hairlines between rows and under the header, for a table that sits on the page. Default true. */
+  dividers?: boolean;
   selectedKeys?: string[];
   defaultSelectedKeys?: string[];
   onSelectedKeysChange?: (keys: string[]) => void;
@@ -56,7 +62,7 @@ const pageCurrent = 'bg-control-raised font-semibold text-text-primary shadow-[i
 
 /** Data table: toolbar, row selection, sortable columns, row actions and a footer with summary and pager. */
 export function Table({
-  columns, rows, renderCell, rowLabel, rowActions, toolbar, selectable = false, selectedKeys, defaultSelectedKeys = [], onSelectedKeysChange,
+  columns, rows, renderCell, rowLabel, rowActions, toolbar, selectable = false, selectionMode = 'none', onRowActivate, dividers = true, selectedKeys, defaultSelectedKeys = [], onSelectedKeysChange,
   sort, onSortChange, summary, page, pageCount, onPageChange, pagerLabel = 'Pagination', maxHeight, tone, variant, radius, shadow, size, className, ...props
 }: TableProps) {
   const [selected, setSelected] = useControllableState<string[]>({ value: selectedKeys, defaultValue: defaultSelectedKeys, onChange: onSelectedKeysChange });
@@ -64,10 +70,29 @@ export function Table({
   const someOn = rows.some(r => selected.includes(r.id));
   const nameOf = (row: TableRow) => rowLabel?.(row) ?? String(row[columns[0]?.key ?? 'id'] ?? row.id);
   const toggleRow = (id: string) => setSelected(selected.includes(id) ? selected.filter(k => k !== id) : [...selected, id]);
+  const single = selectionMode === 'single';
+  const pickable = single || onRowActivate !== undefined;
+  // Roving tab stop of pickable rows: the chosen row, else the first.
+  const stopId = rows.find(r => selected.includes(r.id))?.id ?? rows[0]?.id;
+  const activate = (row: TableRow) => {
+    if (single) setSelected([row.id]);
+    onRowActivate?.(row);
+  };
+  const rowClick = (row: TableRow) => (e: MouseEvent<HTMLTableRowElement>) => {
+    if (e.target instanceof Element && e.target.closest('button, a, input, [role="checkbox"]')) return;
+    activate(row);
+  };
+  const rowKey = (row: TableRow) => (e: KeyboardEvent<HTMLTableRowElement>) => {
+    if (e.target !== e.currentTarget) return;
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(row); return; }
+    const to = e.key === 'ArrowDown' ? e.currentTarget.nextElementSibling : e.key === 'ArrowUp' ? e.currentTarget.previousElementSibling
+      : e.key === 'Home' ? e.currentTarget.parentElement?.firstElementChild : e.key === 'End' ? e.currentTarget.parentElement?.lastElementChild : null;
+    if (to instanceof HTMLElement) { e.preventDefault(); to.focus(); }
+  };
   const pager = page != null && pageCount != null;
   const footerSummary = summary ?? (selectable ? `${rows.filter(r => selected.includes(r.id)).length} of ${rows.length} selected` : null);
   const hasFooter = footerSummary != null || pager;
-  const heading = tableHeadingVariants({ size });
+  const heading = tableHeadingVariants({ size, dividers });
   const cell = tableCellVariants({ size });
   const colWidth = (w?: number): CSSProperties | undefined => (w == null ? undefined : { '--col-w': `${w}px` } as CSSProperties);
 
@@ -125,8 +150,10 @@ export function Table({
               const on = selected.includes(row.id);
               return (
                 <tr
-                  key={row.id} data-slot="table-row" aria-selected={selectable ? on : undefined}
-                  className={tableRowVariants({ size })}
+                  key={row.id} data-slot="table-row" aria-selected={selectable || single ? on : undefined}
+                  tabIndex={pickable ? (row.id === stopId ? 0 : -1) : undefined}
+                  onClick={pickable ? rowClick(row) : undefined} onKeyDown={pickable ? rowKey(row) : undefined}
+                  className={tableRowVariants({ size, selection: single ? 'single' : 'multiple', dividers, pickable })}
                 >
                   {selectable && (
                     <td data-slot="table-cell" className={cell}>

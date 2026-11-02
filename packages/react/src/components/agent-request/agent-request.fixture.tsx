@@ -39,6 +39,14 @@ const Proposal = (props: Record<string, unknown>) => (
 const Review = (props: Record<string, unknown>) => (
   <AgentRequest kind="review" title={reviewTitle} subtitle="Caustic · Pricing refresh" {...props}>{reviewBody}</AgentRequest>
 );
+const Question = (props: Record<string, unknown>) => (
+  <AgentRequest kind="question" lead="Question" title="Expiry date" subtitle="Cards chat · 2:41 PM" {...props}>
+    <ChoiceGroup appearance="answer" question="Should saved cards show the expiry date?" defaultValue="show">
+      <ChoiceGroupItem value="show" title="Show expiry" description="“Visa •••• 4242 · 08/27”" />
+      <ChoiceGroupItem value="hide" title="Hide expiry" description="Shorter rows, details on tap" />
+    </ChoiceGroup>
+  </AgentRequest>
+);
 const Permission = (props: Record<string, unknown>) => (
   <AgentRequest kind="permission" title="Edit the shared Button component?" subtitle="12 instances in 4 frames will change. You can undo this from history." {...props} />
 );
@@ -55,7 +63,7 @@ export default defineFixture({
         </div>
       );
     }
-    return <div className="w-100 max-w-full">{k === 'review' ? <Review {...props} /> : k === 'permission' ? <Permission {...props} /> : <Proposal {...props} />}</div>;
+    return <div className="w-100 max-w-full">{k === 'review' ? <Review {...props} /> : k === 'permission' ? <Permission {...props} /> : k === 'question' ? <Question {...props} /> : <Proposal {...props} />}</div>;
   },
   examples: {
     'proposal-proposal-and-clarification': () => (

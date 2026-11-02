@@ -57,13 +57,19 @@ export const activityCallVariants = cva('grid grid-cols-[var(--cs-size-check)_1f
 });
 /** Step label: a finished step steps back to secondary, the running one stays primary in medium weight (owner B). */
 export const activityLabelVariants = cva('', {
-  variants: { status: { done: 'text-text-secondary', active: 'font-medium text-text-primary', failed: 'text-danger-text' } },
+  variants: { status: { done: 'text-text-secondary', active: 'font-medium text-text-primary', failed: 'text-danger-text', pending: 'text-text-tertiary', skipped: 'text-text-tertiary line-through' } },
   defaultVariants: { status: 'done' },
 });
 
 export const activityStepGlyphVariants = cva('grid size-icon-md animate-pop place-items-center [&_svg]:size-icon-sm', {
-  variants: { failed: { true: 'text-danger-text', false: 'text-success-text' } },
-  defaultVariants: { failed: false },
+  variants: { state: { done: 'text-success-text', failed: 'text-danger-text', quiet: 'text-text-tertiary' } },
+  defaultVariants: { state: 'done' },
+});
+/** A collapsible step's label: a bare button in the label column with a trailing chevron that turns when the step is open. */
+export const activityToggleVariants = cva('inline-flex min-w-0 cursor-pointer items-center gap-1 justify-self-start rounded-sm text-start outline-none focus-visible:shadow-focus');
+export const activityChevronVariants = cva('size-icon-sm shrink-0 text-text-tertiary transition-control', {
+  variants: { open: { true: '', false: '-rotate-90' } },
+  defaultVariants: { open: true },
 });
 /** Call glyph: secondary, the tone graphic when a tone is set, danger when the call failed. */
 export const activityCallGlyphVariants = cva('grid size-icon-md place-items-center [&_svg]:size-icon-sm', {

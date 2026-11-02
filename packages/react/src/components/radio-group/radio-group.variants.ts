@@ -89,9 +89,19 @@ export const radioIndicatorVariants = cva('animate-pop rounded-full bg-current',
 });
 
 // The label text dims with a disabled item (disabled.text), like the dot.
-export const radioLabelVariants = cva('inline-flex items-center text-text-primary has-disabled:text-disabled-text', {
-  variants: { size: { xs: 'gap-1.5 text-ui-xs', sm: 'gap-2 text-ui-dense', md: 'gap-2.5 text-ui', lg: 'gap-3 text-ui-lg' } },
-  defaultVariants: { size: 'md' },
+export const radioLabelVariants = cva('inline-flex text-text-primary has-disabled:text-disabled-text', {
+  variants: {
+    size: { xs: 'gap-1.5 text-ui-xs', sm: 'gap-2 text-ui-dense', md: 'gap-2.5 text-ui', lg: 'gap-3 text-ui-lg' },
+    // With a description the label may wrap: the circle sits level with the first line instead of the block centre.
+    multiline: { true: 'items-start [&>[data-slot=radio-group-item]]:mt-px', false: 'items-center' },
+  },
+  defaultVariants: { size: 'md', multiline: false },
+});
+
+/** The name of an item with a description: the chosen one takes weight (with the dot, DP-44). */
+export const radioNameVariants = cva('', {
+  variants: { checked: { true: 'font-medium', false: '' } },
+  defaultVariants: { checked: false },
 });
 
 export type RadioItemVariantProps = VariantProps<typeof radioItemVariants>;

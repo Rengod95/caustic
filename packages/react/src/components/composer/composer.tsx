@@ -1,5 +1,5 @@
 'use client';
-import { ArrowUp, ChevronDown, Plus } from '../../icons/index.ts';
+import { ArrowUp, ChevronDown, Eye, Plus } from '../../icons/index.ts';
 import { Children, isValidElement, useRef, useState, type ComponentProps, type FormEvent, type KeyboardEvent, type MouseEvent, type ReactNode, type Ref } from 'react';
 import { cn } from '../../lib/cn.ts';
 import { radiusClass, type CommonProps } from '../../lib/common-props.ts';
@@ -8,7 +8,7 @@ import { useFlip } from '../../hooks/use-flip.ts';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control/segmented-control.tsx';
 import {
-  composerBarVariants, composerContextVariants, composerInputVariants, composerModelVariants, composerStopVariants, composerSwapGlyphVariants, composerUsageVariants,
+  composerBarVariants, composerContextVariants, composerInputVariants, composerLockedVariants, composerModelVariants, composerStopVariants, composerSwapGlyphVariants, composerUsageVariants,
   composerVariants,
 } from './composer.variants.ts';
 
@@ -63,6 +63,10 @@ export interface ComposerProps extends Omit<ComponentProps<'form'>, 'onSubmit' |
   /** The agent is working: send becomes stop and Enter does not submit. */
   running?: boolean;
   disabled?: boolean;
+  /** Observing: someone else holds the prompt. The text is read-only, send, attach, mode and model are off, and a band shows lockedLabel. Unlike disabled, the box keeps its look. */
+  locked?: boolean;
+  /** Text of the observing band (e.g. "Observing: Mina is driving"); required with locked, no built-in default. */
+  lockedLabel?: ReactNode;
   onValueChange?: (value: string) => void;
   /** Called with the trimmed text. */
   onSubmit?: (value: string) => void;
@@ -77,7 +81,7 @@ export interface ComposerProps extends Omit<ComponentProps<'form'>, 'onSubmit' |
 export function Composer({
   value, defaultValue = '', placeholder, rows = 3, maxLength, inputRef: inputRefProp, inputLabel, sendLabel, stopLabel, attachLabel, modeLabel, usageLabel,
   sendDisabled = false, context, modes = NO_MODES,
-  mode, defaultMode, modelLabel, usage, running = false, disabled = false,
+  mode, defaultMode, modelLabel, usage, running = false, disabled = false, locked = false, lockedLabel,
   onValueChange, onSubmit, onStop, onModeChange, onAttach, onModelClick, tone, variant, radius, shadow, size, className, onClick, ...props
 }: ComposerProps) {
   const [text, setText] = useControllableState({ value, defaultValue, onChange: onValueChange });
@@ -92,7 +96,7 @@ export function Composer({
 
   const submit = () => {
     const trimmed = text.trim();
-    if (running || disabled || sendDisabled || trimmed === '') return;
+    if (running || disabled || locked || sendDisabled || trimmed === '') return;
     onSubmit?.(trimmed);
     if (value === undefined) setText('');
   };
@@ -118,7 +122,7 @@ export function Composer({
 
   return (
     <form
-      data-slot="composer" data-disabled={disabled || undefined} data-running={running || undefined}
+      data-slot="composer" data-disabled={disabled || undefined} data-running={running || undefined} data-locked={locked || undefined}
       className={cn(composerVariants({ variant, shadow, size }), radius && radius !== '2xl' && radiusClass[radius], className)}
       onSubmit={handleSubmit} onClick={handleClick} {...props}
     >
@@ -132,19 +136,22 @@ export function Composer({
       )}
       <textarea
         ref={setInput} data-slot="composer-input" aria-label={inputLabel} rows={rows} maxLength={maxLength} placeholder={placeholder}
-        value={text} disabled={disabled} className={composerInputVariants({ inputSize: size })}
+        value={text} disabled={disabled} readOnly={locked} className={composerInputVariants({ inputSize: size })}
         onChange={e => setText(e.target.value)} onKeyDown={handleKeyDown}
       />
+      {locked && (
+        <div data-slot="composer-locked" role="status" className={composerLockedVariants()}><Eye aria-hidden />{lockedLabel}</div>
+      )}
       <div data-slot="composer-bar" className={composerBarVariants()}>
-        {onAttach !== undefined && <IconButton data-slot="composer-attach" size="xs" label={attachLabel ?? ''} disabled={disabled} onClick={() => onAttach()}><Plus /></IconButton>}
+        {onAttach !== undefined && <IconButton data-slot="composer-attach" size="xs" label={attachLabel ?? ''} disabled={disabled || locked} onClick={() => onAttach()}><Plus /></IconButton>}
         {modes.length > 0 && (
-          <SegmentedControl data-slot="composer-mode" size="xs" aria-label={modeLabel} value={currentMode} onValueChange={setMode} disabled={disabled}>
+          <SegmentedControl data-slot="composer-mode" size="xs" aria-label={modeLabel} value={currentMode} onValueChange={setMode} disabled={disabled || locked}>
             {modes.map(m => <SegmentedControlItem key={m} value={m}>{m}</SegmentedControlItem>)}
           </SegmentedControl>
         )}
         <span aria-hidden className="flex-1" />
         {modelLabel != null && (
-          <button type="button" data-slot="composer-model" disabled={disabled} className={composerModelVariants()} onClick={onModelClick}>{modelLabel}<ChevronDown aria-hidden /></button>
+          <button type="button" data-slot="composer-model" disabled={disabled || locked} className={composerModelVariants()} onClick={onModelClick}>{modelLabel}<ChevronDown aria-hidden /></button>
         )}
         {usage !== undefined && (
           <svg data-slot="composer-usage" data-level={usageTone === 'danger' || usageTone === 'warning' ? usageTone : undefined} role="img" aria-label={usageLabel?.(Math.round(pct))} viewBox="0 0 22 22" className={composerUsageVariants({ usageTone })}>
@@ -155,7 +162,7 @@ export function Composer({
         {/* One button for send and stop: the arrow and the stop square cross-fade in place (no layout shift, focus stays). */}
         <IconButton
           data-slot="composer-send" type={running ? 'button' : 'submit'} tone="ink" shape="circle" size="sm"
-          label={running ? (stopLabel ?? '') : sendLabel} disabled={running ? disabled : disabled || sendDisabled}
+          label={running ? (stopLabel ?? '') : sendLabel} disabled={disabled || locked || (!running && sendDisabled)}
           className={running ? composerStopVariants() : undefined} onClick={running ? () => onStop?.() : undefined}
         >
           <ArrowUp className={composerSwapGlyphVariants({ active: !running })} />

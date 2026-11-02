@@ -15,8 +15,10 @@ export default defineSpec({
     { name: 'count', el: 'span', parent: 'header', description: 'StepperCount: "3 of 6", done steps over total, text from countLabel; text.placeholder (one step under tertiary, like the done rows and the end note; owner 2026-10-28, round 4), normal weight, tabular numerals.' },
   ],
   props: {
+    onRowPress: { type: '(step: PlanStep, index: number) => void', description: 'Makes each row a button (e.g. jump to the turn that made the step); a step with clickable false stays plain. Without it rows are read-only.' },
+    bare: { type: 'boolean', default: 'false', description: 'No card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one.' },
     title: { type: 'ReactNode', required: true, description: 'Plan name.' },
-    steps: { type: "{ id: string; label: ReactNode; status: 'done' | 'now' | 'todo' | 'failed'; detail?: ReactNode }[]", required: true, description: 'Steps in order.' },
+    steps: { type: "{ id: string; label: ReactNode; status: 'done' | 'now' | 'todo' | 'failed'; detail?: ReactNode; clickable?: boolean }[]", required: true, description: 'Steps in order.' },
     countLabel: { type: '(done: number, total: number) => string', required: true, description: 'Text of the count (e.g. (d, t) => `${d} of ${t}`). No built-in default.' },
     statusLabels: { type: '{ done: string; now: string; todo: string; failed?: string }', required: true, description: 'Visually hidden status word read before each step. failed falls back to "Failed".' },
     tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'agent', description: 'Passed to Stepper: the now mark (agent = the orb).' },

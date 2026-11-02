@@ -31,6 +31,8 @@ export interface ButtonProps extends Omit<ComponentProps<'button'>, 'children'> 
   shadow?: Shadow;
   /** Control height 24 · 28 · 32 · 40. */
   size?: Size;
+  /** Takes the height of the Input of the same size name (32 · 36 · 40 · 44) for a button beside a field; off keeps the control height. */
+  fieldHeight?: boolean;
   /** @deprecated use radius="full" for the pill. */
   shape?: 'rounded' | 'pill';
   /** Shows a spinner, sets aria-busy and blocks activation. */
@@ -42,7 +44,7 @@ export interface ButtonProps extends Omit<ComponentProps<'button'>, 'children'> 
   children?: ReactNode;
 }
 
-export function Button({ tone: toneProp, variant: variantProp, radius: radiusProp, shadow, shape, size, loading = false, disabled = false, asChild = false, iconStart, iconEnd, className, children, onClick, ...props }: ButtonProps) {
+export function Button({ tone: toneProp, variant: variantProp, radius: radiusProp, shadow, shape, size, fieldHeight = false, loading = false, disabled = false, asChild = false, iconStart, iconEnd, className, children, onClick, ...props }: ButtonProps) {
   // Deprecated aliases: the legacy tones map onto tone + variant (an explicit variant wins); shape pill → radius full.
   const legacy = toneProp && toneProp in LEGACY && (toneProp !== 'danger' || variantProp === undefined) ? LEGACY[toneProp as keyof typeof LEGACY] : undefined;
   const tone: Tone = legacy?.tone ?? (toneProp as Tone | undefined) ?? 'neutral';
@@ -60,7 +62,7 @@ export function Button({ tone: toneProp, variant: variantProp, radius: radiusPro
       aria-busy={loading || undefined}
       disabled={asChild ? undefined : disabled}
       aria-disabled={asChild && inert ? true : undefined}
-      className={cn(buttonVariants({ tone, variant, size }), buttonFrameVariants({ radius, shadow }), className)}
+      className={cn(buttonVariants({ tone, variant, size, fieldHeight }), buttonFrameVariants({ radius, shadow }), className)}
       onClick={inert ? undefined : onClick}
       {...props}
     >

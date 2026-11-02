@@ -59,7 +59,7 @@ export const codeDiffBody = cva('m-0 overflow-x-auto py-1.5 outline-none focus-v
 
 /** One line: grid 34 / 16 / 1fr plus a 12px end track, no wrap; 20px high at md, stepping with the CodeDiff size. */
 export const codeDiffLine = cva(
-  'grid grid-cols-[calc(var(--spacing)*8.5)_calc(var(--spacing)*4)_1fr_calc(var(--spacing)*3)] whitespace-pre font-mono text-text-primary',
+  'group/line relative grid grid-cols-[calc(var(--spacing)*8.5)_calc(var(--spacing)*4)_1fr_calc(var(--spacing)*3)] whitespace-pre font-mono text-text-primary',
   {
     variants: {
       kind: { context: '', add: 'bg-diff-add-bg', remove: 'bg-diff-remove-bg' },
@@ -68,6 +68,22 @@ export const codeDiffLine = cva(
     defaultVariants: { kind: 'context', lineSize: 'md' },
   },
 );
+
+/** The hunk: a block of lines under its own header band. */
+export const codeDiffHunk = cva('block');
+
+/** The hunk header: an inset band (neutral.well) with the hunk range in mono tertiary and the hunk's own review actions at the end. */
+export const codeDiffHunkHeader = cva('flex min-h-8 flex-wrap items-center gap-x-2 gap-y-1 whitespace-normal bg-neutral-well py-0.5 pl-3 pr-2 font-mono text-mono-md text-text-tertiary');
+
+export const codeDiffHunkActions = cva('ms-auto flex shrink-0 items-center gap-0.5 font-ui');
+
+/** A review comment under a line: raised, in the interface voice, aligned with the code past the number and sign columns (34 + 16, rounded to 48). */
+export const codeDiffComment = cva('block whitespace-normal border-y border-border-subtle bg-surface-raised py-2 pl-12 pr-3 font-ui text-ui-sm text-text-primary');
+
+export const codeDiffCommentAuthor = cva('me-1.5 font-medium');
+
+/** The add-comment button over the line number: hidden until the line is hovered or the button has focus (always shown without hover). */
+export const codeDiffCommentAdd = cva('absolute start-1 top-1/2 inline-flex size-4 -translate-y-1/2 cursor-pointer items-center justify-center rounded-xs bg-ink-solid text-ink-on opacity-0 outline-none transition-control focus-visible:opacity-100 focus-visible:shadow-focus group-hover/line:opacity-100 [@media(hover:none)]:opacity-100 [&_svg]:size-icon-sm');
 
 export const codeDiffNumber = cva('select-none pr-2 text-right text-text-tertiary before:content-[attr(data-line)]');
 

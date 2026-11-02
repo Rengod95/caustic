@@ -1,5 +1,5 @@
 'use client';
-import { Check, ShieldCheck, X } from '../../icons/index.ts';
+import { Check, MessageCircleQuestion, ShieldCheck, X } from '../../icons/index.ts';
 import { Fragment, useId, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
@@ -26,12 +26,15 @@ export interface AgentRequestAction {
 export const agentRequestDefaultActions: Record<AgentRequestKind, AgentRequestAction[]> = {
   proposal: [{ id: 'build', label: 'Build it', tone: 'primary' }, { id: 'edit', label: 'Edit plan', tone: 'secondary' }],
   review: [{ id: 'reject', label: 'Reject', tone: 'secondary' }, { id: 'approve', label: 'Approve all', tone: 'primary' }],
+  question: [{ id: 'deny', label: 'Deny', tone: 'danger' }, { id: 'answer', label: 'Answer', tone: 'primary' }],
   permission: [{ id: 'deny', label: 'Deny', tone: 'danger' }, { id: 'always', label: 'Always for this project', tone: 'secondary' }, { id: 'once', label: 'Allow once', tone: 'primary' }],
 };
 
 export interface AgentRequestProps extends Omit<ComponentProps<'div'>, 'title'>, CommonProps {
-  /** proposal (plan mode: orb, "Proposal · " lead-in, footer band), review (floating panel: orb, count title) or permission (shield tile). */
+  /** proposal (plan mode: orb, "Proposal · " lead-in, footer band), review (floating panel: orb, count title), permission (shield tile) or question (the agent asks; info tile, free body for the choices). */
   kind?: AgentRequestKind;
+  /** The quiet lead-in before the title, joined with " · ". Unset: "Proposal" for a proposal, none for the other kinds. Pass "" for none. */
+  lead?: string;
   /** pending = the question; answered, allowed or denied collapse it into the one-line record (no actions). */
   status?: AgentRequestStatus;
   /** The request (proposal: the plan name after "Proposal · "), or the outcome on the record. */
@@ -61,15 +64,17 @@ const buttonLook = (kind: AgentRequestKind, tone: AgentRequestAction['tone']) =>
  * one-line record.
  */
 export function AgentRequest({
-  kind = 'proposal', status = 'pending', tone: toneProp, variant, radius, shadow, size, title, subtitle, badge, actions, onAction, className, children, ...props
+  kind = 'proposal', lead, status = 'pending', tone: toneProp, variant, radius, shadow, size, title, subtitle, badge, actions, onAction, className, children, ...props
 }: AgentRequestProps) {
   const titleId = useId();
   const s = size ?? 'md';
   const record = status !== 'pending';
+  const prefix = record ? '' : (lead ?? (kind === 'proposal' ? 'Proposal' : ''));
+  // question wears the permission card (tile, 2xl, compact inset) with an info tile.
   const k: AgentRequestKind = record ? 'permission' : kind;
-  const tone = toneProp ?? (record ? (status === 'denied' ? 'neutral' : 'success') : kind === 'permission' ? 'warning' : 'agent');
+  const tone = toneProp ?? (record ? (status === 'denied' ? 'neutral' : 'success') : kind === 'question' ? 'info' : kind === 'permission' ? 'warning' : 'agent');
   // The spectrum rim (Card variant agent) marks a pending agent proposal or review; ghost drops it with the elevation.
-  const rim = !record && kind !== 'permission' && tone === 'agent' && variant !== 'ghost';
+  const rim = !record && kind !== 'permission' && kind !== 'question' && tone === 'agent' && variant !== 'ghost';
   const list = record ? [] : (actions ?? agentRequestDefaultActions[kind]);
 
   let skin: string;
@@ -83,10 +88,10 @@ export function AgentRequest({
     skin = agentRequestCardVariants({ status, tone, variant, radius, shadow: sh, size: s });
   }
 
-  const lead = record
+  const leadEl = record
     ? <span data-slot="agent-request-icon" aria-hidden className={agentRequestIconVariants({ tone, record: true })}>{status === 'denied' ? <X /> : <Check />}</span>
-    : kind === 'permission'
-      ? <span data-slot="agent-request-icon" aria-hidden className={agentRequestIconVariants({ tone, record: false })}><ShieldCheck /></span>
+    : kind === 'permission' || kind === 'question'
+      ? <span data-slot="agent-request-icon" aria-hidden className={agentRequestIconVariants({ tone, record: false })}>{kind === 'question' ? <MessageCircleQuestion /> : <ShieldCheck />}</span>
       : <span data-slot="agent-request-orb" aria-hidden className={agentRequestOrbVariants({ kind })} />;
 
   const lastDanger = k === 'proposal' ? -1 : list.reduce((at, a, i) => (a.tone === 'danger' && i === at + 1 ? i : at), -1);
@@ -116,10 +121,10 @@ export function AgentRequest({
       {...props}
     >
       <div data-slot="agent-request-header" className={cn(agentRequestHeaderVariants({ kind: k, record, size: s }))}>
-        {lead}
+        {leadEl}
         <div data-slot="agent-request-heading" className={agentRequestHeadingVariants({ record })}>
           <div id={titleId} data-slot="agent-request-title" className={cn(agentRequestTitleVariants({ kind: k, record, size: s }))}>
-            {kind === 'proposal' && !record ? <>Proposal · {title}</> : title}
+            {prefix !== '' ? <>{prefix} · {title}</> : title}
           </div>
           {subtitle != null && <div data-slot="agent-request-subtitle" className={cn(agentRequestSubtitleVariants({ kind: k, record }))}>{subtitle}</div>}
         </div>

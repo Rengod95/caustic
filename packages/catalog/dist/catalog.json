@@ -119,7 +119,8 @@
       "components": [
         "badge",
         "chip",
-        "kbd"
+        "kbd",
+        "status-dot"
       ]
     },
     "display.identity": {
@@ -133,7 +134,8 @@
       "components": [
         "card-stat",
         "context-analytics",
-        "contrast-insight"
+        "contrast-insight",
+        "meter"
       ]
     },
     "display.data": {
@@ -235,6 +237,7 @@
     "overlay.modal": {
       "description": "Take over the screen for a focused task or a decision.",
       "components": [
+        "command-palette",
         "dialog",
         "sheet"
       ]
@@ -343,6 +346,7 @@
       "components": [
         "composer",
         "message",
+        "system-row",
         "thinking",
         "tool-call"
       ]
@@ -521,6 +525,7 @@
         "code-realization",
         "color-picker",
         "combobox",
+        "command-palette",
         "compare-view",
         "composer",
         "context-analytics",
@@ -594,6 +599,7 @@
         "input",
         "kbd",
         "menu",
+        "meter",
         "number-field",
         "picker-trigger",
         "popover",
@@ -692,6 +698,7 @@
         "skeleton",
         "stepper",
         "suggestions",
+        "system-row",
         "thinking",
         "token-diff",
         "tool-call"
@@ -757,6 +764,7 @@
         "icon-button",
         "list-description",
         "menu",
+        "meter",
         "pagination",
         "plan",
         "policy-findings",
@@ -768,6 +776,7 @@
         "separator",
         "skeleton",
         "stack-row",
+        "status-dot",
         "stepper",
         "switch",
         "textarea",
@@ -787,6 +796,7 @@
         "change-detail",
         "choice-group",
         "color-tile",
+        "command-palette",
         "compare-view",
         "context-analytics",
         "empty-state",
@@ -794,6 +804,7 @@
         "form-layout",
         "list",
         "list-description",
+        "meter",
         "node-graph",
         "otp-input",
         "pagination",
@@ -802,6 +813,7 @@
         "section-header",
         "separator",
         "skeleton",
+        "status-dot",
         "stepper",
         "table",
         "tabs",
@@ -823,9 +835,11 @@
         "hex-input",
         "input",
         "kbd",
+        "meter",
         "number-field",
         "progress",
         "separator",
+        "status-dot",
         "tooltip"
       ]
     }
@@ -1353,10 +1367,28 @@
       ],
       "el": "div",
       "props": {
+        "bare": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Drops the box whatever variant says (the ghost look), for use inside a well or panel that already draws one."
+        },
         "nodes": {
           "type": "ActivityNode[]",
           "required": true,
-          "description": "In order: { id; kind: \"step\" | \"call\"; label: ReactNode (step text or call \"name · argument\"); meta?: ReactNode; status?: \"done\" | \"active\" | \"failed\" (steps); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others."
+          "description": "In order: { id; kind: \"step\" | \"call\"; label: ReactNode (step text or call \"name · argument\"); meta?: ReactNode; status?: \"done\" | \"active\" | \"failed\" | \"pending\" | \"skipped\" (steps); collapsible?: boolean, defaultOpen?: boolean (default true), onOpenChange?: (open: boolean) => void (steps: fold the calls that follow); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others."
+        },
+        "pendingLabel": {
+          "type": "string",
+          "default": "Pending",
+          "required": false,
+          "description": "Visually hidden status word before a pending step."
+        },
+        "skippedLabel": {
+          "type": "string",
+          "default": "Skipped",
+          "required": false,
+          "description": "Visually hidden status word before a skipped step."
         },
         "failedLabel": {
           "type": "string",
@@ -1454,6 +1486,12 @@
             "required": false,
             "description": "Accessible name."
           },
+          "bare": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "Drops the box whatever variant says (the ghost look), for use inside a well or panel that already draws one."
+          },
           "failedLabel": {
             "type": "string",
             "default": "Failed",
@@ -1463,7 +1501,13 @@
           "nodes": {
             "type": "ActivityNode[]",
             "required": true,
-            "description": "In order: { id; kind: \"step\" | \"call\"; label: ReactNode (step text or call \"name · argument\"); meta?: ReactNode; status?: \"done\" | \"active\" | \"failed\" (steps); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others."
+            "description": "In order: { id; kind: \"step\" | \"call\"; label: ReactNode (step text or call \"name · argument\"); meta?: ReactNode; status?: \"done\" | \"active\" | \"failed\" | \"pending\" | \"skipped\" (steps); collapsible?: boolean, defaultOpen?: boolean (default true), onOpenChange?: (open: boolean) => void (steps: fold the calls that follow); running?: boolean (calls); failed?: boolean (calls); unassigned?: boolean (calls) }. Calls follow the step they belong to; an unassigned call sits in run order with the others."
+          },
+          "pendingLabel": {
+            "type": "string",
+            "default": "Pending",
+            "required": false,
+            "description": "Visually hidden status word before a pending step."
           },
           "radius": {
             "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",
@@ -1507,6 +1551,12 @@
               "md",
               "lg"
             ]
+          },
+          "skippedLabel": {
+            "type": "string",
+            "default": "Skipped",
+            "required": false,
+            "description": "Visually hidden status word before a skipped step."
           },
           "tone": {
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
@@ -1607,13 +1657,16 @@
       },
       "parts": [],
       "events": {},
-      "keyboard": {},
+      "keyboard": {
+        "Enter / Space": "on a focused toggle: folds or opens the step"
+      },
       "a11y": {
         "labelRequired": false,
         "notes": [
           "A flat list: call rows carry data-depth=\"1\" and follow their step, and a visually hidden \"Tool call\" prefix names the row kind.",
           "Status is text or a glyph, never color alone: check for done, orb plus shimmer for active, the word \"running\", the help glyph plus the word \"Unassigned\".",
           "The tree is not a live region by itself; the transcript announces progress. aria-busy is set while a step is active.",
+          "A collapsible step exposes aria-expanded on its toggle button; pending and skipped are an empty circle or a minus plus a hidden word (pendingLabel, skippedLabel), never colour alone.",
           "Reduced motion stops the orbs and shimmers (the global rule)."
         ]
       },
@@ -2003,15 +2056,21 @@
       "el": "div",
       "props": {
         "kind": {
-          "type": "'proposal' | 'review' | 'permission'",
+          "type": "'proposal' | 'review' | 'permission' | 'question'",
           "default": "proposal",
           "required": false,
           "description": "Which request.",
           "values": [
             "proposal",
             "review",
-            "permission"
+            "permission",
+            "question"
           ]
+        },
+        "lead": {
+          "type": "string",
+          "required": false,
+          "description": "The quiet lead-in before the title, joined with \" · \". Unset: \"Proposal\" for a proposal, none for the other kinds, so a translated app passes its own word. Pass \"\" for none."
         },
         "status": {
           "type": "'pending' | 'answered' | 'allowed' | 'denied'",
@@ -2144,8 +2203,14 @@
             "values": [
               "proposal",
               "review",
-              "permission"
+              "permission",
+              "question"
             ]
+          },
+          "lead": {
+            "type": "string",
+            "required": false,
+            "description": "The quiet lead-in before the title, joined with \" · \". Unset: \"Proposal\" for a proposal, none for the other kinds, so a translated app passes its own word. Pass \"\" for none."
           },
           "onAction": {
             "type": "(id: string) => void",
@@ -2252,10 +2317,11 @@
           "values": [
             "proposal",
             "review",
-            "permission"
+            "permission",
+            "question"
           ],
           "default": "proposal",
-          "description": "proposal = the plan-mode proposal (was Proposal); review = the batch review panel (was ReviewRequest); permission = the permission prompt (was PermissionRequest). Sets the lead (orb or tile), the layout, the role and the default actions."
+          "description": "proposal = the plan-mode proposal (was Proposal); review = the batch review panel (was ReviewRequest); permission = the permission prompt (was PermissionRequest); question = the agent asks the person (C-26): the permission card with an info message tile, a free body for the choices (ChoiceGroup appearance answer, an Input) and the default actions Deny and Answer. Sets the lead (orb or tile), the layout, the role and the default actions."
         },
         "status": {
           "values": [
@@ -4235,7 +4301,7 @@
         "Regions carry no surface of their own; put a SidePanel in start and end to get the panel chrome.",
         "It adapts to compact and medium widths; mobile panel tabs are an app-level choice."
       ],
-      "import": "import { AppShell, AppShellTitlebar, AppShellStart, AppShellStage, AppShellOverlay, AppShellEnd } from '@caustic/react';",
+      "import": "import { AppShell, AppShellTitlebar, AppShellStart, AppShellStage, AppShellOverlay, AppShellEnd, AppShellStatusbar, AppShellStatusbarCell } from '@caustic/react';",
       "exports": [
         "AppShell",
         "AppShellTitlebar",
@@ -4243,6 +4309,8 @@
         "AppShellStage",
         "AppShellOverlay",
         "AppShellEnd",
+        "AppShellStatusbar",
+        "AppShellStatusbarCell",
         "appShellVariants"
       ],
       "el": "div",
@@ -4267,10 +4335,20 @@
           "required": false,
           "description": "aria-label of the main landmark. A prop of AppShellStage (part props live on the part, per CONTRIBUTING); the fixture forwards it. Supplied by the app so it can be translated, for example \"Design canvas\"."
         },
+        "align": {
+          "type": "'start' | 'end'",
+          "default": "start",
+          "required": false,
+          "description": "A prop of AppShellStatusbarCell: end pushes the cell and those after it to the end of the strip.",
+          "values": [
+            "start",
+            "end"
+          ]
+        },
         "children": {
           "type": "ReactNode",
           "required": false,
-          "description": "Titlebar and body parts in order."
+          "description": "Titlebar and body parts in order; an AppShellStatusbar goes last."
         },
         "tone": {
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
@@ -4348,7 +4426,7 @@
           "children": {
             "type": "ReactNode",
             "required": false,
-            "description": "Titlebar and body parts in order."
+            "description": "Titlebar and body parts in order; an AppShellStatusbar goes last."
           },
           "layout": {
             "type": "Layout",
@@ -4446,7 +4524,20 @@
           }
         },
         "AppShellOverlay": {},
-        "AppShellEnd": {}
+        "AppShellEnd": {},
+        "AppShellStatusbar": {},
+        "AppShellStatusbarCell": {
+          "align": {
+            "type": "\"start\" | \"end\"",
+            "default": "start",
+            "required": false,
+            "description": "A prop of AppShellStatusbarCell: end pushes the cell and those after it to the end of the strip.",
+            "values": [
+              "start",
+              "end"
+            ]
+          }
+        }
       },
       "variants": {
         "variant": {
@@ -4551,6 +4642,22 @@
           "parent": "AppShell",
           "required": false,
           "description": "AppShellEnd: region wrapper for the end side (normally a SidePanel side=\"end\"). Flex none, min-height 0. Medium and compact: absolute top 0 / bottom 0 / end 0 over the body, z-index chrome, elevation 3 on the panel it holds (the sheet), width the panel's own width capped at 76% of the body; compact: width 100%."
+        },
+        {
+          "name": "AppShellStatusbar",
+          "slot": "statusbar",
+          "el": "div",
+          "parent": "AppShell",
+          "required": false,
+          "description": "AppShellStatusbar: a strip under the body, inside the window inset: flex row, items centred, 4px gap, height control-sm (28), flex none, ui-dense type in text.secondary. Holds cells; present in every layout. The shell moves it after the body whatever its position among the children."
+        },
+        {
+          "name": "AppShellStatusbarCell",
+          "slot": "statusbar-cell",
+          "el": "span",
+          "parent": "AppShellStatusbar",
+          "required": false,
+          "description": "AppShellStatusbarCell: one cell of the strip: inline flex, items centred, 6px gap, min-width 0. Holds text, a Badge, a ghost Button or a Popover trigger. align end pushes it and the cells after it to the end of the strip."
         }
       ],
       "events": {},
@@ -4573,6 +4680,9 @@
         "field": false
       },
       "uses": [
+        "badge",
+        "button",
+        "popover",
         "resize-handle",
         "scroll-area",
         "side-panel"
@@ -4582,12 +4692,12 @@
         {
           "id": "wide",
           "title": "App shell · wide",
-          "code": "const rowNames = ['Frame', 'Header', 'Navigation', 'Content'];\n\nfunction Rows({ label }: { label: string }) {\n  return (\n    <div className=\"grid py-1\">\n      {rowNames.map(r => <div key={r} className=\"px-inset-regular-x py-2 font-ui text-ui-md text-text-secondary\">{label} · {r}</div>)}\n    </div>\n  );\n}\n\nfunction Shell({ stageLabel = 'Design canvas', skipLabel = 'Skip to canvas', endCollapsed = false, ...p }: Props) {\n  return (\n    <div className=\"h-[480px] w-[1200px]\">\n      <AppShell skipLabel={skipLabel} {...p}>\n        <AppShellTitlebar>\n          <span className=\"font-ui text-title-4 text-text-primary\">Axiom</span>\n          <IconButton size=\"sm\" label=\"Undo\"><Undo2 /></IconButton>\n          <IconButton size=\"sm\" label=\"Redo\"><Redo2 /></IconButton>\n        </AppShellTitlebar>\n        <AppShellStart>\n          <SidePanel label=\"Layers\" title=\"Layers\" size=\"pane\" collapseLabel=\"Hide layers panel\"><Rows label=\"Layers\" /></SidePanel>\n        </AppShellStart>\n        <AppShellStage stageLabel={stageLabel}>\n          <div className=\"canvas-grid absolute inset-0 [background-size:var(--cs-space-4)_var(--cs-space-4)]\" />\n          <AppShellOverlay>\n            <div className=\"absolute inset-x-0 bottom-3.5 flex justify-center\">\n              <FloatingBar label=\"Canvas tools\" size=\"md\">\n                <FloatingBarItem aria-label=\"Move\" icon={<MousePointer2 />} active />\n                <FloatingBarItem aria-label=\"Hand\" icon={<Hand />} />\n                <FloatingBarSeparator />\n                <FloatingBarItem aria-label=\"Frame\" icon={<Frame />} />\n                <FloatingBarItem aria-label=\"Text\" icon={<Type />} />\n              </FloatingBar>\n            </div>\n          </AppShellOverlay>\n        </AppShellStage>\n        <AppShellEnd>\n          <SidePanel label=\"Inspector\" title=\"Inspector\" side=\"end\" size=\"inspector\" collapseLabel=\"Hide inspector panel\" defaultCollapsed={endCollapsed}>\n            <Rows label=\"Inspector\" />\n          </SidePanel>\n        </AppShellEnd>\n      </AppShell>\n    </div>\n  );\n}\n\n<Shell layout=\"wide\" />"
+          "code": "const rowNames = ['Frame', 'Header', 'Navigation', 'Content'];\n\nfunction Rows({ label }: { label: string }) {\n  return (\n    <div className=\"grid py-1\">\n      {rowNames.map(r => <div key={r} className=\"px-inset-regular-x py-2 font-ui text-ui-md text-text-secondary\">{label} · {r}</div>)}\n    </div>\n  );\n}\n\nfunction Shell({ stageLabel = 'Design canvas', skipLabel = 'Skip to canvas', endCollapsed = false, statusbar = false, ...p }: Props) {\n  return (\n    <div className=\"h-[480px] w-[1200px]\">\n      <AppShell skipLabel={skipLabel} {...p}>\n        <AppShellTitlebar>\n          <span className=\"font-ui text-title-4 text-text-primary\">Axiom</span>\n          <IconButton size=\"sm\" label=\"Undo\"><Undo2 /></IconButton>\n          <IconButton size=\"sm\" label=\"Redo\"><Redo2 /></IconButton>\n        </AppShellTitlebar>\n        <AppShellStart>\n          <SidePanel label=\"Layers\" title=\"Layers\" size=\"pane\" collapseLabel=\"Hide layers panel\"><Rows label=\"Layers\" /></SidePanel>\n        </AppShellStart>\n        <AppShellStage stageLabel={stageLabel}>\n          <div className=\"canvas-grid absolute inset-0 [background-size:var(--cs-space-4)_var(--cs-space-4)]\" />\n          <AppShellOverlay>\n            <div className=\"absolute inset-x-0 bottom-3.5 flex justify-center\">\n              <FloatingBar label=\"Canvas tools\" size=\"md\">\n                <FloatingBarItem aria-label=\"Move\" icon={<MousePointer2 />} active />\n                <FloatingBarItem aria-label=\"Hand\" icon={<Hand />} />\n                <FloatingBarSeparator />\n                <FloatingBarItem aria-label=\"Frame\" icon={<Frame />} />\n                <FloatingBarItem aria-label=\"Text\" icon={<Type />} />\n              </FloatingBar>\n            </div>\n          </AppShellOverlay>\n        </AppShellStage>\n        <AppShellEnd>\n          <SidePanel label=\"Inspector\" title=\"Inspector\" side=\"end\" size=\"inspector\" collapseLabel=\"Hide inspector panel\" defaultCollapsed={endCollapsed}>\n            <Rows label=\"Inspector\" />\n          </SidePanel>\n        </AppShellEnd>\n        {statusbar && (\n          <AppShellStatusbar>\n            <AppShellStatusbarCell><Button size=\"xs\" tone=\"neutral\" variant=\"ghost\">main</Button></AppShellStatusbarCell>\n            <AppShellStatusbarCell>\n              <Popover anchor={<Button size=\"xs\" tone=\"neutral\" variant=\"ghost\">2 running</Button>}>\n                <PopoverDescription>Two agents are working.</PopoverDescription>\n              </Popover>\n            </AppShellStatusbarCell>\n            <AppShellStatusbarCell align=\"end\"><Badge size=\"xs\">Synced</Badge></AppShellStatusbarCell>\n          </AppShellStatusbar>\n        )}\n      </AppShell>\n    </div>\n  );\n}\n\n<Shell layout=\"wide\" />"
         },
         {
           "id": "compact",
           "title": "App shell · compact",
-          "code": "const rowNames = ['Frame', 'Header', 'Navigation', 'Content'];\n\nfunction Rows({ label }: { label: string }) {\n  return (\n    <div className=\"grid py-1\">\n      {rowNames.map(r => <div key={r} className=\"px-inset-regular-x py-2 font-ui text-ui-md text-text-secondary\">{label} · {r}</div>)}\n    </div>\n  );\n}\n\nfunction Shell({ stageLabel = 'Design canvas', skipLabel = 'Skip to canvas', endCollapsed = false, ...p }: Props) {\n  return (\n    <div className=\"h-[480px] w-[1200px]\">\n      <AppShell skipLabel={skipLabel} {...p}>\n        <AppShellTitlebar>\n          <span className=\"font-ui text-title-4 text-text-primary\">Axiom</span>\n          <IconButton size=\"sm\" label=\"Undo\"><Undo2 /></IconButton>\n          <IconButton size=\"sm\" label=\"Redo\"><Redo2 /></IconButton>\n        </AppShellTitlebar>\n        <AppShellStart>\n          <SidePanel label=\"Layers\" title=\"Layers\" size=\"pane\" collapseLabel=\"Hide layers panel\"><Rows label=\"Layers\" /></SidePanel>\n        </AppShellStart>\n        <AppShellStage stageLabel={stageLabel}>\n          <div className=\"canvas-grid absolute inset-0 [background-size:var(--cs-space-4)_var(--cs-space-4)]\" />\n          <AppShellOverlay>\n            <div className=\"absolute inset-x-0 bottom-3.5 flex justify-center\">\n              <FloatingBar label=\"Canvas tools\" size=\"md\">\n                <FloatingBarItem aria-label=\"Move\" icon={<MousePointer2 />} active />\n                <FloatingBarItem aria-label=\"Hand\" icon={<Hand />} />\n                <FloatingBarSeparator />\n                <FloatingBarItem aria-label=\"Frame\" icon={<Frame />} />\n                <FloatingBarItem aria-label=\"Text\" icon={<Type />} />\n              </FloatingBar>\n            </div>\n          </AppShellOverlay>\n        </AppShellStage>\n        <AppShellEnd>\n          <SidePanel label=\"Inspector\" title=\"Inspector\" side=\"end\" size=\"inspector\" collapseLabel=\"Hide inspector panel\" defaultCollapsed={endCollapsed}>\n            <Rows label=\"Inspector\" />\n          </SidePanel>\n        </AppShellEnd>\n      </AppShell>\n    </div>\n  );\n}\n\n<Shell layout=\"compact\" endCollapsed />"
+          "code": "const rowNames = ['Frame', 'Header', 'Navigation', 'Content'];\n\nfunction Rows({ label }: { label: string }) {\n  return (\n    <div className=\"grid py-1\">\n      {rowNames.map(r => <div key={r} className=\"px-inset-regular-x py-2 font-ui text-ui-md text-text-secondary\">{label} · {r}</div>)}\n    </div>\n  );\n}\n\nfunction Shell({ stageLabel = 'Design canvas', skipLabel = 'Skip to canvas', endCollapsed = false, statusbar = false, ...p }: Props) {\n  return (\n    <div className=\"h-[480px] w-[1200px]\">\n      <AppShell skipLabel={skipLabel} {...p}>\n        <AppShellTitlebar>\n          <span className=\"font-ui text-title-4 text-text-primary\">Axiom</span>\n          <IconButton size=\"sm\" label=\"Undo\"><Undo2 /></IconButton>\n          <IconButton size=\"sm\" label=\"Redo\"><Redo2 /></IconButton>\n        </AppShellTitlebar>\n        <AppShellStart>\n          <SidePanel label=\"Layers\" title=\"Layers\" size=\"pane\" collapseLabel=\"Hide layers panel\"><Rows label=\"Layers\" /></SidePanel>\n        </AppShellStart>\n        <AppShellStage stageLabel={stageLabel}>\n          <div className=\"canvas-grid absolute inset-0 [background-size:var(--cs-space-4)_var(--cs-space-4)]\" />\n          <AppShellOverlay>\n            <div className=\"absolute inset-x-0 bottom-3.5 flex justify-center\">\n              <FloatingBar label=\"Canvas tools\" size=\"md\">\n                <FloatingBarItem aria-label=\"Move\" icon={<MousePointer2 />} active />\n                <FloatingBarItem aria-label=\"Hand\" icon={<Hand />} />\n                <FloatingBarSeparator />\n                <FloatingBarItem aria-label=\"Frame\" icon={<Frame />} />\n                <FloatingBarItem aria-label=\"Text\" icon={<Type />} />\n              </FloatingBar>\n            </div>\n          </AppShellOverlay>\n        </AppShellStage>\n        <AppShellEnd>\n          <SidePanel label=\"Inspector\" title=\"Inspector\" side=\"end\" size=\"inspector\" collapseLabel=\"Hide inspector panel\" defaultCollapsed={endCollapsed}>\n            <Rows label=\"Inspector\" />\n          </SidePanel>\n        </AppShellEnd>\n        {statusbar && (\n          <AppShellStatusbar>\n            <AppShellStatusbarCell><Button size=\"xs\" tone=\"neutral\" variant=\"ghost\">main</Button></AppShellStatusbarCell>\n            <AppShellStatusbarCell>\n              <Popover anchor={<Button size=\"xs\" tone=\"neutral\" variant=\"ghost\">2 running</Button>}>\n                <PopoverDescription>Two agents are working.</PopoverDescription>\n              </Popover>\n            </AppShellStatusbarCell>\n            <AppShellStatusbarCell align=\"end\"><Badge size=\"xs\">Synced</Badge></AppShellStatusbarCell>\n          </AppShellStatusbar>\n        )}\n      </AppShell>\n    </div>\n  );\n}\n\n<Shell layout=\"compact\" endCollapsed />"
         }
       ]
     },
@@ -5887,6 +5997,7 @@
       "usedBy": [
         "accordion",
         "agent-request",
+        "app-shell",
         "card",
         "code-realization",
         "combobox",
@@ -6481,6 +6592,12 @@
             "lg"
           ]
         },
+        "fieldHeight": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = control-md, field-sm, field-md, field-lg) so a button beside a field lines up without stepping size. Off keeps the control heights above."
+        },
         "loading": {
           "type": "boolean",
           "default": false,
@@ -6517,6 +6634,12 @@
             "type": "ReactNode",
             "required": false,
             "description": "Label, optionally with icons."
+          },
+          "fieldHeight": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = control-md, field-sm, field-md, field-lg) so a button beside a field lines up without stepping size. Off keeps the control heights above."
           },
           "iconEnd": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
@@ -6717,6 +6840,7 @@
       "usedBy": [
         "agent-request",
         "alert",
+        "app-shell",
         "button-group",
         "canvas-selection",
         "card",
@@ -6742,6 +6866,7 @@
         "section-header",
         "separator",
         "sheet",
+        "system-row",
         "table",
         "text-properties",
         "textarea",
@@ -9977,6 +10102,11 @@
       ],
       "el": "any",
       "props": {
+        "badge": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "CardHeader: one short Badge at the end of the header row (slot badge). Absent renders nothing; the header is unchanged."
+        },
         "variant": {
           "type": "'surface' | 'plain' | 'glass' | 'outline' | 'dashed' | 'well' | 'agent' | 'spotlight' | 'feature' | 'solid' | 'soft' | 'ghost'",
           "default": "surface",
@@ -10530,6 +10660,11 @@
           }
         },
         "CardHeader": {
+          "badge": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "CardHeader: one short Badge at the end of the header row (slot badge). Absent renders nothing; the header is unchanged."
+          },
           "density": {
             "type": "\"default\" | \"shell\"",
             "default": "default",
@@ -14060,9 +14195,11 @@
       "guidance": [
         "Inside a hunk put removed lines before added ones; removed lines carry the old number, others the new one."
       ],
-      "import": "import { CodeDiff, CodeDiffLine, CodeDiffToken } from '@caustic/react';",
+      "import": "import { CodeDiff, CodeDiffComment, CodeDiffHunk, CodeDiffLine, CodeDiffToken } from '@caustic/react';",
       "exports": [
         "CodeDiff",
+        "CodeDiffComment",
+        "CodeDiffHunk",
         "CodeDiffLine",
         "CodeDiffToken",
         "codeDiffVariants",
@@ -14196,7 +14333,43 @@
           "type": "boolean",
           "default": true,
           "required": false,
-          "description": "Show Reject and Accept."
+          "description": "CodeDiff: show Reject and Accept in the header. CodeDiffHunk: show them in the hunk header."
+        },
+        "header": {
+          "type": "ReactNode",
+          "required": true,
+          "description": "CodeDiffHunk prop. The hunk header text, e.g. \"@@ -12,5 +12,6 @@ PricingCard\". Fixture convention: setting it renders the lines as one hunk with a comment."
+        },
+        "decision": {
+          "type": "'pending' | 'accepted' | 'rejected'",
+          "default": "pending",
+          "required": false,
+          "description": "CodeDiffHunk prop. The review decision of the hunk: sets data-decision and which button is pressed. Fixture convention: setting it renders the lines as one hunk with a comment.",
+          "values": [
+            "pending",
+            "accepted",
+            "rejected"
+          ]
+        },
+        "onDecide": {
+          "type": "(decision: 'accepted' | 'rejected') => void",
+          "required": false,
+          "description": "CodeDiffHunk prop. Called when the hunk Reject or Accept is pressed."
+        },
+        "onComment": {
+          "type": "() => void",
+          "required": false,
+          "description": "CodeDiffLine prop. Shows the add-comment button over the line number; called when it is pressed."
+        },
+        "commentLabel": {
+          "type": "string",
+          "required": false,
+          "description": "CodeDiffLine prop. aria-label of the add-comment button; required with onComment, no built-in default."
+        },
+        "author": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "CodeDiffComment prop. Who wrote the comment (bold, before the text)."
         }
       },
       "exportProps": {
@@ -14205,7 +14378,7 @@
             "type": "boolean",
             "default": true,
             "required": false,
-            "description": "Show Reject and Accept."
+            "description": "CodeDiff: show Reject and Accept in the header. CodeDiffHunk: show them in the hunk header."
           },
           "added": {
             "type": "number",
@@ -14315,11 +14488,57 @@
             ]
           }
         },
+        "CodeDiffComment": {
+          "author": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "CodeDiffComment prop. Who wrote the comment (bold, before the text)."
+          }
+        },
+        "CodeDiffHunk": {
+          "actions": {
+            "type": "boolean",
+            "default": true,
+            "required": false,
+            "description": "CodeDiff: show Reject and Accept in the header. CodeDiffHunk: show them in the hunk header."
+          },
+          "children": {
+            "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
+            "required": false,
+            "description": ""
+          },
+          "decision": {
+            "type": "CodeDiffDecision",
+            "default": "pending",
+            "required": false,
+            "description": "CodeDiffHunk prop. The review decision of the hunk: sets data-decision and which button is pressed. Fixture convention: setting it renders the lines as one hunk with a comment.",
+            "values": [
+              "pending",
+              "accepted",
+              "rejected"
+            ]
+          },
+          "header": {
+            "type": "ReactNode",
+            "required": true,
+            "description": "CodeDiffHunk prop. The hunk header text, e.g. \"@@ -12,5 +12,6 @@ PricingCard\". Fixture convention: setting it renders the lines as one hunk with a comment."
+          },
+          "onDecide": {
+            "type": "(decision: \"accepted\" | \"rejected\") => void",
+            "required": false,
+            "description": "CodeDiffHunk prop. Called when the hunk Reject or Accept is pressed."
+          }
+        },
         "CodeDiffLine": {
           "children": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
             "required": false,
             "description": ""
+          },
+          "commentLabel": {
+            "type": "string",
+            "required": false,
+            "description": "CodeDiffLine prop. aria-label of the add-comment button; required with onComment, no built-in default."
           },
           "kind": {
             "type": "CodeDiffKind",
@@ -14336,6 +14555,11 @@
             "type": "number",
             "required": true,
             "description": "CodeDiffLine prop. Line number (old for removed, new for added and context)."
+          },
+          "onComment": {
+            "type": "() => void",
+            "required": false,
+            "description": "CodeDiffLine prop. Shows the add-comment button over the line number; called when it is pressed."
           }
         },
         "CodeDiffToken": {
@@ -14437,6 +14661,22 @@
       },
       "parts": [
         {
+          "name": "CodeDiffComment",
+          "slot": "comment",
+          "el": "span",
+          "parent": "CodeDiff",
+          "required": false,
+          "description": "CodeDiffComment: a review comment placed after a line. Display block, surface.raised fill, hairline top and bottom, 8px 12px padding with the start inset to 48px (past the number and sign columns), ui-sm text.primary in the interface voice. Optional bold author first."
+        },
+        {
+          "name": "CodeDiffHunk",
+          "slot": "hunk",
+          "el": "span",
+          "parent": "CodeDiff",
+          "required": false,
+          "description": "CodeDiffHunk: one hunk of the diff, display block (a span, since the body is a pre), data-decision pending | accepted | rejected. Holds its header, its lines and any comments."
+        },
+        {
           "name": "CodeDiffLine",
           "slot": "line",
           "el": "span",
@@ -14461,6 +14701,14 @@
         "onAccept": {
           "payload": "React.MouseEvent<HTMLButtonElement>",
           "when": "Accept is activated"
+        },
+        "onDecide": {
+          "payload": "'accepted' | 'rejected'",
+          "when": "a hunk Reject or Accept is activated"
+        },
+        "onComment": {
+          "payload": "void",
+          "when": "the add-comment button of a line is activated"
         }
       },
       "keyboard": {
@@ -17730,6 +17978,7 @@
         "select"
       ],
       "usedBy": [
+        "command-palette",
         "foundation-toolbar"
       ],
       "examples": [
@@ -17749,6 +17998,223 @@
           "code": "const tile = (initial: string) => <ComboboxTile tint=\"iris\">{initial}</ComboboxTile>;\n\nconst models = (sonnet: string): ComboboxGroupData[] => [\n  {\n    label: 'Anthropic · connected',\n    options: [\n      { value: 'claude-opus', label: 'Claude Opus', description: 'Deep · 1M context', leading: tile('A') },\n      { value: 'claude-sonnet', label: 'Claude Sonnet', description: sonnet, leading: tile('A') },\n    ],\n  },\n  { label: 'OpenAI · not connected', options: [] },\n];\n\nconst connect = (shimmer = true, onSelect?: never) => (\n  <ComboboxRow shimmer={shimmer} onSelect={onSelect} leading={<ComboboxTile tint=\"neutral\"><Plus /></ComboboxTile>}>Connect provider…</ComboboxRow>\n);\n\n<Combobox\n  mode=\"popup\" inline trigger={null} popupWidth=\"lg\" aria-label=\"Models\" searchLabel=\"Search models\" placeholder=\"Search models\" defaultValue=\"claude-opus\"\n  groups={models('Balanced')} footer={connect()}\n/>"
         }
       ]
+    },
+    "command-palette": {
+      "id": "command-palette",
+      "name": "CommandPalette",
+      "category": "overlay",
+      "status": "ready",
+      "intent": "Let the person run any command or jump anywhere by typing, from a global shortcut, with commands in groups and their shortcuts shown.",
+      "roles": [
+        "overlay.modal"
+      ],
+      "alsoFits": [
+        "input.pick",
+        "navigation.global"
+      ],
+      "placement": [
+        "overlay",
+        "page"
+      ],
+      "keywords": [
+        "command menu",
+        "command k",
+        "quick open",
+        "spotlight",
+        "action search",
+        "palette"
+      ],
+      "pairs": [
+        "kbd",
+        "app-shell",
+        "dialog",
+        "combobox"
+      ],
+      "consider": [
+        {
+          "id": "combobox",
+          "when": "the person picks one value for a field rather than running a command"
+        },
+        {
+          "id": "menu",
+          "when": "the commands are few and belong to one trigger or one object"
+        }
+      ],
+      "guidance": [
+        "Pass shortcut=\"mod+k\" to bind the global key; the shortcut on each command is only displayed, bind its key yourself.",
+        "Group commands under short headings; the search filters across groups."
+      ],
+      "import": "import { CommandPalette } from '@caustic/react';",
+      "exports": [
+        "CommandPalette",
+        "matchesShortcut"
+      ],
+      "el": "div",
+      "props": {
+        "groups": {
+          "type": "CommandPaletteGroup[]",
+          "required": true,
+          "description": "{ label, items } sections; an item is { value, label, description?, icon?, shortcut?, disabled? }. shortcut is shown in a Kbd and does not bind the key."
+        },
+        "label": {
+          "type": "string",
+          "required": true,
+          "description": "Accessible name of the dialog, the search field and the list. Supplied by the app so it can be translated."
+        },
+        "shortcut": {
+          "type": "string",
+          "required": false,
+          "description": "Global chord that toggles the palette, such as \"mod+k\" (mod is Command on Mac, Control elsewhere; shift and alt are modifiers). Unset binds nothing."
+        },
+        "open": {
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        },
+        "defaultOpen": {
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state when uncontrolled."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Called when the palette opens or closes."
+        },
+        "onSelect": {
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called with the value of the chosen command; the palette then closes."
+        },
+        "placeholder": {
+          "type": "string",
+          "required": false,
+          "description": "Hint in the empty search field."
+        },
+        "emptyMessage": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "Shown when nothing matches."
+        },
+        "resultsLabel": {
+          "type": "(count: number) => string",
+          "required": false,
+          "description": "Polite announcement of the result count."
+        },
+        "trigger": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "Element that opens the palette (rendered with asChild)."
+        },
+        "inline": {
+          "type": "boolean",
+          "default": false,
+          "required": false,
+          "description": "Render in place, open, without portal and overlay (docs, previews, tests)."
+        }
+      },
+      "exportProps": {
+        "CommandPalette": {
+          "defaultOpen": {
+            "type": "boolean",
+            "required": false,
+            "description": "Initial open state when uncontrolled."
+          },
+          "emptyMessage": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "Shown when nothing matches."
+          },
+          "groups": {
+            "type": "CommandPaletteGroup[]",
+            "required": true,
+            "description": "{ label, items } sections; an item is { value, label, description?, icon?, shortcut?, disabled? }. shortcut is shown in a Kbd and does not bind the key."
+          },
+          "inline": {
+            "type": "boolean",
+            "default": false,
+            "required": false,
+            "description": "Render in place, open, without portal and overlay (docs, previews, tests)."
+          },
+          "label": {
+            "type": "string",
+            "required": true,
+            "description": "Accessible name of the dialog, the search field and the list. Supplied by the app so it can be translated."
+          },
+          "onOpenChange": {
+            "type": "(open: boolean) => void",
+            "required": false,
+            "description": "Called when the palette opens or closes."
+          },
+          "onSelect": {
+            "type": "(value: string) => void",
+            "required": false,
+            "description": "Called with the value of the chosen command; the palette then closes."
+          },
+          "open": {
+            "type": "boolean",
+            "required": false,
+            "description": "Controlled open state."
+          },
+          "placeholder": {
+            "type": "string",
+            "required": false,
+            "description": "Hint in the empty search field."
+          },
+          "resultsLabel": {
+            "type": "(count: number) => string",
+            "required": false,
+            "description": "Polite announcement of the result count."
+          },
+          "shortcut": {
+            "type": "string",
+            "required": false,
+            "description": "Global chord that toggles the palette, such as \"mod+k\" (mod is Command on Mac, Control elsewhere; shift and alt are modifiers). Unset binds nothing."
+          },
+          "trigger": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "Element that opens the palette (rendered with asChild)."
+          }
+        }
+      },
+      "variants": {},
+      "parts": [],
+      "events": {
+        "onSelect": {
+          "payload": "string",
+          "when": "A command is chosen with Enter or a click."
+        },
+        "onOpenChange": {
+          "payload": "boolean",
+          "when": "The palette opens or closes: the shortcut, Escape, the outside press or a choice."
+        }
+      },
+      "keyboard": {
+        "ArrowDown": "highlights the next command, wrapping at the end",
+        "ArrowUp": "highlights the previous command",
+        "Enter": "runs the highlighted command and closes the palette",
+        "Escape": "closes the palette"
+      },
+      "a11y": {
+        "labelRequired": true,
+        "notes": [
+          "The dialog is modal: focus is trapped and returns to the trigger on close. The search field is role=combobox with an aria-activedescendant on the listbox.",
+          "A shortcut shown on a row is also text in a Kbd, never an icon only."
+        ]
+      },
+      "flags": {
+        "agent": false,
+        "floating": true,
+        "field": false
+      },
+      "uses": [
+        "combobox",
+        "dialog",
+        "kbd"
+      ],
+      "usedBy": [],
+      "examples": []
     },
     "compare-view": {
       "id": "compare-view",
@@ -18425,6 +18891,17 @@
           "required": false,
           "description": "Disables the input, the bar controls and the send control; the box takes disabled fill, edge and text."
         },
+        "locked": {
+          "type": "boolean",
+          "default": false,
+          "required": false,
+          "description": "Observing: someone else holds the prompt. The text is read-only, Enter and send do nothing, attach, mode, model and send are disabled and the observing band shows. Unlike disabled the box keeps its look (no disabled fill) and the text stays selectable."
+        },
+        "lockedLabel": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "Text of the observing band (e.g. \"Observing: Mina is driving\"). Required whenever locked is true; no built-in default."
+        },
         "sendDisabled": {
           "type": "boolean",
           "default": false,
@@ -18475,6 +18952,17 @@
             "type": "Ref<HTMLTextAreaElement>",
             "required": false,
             "description": "Ref to the native textarea (focus, auto-size, selection). The Composer ref prop keeps pointing at the form."
+          },
+          "locked": {
+            "type": "boolean",
+            "default": false,
+            "required": false,
+            "description": "Observing: someone else holds the prompt. The text is read-only, Enter and send do nothing, attach, mode, model and send are disabled and the observing band shows. Unlike disabled the box keeps its look (no disabled fill) and the text stays selectable."
+          },
+          "lockedLabel": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "Text of the observing band (e.g. \"Observing: Mina is driving\"). Required whenever locked is true; no built-in default."
           },
           "maxLength": {
             "type": "number",
@@ -21540,6 +22028,11 @@
             "required": false,
             "description": "Body content with title; the parts of a custom layout without it."
           },
+          "fieldHeight": {
+            "type": "boolean",
+            "required": false,
+            "description": ""
+          },
           "iconEnd": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
             "required": false,
@@ -21805,6 +22298,7 @@
         "tag-input"
       ],
       "usedBy": [
+        "command-palette",
         "sheet"
       ],
       "examples": [
@@ -24261,6 +24755,16 @@
       ],
       "el": "div",
       "props": {
+        "optionalPlacement": {
+          "type": "'label' | 'row'",
+          "default": "label",
+          "required": false,
+          "description": "Where the optional mark sits. label (default): inside the label element, read as part of the label. row: a sibling after the label in the label row, outside the label element, so the control name stays the label alone.",
+          "values": [
+            "label",
+            "row"
+          ]
+        },
         "tone": {
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "neutral",
@@ -24461,6 +24965,16 @@
             "type": "string",
             "required": false,
             "description": "Text of the optional mark (e.g. \"Optional\"). Required whenever optional is true; no built-in default. Optional in the type only because it is unused when optional is false."
+          },
+          "optionalPlacement": {
+            "type": "\"label\" | \"row\"",
+            "default": "label",
+            "required": false,
+            "description": "Where the optional mark sits. label (default): inside the label element, read as part of the label. row: a sibling after the label in the label row, outside the label element, so the control name stays the label alone.",
+            "values": [
+              "label",
+              "row"
+            ]
           },
           "overLimit": {
             "type": "boolean",
@@ -31670,6 +32184,7 @@
       "usedBy": [
         "badge",
         "canvas-hint",
+        "command-palette",
         "input",
         "list-navigation",
         "menu",
@@ -32542,6 +33057,12 @@
           "required": false,
           "description": "List prop. Count, meta or one IconButton xs at the end of the heading."
         },
+        "dividers": {
+          "type": "boolean",
+          "default": true,
+          "required": false,
+          "description": "List prop. false drops the separators between rows (and the opaque border-top) and gives each row lg corners, so a surface-less list (variant ghost: no fill, no edge, transparent) reads as rows that fill on hover. Pair it with ListRow description for the two-line row (title above one tertiary secondary line). Default true keeps the separators."
+        },
         "headingBand": {
           "type": "boolean",
           "default": false,
@@ -32773,6 +33294,12 @@
             "default": false,
             "required": false,
             "description": "List prop: disables every choice, handle and trigger. ListRow prop: this row cannot be chosen or moved (other rows skip over it)."
+          },
+          "dividers": {
+            "type": "boolean",
+            "default": true,
+            "required": false,
+            "description": "List prop. false drops the separators between rows (and the opaque border-top) and gives each row lg corners, so a surface-less list (variant ghost: no fill, no edge, transparent) reads as rows that fill on hover. Pair it with ListRow description for the two-line row (title above one tertiary secondary line). Default true keeps the separators."
           },
           "handleLabel": {
             "type": "((title: string) => string) | ((title: string) => string)",
@@ -33844,6 +34371,11 @@
       ],
       "el": "nav",
       "props": {
+        "statusLabels": {
+          "type": "Partial<Record<'running' | 'review' | 'failed' | 'done', string>>",
+          "required": false,
+          "description": "ListNavigationItem: the hidden status words read before the label (defaults Running, Needs review, Failed, Done); pass them to translate."
+        },
         "aria-label": {
           "type": "string",
           "required": true,
@@ -34241,6 +34773,11 @@
               "running",
               "failed"
             ]
+          },
+          "statusLabels": {
+            "type": "Partial<Record<ListNavigationStatus, string>>",
+            "required": false,
+            "description": "ListNavigationItem: the hidden status words read before the label (defaults Running, Needs review, Failed, Done); pass them to translate."
           },
           "sub": {
             "type": "ReactNode",
@@ -35132,7 +35669,7 @@
           "type": "boolean",
           "default": false,
           "required": false,
-          "description": "The agent is still writing this message: aria-busy while true so partial text is not announced."
+          "description": "The agent is still writing this message: aria-busy while true so partial text is not announced; the body carries data-streaming and a still writing cursor (a 2px bar after the last paragraph, text.primary, never blinking) that goes when the turn is done."
         },
         "meta": {
           "type": "ReactNode",
@@ -35256,7 +35793,7 @@
             "type": "boolean",
             "default": false,
             "required": false,
-            "description": "The agent is still writing this message: aria-busy while true so partial text is not announced."
+            "description": "The agent is still writing this message: aria-busy while true so partial text is not announced; the body carries data-streaming and a still writing cursor (a 2px bar after the last paragraph, text.primary, never blinking) that goes when the turn is done."
           },
           "tone": {
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
@@ -35406,6 +35943,195 @@
           "code": "<div className=\"grid gap-3\">\n  <Message author=\"user\">Generate a dark variant of Lagoon. Keep the accent recognizable.</Message>\n  <Thinking defaultOpen>Dark surfaces need a lighter accent step to hold contrast. Moving accent/solid from 600 to 400 keeps the hue and passes on surface.</Thinking>\n  <Message meta=\"Caustic · 3 tool calls · 12s\" onCopy={() => {}} onRetry={() => {}} copyLabel=\"Copy\" retryLabel=\"Retry\">\n    <p>I derived 14 tokens for dark. The accent moves from <MessageCode>lagoon/600</MessageCode> to <MessageCode>lagoon/400</MessageCode>, so buttons stay recognizable and pass AA on every surface.</p>\n  </Message>\n</div>"
         }
       ]
+    },
+    "meter": {
+      "id": "meter",
+      "name": "Meter",
+      "category": "data",
+      "status": "ready",
+      "intent": "Show a bounded measurement against a limit, such as a budget spent or a quota left, with warning and danger thresholds.",
+      "roles": [
+        "display.metric"
+      ],
+      "alsoFits": [
+        "feedback.progress"
+      ],
+      "placement": [
+        "inline",
+        "toolbar",
+        "card",
+        "page"
+      ],
+      "keywords": [
+        "gauge",
+        "budget bar",
+        "quota",
+        "usage meter",
+        "limit"
+      ],
+      "pairs": [
+        "card-stat",
+        "progress"
+      ],
+      "consider": [
+        {
+          "id": "progress",
+          "when": "the bar shows work that is running, not a measurement against a limit"
+        }
+      ],
+      "guidance": [
+        "Pass high as 50% of max for a budget so half spent reads warning and the full budget reads danger.",
+        "The tone is on the bar only; keep the label and value as neutral text."
+      ],
+      "import": "import { Meter } from '@caustic/react';",
+      "exports": [
+        "Meter",
+        "meterLevel"
+      ],
+      "el": "div",
+      "props": {
+        "value": {
+          "type": "number",
+          "required": false,
+          "description": "Current measurement, 0 to max."
+        },
+        "max": {
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": "Upper bound. A value at or over max reads danger."
+        },
+        "low": {
+          "type": "number",
+          "required": false,
+          "description": "A value at or under this reads warning (a quota that is running out)."
+        },
+        "high": {
+          "type": "number",
+          "required": false,
+          "description": "A value at or over this reads warning (a budget that is half spent: pass 50% of max)."
+        },
+        "level": {
+          "type": "'normal' | 'warning' | 'danger'",
+          "required": false,
+          "description": "Force a level; unset resolves it from value, low, high and max.",
+          "values": [
+            "normal",
+            "warning",
+            "danger"
+          ]
+        },
+        "size": {
+          "type": "'sm' | 'md'",
+          "default": "md",
+          "required": false,
+          "description": "Bar height: sm 4px, md size-progress-h (6px).",
+          "values": [
+            "sm",
+            "md"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "required": false,
+          "description": "Accessible name (aria-label)."
+        },
+        "valueText": {
+          "type": "string",
+          "required": false,
+          "description": "Human text for the value (aria-valuetext), e.g. \"6.2 of 10 hours\"."
+        }
+      },
+      "exportProps": {
+        "Meter": {
+          "high": {
+            "type": "number",
+            "required": false,
+            "description": "A value at or over this reads warning (a budget that is half spent: pass 50% of max)."
+          },
+          "label": {
+            "type": "string",
+            "required": false,
+            "description": "Accessible name (aria-label)."
+          },
+          "level": {
+            "type": "MeterLevel",
+            "required": false,
+            "description": "Force a level; unset resolves it from value, low, high and max.",
+            "values": [
+              "warning",
+              "danger",
+              "normal"
+            ]
+          },
+          "low": {
+            "type": "number",
+            "required": false,
+            "description": "A value at or under this reads warning (a quota that is running out)."
+          },
+          "max": {
+            "type": "number",
+            "default": "100",
+            "required": false,
+            "description": "Upper bound. A value at or over max reads danger."
+          },
+          "size": {
+            "type": "\"sm\" | \"md\"",
+            "default": "md",
+            "required": false,
+            "description": "Bar height: sm 4px, md size-progress-h (6px).",
+            "values": [
+              "sm",
+              "md"
+            ]
+          },
+          "value": {
+            "type": "number",
+            "required": true,
+            "description": "Current measurement, 0 to max."
+          },
+          "valueText": {
+            "type": "string",
+            "required": false,
+            "description": "Human text for the value (aria-valuetext), e.g. \"6.2 of 10 hours\"."
+          }
+        }
+      },
+      "variants": {
+        "level": {
+          "values": [
+            "normal",
+            "warning",
+            "danger"
+          ],
+          "default": "normal",
+          "description": "Resolved from value and thresholds unless the level prop forces it: value at or over max is danger; at or over high, or at or under low, is warning; otherwise normal. Colours the bar only."
+        }
+      },
+      "sizes": {
+        "values": [
+          "sm",
+          "md"
+        ],
+        "default": "md"
+      },
+      "parts": [],
+      "events": {},
+      "keyboard": {},
+      "a11y": {
+        "labelRequired": true,
+        "notes": [
+          "The level is also in aria-valuetext when the consumer passes valueText; colour alone never carries it."
+        ]
+      },
+      "flags": {
+        "agent": false,
+        "floating": false,
+        "field": false
+      },
+      "uses": [],
+      "usedBy": [],
+      "examples": []
     },
     "motion-timeline": {
       "id": "motion-timeline",
@@ -39203,13 +39929,24 @@
       ],
       "el": "div",
       "props": {
+        "onRowPress": {
+          "type": "(step: PlanStep, index: number) => void",
+          "required": false,
+          "description": "Makes each row a button (e.g. jump to the turn that made the step); a step with clickable false stays plain. Without it rows are read-only."
+        },
+        "bare": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "No card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one."
+        },
         "title": {
           "type": "ReactNode",
           "required": true,
           "description": "Plan name."
         },
         "steps": {
-          "type": "{ id: string; label: ReactNode; status: 'done' | 'now' | 'todo' | 'failed'; detail?: ReactNode }[]",
+          "type": "{ id: string; label: ReactNode; status: 'done' | 'now' | 'todo' | 'failed'; detail?: ReactNode; clickable?: boolean }[]",
           "required": true,
           "description": "Steps in order."
         },
@@ -39295,10 +40032,21 @@
       },
       "exportProps": {
         "Plan": {
+          "bare": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "No card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one."
+          },
           "countLabel": {
             "type": "(done: number, total: number) => string",
             "required": true,
             "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). No built-in default."
+          },
+          "onRowPress": {
+            "type": "(step: PlanStep, index: number) => void",
+            "required": false,
+            "description": "Makes each row a button (e.g. jump to the turn that made the step); a step with clickable false stays plain. Without it rows are read-only."
           },
           "radius": {
             "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",
@@ -40303,6 +41051,7 @@
         "number-field"
       ],
       "usedBy": [
+        "app-shell",
         "calendar",
         "image-fill",
         "property-stack"
@@ -42026,6 +42775,11 @@
       ],
       "el": "div",
       "props": {
+        "description": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "RadioGroupItem: quiet second line under the label. The label then wraps over several lines with the circle aligned to the first line, and the chosen item adds weight to its name. Absent keeps the single-line label."
+        },
         "tone": {
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "accent",
@@ -42234,6 +42988,11 @@
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
             "required": false,
             "description": ""
+          },
+          "description": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "RadioGroupItem: quiet second line under the label. The label then wraps over several lines with the circle aligned to the first line, and the chosen item adds weight to its name. Absent keeps the single-line label."
           },
           "value": {
             "type": "string",
@@ -47943,6 +48702,121 @@
       ],
       "examples": []
     },
+    "status-dot": {
+      "id": "status-dot",
+      "name": "StatusDot",
+      "category": "primitive",
+      "status": "ready",
+      "intent": "Show a short state as a small coloured dot followed by its words, in a table cell, a map cell or a row.",
+      "roles": [
+        "display.status"
+      ],
+      "alsoFits": [],
+      "placement": [
+        "inline",
+        "card",
+        "page"
+      ],
+      "keywords": [
+        "status dot",
+        "state indicator",
+        "health",
+        "on off",
+        "status cell"
+      ],
+      "pairs": [
+        "table",
+        "list",
+        "card-stat"
+      ],
+      "consider": [
+        {
+          "id": "badge",
+          "when": "the state is the focus of its row and should read as a pill"
+        }
+      ],
+      "guidance": [
+        "Write the whole state in the label, such as \"On · 2 failures\"; the dot tone only repeats it.",
+        "The tone colours the dot only; the label stays neutral secondary text."
+      ],
+      "import": "import { StatusDot } from '@caustic/react';",
+      "exports": [
+        "StatusDot"
+      ],
+      "el": "span",
+      "props": {
+        "tone": {
+          "type": "'neutral' | 'success' | 'warning' | 'danger' | 'info'",
+          "default": "neutral",
+          "required": false,
+          "description": "Colour of the dot.",
+          "values": [
+            "neutral",
+            "success",
+            "warning",
+            "danger",
+            "info"
+          ]
+        },
+        "label": {
+          "type": "ReactNode",
+          "required": true,
+          "description": "The state in words, e.g. \"On\" or \"On · 2 failures\"."
+        }
+      },
+      "exportProps": {
+        "StatusDot": {
+          "label": {
+            "type": "ReactNode",
+            "required": true,
+            "description": "The state in words, e.g. \"On\" or \"On · 2 failures\"."
+          },
+          "tone": {
+            "type": "\"neutral\" | \"success\" | \"warning\" | \"danger\" | \"info\"",
+            "default": "neutral",
+            "required": false,
+            "description": "Colour of the dot.",
+            "values": [
+              "neutral",
+              "success",
+              "warning",
+              "danger",
+              "info"
+            ]
+          }
+        }
+      },
+      "variants": {
+        "tone": {
+          "values": [
+            "neutral",
+            "success",
+            "warning",
+            "danger",
+            "info"
+          ],
+          "default": "neutral",
+          "description": "Colour of the dot only: neutral.graphic, success.graphic, warning.graphic, danger.graphic or info.graphic. The label stays text.secondary."
+        }
+      },
+      "parts": [],
+      "events": {},
+      "keyboard": {},
+      "a11y": {
+        "labelRequired": false,
+        "notes": [
+          "The state is the label text; the dot is decorative (aria-hidden) so colour alone never carries it."
+        ]
+      },
+      "flags": {
+        "agent": false,
+        "floating": false,
+        "field": false
+      },
+      "uses": [],
+      "usedBy": [],
+      "examples": []
+    },
     "stepper": {
       "id": "stepper",
       "name": "Stepper",
@@ -48006,6 +48880,17 @@
       ],
       "el": "div",
       "props": {
+        "onStepClick": {
+          "type": "(index: number, step: StepperStep) => void",
+          "required": false,
+          "description": "Makes steps pressable, e.g. to reopen a finished step: each step (except those with clickable false) becomes a button. Without it steps stay read-only."
+        },
+        "bare": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Checklist only: no card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one."
+        },
         "value": {
           "type": "number",
           "default": 0,
@@ -48123,6 +49008,12 @@
       },
       "exportProps": {
         "Stepper": {
+          "bare": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "Checklist only: no card of its own (no fill, hairline, corner, inset or progress band) for use inside a well or panel that already draws one."
+          },
           "children": {
             "type": "ReactNode",
             "required": false,
@@ -48132,6 +49023,11 @@
             "type": "(done: number, total: number) => string",
             "required": false,
             "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). Supplied by the consumer so it can be translated and pluralized; no built-in default."
+          },
+          "onStepClick": {
+            "type": "(index: number, step: StepperStep) => void",
+            "required": false,
+            "description": "Makes steps pressable, e.g. to reopen a finished step: each step (except those with clickable false) becomes a button. Without it steps stay read-only."
           },
           "orientation": {
             "type": "\"horizontal\" | \"vertical\"",
@@ -48340,7 +49236,12 @@
           "description": "StepperTitle: the name of the steps; names the root group (aria-labelledby)."
         }
       ],
-      "events": {},
+      "events": {
+        "onStepClick": {
+          "payload": "(index: number, step: StepperStep)",
+          "when": "a pressable step is pressed"
+        }
+      },
       "keyboard": {},
       "a11y": {
         "labelRequired": false,
@@ -49751,6 +50652,116 @@
         }
       ]
     },
+    "system-row": {
+      "id": "system-row",
+      "name": "SystemRow",
+      "category": "agent",
+      "status": "ready",
+      "intent": "Show something the system did in a chat transcript as one quiet line with a muted icon and at most one action.",
+      "roles": [
+        "agent.conversation"
+      ],
+      "alsoFits": [],
+      "placement": [
+        "transcript"
+      ],
+      "keywords": [
+        "system message",
+        "event row",
+        "transcript event",
+        "signal",
+        "handover",
+        "notice line"
+      ],
+      "pairs": [
+        "message",
+        "activity-tree"
+      ],
+      "consider": [
+        {
+          "id": "message",
+          "when": "the line is spoken by a person or the agent"
+        },
+        {
+          "id": "alert",
+          "when": "the notice needs attention and should stay visible above the transcript"
+        }
+      ],
+      "guidance": [
+        "Keep it to one line; the detail belongs in what the single action opens."
+      ],
+      "import": "import { SystemRow } from '@caustic/react';",
+      "exports": [
+        "SystemRow"
+      ],
+      "el": "div",
+      "props": {
+        "icon": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "The glyph before the text (an icon element); drawn muted."
+        },
+        "children": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "The one line of text."
+        },
+        "actionLabel": {
+          "type": "ReactNode",
+          "required": false,
+          "description": "Label of the single action. Unset renders no action."
+        },
+        "onAction": {
+          "type": "() => void",
+          "required": false,
+          "description": "Called when the action is pressed."
+        }
+      },
+      "exportProps": {
+        "SystemRow": {
+          "actionLabel": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "Label of the single action. Unset renders no action."
+          },
+          "icon": {
+            "type": "ReactNode",
+            "required": false,
+            "description": "The glyph before the text (an icon element); drawn muted."
+          },
+          "onAction": {
+            "type": "() => void",
+            "required": false,
+            "description": "Called when the action is pressed."
+          }
+        }
+      },
+      "variants": {},
+      "parts": [],
+      "events": {
+        "onAction": {
+          "payload": "void",
+          "when": "The action is pressed."
+        }
+      },
+      "keyboard": {},
+      "a11y": {
+        "labelRequired": false,
+        "notes": [
+          "The line is plain text in reading order; the icon is decorative and never the only carrier of the meaning."
+        ]
+      },
+      "flags": {
+        "agent": false,
+        "floating": false,
+        "field": false
+      },
+      "uses": [
+        "button"
+      ],
+      "usedBy": [],
+      "examples": []
+    },
     "table": {
       "id": "table",
       "name": "Table",
@@ -49830,6 +50841,27 @@
           "type": "ReactNode",
           "required": false,
           "description": "Content of the toolbar row (search field, filter and primary buttons; use a flexible spacer to push actions to the end)."
+        },
+        "selectionMode": {
+          "type": "'none' | 'single'",
+          "default": "none",
+          "required": false,
+          "description": "single: one row is chosen by click, Enter or Space; no checkbox column. The chosen row (aria-selected) is one raised surface, the same fill and edge as the current item of a navigation (control.raised, control.edge, lg corners on its first and last cell), not the inverted multi-select row. Uses selectedKeys / defaultSelectedKeys / onSelectedKeysChange with at most one key.",
+          "values": [
+            "none",
+            "single"
+          ]
+        },
+        "onRowActivate": {
+          "type": "(row: TableRow) => void",
+          "required": false,
+          "description": "A row is activated by click, Enter or Space (a click on a button, link or input inside the row is ignored). With selectionMode single the row is chosen first. Rows are focusable with a roving tab stop (the chosen row, else the first) and arrow keys, Home and End move between them."
+        },
+        "dividers": {
+          "type": "boolean",
+          "default": true,
+          "required": false,
+          "description": "false drops the hairlines between rows and under the header; the row hover fill moves to the cells and rounds (lg) at the row ends, so the table sits on the page without lines. Default true keeps the divider.line hairlines."
         },
         "selectable": {
           "type": "boolean",
@@ -49959,6 +50991,12 @@
             "required": false,
             "description": "Uncontrolled initial selection."
           },
+          "dividers": {
+            "type": "boolean",
+            "default": true,
+            "required": false,
+            "description": "false drops the hairlines between rows and under the header; the row hover fill moves to the cells and rounds (lg) at the row ends, so the table sits on the page without lines. Default true keeps the divider.line hairlines."
+          },
           "maxHeight": {
             "type": "number",
             "required": false,
@@ -49968,6 +51006,11 @@
             "type": "(page: number) => void",
             "required": false,
             "description": ""
+          },
+          "onRowActivate": {
+            "type": "(row: TableRow) => void",
+            "required": false,
+            "description": "A row is activated by click, Enter or Space (a click on a button, link or input inside the row is ignored). With selectionMode single the row is chosen first. Rows are focusable with a roving tab stop (the chosen row, else the first) and arrow keys, Home and End move between them."
           },
           "onSelectedKeysChange": {
             "type": "(keys: string[]) => void",
@@ -50043,6 +51086,16 @@
             "type": "string[]",
             "required": false,
             "description": "Controlled selection."
+          },
+          "selectionMode": {
+            "type": "\"none\" | \"single\"",
+            "default": "none",
+            "required": false,
+            "description": "single: one row is chosen by click, Enter or Space; no checkbox column. The chosen row (aria-selected) is one raised surface, the same fill and edge as the current item of a navigation (control.raised, control.edge, lg corners on its first and last cell), not the inverted multi-select row. Uses selectedKeys / defaultSelectedKeys / onSelectedKeysChange with at most one key.",
+            "values": [
+              "none",
+              "single"
+            ]
           },
           "shadow": {
             "type": "\"none\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\"",
@@ -50183,6 +51236,10 @@
           "payload": "string[]",
           "when": "a row checkbox or select-all is toggled; select-all from mixed selects every row"
         },
+        "onRowActivate": {
+          "payload": "TableRow",
+          "when": "a row is clicked or activated from the keyboard"
+        },
         "onSortChange": {
           "payload": "{ key: string; direction: 'ascending' | 'descending' }",
           "when": "a sort button is activated; an unsorted or descending column becomes ascending, an ascending one descending"
@@ -50203,6 +51260,7 @@
           "Native table: th scope=\"col\" in thead; the actions column header is empty but present.",
           "A sorted heading sets aria-sort=\"ascending\" or \"descending\"; the sort control is a real button and its glyph is aria-hidden.",
           "Row checkboxes are named \"Select <name>\"; the header one \"Select all\", with the mixed state.",
+          "With selectionMode single or onRowActivate the rows are focusable (roving tabindex, arrow keys); the chosen row is also marked by its raised surface and aria-selected, not by tint alone.",
           "Selected rows set aria-selected; selection is also shown by the checkbox, not by tint alone.",
           "The pager is a nav labelled \"Pagination\"; the current page has aria-current=\"page\".",
           "Status badges in cells carry text, never color alone."
@@ -55181,6 +56239,34 @@
       ],
       "el": "div",
       "props": {
+        "collapsible": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "The header becomes a toggle (button with aria-expanded) that folds the result; a chevron ends the row. Without a result there is nothing to fold."
+        },
+        "defaultOpen": {
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Uncontrolled initial open state with collapsible."
+        },
+        "open": {
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state with collapsible."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Called with the new open state when a collapsible header is activated."
+        },
+        "bare": {
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "No card of its own (no fill, hairline, danger edge, rim, elevation or corner clip) for use inside a well or panel that already draws one; the status pill still carries the state."
+        },
         "name": {
           "type": "string",
           "required": true,
@@ -55312,10 +56398,28 @@
             "required": false,
             "description": "Running label (e.g. \"Running\", \"Deriving\"). Required whenever status is running; no built-in default."
           },
+          "bare": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "No card of its own (no fill, hairline, danger edge, rim, elevation or corner clip) for use inside a well or panel that already draws one; the status pill still carries the state."
+          },
           "children": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
             "required": false,
             "description": ""
+          },
+          "collapsible": {
+            "type": "boolean",
+            "default": "false",
+            "required": false,
+            "description": "The header becomes a toggle (button with aria-expanded) that folds the result; a chevron ends the row. Without a result there is nothing to fold."
+          },
+          "defaultOpen": {
+            "type": "boolean",
+            "default": "true",
+            "required": false,
+            "description": "Uncontrolled initial open state with collapsible."
           },
           "detail": {
             "type": "ReactNode",
@@ -55341,6 +56445,16 @@
             "type": "string",
             "required": true,
             "description": "Tool id."
+          },
+          "onOpenChange": {
+            "type": "(open: boolean) => void",
+            "required": false,
+            "description": "Called with the new open state when a collapsible header is activated."
+          },
+          "open": {
+            "type": "boolean",
+            "required": false,
+            "description": "Controlled open state with collapsible."
           },
           "progress": {
             "type": "number",
@@ -55509,8 +56623,15 @@
         "default": "md"
       },
       "parts": [],
-      "events": {},
-      "keyboard": {},
+      "events": {
+        "onOpenChange": {
+          "payload": "boolean",
+          "when": "a collapsible header is activated, with the new open state"
+        }
+      },
+      "keyboard": {
+        "Enter / Space": "on a focused collapsible header: folds or opens the result"
+      },
       "a11y": {
         "labelRequired": false,
         "notes": [

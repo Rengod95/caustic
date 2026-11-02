@@ -83,10 +83,14 @@ export const messageVariants = cva('animate-rise', {
 
 export type MessageVariantProps = VariantProps<typeof messageVariants>;
 
-/** The agent prose: voice serif; size steps the voice role (xs and sm voice-sm, md voice, lg voice-lg). */
+/** The agent prose: voice serif; streaming adds the writing cursor; size steps the voice role (xs and sm voice-sm, md voice, lg voice-lg). */
 export const messageBodyVariants = cva('font-voice text-text-primary [&_p]:mb-2', {
-  variants: { size: { xs: 'font-voice text-voice-sm', sm: 'font-voice text-voice-sm', md: 'font-voice text-voice', lg: 'font-voice text-voice-lg' } },
-  defaultVariants: { size: 'md' },
+  variants: {
+    size: { xs: 'font-voice text-voice-sm', sm: 'font-voice text-voice-sm', md: 'font-voice text-voice', lg: 'font-voice text-voice-lg' },
+    // The writing cursor: a still bar after the last paragraph, never blinking (P8) and gone when the turn is done.
+    streaming: { true: '[&>p:last-of-type]:after:ml-0.5 [&>p:last-of-type]:after:inline-block [&>p:last-of-type]:after:h-4 [&>p:last-of-type]:after:w-0.5 [&>p:last-of-type]:after:translate-y-0.5 [&>p:last-of-type]:after:rounded-full [&>p:last-of-type]:after:bg-text-primary [&>p:last-of-type]:after:content-[""]', false: '' },
+  },
+  defaultVariants: { size: 'md', streaming: false },
 });
 
 /** The agent spectrum orb dot; rendered only for the agent author. It turns only while the agent is writing (streaming); a finished turn keeps the still dot. */

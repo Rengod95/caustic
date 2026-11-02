@@ -28,6 +28,7 @@ export default defineSpec({
   },
   sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   props: {
+    optionalPlacement: { type: "'label' | 'row'", default: 'label', description: 'Where the optional mark sits. label (default): inside the label element, read as part of the label. row: a sibling after the label in the label row, outside the label element, so the control name stays the label alone.' },
     tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Common prop. Colour family of the hint. error, warning and success keep their own meaning colour.' },
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'ghost', description: 'Common prop. Emphasis of the hint. ghost = today: a plain text.tertiary line (a tone takes its text colour). soft = boxed in the tone soft fill (neutral.track) with tone text; outline = boxed with a 1px tone border edge; solid = the tone solid fill (ink for neutral) with on text. Boxes have an md radius and 4 / 8 padding.' },
     radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", description: 'Common prop. Corner radius of the root. Unset = none (the root has no box of its own).' },
