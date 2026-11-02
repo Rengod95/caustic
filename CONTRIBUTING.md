@@ -159,3 +159,12 @@ component or change what it is for, update `packages/catalog/src/entries/<id>.ts
 
 Agent-facing docs are written for an agent that has never seen this repo: no internal paths it cannot reach, no
 history, no gates. Internal docs may reference anything.
+
+## When checks run
+
+The gate is slow (the full set takes over ten minutes), so it does not run on every change.
+
+- **While working:** `just verify` (no gate) and `just gate <id>` for the specs you changed.
+- **Right before merging a PR, and only then:** `just verify-merge`, run by the main session or the owner. Subagents never run it, nor `pnpm gate:all`.
+- **CI** is manual and runs the same thing: `gh workflow run verify --ref <branch>`.
+- Run on the Mac when it is available.
