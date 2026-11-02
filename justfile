@@ -36,7 +36,7 @@ verify:
 _verify-steps: setup typecheck
     pnpm tokens:check
     pnpm catalog:check
-    pnpm gate:all --changed --shards=1
+    pnpm gate:all --changed --shards={{ if os() == "macos" { "6" } else { "1" } }}
 
 # 생성 파일 갱신: 토큰 빌드(dist)와 레지스트리(index, fixtures, specs index)
 [group('build')]
