@@ -23,20 +23,30 @@ setup:
 typecheck:
     pnpm typecheck
 
-# 기기에서 한 번에 하나(슬롯 1), 메모리 상한 3G(scripts/guard.sh). 전체 116개 검사는 just gate-all.
-# 완료 기준: 의존성, 타입, 토큰, 게이트, ws check (ws help justfile)
+# 평소 완료 기준: 의존성, 타입, 토큰, 카탈로그, ws check. 게이트는 고친 스펙만 just gate <id>로 돌린다.
+# 기기에서 한 번에 하나(슬롯 1), 메모리 상한 3G(scripts/guard.sh).
 [group('quality')]
 verify:
     WS_GUARD_SLOTS=1 WS_GUARD_VERIFY_MAX=3G scripts/guard.sh verify -- just _verify-steps
     ws check
 
-# verify 단계 묶음: setup typecheck, 토큰 대비, 바뀐 범위의 게이트(--changed: 기준(GATE_BASE, 없으면 main) 이후와 작업
-# 트리에서 바뀐 컴포넌트와 그걸 쓰거나 import하는 컴포넌트, 토큰·lib·gateway가 바뀌거나 기준이 없거나 HEAD가 기준이면 전체). 샤드 1개(node와 브라우저로 약 1.5G, 2개는 상한을 넘는다)
+# PR 병합 직전에만: verify에 바뀐 범위의 게이트를 더한다. CI도 이것을 돌린다(사람이 수동 실행). 전체 검사는 just gate-all.
+[group('quality')]
+verify-merge:
+    WS_GUARD_SLOTS=1 WS_GUARD_VERIFY_MAX=3G scripts/guard.sh verify -- just _verify-merge-steps
+    ws check
+
+# verify 단계 묶음: setup typecheck, 토큰 대비, 카탈로그
 [private]
 _verify-steps: setup typecheck
     pnpm tokens:check
     pnpm catalog:check
-    pnpm gate:all --changed --shards=1
+
+# 병합 직전 단계 묶음. 바뀐 범위의 게이트(--changed: 기준(GATE_BASE, 없으면 main) 이후와 작업 트리에서 바뀐 컴포넌트와
+# 그걸 쓰거나 import하는 컴포넌트, 토큰·lib·gateway가 바뀌거나 기준이 없거나 HEAD가 기준이면 전체). 샤드: Linux는 1개(node와 브라우저로 약 1.5G, 2개는 상한을 넘는다), macOS는 6개
+[private]
+_verify-merge-steps: _verify-steps
+    pnpm gate:all --changed --shards={{ if os() == "macos" { "6" } else { "1" } }}
 
 # 생성 파일 갱신: 토큰 빌드(dist)와 레지스트리(index, fixtures, specs index)
 [group('build')]

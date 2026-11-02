@@ -17,7 +17,9 @@ export async function g4(c: Collector, spec: ComponentSpec, rt: Runtime) {
     if (!existsSync(metaPath)) { c.fail({ gate: 'G4', check: 'baseline', where: ex.id, message: `No baseline for example "${ex.id}".`, fix: `Record it from the React render with \`pnpm baseline:react ${spec.id}\` once the owner approves the look.` }); continue; }
     const meta = JSON.parse(readFileSync(metaPath, 'utf8')) as { width: number };
     for (const theme of THEMES) {
-      const basePath = join(baselinesDir, spec.id, `${ex.id}-${theme}.png`);
+      const defaultPath = join(baselinesDir, spec.id, `${ex.id}-${theme}.png`);
+      const darwinPath = join(baselinesDir, spec.id, 'darwin', `${ex.id}-${theme}.png`);
+      const basePath = process.platform === 'darwin' && existsSync(darwinPath) ? darwinPath : defaultPath; // macOS renders fonts differently: prefer baselines/<id>/darwin/ when recorded
       if (!existsSync(basePath)) { c.fail({ gate: 'G4', check: 'baseline', where: `${ex.id} ${theme}`, message: 'Baseline image missing.' }); continue; }
       const page = await openPage(rt, { c: spec.id, mode: 'example', ex: ex.id, theme, w: String(meta.width) });
       try {
