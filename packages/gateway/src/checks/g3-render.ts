@@ -110,7 +110,7 @@ async function scenarios(c: Collector, spec: ComponentSpec, rt: Runtime) {
         else if (st.do === 'focus') await loc(st.slot, n).focus();
         else if (st.do === 'blur') await loc(st.slot, n).blur();
         else if (st.do === 'hover') await loc(st.slot, n).hover({ force: true });
-        else if (st.do === 'press') await page.keyboard.press(st.key!);
+        else if (st.do === 'press') await page.keyboard.press(st.key!.replace(/^Control\+/, 'ControlOrMeta+')); // specs say Control+A for select-all; macOS needs Meta. Same as Control on Linux.
         else if (st.do === 'type') await page.keyboard.type(st.text ?? '');
         else if (st.do === 'drag') { const b = (await loc(st.slot, n).boundingBox())!; await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2); await page.mouse.down(); await page.mouse.move(b.x + b.width / 2 + (st.by?.x ?? 0), b.y + b.height / 2 + (st.by?.y ?? 0), { steps: 8 }); await page.mouse.up(); }
       }
