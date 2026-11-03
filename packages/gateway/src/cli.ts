@@ -20,6 +20,7 @@ import { g6 } from './checks/g6-package.ts';
 import { startRuntime, type Runtime } from './runtime.ts';
 import { specHash } from '../../spec/src/approve.ts';
 import { reactSrc, root, selftest } from './paths.ts';
+import { readTimings, timingsPath, type Timings } from './shards.ts';
 import type { Fixture } from '../../react/src/lib/fixture.ts';
 
 const args = process.argv.slice(2);
@@ -37,6 +38,9 @@ type Gated = Record<string, { specHash: string; at: string }>;
 const readGated = (): Gated => existsSync(gatedPath) ? JSON.parse(readFileSync(gatedPath, 'utf8')) : {};
 /** Only this run's results; merged into the file at the end so parallel gate runs do not overwrite each other. */
 const changes: Record<string, Gated[string] | null> = {};
+/** Wall seconds per spec of this run's full runs (browser start excluded), merged into timings.json at the end; gate:all balances its shards by them. */
+const durations: Timings = {};
+let startupMs = 0;
 
 const summary: { id: string; passed: boolean; blocking: number; warnings: number; attempts: number }[] = [];
 const g0c = new Collector('foundation');
@@ -51,6 +55,7 @@ let rt: Runtime | null = null;
 const needRuntime = ['G3', 'G4', 'G5'].some(g => runs(g as Gate));
 try {
   for (const id of ids) {
+    const t0 = Date.now(), startup0 = startupMs;
     const c = new Collector(id);
     c.findings.push(...g0c.findings);
     const gatesRun: Gate[] = (['G0', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6'] as Gate[]).filter(runs);
@@ -69,7 +74,7 @@ try {
       if (runs('G6')) await g6(c, spec).catch(e => c.fail({ gate: 'G6', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
       const staticBlocking = c.blocking.some(f => f.gate === 'G2' && ['files', 'export'].includes(f.check));
       if (needRuntime && fixture && !staticBlocking) {
-        rt ??= await startRuntime();
+        if (!rt) { const t = Date.now(); rt = await startRuntime(); startupMs += Date.now() - t; }
         if (runs('G3')) await g3(c, spec, rt).catch(e => c.fail({ gate: 'G3', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
         if (runs('G4')) await g4(c, spec, rt).catch(e => c.fail({ gate: 'G4', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
         if (runs('G5')) await g5Runtime(c, spec, rt).catch(e => c.fail({ gate: 'G5', check: 'crash', message: String(e.stack ?? e).slice(0, 800) }));
@@ -77,6 +82,7 @@ try {
     }
     const { passed, attempts } = writeReport(id, c, JSON.stringify(input, null, 2), gatesRun);
     const fullRun = gatesRun.length === 7;
+    if (fullRun && !c.blocking.some(f => f.check === 'crash')) durations[id] = Math.max(1, Math.round((Date.now() - t0 - (startupMs - startup0)) / 1000));
     if (passed && fullRun) changes[id] = { specHash: specHash(input), at: new Date().toISOString() };
     else if (!passed) changes[id] = null;
     summary.push({ id, passed, blocking: c.blocking.length, warnings: c.findings.length - c.blocking.length, attempts });
@@ -88,6 +94,11 @@ if (!selftest && Object.keys(changes).length) {
   const gated = readGated();
   for (const [id, v] of Object.entries(changes)) if (v) gated[id] = v; else delete gated[id];
   writeFileSync(gatedPath, JSON.stringify(Object.fromEntries(Object.entries(gated).sort()), null, 2) + '\n');
+}
+
+if (!selftest && Object.keys(durations).length) {
+  const t = { ...readTimings(), ...durations };
+  writeFileSync(timingsPath, JSON.stringify(Object.fromEntries(Object.entries(t).sort()), null, 2) + '\n');
 }
 
 if (json) console.log(JSON.stringify(summary, null, 2));
