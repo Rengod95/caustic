@@ -1,5 +1,6 @@
 // Runs the full gate over every spec in parallel shards (each shard is one `pnpm gate` process
 // with its own browser and Vite server; gate runs are parallel-safe).
+// Shards are balanced by recorded per-spec durations (timings.json, written by `pnpm gate` on full runs).
 // Usage: pnpm gate:all [--shards=4] [--changed[=base]] [--skip=G4] …   (extra flags are passed through)
 // --changed gates only the specs the branch and working tree can affect (affected.ts; base: --changed=<ref>, else
 // $GATE_BASE, else main). Every spec when the base cannot be resolved or HEAD is the base.
@@ -8,6 +9,7 @@ import { join } from 'node:path';
 import { specIds } from '@caustic/spec/node';
 import { affectedIds } from './affected.ts';
 import { root } from './paths.ts';
+import { balance, costs, readTimings } from './shards.ts';
 
 const args = process.argv.slice(2);
 const shards = Number(args.find(a => a.startsWith('--shards='))?.split('=')[1] ?? 4);
@@ -17,7 +19,11 @@ const affected = changedArg ? await affectedIds(changedArg.split('=')[1] || proc
 const ids = affected === 'all' ? specIds() : affected;
 if (changedArg) console.log(affected === 'all' ? 'changed: shared code changed or no base to compare, gating every spec' : `changed: ${ids.length ? ids.join(' ') : 'no spec affected'}`);
 if (!ids.length) process.exit(0);
-const groups = Array.from({ length: shards }, (_, i) => ids.filter((_, j) => j % shards === i)).filter(g => g.length);
+// Shards are balanced by recorded per-spec seconds (timings.json), not by count; see shards.ts.
+const timings = readTimings();
+const cost = costs(ids, timings);
+const groups = balance(ids, shards, cost);
+console.log(`shards: ${groups.length}, cost by ${ids.some(id => (timings[id] ?? 0) > 0) ? 'recorded seconds' : 'estimate (spec + fixture bytes; no timings.json yet)'}`);
 
 type Row = { id: string; passed: boolean; blocking: number; warnings: number; attempts: number };
 const run = (group: string[]) => new Promise<Row[]>(resolve => {
