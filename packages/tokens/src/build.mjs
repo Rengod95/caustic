@@ -341,8 +341,13 @@ const themeBlock = theme => {
 // Corner smoothing: progressive enhancement. Where CSS corner-shape exists (Chromium 139+), base.css turns
 // rounded corners into squircles. A squircle corner bulges toward the box corner, so it reads smaller than a
 // circular arc of the same radius; the radius tokens are scaled up by corner-scale to compensate.
-// Browsers without corner-shape (Safari, Firefox) keep circular corners at the nominal radius.
+// Without corner-shape (WebKit/WKWebView, Firefox) there is no CSS that draws a squircle and keeps box-shadow, border and
+// focus ring on it (a mask or clip-path cuts them). The fallback is the best-fit circular arc instead: a circle of
+// 0.57 x the squircle's corner size stays within 0.012 x that size of the superellipse (0.17px at the 12px token,
+// measured in WKWebView against Chrome corner-shape). Tokens in that browser are
+// therefore scaled by 1.2 x 0.57 = 0.684; with the nominal radius the arc was up to 0.12 x too round.
 const CORNER_SCALE = 1.2;
+const CORNER_SCALE_FALLBACK = +(CORNER_SCALE * 0.57).toFixed(3);
 const cornerScaled = [
   ...Object.entries(T.radius).filter(([k]) => k !== 'none' && k !== 'full').map(([k, px]) => v(`radius-${k}`, `calc(${px}px * var(--${P}-corner-scale))`)),
   ...Object.entries(T.studio).filter(([k]) => k.includes('radius')).map(([k, px]) => v(`studio-${k}`, `calc(${px}px * var(--${P}-corner-scale))`)),
@@ -383,6 +388,13 @@ ${themeBlock('light')}
 @supports (corner-shape: squircle) {
   :root {
 ${v('corner-scale', CORNER_SCALE)}
+${cornerScaled}
+  }
+}
+
+@supports not (corner-shape: squircle) {
+  :root {
+${v('corner-scale', CORNER_SCALE_FALLBACK)}
 ${cornerScaled}
   }
 }
