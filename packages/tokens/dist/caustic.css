@@ -1170,6 +1170,28 @@
   }
 }
 
+@supports not (corner-shape: squircle) {
+  :root {
+  --cs-corner-scale: 0.684;
+  --cs-radius-xs: calc(4px * var(--cs-corner-scale));
+  --cs-radius-sm: calc(6px * var(--cs-corner-scale));
+  --cs-radius-md: calc(8px * var(--cs-corner-scale));
+  --cs-radius-lg: calc(10px * var(--cs-corner-scale));
+  --cs-radius-xl: calc(12px * var(--cs-corner-scale));
+  --cs-radius-2xl: calc(16px * var(--cs-corner-scale));
+  --cs-radius-3xl: calc(22px * var(--cs-corner-scale));
+  --cs-radius-4xl: calc(28px * var(--cs-corner-scale));
+  --cs-radius-5xl: calc(32px * var(--cs-corner-scale));
+  --cs-radius-well-inner: calc(18px * var(--cs-corner-scale));
+  --cs-radius-2xs: calc(2px * var(--cs-corner-scale));
+  --cs-studio-window-radius: calc(32px * var(--cs-corner-scale));
+  --cs-studio-panel-radius: calc(22px * var(--cs-corner-scale));
+  --cs-studio-toolbar-radius: calc(14px * var(--cs-corner-scale));
+  --cs-studio-toolbar-item-radius: calc(10px * var(--cs-corner-scale));
+  --cs-studio-toast-radius: calc(22px * var(--cs-corner-scale));
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
@@ -2625,7 +2647,9 @@ body {
 
 /* ── Corner smoothing ─────────────────────────────────────────────
    Progressive enhancement: with CSS corner-shape (Chromium 139+) every rounded-* element gets squircle
-   corners; Safari and Firefox ignore this and keep circular arcs. The radius tokens are scaled by
+   corners. Safari and Firefox ignore this; their circular arcs are scaled to the best fit of the squircle by the token
+   file (@supports not, corner-scale 0.684), because a mask or clip-path squircle would cut shadows, hairlines and focus
+   rings. The radius tokens are scaled by
    --cs-corner-scale in the token file (inside the same @supports) so corners do not look smaller.
    Circles and pills (rounded-full) stay circular; overlays that inherit their parent's radius inherit
    the shape too. corner-shape is not inherited, so pseudo-element rings, rims and glows (agent-rim, spotlight) take

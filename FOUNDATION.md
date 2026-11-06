@@ -238,6 +238,8 @@ These are deliberate. Do not "fix" them.
 
 The baseline is OKLCH, `@property`, `color-mix()`, `linear()` easing and `backdrop-filter`: Chrome/Edge 113+, Safari 17+, Firefox 128+.
 
+Squircle corners (`corner-shape`) are an enhancement for Chromium 139+. Without it (WebKit, Firefox) the radius tokens are scaled by 0.684 instead of 1.2, the circular arc that best fits the squircle, so box-shadow, hairlines and focus rings stay intact; a mask or clip-path squircle would cut them.
+
 ## Not in scope for 1.0
 
 - **Component APIs:** the preview's component CSS is visual reference, not a packaged component library.
