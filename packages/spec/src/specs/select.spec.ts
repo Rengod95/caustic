@@ -14,7 +14,7 @@ export default defineSpec({
     { name: 'group', el: 'div', parent: 'root', required: false, role: 'group', description: 'Optional option group.' },
     { name: 'heading', el: 'div', parent: 'group', required: false, description: 'Group heading (menu heading style).' },
     { name: 'option', el: 'div', parent: 'root', role: 'option', description: 'One choice (menu item anatomy, role option). aria-selected on the chosen one.' },
-    { name: 'option-label', el: 'span', parent: 'option', required: false, description: 'Inline mode: the truncating label wrapper of an option (Radix mode renders its ItemText).' },
+    { name: 'option-label', el: 'span', parent: 'option', required: false, description: 'The truncating label wrapper of an option (one line, ellipsis; a plain-text label also sets the option title so the full name shows on hover). In Radix mode it sits inside the ItemText.' },
     { name: 'check', el: 'span', parent: 'option', required: false, description: 'Trailing check on the chosen option (16px, aria-hidden).' },
     { name: 'separator', el: 'div', parent: 'root', required: false, role: 'separator', description: '1px line between groups.' },
   ],
@@ -53,7 +53,7 @@ export default defineSpec({
     onOpenChange: { payload: 'boolean', when: 'the trigger opens it, or Escape, a choice or an outside press closes it' },
   },
   styles: [
-    { slot: 'root', expect: { material: 'thick', radius: '2xl', padX: 6, padY: 6, shadow: '4' }, note: 'Identical to the menu surface; min-width is the trigger width.' },
+    { slot: 'root', expect: { material: 'thick', radius: '2xl', padX: 6, padY: 6, shadow: '4' }, note: 'Identical to the menu surface; min-width is the trigger width; max-width is size.modal-sm (380px), so a long option label truncates instead of widening the list.' },
     { slot: 'option', expect: { height: 'size-menu-item', padX: 8, gap: 8, radius: 'lg', text: 'ui', fg: 'text.primary' } },
     { slot: 'option', when: { state: 'hover' }, expect: { bg: 'neutral.hover' } },
     { slot: 'option', when: { state: 'selected' }, expect: { bg: 'selection.fill', fg: 'selection.on' }, note: 'The chosen option inverts (owner 2026-10-26, proposal B): selection.fill (ink), selection.on text, no edge, and a trailing check; never accent soft or the focus ring. Hover or highlight on it is selection.fill-hover. A disabled chosen option drops the inversion: disabled.fill, disabled.text.' },
