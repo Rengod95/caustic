@@ -23,7 +23,7 @@ export const dialogVariants = cva(
         right: 'z-60 inset-y-2.5 right-2.5 data-[state=open]:animate-enter-panel data-[state=closed]:animate-exit-panel enter-from-end',
         bottom: 'z-60 inset-x-2 bottom-2 max-h-[70dvh] data-[state=open]:animate-enter-panel data-[state=closed]:animate-exit-panel enter-from-bottom',
       },
-      frame: { compact: 'grid gap-3 px-inset-regular-x py-inset-regular-y', sectioned: 'flex flex-col overflow-hidden' },
+      frame: { compact: 'grid gap-2.5 px-inset-compact-x py-inset-compact-y', sectioned: 'flex flex-col overflow-hidden' },
       kind: { dialog: '', alert: '' },
       size: { xs: '', sm: '', md: '', lg: '' },
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
@@ -39,7 +39,7 @@ export const dialogVariants = cva(
       { radius: 'panel', placement: ['center', 'right'], className: 'rounded-panel' },
       { radius: 'panel', placement: 'bottom', className: 'rounded-t-4xl rounded-b-panel' },
       // Centred widths: the compact frame keeps the Dialog steps (xs adds the compact inset), the sectioned frame the Modal steps.
-      { placement: 'center', frame: 'compact', size: 'xs', className: 'max-w-popover-md gap-2 px-inset-compact-x py-inset-compact-y' },
+      { placement: 'center', frame: 'compact', size: 'xs', className: 'max-w-popover-md gap-2 px-2.5 py-2.5' },
       { placement: 'center', frame: 'compact', size: 'sm', className: 'max-w-dialog-sm' },
       { placement: 'center', frame: 'sectioned', size: 'xs', className: 'max-w-dialog-sm' },
       { placement: 'center', frame: 'sectioned', size: 'sm', className: 'max-w-modal-sm' },
@@ -79,16 +79,16 @@ export type DialogVariantProps = VariantProps<typeof dialogVariants>;
  */
 export const dialogHeaderVariants = cva('flex shrink-0', {
   variants: {
-    placement: { center: 'items-start gap-3 px-4.5 pt-4.5', right: 'items-center gap-2.5 border-b', bottom: 'items-center gap-2.5 border-b' },
+    placement: { center: 'items-start gap-3 px-4 pt-4', right: 'items-center gap-2.5 border-b', bottom: 'items-center gap-2.5 border-b' },
     dividers: { true: 'border-border-subtle', false: 'border-transparent' },
     size: { xs: '', sm: '', md: '', lg: '' },
   },
   compoundVariants: [
-    { placement: 'center', dividers: true, className: 'border-b pb-4' },
-    { placement: ['right', 'bottom'], size: 'xs', className: 'px-3 py-2' },
-    { placement: ['right', 'bottom'], size: 'sm', className: 'px-3.5 py-3' },
-    { placement: ['right', 'bottom'], size: 'md', className: 'px-4 py-3.5' },
-    { placement: ['right', 'bottom'], size: 'lg', className: 'px-5 py-4' },
+    { placement: 'center', dividers: true, className: 'border-b pb-3.5' },
+    { placement: ['right', 'bottom'], size: 'xs', className: 'px-2.5 py-1.5' },
+    { placement: ['right', 'bottom'], size: 'sm', className: 'px-3 py-2' },
+    { placement: ['right', 'bottom'], size: 'md', className: 'px-3.5 py-3' },
+    { placement: ['right', 'bottom'], size: 'lg', className: 'px-4 py-3.5' },
   ],
   defaultVariants: { placement: 'center', dividers: false, size: 'md' },
 });
@@ -134,26 +134,26 @@ export const dialogDescriptionVariants = cva('text-text-secondary', {
 export const dialogBodyVariants = cva('grid min-h-0 overflow-y-auto', {
   variants: {
     placement: { center: '', right: 'flex-1 content-start', bottom: 'flex-1 content-start' },
-    frame: { compact: 'gap-3', sectioned: '' },
+    frame: { compact: 'gap-2.5', sectioned: '' },
     dividers: { true: '', false: '' },
     size: { xs: '', sm: '', md: '', lg: '' },
   },
   compoundVariants: [
-    { placement: 'center', frame: 'sectioned', className: 'gap-3.5 px-4.5 pb-4' },
-    { placement: 'center', frame: 'sectioned', dividers: false, className: 'pt-6' },
-    { placement: 'center', frame: 'sectioned', dividers: true, className: 'pt-4' },
-    { placement: ['right', 'bottom'], size: 'xs', className: 'gap-2.5 px-3 pb-3' },
-    { placement: ['right', 'bottom'], size: 'sm', className: 'gap-3 px-3.5 pb-3.5' },
-    { placement: ['right', 'bottom'], size: 'md', className: 'gap-3.5 px-4 pb-4' },
-    { placement: ['right', 'bottom'], size: 'lg', className: 'gap-4 px-5 pb-5' },
-    { placement: ['right', 'bottom'], dividers: true, size: 'xs', className: 'pt-3' },
-    { placement: ['right', 'bottom'], dividers: true, size: 'sm', className: 'pt-3.5' },
-    { placement: ['right', 'bottom'], dividers: true, size: 'md', className: 'pt-4' },
-    { placement: ['right', 'bottom'], dividers: true, size: 'lg', className: 'pt-5' },
-    { placement: ['right', 'bottom'], dividers: false, size: 'xs', className: 'pt-1' },
-    { placement: ['right', 'bottom'], dividers: false, size: 'sm', className: 'pt-1.5' },
-    { placement: ['right', 'bottom'], dividers: false, size: 'md', className: 'pt-2' },
-    { placement: ['right', 'bottom'], dividers: false, size: 'lg', className: 'pt-2.5' },
+    { placement: 'center', frame: 'sectioned', className: 'gap-3 px-4 pb-3.5' },
+    { placement: 'center', frame: 'sectioned', dividers: false, className: 'pt-5' },
+    { placement: 'center', frame: 'sectioned', dividers: true, className: 'pt-3.5' },
+    { placement: ['right', 'bottom'], size: 'xs', className: 'gap-2 px-2.5 pb-2.5' },
+    { placement: ['right', 'bottom'], size: 'sm', className: 'gap-2.5 px-3 pb-3' },
+    { placement: ['right', 'bottom'], size: 'md', className: 'gap-3 px-3.5 pb-3.5' },
+    { placement: ['right', 'bottom'], size: 'lg', className: 'gap-3.5 px-4 pb-4' },
+    { placement: ['right', 'bottom'], dividers: true, size: 'xs', className: 'pt-2.5' },
+    { placement: ['right', 'bottom'], dividers: true, size: 'sm', className: 'pt-3' },
+    { placement: ['right', 'bottom'], dividers: true, size: 'md', className: 'pt-3.5' },
+    { placement: ['right', 'bottom'], dividers: true, size: 'lg', className: 'pt-4' },
+    { placement: ['right', 'bottom'], dividers: false, size: 'xs', className: 'pt-0.5' },
+    { placement: ['right', 'bottom'], dividers: false, size: 'sm', className: 'pt-1' },
+    { placement: ['right', 'bottom'], dividers: false, size: 'md', className: 'pt-1.5' },
+    { placement: ['right', 'bottom'], dividers: false, size: 'lg', className: 'pt-2' },
   ],
   defaultVariants: { placement: 'center', frame: 'compact', dividers: false, size: 'md' },
 });
@@ -163,7 +163,7 @@ export const dialogBodyVariants = cva('grid min-h-0 overflow-y-auto', {
  * Sectioned centre: 36px from the body content (body 16 + footer 20; owner 2026-10-28); a hairline only with dividers.
  * Edge: the former Sheet band with a transparent hairline that shows with dividers.
  */
-export const dialogFooterVariants = cva('flex items-center justify-end gap-2', {
+export const dialogFooterVariants = cva('flex items-center justify-end gap-2 [&>[data-slot=button]]:h-control-sm', {
   variants: {
     placement: { center: '', right: 'shrink-0 border-t', bottom: 'shrink-0 border-t' },
     frame: { compact: 'mt-1 flex-wrap', sectioned: '' },
@@ -171,13 +171,13 @@ export const dialogFooterVariants = cva('flex items-center justify-end gap-2', {
     size: { xs: '', sm: '', md: '', lg: '' },
   },
   compoundVariants: [
-    { placement: 'center', frame: 'sectioned', className: 'shrink-0 px-4.5 pb-4' },
-    { placement: 'center', frame: 'sectioned', dividers: false, className: 'pt-5' },
-    { placement: 'center', frame: 'sectioned', dividers: true, className: 'border-t pt-4' },
-    { placement: ['right', 'bottom'], size: 'xs', className: 'px-3 py-2' },
-    { placement: ['right', 'bottom'], size: 'sm', className: 'px-3.5 py-2.5' },
-    { placement: ['right', 'bottom'], size: 'md', className: 'px-4 py-3' },
-    { placement: ['right', 'bottom'], size: 'lg', className: 'px-5 py-3.5' },
+    { placement: 'center', frame: 'sectioned', className: 'shrink-0 px-4 pb-3.5' },
+    { placement: 'center', frame: 'sectioned', dividers: false, className: 'pt-4' },
+    { placement: 'center', frame: 'sectioned', dividers: true, className: 'border-t pt-3.5' },
+    { placement: ['right', 'bottom'], size: 'xs', className: 'px-2.5 py-1.5' },
+    { placement: ['right', 'bottom'], size: 'sm', className: 'px-3 py-2' },
+    { placement: ['right', 'bottom'], size: 'md', className: 'px-3.5 py-2.5' },
+    { placement: ['right', 'bottom'], size: 'lg', className: 'px-4 py-3' },
   ],
   defaultVariants: { placement: 'center', frame: 'compact', dividers: false, size: 'md' },
 });
