@@ -38,7 +38,7 @@ export const selectListboxVariants = cva('', {
  */
 export const selectTriggerVariants = cva('', {
   variants: {
-    size: { xs: 'h-control-md rounded-lg px-2.5 text-ui-dense', sm: 'h-field-sm', md: '', lg: 'h-field-lg text-ui-lg' },
+    size: { xs: 'h-field-xs rounded-lg px-2.5 text-ui-dense', sm: 'h-field-sm', md: '', lg: 'h-field-lg text-ui-lg' },
   },
   defaultVariants: { size: 'md' },
 });

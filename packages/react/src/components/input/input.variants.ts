@@ -35,7 +35,7 @@ export const inputVariants = cva(
         sunken: 'bg-neutral-well hover:bg-neutral-hover focus-within:bg-surface-base hover:focus-within:bg-surface-base focus-within:shadow-focus-field',
       },
       size: {
-        xs: 'h-control-md rounded-lg px-2.5 text-ui-sm',
+        xs: 'h-field-xs rounded-lg px-2.5 text-ui-sm',
         sm: 'h-field-sm rounded-lg px-2.5 text-ui',
         md: 'h-field-md rounded-xl px-3 text-ui',
         lg: 'h-field-lg rounded-2xl px-3.5 text-body',

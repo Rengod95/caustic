@@ -135,7 +135,9 @@ Naming:
 - `data-density="compact"` lowers only the control heights, by one step. Space is unchanged.
 - Pointer targets are ≥ 24 × 24.
 
-**Fields:** `--cs-field-sm` 36, `--cs-field-md` 40 (default), `--cs-field-lg` 44. Compact density lowers each by 4.
+**Fields:** `--cs-field-xs` 32, `--cs-field-sm` 36, `--cs-field-md` 40 (default), `--cs-field-lg` 44. Compact density lowers each by 4.
+
+**Desktop density** (`data-density="desktop"` on the root, 2026-11-11): one height scale for every control in a row, for dense desktop apps whose settings and toolbars put fields next to buttons. Fields take the control scale, so the same size name is the same height in Button, IconButton, Input, Select, PickerTrigger, NumberField (stepper), TagInput and SegmentedControl: xs 24 · sm 28 · md 32 · lg 40. The small switch becomes 32 × 18 (thumb 18 × 14), the segmented track pads 3 (segments 18 / 22 / 26 / 34) and the tag input row is 24 with 2 / 4 block padding at sm / md. Space and type do not change. The values are `densityDesktop` in tokens.mjs.
 
 **Component metrics**
 
@@ -147,7 +149,7 @@ Naming:
 | Toolbars (capsule, zoom, context bar) | radius 14, items 10 (`--cs-studio-toolbar-radius`, `-item-radius`); never a full pill |
 | Toast | min height 60, radius 22 (`--cs-studio-toast-radius`), solid `material.regular`, one elevation shadow |
 | Tool call header | 40 |
-| Switch | iOS proportions: 46 × 28, thumb 24; stretches while pressed. Small 38 × 23 |
+| Switch | iOS proportions: 64 × 28, thumb 40 × 24; stretches while pressed. Small 48 × 23 (32 × 18 under desktop density) |
 | Checkbox, radio | 18 |
 | List row, accordion header, table row | 48 (table header 38) |
 

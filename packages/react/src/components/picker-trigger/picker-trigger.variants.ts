@@ -34,7 +34,7 @@ export const pickerTriggerVariants = cva([
       solid: 'data-[state=open]:bg-neutral-well data-[state=open]:hover:bg-neutral-well', soft: '',
       outline: 'data-[state=open]:bg-neutral-well data-[state=open]:hover:bg-neutral-well', ghost: 'data-[state=open]:bg-neutral-well data-[state=open]:hover:bg-neutral-well',
     },
-    size: { xs: 'h-control-md px-2 text-ui-sm', sm: 'h-field-sm px-2.5 text-ui', md: 'h-field-md px-3 text-ui', lg: 'h-field-lg px-3.5 text-ui-md' },
+    size: { xs: 'h-field-xs px-2 text-ui-sm', sm: 'h-field-sm px-2.5 text-ui', md: 'h-field-md px-3 text-ui', lg: 'h-field-lg px-3.5 text-ui-md' },
   },
   compoundVariants: [
     { variant: 'solid', tone: 'neutral', className: 'bg-surface-base shadow-[inset_0_0_0_1px_var(--cs-color-border-default)] hover:shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]' },

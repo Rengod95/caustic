@@ -36,7 +36,7 @@ export default defineSpec({
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'solid', description: 'Listbox surface: solid = thick material (default); soft = the tone soft material (opaque); outline = thick material with a 1px tone rim; ghost = thick material without elevation.' },
     radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: '2xl', description: 'Listbox corner; unset keeps 2xl (options keep lg).' },
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: '4', description: 'Listbox elevation; unset keeps elevation 4.' },
-    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Steps the trigger (xs control-md / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36).' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Steps the trigger (xs field-xs / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36). Under data-density="desktop" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.' },
     value: { type: 'string', description: 'Controlled value.' },
     defaultValue: { type: 'string', description: 'Uncontrolled initial value.' },
     open: { type: 'boolean', description: 'Controlled open state.' },

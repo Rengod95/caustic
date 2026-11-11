@@ -475,14 +475,21 @@ export const radius = { none: 0, xs: 4, sm: 6, md: 8, lg: 10, xl: 12, '2xl': 16,
 export const size = {
   control: { '2xs': 20, xs: 24, sm: 28, md: 32, lg: 40, xl: 48 },
   'control-compact': { '2xs': 18, xs: 22, sm: 24, md: 28, lg: 36, xl: 44 },
-  field: { sm: 36, md: 40, lg: 44 },
-  'field-compact': { sm: 32, md: 36, lg: 40 },
+  // xs is the field of an xs control row (32 = control-md, so xs fields sit with md buttons by default).
+  field: { xs: 32, sm: 36, md: 40, lg: 44 },
+  'field-compact': { xs: 28, sm: 32, md: 36, lg: 40 },
   icon: { xs: 12, sm: 14, md: 16, lg: 20, xl: 24 },
   // Fixed component geometry. Every dimension a component uses is a token.
   component: {
     check: 18, 'radio-dot': 7, 'kbd-h': 18, 'progress-h': 6, presence: 8,
     'switch-md-w': 64, 'switch-md-h': 28, 'switch-md-thumb': 24, 'switch-md-thumb-w': 40, 'switch-md-travel': 20, 'switch-md-press': 48,
     'switch-sm-w': 48, 'switch-sm-h': 23, 'switch-sm-thumb': 19, 'switch-sm-thumb-w': 28, 'switch-sm-travel': 16, 'switch-sm-press': 32,
+    // Pressed travel of an on thumb: track − 2 × 2px inset − pressed width (md 64 − 4 − 48, sm 48 − 4 − 32).
+    'switch-md-press-travel': 12, 'switch-sm-press-travel': 12,
+    // Segmented control: track padding and the segment height per size (outer = segment + 2 × pad).
+    'segment-pad': 4, 'segment-xs': 22, 'segment-sm': 24, 'segment-md': 26, 'segment-lg': 32,
+    // Tag input: the inner row (tag chips and the text control) and the block padding at sm and md.
+    'tag-input-row': 26, 'tag-input-pad-sm': 4, 'tag-input-pad-md': 6,
     'avatar-xs': 16, 'avatar-sm': 26, 'avatar-md': 32, 'avatar-lg': 36,
     'dialog-sm': 320, 'dialog-md': 480, 'dialog-lg': 640, 'modal-sm': 380, 'sheet-md': 380, 'empty-glyph': 22,
     'card-tile': 36, 'card-glyph': 18, 'card-add': 76, 'card-spark': 64, 'spotlight-glow': 320, 'spotlight-rim': 200,
@@ -513,6 +520,20 @@ export const size = {
     'calendar': 284, 'calendar-day': 36, 'icon-send': 15,
   },
   'hit-min': 24,
+};
+
+// Desktop density (data-density="desktop", 2026-11-11): one height scale for every control in a row. Fields
+// (input, select trigger, number stepper, tag input) take the control scale, so the same size name is the same
+// height in every component: xs 24 · sm 28 · md 32 · lg 40. The small switch, segmented track and tag input
+// row follow so they fit that scale (sm switch 32 × 18, sm segmented 28 outer, sm tag input 28 outer).
+export const densityDesktop = {
+  field: { xs: 24, sm: 28, md: 32, lg: 40 },
+  component: {
+    'switch-sm-w': 32, 'switch-sm-h': 18, 'switch-sm-thumb': 14, 'switch-sm-thumb-w': 18, 'switch-sm-travel': 10,
+    'switch-sm-press': 22, 'switch-sm-press-travel': 6,
+    'segment-pad': 3, 'segment-xs': 18, 'segment-sm': 22, 'segment-md': 26, 'segment-lg': 34,
+    'tag-input-row': 24, 'tag-input-pad-sm': 2, 'tag-input-pad-md': 4,
+  },
 };
 
 // Hangul (DP-11): Geist has no Hangul, so Korean takes the next face in the stack: SUIT Variable (owner decision O3, and

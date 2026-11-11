@@ -248,6 +248,7 @@
   --spacing-control-md: var(--cs-control-md);
   --spacing-control-lg: var(--cs-control-lg);
   --spacing-control-xl: var(--cs-control-xl);
+  --spacing-field-xs: var(--cs-field-xs);
   --spacing-field-sm: var(--cs-field-sm);
   --spacing-field-md: var(--cs-field-md);
   --spacing-field-lg: var(--cs-field-lg);
@@ -257,6 +258,7 @@
   --spacing-control-compact-md: var(--cs-control-compact-md);
   --spacing-control-compact-lg: var(--cs-control-compact-lg);
   --spacing-control-compact-xl: var(--cs-control-compact-xl);
+  --spacing-field-compact-xs: var(--cs-field-compact-xs);
   --spacing-field-compact-sm: var(--cs-field-compact-sm);
   --spacing-field-compact-md: var(--cs-field-compact-md);
   --spacing-field-compact-lg: var(--cs-field-compact-lg);
@@ -282,6 +284,16 @@
   --spacing-switch-sm-thumb-w: var(--cs-size-switch-sm-thumb-w);
   --spacing-switch-sm-travel: var(--cs-size-switch-sm-travel);
   --spacing-switch-sm-press: var(--cs-size-switch-sm-press);
+  --spacing-switch-md-press-travel: var(--cs-size-switch-md-press-travel);
+  --spacing-switch-sm-press-travel: var(--cs-size-switch-sm-press-travel);
+  --spacing-segment-pad: var(--cs-size-segment-pad);
+  --spacing-segment-xs: var(--cs-size-segment-xs);
+  --spacing-segment-sm: var(--cs-size-segment-sm);
+  --spacing-segment-md: var(--cs-size-segment-md);
+  --spacing-segment-lg: var(--cs-size-segment-lg);
+  --spacing-tag-input-row: var(--cs-size-tag-input-row);
+  --spacing-tag-input-pad-sm: var(--cs-size-tag-input-pad-sm);
+  --spacing-tag-input-pad-md: var(--cs-size-tag-input-pad-md);
   --spacing-avatar-xs: var(--cs-size-avatar-xs);
   --spacing-avatar-sm: var(--cs-size-avatar-sm);
   --spacing-avatar-md: var(--cs-size-avatar-md);

@@ -31,7 +31,7 @@ export default defineSpec({
     'readonly-disabled': { props: { disabled: true, readOnly: true } },
   },
   props: {
-    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Field height 32 · 36 · 40 · 44 (xs = control-md, ui-sm).' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Field height 32 · 36 · 40 · 44 (field-xs · sm · md · lg; xs is ui-sm). Under data-density="desktop" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.' },
     tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Colour family of the edge or fill.' },
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost' | 'sunken'", default: 'outline', description: 'Field emphasis; sunken is the inspector field.' },
     radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: 'xl', description: 'Container radius (radius token); unset keeps the size radius.' },
@@ -80,7 +80,7 @@ export default defineSpec({
     { slot: 'root', when: { variant: 'ghost' }, expect: { bg: 'transparent' } },
     { slot: 'root', when: { radius: 'md' }, expect: { radius: 'md' } },
     { slot: 'root', when: { shadow: '1' }, expect: { shadow: '1' } },
-    { slot: 'root', when: { size: 'xs' }, expect: { height: 'control-md', radius: 'lg', padX: 10, text: 'ui-sm' } },
+    { slot: 'root', when: { size: 'xs' }, expect: { height: 'field-xs', radius: 'lg', padX: 10, text: 'ui-sm' } },
     // addons (was input-group)
     { slot: 'root', when: { addons: true }, expect: { bg: 'surface.translucent', edge: 'border.default', radius: 'xl', height: 'field-md', padX: 0, gap: 0, text: 'ui' }, note: 'The same box as the plain field; the add-ons carry the padding.' },
     { slot: 'root', when: { addons: true, state: 'focus-within' }, expect: { ring: 'focus-field' } },
@@ -92,7 +92,7 @@ export default defineSpec({
     { slot: 'suffix', when: { addons: true, state: 'disabled' }, expect: { bg: 'transparent', fg: 'disabled.text', border: 'disabled.border' } },
     { slot: 'control', when: { addons: true }, expect: { fg: 'text.primary', padX: 12, outline: 'none' } },
     { slot: 'root', when: { addons: true, variant: 'solid' }, expect: { bg: 'control.raised', edge: 'control.edge' } },
-    { slot: 'root', when: { addons: true, size: 'xs' }, expect: { height: 'control-md', radius: 'lg', text: 'ui-sm' } },
+    { slot: 'root', when: { addons: true, size: 'xs' }, expect: { height: 'field-xs', radius: 'lg', text: 'ui-sm' } },
     { slot: 'prefix', when: { addons: true, size: 'xs' }, expect: { padX: 10, text: 'ui-sm' } },
   ],
   behavior: {

@@ -22,7 +22,8 @@ export const buttonVariants = cva(
         agent: 'agent-rim disabled:after:hidden aria-disabled:after:hidden',
       },
       variant: { solid: '', soft: '', outline: '', ghost: '' },
-      // Opt-in: the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44) for a button beside a field.
+      // Opt-in: the height of the Input of the same size name (field-xs 32, sm 36, md 40, lg 44; under data-density="desktop"
+      // the fields take the control scale, so this changes nothing there) for a button beside a field.
       fieldHeight: { true: '', false: '' },
       size: {
         xs: 'h-control-xs gap-1 px-2 text-ui-sm rounded-md [&_svg]:size-icon-sm',
@@ -32,7 +33,7 @@ export const buttonVariants = cva(
       },
     },
     compoundVariants: [
-      { fieldHeight: true, size: 'xs', className: 'h-control-md' },
+      { fieldHeight: true, size: 'xs', className: 'h-field-xs' },
       { fieldHeight: true, size: 'sm', className: 'h-field-sm' },
       { fieldHeight: true, size: 'md', className: 'h-field-md' },
       { fieldHeight: true, size: 'lg', className: 'h-field-lg' },

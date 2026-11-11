@@ -376,6 +376,7 @@
   --cs-control-md: 32px;
   --cs-control-lg: 40px;
   --cs-control-xl: 48px;
+  --cs-field-xs: 32px;
   --cs-field-sm: 36px;
   --cs-field-md: 40px;
   --cs-field-lg: 44px;
@@ -385,6 +386,7 @@
   --cs-control-compact-md: 28px;
   --cs-control-compact-lg: 36px;
   --cs-control-compact-xl: 44px;
+  --cs-field-compact-xs: 28px;
   --cs-field-compact-sm: 32px;
   --cs-field-compact-md: 36px;
   --cs-field-compact-lg: 40px;
@@ -405,6 +407,16 @@
   --cs-size-switch-sm-thumb-w: 28px;
   --cs-size-switch-sm-travel: 16px;
   --cs-size-switch-sm-press: 32px;
+  --cs-size-switch-md-press-travel: 12px;
+  --cs-size-switch-sm-press-travel: 12px;
+  --cs-size-segment-pad: 4px;
+  --cs-size-segment-xs: 22px;
+  --cs-size-segment-sm: 24px;
+  --cs-size-segment-md: 26px;
+  --cs-size-segment-lg: 32px;
+  --cs-size-tag-input-row: 26px;
+  --cs-size-tag-input-pad-sm: 4px;
+  --cs-size-tag-input-pad-md: 6px;
   --cs-size-avatar-xs: 16px;
   --cs-size-avatar-sm: 26px;
   --cs-size-avatar-md: 32px;
@@ -2145,9 +2157,33 @@
   --cs-control-md: 28px;
   --cs-control-lg: 36px;
   --cs-control-xl: 44px;
+  --cs-field-xs: 28px;
   --cs-field-sm: 32px;
   --cs-field-md: 36px;
   --cs-field-lg: 40px;
+}
+
+/* Desktop density: fields take the control scale (tokens.mjs densityDesktop). */
+:root[data-density="desktop"] {
+  --cs-field-xs: 24px;
+  --cs-field-sm: 28px;
+  --cs-field-md: 32px;
+  --cs-field-lg: 40px;
+  --cs-size-switch-sm-w: 32px;
+  --cs-size-switch-sm-h: 18px;
+  --cs-size-switch-sm-thumb: 14px;
+  --cs-size-switch-sm-thumb-w: 18px;
+  --cs-size-switch-sm-travel: 10px;
+  --cs-size-switch-sm-press: 22px;
+  --cs-size-switch-sm-press-travel: 6px;
+  --cs-size-segment-pad: 3px;
+  --cs-size-segment-xs: 18px;
+  --cs-size-segment-sm: 22px;
+  --cs-size-segment-md: 26px;
+  --cs-size-segment-lg: 34px;
+  --cs-size-tag-input-row: 24px;
+  --cs-size-tag-input-pad-sm: 2px;
+  --cs-size-tag-input-pad-md: 4px;
 }
 
 /* Korean tracking (tokens.mjs hangul, DP-11). Attribute selectors, so only the elements that carry lang declare these:

@@ -4376,11 +4376,13 @@ export default {
       "xl": 44
     },
     "field": {
+      "xs": 32,
       "sm": 36,
       "md": 40,
       "lg": 44
     },
     "field-compact": {
+      "xs": 28,
       "sm": 32,
       "md": 36,
       "lg": 40
@@ -4410,6 +4412,16 @@ export default {
       "switch-sm-thumb-w": 28,
       "switch-sm-travel": 16,
       "switch-sm-press": 32,
+      "switch-md-press-travel": 12,
+      "switch-sm-press-travel": 12,
+      "segment-pad": 4,
+      "segment-xs": 22,
+      "segment-sm": 24,
+      "segment-md": 26,
+      "segment-lg": 32,
+      "tag-input-row": 26,
+      "tag-input-pad-sm": 4,
+      "tag-input-pad-md": 6,
       "avatar-xs": 16,
       "avatar-sm": 26,
       "avatar-md": 32,

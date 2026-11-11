@@ -404,6 +404,12 @@ ${Object.entries(T.size['control-compact']).map(([k, px]) => v(`control-${k}`, `
 ${Object.entries(T.size['field-compact']).map(([k, px]) => v(`field-${k}`, `${px}px`)).join('\n')}
 }
 
+/* Desktop density: fields take the control scale (tokens.mjs densityDesktop). */
+:root[data-density="desktop"] {
+${Object.entries(T.densityDesktop.field).map(([k, px]) => v(`field-${k}`, `${px}px`)).join('\n')}
+${Object.entries(T.densityDesktop.component).map(([k, px]) => v(`size-${k}`, `${px}px`)).join('\n')}
+}
+
 /* Korean tracking (tokens.mjs hangul, DP-11). Attribute selectors, so only the elements that carry lang declare these:
    the Korean block on a ko root or subtree, the Latin block on any other lang subtree (an en island inside a ko page).
    Both the --cs- tracking and its Tailwind twin are re-declared, because a custom property inherits its resolved value. */

@@ -8,7 +8,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // Focus, invalid and disabled are drawn on top of every variant and never change with it.
 export const tagInputVariants = cva(
   [
-    'flex min-w-0 cursor-text flex-wrap items-center gap-1 rounded-xl px-2 py-1.5 text-ui transition-control',
+    'flex min-w-0 cursor-text flex-wrap items-center gap-1 rounded-xl px-2 text-ui transition-control',
     // Focus is a fill change (owner 2026-10-28, field/input proposal 2): neutral.well, surface.base on the grey soft fill;
     // focus-field is the resting border.default hairline.
     'focus-within:bg-neutral-well focus-within:shadow-[var(--cs-focus-field)]',
@@ -36,7 +36,8 @@ export const tagInputVariants = cva(
         solid: 'bg-(--tone-raised) shadow-[inset_0_0_0_1px_var(--tone-raised-edge)]',
         ghost: 'bg-transparent',
       },
-      size: { xs: 'min-h-control-md px-1.5 py-1 text-ui-sm', sm: 'min-h-field-sm py-1', md: 'min-h-field-md', lg: 'min-h-field-lg px-2.5 py-2 text-ui-lg' },
+      // The block padding of sm and md is a token (tag-input-pad-*) so desktop density can fit the row in a 28 / 32 field.
+      size: { xs: 'min-h-field-xs px-1.5 py-1 text-ui-sm', sm: 'min-h-field-sm py-tag-input-pad-sm', md: 'min-h-field-md py-tag-input-pad-md', lg: 'min-h-field-lg px-2.5 py-2 text-ui-lg' },
       // The default key keeps the component's own corner and shadow (''); every other key sets that token (the radiusClass / shadowClass names of common-props.ts, written out so Tailwind, which scans ./components only, generates them).
       radius: { none: 'rounded-none', '2xs': 'rounded-2xs', xs: 'rounded-xs', sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-lg', xl: '', '2xl': 'rounded-2xl', '3xl': 'rounded-3xl', '4xl': 'rounded-4xl', full: 'rounded-full' },
       shadow: { none: '', '1': 'shadow-1', '2': 'shadow-2', '3': 'shadow-3', '4': 'shadow-4', '5': 'shadow-5' },

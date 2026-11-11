@@ -12,7 +12,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 // radius: xl (the default) keeps the size's own concentric radii (track xl / segment md; lg / sm at xs and sm, P5);
 // another value sets the track, and none / full carry to the segments (the deprecated shape="pill" = radius full).
 export const segmentedControlVariants = cva(
-  'inline-flex gap-0.5 p-1 bg-bg-inset shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] rounded-xl',
+  'inline-flex gap-0.5 p-segment-pad bg-bg-inset shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)] rounded-xl',
   {
     variants: {
       variant: {
@@ -59,10 +59,10 @@ export const segmentedItemVariants = cva(
       },
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       size: {
-        xs: 'h-control-compact-xs px-2 text-ui-sm rounded-sm',
-        sm: 'h-control-compact-sm px-2 text-ui-dense rounded-sm',
-        md: 'h-control-inline px-2.5 text-ui-dense rounded-md',
-        lg: 'h-control-md px-3 text-ui rounded-md',
+        xs: 'h-segment-xs px-2 text-ui-sm rounded-sm',
+        sm: 'h-segment-sm px-2 text-ui-dense rounded-sm',
+        md: 'h-segment-md px-2.5 text-ui-dense rounded-md',
+        lg: 'h-segment-lg px-3 text-ui rounded-md',
       },
       content: { label: '', icon: 'px-1.75' },
       orientation: { horizontal: 'justify-center [&_svg]:size-icon-md', vertical: 'justify-start [&_svg]:size-icon-sm' },

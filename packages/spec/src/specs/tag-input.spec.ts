@@ -38,7 +38,7 @@ export default defineSpec({
     variant: { type: "'outline' | 'soft' | 'solid' | 'ghost'", default: 'outline', description: 'Rest look of the field (see variants).' },
     radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: 'xl', description: 'Field corner by radius token.' },
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: 'none', description: 'Field elevation by elevation token.' },
-    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Minimum height xs 32 (control-md) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 / 6·8 / 8·10 and ui-sm / ui / ui / ui-lg type.' },
+    size: { type: "'xs' | 'sm' | 'md' | 'lg'", default: 'md', description: 'Minimum height xs 32 (field-xs) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 (tag-input-pad-sm) / 6·8 (tag-input-pad-md) / 8·10 and ui-sm / ui / ui / ui-lg type. The text control is tag-input-row (26) tall. Under data-density="desktop" the row is 24 and the sm / md block padding 2 / 4, so sm is 28 and md 32 outer.' },
   },
   events: {
     onValueChange: { payload: 'string[]', when: 'a tag is added or removed' },

@@ -6596,7 +6596,7 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = control-md, field-sm, field-md, field-lg) so a button beside a field lines up without stepping size. Off keeps the control heights above."
+          "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = field-xs, field-sm, field-md, field-lg; under data-density=\"desktop\" the fields are the control heights, so it changes nothing) so a button beside a field lines up without stepping size. Off keeps the control heights above."
         },
         "loading": {
           "type": "boolean",
@@ -6639,7 +6639,7 @@
             "type": "boolean",
             "default": "false",
             "required": false,
-            "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = control-md, field-sm, field-md, field-lg) so a button beside a field lines up without stepping size. Off keeps the control heights above."
+            "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = field-xs, field-sm, field-md, field-lg; under data-density=\"desktop\" the fields are the control heights, so it changes nothing) so a button beside a field lines up without stepping size. Off keeps the control heights above."
           },
           "iconEnd": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
@@ -21730,7 +21730,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Common prop. Centre: the width step. Compact xs 280 (popover-md) with the compact inset and an 8px gap, sm 320; sectioned xs 320, sm 380 (modal-sm, the alert width); md 480, lg 640 for both. Edge: steps the band padding (xs 12, sm 14, md 16, lg 20 inline), the body gap and the title; lg also takes the sm close button.",
+          "description": "Common prop. Centre: the width step. Compact xs 280 (popover-md) with the compact inset and an 8px gap, sm 320 (xs pads 10px); sectioned xs 320, sm 380 (modal-sm, the alert width); md 480, lg 640 for both. Edge: steps the band padding (xs 12, sm 14, md 16, lg 20 inline), the body gap and the title; lg also takes the sm close button.",
           "values": [
             "xs",
             "sm",
@@ -21976,7 +21976,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Common prop. Centre: the width step. Compact xs 280 (popover-md) with the compact inset and an 8px gap, sm 320; sectioned xs 320, sm 380 (modal-sm, the alert width); md 480, lg 640 for both. Edge: steps the band padding (xs 12, sm 14, md 16, lg 20 inline), the body gap and the title; lg also takes the sm close button.",
+            "description": "Common prop. Centre: the width step. Compact xs 280 (popover-md) with the compact inset and an 8px gap, sm 320 (xs pads 10px); sectioned xs 320, sm 380 (modal-sm, the alert width); md 480, lg 640 for both. Edge: steps the band padding (xs 12, sm 14, md 16, lg 20 inline), the body gap and the title; lg also takes the sm close button.",
             "values": [
               "xs",
               "sm",
@@ -22222,7 +22222,7 @@
           "el": "div",
           "parent": "Dialog",
           "required": false,
-          "description": "DialogBody, scrolls vertically. Sectioned centre: grid, 14px gap, padding 24px 18px 16px (24px from the heading; 16px top with dividers). Edge: flex-1 grid, content at the start, 14px gap, padding 8px 16px 16px at md (22px from the title band; 16px top with dividers)."
+          "description": "DialogBody, scrolls vertically. Sectioned centre: grid, 12px gap, padding 20px 16px 14px (20px from the heading; 14px top with dividers). Edge: flex-1 grid, content at the start, 12px gap, padding 6px 14px 14px at md (18px from the title band; 14px top with dividers). Owner 2026-11-08: all dialog padding one step down."
         },
         {
           "name": "DialogClose",
@@ -22246,7 +22246,7 @@
           "el": "div",
           "parent": "Dialog",
           "required": false,
-          "description": "Actions, end-aligned, 8px gap; a flex-1 empty element keeps one secondary action on the start edge. Compact: a 4px top margin puts them 16px below the body (12px stack gap + 4; xs 8 + 4; owner 2026-10-27). Sectioned centre: padding 20px 18px 16px (36px from the body content; owner 2026-10-28). Edge: padding 12px 16px at md, a hairline above only with dividers (owner 2026-10-28)."
+          "description": "Actions, end-aligned, 8px gap; a flex-1 empty element keeps one secondary action on the start edge. Compact: a 4px top margin puts them 14px below the body (10px stack gap + 4; xs 8 + 4; owner 2026-10-27, one step down 2026-11-08). Sectioned centre: padding 16px 16px 14px (30px from the body content; owner 2026-11-08, one step down from 20 18 16). Every Button directly in the footer is control-sm high. Edge: padding 10px 14px at md, a hairline above only with dividers (owner 2026-10-28)."
         },
         {
           "name": "DialogHeader",
@@ -22254,7 +22254,7 @@
           "el": "div",
           "parent": "Dialog",
           "required": false,
-          "description": "Compact: grid, 4px gap (title and description). Sectioned centre: flex row, items start, 12px gap, padding 18px 18px 0 (16px bottom and a border.subtle hairline with dividers). Edge: flex row, items centred, 10px gap, padding 14px 16px at md (steps with size), a hairline only with dividers (owner 2026-10-28)."
+          "description": "Compact: grid, 4px gap (title and description). Sectioned centre: flex row, items start, 12px gap, padding 16px 16px 0 (14px bottom and a border.subtle hairline with dividers). Edge: flex row, items centred, 10px gap, padding 12px 14px at md (steps with size; owner 2026-11-08: one step down), a hairline only with dividers (owner 2026-10-28)."
         },
         {
           "name": "DialogTitle",
@@ -30630,7 +30630,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Field height 32 · 36 · 40 · 44 (xs = control-md, ui-sm).",
+          "description": "Field height 32 · 36 · 40 · 44 (field-xs · sm · md · lg; xs is ui-sm). Under data-density=\"desktop\" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.",
           "values": [
             "xs",
             "sm",
@@ -30828,7 +30828,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Field height 32 · 36 · 40 · 44 (xs = control-md, ui-sm).",
+            "description": "Field height 32 · 36 · 40 · 44 (field-xs · sm · md · lg; xs is ui-sm). Under data-density=\"desktop\" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.",
             "values": [
               "xs",
               "sm",
@@ -37547,7 +37547,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Field height and value type: xs 22 / hint · sm 24 / footnote · md 28 / footnote · lg 36 / ui (compact control heights). stepper: the form heights xs 32 (control-md) / sm 36 / md 40 / lg 44, buttons 28 / 32 / 40 / 48 and input 48 / 64 / 64 / 72 wide, xs ui-sm and lg ui-lg type. hex: xs 24 / mono-sm, sm 28 / mono-md, md 32 / mono-md, lg 40 / mono.",
+          "description": "Field height and value type: xs 22 / hint · sm 24 / footnote · md 28 / footnote · lg 36 / ui (compact control heights). stepper: the form heights xs 32 (field-xs) / sm 36 / md 40 / lg 44 (24 / 28 / 32 / 40 under data-density=\"desktop\"), buttons 28 / 32 / 40 / 48 and input 48 / 64 / 64 / 72 wide, xs ui-sm and lg ui-lg type. hex: xs 24 / mono-sm, sm 28 / mono-md, md 32 / mono-md, lg 40 / mono.",
           "values": [
             "xs",
             "sm",
@@ -37846,7 +37846,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Field height and value type: xs 22 / hint · sm 24 / footnote · md 28 / footnote · lg 36 / ui (compact control heights). stepper: the form heights xs 32 (control-md) / sm 36 / md 40 / lg 44, buttons 28 / 32 / 40 / 48 and input 48 / 64 / 64 / 72 wide, xs ui-sm and lg ui-lg type. hex: xs 24 / mono-sm, sm 28 / mono-md, md 32 / mono-md, lg 40 / mono.",
+            "description": "Field height and value type: xs 22 / hint · sm 24 / footnote · md 28 / footnote · lg 36 / ui (compact control heights). stepper: the form heights xs 32 (field-xs) / sm 36 / md 40 / lg 44 (24 / 28 / 32 / 40 under data-density=\"desktop\"), buttons 28 / 32 / 40 / 48 and input 48 / 64 / 64 / 72 wide, xs ui-sm and lg ui-lg type. hex: xs 24 / mono-sm, sm 28 / mono-md, md 32 / mono-md, lg 40 / mono.",
             "values": [
               "xs",
               "sm",
@@ -39604,7 +39604,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Height, inline padding and type: xs 28 / 8 / ui-sm · sm 32 / 10 / ui · md 36 (field-md) / 12 / ui · lg 40 / 14 / ui-md. soft (inspector) is on the control scale: xs 24 / 8 / ui-xs / 12px glyphs · sm 28 / 10 / ui-sm · md 32 / 10 / ui-sm (the inspector row) · lg 40 / 12 / ui / 16px glyphs.",
+          "description": "Height, inline padding and type: xs field-xs / 8 / ui-sm · sm field-sm / 10 / ui · md field-md / 12 / ui · lg field-lg / 14 / ui-md (32 · 36 · 40 · 44; under data-density=\"desktop\" 24 · 28 · 32 · 40). soft (inspector) is on the control scale: xs 24 / 8 / ui-xs / 12px glyphs · sm 28 / 10 / ui-sm · md 32 / 10 / ui-sm (the inspector row) · lg 40 / 12 / ui / 16px glyphs.",
           "values": [
             "xs",
             "sm",
@@ -39736,7 +39736,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Height, inline padding and type: xs 28 / 8 / ui-sm · sm 32 / 10 / ui · md 36 (field-md) / 12 / ui · lg 40 / 14 / ui-md. soft (inspector) is on the control scale: xs 24 / 8 / ui-xs / 12px glyphs · sm 28 / 10 / ui-sm · md 32 / 10 / ui-sm (the inspector row) · lg 40 / 12 / ui / 16px glyphs.",
+            "description": "Height, inline padding and type: xs field-xs / 8 / ui-sm · sm field-sm / 10 / ui · md field-md / 12 / ui · lg field-lg / 14 / ui-md (32 · 36 · 40 · 44; under data-density=\"desktop\" 24 · 28 · 32 · 40). soft (inspector) is on the control scale: xs 24 / 8 / ui-xs / 12px glyphs · sm 28 / 10 / ui-sm · md 32 / 10 / ui-sm (the inspector row) · lg 40 / 12 / ui / 16px glyphs.",
             "values": [
               "xs",
               "sm",
@@ -44908,7 +44908,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Segment height and type: xs control-compact-xs 22 / ui-sm, sm control-compact-sm 24 / ui-dense, md control-inline 26 / ui-dense (default), lg control-md / ui.",
+          "description": "Segment height and type: xs segment-xs 22 / ui-sm, sm segment-sm 24 / ui-dense, md segment-md 26 / ui-dense (default), lg segment-lg 32 / ui. The track pads segment-pad (4). Under data-density=\"desktop\" the pad is 3 and the segments 18 / 22 / 26 / 34, so the outer heights are 24 / 28 / 32 / 40 like the other controls.",
           "values": [
             "xs",
             "sm",
@@ -45100,7 +45100,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Segment height and type: xs control-compact-xs 22 / ui-sm, sm control-compact-sm 24 / ui-dense, md control-inline 26 / ui-dense (default), lg control-md / ui.",
+            "description": "Segment height and type: xs segment-xs 22 / ui-sm, sm segment-sm 24 / ui-dense, md segment-md 26 / ui-dense (default), lg segment-lg 32 / ui. The track pads segment-pad (4). Under data-density=\"desktop\" the pad is 3 and the segments 18 / 22 / 26 / 34, so the outer heights are 24 / 28 / 32 / 40 like the other controls.",
             "values": [
               "xs",
               "sm",
@@ -45446,7 +45446,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Steps the trigger (xs control-md / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36).",
+          "description": "Steps the trigger (xs field-xs / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36). Under data-density=\"desktop\" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.",
           "values": [
             "xs",
             "sm",
@@ -45613,7 +45613,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Steps the trigger (xs control-md / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36).",
+            "description": "Steps the trigger (xs field-xs / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36). Under data-density=\"desktop\" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.",
             "values": [
               "xs",
               "sm",
@@ -51890,7 +51890,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Minimum height xs 32 (control-md) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 / 6·8 / 8·10 and ui-sm / ui / ui / ui-lg type.",
+          "description": "Minimum height xs 32 (field-xs) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 (tag-input-pad-sm) / 6·8 (tag-input-pad-md) / 8·10 and ui-sm / ui / ui / ui-lg type. The text control is tag-input-row (26) tall. Under data-density=\"desktop\" the row is 24 and the sm / md block padding 2 / 4, so sm is 28 and md 32 outer.",
           "values": [
             "xs",
             "sm",
@@ -51975,7 +51975,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Minimum height xs 32 (control-md) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 / 6·8 / 8·10 and ui-sm / ui / ui / ui-lg type.",
+            "description": "Minimum height xs 32 (field-xs) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 (tag-input-pad-sm) / 6·8 (tag-input-pad-md) / 8·10 and ui-sm / ui / ui / ui-lg type. The text control is tag-input-row (26) tall. Under data-density=\"desktop\" the row is 24 and the sm / md block padding 2 / 4, so sm is 28 and md 32 outer.",
             "values": [
               "xs",
               "sm",
@@ -58448,6 +58448,7 @@
       "control-md",
       "control-lg",
       "control-xl",
+      "field-xs",
       "field-sm",
       "field-md",
       "field-lg",
@@ -58457,6 +58458,7 @@
       "control-compact-md",
       "control-compact-lg",
       "control-compact-xl",
+      "field-compact-xs",
       "field-compact-sm",
       "field-compact-md",
       "field-compact-lg",
@@ -58482,6 +58484,16 @@
       "switch-sm-thumb-w",
       "switch-sm-travel",
       "switch-sm-press",
+      "switch-md-press-travel",
+      "switch-sm-press-travel",
+      "segment-pad",
+      "segment-xs",
+      "segment-sm",
+      "segment-md",
+      "segment-lg",
+      "tag-input-row",
+      "tag-input-pad-sm",
+      "tag-input-pad-md",
       "avatar-xs",
       "avatar-sm",
       "avatar-md",
