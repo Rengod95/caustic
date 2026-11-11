@@ -28,7 +28,7 @@ export async function g0(c: Collector) {
   }
   // 3. Semantic layer references primitives only.
   for (const theme of Object.keys(t.raw.themes)) for (const [name, spec] of Object.entries<string>(t.raw.themes[theme])) {
-    if (!/^(neutral|accent|success|warning|danger|info|agent-[123]|extra-[12]|canvas-guide)(-light|-dark)?\.(\d+|on)(\/[\d.]+)?$|^(white|black)\/[\d.]+$|^=[a-z]+\.[a-z0-9-]+$/.test(spec)) c.fail({ gate: 'G0', check: 'semantic-refs', message: `${theme}.${name} = "${spec}" does not reference a primitive, a mode ramp or another semantic token.` });
+    if (!/^(neutral|accent|success|warning|danger|info|agent-[123]|extra-[1-5]|canvas-guide)(-light|-dark)?\.(\d+|on)(\/[\d.]+)?$|^(white|black)\/[\d.]+$|^=[a-z]+\.[a-z0-9-]+$/.test(spec)) c.fail({ gate: 'G0', check: 'semantic-refs', message: `${theme}.${name} = "${spec}" does not reference a primitive, a mode ramp or another semantic token.` });
   }
   // 4. Concentric studio chain: window − inset = panel; panel − 6 = composer (2xl); 2xl − 6 = lg.
   const s = t.studio, r = t.radius as Record<string, number>;
