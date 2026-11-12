@@ -37,22 +37,36 @@ export const neutral = {
 // Light danger/info/success text were muddy at the derived chroma (owner follow-up 2026-10-28, field option 5).
 export const solids = {
   accent: { name: 'Deep Black', role: 'Accent: primary emphasis, links, selection on canvas, focus (separate from ink, decision 1)', light: [0.11, 0, 0], dark: [0.97, 0, 0] },
-  success: { name: 'Pad Green', role: 'Success, diff add', light: [0.82, 0.187, 155], dark: [0.82, 0.187, 155], text: { light: [0.5, 0.16, 155] } },
-  warning: { name: 'Tape Yellow', role: 'Warning, permission', light: [0.905, 0.159, 118], dark: [0.905, 0.159, 118] },
-  danger: { name: 'Signal Orange', role: 'Danger, diff remove', light: [0.77, 0.261, 43], dark: [0.77, 0.261, 43], text: { light: [0.52, 0.16, 38] } },
-  info: { name: 'Panel Blue', role: 'Info, review, user guides', light: [0.7, 0.145, 266], dark: [0.7, 0.145, 266], text: { light: [0.5, 0.19, 266] } },
-  'agent-1': { name: 'Signal', role: 'Agent gradient stop 1; the agent tone', light: [0.755, 0.251, 88], dark: [0.755, 0.251, 88] },
-  'agent-2': { name: 'Panel', role: 'Agent gradient stop 2', light: [0.695, 0.308, 281], dark: [0.695, 0.308, 281] },
-  'agent-3': { name: 'Pad', role: 'Agent gradient stop 3', light: [0.79, 0.31, 37], dark: [0.79, 0.31, 37] },
-  'extra-1': { name: 'Knob Orange', role: 'Chart series 5, illustration, syntax property', light: [0.64, 0.12, 50], dark: [0.72, 0.11, 50] },
+  // DP-82 (2026-11-11, owner: "TUI 느낌의 채도 높은 semantic 색", "오류색만 주황같은 빨간색"): status and agent solids are
+  // picked per mode near the sRGB cusp of their hue, so the build's gamut map no longer halves the chroma (danger was
+  // authored C .261 and emitted C .143). Dark solids sit at the lightness where the hue is most saturated; light solids sit
+  // lower so the on label keeps its contrast. Text (step 11) is authored in both modes at the most saturated lightness that
+  // still reads 4.5:1 on surface and soft: the derived dark text was pushed light and lost its hue (danger C .08).
+  // Hues: success green 150, warning yellow 92 (118 read lime), danger vermilion 33 (orange-red, not pure red 25, not
+  // orange 43), info cyan-blue 235, agent crystal violet 288 (the brand crystal).
+  success: { name: 'Signal Green', role: 'Success, diff add, ANSI green', light: [0.6, 0.165, 150], dark: [0.8, 0.205, 150], text: { light: [0.49, 0.135, 150], dark: [0.82, 0.2, 150] } },
+  warning: { name: 'Signal Yellow', role: 'Warning, permission, ANSI yellow', light: [0.8, 0.164, 85], dark: [0.86, 0.172, 92], text: { light: [0.52, 0.11, 72], dark: [0.87, 0.172, 92] } },
+  danger: { name: 'Vermilion', role: 'Danger, diff remove, ANSI red', light: [0.585, 0.215, 33], dark: [0.65, 0.232, 33], text: { light: [0.53, 0.195, 33], dark: [0.7, 0.19, 33] } },
+  info: { name: 'Signal Blue', role: 'Info, review, user guides', light: [0.58, 0.133, 240], dark: [0.73, 0.15, 235], text: { light: [0.5, 0.126, 245], dark: [0.77, 0.135, 235] } },
+  'agent-1': { name: 'Crystal Violet', role: 'Agent gradient stop 1; the agent tone', light: [0.54, 0.25, 288], dark: [0.66, 0.192, 288], text: { light: [0.5, 0.24, 288], dark: [0.74, 0.142, 288] } },
+  'agent-2': { name: 'Crystal Blue', role: 'Agent gradient stop 2', light: [0.6, 0.21, 262], dark: [0.66, 0.18, 262] },
+  'agent-3': { name: 'Crystal Cyan', role: 'Agent gradient stop 3 (the refraction)', light: [0.74, 0.128, 210], dark: [0.82, 0.13, 210] },
+  'extra-1': { name: 'Knob Orange', role: 'Chart series 5, illustration, syntax number and attribute', light: [0.62, 0.15, 55], dark: [0.78, 0.15, 58] },
   'extra-2': { name: 'Dust Blue', role: 'Chart series 6, illustration', light: [0.6, 0.07, 240], dark: [0.72, 0.065, 240] },
+  // DP-82: the terminal and syntax hues that no status covers. Their ramps follow the same rule (derived text, fitted).
+  'extra-3': { name: 'Term Cyan', role: 'ANSI cyan, syntax type and operator', light: [0.6, 0.102, 200], dark: [0.8, 0.13, 200] },
+  'extra-4': { name: 'Term Blue', role: 'ANSI blue, syntax function', light: [0.55, 0.2, 262], dark: [0.7, 0.156, 262] },
+  'extra-5': { name: 'Term Magenta', role: 'ANSI magenta, syntax keyword', light: [0.56, 0.22, 335], dark: [0.72, 0.19, 335] },
   'canvas-guide': { name: 'Guide Magenta', role: 'Canvas smart guides only (decision 4)', light: [0.6, 0.2, 345], dark: [0.72, 0.17, 345] },
 };
 
 // The ramp rule (§1). Steps 1–6 sit at fixed lightness so tints line up across hues; chroma is a share of the solid's.
 export const rampRule = {
   fixedL: { light: [0.985, 0.965, 0.935, 0.905, 0.87, 0.8], dark: [0.225, 0.255, 0.29, 0.32, 0.355, 0.42] },
-  chromaShare: { light: [0.14, 0.28, 0.46, 0.58, 0.7, 0.8, 0.9, 1], dark: [0.22, 0.32, 0.46, 0.56, 0.66, 0.76, 0.88, 1] },
+  // DP-82: the solids now carry about 1.6× the emitted chroma, so the tint shares (1–7) drop a step: vivid inks, calm fills
+  // (diff lines, alert and badge fills keep about their former strength). Was light .14 .28 .46 .58 .7 .8 .9, dark .22 .32
+  // .46 .56 .66 .76 .88.
+  chromaShare: { light: [0.12, 0.24, 0.38, 0.5, 0.62, 0.76, 0.9, 1], dark: [0.17, 0.25, 0.36, 0.44, 0.52, 0.64, 0.84, 1] },
   graphicMin: 3,   // step 8 on surface.base: reported as a warning only; step 8 is not pushed to it
   textMin: 4.5,    // step 11 on surface.base and on steps 3–5
   textMargin: 0.1, // a derived step 11 is fitted to textMin + textMargin (rounding headroom); the rules check textMin
@@ -199,10 +213,46 @@ export const themes = {
     'diff.remove-bg': 'danger.3',
     'diff.add-text': 'success.11',
     'diff.remove-text': 'danger.11',
-    'syntax.keyword': 'info.11',
+    // Syntax theme (DP-82): one hue per token family, named after the shiki css-variables theme roles. Every token reads a
+    // text step 11 (fitted to 4.5:1) or a neutral ink, so it reads on the code surface and on the diff tints.
+    'syntax.foreground': '=text.primary',
+    'syntax.keyword': 'extra-5.11',
     'syntax.string': 'success.11',
-    'syntax.property': 'extra-1.11',
+    'syntax.property': 'info.11',
     'syntax.comment': '=text.secondary',
+    'syntax.number': 'extra-1.11',
+    'syntax.constant': 'extra-1.11',
+    'syntax.function': 'extra-4.11',
+    'syntax.type': 'extra-3.11',
+    'syntax.parameter': '=text.primary',
+    'syntax.variable': '=text.primary',
+    'syntax.operator': 'extra-3.11',
+    'syntax.punctuation': '=text.secondary',
+    'syntax.tag': 'danger.11',
+    'syntax.attr': 'extra-1.11',
+    'syntax.regexp': 'warning.11',
+    'syntax.link': 'info.11',
+    'syntax.heading': 'extra-4.11',
+    'syntax.inserted': '=diff.add-text',
+    'syntax.deleted': '=diff.remove-text',
+    // ANSI 16 for shell output (DP-82). Dark: normal reads the solid 9, bright the text 11 (lighter). Light: normal reads
+    // the text 11 (4.5:1 on paper), bright the solid 9; black and white are neutral inks.
+    'ansi.black': 'neutral.11',
+    'ansi.red': 'danger.11',
+    'ansi.green': 'success.11',
+    'ansi.yellow': 'warning.11',
+    'ansi.blue': 'extra-4.11',
+    'ansi.magenta': 'extra-5.11',
+    'ansi.cyan': 'extra-3.11',
+    'ansi.white': 'neutral.8',
+    'ansi.bright-black': 'neutral.9',
+    'ansi.bright-red': 'danger.9',
+    'ansi.bright-green': 'success.9',
+    'ansi.bright-yellow': 'warning.9',
+    'ansi.bright-blue': 'extra-4.9',
+    'ansi.bright-magenta': 'extra-5.9',
+    'ansi.bright-cyan': 'extra-3.9',
+    'ansi.bright-white': 'neutral.7',
 
     'canvas.dot': 'neutral.11/0.13',
     'canvas.selection': 'accent.9',
@@ -326,10 +376,45 @@ export const themes = {
     'diff.remove-bg': 'danger.3',
     'diff.add-text': 'success.11',
     'diff.remove-text': 'danger.11',
-    'syntax.keyword': 'info.11',
+    // Syntax theme (DP-82): one hue per token family, named after the shiki css-variables theme roles. Every token reads a
+    // text step 11 (fitted to 4.5:1) or a neutral ink, so it reads on the code surface and on the diff tints.
+    'syntax.foreground': '=text.primary',
+    'syntax.keyword': 'extra-5.11',
     'syntax.string': 'success.11',
-    'syntax.property': 'extra-1.11',
+    'syntax.property': 'info.11',
     'syntax.comment': '=text.secondary',
+    'syntax.number': 'extra-1.11',
+    'syntax.constant': 'extra-1.11',
+    'syntax.function': 'extra-4.11',
+    'syntax.type': 'extra-3.11',
+    'syntax.parameter': '=text.primary',
+    'syntax.variable': '=text.primary',
+    'syntax.operator': 'extra-3.11',
+    'syntax.punctuation': '=text.secondary',
+    'syntax.tag': 'danger.11',
+    'syntax.attr': 'extra-1.11',
+    'syntax.regexp': 'warning.11',
+    'syntax.link': 'info.11',
+    'syntax.heading': 'extra-4.11',
+    'syntax.inserted': '=diff.add-text',
+    'syntax.deleted': '=diff.remove-text',
+    // ANSI 16 (DP-82): see the light theme.
+    'ansi.black': 'neutral.5',
+    'ansi.red': 'danger.9',
+    'ansi.green': 'success.9',
+    'ansi.yellow': 'warning.9',
+    'ansi.blue': 'extra-4.9',
+    'ansi.magenta': 'extra-5.9',
+    'ansi.cyan': 'extra-3.9',
+    'ansi.white': 'neutral.10',
+    'ansi.bright-black': 'neutral.8',
+    'ansi.bright-red': 'danger.11',
+    'ansi.bright-green': 'success.11',
+    'ansi.bright-yellow': 'warning.11',
+    'ansi.bright-blue': 'extra-4.11',
+    'ansi.bright-magenta': 'extra-5.11',
+    'ansi.bright-cyan': 'extra-3.11',
+    'ansi.bright-white': 'neutral.11',
 
     'canvas.dot': 'white/0.08',
     // White artboards stay white in dark. Selection and guides keep the designed solids (accent 9, guide 9) even where
@@ -443,11 +528,16 @@ export const contrastRules = [
   ['text.primary', 'diff.remove-bg', 7, 'diff line'],
   ['diff.add-text', 'diff.add-bg', 4.5, 'diff sign'],
   ['diff.remove-text', 'diff.remove-bg', 4.5, 'diff sign'],
-  ...['syntax.keyword', 'syntax.string', 'syntax.property', 'syntax.comment'].flatMap(s => [
+  ...['syntax.foreground', 'syntax.keyword', 'syntax.string', 'syntax.property', 'syntax.comment', 'syntax.number', 'syntax.function', 'syntax.type',
+    'syntax.operator', 'syntax.punctuation', 'syntax.tag', 'syntax.attr', 'syntax.regexp', 'syntax.link', 'syntax.heading'].flatMap(s => [
     [s, 'surface.base', 4.5, 'syntax on code surface'],
     [s, 'diff.add-bg', 4.5, 'syntax on an added line'],
     [s, 'diff.remove-bg', 4.5, 'syntax on a removed line'],
   ]),
+  // ANSI 16 (DP-82): the seven normal colours read as text on the code surface; black and the bright set are reported only
+  // (light bright yellow and dark black are terminal conventions, not body text).
+  ...['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'].map(c => [`ansi.${c}`, 'surface.base', 4.5, 'ANSI normal colour on the code surface']),
+  ...['black', 'bright-black', 'bright-red', 'bright-green', 'bright-yellow', 'bright-blue', 'bright-magenta', 'bright-cyan', 'bright-white'].map(c => [`ansi.${c}`, 'surface.base', 3, 'ANSI colour on the code surface', 'warn']),
   // Series read graphic 8, which follows the authored solid (owner 2026-10-26), so light solids give light series: reported only.
   ...[1, 2, 3, 4, 5, 6].map(i => [`chart.${i}`, 'surface.base', 3, 'chart series', 'warn']),
 

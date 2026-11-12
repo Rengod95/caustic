@@ -338,6 +338,18 @@ card-action (card-action.variants.ts:12-13) · choice-cards (choice-cards.varian
 
 ---
 
+## 결정 (2026-11-11, DP-82)
+Fresnel 오너(사용자)의 요청: "semantic 계열 색들이 조금 더 TUI 느낌의 채도가 높은, 쨍한 느낌", "오류색만 주황 같은 빨간색". 견본은 Fresnel 쪽 `_notes/design/dz/dzC-swatches.html`(현재 · 안 A 과감 · 안 B 중간 · 안 C 차분), 채택은 B.
+
+| # | 질문 | 결정 | 반영 |
+|---|---|---|---|
+| 18 | 지정 채도가 빌드의 색 영역 맞춤에서 깎인다 (danger 지정 C .261 → 출력 .143) | **색상마다 sRGB 안에서 채도가 가장 높게 나오는 밝기 근처를 모드별로 지정** | `solids`의 status·agent 값을 라이트와 다크로 나눈다(결정 이전에는 두 모드가 같은 값). 지정 값은 모두 sRGB 안이라 맞춤이 채도를 바꾸지 않는다. text(11)도 두 모드 모두 지정한다: 파생 text가 다크에서 밝게 밀려 색을 잃었다(danger C .08) |
+| 19 | 색상 | **success 150, warning 92(118은 연두 기), danger 33 버밀리언(순수 빨강 25도 주황 43도 아님), info 235 청록 파랑, agent 288 크리스탈 보라** | agent-2·agent-3(스펙트럼 정지점)은 로고의 크리스탈 파랑 262와 굴절 청록 210으로 옮긴다. extra-1(주황)은 구문의 number·attr에 맞게 채도를 올린다 |
+| 20 | 면(tint·soft·border)의 무게 | **잉크는 쨍하게, 면은 차분하게** | `rampRule.chromaShare` 1–7단계 비율을 한 단계 낮춘다(라이트 .12 .24 .38 .50 .62 .76 .90, 다크 .17 .25 .36 .44 .52 .64 .84). §1 표의 비율은 이 값으로 읽는다. solid 채도가 약 1.6배가 되어 diff 줄·Alert·배지 면은 전과 비슷한 세기다 |
+| 21 | 셸 출력과 구문 강조 | **ANSI 16색과 syntax 테마를 토큰으로** | 새 ramp `extra-3`(Term Cyan 200), `extra-4`(Term Blue 262), `extra-5`(Term Magenta 335). `ansi.{black…white, bright-*}`: 다크는 보통 = solid 9, 밝은 = text 11, 라이트는 보통 = text 11, 밝은 = solid 9, 검정·흰색은 뉴트럴 잉크. `syntax.*`는 shiki css-variables 역할에 맞춰 foreground, keyword, string, property, comment, number, constant, function, type, parameter, variable, operator, punctuation, tag, attr, regexp, link, heading, inserted, deleted. keyword는 info에서 extra-5로, property는 extra-1에서 info로 옮긴다. 대비 규칙: syntax 글자는 표면과 diff 면 위 4.5:1, ANSI 보통 일곱 색은 표면 위 4.5:1(검정과 밝은 색은 보고만) |
+
+문법(slot 구조, 중립 선택, 잉크 반전)은 그대로다. 색각 이상(Machado 심도 1)에서 다크의 success·danger text는 녹색맹 휘도비 1.45로 밝기로도 갈리고, 라이트는 두 text의 밝기가 같아(1.0) 모양(체크·X 아이콘)으로 가른다.
+
 ## 빌더에서 보는 법 (`#/lab/builder`)
 - Neutrals 아래 **Dark ramp**(A bit more 기본 / Subtle / Previous)로 다크 램프를 비교한다.
 - 툴바에서 **Current / Proposed language**를 고른다. Proposed를 켜면 각 색 컨트롤 아래에 1–11 램프가 나타나고(9에 표시), 대비 칩이 슬롯 기준으로 바뀐다.
