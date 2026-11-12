@@ -54842,7 +54842,7 @@
             "agent"
           ],
           "default": "success",
-          "description": "success = something finished; info = neutral news; warning = finished with a caveat; danger = a failure (role alert, never auto-dismisses); agent = something the agent made or did (spectrum rim and orb); neutral = plain news, text only (no glyph); accent = plain news with an info glyph in accent.graphic."
+          "description": "success = something finished; info = neutral news; warning = finished with a caveat; danger = a failure (role alert, never auto-dismisses); agent = something the agent made or did (spectrum rim and orb); neutral = plain news, text only (no glyph); accent = plain news with an info glyph in accent.text."
         },
         "variant": {
           "values": [
@@ -54853,7 +54853,7 @@
             "ghost"
           ],
           "default": "outline",
-          "description": "outline = surface.base with a 1px tone.border hairline (the default, owner 2026-11-12); glass = regular glass with the thick blur; solid = tone.solid fill with tone.on text and a tone.on glyph; soft = tone.soft fill; ghost = surface.base, no edge. The glyph never has a fill behind it in any variant."
+          "description": "outline = surface.base with a 1px tone.border hairline (the default, owner 2026-11-12; neutral takes the quieter border.strong); glass = regular glass with the thick blur; solid = tone.solid fill with tone.on text and a tone.on glyph; soft = tone.soft fill; ghost = surface.base, no edge. The glyph never has a fill behind it in any variant."
         },
         "radius": {
           "values": [
@@ -54929,7 +54929,7 @@
         "notes": [
           "The Toaster region is a polite live region named by its label prop (examples: \"Notifications\"); each toast is role=\"status\". Never move focus to a toast.",
           "Auto-dismiss pauses while the pointer moves over the toast and on focus-within; a toast with an action gets the longer default (8000ms).",
-          "Text is text.primary and text.secondary over surface.base (outline); the glyph is the tone graphic colour, a non-text graphic (3 : 1).",
+          "Text is text.primary and text.secondary over surface.base (outline); the glyph is the tone text colour (at least 5.5 : 1 in both themes).",
           "Under prefers-reduced-transparency the glass falls back to an opaque surface (provided by the glass utility)."
         ]
       },

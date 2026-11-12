@@ -20,7 +20,7 @@ export default defineFixture({
   examples: {
     // A failure: danger glyph, border and text, no auto-dismiss.
     'toast-failed': () => <Toast inline tone="danger" statusLabel="Failed" title="Publish failed" description="orbit-pay.caustic.app is unreachable" actionLabel="Retry" />,
-    // Every status tone: a bare glyph in the tone graphic colour on the outline surface; the action stays a ghost (text emphasis) in all of them.
+    // Every status tone: a bare glyph in the tone text colour on the outline surface; the action stays a ghost (text emphasis) in all of them.
     'toast-tones': () => (
       <>
         <Toast inline title="Published v2.4" description="orbit-pay.caustic.app" actionLabel="Open" />

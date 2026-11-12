@@ -6,7 +6,9 @@ import { cva } from 'class-variance-authority';
 //   glass    regular glass with the thick blur
 //   solid    tone.solid fill, tone.on text and glyph
 //   soft     tone.soft fill; ghost surface.base, no edge
-// The glyph never sits on a fill: it is the tone graphic colour (tone.on on solid).
+// The glyph never sits on a fill: it is the tone text colour (AA on surface.base in both themes, where the graphic step
+// leaves a light warning glyph near 1.8 : 1); tone.on on solid. neutral (plain news, no glyph) takes the quiet
+// border.strong hairline: neutral.border is the 3.6 : 1 control border and read heavier than every status tone.
 // shadow drives the glass elevation (glass-shadow-N) and the plain shadow alike.
 export const toastVariants = cva(
   [
@@ -20,17 +22,17 @@ export const toastVariants = cva(
   {
     variants: {
       tone: {
-        neutral: '[--tone-solid:var(--cs-color-neutral-solid)] [--tone-on:var(--cs-color-neutral-on)] [--tone-soft:var(--cs-color-neutral-soft)] [--tone-border:var(--cs-color-neutral-border)] [--tone-graphic:var(--cs-color-neutral-graphic)]',
-        accent: '[--tone-solid:var(--cs-color-accent-solid)] [--tone-on:var(--cs-color-accent-on)] [--tone-soft:var(--cs-color-accent-soft)] [--tone-border:var(--cs-color-accent-border)] [--tone-graphic:var(--cs-color-accent-graphic)]',
-        success: '[--tone-solid:var(--cs-color-success-solid)] [--tone-on:var(--cs-color-success-on)] [--tone-soft:var(--cs-color-success-soft)] [--tone-border:var(--cs-color-success-border)] [--tone-graphic:var(--cs-color-success-graphic)]',
-        warning: '[--tone-solid:var(--cs-color-warning-solid)] [--tone-on:var(--cs-color-warning-on)] [--tone-soft:var(--cs-color-warning-soft)] [--tone-border:var(--cs-color-warning-border)] [--tone-graphic:var(--cs-color-warning-graphic)]',
-        danger: '[--tone-solid:var(--cs-color-danger-solid)] [--tone-on:var(--cs-color-danger-on)] [--tone-soft:var(--cs-color-danger-soft)] [--tone-border:var(--cs-color-danger-border)] [--tone-graphic:var(--cs-color-danger-graphic)]',
-        info: '[--tone-solid:var(--cs-color-info-solid)] [--tone-on:var(--cs-color-info-on)] [--tone-soft:var(--cs-color-info-soft)] [--tone-border:var(--cs-color-info-border)] [--tone-graphic:var(--cs-color-info-graphic)]',
-        agent: 'agent-rim [--tone-solid:var(--cs-color-agent-solid)] [--tone-on:var(--cs-color-agent-on)] [--tone-soft:var(--cs-color-agent-soft)] [--tone-border:var(--cs-color-agent-border)] [--tone-graphic:var(--cs-color-agent-graphic)]',
+        neutral: '[--tone-solid:var(--cs-color-neutral-solid)] [--tone-on:var(--cs-color-neutral-on)] [--tone-soft:var(--cs-color-neutral-soft)] [--tone-border:var(--cs-color-border-strong)] [--tone-glyph:var(--cs-color-neutral-text)]',
+        accent: '[--tone-solid:var(--cs-color-accent-solid)] [--tone-on:var(--cs-color-accent-on)] [--tone-soft:var(--cs-color-accent-soft)] [--tone-border:var(--cs-color-accent-border)] [--tone-glyph:var(--cs-color-accent-text)]',
+        success: '[--tone-solid:var(--cs-color-success-solid)] [--tone-on:var(--cs-color-success-on)] [--tone-soft:var(--cs-color-success-soft)] [--tone-border:var(--cs-color-success-border)] [--tone-glyph:var(--cs-color-success-text)]',
+        warning: '[--tone-solid:var(--cs-color-warning-solid)] [--tone-on:var(--cs-color-warning-on)] [--tone-soft:var(--cs-color-warning-soft)] [--tone-border:var(--cs-color-warning-border)] [--tone-glyph:var(--cs-color-warning-text)]',
+        danger: '[--tone-solid:var(--cs-color-danger-solid)] [--tone-on:var(--cs-color-danger-on)] [--tone-soft:var(--cs-color-danger-soft)] [--tone-border:var(--cs-color-danger-border)] [--tone-glyph:var(--cs-color-danger-text)]',
+        info: '[--tone-solid:var(--cs-color-info-solid)] [--tone-on:var(--cs-color-info-on)] [--tone-soft:var(--cs-color-info-soft)] [--tone-border:var(--cs-color-info-border)] [--tone-glyph:var(--cs-color-info-text)]',
+        agent: 'agent-rim [--tone-solid:var(--cs-color-agent-solid)] [--tone-on:var(--cs-color-agent-on)] [--tone-soft:var(--cs-color-agent-soft)] [--tone-border:var(--cs-color-agent-border)] [--tone-glyph:var(--cs-color-agent-text)]',
       },
       variant: {
         glass: 'glass [--cs-material:var(--cs-color-material-regular)] [--cs-material-blur:var(--cs-blur-thick)]',
-        solid: 'bg-(--tone-solid) text-(--tone-on) [--tone-graphic:var(--tone-on)] [&_[data-slot=toast-title]]:text-(--tone-on) [&_[data-slot=toast-description]]:text-(--tone-on) [&_[data-slot=toast-close]]:text-(--tone-on)',
+        solid: 'bg-(--tone-solid) text-(--tone-on) [--tone-glyph:var(--tone-on)] [&_[data-slot=toast-title]]:text-(--tone-on) [&_[data-slot=toast-description]]:text-(--tone-on) [&_[data-slot=toast-close]]:text-(--tone-on)',
         soft: 'bg-(--tone-soft)',
         outline: 'border border-(color:--tone-border) bg-surface-base',
         ghost: 'bg-surface-base',
@@ -63,17 +65,17 @@ export const toastVariants = cva(
 );
 
 /** The text block: a mark column and the title/detail column, 6px apart (8 at lg). */
-export const toastMain = cva('grid min-w-0 flex-1 grid-cols-[auto_minmax(0,1fr)] items-start', {
+export const toastMain = cva('grid min-w-0 flex-1 grid-cols-[auto_minmax(0,1fr)] items-start break-keep wrap-anywhere', {
   variants: {
     size: { xs: 'gap-x-1.5', sm: 'gap-x-1.5', md: 'gap-x-1.5', lg: 'gap-x-2' },
   },
   defaultVariants: { size: 'md' },
 });
 
-/** The status mark: a bare glyph in the tone graphic colour (no fill), in a box as tall as the title line; or the agent orb. */
+/** The status mark: a bare glyph in the tone text colour (no fill), in a box as tall as the title line; or the agent orb. */
 export const toastMark = cva('grid flex-none place-items-center', {
   variants: {
-    kind: { glyph: 'text-(--tone-graphic)', agent: '' },
+    kind: { glyph: 'text-(--tone-glyph)', agent: '' },
     size: {
       xs: 'h-4.5 [&_svg]:size-icon-sm',
       sm: 'h-4.5 [&_svg]:size-icon-md',

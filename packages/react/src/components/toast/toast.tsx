@@ -97,8 +97,8 @@ export function Toast({
           : t === 'neutral'
             ? null
             : <span data-slot="toast-icon" aria-hidden="true" className={toastMark({ size: z })}>{glyph[t]}</span>}
-        <div data-slot="toast-title" className={cn('col-start-2', z === 'lg' ? 'text-ui-lg font-medium' : z === 'xs' ? 'text-ui-sm font-medium' : 'text-ui-strong', 'text-text-primary')}>{statusLabel != null && <span className="sr-only">{statusLabel}: </span>}{title}</div>
-        {description != null && <div data-slot="toast-description" className={cn('col-start-2 text-ui-sm font-normal', t === 'danger' ? 'text-danger-text' : 'text-text-secondary')}>{description}</div>}
+        <div data-slot="toast-title" className={cn(t === 'neutral' ? 'col-span-full' : 'col-start-2', z === 'lg' ? 'text-ui-lg font-medium' : z === 'xs' ? 'text-ui-sm font-medium' : 'text-ui-strong', 'text-text-primary')}>{statusLabel != null && <span className="sr-only">{statusLabel}: </span>}{title}</div>
+        {description != null && <div data-slot="toast-description" className={cn(t === 'neutral' ? 'col-span-full' : 'col-start-2', 'text-ui-sm font-normal', t === 'danger' ? 'text-danger-text' : 'text-text-secondary')}>{description}</div>}
       </div>
       {actionLabel != null && (
         <Button data-slot="toast-action" size="xs" tone="ghost" onClick={() => onAction?.()}>{actionLabel}</Button>
