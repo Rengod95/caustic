@@ -917,7 +917,7 @@
   "diff": {
     "add-bg": {
       "$type": "color",
-      "$value": "{color.success-light.3}"
+      "$value": "{color.success-light.2}"
     },
     "remove-bg": {
       "$type": "color",
