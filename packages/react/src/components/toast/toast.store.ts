@@ -10,7 +10,7 @@ export interface ToastOptions {
   dismissLabel?: string;
   onAction?: () => void;
   onDismiss?: () => void;
-  /** Milliseconds before auto-dismiss; 0 keeps it until dismissed. */
+  /** Milliseconds before auto-dismiss; 0 keeps it until dismissed. Default by tone (toastDuration): 4000, 8000 for warning or an action. */
   duration?: number;
   /** Hidden status word read before the title, e.g. "Failed". */
   statusLabel?: string;
@@ -22,15 +22,15 @@ export interface ToastItem extends ToastOptions {
 }
 
 /**
- * The exit time: the CSS exit duration (the duration-base token, --cs-duration-base), read from the stylesheet so the store
- * removes a toast when its exit has finished. 200 ms when no stylesheet defines the token.
+ * The exit time: the CSS exit duration (the duration-swift token, --cs-duration-swift), read from the stylesheet so the store
+ * removes a toast when its exit has finished. 180 ms when no stylesheet defines the token.
  */
 function exitMs(): number {
-  if (typeof document === 'undefined') return 200;
-  const raw = getComputedStyle(document.documentElement).getPropertyValue('--cs-duration-base').trim();
+  if (typeof document === 'undefined') return 180;
+  const raw = getComputedStyle(document.documentElement).getPropertyValue('--cs-duration-swift').trim();
   const value = Number.parseFloat(raw);
   const ms = raw.endsWith('s') && !raw.endsWith('ms') ? value * 1000 : value;
-  return Number.isFinite(ms) ? ms : 200;
+  return Number.isFinite(ms) ? ms : 180;
 }
 
 let items: ToastItem[] = [];

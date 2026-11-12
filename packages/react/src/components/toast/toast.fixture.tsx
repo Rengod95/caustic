@@ -18,9 +18,9 @@ export default defineFixture({
   id: 'toast',
   render: props => <CaseRegion {...(props as Partial<ToastProps>)} />,
   examples: {
-    // A failure: danger mark and text, no auto-dismiss.
+    // A failure: danger glyph, border and text, no auto-dismiss.
     'toast-failed': () => <Toast inline tone="danger" statusLabel="Failed" title="Publish failed" description="orbit-pay.caustic.app is unreachable" actionLabel="Retry" />,
-    // Every status tone: solid mark with its on-colour glyph; the action stays a ghost (text emphasis) in all of them.
+    // Every status tone: a bare glyph in the tone text colour on the outline surface; the action stays a ghost (text emphasis) in all of them.
     'toast-tones': () => (
       <>
         <Toast inline title="Published v2.4" description="orbit-pay.caustic.app" actionLabel="Open" />
