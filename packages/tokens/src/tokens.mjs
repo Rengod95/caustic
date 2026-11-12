@@ -672,21 +672,25 @@ export const elevation = {
 export const blur = { control: 12, ultrathin: 14, thin: 20, regular: 24, thick: 36, overlay: 40 };
 
 export const motion = {
-  // UI durations (ms). Loops below them keep their names.
-  duration: { instant: 0, quick: 100, swift: 150, base: 200, gentle: 250, slow: 400,
+  // UI durations (ms). Loops below them keep their names. Crystal motion (Fresnel dz, owner 2026-11-11): quick to start,
+  // settling softly, never overshooting. Exits run at about 60% of their enter (quick 120 for swift 180, swift 180 for
+  // gentle 280).
+  duration: { instant: 0, quick: 120, swift: 180, base: 220, gentle: 280, slow: 400,
     spin: 700, indeterminate: 1400, orb: 1600, shimmer: 2200, slide: 2400, scan: 2600, agent: 4800 },
   easing: {
-    standard: 'cubic-bezier(0.2, 0, 0, 1)',      // colour, size, anything that stays on screen
-    out: 'cubic-bezier(0.23, 1, 0.32, 1)',       // enter and exit
+    standard: 'cubic-bezier(0.2, 0, 0, 1)',      // colour, size, anything that stays on screen; collapsing height
+    out: 'cubic-bezier(0.22, 1, 0.36, 1)',       // enter
     'in-out': 'cubic-bezier(0.77, 0, 0.175, 1)', // on-screen moves
     drawer: 'cubic-bezier(0.32, 0.72, 0, 1)',    // sheets and side panels
-    in: 'cubic-bezier(0.4, 0, 1, 1)',
+    in: 'cubic-bezier(0.4, 0, 1, 1)',            // exit (short, so the slow start does not read as lag)
     linear: 'linear',
   },
-  // Springs move things (position, size, scale); colour and opacity use curves. Mass 1; damping is the ratio ζ.
-  spring: { snappy: { stiffness: 700, damping: 0.9 }, spring: { stiffness: 380, damping: 0.8 }, bounce: { stiffness: 300, damping: 0.55 } },
-  scale: { press: 0.97, 'press-sm': 0.94, enter: 0.96 },
-  shift: { enter: 4, lift: 2 },
+  // Springs move things (position, size, scale); colour and opacity use curves. Mass 1; damping is the ratio ζ. Every
+  // spring is critically damped (ζ 1, no overshoot). bounce keeps its name for existing consumers only; it no longer bounces.
+  spring: { snappy: { stiffness: 700, damping: 1 }, spring: { stiffness: 380, damping: 1 }, bounce: { stiffness: 300, damping: 1 } },
+  // Press is a 2% settle for every size; hover never scales or moves (no lift).
+  scale: { press: 0.98, 'press-sm': 0.98, enter: 0.96 },
+  shift: { enter: 4 },
   stagger: { step: 40, max: 8 },
 };
 

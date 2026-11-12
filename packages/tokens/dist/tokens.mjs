@@ -4910,10 +4910,10 @@ export default {
   "motion": {
     "duration": {
       "instant": 0,
-      "quick": 100,
-      "swift": 150,
-      "base": 200,
-      "gentle": 250,
+      "quick": 120,
+      "swift": 180,
+      "base": 220,
+      "gentle": 280,
       "slow": 400,
       "spin": 700,
       "indeterminate": 1400,
@@ -4925,7 +4925,7 @@ export default {
     },
     "easing": {
       "standard": "cubic-bezier(0.2, 0, 0, 1)",
-      "out": "cubic-bezier(0.23, 1, 0.32, 1)",
+      "out": "cubic-bezier(0.22, 1, 0.36, 1)",
       "in-out": "cubic-bezier(0.77, 0, 0.175, 1)",
       "drawer": "cubic-bezier(0.32, 0.72, 0, 1)",
       "in": "cubic-bezier(0.4, 0, 1, 1)",
@@ -4934,25 +4934,24 @@ export default {
     "spring": {
       "snappy": {
         "stiffness": 700,
-        "damping": 0.9
+        "damping": 1
       },
       "spring": {
         "stiffness": 380,
-        "damping": 0.8
+        "damping": 1
       },
       "bounce": {
         "stiffness": 300,
-        "damping": 0.55
+        "damping": 1
       }
     },
     "scale": {
-      "press": 0.97,
-      "press-sm": 0.94,
+      "press": 0.98,
+      "press-sm": 0.98,
       "enter": 0.96
     },
     "shift": {
-      "enter": 4,
-      "lift": 2
+      "enter": 4
     },
     "stagger": {
       "step": 40,

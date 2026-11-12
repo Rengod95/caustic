@@ -211,7 +211,7 @@ export const numberFieldStepperVariants = cva(
 export const numberFieldStepButtonVariants = cva(
   'grid h-full shrink-0 place-items-center text-text-secondary transition-control hover:bg-neutral-hover hover:text-text-primary disabled:pointer-events-none disabled:text-disabled-text [&_svg]:size-icon-sm',
   {
-    // Press: the icon targets at xs to md (28px tall at md) press to 0.94, lg to 0.97.
+    // Press: the icon targets at xs to md (28px tall at md) press to 0.98 like every size (press-sm and press are both 0.98).
     variants: { size: { xs: 'w-7 press-sm', sm: 'w-8 press-sm', md: 'w-10 press-sm', lg: 'w-12 press' } },
     defaultVariants: { size: 'md' },
   },

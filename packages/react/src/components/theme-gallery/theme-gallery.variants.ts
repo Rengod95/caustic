@@ -19,7 +19,7 @@ export const themeGalleryVariants = cva('grid grid-cols-[repeat(auto-fill,minmax
 });
 
 /**
- * One theme card. At rest a hairline, no elevation (one depth cue); hover lifts 2px on the spring, presses to 0.97 and
+ * One theme card. At rest a hairline, no elevation (one depth cue); hover does not move it, presses to 0.98 and
  * swaps the hairline for elevation 3. The checked card draws a 1.5px inset ring in the selection ink (selection.fill:
  * the preview is the content and cannot invert, so the ring carries the one selection colour) over elevation 3 and a check
  * in the meta row, never the focus ring.
@@ -28,7 +28,7 @@ export const themeGalleryItemVariants = cva([
   'grid overflow-hidden rounded-2xl bg-surface-base text-left font-ui text-ui text-text-primary outline-none',
   'shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
   // Position and size on the spring; the ring and the elevation (box-shadow) run on quick / out.
-  'transition-[translate,scale,box-shadow] duration-[var(--cs-duration-spring),var(--cs-duration-spring),var(--cs-duration-quick)] ease-[var(--cs-ease-spring),var(--cs-ease-spring),var(--cs-ease-out)] lift press',
+  'transition-[scale,box-shadow] duration-[var(--cs-duration-spring),var(--cs-duration-quick)] ease-[var(--cs-ease-spring),var(--cs-ease-out)] press',
   'hover:shadow-[var(--cs-elevation-3)]',
   'aria-checked:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-fill),var(--cs-elevation-3)]',
   'aria-checked:hover:shadow-[inset_0_0_0_1.5px_var(--cs-color-selection-fill),var(--cs-elevation-3)]',

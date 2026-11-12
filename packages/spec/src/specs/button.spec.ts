@@ -80,7 +80,7 @@ export default defineSpec({
   ],
   behavior: {
     keyboard: { Enter: 'activate', Space: 'activate' },
-    pointer: ['press scales the button to 0.97 for quick feedback', 'press stays inside the emphasis: solid takes solid-hover 10 with a 1px text 11 edge, soft takes soft-pressed 5, ghost takes neutral.pressed'],
+    pointer: ['press scales the button to 0.98 for quick feedback', 'press stays inside the emphasis: solid takes solid-hover 10 with a 1px text 11 edge, soft takes soft-pressed 5, ghost takes neutral.pressed'],
     scenarios: [
       { name: 'click activates', steps: [{ do: 'click', slot: 'root' }], expect: [{ event: 'onClick', calls: 1 }] },
       { name: 'Enter activates', steps: [{ do: 'focus', slot: 'root' }, { do: 'press', key: 'Enter' }], expect: [{ event: 'onClick', calls: 1 }] },
