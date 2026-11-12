@@ -19,10 +19,6 @@
     "specHash": "c09320d921adf8b4",
     "at": "2026-10-31T16:08:34.590Z"
   },
-  "alert": {
-    "specHash": "3f7e26b3be6cf830",
-    "at": "2026-10-31T16:08:55.682Z"
-  },
   "alias-chain": {
     "specHash": "5080c348276eb490",
     "at": "2026-10-31T16:09:00.876Z"
@@ -56,8 +52,8 @@
     "at": "2026-10-31T16:10:32.167Z"
   },
   "button": {
-    "specHash": "1b896a63be415003",
-    "at": "2026-11-11T14:23:36.211Z"
+    "specHash": "7a6fa72fc21eac6c",
+    "at": "2026-11-12T06:36:56.583Z"
   },
   "button-group": {
     "specHash": "b25a7cb405e2e4d3",
@@ -176,8 +172,8 @@
     "at": "2026-10-31T16:18:46.819Z"
   },
   "dialog": {
-    "specHash": "f7c72e3fd858f37e",
-    "at": "2026-11-08T13:34:53.362Z"
+    "specHash": "d4ef55696007f130",
+    "at": "2026-11-12T06:38:46.015Z"
   },
   "easing-curve": {
     "specHash": "e01ca700bed585fa",
@@ -240,8 +236,8 @@
     "at": "2026-10-31T16:23:48.145Z"
   },
   "icon-button": {
-    "specHash": "bf6b4d909484c101",
-    "at": "2026-10-31T16:24:08.033Z"
+    "specHash": "22efef21890c0806",
+    "at": "2026-11-12T06:37:25.490Z"
   },
   "image-fill": {
     "specHash": "4f79f3adfb3bb3f7",
@@ -284,8 +280,8 @@
     "at": "2026-11-01T06:21:45.913Z"
   },
   "menu": {
-    "specHash": "753c29a91c7d66b8",
-    "at": "2026-10-31T16:28:26.292Z"
+    "specHash": "7f246dbf0a7a02b3",
+    "at": "2026-11-12T06:38:06.025Z"
   },
   "message": {
     "specHash": "a4e3e2fd8eafa43d",
@@ -332,8 +328,8 @@
     "at": "2026-10-31T16:31:46.724Z"
   },
   "popover": {
-    "specHash": "1efb703f0d92ee85",
-    "at": "2026-10-31T16:31:58.913Z"
+    "specHash": "199fc3bac6fe1c0b",
+    "at": "2026-11-12T06:37:41.916Z"
   },
   "position-size": {
     "specHash": "800a4247d380dfd3",

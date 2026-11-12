@@ -3,6 +3,7 @@ import type { ComponentProps, MouseEvent, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Tone } from '../../lib/common-props.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
+import { scopedTone, useToneScope } from '../../lib/tone-scope.ts';
 import { iconButtonFrameVariants, iconButtonIconVariants, iconButtonToggleVariants, iconButtonVariants } from './icon-button.variants.ts';
 
 export interface IconButtonProps extends Omit<ComponentProps<'button'>, 'children'>, Omit<CommonProps, 'tone'> {
@@ -38,8 +39,15 @@ export function IconButton({
   const [on, setOn] = useControllableState({ value: pressed, defaultValue: defaultPressed ?? false, onChange: onPressedChange });
   // Deprecated aliases: tone ghost / ink → variant ghost / solid; shape circle → radius full.
   const legacy = toneProp === 'ghost' || toneProp === 'ink' ? toneProp : undefined;
-  const tone = legacy ? undefined : (toneProp as Tone | undefined);
-  const variant = variantProp ?? (legacy === 'ink' ? 'solid' : legacy);
+  // Inside a coloured container (Alert) an icon button without its own tone takes the container's tone (lib/tone-scope.ts).
+  // A legacy tone counts as its own tone. On a solid container an icon button keeps its own look (the dismiss stays as it was).
+  const scopeAll = useToneScope();
+  const scope = scopeAll?.variant === 'solid' ? null : scopeAll;
+  const scoped = legacy
+    ? { tone: undefined, variant: variantProp ?? (legacy === 'ink' ? 'solid' as const : legacy) }
+    : scopedTone(scope, toneProp as Tone | undefined, variantProp, 'ghost');
+  const tone = scoped.tone;
+  const variant = scoped.variant;
   const radius = radiusProp ?? (shape === 'circle' ? 'full' : undefined);
   const sized = size ?? (toggle ? 'sm' : undefined);
   return (

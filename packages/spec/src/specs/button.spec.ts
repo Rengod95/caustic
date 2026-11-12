@@ -27,7 +27,7 @@ export default defineSpec({
     loading: { props: { loading: true } },
   },
   props: {
-    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis).' },
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'", default: 'neutral', description: 'Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis). Unset inside a coloured container (Alert, or any ToneScopeContext): the container tone, variant soft unless set; on a solid container neutral outline. An explicit tone always wins.' },
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'solid', description: 'Emphasis.' },
     radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", description: 'Corner radius. Unset keeps the size radius.' },
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", description: 'Elevation. Unset keeps the variant depth cue.' },
@@ -97,6 +97,7 @@ export default defineSpec({
     { id: 'sizes', title: 'Sizes & states', doc: 'button#button-sizes-and-states' },
   ],
   usage: [
+    'Tone scope (2026-11-12): a Button without tone inside an Alert (or another ToneScopeContext provider) takes the container tone, so a strip action is never a grey neutral button. Popover, Menu and Dialog content reset the scope.',
     'Primary actions use neutral solid (ink); at most one accent button per view.',
     'Only buttons that invoke the agent use tone="agent".',
     'Legacy tones (ink, secondary, ghost, danger, destructive) keep working and map onto tone + variant; new code passes tone and variant.',

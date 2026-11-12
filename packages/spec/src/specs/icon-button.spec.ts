@@ -27,7 +27,7 @@ export default defineSpec({
   },
   props: {
     label: { type: 'string', required: true, description: 'Accessible name; rendered as aria-label.' },
-    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent' | 'ghost' | 'ink'", default: 'neutral', description: 'Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid.' },
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent' | 'ghost' | 'ink'", default: 'neutral', description: 'Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid. Unset inside a coloured container (Alert, or any ToneScopeContext) that is not solid: the container tone (variant ghost unless set). An explicit tone always wins.' },
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'ghost', description: 'Emphasis: solid (neutral = ink action), soft, outline edge, or quiet ghost (default).' },
     radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: 'md', description: 'Corner radius (radius token); unset keeps the size radius.' },
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: 'none', description: 'Elevation (elevation token); unset is flat.' },
@@ -91,6 +91,7 @@ export default defineSpec({
     { id: 'icon-toggle-states', title: 'Toggles', doc: 'position-size#position-and-size' },
   ],
   usage: [
+    'Tone scope (2026-11-12): an IconButton without tone inside a soft, outline or ghost Alert takes the alert tone (an info icon or dismiss in a danger strip is danger). On a solid alert it keeps its own look.',
     'Always provide label (aria-label).',
     'variant="solid" radius="full" size="sm" (28px) is the send button (formerly tone="ink" shape="circle"); use it once per text area or composer. Specimen has no stop variant (.send.stop exists in CSS: neutral.selected with a 9px square).',
     'Show the on state of a toggle with the inverted selection (selection.fill, selection.on), not an accent color.',

@@ -2877,7 +2877,7 @@
         "action": {
           "type": "ReactNode",
           "required": false,
-          "description": "Free action content (e.g. a Button xs), rendered as given after actions."
+          "description": "Free action content (e.g. a Button xs), rendered after actions. The alert provides a tone scope (ToneScopeContext): a Button or IconButton without tone takes the alert tone. Popover, Menu and Dialog content opened from it reset the scope."
         },
         "dismissible": {
           "type": "boolean",
@@ -2896,7 +2896,7 @@
           "action": {
             "type": "ReactNode",
             "required": false,
-            "description": "Free action content (e.g. a Button xs), rendered as given after actions."
+            "description": "Free action content (e.g. a Button xs), rendered after actions. The alert provides a tone scope (ToneScopeContext): a Button or IconButton without tone takes the alert tone. Popover, Menu and Dialog content opened from it reset the scope."
           },
           "actions": {
             "type": "AlertAction[]",
@@ -3129,7 +3129,7 @@
         "notes": [
           "Info, success and warning render role=\"status\" (polite); danger renders role=\"alert\" (assertive).",
           "The tone is carried by the message text, not by color alone; the icon is aria-hidden.",
-          "The message uses the tone text (step 11), which keeps 4.5 : 1 on the tint fill; the icon uses the tone graphic (step 8, 3 : 1). Actions from the actions prop are Buttons in the alert tone (tone solid / soft keep their own text contrast); free action content and the dismiss button set their own colors."
+          "The message uses the tone text (step 11), which keeps 4.5 : 1 on the tint fill; the icon uses the tone graphic (step 8, 3 : 1). Actions from the actions prop are Buttons in the alert tone (tone solid / soft keep their own text contrast); controls without a tone in the free action content, the message and the dismiss button take the alert tone through the tone scope (tone soft / ghost buttons keep their own text contrast on the tint)."
         ]
       },
       "flags": {
@@ -6515,7 +6515,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "neutral",
           "required": false,
-          "description": "Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis).",
+          "description": "Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis). Unset inside a coloured container (Alert, or any ToneScopeContext): the container tone, variant soft unless set; on a solid container neutral outline. An explicit tone always wins.",
           "values": [
             "neutral",
             "accent",
@@ -6715,7 +6715,7 @@
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\" | LegacyTone",
             "default": "neutral",
             "required": false,
-            "description": "Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis).",
+            "description": "Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis). Unset inside a coloured container (Alert, or any ToneScopeContext): the container tone, variant soft unless set; on a solid container neutral outline. An explicit tone always wins.",
             "values": [
               "ghost",
               "neutral",
@@ -29275,7 +29275,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent' | 'ghost' | 'ink'",
           "default": "neutral",
           "required": false,
-          "description": "Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid.",
+          "description": "Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid. Unset inside a coloured container (Alert, or any ToneScopeContext) that is not solid: the container tone (variant ghost unless set). An explicit tone always wins.",
           "values": [
             "neutral",
             "accent",
@@ -29471,7 +29471,7 @@
             "type": "\"ghost\" | \"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\" | \"ink\"",
             "default": "neutral",
             "required": false,
-            "description": "Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid.",
+            "description": "Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid. Unset inside a coloured container (Alert, or any ToneScopeContext) that is not solid: the container tone (variant ghost unless set). An explicit tone always wins.",
             "values": [
               "ghost",
               "neutral",
@@ -58394,10 +58394,42 @@
       "diff-remove-bg",
       "diff-add-text",
       "diff-remove-text",
+      "syntax-foreground",
       "syntax-keyword",
       "syntax-string",
       "syntax-property",
       "syntax-comment",
+      "syntax-number",
+      "syntax-constant",
+      "syntax-function",
+      "syntax-type",
+      "syntax-parameter",
+      "syntax-variable",
+      "syntax-operator",
+      "syntax-punctuation",
+      "syntax-tag",
+      "syntax-attr",
+      "syntax-regexp",
+      "syntax-link",
+      "syntax-heading",
+      "syntax-inserted",
+      "syntax-deleted",
+      "ansi-black",
+      "ansi-red",
+      "ansi-green",
+      "ansi-yellow",
+      "ansi-blue",
+      "ansi-magenta",
+      "ansi-cyan",
+      "ansi-white",
+      "ansi-bright-black",
+      "ansi-bright-red",
+      "ansi-bright-green",
+      "ansi-bright-yellow",
+      "ansi-bright-blue",
+      "ansi-bright-magenta",
+      "ansi-bright-cyan",
+      "ansi-bright-white",
       "canvas-dot",
       "canvas-selection",
       "canvas-handle",

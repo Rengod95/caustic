@@ -115,6 +115,7 @@ export default defineSpec({
   composition: { uses: ['badge', 'kbd', 'picker-trigger'], radix: ['@radix-ui/react-dropdown-menu'] },
   examples: [{ id: 'select-and-menu', title: 'Select & menu', doc: 'select-menu#select-and-menu' }],
   usage: [
+    'Tone scope (2026-11-12): the content resets ToneScopeContext to null, so buttons inside do not take the tone of an Alert the layer was opened from.',
     'Select, Combobox and DatePicker do not respecify the surface or the item: they import the menu surface and item variants. Edit the anatomy here only.',
     'P5: item radius lg (10) = surface radius 2xl (16) − padding 6. Changing the padding changes the item radius.',
     'Fixture convention: in render(props), item-level props (selected, tone, disabled) and the pseudo-state apply to the FIRST MenuItem, which is a plain item in the default render, so slot probes (first match) see them. The heading, icon, end and separator are present in the default render. The example reproduces the specimen order (Themes heading, selected Lagoon, Lagoon Dark, highlighted Orbit Brand with a ⌘ 3 chord, separator, Generate from prompt…, danger Delete theme).',

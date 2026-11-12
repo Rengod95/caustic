@@ -6,6 +6,7 @@ import { createContext, use, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { defined } from '../../lib/defined.ts';
+import { ToneScopeContext } from '../../lib/tone-scope.ts';
 import { Button } from '../button/button.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
 import {
@@ -137,7 +138,7 @@ export function Dialog({
         {trigger != null && <AD.Trigger asChild>{trigger}</AD.Trigger>}
         <AD.Portal>
           <AD.Overlay data-slot="dialog-overlay" className={overlayClass} />
-          <AD.Content data-slot="dialog" {...defined({ onOpenAutoFocus })} {...surface}>{content}</AD.Content>
+          <AD.Content data-slot="dialog" {...defined({ onOpenAutoFocus })} {...surface}><ToneScopeContext value={null}>{content}</ToneScopeContext></AD.Content>
         </AD.Portal>
       </AD.Root>
     );
@@ -153,7 +154,7 @@ export function Dialog({
       })}
       {...surface}
     >
-      {content}
+      <ToneScopeContext value={null}>{content}</ToneScopeContext>
     </D.Content>
   );
   return (
