@@ -147,7 +147,7 @@ Naming:
 | Form fields | 36 · 40 · 44 (`--cs-field-*`) |
 | Segmented container | 4px padding; container radius 12, segment radius 8 |
 | Toolbars (capsule, zoom, context bar) | radius 14, items 10 (`--cs-studio-toolbar-radius`, `-item-radius`); never a full pill |
-| Toast | min height 60, radius 22 (`--cs-studio-toast-radius`), solid `material.regular`, one elevation shadow |
+| Toast | min height 48 (xs 32 · sm 40 · lg 64), radius 16 (2xl), outline surface (`surface.base` + 1px tone border), a bare tone glyph (no disc), elevation 3 (owner 2026-11-12) |
 | Tool call header | 40 |
 | Switch | iOS proportions: 64 × 28, thumb 40 × 24; stretches while pressed. Small 48 × 23 (32 × 18 under desktop density) |
 | Checkbox, radio | 18 |
