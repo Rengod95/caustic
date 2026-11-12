@@ -14089,7 +14089,7 @@
           "el": "button",
           "parent": "ChoiceGroup",
           "required": true,
-          "description": "One option: role radio (single, roving tabindex) or checkbox (multiple), aria-checked, data-state, data-value. card: a CardChoice (data-kind=\"choice\", plain skin) painted as the former ChoiceCards: grid content | indicator, xl radius, 14px padding, 4px gap, surface.base with a border.default hairline; it lifts on hover like every CardChoice. tile: grid, content centred, lg radius, 1px border.default edge drawn inside, 54px (caption) or 62px (icon) tall. answer: grid with a 20px indicator column and the text, 8px gap, 10px padding, lg radius, 1px inset edge."
+          "description": "One option: role radio (single, roving tabindex) or checkbox (multiple), aria-checked, data-state, data-value. card: a CardChoice (data-kind=\"choice\", plain skin) painted as the former ChoiceCards: grid content | indicator, xl radius, 14px padding, 4px gap, surface.base with a border.default hairline; on hover its shadow rises like every CardChoice (no movement). tile: grid, content centred, lg radius, 1px border.default edge drawn inside, 54px (caption) or 62px (icon) tall. answer: grid with a 20px indicator column and the text, 8px gap, 10px padding, lg radius, 1px inset edge."
         }
       ],
       "events": {
@@ -29520,7 +29520,7 @@
             "ghost"
           ],
           "default": "ghost",
-          "description": "Emphasis (common prop). ghost = quiet, fills on hover (neutral.hover; hued: tone text, tint 2 hover, soft 3 press); soft = soft 3 fill; outline = border 6 edge; solid = solid 9 fill (neutral: the ink action with the control edge and a 1.06 hover scale, e.g. the send button). Pressed inverts in every tone and variant."
+          "description": "Emphasis (common prop). ghost = quiet, fills on hover (neutral.hover; hued: tone text, tint 2 hover, soft 3 press); soft = soft 3 fill; outline = border 6 edge; solid = solid 9 fill (neutral: the ink action with the control edge and the ink.solid-hover fill on hover, e.g. the send button). Pressed inverts in every tone and variant."
         },
         "radius": {
           "values": [
@@ -50304,7 +50304,7 @@
         "labelRequired": false,
         "notes": [
           "The accessible name of a card is its title plus hint text (the icon is aria-hidden).",
-          "Reduced motion removes the hover lift."
+          "Reduced motion removes the press scale and the rise."
         ]
       },
       "flags": {
@@ -53419,7 +53419,7 @@
             "5"
           ],
           "default": "none",
-          "description": "Card elevation at rest; none is the specimen (the hairline is the one depth cue); hover still lifts to elevation 3."
+          "description": "Card elevation at rest; none is the specimen (the hairline is the one depth cue); hover still raises the shadow to elevation 3."
         }
       },
       "sizes": {
@@ -53438,7 +53438,7 @@
           "el": "button",
           "parent": "ThemeGallery",
           "required": true,
-          "description": "One theme card. A grid, 2xl radius, overflow hidden, base surface with a hairline edge and no elevation at rest (one depth cue), left-aligned text. aria-checked = selected, roving tabindex. On hover it lifts 2px (the specimen's spring, base duration) and the hairline gives way to elevation 3."
+          "description": "One theme card. A grid, 2xl radius, overflow hidden, base surface with a hairline edge and no elevation at rest (one depth cue), left-aligned text. aria-checked = selected, roving tabindex. On hover the hairline gives way to elevation 3; the card does not move (owner 2026-11-11)."
         }
       ],
       "events": {
@@ -53459,8 +53459,8 @@
         "notes": [
           "A radio group of buttons: role radiogroup > role radio with aria-checked and roving tabindex. The accessible name of a card is the theme name (aria-labelledby the name); the caption is its description (aria-describedby).",
           "The mini app and the color dots are decorative (aria-hidden): the colors are not described, so do not rely on them to tell themes apart; the name does.",
-          "Selection is the 1.5px selection-ink ring plus a check mark and aria-checked, never the focus ring and not only a lift.",
-          "Hover lift is 2px over a base duration and is removed under reduced motion."
+          "Selection is the 1.5px selection-ink ring plus a check mark and aria-checked, never the focus ring and not only a shadow.",
+          "Hover changes only the shadow; the press scale is removed under reduced motion."
         ]
       },
       "flags": {
@@ -58773,7 +58773,6 @@
       "transition-control",
       "press",
       "press-sm",
-      "lift",
       "enter-scale",
       "enter-from-side",
       "enter-up",

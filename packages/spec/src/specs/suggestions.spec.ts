@@ -54,12 +54,12 @@ export default defineSpec({
   ],
   behavior: {
     keyboard: { Enter: 'activate', Space: 'activate', Tab: 'moves between suggestions' },
-    pointer: ['hover lifts the card 2px'],
+    pointer: ['hover changes the card fill only (no lift, owner 2026-11-11); press settles to 0.98'],
     scenarios: [
       { name: 'click activates', steps: [{ do: 'click', slot: 'item' }], expect: [{ event: 'onClick', calls: 1 }] },
     ],
   },
-  a11y: { notes: ['The accessible name of a card is its title plus hint text (the icon is aria-hidden).', 'Reduced motion removes the hover lift.'] },
+  a11y: { notes: ['The accessible name of a card is its title plus hint text (the icon is aria-hidden).', 'Reduced motion removes the press scale and the rise.'] },
   policies: ['P1', 'P6'],
   flags: { floating: true },
   usage: [

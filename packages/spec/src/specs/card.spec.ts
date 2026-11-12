@@ -147,7 +147,7 @@ export default defineSpec({
     { slot: 'visual', when: { variant: 'feature' }, expect: { bg: 'bg.inset', radius: 'xl', minHeight: 80 } },
     // CardLink (was CardAction kind=link)
     { slot: 'root', when: { href: '#' }, expect: { bg: 'surface.base', edge: 'border.subtle', cursor: 'pointer' }, note: 'A link card is a target, not a reading card: its body stays text.secondary.' },
-    { slot: 'root', when: { href: '#', state: 'hover' }, expect: { shadow: 'lift' }, note: 'The lift elevation replaces the hairline. Also translateY(-2px); transition transform + shadow with duration-base and ease-spring. Reduced motion keeps the shadow change and drops the transform.' },
+    { slot: 'root', when: { href: '#', state: 'hover' }, expect: { shadow: 'lift' }, note: 'The lift elevation replaces the hairline on quick/out. The card does not move (owner 2026-11-11); only the press scales (0.98, spring), and reduced motion drops it.' },
     { slot: 'root', when: { href: '#', state: 'focus-visible' }, expect: { ring: 'focus' } },
     { slot: 'arrow', when: { href: '#' }, expect: { fg: 'text.tertiary', height: 'icon-sm', width: 'icon-sm' } },
     { slot: 'arrow', when: { href: '#', state: 'hover' }, expect: { fg: 'text.primary' } },
@@ -173,7 +173,7 @@ export default defineSpec({
   behavior: {
     keyboard: { Enter: 'follows a link card, presses the add card, or chooses a choice card', Space: 'presses the add card or chooses (toggles) a choice card' },
     pointer: [
-      'link and choice cards: the whole card is the target; hover lifts it 2px and nudges the arrow; the dashed add card fills with neutral.hover instead',
+      'link and choice cards: the whole card is the target; hover raises the shadow and nudges the arrow, the card does not move; the dashed add card fills with neutral.hover instead',
       'outline: the edge strengthens on hover',
       'spotlight: pointermove sets --mx and --my (px from the card top-left) on the root and the light follows; it fades in on hover. Only variant spotlight attaches the handler',
       'cover: the picture scales to 1.04 while the card is hovered or focused',

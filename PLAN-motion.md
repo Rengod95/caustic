@@ -1,5 +1,14 @@
 # Plan: motion v2 — tokens, presets and their use in every component (internal)
 
+> **v2.1 (Fresnel dz, owner 2026-11-11): crystal motion.** Quick to start, settling softly, never overshooting.
+> Durations quick 120 · swift 180 · base 220 · gentle 280 (slow 400). `out` is (0.22, 1, 0.36, 1); exits use `in`
+> (0.4, 0, 1, 1) at about 60% of their enter (`animate-exit` quick, `animate-exit-panel` swift, `collapse-close`
+> swift/standard); `animate-enter-dialog` is base. Every spring is critically damped (ζ 1; `bounce` keeps its name only).
+> Press is 0.98 for every size (`press`, `press-sm`). `lift` and `shift.lift` are removed: hover never moves or scales a
+> control (Card, ChoiceGroup, Suggestions, ThemeGallery change their shadow only; IconButton ink takes `ink.solid-hover`
+> instead of a 1.06 scale). Reduced motion also follows `:root[data-motion="reduce"]` (base.css and `press`), so an app's
+> own setting reaches every component. The tables below are the v2 history; where they differ, this note wins.
+
 Internal document. Research notes live in `../color-language-work/motion/` (Fleet-UI, design-system tokens, craft
 practice, per-component inventories a–l and m–z).
 

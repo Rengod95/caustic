@@ -660,12 +660,12 @@
   --animate-slide: cs-slide var(--cs-duration-slide) linear infinite;
   --animate-scan: cs-scan var(--cs-duration-scan) var(--cs-ease-out) infinite;
   --animate-enter: cs-enter var(--cs-duration-swift) var(--cs-ease-out) backwards;
-  --animate-exit: cs-exit var(--cs-duration-quick) var(--cs-ease-out) both;
-  --animate-enter-dialog: cs-enter var(--cs-duration-gentle) var(--cs-ease-out) backwards;
+  --animate-exit: cs-exit var(--cs-duration-quick) var(--cs-ease-in) both;
+  --animate-enter-dialog: cs-enter var(--cs-duration-base) var(--cs-ease-out) backwards;
   --animate-enter-panel: cs-enter var(--cs-duration-gentle) var(--cs-ease-drawer) backwards;
-  --animate-exit-panel: cs-exit var(--cs-duration-base) var(--cs-ease-drawer) both;
+  --animate-exit-panel: cs-exit var(--cs-duration-swift) var(--cs-ease-in) both;
   --animate-collapse-open: cs-collapse-open var(--cs-duration-base) var(--cs-ease-out);
-  --animate-collapse-close: cs-collapse-close var(--cs-duration-base) var(--cs-ease-out) forwards;
+  --animate-collapse-close: cs-collapse-close var(--cs-duration-swift) var(--cs-ease-standard) forwards;
   --animate-rise: cs-rise var(--cs-duration-swift) var(--cs-ease-out) backwards;
   --animate-pop: cs-pop var(--cs-duration-snappy) var(--cs-ease-snappy) backwards;
   @keyframes cs-rot { to { transform: rotate(360deg); } }
@@ -760,8 +760,10 @@
   animation: cs-shimmer var(--cs-duration-shimmer) linear infinite;
 }
 /* Motion presets. Scale and translate are their own properties in Tailwind 4, so a transition list names them (or uses
-   transition-control). press and lift only move when the user allows motion; reduced motion is global (base.css). */
-/* Colour and opacity change on quick/out; scale and translate (press release, lift) settle on the spring, so a release
+   transition-control). press only moves when the user allows motion: the media query, or an app that sets
+   data-motion="reduce" on the root for its own setting. Reduced motion is otherwise global (base.css). Nothing scales or
+   moves on hover (no lift, owner 2026-11-11).  */
+/* Colour and opacity change on quick/out; scale and translate (press release) settle on the spring, so a release
    eases back instead of snapping. press and press-sm take the press-in itself on swift/out (the transition of the state
    being entered applies). The lists follow the property order. */
 @utility transition-control {
@@ -771,19 +773,14 @@
 }
 @utility press {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press); }
+    :root:not([data-motion="reduce"]) &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press); }
     &:is(.transition-control):active { transition-duration: var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-swift), var(--cs-duration-spring); transition-timing-function: var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-spring); }
   }
 }
 @utility press-sm {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press-sm); }
+    :root:not([data-motion="reduce"]) &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press-sm); }
     &:is(.transition-control):active { transition-duration: var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-swift), var(--cs-duration-spring); transition-timing-function: var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-spring); }
-  }
-}
-@utility lift {
-  @media (prefers-reduced-motion: no-preference) {
-    &:hover:not(:disabled, [aria-disabled="true"]) { translate: 0 calc(var(--cs-shift-lift) * -1); }
   }
 }
 @utility enter-scale { --cs-enter-scale: var(--cs-scale-enter); }

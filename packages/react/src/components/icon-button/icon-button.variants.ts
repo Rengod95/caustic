@@ -1,7 +1,8 @@
 import { cva } from 'class-variance-authority';
 
 // The variant is the emphasis and the tone its colour family (lib/common-props). ghost neutral is the quiet default;
-// solid neutral is the ink action (the deprecated tone="ink"): one depth cue, the control edge, and a 1.06 scale on hover.
+// solid neutral is the ink action (the deprecated tone="ink"): one depth cue, the control edge, and the ink hover fill
+// (no hover scale, owner 2026-11-11).
 // Pressed inverts in every tone and variant (selected utility: ink fill, paper icon, no edge); disabled drops the
 // inversion and the tone (disabled is a colour, not opacity).
 export const iconButtonVariants = cva(
@@ -16,7 +17,7 @@ export const iconButtonVariants = cva(
     variants: {
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
       variant: {
-        solid: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:scale-[1.06] disabled:bg-disabled-fill disabled:shadow-none',
+        solid: 'bg-ink-solid text-ink-on shadow-[inset_0_0_0_1px_var(--cs-color-control-edge)] hover:bg-ink-solid-hover disabled:bg-disabled-fill disabled:shadow-none',
         soft: 'bg-neutral-soft text-text-primary hover:bg-neutral-soft-hover active:bg-neutral-soft-pressed disabled:bg-disabled-fill',
         outline: 'bg-transparent text-text-secondary shadow-[inset_0_0_0_1px_var(--cs-color-neutral-border)] hover:bg-neutral-hover hover:text-text-primary disabled:shadow-[inset_0_0_0_1px_var(--cs-color-disabled-border)]',
         ghost: 'bg-transparent text-text-secondary hover:bg-neutral-hover hover:text-text-primary',
@@ -34,12 +35,12 @@ export const iconButtonVariants = cva(
     compoundVariants: [
       // Hued solid keeps the ink action's single depth cue as its own solid: solid 9 → hover solid-hover 10, no edge.
       // solid × tone
-      { variant: 'solid', tone: 'accent', className: 'bg-accent-solid text-accent-on shadow-none hover:scale-100 hover:bg-accent-solid-hover' },
-      { variant: 'solid', tone: 'success', className: 'bg-success-solid text-success-on shadow-none hover:scale-100 hover:bg-success-solid-hover' },
-      { variant: 'solid', tone: 'warning', className: 'bg-warning-solid text-warning-on shadow-none hover:scale-100 hover:bg-warning-solid-hover' },
-      { variant: 'solid', tone: 'danger', className: 'bg-danger-solid text-danger-on shadow-none hover:scale-100 hover:bg-danger-solid-hover' },
-      { variant: 'solid', tone: 'info', className: 'bg-info-solid text-info-on shadow-none hover:scale-100 hover:bg-info-solid-hover' },
-      { variant: 'solid', tone: 'agent', className: 'bg-agent-solid text-agent-on shadow-none hover:scale-100 hover:bg-agent-solid-hover' },
+      { variant: 'solid', tone: 'accent', className: 'bg-accent-solid text-accent-on shadow-none hover:bg-accent-solid-hover' },
+      { variant: 'solid', tone: 'success', className: 'bg-success-solid text-success-on shadow-none hover:bg-success-solid-hover' },
+      { variant: 'solid', tone: 'warning', className: 'bg-warning-solid text-warning-on shadow-none hover:bg-warning-solid-hover' },
+      { variant: 'solid', tone: 'danger', className: 'bg-danger-solid text-danger-on shadow-none hover:bg-danger-solid-hover' },
+      { variant: 'solid', tone: 'info', className: 'bg-info-solid text-info-on shadow-none hover:bg-info-solid-hover' },
+      { variant: 'solid', tone: 'agent', className: 'bg-agent-solid text-agent-on shadow-none hover:bg-agent-solid-hover' },
       // soft × tone
       { variant: 'soft', tone: 'accent', className: 'bg-accent-soft text-accent-text hover:bg-accent-soft-hover active:bg-accent-soft-pressed' },
       { variant: 'soft', tone: 'success', className: 'bg-success-soft text-success-text hover:bg-success-soft-hover active:bg-success-soft-pressed' },

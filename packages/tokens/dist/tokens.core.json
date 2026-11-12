@@ -5467,28 +5467,28 @@
     "quick": {
       "$type": "duration",
       "$value": {
-        "value": 100,
+        "value": 120,
         "unit": "ms"
       }
     },
     "swift": {
       "$type": "duration",
       "$value": {
-        "value": 150,
+        "value": 180,
         "unit": "ms"
       }
     },
     "base": {
       "$type": "duration",
       "$value": {
-        "value": 200,
+        "value": 220,
         "unit": "ms"
       }
     },
     "gentle": {
       "$type": "duration",
       "$value": {
-        "value": 250,
+        "value": 280,
         "unit": "ms"
       }
     },
