@@ -209,7 +209,7 @@ export const themes = {
     'agent.stop-2': 'agent-2.9',
     'agent.stop-3': 'agent-3.9',
     'agent.glow': 'agent-1.9/0.45',
-    'diff.add-bg': 'success.3',
+    'diff.add-bg': 'success.2',
     'diff.remove-bg': 'danger.3',
     'diff.add-text': 'success.11',
     'diff.remove-text': 'danger.11',

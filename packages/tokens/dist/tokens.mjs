@@ -2875,7 +2875,7 @@ export default {
       "agent.stop-2": "agent-2.9",
       "agent.stop-3": "agent-3.9",
       "agent.glow": "agent-1.9/0.45",
-      "diff.add-bg": "success.3",
+      "diff.add-bg": "success.2",
       "diff.remove-bg": "danger.3",
       "diff.add-text": "success.11",
       "diff.remove-text": "danger.11",
@@ -3788,7 +3788,7 @@ export default {
         "alpha": 0.45
       },
       "diff.add-bg": {
-        "hex": "#cdf6d4",
+        "hex": "#e2fce6",
         "alpha": 1
       },
       "diff.remove-bg": {
@@ -4092,7 +4092,7 @@ export default {
         "alpha": 0.11
       },
       "diff.add": {
-        "hex": "#cdf6d4",
+        "hex": "#e2fce6",
         "alpha": 1
       },
       "diff.remove": {
