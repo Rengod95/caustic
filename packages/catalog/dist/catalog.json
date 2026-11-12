@@ -17913,7 +17913,7 @@
           "el": "button",
           "parent": "Combobox",
           "required": false,
-          "description": "ComboboxRow: an action row (model menu \"Connect provider…\"): the option box (min 30px, lg radius, 8px padding and gap) in tertiary text; a Tab stop with the focus ring. Not an option."
+          "description": "ComboboxRow: an action row (model menu \"Connect provider…\"): the option box (min 30px, xl radius, 8px padding and gap) in tertiary text; a Tab stop with the focus ring. Not an option."
         },
         {
           "name": "ComboboxTile",
@@ -35070,7 +35070,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "neutral",
           "required": false,
-          "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item inverts whatever its tone.",
+          "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item takes the neutral selected fill whatever its tone.",
           "values": [
             "neutral",
             "accent",
@@ -35184,7 +35184,7 @@
           "type": "boolean",
           "default": false,
           "required": false,
-          "description": "MenuItem prop. Marks the chosen item (inverted: selection.fill, selection.on text and check); sets aria-checked inside a radio group."
+          "description": "MenuItem prop. Marks the chosen item (light neutral.selected fill, text colours kept, trailing check); sets aria-checked inside a radio group."
         },
         "disabled": {
           "type": "boolean",
@@ -35296,7 +35296,7 @@
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
             "default": "neutral",
             "required": false,
-            "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item inverts whatever its tone.",
+            "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item takes the neutral selected fill whatever its tone.",
             "values": [
               "neutral",
               "accent",
@@ -35351,13 +35351,13 @@
             "type": "boolean",
             "default": false,
             "required": false,
-            "description": "MenuItem prop. Marks the chosen item (inverted: selection.fill, selection.on text and check); sets aria-checked inside a radio group."
+            "description": "MenuItem prop. Marks the chosen item (light neutral.selected fill, text colours kept, trailing check); sets aria-checked inside a radio group."
           },
           "tone": {
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\" | \"default\"",
             "default": "neutral",
             "required": false,
-            "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item inverts whatever its tone.",
+            "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item takes the neutral selected fill whatever its tone.",
             "values": [
               "neutral",
               "accent",
@@ -35389,7 +35389,7 @@
             "agent"
           ],
           "default": "neutral",
-          "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item inverts whatever its tone."
+          "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item takes the neutral selected fill whatever its tone."
         },
         "variant": {
           "values": [
@@ -45803,7 +45803,7 @@
         "notes": [
           "Trigger role=\"combobox\" aria-haspopup=\"listbox\"; wrap in Field for the label (Radix wires aria-labelledby).",
           "The hidden native select keeps form posts and autofill working.",
-          "The chosen option is marked by aria-selected, the inverted fill and the trailing check together."
+          "The chosen option is marked by aria-selected, the selected fill and the trailing check together."
         ]
       },
       "flags": {

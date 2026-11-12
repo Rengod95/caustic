@@ -60,7 +60,7 @@ export function Menu({ open, defaultOpen, onOpenChange, trigger, side = 'bottom'
         <DM.Root {...defined({ open, defaultOpen, onOpenChange })}>
           {trigger != null && <DM.Trigger asChild>{trigger}</DM.Trigger>}
           <DM.Portal>
-            <DM.Content data-slot="menu" side={side} align={align} sideOffset={6} className={cn(surface, 'z-60 origin-(--radix-dropdown-menu-content-transform-origin)', className)} {...props}><ToneScopeContext value={null}>{children}</ToneScopeContext></DM.Content>
+            <DM.Content data-slot="menu" side={side} align={align} sideOffset={6} className={cn(surface, 'z-60 flex flex-col gap-1 origin-(--radix-dropdown-menu-content-transform-origin)', className)} {...props}><ToneScopeContext value={null}>{children}</ToneScopeContext></DM.Content>
           </DM.Portal>
         </DM.Root>
       </MenuContext.Provider>
@@ -72,7 +72,7 @@ export function Menu({ open, defaultOpen, onOpenChange, trigger, side = 'bottom'
     <MenuContext.Provider value={{ inline: true, close, size }}>
       <div
         role="menu" aria-orientation="vertical" tabIndex={-1} data-slot="menu" data-state={entry.present ? 'open' : 'closed'} data-inline=""
-        className={cn(surface, 'data-[state=closed]:pointer-events-none', className)}
+        className={cn(surface, 'flex flex-col gap-1 data-[state=closed]:pointer-events-none', className)}
         {...props}
         inert={!entry.present || undefined} aria-hidden={!entry.present || undefined}
         onAnimationEnd={e => { props.onAnimationEnd?.(e); if (!entry.present && e.target === e.currentTarget) presence.exited(entry.key); }}

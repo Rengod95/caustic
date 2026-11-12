@@ -90,7 +90,7 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
           </RS.Trigger>
           <RS.Portal>
             <RS.Content data-slot="select" position="popper" sideOffset={6} className={cn(surface, 'z-60 min-w-[var(--radix-select-trigger-width)] max-w-modal-sm max-h-(--radix-select-content-available-height) origin-(--radix-select-content-transform-origin) overflow-y-auto', listboxClassName)}>
-              <RS.Viewport>{children}</RS.Viewport>
+              <RS.Viewport className="flex flex-col gap-1">{children}</RS.Viewport>
             </RS.Content>
           </RS.Portal>
         </RS.Root>
@@ -117,7 +117,7 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
           inert={!list.present || undefined} aria-hidden={!list.present || undefined}
           onAnimationEnd={e => { if (!list.present && e.target === e.currentTarget) presence.exited(list.key); }}
           aria-label={typeof props['aria-label'] === 'string' ? props['aria-label'] : undefined}
-          className={cn(surface, 'data-[state=closed]:pointer-events-none', listboxClassName)}
+          className={cn(surface, 'flex flex-col gap-1 data-[state=closed]:pointer-events-none', listboxClassName)}
           onKeyDown={onKeyDown}
         >
           {children}

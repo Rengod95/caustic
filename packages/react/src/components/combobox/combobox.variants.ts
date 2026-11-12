@@ -33,30 +33,30 @@ export const comboboxVariants = cva('grid min-w-0 gap-1.5 outline-none', {
 export const comboboxListboxVariants = cva('grid min-w-0', {
   variants: {
     mode: { inline: 'max-h-listbox-max overflow-y-auto', popup: '' },
-    grouped: { true: '', false: 'gap-0.5' },
+    grouped: { true: 'gap-1', false: 'gap-1' },
   },
   compoundVariants: [{ mode: 'popup', grouped: false, className: 'mt-1' }],
   defaultVariants: { mode: 'inline', grouped: false },
 });
 
-/** One group: heading, then its options 2px apart. */
-export const comboboxGroupVariants = cva('grid gap-0.5');
+/** One group: heading, then its options 4px apart (the surface padding). */
+export const comboboxGroupVariants = cva('grid gap-1');
 
 /**
- * Option state on top of the menu item anatomy: the chosen option inverts (selected utility: ink fill, paper text, no edge;
- * its leading icon, match, description, meta and trailing check invert with it), never accent soft and never the focus
- * ring. Hover or highlight is the grey fill only (owner 2026-10-27: no outline); on the chosen option it is
- * selection.fill-hover. A disabled chosen option drops the inversion. The row is at least the menu item height and grows
+ * Option state on top of the menu item anatomy: the chosen option takes the light neutral.selected fill and keeps its
+ * text colours, with a trailing check (owner 2026-11-12, as the menu item), never accent soft and never the focus ring.
+ * Hover or highlight is the grey fill only (owner 2026-10-27: no outline); on the chosen option it is
+ * neutral.selected-hover. A disabled chosen option is disabled.fill. The row is at least the menu item height and grows
  * with two-line content (renderOption). Applied after the menu item classes.
  */
 export const comboboxOptionVariants = cva([
   'h-auto min-h-menu-item',
-  'data-[selected]:not-data-[disabled]:selected',
-  'data-[selected]:hover:bg-selection-fill-hover data-[selected]:data-[highlighted]:bg-selection-fill-hover',
+  'data-[selected]:not-data-[disabled]:bg-neutral-selected',
+  'data-[selected]:not-data-[disabled]:hover:bg-neutral-selected-hover data-[selected]:not-data-[disabled]:data-[highlighted]:bg-neutral-selected-hover',
   'data-[disabled]:data-[selected]:bg-disabled-fill',
 ]);
 
-/** Leading swatch, icon or tile: 16px icons, tertiary (selection.on-tertiary on the chosen option). Direct icons only, so a tile keeps its own glyph size. */
+/** Leading swatch, icon or tile: 16px icons, tertiary (the chosen option keeps it). Direct icons only, so a tile keeps its own glyph size. */
 export const comboboxLeadingVariants = cva('inline-flex shrink-0 items-center text-text-tertiary group-data-[disabled]:text-disabled-text [&>svg]:size-icon-md');
 
 /** Label and description on one baseline (owner 2026-10-28, model menu): the label keeps its width, the description truncates first. */
@@ -64,16 +64,16 @@ export const comboboxTextVariants = cva('flex min-w-0 flex-1 items-baseline gap-
 
 export const comboboxLabelVariants = cva('max-w-full shrink-0 truncate');
 
-/** One-line summary after the label. Tertiary; on the chosen option selection.on-tertiary; disabled colour. */
+/** One-line summary after the label. Tertiary; disabled colour. */
 export const comboboxDescriptionVariants = cva('min-w-0 truncate text-ui-xs text-text-tertiary group-data-[disabled]:text-disabled-text');
 
-/** Trailing check of the chosen option (secondary, which reads selection.on-secondary on the inverted option); it takes the end position when there is no meta. */
+/** Trailing check of the chosen option (secondary); it takes the end position when there is no meta. */
 export const comboboxCheckVariants = cva('inline-flex shrink-0 items-center text-text-secondary group-data-[disabled]:text-disabled-text [&_svg]:size-icon-sm', {
   variants: { end: { true: 'ml-auto', false: '' } },
   defaultVariants: { end: true },
 });
 
-/** Right-aligned type or hint (color, dimension). Tertiary; on the chosen option it reads selection.on-tertiary (the selected utility re-points text.tertiary). */
+/** Right-aligned type or hint (color, dimension). Tertiary. */
 export const comboboxMetaVariants = cva('ml-auto shrink-0 text-hint text-text-tertiary');
 
 /** Trailing badge (Project, Missing) of an option that is not chosen; the check takes its place on the chosen one. */
@@ -109,14 +109,14 @@ export const comboboxSizerVariants = cva('invisible col-start-1 row-start-1 h-0 
 export const comboboxTriggerVariants = cva('col-start-1 row-start-1');
 
 /** Footer rows after the listbox, 2px apart and 2px under it. */
-export const comboboxFooterVariants = cva('mt-0.5 grid gap-0.5');
+export const comboboxFooterVariants = cva('grid gap-1');
 
 /**
  * A footer action row (model menu "Connect provider…"): the option box in tertiary text. It is a Tab stop, so focus
  * draws the ring.
  */
 export const comboboxRowVariants = cva([
-  'flex min-h-menu-item w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg px-2 text-left text-ui text-text-tertiary outline-none',
+  'flex min-h-menu-item w-full min-w-0 cursor-pointer items-center gap-2 rounded-xl px-2 text-left text-ui text-text-tertiary outline-none',
   'hover:bg-neutral-hover focus-visible:bg-neutral-hover focus-visible:shadow-focus transition-control press',
 ]);
 
