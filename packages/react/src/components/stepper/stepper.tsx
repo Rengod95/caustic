@@ -1,16 +1,17 @@
 'use client';
-import { Check, CircleAlert } from '../../icons/index.ts';
-import { useEffect, useId, useRef, useState, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
+import { Check, CircleAlert, Minus, X } from '../../icons/index.ts';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Variant } from '../../lib/common-props.ts';
 import {
-  stepperChecklistIndicator, stepperChecklistItem, stepperChecklistLabel, stepperChecklistMark, stepperChecklistShape,
-  stepperConnector, stepperCountClass, stepperProgressClipClass, stepperDescription, stepperDetailClass, stepperHeaderClass, stepperIndicator, stepperItem,
+  stepperChecklistCoreClass, stepperChecklistIndicator, stepperChecklistItem, stepperChecklistLabel, stepperChecklistMark, stepperChecklistShape,
+  stepperCompactHideClass, stepperConnector, stepperConnectorFill, stepperCoreBusyClass, stepperCoreClass, stepperCountClass, stepperFlowClass, stepperGrooveClass,
+  stepperHeadClass, stepperProgressClipClass, stepperDescription, stepperDetailClass, stepperHeaderClass, stepperIndicator, stepperItem, stepperRippleClass, stepperTextClass,
   stepperBareClass, stepperLabel, stepperPressIndicatorClass, stepperPressRowClass, stepperProgressClass, stepperProgressFillClass, stepperSteps, stepperTodoRingClass, stepperVariants,
 } from './stepper.variants.ts';
 
 /** Status of one step. Unset falls back to the value index (before value done, at value now, after it todo). */
-export type StepperStatus = 'done' | 'now' | 'todo' | 'failed';
+export type StepperStatus = 'done' | 'now' | 'todo' | 'failed' | 'skipped';
 
 export interface StepperStep {
   /** Stable key; the index is used when absent. */
@@ -23,6 +24,8 @@ export interface StepperStep {
   detail?: ReactNode;
   /** With onStepClick: false leaves this step unpressable (e.g. a step not reached yet). Default true. */
   clickable?: boolean;
+  /** The current step is working (a check running): its lens core breathes, a ring spreads out of it and light runs along the line into it. */
+  busy?: boolean;
 }
 
 export interface StepperProps extends Omit<ComponentProps<'div'>, 'title' | 'children'>, Omit<CommonProps, 'variant'> {
@@ -47,9 +50,34 @@ export interface StepperProps extends Omit<ComponentProps<'div'>, 'title' | 'chi
   children?: ReactNode;
 }
 
-type Internal = 'done' | 'current' | 'upcoming' | 'failed';
-const fromStatus: Record<StepperStatus, Internal> = { done: 'done', now: 'current', todo: 'upcoming', failed: 'failed' };
-const toStatus: Record<Internal, StepperStatus> = { done: 'done', current: 'now', upcoming: 'todo', failed: 'failed' };
+type Internal = 'done' | 'current' | 'upcoming' | 'failed' | 'skipped';
+const fromStatus: Record<StepperStatus, Internal> = { done: 'done', now: 'current', todo: 'upcoming', failed: 'failed', skipped: 'skipped' };
+const toStatus: Record<Internal, StepperStatus> = { done: 'done', current: 'now', upcoming: 'todo', failed: 'failed', skipped: 'skipped' };
+const fallbackWord: Partial<Record<Internal, string>> = { done: 'completed', failed: 'failed', skipped: 'skipped' };
+
+/**
+ * Narrow row (horizontal progress): when the steps no longer fit, only the current step keeps its label beside the lens (the
+ * others keep theirs for screen readers). The width the full row needed is kept, so the labels return once it fits again.
+ */
+function useCompact(enabled: boolean) {
+  const ref = useRef<HTMLOListElement>(null);
+  const [compact, setCompact] = useState(false);
+  const need = useRef(0);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!enabled || !el || typeof ResizeObserver === 'undefined') return;
+    const fit = () => {
+      if (!compact) {
+        if (el.scrollWidth > el.clientWidth + 0.5) { need.current = el.scrollWidth; setCompact(true); }
+      } else if (el.clientWidth >= need.current) setCompact(false);
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [enabled, compact]);
+  return [ref, compact] as const;
+}
 
 /** The title row of the steps. */
 export function StepperHeader({ className, ...props }: ComponentProps<'div'>) {
@@ -80,7 +108,8 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
     </StepperHeader>
   ));
   const word = (s: Internal) => statusLabels?.[toStatus[s]];
-  const look = checklist ? variant : 'solid';
+  const look = checklist ? variant : 'soft';
+  const [rowRef, compact] = useCompact(!checklist && o === 'horizontal');
   const list = stepperSteps({ layout: checklist ? 'checklist' : o });
 
   // Checklist: a status region announces the step that changed (the one that became current or failed, else the last
@@ -130,8 +159,9 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
               <>
                 <span data-slot="stepper-indicator" data-status={s} aria-hidden className={stepperChecklistIndicator({ status: s })}>
                   {s === 'done' && <Check className="animate-pop" />}
-                  {s === 'current' && <span data-slot="stepper-orb" className={stepperChecklistMark({ tone })} />}
+                  {s === 'current' && <span data-slot="stepper-orb" className={stepperChecklistMark({ tone })}><span className={cn(stepperChecklistCoreClass, (tone === 'agent' || step.busy) && stepperCoreBusyClass)} /></span>}
                   {s === 'failed' && <CircleAlert />}
+                  {s === 'skipped' && <Minus />}
                   {s === 'upcoming' && <span data-slot="stepper-todo-ring" className={stepperTodoRingClass} />}
                 </span>
                 {word(s) != null && <span className="sr-only">{word(s)}: </span>}
@@ -147,32 +177,48 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
           })}
         </ol>
       ) : (
-        <ol data-slot="stepper-steps" className={list}>
+        <ol ref={rowRef} data-slot="stepper-steps" data-compact={compact || undefined} className={list}>
           {steps.map((step, i) => {
             const s = status[i]!;
             const vertical = o === 'vertical';
-            const hasConnector = vertical ? i < steps.length - 1 : i > 0;
-            const active = vertical ? s === 'done' : s !== 'upcoming';
+            const busy = s === 'current' && step.busy === true;
             const press = onStepClick != null && step.clickable !== false;
             const labelId = `${titleId}-step-${i}`;
             const Indicator = press ? 'button' : 'span';
+            const hidden = compact && s !== 'current';
+            // The line into this step (horizontal) or out of it (vertical) fills once the step before it is done or skipped.
+            const before = vertical ? s : status[i - 1];
+            const filled = before === 'done' || before === 'skipped';
+            const connector = (vertical ? i < steps.length - 1 : i > 0) && (
+              <span data-slot="stepper-connector" data-active={filled || undefined} aria-hidden className={stepperConnector({ orientation: o })}>
+                <span data-slot="stepper-connector-fill" className={stepperConnectorFill({ orientation: o, active: filled })} />
+                {!vertical && busy && <span data-slot="stepper-flow" className={stepperFlowClass} />}
+              </span>
+            );
+            const word_ = word(s) ?? fallbackWord[s];
+            const indicator = (
+              <Indicator data-slot="stepper-indicator" data-status={s} data-busy={busy || undefined} data-pressable={press || undefined} {...(press ? { type: 'button' as const, 'aria-labelledby': labelId, onClick: () => onStepClick(i, step) } : {})} className={cn(stepperIndicator({ status: s, variant, size, radius, shadow }), press && stepperPressIndicatorClass)}>
+                {s === 'done' ? <Check className="animate-pop" emphasis="selected" aria-hidden />
+                  : s === 'failed' ? <X aria-hidden />
+                  : s === 'skipped' ? <Minus aria-hidden />
+                  : s === 'current' ? (<>
+                    {busy && <span data-slot="stepper-ripple" aria-hidden className={stepperRippleClass} />}
+                    <span aria-hidden className={stepperGrooveClass} />
+                    <span data-slot="stepper-core" aria-hidden className={cn(stepperCoreClass, busy && stepperCoreBusyClass)} />
+                  </>)
+                  : <span aria-hidden>{i + 1}</span>}
+                {word_ != null && <span className="sr-only">{word_}</span>}
+              </Indicator>
+            );
             const text = (
-              <>
-                <b data-slot="stepper-label" id={press ? labelId : undefined} className={cn(stepperLabel({ orientation: o, status: s }))}>{step.label}</b>
-                {step.description != null && (vertical
-                  ? <p data-slot="stepper-description" className={stepperDescription({ orientation: o })}>{step.description}</p>
-                  : <span data-slot="stepper-description" className={stepperDescription({ orientation: o })}>{step.description}</span>)}
-              </>
+              <span className={cn(stepperTextClass, hidden && stepperCompactHideClass)}>
+                <span data-slot="stepper-label" id={press ? labelId : undefined} className={stepperLabel({ orientation: o, status: s, size })}>{step.label}</span>
+                {step.description != null && <span data-slot="stepper-description" className={stepperDescription({ orientation: o })}>{step.description}</span>}
+              </span>
             );
             return (
-              <li key={step.id ?? i} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} className={stepperItem({ orientation: o })}>
-                {hasConnector && <span data-slot="stepper-connector" aria-hidden className={stepperConnector({ orientation: o, active })} />}
-                <Indicator data-slot="stepper-indicator" data-status={s} data-pressable={press || undefined} {...(press ? { type: 'button' as const, 'aria-labelledby': labelId, onClick: () => onStepClick(i, step) } : {})} className={cn(stepperIndicator({ status: s, variant, size, radius, shadow }), press && stepperPressIndicatorClass)}>
-                  {s === 'done' ? (<><Check className="size-3.5 animate-pop" emphasis="selected" aria-hidden /><span className="sr-only">{word(s) ?? 'completed'}</span></>)
-                    : s === 'failed' ? (<><CircleAlert className="size-3.5" aria-hidden /><span className="sr-only">{word(s) ?? 'failed'}</span></>)
-                    : (<>{i + 1}{word(s) != null && <span className="sr-only"> {word(s)}</span>}</>)}
-                </Indicator>
-                {vertical ? <div>{text}</div> : text}
+              <li key={step.id ?? i} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} aria-busy={busy || undefined} className={stepperItem({ orientation: o })}>
+                {vertical ? <>{connector}{indicator}{text}</> : <>{connector}<span className={stepperHeadClass}>{indicator}{text}</span></>}
               </li>
             );
           })}

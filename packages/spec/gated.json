@@ -321,7 +321,7 @@
   },
   "plan": {
     "specHash": "ff15a51014c8e76d",
-    "at": "2026-11-01T06:20:02.947Z"
+    "at": "2026-11-13T14:28:45.764Z"
   },
   "policy-findings": {
     "specHash": "aa6dabcff71ba8a7",
@@ -398,10 +398,6 @@
   "status-dot": {
     "specHash": "cd8ffdc82d3d5cde",
     "at": "2026-11-01T06:40:23.634Z"
-  },
-  "stepper": {
-    "specHash": "39d5b1281619d783",
-    "at": "2026-11-01T06:19:34.137Z"
   },
   "stroke-editor": {
     "specHash": "0de8680516379758",
