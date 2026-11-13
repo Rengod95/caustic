@@ -56,27 +56,26 @@ const toStatus: Record<Internal, StepperStatus> = { done: 'done', current: 'now'
 const fallbackWord: Partial<Record<Internal, string>> = { done: 'completed', failed: 'failed', skipped: 'skipped' };
 
 /**
- * Narrow row (horizontal progress): when the steps no longer fit, only the current step keeps its label beside the lens (the
- * others keep theirs for screen readers). The width the full row needed is kept, so the labels return once it fits again.
+ * Narrow row (horizontal progress), two levels: 1 = only the current step keeps its label beside the lens, 2 = lenses only.
+ * Hidden labels stay for screen readers. The width each level needed is kept, so the labels return once it fits again.
  */
 function useCompact(enabled: boolean) {
   const ref = useRef<HTMLOListElement>(null);
-  const [compact, setCompact] = useState(false);
-  const need = useRef(0);
+  const [level, setLevel] = useState(0);
+  const need = useRef<number[]>([]);
   useLayoutEffect(() => {
     const el = ref.current;
     if (!enabled || !el || typeof ResizeObserver === 'undefined') return;
     const fit = () => {
-      if (!compact) {
-        if (el.scrollWidth > el.clientWidth + 0.5) { need.current = el.scrollWidth; setCompact(true); }
-      } else if (el.clientWidth >= need.current) setCompact(false);
+      if (level < 2 && el.scrollWidth > el.clientWidth + 0.5) { need.current[level] = el.scrollWidth; setLevel(level + 1); }
+      else if (level > 0 && el.clientWidth >= (need.current[level - 1] ?? Infinity)) setLevel(level - 1);
     };
     fit();
     const ro = new ResizeObserver(fit);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [enabled, compact]);
-  return [ref, compact] as const;
+  }, [enabled, level]);
+  return [ref, level] as const;
 }
 
 /** The title row of the steps. */
@@ -110,6 +109,7 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
   const word = (s: Internal) => statusLabels?.[toStatus[s]];
   const look = checklist ? variant : 'soft';
   const [rowRef, compact] = useCompact(!checklist && o === 'horizontal');
+  const compactLevel = compact === 2 ? 'lenses' : compact === 1 ? 'current' : undefined;
   const list = stepperSteps({ layout: checklist ? 'checklist' : o });
 
   // Checklist: a status region announces the step that changed (the one that became current or failed, else the last
@@ -177,7 +177,7 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
           })}
         </ol>
       ) : (
-        <ol ref={rowRef} data-slot="stepper-steps" data-compact={compact || undefined} className={list}>
+        <ol ref={rowRef} data-slot="stepper-steps" data-compact={compactLevel} className={list}>
           {steps.map((step, i) => {
             const s = status[i]!;
             const vertical = o === 'vertical';
@@ -185,7 +185,7 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
             const press = onStepClick != null && step.clickable !== false;
             const labelId = `${titleId}-step-${i}`;
             const Indicator = press ? 'button' : 'span';
-            const hidden = compact && s !== 'current';
+            const hidden = compact === 2 || (compact === 1 && s !== 'current');
             // The line into this step (horizontal) or out of it (vertical) fills once the step before it is done or skipped.
             const before = vertical ? s : status[i - 1];
             const filled = before === 'done' || before === 'skipped';

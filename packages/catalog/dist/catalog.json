@@ -48908,9 +48908,9 @@
           ]
         },
         "steps": {
-          "type": "{ id?: string; label: ReactNode; description?: ReactNode; status?: 'done' | 'now' | 'todo' | 'failed'; detail?: ReactNode }[]",
+          "type": "{ id?: string; label: ReactNode; description?: ReactNode; status?: 'done' | 'now' | 'todo' | 'failed' | 'skipped'; busy?: boolean; detail?: ReactNode; clickable?: boolean }[]",
           "required": true,
-          "description": "The steps in order. status overrides the value index for that step; description belongs to the progress look, detail to the checklist."
+          "description": "The steps in order. status overrides the value index for that step; busy marks the current step as working (live lens, light along the line); description belongs to the progress look, detail to the checklist."
         },
         "title": {
           "type": "ReactNode",
@@ -48923,9 +48923,9 @@
           "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). Supplied by the consumer so it can be translated and pluralized; no built-in default."
         },
         "statusLabels": {
-          "type": "{ done?: string; now?: string; todo?: string; failed?: string }",
+          "type": "{ done?: string; now?: string; todo?: string; failed?: string; skipped?: string }",
           "required": false,
-          "description": "Visually hidden status word read with each step (e.g. \"Done\", \"In progress\", \"To do\", \"Failed\"). Without it the progress look keeps \"completed\" / \"failed\" on done / failed steps; the checklist reads no word."
+          "description": "Visually hidden status word read with each step (e.g. \"Done\", \"In progress\", \"To do\", \"Failed\", \"Skipped\"). Without it the progress look keeps \"completed\" / \"failed\" / \"skipped\" on those steps; the checklist reads no word."
         },
         "children": {
           "type": "ReactNode",
@@ -48949,7 +48949,7 @@
         },
         "variant": {
           "type": "'solid' | 'soft' | 'outline' | 'ghost' | 'checklist'",
-          "default": "solid",
+          "default": "soft",
           "required": false,
           "description": "Done-step emphasis of the progress look, or the checklist (see variants).",
           "values": [
@@ -48997,7 +48997,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Progress: indicator diameter xs 20 / sm 24 / md 28 / lg 32 (control-2xs … control-md) with ui-xs / ui-xs / ui-sm / ui numbers; connectors and the vertical column follow the diameter. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
+          "description": "Progress: lens diameter xs 16 / sm 20 / md 24 / lg 28 (icon-md, control-2xs, control-xs, control-sm) with ui-xs / ui-xs / ui-sm / ui numbers and ui-sm / ui-strong / ui-strong / ui-lg labels; the glyphs, connectors and the vertical column follow the diameter. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
           "values": [
             "xs",
             "sm",
@@ -49076,7 +49076,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Progress: indicator diameter xs 20 / sm 24 / md 28 / lg 32 (control-2xs … control-md) with ui-xs / ui-xs / ui-sm / ui numbers; connectors and the vertical column follow the diameter. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
+            "description": "Progress: lens diameter xs 16 / sm 20 / md 24 / lg 28 (icon-md, control-2xs, control-xs, control-sm) with ui-xs / ui-xs / ui-sm / ui numbers and ui-sm / ui-strong / ui-strong / ui-lg labels; the glyphs, connectors and the vertical column follow the diameter. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
             "values": [
               "xs",
               "sm",
@@ -49087,12 +49087,12 @@
           "statusLabels": {
             "type": "Partial<Record<StepperStatus, string>>",
             "required": false,
-            "description": "Visually hidden status word read with each step (e.g. \"Done\", \"In progress\", \"To do\", \"Failed\"). Without it the progress look keeps \"completed\" / \"failed\" on done / failed steps; the checklist reads no word."
+            "description": "Visually hidden status word read with each step (e.g. \"Done\", \"In progress\", \"To do\", \"Failed\", \"Skipped\"). Without it the progress look keeps \"completed\" / \"failed\" / \"skipped\" on those steps; the checklist reads no word."
           },
           "steps": {
             "type": "StepperStep[]",
             "required": true,
-            "description": "The steps in order. status overrides the value index for that step; description belongs to the progress look, detail to the checklist."
+            "description": "The steps in order. status overrides the value index for that step; busy marks the current step as working (live lens, light along the line); description belongs to the progress look, detail to the checklist."
           },
           "title": {
             "type": "ReactNode",
@@ -49122,7 +49122,7 @@
           },
           "variant": {
             "type": "\"solid\" | \"soft\" | \"outline\" | \"ghost\" | \"checklist\"",
-            "default": "solid",
+            "default": "soft",
             "required": false,
             "description": "Done-step emphasis of the progress look, or the checklist (see variants).",
             "values": [
@@ -49168,8 +49168,8 @@
             "ghost",
             "checklist"
           ],
-          "default": "solid",
-          "description": "solid / soft / outline / ghost: the progress look and the emphasis of a done step (solid = tone.solid disc with a tone.on check; soft = tone.soft disc with a tone.text check; outline = 1.5px tone.solid ring with a tone.text check; ghost = the tone.text check alone; the current step is always the 2px tone ring). checklist: the agent plan card (see root)."
+          "default": "soft",
+          "description": "solid / soft / outline / ghost: the progress look and the emphasis of a done step (soft, the default = tone.soft disc with a tone.text check, so the current lens leads; solid = tone.solid disc with a tone.on check; outline = 1.5px tone.solid rim with a tone.text check; ghost = the tone.text check alone; the current step is always the lens). checklist: the agent plan card (see root)."
         },
         "radius": {
           "values": [
@@ -49186,7 +49186,7 @@
             "full"
           ],
           "default": "full",
-          "description": "Progress: corner of the indicators. Checklist: corner of the card. full (default) keeps the own shape: the indicator circle, the xl card."
+          "description": "Progress: corner of the lenses. Checklist: corner of the card. full (default) keeps the own shape: the indicator circle, the xl card."
         },
         "shadow": {
           "values": [
@@ -49247,8 +49247,10 @@
         "labelRequired": false,
         "notes": [
           "The current item has aria-current=\"step\".",
-          "Colour is never the only cue: done shows a check (and, on the checklist, a strike-through), current shows the ring or the orb and medium weight, todo the number or a dashed circle, failed the danger glyph.",
-          "Progress look: done items include visually hidden \"completed\" text (statusLabels.done replaces it); the check icon is aria-hidden.",
+          "Colour is never the only cue: done shows a check (and, on the checklist, a strike-through), current shows the lens (rim, groove, core) and semibold weight, todo the number or a dashed circle, failed a cross or the danger glyph, skipped a dash (and a strike-through).",
+          "Busy: the current item has aria-busy=\"true\"; the motion (breathing core, ripple, light along the line) stops under reduced motion and the lens keeps its still shape.",
+          "Narrow horizontal row: the labels the row hides stay in the accessibility tree (visually hidden).",
+          "Progress look: each lens carries a visually hidden status word (statusLabels, else \"completed\" / \"failed\" / \"skipped\"); glyphs, number, groove and core are aria-hidden.",
           "Checklist: each step gets a visually hidden status word from statusLabels; a visually hidden status region (role status) announces only the step that changed, so the whole list is not reread; the count text is the visible progress statement (the top edge is aria-hidden; there is no progressbar).",
           "With a header the root is role=\"group\" named by the title (aria-labelledby)."
         ]
@@ -58797,7 +58799,10 @@
       "animate-collapse-open",
       "animate-collapse-close",
       "animate-rise",
-      "animate-pop"
+      "animate-pop",
+      "animate-breathe",
+      "animate-ripple",
+      "animate-flow"
     ],
     "material": [
       "glass",

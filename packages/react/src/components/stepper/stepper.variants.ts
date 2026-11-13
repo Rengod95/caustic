@@ -67,7 +67,7 @@ export const stepperItem = cva('relative min-w-0', {
 });
 
 /** The lens and its label side by side (horizontal). */
-export const stepperHeadClass = 'flex min-w-0 shrink-0 items-center gap-1.5 in-data-compact:shrink';
+export const stepperHeadClass = 'flex min-w-0 shrink-0 items-center gap-1.5';
 
 // The 1px track between two steps, neutral.track, with the tone line that fills it (scaleX / scaleY 0 → 1, slow, out) once
 // the step before it is done or skipped. Horizontal: grows with the row (16px minimum) before the lens. Vertical: centred
@@ -158,7 +158,7 @@ export const stepperLabel = cva('block truncate font-ui', {
   defaultVariants: { orientation: 'horizontal', status: 'done', size: 'md' },
 });
 
-/** Text beside the lens (horizontal): label over description. In a narrow row only the current step keeps it (stepperCompactHideClass). */
+/** Text beside the lens (horizontal): label over description. A narrow row hides it (stepperCompactHideClass): first on every step but the current one, then on all. */
 export const stepperTextClass = 'grid min-w-0';
 export const stepperCompactHideClass = 'sr-only';
 
