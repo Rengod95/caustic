@@ -39964,7 +39964,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "agent",
           "required": false,
-          "description": "Passed to Stepper: the now mark (agent = the orb).",
+          "description": "Passed to Stepper: agent makes the now mark move (the agent is working).",
           "values": [
             "neutral",
             "accent",
@@ -39974,6 +39974,11 @@
             "info",
             "agent"
           ]
+        },
+        "live": {
+          "type": "(moving: boolean) => ReactNode",
+          "required": false,
+          "description": "Passed to Stepper: the now mark in a 14px box, e.g. the app's own thinking orbs; called with whether it moves. Without it the Stepper particles."
         },
         "variant": {
           "type": "'checklist'",
@@ -40042,6 +40047,11 @@
             "type": "(done: number, total: number) => string",
             "required": true,
             "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). No built-in default."
+          },
+          "live": {
+            "type": "(moving: boolean) => ReactNode",
+            "required": false,
+            "description": "Passed to Stepper: the now mark in a 14px box, e.g. the app's own thinking orbs; called with whether it moves. Without it the Stepper particles."
           },
           "onRowPress": {
             "type": "(step: PlanStep, index: number) => void",
@@ -40112,7 +40122,7 @@
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
             "default": "agent",
             "required": false,
-            "description": "Passed to Stepper: the now mark (agent = the orb).",
+            "description": "Passed to Stepper: agent makes the now mark move (the agent is working).",
             "values": [
               "neutral",
               "accent",
@@ -48868,7 +48878,7 @@
       ],
       "guidance": [
         "It only shows progress; pair it with buttons or tabs for moving between steps.",
-        "The checklist look with tone=\"agent\" lights the running step; the spectrum stays for agent work."
+        "Pass live to show the app's own working mark on the current step; tone=\"agent\" makes the checklist now mark move."
       ],
       "import": "import { Stepper, StepperCount, StepperHeader, StepperTitle } from '@caustic/react';",
       "exports": [
@@ -48910,12 +48920,17 @@
         "steps": {
           "type": "{ id?: string; label: ReactNode; description?: ReactNode; status?: 'done' | 'now' | 'todo' | 'failed' | 'skipped'; busy?: boolean; detail?: ReactNode; clickable?: boolean }[]",
           "required": true,
-          "description": "The steps in order. status overrides the value index for that step; busy marks the current step as working (live lens, light along the line); description belongs to the progress look, detail to the checklist."
+          "description": "The steps in order. status overrides the value index for that step; busy marks the current step as working (the live mark moves, a glint runs through its grooves); description belongs to the progress look, detail to the checklist."
         },
         "title": {
           "type": "ReactNode",
           "required": false,
           "description": "Heading of the steps: renders StepperHeader with StepperTitle (and StepperCount when countLabel is set) and names the root group."
+        },
+        "live": {
+          "type": "(moving: boolean) => ReactNode",
+          "required": false,
+          "description": "The live mark of the current step (progress) and the checklist now step, drawn in a 14px box: e.g. the app's own thinking orbs, so the stepper and the rest of the app share one \"working\" mark. Called with whether it should move (busy, or tone agent on the checklist). Without it the default particles."
         },
         "countLabel": {
           "type": "(done: number, total: number) => string",
@@ -48936,7 +48951,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "accent",
           "required": false,
-          "description": "Colour family of the progress; on the checklist the now mark (agent = orb).",
+          "description": "Colour family of the live light; on the checklist tone agent makes the now mark move.",
           "values": [
             "neutral",
             "accent",
@@ -48951,7 +48966,7 @@
           "type": "'solid' | 'soft' | 'outline' | 'ghost' | 'checklist'",
           "default": "soft",
           "required": false,
-          "description": "Done-step emphasis of the progress look, or the checklist (see variants).",
+          "description": "Light of reached steps on the progress look, or the checklist (see variants).",
           "values": [
             "solid",
             "soft",
@@ -48964,7 +48979,7 @@
           "type": "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'",
           "default": "full",
           "required": false,
-          "description": "Indicator corner (progress) or card corner (checklist) by radius token; full (default) keeps the own shape: the indicator circle, the xl card.",
+          "description": "Card corner (checklist) by radius token; full (default) keeps the xl card.",
           "values": [
             "none",
             "2xs",
@@ -48983,7 +48998,7 @@
           "type": "'none' | '1' | '2' | '3' | '4' | '5'",
           "default": "none",
           "required": false,
-          "description": "Indicator elevation (progress) or card elevation (checklist) by elevation token.",
+          "description": "Card elevation (checklist) by elevation token.",
           "values": [
             "none",
             "1",
@@ -48997,7 +49012,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Progress: lens diameter xs 16 / sm 20 / md 24 / lg 28 (icon-md, control-2xs, control-xs, control-sm) with ui-xs / ui-xs / ui-sm / ui numbers and ui-sm / ui-strong / ui-strong / ui-lg labels; the glyphs, connectors and the vertical column follow the diameter. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
+          "description": "Progress: the name xs ui-sm / sm, md ui-strong / lg ui-lg on an 18px line (20 at lg); the rail, grooves and marks keep their size so the light reads the same at every size. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
           "values": [
             "xs",
             "sm",
@@ -49024,6 +49039,11 @@
             "required": false,
             "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). Supplied by the consumer so it can be translated and pluralized; no built-in default."
           },
+          "live": {
+            "type": "(moving: boolean) => ReactNode",
+            "required": false,
+            "description": "The live mark of the current step (progress) and the checklist now step, drawn in a 14px box: e.g. the app's own thinking orbs, so the stepper and the rest of the app share one \"working\" mark. Called with whether it should move (busy, or tone agent on the checklist). Without it the default particles."
+          },
           "onStepClick": {
             "type": "(index: number, step: StepperStep) => void",
             "required": false,
@@ -49043,7 +49063,7 @@
             "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",
             "default": "full",
             "required": false,
-            "description": "Indicator corner (progress) or card corner (checklist) by radius token; full (default) keeps the own shape: the indicator circle, the xl card.",
+            "description": "Card corner (checklist) by radius token; full (default) keeps the xl card.",
             "values": [
               "none",
               "2xs",
@@ -49062,7 +49082,7 @@
             "type": "\"none\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\"",
             "default": "none",
             "required": false,
-            "description": "Indicator elevation (progress) or card elevation (checklist) by elevation token.",
+            "description": "Card elevation (checklist) by elevation token.",
             "values": [
               "none",
               "1",
@@ -49076,7 +49096,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Progress: lens diameter xs 16 / sm 20 / md 24 / lg 28 (icon-md, control-2xs, control-xs, control-sm) with ui-xs / ui-xs / ui-sm / ui numbers and ui-sm / ui-strong / ui-strong / ui-lg labels; the glyphs, connectors and the vertical column follow the diameter. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
+            "description": "Progress: the name xs ui-sm / sm, md ui-strong / lg ui-lg on an 18px line (20 at lg); the rail, grooves and marks keep their size so the light reads the same at every size. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
             "values": [
               "xs",
               "sm",
@@ -49092,7 +49112,7 @@
           "steps": {
             "type": "StepperStep[]",
             "required": true,
-            "description": "The steps in order. status overrides the value index for that step; busy marks the current step as working (live lens, light along the line); description belongs to the progress look, detail to the checklist."
+            "description": "The steps in order. status overrides the value index for that step; busy marks the current step as working (the live mark moves, a glint runs through its grooves); description belongs to the progress look, detail to the checklist."
           },
           "title": {
             "type": "ReactNode",
@@ -49103,7 +49123,7 @@
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
             "default": "accent",
             "required": false,
-            "description": "Colour family of the progress; on the checklist the now mark (agent = orb).",
+            "description": "Colour family of the live light; on the checklist tone agent makes the now mark move.",
             "values": [
               "neutral",
               "accent",
@@ -49124,7 +49144,7 @@
             "type": "\"solid\" | \"soft\" | \"outline\" | \"ghost\" | \"checklist\"",
             "default": "soft",
             "required": false,
-            "description": "Done-step emphasis of the progress look, or the checklist (see variants).",
+            "description": "Light of reached steps on the progress look, or the checklist (see variants).",
             "values": [
               "solid",
               "soft",
@@ -49145,7 +49165,7 @@
             "vertical"
           ],
           "default": "horizontal",
-          "description": "Progress look: a row of centred steps with a connector between them, or a column with the indicator at the start. The checklist is always a column."
+          "description": "Progress look: equal columns with the rail over the heads, or a column with the rail down the start edge. The checklist is always a column."
         },
         "tone": {
           "values": [
@@ -49158,7 +49178,7 @@
             "agent"
           ],
           "default": "accent",
-          "description": "Colour family of the progress: done indicators, the current ring and text, and the active connector. Checklist: the now mark; agent turns it into the spectrum orb (the agent is working). Done checks stay success and failed stays danger."
+          "description": "Colour family of the live light: the busy glint, the default particles, and the lit grooves with variant solid or outline. Checklist: tone agent makes the now mark move (the agent is working). Done checks stay success and failed stays danger."
         },
         "variant": {
           "values": [
@@ -49169,7 +49189,7 @@
             "checklist"
           ],
           "default": "soft",
-          "description": "solid / soft / outline / ghost: the progress look and the emphasis of a done step (soft, the default = tone.soft disc with a tone.text check, so the current lens leads; solid = tone.solid disc with a tone.on check; outline = 1.5px tone.solid rim with a tone.text check; ghost = the tone.text check alone; the current step is always the lens). checklist: the agent plan card (see root)."
+          "description": "solid / soft / outline / ghost: the progress look and the light of reached steps (--stepper-lit). soft, the default: text.secondary, so finished work is quiet and the busy glint leads; solid and outline: tone.solid; ghost: border.strong (no light, the marks alone tell progress). checklist: the agent plan card (see root)."
         },
         "radius": {
           "values": [
@@ -49186,7 +49206,7 @@
             "full"
           ],
           "default": "full",
-          "description": "Progress: corner of the lenses. Checklist: corner of the card. full (default) keeps the own shape: the indicator circle, the xl card."
+          "description": "Checklist: corner of the card; full (default) keeps the xl card. The progress look has no surface to round."
         },
         "shadow": {
           "values": [
@@ -49198,7 +49218,7 @@
             "5"
           ],
           "default": "none",
-          "description": "Progress: elevation of the indicators. Checklist: elevation of the card, replacing the hairline (one depth cue)."
+          "description": "Checklist: elevation of the card, replacing the hairline (one depth cue). The progress look has no surface to lift."
         }
       },
       "sizes": {
@@ -49247,10 +49267,10 @@
         "labelRequired": false,
         "notes": [
           "The current item has aria-current=\"step\".",
-          "Colour is never the only cue: done shows a check (and, on the checklist, a strike-through), current shows the lens (rim, groove, core) and semibold weight, todo the number or a dashed circle, failed a cross or the danger glyph, skipped a dash (and a strike-through).",
-          "Busy: the current item has aria-busy=\"true\"; the motion (breathing core, ripple, light along the line) stops under reduced motion and the lens keeps its still shape.",
+          "Colour is never the only cue: done shows a check (and, on the checklist, a strike-through), current the live mark and semibold weight, todo the two-digit index or a dashed circle, failed a cross or the danger glyph, skipped a dash and a strike-through; the rail repeats it in shape (failed light stops a third in, skipped grooves are half as many and short).",
+          "Busy: the current item has aria-busy=\"true\"; the motion (the glint through the grooves, the particles) stops under reduced motion and the marks keep their still shape.",
           "Narrow horizontal row: the labels the row hides stay in the accessibility tree (visually hidden).",
-          "Progress look: each lens carries a visually hidden status word (statusLabels, else \"completed\" / \"failed\" / \"skipped\"); glyphs, number, groove and core are aria-hidden.",
+          "Progress look: each mark carries a visually hidden status word (statusLabels, else \"completed\" / \"failed\" / \"skipped\"); the rail, glyphs, index and live mark are aria-hidden.",
           "Checklist: each step gets a visually hidden status word from statusLabels; a visually hidden status region (role status) announces only the step that changed, so the whole list is not reread; the count text is the visible progress statement (the top edge is aria-hidden; there is no progressbar).",
           "With a header the root is role=\"group\" named by the title (aria-labelledby)."
         ]
@@ -58800,9 +58820,9 @@
       "animate-collapse-close",
       "animate-rise",
       "animate-pop",
+      "animate-glint",
       "animate-breathe",
-      "animate-ripple",
-      "animate-flow"
+      "animate-orbit"
     ],
     "material": [
       "glass",

@@ -571,11 +571,11 @@ function tailwindTheme() {
   add('animate-collapse-close', `cs-collapse-close var(--${P}-duration-swift) var(--${P}-ease-standard) forwards`);
   add('animate-rise', `cs-rise var(--${P}-duration-swift) var(--${P}-ease-out) backwards`);
   add('animate-pop', `cs-pop var(--${P}-duration-snappy) var(--${P}-ease-snappy) backwards`);
-  // Live step (Stepper, Fresnel dz 2026-11-13): a core that breathes, a ring that spreads out of it, and a short band of light
-  // that runs along a line into the step. Loops: only where the spec sets flags.motionLoop.
+  // Live step (Stepper, Fresnel dz 2026-11-13, round 2): a glint that runs along the Fresnel grooves (each groove with its own
+  // delay), and the particles of the default live mark (breathe, orbit). Loops: only where the spec sets flags.motionLoop.
+  add('animate-glint', `cs-glint var(--${P}-duration-orb) var(--${P}-ease-in-out) infinite`);
   add('animate-breathe', `cs-breathe var(--${P}-duration-orb) var(--${P}-ease-in-out) infinite`);
-  add('animate-ripple', `cs-ripple var(--${P}-duration-orb) var(--${P}-ease-out) infinite`);
-  add('animate-flow', `cs-flow var(--${P}-duration-orb) var(--${P}-ease-in-out) infinite`);
+  add('animate-orbit', `cs-rot var(--${P}-duration-shimmer) linear infinite`);
   L.push('  @keyframes cs-rot { to { transform: rotate(360deg); } }');
   L.push('  @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }');
   L.push('  @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }');
@@ -588,9 +588,8 @@ function tailwindTheme() {
   L.push(`  @keyframes cs-collapse-close { from { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; padding-block: 0; opacity: 0; } }`);
   L.push(`  @keyframes cs-rise { from { opacity: 0; transform: translateY(var(--${P}-shift-enter)); } }`);
   L.push('  @keyframes cs-pop { from { opacity: 0; transform: scale(0.6); } }');
-  L.push('  @keyframes cs-breathe { 0%, 100% { opacity: 0.7; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1); } }');
-  L.push('  @keyframes cs-ripple { from { opacity: 0.5; transform: scale(0.5); } to { opacity: 0; transform: scale(1.5); } }');
-  L.push('  @keyframes cs-flow { from { opacity: 0; transform: translateX(-100%); } 30%, 70% { opacity: 1; } to { opacity: 0; transform: translateX(400%); } }');
+  L.push('  @keyframes cs-glint { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }');
+  L.push('  @keyframes cs-breathe { 0%, 100% { opacity: 0.35; transform: scale(0.75); } 50% { opacity: 1; transform: scale(1); } }');
   L.push('}', '');
   L.push(`/* Caustic utilities: materials, agent signature, focus policy */
 @utility glass {

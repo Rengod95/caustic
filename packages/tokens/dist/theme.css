@@ -668,9 +668,9 @@
   --animate-collapse-close: cs-collapse-close var(--cs-duration-swift) var(--cs-ease-standard) forwards;
   --animate-rise: cs-rise var(--cs-duration-swift) var(--cs-ease-out) backwards;
   --animate-pop: cs-pop var(--cs-duration-snappy) var(--cs-ease-snappy) backwards;
+  --animate-glint: cs-glint var(--cs-duration-orb) var(--cs-ease-in-out) infinite;
   --animate-breathe: cs-breathe var(--cs-duration-orb) var(--cs-ease-in-out) infinite;
-  --animate-ripple: cs-ripple var(--cs-duration-orb) var(--cs-ease-out) infinite;
-  --animate-flow: cs-flow var(--cs-duration-orb) var(--cs-ease-in-out) infinite;
+  --animate-orbit: cs-rot var(--cs-duration-shimmer) linear infinite;
   @keyframes cs-rot { to { transform: rotate(360deg); } }
   @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }
   @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
@@ -681,9 +681,8 @@
   @keyframes cs-collapse-close { from { height: var(--cs-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; padding-block: 0; opacity: 0; } }
   @keyframes cs-rise { from { opacity: 0; transform: translateY(var(--cs-shift-enter)); } }
   @keyframes cs-pop { from { opacity: 0; transform: scale(0.6); } }
-  @keyframes cs-breathe { 0%, 100% { opacity: 0.7; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1); } }
-  @keyframes cs-ripple { from { opacity: 0.5; transform: scale(0.5); } to { opacity: 0; transform: scale(1.5); } }
-  @keyframes cs-flow { from { opacity: 0; transform: translateX(-100%); } 30%, 70% { opacity: 1; } to { opacity: 0; transform: translateX(400%); } }
+  @keyframes cs-glint { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  @keyframes cs-breathe { 0%, 100% { opacity: 0.35; transform: scale(0.75); } 50% { opacity: 1; transform: scale(1); } }
 }
 
 /* Caustic utilities: materials, agent signature, focus policy */

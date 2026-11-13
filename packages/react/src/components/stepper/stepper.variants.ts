@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
-// The root. tone sets the --tone-* slots of the progress (accent by default); size sets --ind, the lens diameter, which
-// the glyphs, the connectors and the vertical column follow. variant checklist (the agent plan, merged from Plan
+// The root. tone sets the --tone-* slots of the progress (accent by default); size sets the type of the names and
+// --stepper-line, their line height, which the vertical separator groove centres on. variant checklist (the agent plan, merged from Plan
 // 2026-10-28) makes the root the checklist card: surface.base with the border.subtle hairline, xl corner, 6px inset, 1px
 // gap, clipping the progress edge. radius / shadow set the card corner and elevation there (stepperChecklistShape).
 export const stepperVariants = cva('w-full', {
@@ -20,10 +20,10 @@ export const stepperVariants = cva('w-full', {
       checklist: 'relative grid gap-px overflow-hidden rounded-xl bg-surface-base p-1.5 [--stepper-r:var(--cs-radius-xl)] text-text-primary shadow-[inset_0_0_0_1px_var(--cs-color-border-subtle)]',
     },
     size: {
-      xs: '[--ind:var(--cs-icon-md)]',
-      sm: '[--ind:var(--cs-control-2xs)]',
-      md: '[--ind:var(--cs-control-xs)]',
-      lg: '[--ind:var(--cs-control-sm)]',
+      xs: '[--stepper-line:18px]',
+      sm: '[--stepper-line:18px]',
+      md: '[--stepper-line:18px]',
+      lg: '[--stepper-line:20px]',
     },
   },
   defaultVariants: { tone: 'accent', variant: 'soft', size: 'md' },
@@ -40,13 +40,14 @@ export const stepperChecklistShape = cva('', {
     },
     shadow: { none: '', '1': 'shadow-1', '2': 'shadow-2', '3': 'shadow-3', '4': 'shadow-4', '5': 'shadow-5' },
   },
+  defaultVariants: { radius: 'full', shadow: 'none' },
 });
 
-/** The step list: one inline row (lens, label, then a connector that takes the free width), or a column (max-width 420); the 1px-gap checklist otherwise. */
+/** The step list: a row of equal columns (horizontal), a column (max-width 420); the 1px-gap checklist otherwise. */
 export const stepperSteps = cva('m-0 w-full list-none p-0', {
   variants: {
     layout: {
-      horizontal: 'flex min-w-0 items-center gap-2 data-compact:gap-1',
+      horizontal: 'flex min-w-0 items-start',
       vertical: 'grid max-w-stepper-max',
       checklist: 'grid gap-px',
     },
@@ -54,98 +55,116 @@ export const stepperSteps = cva('m-0 w-full list-none p-0', {
   defaultVariants: { layout: 'horizontal' },
 });
 
-// Horizontal: the first step keeps its own width; every later step grows, its connector taking the space before its lens.
-// Vertical: two columns (lens, text), 16px between steps.
+// Horizontal: equal columns, the groove rail over the head (8px). A narrow row (data-compact) lets the current column take
+// its own width and the others share the rest. Vertical: the 12px rail down the start edge, the text 24px in, 20px between steps.
 export const stepperItem = cva('relative min-w-0', {
   variants: {
     orientation: {
-      horizontal: 'flex items-center gap-2 not-first:flex-1 in-data-compact:gap-1',
-      vertical: 'grid grid-cols-[var(--ind)_1fr] gap-x-3 pb-4 last:pb-0',
+      horizontal: 'grid flex-1 basis-0 content-start gap-2 data-[status=current]:in-data-compact:flex-none',
+      vertical: 'ps-6 pb-5 last:pb-0',
     },
   },
   defaultVariants: { orientation: 'horizontal' },
 });
 
-/** The lens and its label side by side (horizontal). */
-export const stepperHeadClass = 'flex min-w-0 shrink-0 items-center gap-1.5';
+/** The head of a step: mark and text, 6px apart, 8px clear of the next rail (horizontal). */
+export const stepperHeadClass = 'flex min-w-0 items-center gap-1.5 pe-2';
 
-// The 1px track between two steps, neutral.track, with the tone line that fills it (scaleX / scaleY 0 → 1, slow, out) once
-// the step before it is done or skipped. Horizontal: grows with the row (16px minimum) before the lens. Vertical: centred
-// under the lens, from 4px below it to 4px above the next one.
-export const stepperConnector = cva('overflow-hidden rounded-full bg-neutral-track', {
+// The Fresnel groove rail (owner 2026-11-13, dzV2 round 2): a lens profile unrolled. Each step is one run of fine grooves
+// (1 × 6px, full radius) whose spacing tightens toward the next step (about 2:1 from first to last, like the rings of a
+// Fresnel lens toward its rim), opened by a 12px major groove that is the separator. Light fills the grooves: done steps are lit, the
+// current step glows dim and, while busy, a glint runs through its grooves toward the next step; a failed step's light
+// stops a third of the way in (danger); skipped steps keep every other groove, 2px tall.
+export const stepperRail = cva('block', {
   variants: {
     orientation: {
-      horizontal: 'relative h-px min-w-4 flex-1 in-data-compact:min-w-3',
-      vertical: 'absolute start-[calc(var(--ind)/2-0.5px)] top-[calc(var(--ind)+var(--spacing))] bottom-1 w-px',
+      horizontal: 'relative h-3 w-full',
+      vertical: 'absolute start-0 top-0 h-full w-3',
     },
   },
   defaultVariants: { orientation: 'horizontal' },
 });
-export const stepperConnectorFill = cva('absolute inset-0 bg-(--tone-solid) transition-transform duration-slow ease-out', {
+/** The separator groove at the start of the step: 12px, full radius. Lit once the step is reached. */
+export const stepperMajor = cva('absolute rounded-full transition-colors duration-slow ease-out', {
   variants: {
-    orientation: { horizontal: 'origin-left rtl:origin-right', vertical: 'origin-top' },
-    active: { true: '', false: '' },
+    orientation: {
+      horizontal: 'start-0 top-0 h-3 w-px',
+      vertical: 'start-0 top-[calc(var(--stepper-line)/2-0.5px)] h-px w-3',
+    },
+    lit: { true: 'bg-(--stepper-lit)', false: 'bg-border-strong' },
+  },
+  defaultVariants: { orientation: 'horizontal', lit: false },
+});
+/** One groove. Its place along the rail is set inline: t(1.35 − 0.35t), t = k/n. */
+export const stepperGroove = cva('absolute rounded-full transition-colors duration-slow ease-out', {
+  variants: {
+    orientation: {
+      horizontal: 'start-(--at) top-0.75 h-1.5 w-px',
+      vertical: 'start-0.75 top-(--at) h-px w-1.5',
+    },
+    light: {
+      lit: 'bg-(--stepper-lit)',
+      dim: 'bg-text-tertiary',
+      rest: 'bg-border-strong',
+      glint: 'animate-glint bg-(--tone-solid) [animation-delay:var(--delay)]',
+      danger: 'bg-danger-solid',
+    },
+    skipped: { true: '', false: '' },
   },
   compoundVariants: [
-    { orientation: 'horizontal', active: false, className: 'scale-x-0' },
-    { orientation: 'vertical', active: false, className: 'scale-y-0' },
+    { orientation: 'horizontal', skipped: true, className: 'top-1.25 h-0.5' },
+    { orientation: 'vertical', skipped: true, className: 'start-1.25 w-0.5' },
   ],
-  defaultVariants: { orientation: 'horizontal', active: false },
+  defaultVariants: { orientation: 'horizontal', light: 'rest', skipped: false },
 });
-/** The light that runs along the connector into a busy step (horizontal): a tone band a quarter of the line, fading in and out at the ends (flat, no gradient). */
-export const stepperFlowClass = 'absolute inset-y-0 start-0 w-1/4 animate-flow rounded-full bg-(--tone-solid)';
 
-// The lens (owner 2026-11-13, dzV2: Fresnel lens, drawn in vector lines). A --ind circle; its glyph is 60% of it.
-//   upcoming  surface.base, 1px border.strong rim, the step number (text.tertiary)
-//   current   surface.base, 1.5px tone rim, a 1px groove ring (tone, 40%) at 60% and the tone core at 30%. Busy: the core
-//             breathes and a ring spreads out of the lens.
-//   done      by variant: soft tone.soft disc + tone.text check (default), solid tone.solid + tone.on, outline 1.5px tone
-//             rim + tone.text check, ghost the check alone
-//   failed    danger.soft disc, danger.text cross
-//   skipped   1px dashed border.strong rim, text.tertiary dash
-export const stepperIndicator = cva('relative grid size-(--ind) shrink-0 place-items-center rounded-full font-ui font-semibold tabular-nums transition-control [&_svg]:size-[calc(var(--ind)*0.6)]', {
+// The mark before the name, on the name's 18px line (12px box, the cap height of 13px type):
+//   upcoming  the two-digit index, mono-sm text.tertiary (tabular)
+//   current   the live mark: the app's own (live prop) or the default particle orb; still unless busy
+//   done      a 12px check stroke, text.secondary
+//   failed    a 12px cross stroke, danger.text
+//   skipped   a 12px dash, text.tertiary
+export const stepperMark = cva('relative grid h-4.5 min-w-3 shrink-0 place-items-center [&_svg]:size-3', {
   variants: {
     status: {
-      done: '',
-      current: 'bg-surface-base text-(--tone-text) shadow-[inset_0_0_0_1.5px_var(--tone-solid)]',
-      upcoming: 'bg-surface-base text-text-tertiary shadow-[inset_0_0_0_1px_var(--cs-color-border-strong)]',
-      failed: 'bg-danger-soft text-danger-text',
-      skipped: 'border border-dashed border-border-strong text-text-tertiary',
+      done: 'text-text-secondary',
+      current: 'w-3.5',
+      upcoming: 'font-mono text-mono-sm text-text-tertiary tabular-nums',
+      failed: 'text-danger-text',
+      skipped: 'text-text-tertiary',
     },
-    variant: { solid: '', soft: '', outline: '', ghost: '', checklist: '' },
-    size: { xs: 'text-ui-xs', sm: 'text-ui-xs', md: 'text-ui-sm', lg: 'text-ui' },
-      // The default key keeps the component's own corner and shadow (''); every other key sets that token (the radiusClass / shadowClass names of common-props.ts, written out so Tailwind, which scans ./components only, generates them).
-      radius: {
-      none: 'rounded-none [--stepper-r:0px]', '2xs': 'rounded-2xs [--stepper-r:var(--cs-radius-2xs)]', xs: 'rounded-xs [--stepper-r:var(--cs-radius-xs)]',
-      sm: 'rounded-sm [--stepper-r:var(--cs-radius-sm)]', md: 'rounded-md [--stepper-r:var(--cs-radius-md)]', lg: 'rounded-lg [--stepper-r:var(--cs-radius-lg)]',
-      xl: 'rounded-xl [--stepper-r:var(--cs-radius-xl)]', '2xl': 'rounded-2xl [--stepper-r:var(--cs-radius-2xl)]', '3xl': 'rounded-3xl [--stepper-r:var(--cs-radius-3xl)]',
-      '4xl': 'rounded-4xl [--stepper-r:var(--cs-radius-4xl)]', full: '',
-    },
-      shadow: { none: '', '1': 'shadow-1', '2': 'shadow-2', '3': 'shadow-3', '4': 'shadow-4', '5': 'shadow-5' },
   },
-  compoundVariants: [
-    { status: 'done', variant: 'solid', className: 'bg-(--tone-solid) text-(--tone-on)' },
-    { status: 'done', variant: 'soft', className: 'bg-(--tone-soft) text-(--tone-text)' },
-    { status: 'done', variant: 'outline', className: 'bg-surface-base text-(--tone-text) shadow-[inset_0_0_0_1.5px_var(--tone-solid)]' },
-    { status: 'done', variant: 'ghost', className: 'bg-transparent text-(--tone-text)' },
-  ],
-  defaultVariants: { status: 'upcoming', variant: 'soft', size: 'md', radius: 'full', shadow: 'none' },
+  defaultVariants: { status: 'upcoming' },
 });
-/** Current lens: the groove ring (60%, 1px, tone at 40%), the core (30%, tone) and, while busy, the spreading ring. */
-export const stepperGrooveClass = 'pointer-events-none absolute inset-[20%] rounded-full opacity-40 shadow-[inset_0_0_0_1px_var(--tone-solid)]';
-export const stepperCoreClass = 'size-[30%] rounded-full bg-(--tone-solid)';
-export const stepperCoreBusyClass = 'animate-breathe';
-export const stepperRippleClass = 'pointer-events-none absolute inset-0 animate-ripple rounded-full shadow-[inset_0_0_0_1px_var(--tone-solid)]';
 
-// Labels keep one size across states (no layout jump); the current step leads by weight and ink: semibold text.primary.
-// Done text.secondary, upcoming text.tertiary, failed danger.text, skipped text.placeholder struck through. size steps the
-// type with the lens: xs ui-sm, sm / md ui-strong (13 / 500), lg ui-lg (all medium).
+/** Default live mark (no live prop): six 1.5px particles on two orbits inside 14px, breathing out of phase; still unless busy. */
+export const stepperParticlesClass = 'relative block size-3.5';
+export const stepperOrbitClass = 'absolute inset-0 block';
+export const stepperOrbitReverseClass = '[animation-direction:reverse]';
+export const stepperOrbitBusyClass = 'animate-orbit';
+export const stepperParticleClass = 'absolute start-(--x) top-(--y) block size-0.5 rounded-full bg-(--tone-solid) [animation-delay:var(--delay)]';
+export const stepperParticleBusyClass = 'animate-breathe';
+
+// Done emphasis (variant) sets the light of the rail: soft (default) text.secondary grooves under a text.primary separator,
+// solid tone.solid throughout, outline the separator alone, ghost no light (marks only).
+export const stepperLightVariants = cva('', {
+  variants: {
+    variant: {
+      soft: '[--stepper-lit:var(--cs-color-text-secondary)]',
+      solid: '[--stepper-lit:var(--tone-solid)]',
+      outline: '[--stepper-lit:var(--tone-solid)]',
+      ghost: '[--stepper-lit:var(--cs-color-border-strong)]',
+      checklist: '',
+    },
+  },
+  defaultVariants: { variant: 'soft' },
+});
+
+// Names keep one size across states (no layout jump); the current step leads by weight and ink.
+// Done text.secondary, upcoming text.tertiary, failed danger.text, skipped text.placeholder struck through.
 export const stepperLabel = cva('block truncate font-ui', {
   variants: {
-    orientation: {
-      horizontal: '',
-      vertical: 'flex min-h-(--ind) items-center',
-    },
+    orientation: { horizontal: '', vertical: '' },
     status: {
       done: 'text-text-secondary',
       current: 'font-semibold text-text-primary',
@@ -158,10 +177,11 @@ export const stepperLabel = cva('block truncate font-ui', {
   defaultVariants: { orientation: 'horizontal', status: 'done', size: 'md' },
 });
 
-/** Text beside the lens (horizontal): label over description. A narrow row hides it (stepperCompactHideClass): first on every step but the current one, then on all. */
+/** Text beside the mark: name over description. A narrow row hides it (sr-only): first on every step but the current one, then on all. */
 export const stepperTextClass = 'grid min-w-0';
 export const stepperCompactHideClass = 'sr-only';
 
+/** Description under the name: hint (11.5 / 400) text.tertiary; one line horizontal, wraps vertical (2px above). */
 export const stepperDescription = cva('font-ui text-hint text-text-tertiary', {
   variants: {
     orientation: {
@@ -228,15 +248,9 @@ export const stepperChecklistIndicator = cva('grid size-icon-md shrink-0 place-i
   defaultVariants: { status: 'upcoming' },
 });
 
-/** The now mark (owner 2026-11-13, dzV2): the 12px lens of the progress look, a 1.5px tone rim around a 4px tone core; with
- *  tone agent (the agent is working) the core breathes. No spectrum ring. */
-export const stepperChecklistMark = cva('relative grid size-icon-sm place-items-center rounded-full shadow-[inset_0_0_0_1.5px_var(--tone-solid)]', {
-  variants: {
-    tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
-  },
-  defaultVariants: { tone: 'accent' },
-});
-export const stepperChecklistCoreClass = 'size-1 rounded-full bg-(--tone-solid)';
+/** The now mark (owner 2026-11-13, dzV2 round 2): the live mark of the progress look (the app's own via live, else the
+ *  default particles), 14px; it moves with tone agent or a busy step. No ring, no spectrum. */
+export const stepperChecklistLiveClass = 'grid size-icon-sm place-items-center';
 
 export const stepperTodoRingClass = 'size-icon-sm rounded-full border border-dashed border-border-strong';
 
@@ -254,5 +268,5 @@ export type StepperVariantProps = VariantProps<typeof stepperVariants>;
 export const stepperBareClass = 'rounded-none bg-transparent p-0 shadow-none';
 /** A pressable step (onStepClick): the checklist row body as a button filling the row. */
 export const stepperPressRowClass = 'press flex min-w-0 flex-1 cursor-pointer items-center gap-2 self-stretch rounded-sm text-left';
-/** A pressable step of the progress look: the indicator as a button. */
+/** A pressable step of the progress look: the head (mark and name) as a button. */
 export const stepperPressIndicatorClass = 'press cursor-pointer';
