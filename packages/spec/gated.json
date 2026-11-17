@@ -399,6 +399,10 @@
     "specHash": "cd8ffdc82d3d5cde",
     "at": "2026-11-01T06:40:23.634Z"
   },
+  "stepper": {
+    "specHash": "baac13fb09d0d1cc",
+    "at": "2026-11-17T12:48:18.651Z"
+  },
   "stroke-editor": {
     "specHash": "0de8680516379758",
     "at": "2026-10-31T16:37:20.520Z"
