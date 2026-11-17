@@ -68,30 +68,33 @@ Durations are named. A number (`duration-200`, `delay-150`) hard-codes a time an
 | Token | ms | For |
 |---|---|---|
 | `duration-instant` | 0 | a state that must change at once, inside the same transition list |
-| `duration-quick` | 100 | press, hover, colour and fill changes |
-| `duration-swift` | 150 | popover and tooltip enter, small moves, the default transition |
-| `duration-base` | 200 | collapse, indicators, exits of panels |
-| `duration-gentle` | 250 | dialog, sheet and toast enter |
+| `duration-quick` | 120 | press, hover, colour and fill changes, small exits |
+| `duration-swift` | 180 | popover and tooltip enter, small moves, the default transition, panel exits |
+| `duration-base` | 220 | collapse, indicators, dialog enter |
+| `duration-gentle` | 280 | sheet, side panel and toast enter |
 | `duration-slow` | 400 | large distances, page-level moves |
 
 - **Curves.** `ease-standard` for colour and size changes that follow state (selection, validation, theme); `ease-out`
-  for enter and exit (the default) and for direct pointer feedback (hover, press — what `transition-control` uses); `ease-in-out` for moves on screen; `ease-drawer` for sheets and side panels. No ease-in for UI.
+  for enter (the default) and for direct pointer feedback (hover, press — what `transition-control` uses); `ease-in` only
+  for exits, which are short (about 60% of their enter); `ease-in-out` for moves on screen; `ease-drawer` for sheets and
+  side panels. Nothing overshoots: every curve stays inside 0–1 and every spring is critically damped.
 - **Springs move, they do not fade.** Position, size and scale only, never colour or opacity. A spring is a pair that
   always goes together: `ease-snappy duration-snappy` (indicators, thumbs, checks), `ease-spring duration-spring`
-  (pop-ins, lifts), `ease-bounce duration-bounce` (agent and celebratory moments).
+  (press release, pop-ins). `ease-bounce duration-bounce` is kept for existing code only and no longer bounces.
 - **Presets.**
   - `transition-control`: the one transition list for interactive controls (colour, fill, border, shadow, opacity,
     scale, translate at `quick` and `out`). Use it instead of `transition-all` or a hand-written list.
-  - `press` (scale 0.97 on `:active`), `press-sm` (0.94, small icon targets), `lift` (2px up on hover).
+  - `press` and `press-sm` (scale 0.98 on `:active`). Hover never moves or scales a control: change its colour or
+    shadow instead.
   - `animate-enter` and `animate-exit`, with `enter-scale` (from 0.96) and `enter-from-side` (reads `data-side`),
     `enter-up`, `enter-from-end`, `enter-from-start`, `enter-from-bottom`. Sheets and side panels:
-    `animate-enter-dialog` (dialogs, gentle), `animate-enter-panel` and `animate-exit-panel`.
+    `animate-enter-dialog` (dialogs, base), `animate-enter-panel` and `animate-exit-panel`.
   - `animate-collapse-open` and `animate-collapse-close` take the height from the Radix variable. `reveal` collapses
     content that stays mounted.
   - `animate-rise` for list and message items, with `stagger` and `--cs-stagger-index` (40 ms per item, at most 8).
   - `animate-pop` for a check or dot: 0.6 to 1 on `snappy`.
 - **Do not animate.** Keyboard-only paths, typing, streaming text, drag and canvas direct manipulation, the command
   palette. Reduced motion is global (every animation and transition becomes instant), so no `motion-reduce:` variant
-  is needed.
+  is needed. An app with its own setting sets `data-motion="reduce"` on the root and gets the same rule.
 - **Transition what moves.** Use `transition-control` on controls. If you write your own list, name `scale`,
   `translate` or `rotate` next to `transform` (Tailwind 4 writes them as their own properties; `motion-property`).

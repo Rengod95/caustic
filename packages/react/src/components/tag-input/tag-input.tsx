@@ -105,7 +105,7 @@ export function TagInput({ value, defaultValue, delimiters = DEFAULT_DELIMITERS,
         aria-required={field?.required || undefined}
         disabled={isDisabled}
         value={draft}
-        className={cn('h-chip-h min-w-tag-input-min flex-1 border-0 bg-transparent px-1 text-text-primary outline-none placeholder:text-text-placeholder disabled:text-disabled-text disabled:placeholder:text-disabled-text', className)}
+        className={cn('h-tag-input-row min-w-tag-input-min flex-1 border-0 bg-transparent px-1 text-text-primary outline-none placeholder:text-text-placeholder disabled:text-disabled-text disabled:placeholder:text-disabled-text', className)}
         onChange={e => setDraft(e.target.value)}
         onKeyDown={keyDown}
         onPaste={paste}

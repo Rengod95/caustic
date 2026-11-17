@@ -89,8 +89,8 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
             </PickerTrigger>
           </RS.Trigger>
           <RS.Portal>
-            <RS.Content data-slot="select" position="popper" sideOffset={6} className={cn(surface, 'z-60 min-w-[var(--radix-select-trigger-width)] max-h-(--radix-select-content-available-height) origin-(--radix-select-content-transform-origin) overflow-y-auto', listboxClassName)}>
-              <RS.Viewport>{children}</RS.Viewport>
+            <RS.Content data-slot="select" position="popper" sideOffset={6} className={cn(surface, 'z-60 min-w-[var(--radix-select-trigger-width)] max-w-modal-sm max-h-(--radix-select-content-available-height) origin-(--radix-select-content-transform-origin) overflow-y-auto', listboxClassName)}>
+              <RS.Viewport className="flex flex-col gap-1">{children}</RS.Viewport>
             </RS.Content>
           </RS.Portal>
         </RS.Root>
@@ -117,7 +117,7 @@ export function Select({ value, defaultValue, onValueChange, open, defaultOpen, 
           inert={!list.present || undefined} aria-hidden={!list.present || undefined}
           onAnimationEnd={e => { if (!list.present && e.target === e.currentTarget) presence.exited(list.key); }}
           aria-label={typeof props['aria-label'] === 'string' ? props['aria-label'] : undefined}
-          className={cn(surface, 'data-[state=closed]:pointer-events-none', listboxClassName)}
+          className={cn(surface, 'flex flex-col gap-1 data-[state=closed]:pointer-events-none', listboxClassName)}
           onKeyDown={onKeyDown}
         >
           {children}
@@ -135,8 +135,8 @@ export function SelectOption({ value, selected, disabled = false, className, chi
   const classes = cn(menuItemVariants({ size: ctx.size }), selectOptionVariants(), className);
   if (!ctx.inline) {
     return (
-      <RS.Item data-slot="select-option" value={value} disabled={disabled} onClick={onClick} onKeyDown={onKeyDown} onFocus={onFocus} onBlur={onBlur} onPointerMove={onPointerMove} data-selected={chosen ? '' : undefined} className={cn(classes, 'group')} {...props}>
-        <RS.ItemText>{children}</RS.ItemText>
+      <RS.Item data-slot="select-option" value={value} disabled={disabled} onClick={onClick} onKeyDown={onKeyDown} onFocus={onFocus} onBlur={onBlur} onPointerMove={onPointerMove} data-selected={chosen ? '' : undefined} title={typeof children === 'string' ? children : undefined} className={cn(classes, 'group')} {...props}>
+        <RS.ItemText><span data-slot="select-option-label" className="block min-w-0 truncate">{children}</span></RS.ItemText>
         {selected
           ? <span data-slot="select-check" aria-hidden="true" className={selectCheckVariants()}><Check /></span>
           : <RS.ItemIndicator data-slot="select-check" aria-hidden="true" className={selectCheckVariants()}><Check /></RS.ItemIndicator>}
@@ -157,7 +157,7 @@ export function SelectOption({ value, selected, disabled = false, className, chi
       onKeyDown={e => { onKeyDown?.(e); if (!e.defaultPrevented && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); choose(); } }}
       {...props}
     >
-      <span data-slot="select-option-label" className="min-w-0 truncate">{children}</span>
+      <span data-slot="select-option-label" className="min-w-0 truncate" title={typeof children === 'string' ? children : undefined}>{children}</span>
       {chosen && <span data-slot="select-check" aria-hidden="true" className={selectCheckVariants()}><Check /></span>}
     </div>
   );

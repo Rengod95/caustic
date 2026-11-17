@@ -817,12 +817,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.755,
-          0.1545,
-          88
+          0.66,
+          0.192,
+          288
         ],
         "alpha": 0.35,
-        "hex": "#d8a800"
+        "hex": "#9078ff"
       }
     }
   },
@@ -935,9 +935,13 @@
     }
   },
   "syntax": {
+    "foreground": {
+      "$type": "color",
+      "$value": "{text.primary}"
+    },
     "keyword": {
       "$type": "color",
-      "$value": "{color.info-dark.11}"
+      "$value": "{color.extra-5-dark.11}"
     },
     "string": {
       "$type": "color",
@@ -945,11 +949,137 @@
     },
     "property": {
       "$type": "color",
-      "$value": "{color.extra-1-dark.11}"
+      "$value": "{color.info-dark.11}"
     },
     "comment": {
       "$type": "color",
       "$value": "{text.secondary}"
+    },
+    "number": {
+      "$type": "color",
+      "$value": "{color.extra-1-dark.11}"
+    },
+    "constant": {
+      "$type": "color",
+      "$value": "{color.extra-1-dark.11}"
+    },
+    "function": {
+      "$type": "color",
+      "$value": "{color.extra-4-dark.11}"
+    },
+    "type": {
+      "$type": "color",
+      "$value": "{color.extra-3-dark.11}"
+    },
+    "parameter": {
+      "$type": "color",
+      "$value": "{text.primary}"
+    },
+    "variable": {
+      "$type": "color",
+      "$value": "{text.primary}"
+    },
+    "operator": {
+      "$type": "color",
+      "$value": "{color.extra-3-dark.11}"
+    },
+    "punctuation": {
+      "$type": "color",
+      "$value": "{text.secondary}"
+    },
+    "tag": {
+      "$type": "color",
+      "$value": "{color.danger-dark.11}"
+    },
+    "attr": {
+      "$type": "color",
+      "$value": "{color.extra-1-dark.11}"
+    },
+    "regexp": {
+      "$type": "color",
+      "$value": "{color.warning-dark.11}"
+    },
+    "link": {
+      "$type": "color",
+      "$value": "{color.info-dark.11}"
+    },
+    "heading": {
+      "$type": "color",
+      "$value": "{color.extra-4-dark.11}"
+    },
+    "inserted": {
+      "$type": "color",
+      "$value": "{diff.add-text}"
+    },
+    "deleted": {
+      "$type": "color",
+      "$value": "{diff.remove-text}"
+    }
+  },
+  "ansi": {
+    "black": {
+      "$type": "color",
+      "$value": "{color.neutral-dark.5}"
+    },
+    "red": {
+      "$type": "color",
+      "$value": "{color.danger-dark.9}"
+    },
+    "green": {
+      "$type": "color",
+      "$value": "{color.success-dark.9}"
+    },
+    "yellow": {
+      "$type": "color",
+      "$value": "{color.warning-dark.9}"
+    },
+    "blue": {
+      "$type": "color",
+      "$value": "{color.extra-4-dark.9}"
+    },
+    "magenta": {
+      "$type": "color",
+      "$value": "{color.extra-5-dark.9}"
+    },
+    "cyan": {
+      "$type": "color",
+      "$value": "{color.extra-3-dark.9}"
+    },
+    "white": {
+      "$type": "color",
+      "$value": "{color.neutral-dark.10}"
+    },
+    "bright-black": {
+      "$type": "color",
+      "$value": "{color.neutral-dark.8}"
+    },
+    "bright-red": {
+      "$type": "color",
+      "$value": "{color.danger-dark.11}"
+    },
+    "bright-green": {
+      "$type": "color",
+      "$value": "{color.success-dark.11}"
+    },
+    "bright-yellow": {
+      "$type": "color",
+      "$value": "{color.warning-dark.11}"
+    },
+    "bright-blue": {
+      "$type": "color",
+      "$value": "{color.extra-4-dark.11}"
+    },
+    "bright-magenta": {
+      "$type": "color",
+      "$value": "{color.extra-5-dark.11}"
+    },
+    "bright-cyan": {
+      "$type": "color",
+      "$value": "{color.extra-3-dark.11}"
+    },
+    "bright-white": {
+      "$type": "color",
+      "$value": "{color.neutral-dark.11}"
     }
   },
   "canvas": {

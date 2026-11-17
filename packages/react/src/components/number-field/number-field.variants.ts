@@ -196,7 +196,7 @@ export const numberFieldStepperVariants = cva(
         solid: 'bg-(--tone-raised) shadow-[inset_0_0_0_1px_var(--tone-raised-edge)]',
         ghost: 'bg-transparent',
       },
-      size: { xs: 'h-control-md text-ui-sm', sm: 'h-field-sm', md: 'h-field-md', lg: 'h-field-lg text-ui-lg' },
+      size: { xs: 'h-field-xs text-ui-sm', sm: 'h-field-sm', md: 'h-field-md', lg: 'h-field-lg text-ui-lg' },
       // The default key keeps the component's own corner and shadow (''); every other key sets that token (the radiusClass / shadowClass names of common-props.ts, written out so Tailwind, which scans ./components only, generates them).
       radius: { none: 'rounded-none', '2xs': 'rounded-2xs', xs: 'rounded-xs', sm: 'rounded-sm', md: 'rounded-md', lg: 'rounded-lg', xl: '', '2xl': 'rounded-2xl', '3xl': 'rounded-3xl', '4xl': 'rounded-4xl', full: 'rounded-full' },
       shadow: { none: '', '1': 'shadow-1', '2': 'shadow-2', '3': 'shadow-3', '4': 'shadow-4', '5': 'shadow-5' },
@@ -211,7 +211,7 @@ export const numberFieldStepperVariants = cva(
 export const numberFieldStepButtonVariants = cva(
   'grid h-full shrink-0 place-items-center text-text-secondary transition-control hover:bg-neutral-hover hover:text-text-primary disabled:pointer-events-none disabled:text-disabled-text [&_svg]:size-icon-sm',
   {
-    // Press: the icon targets at xs to md (28px tall at md) press to 0.94, lg to 0.97.
+    // Press: the icon targets at xs to md (28px tall at md) press to 0.98 like every size (press-sm and press are both 0.98).
     variants: { size: { xs: 'w-7 press-sm', sm: 'w-8 press-sm', md: 'w-10 press-sm', lg: 'w-12 press' } },
     defaultVariants: { size: 'md' },
   },

@@ -10,7 +10,7 @@ export default defineSpec({
   role: 'radiogroup',
   slots: [
     { name: 'root', el: 'div', role: 'radiogroup', description: 'The grid. Grid, 12px gap, auto-fill columns of at least 170px. Needs an accessible name (aria-label, for example "Themes").' },
-    { name: 'item', el: 'button', parent: 'root', role: 'radio', description: 'One theme card. A grid, 2xl radius, overflow hidden, base surface with a hairline edge and no elevation at rest (one depth cue), left-aligned text. aria-checked = selected, roving tabindex. On hover it lifts 2px (the specimen\'s spring, base duration) and the hairline gives way to elevation 3.' },
+    { name: 'item', el: 'button', parent: 'root', role: 'radio', description: 'One theme card. A grid, 2xl radius, overflow hidden, base surface with a hairline edge and no elevation at rest (one depth cue), left-aligned text. aria-checked = selected, roving tabindex. On hover the hairline gives way to elevation 3; the card does not move (owner 2026-11-11).' },
     { name: 'preview', el: 'div', parent: 'item', description: 'The mini app: 8px margin, 120px tall, xl radius, 8px padding, grid of 32px / 1fr with a 6px gap, overflow hidden, hairline inset edge. Fill = the theme page color. The colors and radius are custom properties (--m-bg, --m-surf, --m-acc, --m-ink, --m-muted, --m-r). Decorative (aria-hidden).' },
     { name: 'sidebar', el: 'div', parent: 'preview', description: 'Mini navigation: sm radius, 5px padding, 4px gap, surface color.' },
     { name: 'sidebar-item', el: 'i', parent: 'sidebar', description: 'A 4px bar (2px radius) in the muted color; the first bar is the accent (current page).' },
@@ -31,7 +31,7 @@ export default defineSpec({
     tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'accent', description: 'Colour of the check mark of the checked card (tone.solid disc, tone.on glyph). The selection ring stays the ink ring; the preview colours are theme data.' },
     variant: { values: ['outline', 'solid', 'soft', 'ghost'], default: 'outline', description: 'Card look, set on ThemeGallery for every card: outline = surface.base with a border.subtle hairline (the specimen); solid = surface.raised, no hairline; soft = neutral.well, no hairline; ghost = no fill, no hairline. Hover, checked and focus are the same in every variant.' },
     radius: { values: ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'], default: '2xl', description: 'Card corner; 2xl is the own radius.' },
-    shadow: { values: ['none', '1', '2', '3', '4', '5'], default: 'none', description: 'Card elevation at rest; none is the specimen (the hairline is the one depth cue); hover still lifts to elevation 3.' },
+    shadow: { values: ['none', '1', '2', '3', '4', '5'], default: 'none', description: 'Card elevation at rest; none is the specimen (the hairline is the one depth cue); hover still raises the shadow to elevation 3.' },
   },
   sizes: { values: ['xs', 'sm', 'md', 'lg'], default: 'md' },
   states: {
@@ -60,7 +60,7 @@ export default defineSpec({
   styles: [
     { slot: 'root', expect: { gap: 12 }, note: 'Columns repeat(auto-fill, minmax(170px, 1fr)); the 170px minimum is size-theme-card-min.' },
     { slot: 'item', when: { checked: false }, expect: { bg: 'surface.base', edge: 'border.subtle', radius: '2xl', text: 'ui' }, note: 'One depth cue: a resting card has the hairline and no elevation. checked false: the fixture selects the first card by default.' },
-    { slot: 'item', when: { state: 'hover', checked: false }, expect: { shadow: '3' }, note: 'The hairline gives way to elevation 3. Also translateY(-2px) over the base duration with the spring easing; stops under reduced motion (P8).' },
+    { slot: 'item', when: { state: 'hover', checked: false }, expect: { shadow: '3' }, note: 'The hairline gives way to elevation 3 on quick/out. No translate (owner 2026-11-11: hover never moves a control).' },
     { slot: 'item', when: { state: 'checked' }, expect: { edge: 'selection.fill', shadow: '3', ring: 'none' }, note: 'A 1.5px inset ring in selection.fill (the ink every selected item uses; owner 2026-10-26: content cards keep a ring, not an inversion) over elevation 3 plus the check mark; never the focus ring, and focus adds its outer ring, so both show.' },
     { slot: 'check', when: { state: 'checked' }, expect: { bg: 'accent.solid', fg: 'accent.on', height: 'size-check', width: 'size-check', radius: 'full' } },
     { slot: 'item', when: { state: 'focus-visible' }, expect: { ring: 'focus' } },
@@ -92,7 +92,7 @@ export default defineSpec({
       'Home / End': 'select the first / last card',
       'Space / Enter': 'select the focused card',
     },
-    pointer: ['pressing a card selects it; hover lifts it', 'selecting a theme only previews it; applying is the consumer\'s separate action'],
+    pointer: ['pressing a card selects it (press 0.98); hover raises its shadow', 'selecting a theme only previews it; applying is the consumer\'s separate action'],
     scenarios: [
       { name: 'ArrowRight selects the next theme', steps: [{ do: 'focus', slot: 'item' }, { do: 'press', key: 'ArrowRight' }], expect: [{ event: 'onValueChange', calls: 1, args: ['swiss'] }] },
       { name: 'selected card is checked', steps: [], expect: [{ slot: 'item', attr: { 'aria-checked': 'true' } }] },
@@ -105,8 +105,8 @@ export default defineSpec({
     notes: [
       'A radio group of buttons: role radiogroup > role radio with aria-checked and roving tabindex. The accessible name of a card is the theme name (aria-labelledby the name); the caption is its description (aria-describedby).',
       'The mini app and the color dots are decorative (aria-hidden): the colors are not described, so do not rely on them to tell themes apart; the name does.',
-      'Selection is the 1.5px selection-ink ring plus a check mark and aria-checked, never the focus ring and not only a lift.',
-      'Hover lift is 2px over a base duration and is removed under reduced motion.',
+      'Selection is the 1.5px selection-ink ring plus a check mark and aria-checked, never the focus ring and not only a shadow.',
+      'Hover changes only the shadow; the press scale is removed under reduced motion.',
     ],
   },
   policies: ['P5', 'P6', 'P8'],

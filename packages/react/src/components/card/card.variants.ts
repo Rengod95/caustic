@@ -170,15 +170,15 @@ export const cardGlassShadowVariants = cva('', {
 export const cardReadingVariants = cva('[&_[data-slot=card-body]]:text-text-primary');
 
 /**
- * CardLink and CardChoice: the whole card is one target. It lifts on hover (the lift elevation replaces the hairline,
- * 2px up on the spring) and presses to 0.97; both respect reduced motion. It draws the focus ring; a card with a cover
+ * CardLink and CardChoice: the whole card is one target. On hover the lift elevation replaces the hairline (the card does
+ * not move, owner 2026-11-11) and it presses to 0.98; the press respects reduced motion. It draws the focus ring; a card with a cover
  * adds elevation 2 to the ring.
  */
 export const cardTargetVariants = cva([
   'cursor-pointer text-left no-underline outline-none',
   // Position and size move on the spring; colour, shadow and the selected text colour run on quick / out (springs only move).
-  'transition-[translate,scale,box-shadow,background-color,color] duration-[var(--cs-duration-spring),var(--cs-duration-spring),var(--cs-duration-quick),var(--cs-duration-quick),var(--cs-duration-quick)] ease-[var(--cs-ease-spring),var(--cs-ease-spring),var(--cs-ease-out),var(--cs-ease-out),var(--cs-ease-out)]',
-  'lift press',
+  'transition-[scale,box-shadow,background-color,color] duration-[var(--cs-duration-spring),var(--cs-duration-quick),var(--cs-duration-quick),var(--cs-duration-quick)] ease-[var(--cs-ease-spring),var(--cs-ease-out),var(--cs-ease-out),var(--cs-ease-out)]',
+  'press',
   'hover:shadow-[var(--cs-elevation-lift)]',
   'focus-visible:shadow-focus',
   'has-[[data-slot=card-cover]]:hover:shadow-[var(--cs-elevation-lift)] has-[[data-slot=card-cover]]:focus-visible:shadow-[var(--cs-focus),var(--cs-elevation-2)]',

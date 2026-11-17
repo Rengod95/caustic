@@ -106,7 +106,7 @@ export default defineSpec({
       'Shift+Enter': 'insert a line break',
       Tab: 'moves focus through the controls in the bar',
     },
-    pointer: ['pressing the box outside a control focuses the input', 'the send control fills nothing on press other than the 1.06 scale of IconButton ink'],
+    pointer: ['pressing the box outside a control focuses the input', 'the send control takes the ink hover fill of IconButton and presses to 0.98; it never scales on hover'],
     scenarios: [
       { name: 'Enter submits', props: { defaultValue: 'Add saved cards' }, steps: [{ do: 'focus', slot: 'input' }, { do: 'press', key: 'Enter' }], expect: [{ event: 'onSubmit', args: ['Add saved cards'] }] },
       { name: 'Shift+Enter does not submit', props: { defaultValue: 'Add saved cards' }, steps: [{ do: 'focus', slot: 'input' }, { do: 'press', key: 'Shift+Enter' }], expect: [{ event: 'onSubmit', calls: 0 }] },

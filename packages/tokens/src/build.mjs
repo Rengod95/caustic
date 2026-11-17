@@ -416,6 +416,12 @@ ${Object.entries(T.size['control-compact']).map(([k, px]) => v(`control-${k}`, `
 ${Object.entries(T.size['field-compact']).map(([k, px]) => v(`field-${k}`, `${px}px`)).join('\n')}
 }
 
+/* Desktop density: fields take the control scale (tokens.mjs densityDesktop). */
+:root[data-density="desktop"] {
+${Object.entries(T.densityDesktop.field).map(([k, px]) => v(`field-${k}`, `${px}px`)).join('\n')}
+${Object.entries(T.densityDesktop.component).map(([k, px]) => v(`size-${k}`, `${px}px`)).join('\n')}
+}
+
 /* Korean tracking (tokens.mjs hangul, DP-11). Attribute selectors, so only the elements that carry lang declare these:
    the Korean block on a ko root or subtree, the Latin block on any other lang subtree (an en island inside a ko page).
    Both the --cs- tracking and its Tailwind twin are re-declared, because a custom property inherits its resolved value. */
@@ -569,25 +575,33 @@ function tailwindTheme() {
   add('animate-scan', `cs-scan var(--${P}-duration-scan) var(--${P}-ease-out) infinite`);
   // Presets (motion v2). Enter and exit take their offset and scale from the --cs-enter-* variables set by the modifiers.
   add('animate-enter', `cs-enter var(--${P}-duration-swift) var(--${P}-ease-out) backwards`);
-  add('animate-exit', `cs-exit var(--${P}-duration-quick) var(--${P}-ease-out) both`);
-  add('animate-enter-dialog', `cs-enter var(--${P}-duration-gentle) var(--${P}-ease-out) backwards`);
+  add('animate-exit', `cs-exit var(--${P}-duration-quick) var(--${P}-ease-in) both`);
+  add('animate-enter-dialog', `cs-enter var(--${P}-duration-base) var(--${P}-ease-out) backwards`);
   add('animate-enter-panel', `cs-enter var(--${P}-duration-gentle) var(--${P}-ease-drawer) backwards`);
-  add('animate-exit-panel', `cs-exit var(--${P}-duration-base) var(--${P}-ease-drawer) both`);
+  add('animate-exit-panel', `cs-exit var(--${P}-duration-swift) var(--${P}-ease-in) both`);
   add('animate-collapse-open', `cs-collapse-open var(--${P}-duration-base) var(--${P}-ease-out)`);
-  add('animate-collapse-close', `cs-collapse-close var(--${P}-duration-base) var(--${P}-ease-out) forwards`);
+  add('animate-collapse-close', `cs-collapse-close var(--${P}-duration-swift) var(--${P}-ease-standard) forwards`);
   add('animate-rise', `cs-rise var(--${P}-duration-swift) var(--${P}-ease-out) backwards`);
   add('animate-pop', `cs-pop var(--${P}-duration-snappy) var(--${P}-ease-snappy) backwards`);
+  // Live step (Stepper, Fresnel dz 2026-11-13, round 2): a glint that runs along the Fresnel grooves (each groove with its own
+  // delay), and the particles of the default live mark (breathe, orbit). Loops: only where the spec sets flags.motionLoop.
+  add('animate-glint', `cs-glint var(--${P}-duration-orb) var(--${P}-ease-in-out) infinite`);
+  add('animate-breathe', `cs-breathe var(--${P}-duration-orb) var(--${P}-ease-in-out) infinite`);
+  add('animate-orbit', `cs-rot var(--${P}-duration-shimmer) linear infinite`);
   L.push('  @keyframes cs-rot { to { transform: rotate(360deg); } }');
   L.push('  @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }');
   L.push('  @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }');
   L.push('  @keyframes cs-slide { to { background-position: -200% 0; } }');
-  // Enter and exit move with transform, so they compose with the translate/scale properties (centring, press, lift).
+  // Enter and exit move with transform, so they compose with the translate/scale properties (centring, press). Exits run at
+  // about 60% of the enter on the in curve; a collapse closes a little longer (swift) on standard.
   L.push(`  @keyframes cs-enter { from { opacity: 0; transform: translate(var(--${P}-enter-x, 0), var(--${P}-enter-y, 0)) scale(var(--${P}-enter-scale, 1)); } }`);
   L.push(`  @keyframes cs-exit { to { opacity: 0; transform: translate(var(--${P}-enter-x, 0), var(--${P}-enter-y, 0)) scale(var(--${P}-enter-scale, 1)); } }`);
   L.push(`  @keyframes cs-collapse-open { from { height: 0; padding-block: 0; opacity: 0; } to { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } }`);
   L.push(`  @keyframes cs-collapse-close { from { height: var(--${P}-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; padding-block: 0; opacity: 0; } }`);
   L.push(`  @keyframes cs-rise { from { opacity: 0; transform: translateY(var(--${P}-shift-enter)); } }`);
   L.push('  @keyframes cs-pop { from { opacity: 0; transform: scale(0.6); } }');
+  L.push('  @keyframes cs-glint { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }');
+  L.push('  @keyframes cs-breathe { 0%, 100% { opacity: 0.35; transform: scale(0.75); } 50% { opacity: 1; transform: scale(1); } }');
   L.push('}', '');
   L.push(`/* Caustic utilities: materials, agent signature, focus policy */
 @utility glass {
@@ -644,8 +658,10 @@ ${fillDecls('selection.fill').join('\n')}
   animation: cs-shimmer var(--${P}-duration-shimmer) linear infinite;
 }
 /* Motion presets. Scale and translate are their own properties in Tailwind 4, so a transition list names them (or uses
-   transition-control). press and lift only move when the user allows motion; reduced motion is global (base.css). */
-/* Colour and opacity change on quick/out; scale and translate (press release, lift) settle on the spring, so a release
+   transition-control). press only moves when the user allows motion: the media query, or an app that sets
+   data-motion="reduce" on the root for its own setting. Reduced motion is otherwise global (base.css). Nothing scales or
+   moves on hover (no lift, owner 2026-11-11).  */
+/* Colour and opacity change on quick/out; scale and translate (press release) settle on the spring, so a release
    eases back instead of snapping. press and press-sm take the press-in itself on swift/out (the transition of the state
    being entered applies). The lists follow the property order. */
 @utility transition-control {
@@ -655,19 +671,14 @@ ${fillDecls('selection.fill').join('\n')}
 }
 @utility press {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--${P}-scale-press); }
+    :root:not([data-motion="reduce"]) &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--${P}-scale-press); }
     &:is(.transition-control):active { transition-duration: var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-swift), var(--${P}-duration-spring); transition-timing-function: var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-spring); }
   }
 }
 @utility press-sm {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--${P}-scale-press-sm); }
+    :root:not([data-motion="reduce"]) &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--${P}-scale-press-sm); }
     &:is(.transition-control):active { transition-duration: var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-quick), var(--${P}-duration-swift), var(--${P}-duration-spring); transition-timing-function: var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-out), var(--${P}-ease-spring); }
-  }
-}
-@utility lift {
-  @media (prefers-reduced-motion: no-preference) {
-    &:hover:not(:disabled, [aria-disabled="true"]) { translate: 0 calc(var(--${P}-shift-lift) * -1); }
   }
 }
 @utility enter-scale { --${P}-enter-scale: var(--${P}-scale-enter); }

@@ -12,7 +12,7 @@ import { cva } from 'class-variance-authority';
 export const menuSurfaceVariants = cva(
   // The motion is the overlay's: a Radix content (Menu, Select, Combobox, Date picker) enters and exits with its state.
   // The transform origin is set by each primitive's own className (the variable names differ).
-  'glass min-w-menu-min rounded-2xl p-1.5 text-ui text-text-primary outline-none data-[state=open]:animate-enter data-[state=closed]:animate-exit enter-scale enter-from-side',
+  'glass min-w-menu-min rounded-2xl p-1 text-ui text-text-primary outline-none data-[state=open]:animate-enter data-[state=closed]:animate-exit enter-scale enter-from-side',
   {
     variants: {
       tone: { neutral: '', accent: '', success: '', warning: '', danger: '', info: '', agent: '' },
@@ -64,13 +64,15 @@ export const menuHeadingVariants = cva('mb-0.25 mt-0.75 px-2 py-1.25 text-text-t
 });
 
 /**
- * One action or choice. Radius lg is concentric with the surface (2xl − 6px padding).
- * Hover and the keyboard highlight share neutral-hover (danger.tint on a danger item). The selected item inverts (selected utility: ink fill, paper text,
- * no edge; its icon, check and meta invert with it); highlighted while selected it takes selection.fill-hover.
- * Disabled is colour and drops the inversion: a disabled selected item is disabled.fill with disabled text.
+ * One action or choice. Radius xl is concentric with the surface (2xl 16 − 4px padding); rows are 4px apart, the same as
+ * the surface padding (owner 2026-11-12, Fresnel dzI: the gap between rows equals the row-to-container padding).
+ * Hover and the keyboard highlight share neutral-hover (danger.tint on a danger item). The selected item takes the light
+ * neutral.selected fill and keeps its text colours (owner 2026-11-12: the ink inversion was too heavy); the trailing check
+ * marks the choice. Highlighted while selected it takes neutral.selected-hover.
+ * Disabled is colour: a disabled selected item is disabled.fill with disabled text.
  */
 export const menuItemVariants = cva([
-  'flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg px-2 text-left text-ui text-text-primary outline-none transition-control',
+  'flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-xl px-2 text-left text-ui text-text-primary outline-none transition-control',
   'hover:bg-neutral-hover data-[highlighted]:bg-neutral-hover',
   // No focus ring on items (owner 2026-10-28): Radix and the roving focus move real focus to the item under the pointer, and
   // the global :focus-visible ring drew a dark outline on hover. The highlight fill already marks the active item for
@@ -79,7 +81,7 @@ export const menuItemVariants = cva([
   // A destructive item (owner 2026-10-28, A): hover and the keyboard highlight fill it with danger.tint instead of the
   // neutral hover, so the risk reads on the fill as well as on the red label.
   'data-[tone=danger]:hover:bg-danger-tint data-[tone=danger]:data-[highlighted]:bg-danger-tint data-[tone=danger]:focus-visible:bg-danger-tint',
-  'data-[selected]:not-data-[disabled]:selected data-[selected]:hover:bg-selection-fill-hover data-[selected]:data-[highlighted]:bg-selection-fill-hover',
+  'data-[selected]:not-data-[disabled]:bg-neutral-selected data-[selected]:not-data-[disabled]:hover:bg-neutral-selected-hover data-[selected]:not-data-[disabled]:data-[highlighted]:bg-neutral-selected-hover',
   'data-[disabled]:pointer-events-none data-[disabled]:text-disabled-text data-[disabled]:data-[selected]:bg-disabled-fill',
 ], {
   variants: {
@@ -96,7 +98,7 @@ export const menuItemVariants = cva([
 
 /**
  * Leading icon / swatch: 16px, tertiary; the item tone's text colour on a toned item (danger for destructive items); primary
- * on the selected item (its check reads at full strength). Disabled is colour and the tone drops: the group-data rules
+ * on the selected item (it reads at full strength on the light selected fill). Disabled is colour and the tone drops: the group-data rules
  * (0,2,0) beat the tone class, and the stacked disabled + selected rule (0,3,0) beats the selected one whatever their CSS order.
  */
 export const menuIconVariants = cva(
@@ -112,7 +114,8 @@ export const menuIconVariants = cva(
   },
 );
 
-/** Trailing meta text or shortcut chord, pushed to the end. Tertiary; on the selected item it reads selection.on-tertiary (the selected utility re-points text.tertiary); disabled colour. */
+/** Trailing meta text, shortcut chord or check, pushed to the end. Tertiary (the selected item keeps it); disabled colour. */
 export const menuEndVariants = cva('ml-auto flex shrink-0 items-center gap-1 text-text-tertiary group-data-[disabled]:text-disabled-text');
 
-export const menuSeparatorVariants = cva('mx-1.5 my-1 h-px bg-border-subtle');
+/** A 1px rule. The list gap (4px) spaces it from the rows, so it has no vertical margin of its own. */
+export const menuSeparatorVariants = cva('mx-2 h-px shrink-0 bg-border-subtle');

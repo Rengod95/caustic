@@ -49,7 +49,7 @@ export const toggleGroupItem = cva(
         info: 'data-[state=on]:text-info-text',
         agent: 'data-[state=on]:text-agent-text',
       },
-      // Icon targets at 28px and under press to 0.94 (press-sm); larger ones to 0.97.
+      // Icon targets at 28px and under press with press-sm, larger ones with press (both 0.98).
       size: { xs: 'size-control-xs press-sm', sm: 'size-control-sm press-sm', md: 'size-control-md press', lg: 'size-control-lg press' },
     },
     defaultVariants: { tone: 'neutral', size: 'md' },

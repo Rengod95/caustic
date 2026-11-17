@@ -173,10 +173,42 @@
   --color-diff-remove-bg: var(--cs-color-diff-remove-bg);
   --color-diff-add-text: var(--cs-color-diff-add-text);
   --color-diff-remove-text: var(--cs-color-diff-remove-text);
+  --color-syntax-foreground: var(--cs-color-syntax-foreground);
   --color-syntax-keyword: var(--cs-color-syntax-keyword);
   --color-syntax-string: var(--cs-color-syntax-string);
   --color-syntax-property: var(--cs-color-syntax-property);
   --color-syntax-comment: var(--cs-color-syntax-comment);
+  --color-syntax-number: var(--cs-color-syntax-number);
+  --color-syntax-constant: var(--cs-color-syntax-constant);
+  --color-syntax-function: var(--cs-color-syntax-function);
+  --color-syntax-type: var(--cs-color-syntax-type);
+  --color-syntax-parameter: var(--cs-color-syntax-parameter);
+  --color-syntax-variable: var(--cs-color-syntax-variable);
+  --color-syntax-operator: var(--cs-color-syntax-operator);
+  --color-syntax-punctuation: var(--cs-color-syntax-punctuation);
+  --color-syntax-tag: var(--cs-color-syntax-tag);
+  --color-syntax-attr: var(--cs-color-syntax-attr);
+  --color-syntax-regexp: var(--cs-color-syntax-regexp);
+  --color-syntax-link: var(--cs-color-syntax-link);
+  --color-syntax-heading: var(--cs-color-syntax-heading);
+  --color-syntax-inserted: var(--cs-color-syntax-inserted);
+  --color-syntax-deleted: var(--cs-color-syntax-deleted);
+  --color-ansi-black: var(--cs-color-ansi-black);
+  --color-ansi-red: var(--cs-color-ansi-red);
+  --color-ansi-green: var(--cs-color-ansi-green);
+  --color-ansi-yellow: var(--cs-color-ansi-yellow);
+  --color-ansi-blue: var(--cs-color-ansi-blue);
+  --color-ansi-magenta: var(--cs-color-ansi-magenta);
+  --color-ansi-cyan: var(--cs-color-ansi-cyan);
+  --color-ansi-white: var(--cs-color-ansi-white);
+  --color-ansi-bright-black: var(--cs-color-ansi-bright-black);
+  --color-ansi-bright-red: var(--cs-color-ansi-bright-red);
+  --color-ansi-bright-green: var(--cs-color-ansi-bright-green);
+  --color-ansi-bright-yellow: var(--cs-color-ansi-bright-yellow);
+  --color-ansi-bright-blue: var(--cs-color-ansi-bright-blue);
+  --color-ansi-bright-magenta: var(--cs-color-ansi-bright-magenta);
+  --color-ansi-bright-cyan: var(--cs-color-ansi-bright-cyan);
+  --color-ansi-bright-white: var(--cs-color-ansi-bright-white);
   --color-canvas-dot: var(--cs-color-canvas-dot);
   --color-canvas-selection: var(--cs-color-canvas-selection);
   --color-canvas-handle: var(--cs-color-canvas-handle);
@@ -248,6 +280,7 @@
   --spacing-control-md: var(--cs-control-md);
   --spacing-control-lg: var(--cs-control-lg);
   --spacing-control-xl: var(--cs-control-xl);
+  --spacing-field-xs: var(--cs-field-xs);
   --spacing-field-sm: var(--cs-field-sm);
   --spacing-field-md: var(--cs-field-md);
   --spacing-field-lg: var(--cs-field-lg);
@@ -257,6 +290,7 @@
   --spacing-control-compact-md: var(--cs-control-compact-md);
   --spacing-control-compact-lg: var(--cs-control-compact-lg);
   --spacing-control-compact-xl: var(--cs-control-compact-xl);
+  --spacing-field-compact-xs: var(--cs-field-compact-xs);
   --spacing-field-compact-sm: var(--cs-field-compact-sm);
   --spacing-field-compact-md: var(--cs-field-compact-md);
   --spacing-field-compact-lg: var(--cs-field-compact-lg);
@@ -282,6 +316,16 @@
   --spacing-switch-sm-thumb-w: var(--cs-size-switch-sm-thumb-w);
   --spacing-switch-sm-travel: var(--cs-size-switch-sm-travel);
   --spacing-switch-sm-press: var(--cs-size-switch-sm-press);
+  --spacing-switch-md-press-travel: var(--cs-size-switch-md-press-travel);
+  --spacing-switch-sm-press-travel: var(--cs-size-switch-sm-press-travel);
+  --spacing-segment-pad: var(--cs-size-segment-pad);
+  --spacing-segment-xs: var(--cs-size-segment-xs);
+  --spacing-segment-sm: var(--cs-size-segment-sm);
+  --spacing-segment-md: var(--cs-size-segment-md);
+  --spacing-segment-lg: var(--cs-size-segment-lg);
+  --spacing-tag-input-row: var(--cs-size-tag-input-row);
+  --spacing-tag-input-pad-sm: var(--cs-size-tag-input-pad-sm);
+  --spacing-tag-input-pad-md: var(--cs-size-tag-input-pad-md);
   --spacing-avatar-xs: var(--cs-size-avatar-xs);
   --spacing-avatar-sm: var(--cs-size-avatar-sm);
   --spacing-avatar-md: var(--cs-size-avatar-md);
@@ -616,14 +660,17 @@
   --animate-slide: cs-slide var(--cs-duration-slide) linear infinite;
   --animate-scan: cs-scan var(--cs-duration-scan) var(--cs-ease-out) infinite;
   --animate-enter: cs-enter var(--cs-duration-swift) var(--cs-ease-out) backwards;
-  --animate-exit: cs-exit var(--cs-duration-quick) var(--cs-ease-out) both;
-  --animate-enter-dialog: cs-enter var(--cs-duration-gentle) var(--cs-ease-out) backwards;
+  --animate-exit: cs-exit var(--cs-duration-quick) var(--cs-ease-in) both;
+  --animate-enter-dialog: cs-enter var(--cs-duration-base) var(--cs-ease-out) backwards;
   --animate-enter-panel: cs-enter var(--cs-duration-gentle) var(--cs-ease-drawer) backwards;
-  --animate-exit-panel: cs-exit var(--cs-duration-base) var(--cs-ease-drawer) both;
+  --animate-exit-panel: cs-exit var(--cs-duration-swift) var(--cs-ease-in) both;
   --animate-collapse-open: cs-collapse-open var(--cs-duration-base) var(--cs-ease-out);
-  --animate-collapse-close: cs-collapse-close var(--cs-duration-base) var(--cs-ease-out) forwards;
+  --animate-collapse-close: cs-collapse-close var(--cs-duration-swift) var(--cs-ease-standard) forwards;
   --animate-rise: cs-rise var(--cs-duration-swift) var(--cs-ease-out) backwards;
   --animate-pop: cs-pop var(--cs-duration-snappy) var(--cs-ease-snappy) backwards;
+  --animate-glint: cs-glint var(--cs-duration-orb) var(--cs-ease-in-out) infinite;
+  --animate-breathe: cs-breathe var(--cs-duration-orb) var(--cs-ease-in-out) infinite;
+  --animate-orbit: cs-rot var(--cs-duration-shimmer) linear infinite;
   @keyframes cs-rot { to { transform: rotate(360deg); } }
   @keyframes cs-scan { from { background-position: 0 100%; } to { background-position: 0 -100%; } }
   @keyframes cs-indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
@@ -634,6 +681,8 @@
   @keyframes cs-collapse-close { from { height: var(--cs-collapse-height, var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto))); } to { height: 0; padding-block: 0; opacity: 0; } }
   @keyframes cs-rise { from { opacity: 0; transform: translateY(var(--cs-shift-enter)); } }
   @keyframes cs-pop { from { opacity: 0; transform: scale(0.6); } }
+  @keyframes cs-glint { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  @keyframes cs-breathe { 0%, 100% { opacity: 0.35; transform: scale(0.75); } 50% { opacity: 1; transform: scale(1); } }
 }
 
 /* Caustic utilities: materials, agent signature, focus policy */
@@ -716,8 +765,10 @@
   animation: cs-shimmer var(--cs-duration-shimmer) linear infinite;
 }
 /* Motion presets. Scale and translate are their own properties in Tailwind 4, so a transition list names them (or uses
-   transition-control). press and lift only move when the user allows motion; reduced motion is global (base.css). */
-/* Colour and opacity change on quick/out; scale and translate (press release, lift) settle on the spring, so a release
+   transition-control). press only moves when the user allows motion: the media query, or an app that sets
+   data-motion="reduce" on the root for its own setting. Reduced motion is otherwise global (base.css). Nothing scales or
+   moves on hover (no lift, owner 2026-11-11).  */
+/* Colour and opacity change on quick/out; scale and translate (press release) settle on the spring, so a release
    eases back instead of snapping. press and press-sm take the press-in itself on swift/out (the transition of the state
    being entered applies). The lists follow the property order. */
 @utility transition-control {
@@ -727,19 +778,14 @@
 }
 @utility press {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press); }
+    :root:not([data-motion="reduce"]) &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press); }
     &:is(.transition-control):active { transition-duration: var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-swift), var(--cs-duration-spring); transition-timing-function: var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-spring); }
   }
 }
 @utility press-sm {
   @media (prefers-reduced-motion: no-preference) {
-    &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press-sm); }
+    :root:not([data-motion="reduce"]) &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :has(:is(button, a, input, [role="button"]):active)) { scale: var(--cs-scale-press-sm); }
     &:is(.transition-control):active { transition-duration: var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-quick), var(--cs-duration-swift), var(--cs-duration-spring); transition-timing-function: var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-out), var(--cs-ease-spring); }
-  }
-}
-@utility lift {
-  @media (prefers-reduced-motion: no-preference) {
-    &:hover:not(:disabled, [aria-disabled="true"]) { translate: 0 calc(var(--cs-shift-lift) * -1); }
   }
 }
 @utility enter-scale { --cs-enter-scale: var(--cs-scale-enter); }

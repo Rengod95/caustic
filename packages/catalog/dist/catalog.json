@@ -2877,7 +2877,7 @@
         "action": {
           "type": "ReactNode",
           "required": false,
-          "description": "Free action content (e.g. a Button xs), rendered as given after actions."
+          "description": "Free action content (e.g. a Button xs), rendered after actions. The alert provides a tone scope (ToneScopeContext): a Button or IconButton without tone takes the alert tone. Popover, Menu and Dialog content opened from it reset the scope."
         },
         "dismissible": {
           "type": "boolean",
@@ -2896,7 +2896,7 @@
           "action": {
             "type": "ReactNode",
             "required": false,
-            "description": "Free action content (e.g. a Button xs), rendered as given after actions."
+            "description": "Free action content (e.g. a Button xs), rendered after actions. The alert provides a tone scope (ToneScopeContext): a Button or IconButton without tone takes the alert tone. Popover, Menu and Dialog content opened from it reset the scope."
           },
           "actions": {
             "type": "AlertAction[]",
@@ -3129,7 +3129,7 @@
         "notes": [
           "Info, success and warning render role=\"status\" (polite); danger renders role=\"alert\" (assertive).",
           "The tone is carried by the message text, not by color alone; the icon is aria-hidden.",
-          "The message uses the tone text (step 11), which keeps 4.5 : 1 on the tint fill; the icon uses the tone graphic (step 8, 3 : 1). Actions from the actions prop are Buttons in the alert tone (tone solid / soft keep their own text contrast); free action content and the dismiss button set their own colors."
+          "The message uses the tone text (step 11), which keeps 4.5 : 1 on the tint fill; the icon uses the tone graphic (step 8, 3 : 1). Actions from the actions prop are Buttons in the alert tone (tone solid / soft keep their own text contrast); controls without a tone in the free action content, the message and the dismiss button take the alert tone through the tone scope (tone soft / ghost buttons keep their own text contrast on the tint)."
         ]
       },
       "flags": {
@@ -6515,7 +6515,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "neutral",
           "required": false,
-          "description": "Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis).",
+          "description": "Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis). Unset inside a coloured container (Alert, or any ToneScopeContext): the container tone, variant soft unless set; on a solid container neutral outline. An explicit tone always wins.",
           "values": [
             "neutral",
             "accent",
@@ -6596,7 +6596,7 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = control-md, field-sm, field-md, field-lg) so a button beside a field lines up without stepping size. Off keeps the control heights above."
+          "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = field-xs, field-sm, field-md, field-lg; under data-density=\"desktop\" the fields are the control heights, so it changes nothing) so a button beside a field lines up without stepping size. Off keeps the control heights above."
         },
         "loading": {
           "type": "boolean",
@@ -6639,7 +6639,7 @@
             "type": "boolean",
             "default": "false",
             "required": false,
-            "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = control-md, field-sm, field-md, field-lg) so a button beside a field lines up without stepping size. Off keeps the control heights above."
+            "description": "Opt-in: the button takes the height of the Input of the same size name (xs 32, sm 36, md 40, lg 44 = field-xs, field-sm, field-md, field-lg; under data-density=\"desktop\" the fields are the control heights, so it changes nothing) so a button beside a field lines up without stepping size. Off keeps the control heights above."
           },
           "iconEnd": {
             "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>",
@@ -6715,7 +6715,7 @@
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\" | LegacyTone",
             "default": "neutral",
             "required": false,
-            "description": "Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis).",
+            "description": "Colour family. Deprecated aliases: ink, secondary, ghost, destructive (tone + variant pairs, see the tone axis). Unset inside a coloured container (Alert, or any ToneScopeContext): the container tone, variant soft unless set; on a solid container neutral outline. An explicit tone always wins.",
             "values": [
               "ghost",
               "neutral",
@@ -14089,7 +14089,7 @@
           "el": "button",
           "parent": "ChoiceGroup",
           "required": true,
-          "description": "One option: role radio (single, roving tabindex) or checkbox (multiple), aria-checked, data-state, data-value. card: a CardChoice (data-kind=\"choice\", plain skin) painted as the former ChoiceCards: grid content | indicator, xl radius, 14px padding, 4px gap, surface.base with a border.default hairline; it lifts on hover like every CardChoice. tile: grid, content centred, lg radius, 1px border.default edge drawn inside, 54px (caption) or 62px (icon) tall. answer: grid with a 20px indicator column and the text, 8px gap, 10px padding, lg radius, 1px inset edge."
+          "description": "One option: role radio (single, roving tabindex) or checkbox (multiple), aria-checked, data-state, data-value. card: a CardChoice (data-kind=\"choice\", plain skin) painted as the former ChoiceCards: grid content | indicator, xl radius, 14px padding, 4px gap, surface.base with a border.default hairline; on hover its shadow rises like every CardChoice (no movement). tile: grid, content centred, lg radius, 1px border.default edge drawn inside, 54px (caption) or 62px (icon) tall. answer: grid with a 20px indicator column and the text, 8px gap, 10px padding, lg radius, 1px inset edge."
         }
       ],
       "events": {
@@ -17913,7 +17913,7 @@
           "el": "button",
           "parent": "Combobox",
           "required": false,
-          "description": "ComboboxRow: an action row (model menu \"Connect provider…\"): the option box (min 30px, lg radius, 8px padding and gap) in tertiary text; a Tab stop with the focus ring. Not an option."
+          "description": "ComboboxRow: an action row (model menu \"Connect provider…\"): the option box (min 30px, xl radius, 8px padding and gap) in tertiary text; a Tab stop with the focus ring. Not an option."
         },
         {
           "name": "ComboboxTile",
@@ -21730,7 +21730,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Common prop. Centre: the width step. Compact xs 280 (popover-md) with the compact inset and an 8px gap, sm 320; sectioned xs 320, sm 380 (modal-sm, the alert width); md 480, lg 640 for both. Edge: steps the band padding (xs 12, sm 14, md 16, lg 20 inline), the body gap and the title; lg also takes the sm close button.",
+          "description": "Common prop. Centre: the width step. Compact xs 280 (popover-md) with the compact inset and an 8px gap, sm 320 (xs pads 10px); sectioned xs 320, sm 380 (modal-sm, the alert width); md 480, lg 640 for both. Edge: steps the band padding (xs 12, sm 14, md 16, lg 20 inline), the body gap and the title; lg also takes the sm close button.",
           "values": [
             "xs",
             "sm",
@@ -21976,7 +21976,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Common prop. Centre: the width step. Compact xs 280 (popover-md) with the compact inset and an 8px gap, sm 320; sectioned xs 320, sm 380 (modal-sm, the alert width); md 480, lg 640 for both. Edge: steps the band padding (xs 12, sm 14, md 16, lg 20 inline), the body gap and the title; lg also takes the sm close button.",
+            "description": "Common prop. Centre: the width step. Compact xs 280 (popover-md) with the compact inset and an 8px gap, sm 320 (xs pads 10px); sectioned xs 320, sm 380 (modal-sm, the alert width); md 480, lg 640 for both. Edge: steps the band padding (xs 12, sm 14, md 16, lg 20 inline), the body gap and the title; lg also takes the sm close button.",
             "values": [
               "xs",
               "sm",
@@ -22222,7 +22222,7 @@
           "el": "div",
           "parent": "Dialog",
           "required": false,
-          "description": "DialogBody, scrolls vertically. Sectioned centre: grid, 14px gap, padding 24px 18px 16px (24px from the heading; 16px top with dividers). Edge: flex-1 grid, content at the start, 14px gap, padding 8px 16px 16px at md (22px from the title band; 16px top with dividers)."
+          "description": "DialogBody, scrolls vertically. Sectioned centre: grid, 12px gap, padding 20px 16px 14px (20px from the heading; 14px top with dividers). Edge: flex-1 grid, content at the start, 12px gap, padding 6px 14px 14px at md (18px from the title band; 14px top with dividers). Owner 2026-11-08: all dialog padding one step down."
         },
         {
           "name": "DialogClose",
@@ -22246,7 +22246,7 @@
           "el": "div",
           "parent": "Dialog",
           "required": false,
-          "description": "Actions, end-aligned, 8px gap; a flex-1 empty element keeps one secondary action on the start edge. Compact: a 4px top margin puts them 16px below the body (12px stack gap + 4; xs 8 + 4; owner 2026-10-27). Sectioned centre: padding 20px 18px 16px (36px from the body content; owner 2026-10-28). Edge: padding 12px 16px at md, a hairline above only with dividers (owner 2026-10-28)."
+          "description": "Actions, end-aligned, 8px gap; a flex-1 empty element keeps one secondary action on the start edge. Compact: a 4px top margin puts them 14px below the body (10px stack gap + 4; xs 8 + 4; owner 2026-10-27, one step down 2026-11-08). Sectioned centre: padding 16px 16px 14px (30px from the body content; owner 2026-11-08, one step down from 20 18 16). Every Button directly in the footer is control-sm high. Edge: padding 10px 14px at md, a hairline above only with dividers (owner 2026-10-28)."
         },
         {
           "name": "DialogHeader",
@@ -22254,7 +22254,7 @@
           "el": "div",
           "parent": "Dialog",
           "required": false,
-          "description": "Compact: grid, 4px gap (title and description). Sectioned centre: flex row, items start, 12px gap, padding 18px 18px 0 (16px bottom and a border.subtle hairline with dividers). Edge: flex row, items centred, 10px gap, padding 14px 16px at md (steps with size), a hairline only with dividers (owner 2026-10-28)."
+          "description": "Compact: grid, 4px gap (title and description). Sectioned centre: flex row, items start, 12px gap, padding 16px 16px 0 (14px bottom and a border.subtle hairline with dividers). Edge: flex row, items centred, 10px gap, padding 12px 14px at md (steps with size; owner 2026-11-08: one step down), a hairline only with dividers (owner 2026-10-28)."
         },
         {
           "name": "DialogTitle",
@@ -29275,7 +29275,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent' | 'ghost' | 'ink'",
           "default": "neutral",
           "required": false,
-          "description": "Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid.",
+          "description": "Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid. Unset inside a coloured container (Alert, or any ToneScopeContext) that is not solid: the container tone (variant ghost unless set). An explicit tone always wins.",
           "values": [
             "neutral",
             "accent",
@@ -29471,7 +29471,7 @@
             "type": "\"ghost\" | \"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\" | \"ink\"",
             "default": "neutral",
             "required": false,
-            "description": "Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid.",
+            "description": "Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid. Unset inside a coloured container (Alert, or any ToneScopeContext) that is not solid: the container tone (variant ghost unless set). An explicit tone always wins.",
             "values": [
               "ghost",
               "neutral",
@@ -29520,7 +29520,7 @@
             "ghost"
           ],
           "default": "ghost",
-          "description": "Emphasis (common prop). ghost = quiet, fills on hover (neutral.hover; hued: tone text, tint 2 hover, soft 3 press); soft = soft 3 fill; outline = border 6 edge; solid = solid 9 fill (neutral: the ink action with the control edge and a 1.06 hover scale, e.g. the send button). Pressed inverts in every tone and variant."
+          "description": "Emphasis (common prop). ghost = quiet, fills on hover (neutral.hover; hued: tone text, tint 2 hover, soft 3 press); soft = soft 3 fill; outline = border 6 edge; solid = solid 9 fill (neutral: the ink action with the control edge and the ink.solid-hover fill on hover, e.g. the send button). Pressed inverts in every tone and variant."
         },
         "radius": {
           "values": [
@@ -30630,7 +30630,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Field height 32 · 36 · 40 · 44 (xs = control-md, ui-sm).",
+          "description": "Field height 32 · 36 · 40 · 44 (field-xs · sm · md · lg; xs is ui-sm). Under data-density=\"desktop\" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.",
           "values": [
             "xs",
             "sm",
@@ -30828,7 +30828,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Field height 32 · 36 · 40 · 44 (xs = control-md, ui-sm).",
+            "description": "Field height 32 · 36 · 40 · 44 (field-xs · sm · md · lg; xs is ui-sm). Under data-density=\"desktop\" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.",
             "values": [
               "xs",
               "sm",
@@ -35070,7 +35070,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "neutral",
           "required": false,
-          "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item inverts whatever its tone.",
+          "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item takes the neutral selected fill whatever its tone.",
           "values": [
             "neutral",
             "accent",
@@ -35184,7 +35184,7 @@
           "type": "boolean",
           "default": false,
           "required": false,
-          "description": "MenuItem prop. Marks the chosen item (inverted: selection.fill, selection.on text and check); sets aria-checked inside a radio group."
+          "description": "MenuItem prop. Marks the chosen item (light neutral.selected fill, text colours kept, trailing check); sets aria-checked inside a radio group."
         },
         "disabled": {
           "type": "boolean",
@@ -35296,7 +35296,7 @@
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
             "default": "neutral",
             "required": false,
-            "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item inverts whatever its tone.",
+            "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item takes the neutral selected fill whatever its tone.",
             "values": [
               "neutral",
               "accent",
@@ -35351,13 +35351,13 @@
             "type": "boolean",
             "default": false,
             "required": false,
-            "description": "MenuItem prop. Marks the chosen item (inverted: selection.fill, selection.on text and check); sets aria-checked inside a radio group."
+            "description": "MenuItem prop. Marks the chosen item (light neutral.selected fill, text colours kept, trailing check); sets aria-checked inside a radio group."
           },
           "tone": {
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\" | \"default\"",
             "default": "neutral",
             "required": false,
-            "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item inverts whatever its tone.",
+            "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item takes the neutral selected fill whatever its tone.",
             "values": [
               "neutral",
               "accent",
@@ -35389,7 +35389,7 @@
             "agent"
           ],
           "default": "neutral",
-          "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item inverts whatever its tone."
+          "description": "Menu: the surface rim (solid, outline, ghost) or material (soft) colour. MenuItem: the label and icon colour; danger = destructive item. MenuItem still accepts \"default\" as a deprecated alias of neutral. The tone drops on a disabled item; a selected item takes the neutral selected fill whatever its tone."
         },
         "variant": {
           "values": [
@@ -37547,7 +37547,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Field height and value type: xs 22 / hint · sm 24 / footnote · md 28 / footnote · lg 36 / ui (compact control heights). stepper: the form heights xs 32 (control-md) / sm 36 / md 40 / lg 44, buttons 28 / 32 / 40 / 48 and input 48 / 64 / 64 / 72 wide, xs ui-sm and lg ui-lg type. hex: xs 24 / mono-sm, sm 28 / mono-md, md 32 / mono-md, lg 40 / mono.",
+          "description": "Field height and value type: xs 22 / hint · sm 24 / footnote · md 28 / footnote · lg 36 / ui (compact control heights). stepper: the form heights xs 32 (field-xs) / sm 36 / md 40 / lg 44 (24 / 28 / 32 / 40 under data-density=\"desktop\"), buttons 28 / 32 / 40 / 48 and input 48 / 64 / 64 / 72 wide, xs ui-sm and lg ui-lg type. hex: xs 24 / mono-sm, sm 28 / mono-md, md 32 / mono-md, lg 40 / mono.",
           "values": [
             "xs",
             "sm",
@@ -37846,7 +37846,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Field height and value type: xs 22 / hint · sm 24 / footnote · md 28 / footnote · lg 36 / ui (compact control heights). stepper: the form heights xs 32 (control-md) / sm 36 / md 40 / lg 44, buttons 28 / 32 / 40 / 48 and input 48 / 64 / 64 / 72 wide, xs ui-sm and lg ui-lg type. hex: xs 24 / mono-sm, sm 28 / mono-md, md 32 / mono-md, lg 40 / mono.",
+            "description": "Field height and value type: xs 22 / hint · sm 24 / footnote · md 28 / footnote · lg 36 / ui (compact control heights). stepper: the form heights xs 32 (field-xs) / sm 36 / md 40 / lg 44 (24 / 28 / 32 / 40 under data-density=\"desktop\"), buttons 28 / 32 / 40 / 48 and input 48 / 64 / 64 / 72 wide, xs ui-sm and lg ui-lg type. hex: xs 24 / mono-sm, sm 28 / mono-md, md 32 / mono-md, lg 40 / mono.",
             "values": [
               "xs",
               "sm",
@@ -39604,7 +39604,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Height, inline padding and type: xs 28 / 8 / ui-sm · sm 32 / 10 / ui · md 36 (field-md) / 12 / ui · lg 40 / 14 / ui-md. soft (inspector) is on the control scale: xs 24 / 8 / ui-xs / 12px glyphs · sm 28 / 10 / ui-sm · md 32 / 10 / ui-sm (the inspector row) · lg 40 / 12 / ui / 16px glyphs.",
+          "description": "Height, inline padding and type: xs field-xs / 8 / ui-sm · sm field-sm / 10 / ui · md field-md / 12 / ui · lg field-lg / 14 / ui-md (32 · 36 · 40 · 44; under data-density=\"desktop\" 24 · 28 · 32 · 40). soft (inspector) is on the control scale: xs 24 / 8 / ui-xs / 12px glyphs · sm 28 / 10 / ui-sm · md 32 / 10 / ui-sm (the inspector row) · lg 40 / 12 / ui / 16px glyphs.",
           "values": [
             "xs",
             "sm",
@@ -39736,7 +39736,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Height, inline padding and type: xs 28 / 8 / ui-sm · sm 32 / 10 / ui · md 36 (field-md) / 12 / ui · lg 40 / 14 / ui-md. soft (inspector) is on the control scale: xs 24 / 8 / ui-xs / 12px glyphs · sm 28 / 10 / ui-sm · md 32 / 10 / ui-sm (the inspector row) · lg 40 / 12 / ui / 16px glyphs.",
+            "description": "Height, inline padding and type: xs field-xs / 8 / ui-sm · sm field-sm / 10 / ui · md field-md / 12 / ui · lg field-lg / 14 / ui-md (32 · 36 · 40 · 44; under data-density=\"desktop\" 24 · 28 · 32 · 40). soft (inspector) is on the control scale: xs 24 / 8 / ui-xs / 12px glyphs · sm 28 / 10 / ui-sm · md 32 / 10 / ui-sm (the inspector row) · lg 40 / 12 / ui / 16px glyphs.",
             "values": [
               "xs",
               "sm",
@@ -39964,7 +39964,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "agent",
           "required": false,
-          "description": "Passed to Stepper: the now mark (agent = the orb).",
+          "description": "Passed to Stepper: agent makes the now mark move (the agent is working).",
           "values": [
             "neutral",
             "accent",
@@ -39974,6 +39974,11 @@
             "info",
             "agent"
           ]
+        },
+        "live": {
+          "type": "(moving: boolean) => ReactNode",
+          "required": false,
+          "description": "Passed to Stepper: the now mark in a 14px box, e.g. the app's own thinking orbs; called with whether it moves. Without it the Stepper particles."
         },
         "variant": {
           "type": "'checklist'",
@@ -40042,6 +40047,11 @@
             "type": "(done: number, total: number) => string",
             "required": true,
             "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). No built-in default."
+          },
+          "live": {
+            "type": "(moving: boolean) => ReactNode",
+            "required": false,
+            "description": "Passed to Stepper: the now mark in a 14px box, e.g. the app's own thinking orbs; called with whether it moves. Without it the Stepper particles."
           },
           "onRowPress": {
             "type": "(step: PlanStep, index: number) => void",
@@ -40112,7 +40122,7 @@
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
             "default": "agent",
             "required": false,
-            "description": "Passed to Stepper: the now mark (agent = the orb).",
+            "description": "Passed to Stepper: agent makes the now mark move (the agent is working).",
             "values": [
               "neutral",
               "accent",
@@ -44908,7 +44918,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Segment height and type: xs control-compact-xs 22 / ui-sm, sm control-compact-sm 24 / ui-dense, md control-inline 26 / ui-dense (default), lg control-md / ui.",
+          "description": "Segment height and type: xs segment-xs 22 / ui-sm, sm segment-sm 24 / ui-dense, md segment-md 26 / ui-dense (default), lg segment-lg 32 / ui. The track pads segment-pad (4). Under data-density=\"desktop\" the pad is 3 and the segments 18 / 22 / 26 / 34, so the outer heights are 24 / 28 / 32 / 40 like the other controls.",
           "values": [
             "xs",
             "sm",
@@ -45100,7 +45110,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Segment height and type: xs control-compact-xs 22 / ui-sm, sm control-compact-sm 24 / ui-dense, md control-inline 26 / ui-dense (default), lg control-md / ui.",
+            "description": "Segment height and type: xs segment-xs 22 / ui-sm, sm segment-sm 24 / ui-dense, md segment-md 26 / ui-dense (default), lg segment-lg 32 / ui. The track pads segment-pad (4). Under data-density=\"desktop\" the pad is 3 and the segments 18 / 22 / 26 / 34, so the outer heights are 24 / 28 / 32 / 40 like the other controls.",
             "values": [
               "xs",
               "sm",
@@ -45446,7 +45456,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Steps the trigger (xs control-md / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36).",
+          "description": "Steps the trigger (xs field-xs / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36). Under data-density=\"desktop\" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.",
           "values": [
             "xs",
             "sm",
@@ -45613,7 +45623,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Steps the trigger (xs control-md / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36).",
+            "description": "Steps the trigger (xs field-xs / ui-dense, sm field-sm, md field-md = today, lg field-lg / ui-lg) and the option rows (menu item xs 24, sm 28, md 30, lg 36). Under data-density=\"desktop\" the fields take the control scale (xs 24 · sm 28 · md 32 · lg 40), the same heights as Button.",
             "values": [
               "xs",
               "sm",
@@ -45803,7 +45813,7 @@
         "notes": [
           "Trigger role=\"combobox\" aria-haspopup=\"listbox\"; wrap in Field for the label (Radix wires aria-labelledby).",
           "The hidden native select keeps form posts and autofill working.",
-          "The chosen option is marked by aria-selected, the inverted fill and the trailing check together."
+          "The chosen option is marked by aria-selected, the selected fill and the trailing check together."
         ]
       },
       "flags": {
@@ -48868,7 +48878,7 @@
       ],
       "guidance": [
         "It only shows progress; pair it with buttons or tabs for moving between steps.",
-        "The checklist look with tone=\"agent\" lights the running step; the spectrum stays for agent work."
+        "Pass live to show the app's own working mark on the current step; tone=\"agent\" makes the checklist now mark move."
       ],
       "import": "import { Stepper, StepperCount, StepperHeader, StepperTitle } from '@caustic/react';",
       "exports": [
@@ -48908,14 +48918,19 @@
           ]
         },
         "steps": {
-          "type": "{ id?: string; label: ReactNode; description?: ReactNode; status?: 'done' | 'now' | 'todo' | 'failed'; detail?: ReactNode }[]",
+          "type": "{ id?: string; label: ReactNode; description?: ReactNode; status?: 'done' | 'now' | 'todo' | 'failed' | 'skipped'; busy?: boolean; detail?: ReactNode; clickable?: boolean }[]",
           "required": true,
-          "description": "The steps in order. status overrides the value index for that step; description belongs to the progress look, detail to the checklist."
+          "description": "The steps in order. status overrides the value index for that step; busy marks the current step as working (the live mark moves, a glint runs through its grooves); description belongs to the progress look, detail to the checklist."
         },
         "title": {
           "type": "ReactNode",
           "required": false,
           "description": "Heading of the steps: renders StepperHeader with StepperTitle (and StepperCount when countLabel is set) and names the root group."
+        },
+        "live": {
+          "type": "(moving: boolean) => ReactNode",
+          "required": false,
+          "description": "The live mark of the current step (progress) and the checklist now step, drawn in a 14px box: e.g. the app's own thinking orbs, so the stepper and the rest of the app share one \"working\" mark. Called with whether it should move (busy, or tone agent on the checklist). Without it the default particles."
         },
         "countLabel": {
           "type": "(done: number, total: number) => string",
@@ -48923,9 +48938,9 @@
           "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). Supplied by the consumer so it can be translated and pluralized; no built-in default."
         },
         "statusLabels": {
-          "type": "{ done?: string; now?: string; todo?: string; failed?: string }",
+          "type": "{ done?: string; now?: string; todo?: string; failed?: string; skipped?: string }",
           "required": false,
-          "description": "Visually hidden status word read with each step (e.g. \"Done\", \"In progress\", \"To do\", \"Failed\"). Without it the progress look keeps \"completed\" / \"failed\" on done / failed steps; the checklist reads no word."
+          "description": "Visually hidden status word read with each step (e.g. \"Done\", \"In progress\", \"To do\", \"Failed\", \"Skipped\"). Without it the progress look keeps \"completed\" / \"failed\" / \"skipped\" on those steps; the checklist reads no word."
         },
         "children": {
           "type": "ReactNode",
@@ -48936,7 +48951,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "accent",
           "required": false,
-          "description": "Colour family of the progress; on the checklist the now mark (agent = orb).",
+          "description": "Colour family of the live light; on the checklist tone agent makes the now mark move.",
           "values": [
             "neutral",
             "accent",
@@ -48949,9 +48964,9 @@
         },
         "variant": {
           "type": "'solid' | 'soft' | 'outline' | 'ghost' | 'checklist'",
-          "default": "solid",
+          "default": "soft",
           "required": false,
-          "description": "Done-step emphasis of the progress look, or the checklist (see variants).",
+          "description": "Light of reached steps on the progress look, or the checklist (see variants).",
           "values": [
             "solid",
             "soft",
@@ -48964,7 +48979,7 @@
           "type": "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'",
           "default": "full",
           "required": false,
-          "description": "Indicator corner (progress) or card corner (checklist) by radius token; full (default) keeps the own shape: the indicator circle, the xl card.",
+          "description": "Card corner (checklist) by radius token; full (default) keeps the xl card.",
           "values": [
             "none",
             "2xs",
@@ -48983,7 +48998,7 @@
           "type": "'none' | '1' | '2' | '3' | '4' | '5'",
           "default": "none",
           "required": false,
-          "description": "Indicator elevation (progress) or card elevation (checklist) by elevation token.",
+          "description": "Card elevation (checklist) by elevation token.",
           "values": [
             "none",
             "1",
@@ -48997,7 +49012,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Progress: indicator diameter xs 20 / sm 24 / md 28 / lg 32 (control-2xs … control-md) with ui-xs / ui-xs / ui-sm / ui numbers; connectors and the vertical column follow the diameter. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
+          "description": "Progress: the name xs ui-sm / sm, md ui-strong / lg ui-lg on an 18px line (20 at lg); the rail, grooves and marks keep their size so the light reads the same at every size. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
           "values": [
             "xs",
             "sm",
@@ -49024,6 +49039,11 @@
             "required": false,
             "description": "Text of the count (e.g. (d, t) => `${d} of ${t}`). Supplied by the consumer so it can be translated and pluralized; no built-in default."
           },
+          "live": {
+            "type": "(moving: boolean) => ReactNode",
+            "required": false,
+            "description": "The live mark of the current step (progress) and the checklist now step, drawn in a 14px box: e.g. the app's own thinking orbs, so the stepper and the rest of the app share one \"working\" mark. Called with whether it should move (busy, or tone agent on the checklist). Without it the default particles."
+          },
           "onStepClick": {
             "type": "(index: number, step: StepperStep) => void",
             "required": false,
@@ -49043,7 +49063,7 @@
             "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",
             "default": "full",
             "required": false,
-            "description": "Indicator corner (progress) or card corner (checklist) by radius token; full (default) keeps the own shape: the indicator circle, the xl card.",
+            "description": "Card corner (checklist) by radius token; full (default) keeps the xl card.",
             "values": [
               "none",
               "2xs",
@@ -49062,7 +49082,7 @@
             "type": "\"none\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\"",
             "default": "none",
             "required": false,
-            "description": "Indicator elevation (progress) or card elevation (checklist) by elevation token.",
+            "description": "Card elevation (checklist) by elevation token.",
             "values": [
               "none",
               "1",
@@ -49076,7 +49096,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Progress: indicator diameter xs 20 / sm 24 / md 28 / lg 32 (control-2xs … control-md) with ui-xs / ui-xs / ui-sm / ui numbers; connectors and the vertical column follow the diameter. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
+            "description": "Progress: the name xs ui-sm / sm, md ui-strong / lg ui-lg on an 18px line (20 at lg); the rail, grooves and marks keep their size so the light reads the same at every size. Checklist: row minimum height and type xs 24 / ui-xs · sm 26 / ui-sm · md 28 / ui-dense · lg 32 / ui.",
             "values": [
               "xs",
               "sm",
@@ -49087,12 +49107,12 @@
           "statusLabels": {
             "type": "Partial<Record<StepperStatus, string>>",
             "required": false,
-            "description": "Visually hidden status word read with each step (e.g. \"Done\", \"In progress\", \"To do\", \"Failed\"). Without it the progress look keeps \"completed\" / \"failed\" on done / failed steps; the checklist reads no word."
+            "description": "Visually hidden status word read with each step (e.g. \"Done\", \"In progress\", \"To do\", \"Failed\", \"Skipped\"). Without it the progress look keeps \"completed\" / \"failed\" / \"skipped\" on those steps; the checklist reads no word."
           },
           "steps": {
             "type": "StepperStep[]",
             "required": true,
-            "description": "The steps in order. status overrides the value index for that step; description belongs to the progress look, detail to the checklist."
+            "description": "The steps in order. status overrides the value index for that step; busy marks the current step as working (the live mark moves, a glint runs through its grooves); description belongs to the progress look, detail to the checklist."
           },
           "title": {
             "type": "ReactNode",
@@ -49103,7 +49123,7 @@
             "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" | \"info\" | \"agent\"",
             "default": "accent",
             "required": false,
-            "description": "Colour family of the progress; on the checklist the now mark (agent = orb).",
+            "description": "Colour family of the live light; on the checklist tone agent makes the now mark move.",
             "values": [
               "neutral",
               "accent",
@@ -49122,9 +49142,9 @@
           },
           "variant": {
             "type": "\"solid\" | \"soft\" | \"outline\" | \"ghost\" | \"checklist\"",
-            "default": "solid",
+            "default": "soft",
             "required": false,
-            "description": "Done-step emphasis of the progress look, or the checklist (see variants).",
+            "description": "Light of reached steps on the progress look, or the checklist (see variants).",
             "values": [
               "solid",
               "soft",
@@ -49145,7 +49165,7 @@
             "vertical"
           ],
           "default": "horizontal",
-          "description": "Progress look: a row of centred steps with a connector between them, or a column with the indicator at the start. The checklist is always a column."
+          "description": "Progress look: equal columns with the rail over the heads, or a column with the rail down the start edge. The checklist is always a column."
         },
         "tone": {
           "values": [
@@ -49158,7 +49178,7 @@
             "agent"
           ],
           "default": "accent",
-          "description": "Colour family of the progress: done indicators, the current ring and text, and the active connector. Checklist: the now mark; agent turns it into the spectrum orb (the agent is working). Done checks stay success and failed stays danger."
+          "description": "Colour family of the live light: the busy glint, the default particles, and the lit grooves with variant solid or outline. Checklist: tone agent makes the now mark move (the agent is working). Done checks stay success and failed stays danger."
         },
         "variant": {
           "values": [
@@ -49168,8 +49188,8 @@
             "ghost",
             "checklist"
           ],
-          "default": "solid",
-          "description": "solid / soft / outline / ghost: the progress look and the emphasis of a done step (solid = tone.solid disc with a tone.on check; soft = tone.soft disc with a tone.text check; outline = 1.5px tone.solid ring with a tone.text check; ghost = the tone.text check alone; the current step is always the 2px tone ring). checklist: the agent plan card (see root)."
+          "default": "soft",
+          "description": "solid / soft / outline / ghost: the progress look and the light of reached steps (--stepper-lit). soft, the default: text.secondary, so finished work is quiet and the busy glint leads; solid and outline: tone.solid; ghost: border.strong (no light, the marks alone tell progress). checklist: the agent plan card (see root)."
         },
         "radius": {
           "values": [
@@ -49186,7 +49206,7 @@
             "full"
           ],
           "default": "full",
-          "description": "Progress: corner of the indicators. Checklist: corner of the card. full (default) keeps the own shape: the indicator circle, the xl card."
+          "description": "Checklist: corner of the card; full (default) keeps the xl card. The progress look has no surface to round."
         },
         "shadow": {
           "values": [
@@ -49198,7 +49218,7 @@
             "5"
           ],
           "default": "none",
-          "description": "Progress: elevation of the indicators. Checklist: elevation of the card, replacing the hairline (one depth cue)."
+          "description": "Checklist: elevation of the card, replacing the hairline (one depth cue). The progress look has no surface to lift."
         }
       },
       "sizes": {
@@ -49247,8 +49267,10 @@
         "labelRequired": false,
         "notes": [
           "The current item has aria-current=\"step\".",
-          "Colour is never the only cue: done shows a check (and, on the checklist, a strike-through), current shows the ring or the orb and medium weight, todo the number or a dashed circle, failed the danger glyph.",
-          "Progress look: done items include visually hidden \"completed\" text (statusLabels.done replaces it); the check icon is aria-hidden.",
+          "Colour is never the only cue: done shows a check (and, on the checklist, a strike-through), current the live mark and semibold weight, todo the two-digit index or a dashed circle, failed a cross or the danger glyph, skipped a dash and a strike-through; the rail repeats it in shape (failed light stops a third in, skipped grooves are half as many and short).",
+          "Busy: the current item has aria-busy=\"true\"; the motion (the glint through the grooves, the particles) stops under reduced motion and the marks keep their still shape.",
+          "Narrow horizontal row: the labels the row hides stay in the accessibility tree (visually hidden).",
+          "Progress look: each mark carries a visually hidden status word (statusLabels, else \"completed\" / \"failed\" / \"skipped\"); the rail, glyphs, index and live mark are aria-hidden.",
           "Checklist: each step gets a visually hidden status word from statusLabels; a visually hidden status region (role status) announces only the step that changed, so the whole list is not reread; the count text is the visible progress statement (the top edge is aria-hidden; there is no progressbar).",
           "With a header the root is role=\"group\" named by the title (aria-labelledby)."
         ]
@@ -50304,7 +50326,7 @@
         "labelRequired": false,
         "notes": [
           "The accessible name of a card is its title plus hint text (the icon is aria-hidden).",
-          "Reduced motion removes the hover lift."
+          "Reduced motion removes the press scale and the rise."
         ]
       },
       "flags": {
@@ -51890,7 +51912,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Minimum height xs 32 (control-md) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 / 6·8 / 8·10 and ui-sm / ui / ui / ui-lg type.",
+          "description": "Minimum height xs 32 (field-xs) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 (tag-input-pad-sm) / 6·8 (tag-input-pad-md) / 8·10 and ui-sm / ui / ui / ui-lg type. The text control is tag-input-row (26) tall. Under data-density=\"desktop\" the row is 24 and the sm / md block padding 2 / 4, so sm is 28 and md 32 outer.",
           "values": [
             "xs",
             "sm",
@@ -51975,7 +51997,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Minimum height xs 32 (control-md) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 / 6·8 / 8·10 and ui-sm / ui / ui / ui-lg type.",
+            "description": "Minimum height xs 32 (field-xs) / sm 36 (field-sm) / md 40 (field-md) / lg 44 (field-lg), with padding 4·6 / 4·8 (tag-input-pad-sm) / 6·8 (tag-input-pad-md) / 8·10 and ui-sm / ui / ui / ui-lg type. The text control is tag-input-row (26) tall. Under data-density=\"desktop\" the row is 24 and the sm / md block padding 2 / 4, so sm is 28 and md 32 outer.",
             "values": [
               "xs",
               "sm",
@@ -53419,7 +53441,7 @@
             "5"
           ],
           "default": "none",
-          "description": "Card elevation at rest; none is the specimen (the hairline is the one depth cue); hover still lifts to elevation 3."
+          "description": "Card elevation at rest; none is the specimen (the hairline is the one depth cue); hover still raises the shadow to elevation 3."
         }
       },
       "sizes": {
@@ -53438,7 +53460,7 @@
           "el": "button",
           "parent": "ThemeGallery",
           "required": true,
-          "description": "One theme card. A grid, 2xl radius, overflow hidden, base surface with a hairline edge and no elevation at rest (one depth cue), left-aligned text. aria-checked = selected, roving tabindex. On hover it lifts 2px (the specimen's spring, base duration) and the hairline gives way to elevation 3."
+          "description": "One theme card. A grid, 2xl radius, overflow hidden, base surface with a hairline edge and no elevation at rest (one depth cue), left-aligned text. aria-checked = selected, roving tabindex. On hover the hairline gives way to elevation 3; the card does not move (owner 2026-11-11)."
         }
       ],
       "events": {
@@ -53459,8 +53481,8 @@
         "notes": [
           "A radio group of buttons: role radiogroup > role radio with aria-checked and roving tabindex. The accessible name of a card is the theme name (aria-labelledby the name); the caption is its description (aria-describedby).",
           "The mini app and the color dots are decorative (aria-hidden): the colors are not described, so do not rely on them to tell themes apart; the name does.",
-          "Selection is the 1.5px selection-ink ring plus a check mark and aria-checked, never the focus ring and not only a lift.",
-          "Hover lift is 2px over a base duration and is removed under reduced motion."
+          "Selection is the 1.5px selection-ink ring plus a check mark and aria-checked, never the focus ring and not only a shadow.",
+          "Hover changes only the shadow; the press scale is removed under reduced motion."
         ]
       },
       "flags": {
@@ -54566,6 +54588,7 @@
         "Toaster",
         "ToastViewport",
         "toast",
+        "toastDuration",
         "toastVariants"
       ],
       "el": "div",
@@ -54574,7 +54597,7 @@
           "type": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent'",
           "default": "success",
           "required": false,
-          "description": "Status mark and rim; the fill on solid and soft surfaces.",
+          "description": "Status glyph colour, the outline border and the rim; the fill on solid and soft surfaces.",
           "values": [
             "neutral",
             "accent",
@@ -54587,7 +54610,7 @@
         },
         "variant": {
           "type": "'glass' | 'solid' | 'soft' | 'outline' | 'ghost'",
-          "default": "glass",
+          "default": "outline",
           "required": false,
           "description": "Surface (see variants).",
           "values": [
@@ -54600,7 +54623,7 @@
         },
         "radius": {
           "type": "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'",
-          "default": "3xl",
+          "default": "2xl",
           "required": false,
           "description": "Corner by radius token.",
           "values": [
@@ -54619,7 +54642,7 @@
         },
         "shadow": {
           "type": "'none' | '1' | '2' | '3' | '4' | '5'",
-          "default": "4",
+          "default": "3",
           "required": false,
           "description": "Elevation by elevation token.",
           "values": [
@@ -54635,7 +54658,7 @@
           "type": "'xs' | 'sm' | 'md' | 'lg'",
           "default": "md",
           "required": false,
-          "description": "Minimum height 40 / 48 / 60 / 64px, padding and type ui-sm / ui / ui / ui-lg for xs / sm / md / lg; the mark stays 28px.",
+          "description": "xs / sm / md / lg: minimum height 32 / 40 / 48 / 64px, block padding 4 / 6 / 8 / 10, start padding 8 / 10 / 12 / 14, end padding 8 / 10 / 12 / 14 (4 less when an action or close button ends the row), gap to the buttons 6 / 8 / 8 / 10, type ui-sm / ui / ui / ui-lg, glyph 14 / 16 / 16 / 20.",
           "values": [
             "xs",
             "sm",
@@ -54665,9 +54688,8 @@
         },
         "duration": {
           "type": "number",
-          "default": 3600,
           "required": false,
-          "description": "Milliseconds before auto-dismiss; 0 keeps it until dismissed. Paused while hovered or focused."
+          "description": "Milliseconds before auto-dismiss; 0 keeps it until dismissed. Default by tone: 4000, or 8000 for warning and for a toast with an action; danger never auto-dismisses. Paused while the pointer moves over it or focus is inside; a toast that appears under a resting pointer keeps counting."
         },
         "inline": {
           "type": "boolean",
@@ -54679,6 +54701,12 @@
           "type": "string",
           "required": true,
           "description": "ToastViewport / Toaster prop: aria-label of the region (e.g. \"Notifications\"). No built-in default."
+        },
+        "max": {
+          "type": "number",
+          "default": 3,
+          "required": false,
+          "description": "Toaster prop: most open toasts at once; a newer one closes the oldest one that is not danger."
         }
       },
       "exportProps": {
@@ -54700,9 +54728,8 @@
           },
           "duration": {
             "type": "number",
-            "default": 3600,
             "required": false,
-            "description": "Milliseconds before auto-dismiss; 0 keeps it until dismissed. Paused while hovered or focused."
+            "description": "Milliseconds before auto-dismiss; 0 keeps it until dismissed. Default by tone: 4000, or 8000 for warning and for a toast with an action; danger never auto-dismisses. Paused while the pointer moves over it or focus is inside; a toast that appears under a resting pointer keeps counting."
           },
           "inline": {
             "type": "boolean",
@@ -54722,7 +54749,7 @@
           },
           "radius": {
             "type": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"full\"",
-            "default": "3xl",
+            "default": "2xl",
             "required": false,
             "description": "Corner by radius token.",
             "values": [
@@ -54741,7 +54768,7 @@
           },
           "shadow": {
             "type": "\"none\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\"",
-            "default": "4",
+            "default": "3",
             "required": false,
             "description": "Elevation by elevation token.",
             "values": [
@@ -54757,7 +54784,7 @@
             "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
             "default": "md",
             "required": false,
-            "description": "Minimum height 40 / 48 / 60 / 64px, padding and type ui-sm / ui / ui / ui-lg for xs / sm / md / lg; the mark stays 28px.",
+            "description": "xs / sm / md / lg: minimum height 32 / 40 / 48 / 64px, block padding 4 / 6 / 8 / 10, start padding 8 / 10 / 12 / 14, end padding 8 / 10 / 12 / 14 (4 less when an action or close button ends the row), gap to the buttons 6 / 8 / 8 / 10, type ui-sm / ui / ui / ui-lg, glyph 14 / 16 / 16 / 20.",
             "values": [
               "xs",
               "sm",
@@ -54779,7 +54806,7 @@
             "type": "ToastTone",
             "default": "success",
             "required": false,
-            "description": "Status mark and rim; the fill on solid and soft surfaces.",
+            "description": "Status glyph colour, the outline border and the rim; the fill on solid and soft surfaces.",
             "values": [
               "neutral",
               "accent",
@@ -54792,7 +54819,7 @@
           },
           "variant": {
             "type": "ToastVariant",
-            "default": "glass",
+            "default": "outline",
             "required": false,
             "description": "Surface (see variants).",
             "values": [
@@ -54809,6 +54836,12 @@
             "type": "string",
             "required": true,
             "description": "ToastViewport / Toaster prop: aria-label of the region (e.g. \"Notifications\"). No built-in default."
+          },
+          "max": {
+            "type": "number",
+            "default": 3,
+            "required": false,
+            "description": "Toaster prop: most open toasts at once; a newer one closes the oldest one that is not danger."
           }
         },
         "ToastViewport": {
@@ -54831,7 +54864,7 @@
             "agent"
           ],
           "default": "success",
-          "description": "success = something finished; info = neutral news; warning = finished with a caveat; danger = a failure (role alert, never auto-dismisses); agent = something the agent made or did (spectrum rim and orb); neutral and accent = plain news with an info mark in neutral.solid or accent.solid."
+          "description": "success = something finished; info = neutral news; warning = finished with a caveat; danger = a failure (role alert, never auto-dismisses); agent = something the agent made or did (spectrum rim and orb); neutral = plain news, text only (no glyph); accent = plain news with an info glyph in accent.text."
         },
         "variant": {
           "values": [
@@ -54841,8 +54874,8 @@
             "outline",
             "ghost"
           ],
-          "default": "glass",
-          "description": "glass = regular glass with the thick blur and elevation 4 (the specimen), the mark carries the tone; solid = tone.solid fill with tone.on text and the mark inverted (tone.on disc, tone.solid glyph); soft = tone.soft fill; outline = surface.base with a 1px tone.border hairline; ghost = surface.base, no edge."
+          "default": "outline",
+          "description": "outline = surface.base with a 1px tone.border hairline (the default, owner 2026-11-12; neutral takes the quieter border.strong); glass = regular glass with the thick blur; solid = tone.solid fill with tone.on text and a tone.on glyph; soft = tone.soft fill; ghost = surface.base, no edge. The glyph never has a fill behind it in any variant."
         },
         "radius": {
           "values": [
@@ -54858,8 +54891,8 @@
             "4xl",
             "full"
           ],
-          "default": "3xl",
-          "description": "Corner; the own toast radius (22px) is 3xl."
+          "default": "2xl",
+          "description": "Corner; 16px (2xl) is concentric with the trailing xs button (radius 8 + 8 end padding)."
         },
         "shadow": {
           "values": [
@@ -54870,8 +54903,8 @@
             "4",
             "5"
           ],
-          "default": "4",
-          "description": "Elevation: glass reads it as glass-shadow-N, the plain surfaces as shadow-N; 4 is the own elevation."
+          "default": "3",
+          "description": "Elevation: glass reads it as glass-shadow-N, the plain surfaces as shadow-N; 3 is the own elevation (one soft shadow under the outline)."
         }
       },
       "sizes": {
@@ -54917,8 +54950,8 @@
         "labelRequired": false,
         "notes": [
           "The Toaster region is a polite live region named by its label prop (examples: \"Notifications\"); each toast is role=\"status\". Never move focus to a toast.",
-          "Auto-dismiss pauses on hover and focus-within; a toast with an action should use a longer duration or 0.",
-          "Text is text.primary and text.secondary over regular glass; contrast is checked against the glass fill.",
+          "Auto-dismiss pauses while the pointer moves over the toast and on focus-within; a toast with an action gets the longer default (8000ms).",
+          "Text is text.primary and text.secondary over surface.base (outline); the glyph is the tone text colour (at least 5.5 : 1 in both themes).",
           "Under prefers-reduced-transparency the glass falls back to an opaque surface (provided by the glass utility)."
         ]
       },
@@ -58394,10 +58427,42 @@
       "diff-remove-bg",
       "diff-add-text",
       "diff-remove-text",
+      "syntax-foreground",
       "syntax-keyword",
       "syntax-string",
       "syntax-property",
       "syntax-comment",
+      "syntax-number",
+      "syntax-constant",
+      "syntax-function",
+      "syntax-type",
+      "syntax-parameter",
+      "syntax-variable",
+      "syntax-operator",
+      "syntax-punctuation",
+      "syntax-tag",
+      "syntax-attr",
+      "syntax-regexp",
+      "syntax-link",
+      "syntax-heading",
+      "syntax-inserted",
+      "syntax-deleted",
+      "ansi-black",
+      "ansi-red",
+      "ansi-green",
+      "ansi-yellow",
+      "ansi-blue",
+      "ansi-magenta",
+      "ansi-cyan",
+      "ansi-white",
+      "ansi-bright-black",
+      "ansi-bright-red",
+      "ansi-bright-green",
+      "ansi-bright-yellow",
+      "ansi-bright-blue",
+      "ansi-bright-magenta",
+      "ansi-bright-cyan",
+      "ansi-bright-white",
       "canvas-dot",
       "canvas-selection",
       "canvas-handle",
@@ -58448,6 +58513,7 @@
       "control-md",
       "control-lg",
       "control-xl",
+      "field-xs",
       "field-sm",
       "field-md",
       "field-lg",
@@ -58457,6 +58523,7 @@
       "control-compact-md",
       "control-compact-lg",
       "control-compact-xl",
+      "field-compact-xs",
       "field-compact-sm",
       "field-compact-md",
       "field-compact-lg",
@@ -58482,6 +58549,16 @@
       "switch-sm-thumb-w",
       "switch-sm-travel",
       "switch-sm-press",
+      "switch-md-press-travel",
+      "switch-sm-press-travel",
+      "segment-pad",
+      "segment-xs",
+      "segment-sm",
+      "segment-md",
+      "segment-lg",
+      "tag-input-row",
+      "tag-input-pad-sm",
+      "tag-input-pad-md",
       "avatar-xs",
       "avatar-sm",
       "avatar-md",
@@ -58742,7 +58819,10 @@
       "animate-collapse-open",
       "animate-collapse-close",
       "animate-rise",
-      "animate-pop"
+      "animate-pop",
+      "animate-glint",
+      "animate-breathe",
+      "animate-orbit"
     ],
     "material": [
       "glass",
@@ -58761,7 +58841,6 @@
       "transition-control",
       "press",
       "press-sm",
-      "lift",
       "enter-scale",
       "enter-from-side",
       "enter-up",

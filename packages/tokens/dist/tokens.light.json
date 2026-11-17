@@ -712,7 +712,7 @@
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral-light.11}"
+      "$value": "{color.neutral-light.1}"
     }
   },
   "info": {
@@ -804,7 +804,7 @@
     },
     "on": {
       "$type": "color",
-      "$value": "{color.neutral-light.11}"
+      "$value": "{color.neutral-light.1}"
     },
     "stop-1": {
       "$type": "color",
@@ -823,12 +823,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.755,
-          0.1545,
-          88
+          0.54,
+          0.25,
+          288
         ],
         "alpha": 0.45,
-        "hex": "#d8a800"
+        "hex": "#713df3"
       }
     }
   },
@@ -917,7 +917,7 @@
   "diff": {
     "add-bg": {
       "$type": "color",
-      "$value": "{color.success-light.3}"
+      "$value": "{color.success-light.2}"
     },
     "remove-bg": {
       "$type": "color",
@@ -941,9 +941,13 @@
     }
   },
   "syntax": {
+    "foreground": {
+      "$type": "color",
+      "$value": "{text.primary}"
+    },
     "keyword": {
       "$type": "color",
-      "$value": "{color.info-light.11}"
+      "$value": "{color.extra-5-light.11}"
     },
     "string": {
       "$type": "color",
@@ -951,11 +955,137 @@
     },
     "property": {
       "$type": "color",
-      "$value": "{color.extra-1-light.11}"
+      "$value": "{color.info-light.11}"
     },
     "comment": {
       "$type": "color",
       "$value": "{text.secondary}"
+    },
+    "number": {
+      "$type": "color",
+      "$value": "{color.extra-1-light.11}"
+    },
+    "constant": {
+      "$type": "color",
+      "$value": "{color.extra-1-light.11}"
+    },
+    "function": {
+      "$type": "color",
+      "$value": "{color.extra-4-light.11}"
+    },
+    "type": {
+      "$type": "color",
+      "$value": "{color.extra-3-light.11}"
+    },
+    "parameter": {
+      "$type": "color",
+      "$value": "{text.primary}"
+    },
+    "variable": {
+      "$type": "color",
+      "$value": "{text.primary}"
+    },
+    "operator": {
+      "$type": "color",
+      "$value": "{color.extra-3-light.11}"
+    },
+    "punctuation": {
+      "$type": "color",
+      "$value": "{text.secondary}"
+    },
+    "tag": {
+      "$type": "color",
+      "$value": "{color.danger-light.11}"
+    },
+    "attr": {
+      "$type": "color",
+      "$value": "{color.extra-1-light.11}"
+    },
+    "regexp": {
+      "$type": "color",
+      "$value": "{color.warning-light.11}"
+    },
+    "link": {
+      "$type": "color",
+      "$value": "{color.info-light.11}"
+    },
+    "heading": {
+      "$type": "color",
+      "$value": "{color.extra-4-light.11}"
+    },
+    "inserted": {
+      "$type": "color",
+      "$value": "{diff.add-text}"
+    },
+    "deleted": {
+      "$type": "color",
+      "$value": "{diff.remove-text}"
+    }
+  },
+  "ansi": {
+    "black": {
+      "$type": "color",
+      "$value": "{color.neutral-light.11}"
+    },
+    "red": {
+      "$type": "color",
+      "$value": "{color.danger-light.11}"
+    },
+    "green": {
+      "$type": "color",
+      "$value": "{color.success-light.11}"
+    },
+    "yellow": {
+      "$type": "color",
+      "$value": "{color.warning-light.11}"
+    },
+    "blue": {
+      "$type": "color",
+      "$value": "{color.extra-4-light.11}"
+    },
+    "magenta": {
+      "$type": "color",
+      "$value": "{color.extra-5-light.11}"
+    },
+    "cyan": {
+      "$type": "color",
+      "$value": "{color.extra-3-light.11}"
+    },
+    "white": {
+      "$type": "color",
+      "$value": "{color.neutral-light.8}"
+    },
+    "bright-black": {
+      "$type": "color",
+      "$value": "{color.neutral-light.9}"
+    },
+    "bright-red": {
+      "$type": "color",
+      "$value": "{color.danger-light.9}"
+    },
+    "bright-green": {
+      "$type": "color",
+      "$value": "{color.success-light.9}"
+    },
+    "bright-yellow": {
+      "$type": "color",
+      "$value": "{color.warning-light.9}"
+    },
+    "bright-blue": {
+      "$type": "color",
+      "$value": "{color.extra-4-light.9}"
+    },
+    "bright-magenta": {
+      "$type": "color",
+      "$value": "{color.extra-5-light.9}"
+    },
+    "bright-cyan": {
+      "$type": "color",
+      "$value": "{color.extra-3-light.9}"
+    },
+    "bright-white": {
+      "$type": "color",
+      "$value": "{color.neutral-light.7}"
     }
   },
   "canvas": {
@@ -1072,7 +1202,7 @@
     },
     "on-coral": {
       "$type": "color",
-      "$value": "{color.neutral-light.11}"
+      "$value": "{color.neutral-light.1}"
     },
     "on-iris": {
       "$type": "color",

@@ -14,7 +14,7 @@ export default defineSpec({
   ],
   variants: {
     tone: { values: ['neutral', 'accent', 'success', 'warning', 'danger', 'info', 'agent'], default: 'neutral', description: 'Colour family of the emphasis (common prop). The old values ghost and ink are deprecated aliases of variant ghost and solid.' },
-    variant: { values: ['solid', 'soft', 'outline', 'ghost'], default: 'ghost', description: 'Emphasis (common prop). ghost = quiet, fills on hover (neutral.hover; hued: tone text, tint 2 hover, soft 3 press); soft = soft 3 fill; outline = border 6 edge; solid = solid 9 fill (neutral: the ink action with the control edge and a 1.06 hover scale, e.g. the send button). Pressed inverts in every tone and variant.' },
+    variant: { values: ['solid', 'soft', 'outline', 'ghost'], default: 'ghost', description: 'Emphasis (common prop). ghost = quiet, fills on hover (neutral.hover; hued: tone text, tint 2 hover, soft 3 press); soft = soft 3 fill; outline = border 6 edge; solid = solid 9 fill (neutral: the ink action with the control edge and the ink.solid-hover fill on hover, e.g. the send button). Pressed inverts in every tone and variant.' },
     radius: { values: ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'], default: 'md', description: 'Corner radius token (common prop). Unset keeps the size radius (xs md, sm/md lg, lg xl, as in Button; owner 2026-10-29); full is the circle (the deprecated shape="circle").' },
     shadow: { values: ['none', '1', '2', '3', '4', '5'], default: 'none', description: 'Elevation (common prop). Unset = flat; an elevation replaces the ink edge or the outline edge.' },
   },
@@ -27,7 +27,7 @@ export default defineSpec({
   },
   props: {
     label: { type: 'string', required: true, description: 'Accessible name; rendered as aria-label.' },
-    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent' | 'ghost' | 'ink'", default: 'neutral', description: 'Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid.' },
+    tone: { type: "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'agent' | 'ghost' | 'ink'", default: 'neutral', description: 'Colour family of the emphasis. ghost and ink are deprecated: use variant ghost / solid. Unset inside a coloured container (Alert, or any ToneScopeContext) that is not solid: the container tone (variant ghost unless set). An explicit tone always wins.' },
     variant: { type: "'solid' | 'soft' | 'outline' | 'ghost'", default: 'ghost', description: 'Emphasis: solid (neutral = ink action), soft, outline edge, or quiet ghost (default).' },
     radius: { type: "'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'", default: 'md', description: 'Corner radius (radius token); unset keeps the size radius.' },
     shadow: { type: "'none' | '1' | '2' | '3' | '4' | '5'", default: 'none', description: 'Elevation (elevation token); unset is flat.' },
@@ -57,7 +57,7 @@ export default defineSpec({
     { slot: 'icon', when: { size: 'xs' }, expect: { height: 'icon-sm', width: 'icon-sm' } },
     { slot: 'root', when: { radius: 'full' }, expect: { radius: 'full' } },
     { slot: 'root', when: { variant: 'solid' }, expect: { bg: 'ink.solid', fg: 'ink.on', edge: 'control.edge' }, note: 'One depth cue: the control edge hairline, no elevation.' },
-    { slot: 'root', when: { variant: 'solid', state: 'hover' }, expect: { bg: 'ink.solid' }, note: 'Ink does not change fill on hover; it scales to 1.06 (see pointer).' },
+    { slot: 'root', when: { variant: 'solid', state: 'hover' }, expect: { bg: 'ink.solid-hover' }, note: 'Ink steps to ink.solid-hover on hover. It does not scale (owner 2026-11-11: hover never moves a control).' },
     { slot: 'root', when: { variant: 'solid', state: 'disabled' }, expect: { bg: 'disabled.fill', fg: 'disabled.text', opacity: 1 } },
     { slot: 'icon', when: { variant: 'solid', size: 'sm' }, expect: { height: 'size-icon-send', width: 'size-icon-send' }, note: 'Send arrow: 15px, stroke 2.25.' },
     { slot: 'root', when: { variant: 'solid', tone: 'accent' }, expect: { bg: 'accent.solid', fg: 'accent.on' } },
@@ -70,7 +70,7 @@ export default defineSpec({
   ],
   behavior: {
     keyboard: { Enter: 'activate', Space: 'activate' },
-    pointer: ['ghost: hover fills with neutral.hover in 120ms', 'solid neutral (ink): hover scales to 1.06 (no color change); hued solid: hover takes solid-hover 10'],
+    pointer: ['ghost: hover fills with neutral.hover in 120ms', 'solid neutral (ink): hover takes ink.solid-hover; hued solid: hover takes solid-hover 10; no variant scales on hover'],
     scenarios: [
       { name: 'click activates', steps: [{ do: 'click', slot: 'root' }], expect: [{ event: 'onClick', calls: 1 }] },
       { name: 'Enter activates', steps: [{ do: 'focus', slot: 'root' }, { do: 'press', key: 'Enter' }], expect: [{ event: 'onClick', calls: 1 }] },
@@ -91,6 +91,7 @@ export default defineSpec({
     { id: 'icon-toggle-states', title: 'Toggles', doc: 'position-size#position-and-size' },
   ],
   usage: [
+    'Tone scope (2026-11-12): an IconButton without tone inside a soft, outline or ghost Alert takes the alert tone (an info icon or dismiss in a danger strip is danger). On a solid alert it keeps its own look.',
     'Always provide label (aria-label).',
     'variant="solid" radius="full" size="sm" (28px) is the send button (formerly tone="ink" shape="circle"); use it once per text area or composer. Specimen has no stop variant (.send.stop exists in CSS: neutral.selected with a 9px square).',
     'Show the on state of a toggle with the inverted selection (selection.fill, selection.on), not an accent color.',

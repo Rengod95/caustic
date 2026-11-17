@@ -5,6 +5,7 @@ import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
 import { Button } from '../button/button.tsx';
 import { IconButton } from '../icon-button/icon-button.tsx';
+import { ToneScopeContext } from '../../lib/tone-scope.ts';
 import { alertBody, alertIcon, alertVariants } from './alert.variants.ts';
 
 /** One tone-matched action button rendered by the alert. */
@@ -41,7 +42,10 @@ export interface AlertProps extends ComponentProps<'div'> {
    * solid button, the others the tone soft button (on a solid alert both are the raised neutral button). Button xs.
    */
   actions?: AlertAction[] | undefined;
-  /** Free action content (any node, e.g. a Button xs). Rendered as given after actions. */
+  /**
+   * Free action content (any node, e.g. a Button xs), rendered after actions. A Button or IconButton in it without its own
+   * tone takes the alert tone (soft unless it sets a variant; the raised neutral button on a solid alert).
+   */
   action?: ReactNode | undefined;
   /** Shows the dismiss button. The alert does not hide itself; remove it in onDismiss. */
   dismissible?: boolean | undefined;
@@ -71,6 +75,8 @@ export function Alert({
       className={cn(alertVariants({ tone: t, variant, layout: l, placement, radius, shadow, size, trailing: hasAction || dismissible, dismissible }), className)}
       {...props}
     >
+      {/* Controls inside (free action, links in the message, dismiss) take the alert tone unless they set their own (lib/tone-scope.ts) */}
+      <ToneScopeContext value={{ tone: t, variant: v }}>
       <span data-slot="alert-icon" aria-hidden="true" className={cn(alertIcon({ tone: t, variant, size }))}>{icon ?? defaultIcon[t]}</span>
       <div data-slot="alert-body" className={alertBody({ layout: l, emphasis, variant, tone: t })}>{children}</div>
       {hasAction && (
@@ -87,6 +93,7 @@ export function Alert({
       )}
       {/* label is required by IconButton's type; when the consumer omits it the aria-label attribute is simply absent (no English fallback). */}
       {dismissible && <IconButton data-slot="alert-dismiss" size="xs" label={dismissLabel as string} onClick={() => onDismiss?.()}><X /></IconButton>}
+      </ToneScopeContext>
     </div>
   );
 }

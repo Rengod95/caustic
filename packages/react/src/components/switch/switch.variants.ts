@@ -29,7 +29,7 @@ export const switchVariants = cva(
         outline: 'bg-transparent shadow-[inset_0_0_0_1px_var(--cs-color-border-control)] data-[state=checked]:bg-transparent data-[state=checked]:shadow-[inset_0_0_0_1px_var(--tone-border-strong)]',
         ghost: 'bg-transparent data-[state=checked]:bg-transparent',
       },
-      // iOS 26 proportions (owner 2026-10-28): a wider track, 64 × 28 at md and 48 × 23 at sm. The widths are space steps
+      // iOS 26 proportions (owner 2026-10-28): a wider track, 64 × 28 at md and 48 × 23 at sm (32 × 18 under data-density="desktop"). The widths are space steps
       // until the switch width tokens are updated (central request). xs and lg take the sm and md track.
       size: {
         xs: 'h-switch-sm-h w-switch-sm-w', sm: 'h-switch-sm-h w-switch-sm-w',
@@ -62,10 +62,10 @@ export const switchThumb = cva(
         ghost: 'group-enabled:data-[state=checked]:bg-(--tone-solid)',
       },
       size: {
-        xs: 'h-switch-sm-thumb w-switch-sm-thumb-w data-[state=checked]:translate-x-switch-sm-travel group-active:w-switch-sm-press group-active:data-[state=checked]:translate-x-3',
-        sm: 'h-switch-sm-thumb w-switch-sm-thumb-w data-[state=checked]:translate-x-switch-sm-travel group-active:w-switch-sm-press group-active:data-[state=checked]:translate-x-3',
-        md: 'h-switch-md-thumb w-switch-md-thumb-w data-[state=checked]:translate-x-switch-md-travel group-active:w-switch-md-press group-active:data-[state=checked]:translate-x-3',
-        lg: 'h-switch-md-thumb w-switch-md-thumb-w data-[state=checked]:translate-x-switch-md-travel group-active:w-switch-md-press group-active:data-[state=checked]:translate-x-3',
+        xs: 'h-switch-sm-thumb w-switch-sm-thumb-w data-[state=checked]:translate-x-switch-sm-travel group-active:w-switch-sm-press group-active:data-[state=checked]:translate-x-switch-sm-press-travel',
+        sm: 'h-switch-sm-thumb w-switch-sm-thumb-w data-[state=checked]:translate-x-switch-sm-travel group-active:w-switch-sm-press group-active:data-[state=checked]:translate-x-switch-sm-press-travel',
+        md: 'h-switch-md-thumb w-switch-md-thumb-w data-[state=checked]:translate-x-switch-md-travel group-active:w-switch-md-press group-active:data-[state=checked]:translate-x-switch-md-press-travel',
+        lg: 'h-switch-md-thumb w-switch-md-thumb-w data-[state=checked]:translate-x-switch-md-travel group-active:w-switch-md-press group-active:data-[state=checked]:translate-x-switch-md-press-travel',
       },
     },
     defaultVariants: { variant: 'solid', size: 'md' },

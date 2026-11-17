@@ -37,22 +37,36 @@ export const neutral = {
 // Light danger/info/success text were muddy at the derived chroma (owner follow-up 2026-10-28, field option 5).
 export const solids = {
   accent: { name: 'Deep Black', role: 'Accent: primary emphasis, links, selection on canvas, focus (separate from ink, decision 1)', light: [0.11, 0, 0], dark: [0.97, 0, 0] },
-  success: { name: 'Pad Green', role: 'Success, diff add', light: [0.82, 0.187, 155], dark: [0.82, 0.187, 155], text: { light: [0.5, 0.16, 155] } },
-  warning: { name: 'Tape Yellow', role: 'Warning, permission', light: [0.905, 0.159, 118], dark: [0.905, 0.159, 118] },
-  danger: { name: 'Signal Orange', role: 'Danger, diff remove', light: [0.77, 0.261, 43], dark: [0.77, 0.261, 43], text: { light: [0.52, 0.16, 38] } },
-  info: { name: 'Panel Blue', role: 'Info, review, user guides', light: [0.7, 0.145, 266], dark: [0.7, 0.145, 266], text: { light: [0.5, 0.19, 266] } },
-  'agent-1': { name: 'Signal', role: 'Agent gradient stop 1; the agent tone', light: [0.755, 0.251, 88], dark: [0.755, 0.251, 88] },
-  'agent-2': { name: 'Panel', role: 'Agent gradient stop 2', light: [0.695, 0.308, 281], dark: [0.695, 0.308, 281] },
-  'agent-3': { name: 'Pad', role: 'Agent gradient stop 3', light: [0.79, 0.31, 37], dark: [0.79, 0.31, 37] },
-  'extra-1': { name: 'Knob Orange', role: 'Chart series 5, illustration, syntax property', light: [0.64, 0.12, 50], dark: [0.72, 0.11, 50] },
+  // DP-82 (2026-11-11, owner: "TUI 느낌의 채도 높은 semantic 색", "오류색만 주황같은 빨간색"): status and agent solids are
+  // picked per mode near the sRGB cusp of their hue, so the build's gamut map no longer halves the chroma (danger was
+  // authored C .261 and emitted C .143). Dark solids sit at the lightness where the hue is most saturated; light solids sit
+  // lower so the on label keeps its contrast. Text (step 11) is authored in both modes at the most saturated lightness that
+  // still reads 4.5:1 on surface and soft: the derived dark text was pushed light and lost its hue (danger C .08).
+  // Hues: success green 150, warning yellow 92 (118 read lime), danger vermilion 33 (orange-red, not pure red 25, not
+  // orange 43), info cyan-blue 235, agent crystal violet 288 (the brand crystal).
+  success: { name: 'Signal Green', role: 'Success, diff add, ANSI green', light: [0.6, 0.165, 150], dark: [0.8, 0.205, 150], text: { light: [0.49, 0.135, 150], dark: [0.82, 0.2, 150] } },
+  warning: { name: 'Signal Yellow', role: 'Warning, permission, ANSI yellow', light: [0.8, 0.164, 85], dark: [0.86, 0.172, 92], text: { light: [0.52, 0.11, 72], dark: [0.87, 0.172, 92] } },
+  danger: { name: 'Vermilion', role: 'Danger, diff remove, ANSI red', light: [0.585, 0.215, 33], dark: [0.65, 0.232, 33], text: { light: [0.53, 0.195, 33], dark: [0.7, 0.19, 33] } },
+  info: { name: 'Signal Blue', role: 'Info, review, user guides', light: [0.58, 0.133, 240], dark: [0.73, 0.15, 235], text: { light: [0.5, 0.126, 245], dark: [0.77, 0.135, 235] } },
+  'agent-1': { name: 'Crystal Violet', role: 'Agent gradient stop 1; the agent tone', light: [0.54, 0.25, 288], dark: [0.66, 0.192, 288], text: { light: [0.5, 0.24, 288], dark: [0.74, 0.142, 288] } },
+  'agent-2': { name: 'Crystal Blue', role: 'Agent gradient stop 2', light: [0.6, 0.21, 262], dark: [0.66, 0.18, 262] },
+  'agent-3': { name: 'Crystal Cyan', role: 'Agent gradient stop 3 (the refraction)', light: [0.74, 0.128, 210], dark: [0.82, 0.13, 210] },
+  'extra-1': { name: 'Knob Orange', role: 'Chart series 5, illustration, syntax number and attribute', light: [0.62, 0.15, 55], dark: [0.78, 0.15, 58] },
   'extra-2': { name: 'Dust Blue', role: 'Chart series 6, illustration', light: [0.6, 0.07, 240], dark: [0.72, 0.065, 240] },
+  // DP-82: the terminal and syntax hues that no status covers. Their ramps follow the same rule (derived text, fitted).
+  'extra-3': { name: 'Term Cyan', role: 'ANSI cyan, syntax type and operator', light: [0.6, 0.102, 200], dark: [0.8, 0.13, 200] },
+  'extra-4': { name: 'Term Blue', role: 'ANSI blue, syntax function', light: [0.55, 0.2, 262], dark: [0.7, 0.156, 262] },
+  'extra-5': { name: 'Term Magenta', role: 'ANSI magenta, syntax keyword', light: [0.56, 0.22, 335], dark: [0.72, 0.19, 335] },
   'canvas-guide': { name: 'Guide Magenta', role: 'Canvas smart guides only (decision 4)', light: [0.6, 0.2, 345], dark: [0.72, 0.17, 345] },
 };
 
 // The ramp rule (§1). Steps 1–6 sit at fixed lightness so tints line up across hues; chroma is a share of the solid's.
 export const rampRule = {
   fixedL: { light: [0.985, 0.965, 0.935, 0.905, 0.87, 0.8], dark: [0.225, 0.255, 0.29, 0.32, 0.355, 0.42] },
-  chromaShare: { light: [0.14, 0.28, 0.46, 0.58, 0.7, 0.8, 0.9, 1], dark: [0.22, 0.32, 0.46, 0.56, 0.66, 0.76, 0.88, 1] },
+  // DP-82: the solids now carry about 1.6× the emitted chroma, so the tint shares (1–7) drop a step: vivid inks, calm fills
+  // (diff lines, alert and badge fills keep about their former strength). Was light .14 .28 .46 .58 .7 .8 .9, dark .22 .32
+  // .46 .56 .66 .76 .88.
+  chromaShare: { light: [0.12, 0.24, 0.38, 0.5, 0.62, 0.76, 0.9, 1], dark: [0.17, 0.25, 0.36, 0.44, 0.52, 0.64, 0.84, 1] },
   graphicMin: 3,   // step 8 on surface.base: reported as a warning only; step 8 is not pushed to it
   textMin: 4.5,    // step 11 on surface.base and on steps 3–5
   textMargin: 0.1, // a derived step 11 is fitted to textMin + textMargin (rounding headroom); the rules check textMin
@@ -195,14 +209,50 @@ export const themes = {
     'agent.stop-2': 'agent-2.9',
     'agent.stop-3': 'agent-3.9',
     'agent.glow': 'agent-1.9/0.45',
-    'diff.add-bg': 'success.3',
+    'diff.add-bg': 'success.2',
     'diff.remove-bg': 'danger.3',
     'diff.add-text': 'success.11',
     'diff.remove-text': 'danger.11',
-    'syntax.keyword': 'info.11',
+    // Syntax theme (DP-82): one hue per token family, named after the shiki css-variables theme roles. Every token reads a
+    // text step 11 (fitted to 4.5:1) or a neutral ink, so it reads on the code surface and on the diff tints.
+    'syntax.foreground': '=text.primary',
+    'syntax.keyword': 'extra-5.11',
     'syntax.string': 'success.11',
-    'syntax.property': 'extra-1.11',
+    'syntax.property': 'info.11',
     'syntax.comment': '=text.secondary',
+    'syntax.number': 'extra-1.11',
+    'syntax.constant': 'extra-1.11',
+    'syntax.function': 'extra-4.11',
+    'syntax.type': 'extra-3.11',
+    'syntax.parameter': '=text.primary',
+    'syntax.variable': '=text.primary',
+    'syntax.operator': 'extra-3.11',
+    'syntax.punctuation': '=text.secondary',
+    'syntax.tag': 'danger.11',
+    'syntax.attr': 'extra-1.11',
+    'syntax.regexp': 'warning.11',
+    'syntax.link': 'info.11',
+    'syntax.heading': 'extra-4.11',
+    'syntax.inserted': '=diff.add-text',
+    'syntax.deleted': '=diff.remove-text',
+    // ANSI 16 for shell output (DP-82). Dark: normal reads the solid 9, bright the text 11 (lighter). Light: normal reads
+    // the text 11 (4.5:1 on paper), bright the solid 9; black and white are neutral inks.
+    'ansi.black': 'neutral.11',
+    'ansi.red': 'danger.11',
+    'ansi.green': 'success.11',
+    'ansi.yellow': 'warning.11',
+    'ansi.blue': 'extra-4.11',
+    'ansi.magenta': 'extra-5.11',
+    'ansi.cyan': 'extra-3.11',
+    'ansi.white': 'neutral.8',
+    'ansi.bright-black': 'neutral.9',
+    'ansi.bright-red': 'danger.9',
+    'ansi.bright-green': 'success.9',
+    'ansi.bright-yellow': 'warning.9',
+    'ansi.bright-blue': 'extra-4.9',
+    'ansi.bright-magenta': 'extra-5.9',
+    'ansi.bright-cyan': 'extra-3.9',
+    'ansi.bright-white': 'neutral.7',
 
     'canvas.dot': 'neutral.11/0.13',
     'canvas.selection': 'accent.9',
@@ -326,10 +376,45 @@ export const themes = {
     'diff.remove-bg': 'danger.3',
     'diff.add-text': 'success.11',
     'diff.remove-text': 'danger.11',
-    'syntax.keyword': 'info.11',
+    // Syntax theme (DP-82): one hue per token family, named after the shiki css-variables theme roles. Every token reads a
+    // text step 11 (fitted to 4.5:1) or a neutral ink, so it reads on the code surface and on the diff tints.
+    'syntax.foreground': '=text.primary',
+    'syntax.keyword': 'extra-5.11',
     'syntax.string': 'success.11',
-    'syntax.property': 'extra-1.11',
+    'syntax.property': 'info.11',
     'syntax.comment': '=text.secondary',
+    'syntax.number': 'extra-1.11',
+    'syntax.constant': 'extra-1.11',
+    'syntax.function': 'extra-4.11',
+    'syntax.type': 'extra-3.11',
+    'syntax.parameter': '=text.primary',
+    'syntax.variable': '=text.primary',
+    'syntax.operator': 'extra-3.11',
+    'syntax.punctuation': '=text.secondary',
+    'syntax.tag': 'danger.11',
+    'syntax.attr': 'extra-1.11',
+    'syntax.regexp': 'warning.11',
+    'syntax.link': 'info.11',
+    'syntax.heading': 'extra-4.11',
+    'syntax.inserted': '=diff.add-text',
+    'syntax.deleted': '=diff.remove-text',
+    // ANSI 16 (DP-82): see the light theme.
+    'ansi.black': 'neutral.5',
+    'ansi.red': 'danger.9',
+    'ansi.green': 'success.9',
+    'ansi.yellow': 'warning.9',
+    'ansi.blue': 'extra-4.9',
+    'ansi.magenta': 'extra-5.9',
+    'ansi.cyan': 'extra-3.9',
+    'ansi.white': 'neutral.10',
+    'ansi.bright-black': 'neutral.8',
+    'ansi.bright-red': 'danger.11',
+    'ansi.bright-green': 'success.11',
+    'ansi.bright-yellow': 'warning.11',
+    'ansi.bright-blue': 'extra-4.11',
+    'ansi.bright-magenta': 'extra-5.11',
+    'ansi.bright-cyan': 'extra-3.11',
+    'ansi.bright-white': 'neutral.11',
 
     'canvas.dot': 'white/0.08',
     // White artboards stay white in dark. Selection and guides keep the designed solids (accent 9, guide 9) even where
@@ -443,11 +528,16 @@ export const contrastRules = [
   ['text.primary', 'diff.remove-bg', 7, 'diff line'],
   ['diff.add-text', 'diff.add-bg', 4.5, 'diff sign'],
   ['diff.remove-text', 'diff.remove-bg', 4.5, 'diff sign'],
-  ...['syntax.keyword', 'syntax.string', 'syntax.property', 'syntax.comment'].flatMap(s => [
+  ...['syntax.foreground', 'syntax.keyword', 'syntax.string', 'syntax.property', 'syntax.comment', 'syntax.number', 'syntax.function', 'syntax.type',
+    'syntax.operator', 'syntax.punctuation', 'syntax.tag', 'syntax.attr', 'syntax.regexp', 'syntax.link', 'syntax.heading'].flatMap(s => [
     [s, 'surface.base', 4.5, 'syntax on code surface'],
     [s, 'diff.add-bg', 4.5, 'syntax on an added line'],
     [s, 'diff.remove-bg', 4.5, 'syntax on a removed line'],
   ]),
+  // ANSI 16 (DP-82): the seven normal colours read as text on the code surface; black and the bright set are reported only
+  // (light bright yellow and dark black are terminal conventions, not body text).
+  ...['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'].map(c => [`ansi.${c}`, 'surface.base', 4.5, 'ANSI normal colour on the code surface']),
+  ...['black', 'bright-black', 'bright-red', 'bright-green', 'bright-yellow', 'bright-blue', 'bright-magenta', 'bright-cyan', 'bright-white'].map(c => [`ansi.${c}`, 'surface.base', 3, 'ANSI colour on the code surface', 'warn']),
   // Series read graphic 8, which follows the authored solid (owner 2026-10-26), so light solids give light series: reported only.
   ...[1, 2, 3, 4, 5, 6].map(i => [`chart.${i}`, 'surface.base', 3, 'chart series', 'warn']),
 
@@ -475,14 +565,21 @@ export const radius = { none: 0, xs: 4, sm: 6, md: 8, lg: 10, xl: 12, '2xl': 16,
 export const size = {
   control: { '2xs': 20, xs: 24, sm: 28, md: 32, lg: 40, xl: 48 },
   'control-compact': { '2xs': 18, xs: 22, sm: 24, md: 28, lg: 36, xl: 44 },
-  field: { sm: 36, md: 40, lg: 44 },
-  'field-compact': { sm: 32, md: 36, lg: 40 },
+  // xs is the field of an xs control row (32 = control-md, so xs fields sit with md buttons by default).
+  field: { xs: 32, sm: 36, md: 40, lg: 44 },
+  'field-compact': { xs: 28, sm: 32, md: 36, lg: 40 },
   icon: { xs: 12, sm: 14, md: 16, lg: 20, xl: 24 },
   // Fixed component geometry. Every dimension a component uses is a token.
   component: {
     check: 18, 'radio-dot': 7, 'kbd-h': 18, 'progress-h': 6, presence: 8,
     'switch-md-w': 64, 'switch-md-h': 28, 'switch-md-thumb': 24, 'switch-md-thumb-w': 40, 'switch-md-travel': 20, 'switch-md-press': 48,
     'switch-sm-w': 48, 'switch-sm-h': 23, 'switch-sm-thumb': 19, 'switch-sm-thumb-w': 28, 'switch-sm-travel': 16, 'switch-sm-press': 32,
+    // Pressed travel of an on thumb: track − 2 × 2px inset − pressed width (md 64 − 4 − 48, sm 48 − 4 − 32).
+    'switch-md-press-travel': 12, 'switch-sm-press-travel': 12,
+    // Segmented control: track padding and the segment height per size (outer = segment + 2 × pad).
+    'segment-pad': 4, 'segment-xs': 22, 'segment-sm': 24, 'segment-md': 26, 'segment-lg': 32,
+    // Tag input: the inner row (tag chips and the text control) and the block padding at sm and md.
+    'tag-input-row': 26, 'tag-input-pad-sm': 4, 'tag-input-pad-md': 6,
     'avatar-xs': 16, 'avatar-sm': 26, 'avatar-md': 32, 'avatar-lg': 36,
     'dialog-sm': 320, 'dialog-md': 480, 'dialog-lg': 640, 'modal-sm': 380, 'sheet-md': 380, 'empty-glyph': 22,
     'card-tile': 36, 'card-glyph': 18, 'card-add': 76, 'card-spark': 64, 'spotlight-glow': 320, 'spotlight-rim': 200,
@@ -513,6 +610,20 @@ export const size = {
     'calendar': 284, 'calendar-day': 36, 'icon-send': 15,
   },
   'hit-min': 24,
+};
+
+// Desktop density (data-density="desktop", 2026-11-11): one height scale for every control in a row. Fields
+// (input, select trigger, number stepper, tag input) take the control scale, so the same size name is the same
+// height in every component: xs 24 · sm 28 · md 32 · lg 40. The small switch, segmented track and tag input
+// row follow so they fit that scale (sm switch 32 × 18, sm segmented 28 outer, sm tag input 28 outer).
+export const densityDesktop = {
+  field: { xs: 24, sm: 28, md: 32, lg: 40 },
+  component: {
+    'switch-sm-w': 32, 'switch-sm-h': 18, 'switch-sm-thumb': 14, 'switch-sm-thumb-w': 18, 'switch-sm-travel': 10,
+    'switch-sm-press': 22, 'switch-sm-press-travel': 6,
+    'segment-pad': 3, 'segment-xs': 18, 'segment-sm': 22, 'segment-md': 26, 'segment-lg': 34,
+    'tag-input-row': 24, 'tag-input-pad-sm': 2, 'tag-input-pad-md': 4,
+  },
 };
 
 // Hangul (DP-11): Geist has no Hangul, so Korean takes the next face in the stack: SUIT Variable (owner decision O3, and
@@ -651,21 +762,25 @@ export const elevation = {
 export const blur = { control: 12, ultrathin: 14, thin: 20, regular: 24, thick: 36, overlay: 40 };
 
 export const motion = {
-  // UI durations (ms). Loops below them keep their names.
-  duration: { instant: 0, quick: 100, swift: 150, base: 200, gentle: 250, slow: 400,
+  // UI durations (ms). Loops below them keep their names. Crystal motion (Fresnel dz, owner 2026-11-11): quick to start,
+  // settling softly, never overshooting. Exits run at about 60% of their enter (quick 120 for swift 180, swift 180 for
+  // gentle 280).
+  duration: { instant: 0, quick: 120, swift: 180, base: 220, gentle: 280, slow: 400,
     spin: 700, indeterminate: 1400, orb: 1600, shimmer: 2200, slide: 2400, scan: 2600, agent: 4800 },
   easing: {
-    standard: 'cubic-bezier(0.2, 0, 0, 1)',      // colour, size, anything that stays on screen
-    out: 'cubic-bezier(0.23, 1, 0.32, 1)',       // enter and exit
+    standard: 'cubic-bezier(0.2, 0, 0, 1)',      // colour, size, anything that stays on screen; collapsing height
+    out: 'cubic-bezier(0.22, 1, 0.36, 1)',       // enter
     'in-out': 'cubic-bezier(0.77, 0, 0.175, 1)', // on-screen moves
     drawer: 'cubic-bezier(0.32, 0.72, 0, 1)',    // sheets and side panels
-    in: 'cubic-bezier(0.4, 0, 1, 1)',
+    in: 'cubic-bezier(0.4, 0, 1, 1)',            // exit (short, so the slow start does not read as lag)
     linear: 'linear',
   },
-  // Springs move things (position, size, scale); colour and opacity use curves. Mass 1; damping is the ratio ζ.
-  spring: { snappy: { stiffness: 700, damping: 0.9 }, spring: { stiffness: 380, damping: 0.8 }, bounce: { stiffness: 300, damping: 0.55 } },
-  scale: { press: 0.97, 'press-sm': 0.94, enter: 0.96 },
-  shift: { enter: 4, lift: 2 },
+  // Springs move things (position, size, scale); colour and opacity use curves. Mass 1; damping is the ratio ζ. Every
+  // spring is critically damped (ζ 1, no overshoot). bounce keeps its name for existing consumers only; it no longer bounces.
+  spring: { snappy: { stiffness: 700, damping: 1 }, spring: { stiffness: 380, damping: 1 }, bounce: { stiffness: 300, damping: 1 } },
+  // Press is a 2% settle for every size; hover never scales or moves (no lift).
+  scale: { press: 0.98, 'press-sm': 0.98, enter: 0.96 },
+  shift: { enter: 4 },
   stagger: { step: 40, max: 8 },
 };
 

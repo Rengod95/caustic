@@ -15,6 +15,6 @@ export default defineEntry({
   ],
   guidance: [
     'It only shows progress; pair it with buttons or tabs for moving between steps.',
-    'The checklist look with tone="agent" lights the running step; the spectrum stays for agent work.',
+    'Pass live to show the app\'s own working mark on the current step; tone="agent" makes the checklist now mark move.',
   ],
 });

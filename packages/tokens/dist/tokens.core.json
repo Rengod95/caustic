@@ -592,11 +592,11 @@
           "colorSpace": "oklch",
           "components": [
             0.985,
-            0.0228,
-            155
+            0.0198,
+            150
           ],
           "alpha": 1,
-          "hex": "#effff4"
+          "hex": "#f1fef3"
         }
       },
       "2": {
@@ -605,11 +605,11 @@
           "colorSpace": "oklch",
           "components": [
             0.965,
-            0.0523,
-            155
+            0.0396,
+            150
           ],
           "alpha": 1,
-          "hex": "#d9ffe4"
+          "hex": "#e2fce6"
         }
       },
       "3": {
@@ -618,11 +618,11 @@
           "colorSpace": "oklch",
           "components": [
             0.935,
-            0.086,
-            155
+            0.0627,
+            150
           ],
           "alpha": 1,
-          "hex": "#bcfbd1"
+          "hex": "#cdf6d4"
         }
       },
       "4": {
@@ -631,11 +631,11 @@
           "colorSpace": "oklch",
           "components": [
             0.905,
-            0.1084,
-            155
+            0.0825,
+            150
           ],
           "alpha": 1,
-          "hex": "#a4f5c0"
+          "hex": "#b9f0c3"
         }
       },
       "5": {
@@ -644,11 +644,11 @@
           "colorSpace": "oklch",
           "components": [
             0.87,
-            0.1308,
-            155
+            0.1023,
+            150
           ],
           "alpha": 1,
-          "hex": "#89eeae"
+          "hex": "#a3e8b1"
         }
       },
       "6": {
@@ -656,12 +656,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.857,
-            0.1496,
-            155
+            0.8,
+            0.1254,
+            150
           ],
           "alpha": 1,
-          "hex": "#75eda4"
+          "hex": "#7fd492"
         }
       },
       "7": {
@@ -669,12 +669,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.8422,
-            0.1683,
-            155
+            0.72,
+            0.1485,
+            150
           ],
           "alpha": 1,
-          "hex": "#5deb9a"
+          "hex": "#54be71"
         }
       },
       "8": {
@@ -682,12 +682,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.8311,
-            0.187,
-            155
+            0.66,
+            0.165,
+            150
           ],
           "alpha": 1,
-          "hex": "#3eea90"
+          "hex": "#2cad58"
         }
       },
       "9": {
@@ -695,12 +695,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.82,
-            0.187,
-            155
+            0.6,
+            0.165,
+            150
           ],
           "alpha": 1,
-          "hex": "#39e68d"
+          "hex": "#019a46"
         }
       },
       "10": {
@@ -708,12 +708,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.77,
-            0.187,
-            155
+            0.55,
+            0.1519,
+            150
           ],
           "alpha": 1,
-          "hex": "#15d67d"
+          "hex": "#00893d"
         }
       },
       "11": {
@@ -721,15 +721,15 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.5,
-            0.1241,
-            155
+            0.49,
+            0.135,
+            150
           ],
           "alpha": 1,
-          "hex": "#007742"
+          "hex": "#007433"
         }
       },
-      "$description": "Pad Green — Success, diff add, light (step 9 is the authored solid)"
+      "$description": "Signal Green — Success, diff add, ANSI green, light (step 9 is the authored solid)"
     },
     "success-dark": {
       "1": {
@@ -738,11 +738,11 @@
           "colorSpace": "oklch",
           "components": [
             0.225,
-            0.0411,
-            155
+            0.0348,
+            150
           ],
           "alpha": 1,
-          "hex": "#092113"
+          "hex": "#0f2013"
         }
       },
       "2": {
@@ -751,11 +751,11 @@
           "colorSpace": "oklch",
           "components": [
             0.255,
-            0.0598,
-            155
+            0.0512,
+            150
           ],
           "alpha": 1,
-          "hex": "#032b15"
+          "hex": "#0e2a15"
         }
       },
       "3": {
@@ -764,11 +764,11 @@
           "colorSpace": "oklch",
           "components": [
             0.29,
-            0.0732,
-            155
+            0.0737,
+            150
           ],
           "alpha": 1,
-          "hex": "#00351b"
+          "hex": "#063516"
         }
       },
       "4": {
@@ -777,11 +777,11 @@
           "colorSpace": "oklch",
           "components": [
             0.32,
-            0.0803,
-            155
+            0.0895,
+            150
           ],
           "alpha": 1,
-          "hex": "#003e20"
+          "hex": "#003f18"
         }
       },
       "5": {
@@ -790,11 +790,11 @@
           "colorSpace": "oklch",
           "components": [
             0.355,
-            0.0888,
-            155
+            0.0989,
+            150
           ],
           "alpha": 1,
-          "hex": "#004926"
+          "hex": "#00491d"
         }
       },
       "6": {
@@ -803,11 +803,11 @@
           "colorSpace": "oklch",
           "components": [
             0.42,
-            0.1045,
-            155
+            0.1164,
+            150
           ],
           "alpha": 1,
-          "hex": "#005d33"
+          "hex": "#005e28"
         }
       },
       "7": {
@@ -815,12 +815,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.58,
-            0.1437,
-            155
+            0.572,
+            0.1579,
+            150
           ],
           "alpha": 1,
-          "hex": "#009253"
+          "hex": "#009041"
         }
       },
       "8": {
@@ -828,12 +828,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.7,
-            0.1733,
-            155
+            0.686,
+            0.1892,
+            150
           ],
           "alpha": 1,
-          "hex": "#00bd6c"
+          "hex": "#00b955"
         }
       },
       "9": {
@@ -841,12 +841,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.82,
-            0.187,
-            155
+            0.8,
+            0.205,
+            150
           ],
           "alpha": 1,
-          "hex": "#39e68d"
+          "hex": "#33e171"
         }
       },
       "10": {
@@ -854,12 +854,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.87,
-            0.187,
-            155
+            0.85,
+            0.205,
+            150
           ],
           "alpha": 1,
-          "hex": "#51f79c"
+          "hex": "#4cf281"
         }
       },
       "11": {
@@ -867,15 +867,15 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.91,
-            0.1522,
-            155
+            0.82,
+            0.2,
+            150
           ],
           "alpha": 1,
-          "hex": "#85ffb4"
+          "hex": "#45e77a"
         }
       },
-      "$description": "Pad Green — Success, diff add, dark (step 9 is the authored solid)"
+      "$description": "Signal Green — Success, diff add, ANSI green, dark (step 9 is the authored solid)"
     },
     "warning-light": {
       "1": {
@@ -884,303 +884,11 @@
           "colorSpace": "oklch",
           "components": [
             0.985,
-            0.0222,
-            118
+            0.0158,
+            85
           ],
           "alpha": 1,
-          "hex": "#f8fcec"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.973,
-            0.0445,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#f3fbd9"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.961,
-            0.0731,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#edfac2"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.949,
-            0.0922,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#e8f7b0"
-        }
-      },
-      "5": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.937,
-            0.1113,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#e3f59e"
-        }
-      },
-      "6": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.9287,
-            0.1272,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#e0f38f"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.9192,
-            0.1431,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#dcf17e"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.9121,
-            0.159,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#d9f06c"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.905,
-            0.159,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#d6ee69"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.855,
-            0.159,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#c6dd58"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.515,
-            0.1204,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#627000"
-        }
-      },
-      "$description": "Tape Yellow — Warning, permission, light (step 9 is the authored solid)"
-    },
-    "warning-dark": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.225,
-            0.0349,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#1a1e0a"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.255,
-            0.0508,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#212606"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.29,
-            0.0694,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#292f00"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.32,
-            0.076,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#303700"
-        }
-      },
-      "5": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.355,
-            0.0839,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#384100"
-        }
-      },
-      "6": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.42,
-            0.0986,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#495400"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.614,
-            0.1399,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#7e8f0c"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.7595,
-            0.159,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#a9be33"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.905,
-            0.159,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#d6ee69"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.825,
-            0.159,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#bdd34d"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.945,
-            0.159,
-            118
-          ],
-          "alpha": 1,
-          "hex": "#e3fb77"
-        }
-      },
-      "$description": "Tape Yellow — Warning, permission, dark (step 9 is the authored solid)"
-    },
-    "danger-light": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.985,
-            0.0078,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#fff9f6"
+          "hex": "#fffaee"
         }
       },
       "2": {
@@ -1189,11 +897,11 @@
           "colorSpace": "oklch",
           "components": [
             0.965,
-            0.0184,
-            43
+            0.037,
+            85
           ],
           "alpha": 1,
-          "hex": "#fff0ea"
+          "hex": "#fff2d8"
         }
       },
       "3": {
@@ -1202,11 +910,11 @@
           "colorSpace": "oklch",
           "components": [
             0.935,
-            0.0349,
-            43
+            0.0623,
+            85
           ],
           "alpha": 1,
-          "hex": "#ffe3d7"
+          "hex": "#fde7bb"
         }
       },
       "4": {
@@ -1215,11 +923,11 @@
           "colorSpace": "oklch",
           "components": [
             0.905,
-            0.0523,
-            43
+            0.082,
+            85
           ],
           "alpha": 1,
-          "hex": "#ffd5c5"
+          "hex": "#f9dca1"
         }
       },
       "5": {
@@ -1228,11 +936,11 @@
           "colorSpace": "oklch",
           "components": [
             0.87,
-            0.0737,
-            43
+            0.1016,
+            85
           ],
           "alpha": 1,
-          "hex": "#ffc5ae"
+          "hex": "#f3cf85"
         }
       },
       "6": {
@@ -1240,12 +948,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.844,
-            0.0905,
-            43
+            0.8518,
+            0.1246,
+            85
           ],
           "alpha": 1,
-          "hex": "#ffb99d"
+          "hex": "#f4c868"
         }
       },
       "7": {
@@ -1253,12 +961,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.8144,
-            0.1106,
-            43
+            0.8311,
+            0.1476,
+            85
           ],
           "alpha": 1,
-          "hex": "#ffab88"
+          "hex": "#f3bf43"
         }
       },
       "8": {
@@ -1266,463 +974,25 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.7922,
-            0.1264,
-            43
+            0.8155,
+            0.164,
+            85
           ],
           "alpha": 1,
-          "hex": "#ff9f78"
+          "hex": "#f3b914"
         }
       },
       "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.77,
-            0.143,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#ff9467"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.72,
-            0.143,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#ee8457"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.52,
-            0.16,
-            38
-          ],
-          "alpha": 1,
-          "hex": "#b13c11"
-        }
-      },
-      "$description": "Signal Orange — Danger, diff remove, light (step 9 is the authored solid)"
-    },
-    "danger-dark": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.225,
-            0.0314,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#281710"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.255,
-            0.0457,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#351b10"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.29,
-            0.0657,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#461f0e"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.32,
-            0.08,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#53220c"
-        }
-      },
-      "5": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.355,
-            0.0943,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#63270b"
-        }
-      },
-      "6": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.42,
-            0.1086,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#7c3513"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.56,
-            0.1258,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#b05832"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.665,
-            0.143,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#db7346"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.77,
-            0.143,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#ff9467"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.82,
-            0.1067,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#ffad8c"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.86,
-            0.0801,
-            43
-          ],
-          "alpha": 1,
-          "hex": "#ffc1a7"
-        }
-      },
-      "$description": "Signal Orange — Danger, diff remove, dark (step 9 is the authored solid)"
-    },
-    "info-light": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.985,
-            0.007,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#f8faff"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.965,
-            0.0164,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#eef4ff"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.935,
-            0.0309,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#e0eaff"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.905,
-            0.0456,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#d1e0ff"
-        }
-      },
-      "5": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.87,
-            0.0633,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#c1d4ff"
-        }
-      },
-      "6": {
         "$type": "color",
         "$value": {
           "colorSpace": "oklch",
           "components": [
             0.8,
-            0.1002,
-            266
+            0.164,
+            85
           ],
           "alpha": 1,
-          "hex": "#9fbdff"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.76,
-            0.1221,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#8dafff"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.73,
-            0.139,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#7ea4ff"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.7,
-            0.145,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#749af8"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.65,
-            0.145,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#658ae7"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.5,
-            0.19,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#3056cd"
-        }
-      },
-      "$description": "Panel Blue — Info, review, user guides, light (step 9 is the authored solid)"
-    },
-    "info-dark": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.225,
-            0.0319,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#151b2b"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.255,
-            0.0463,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#182239"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.29,
-            0.0667,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#1c294c"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.32,
-            0.0812,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#1f305c"
-        }
-      },
-      "5": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.355,
-            0.0956,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#24386d"
-        }
-      },
-      "6": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.42,
-            0.1102,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#304989"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.532,
-            0.1276,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#4968b6"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.616,
-            0.145,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#5c80dc"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.7,
-            0.145,
-            266
-          ],
-          "alpha": 1,
-          "hex": "#749af8"
+          "hex": "#eeb400"
         }
       },
       "10": {
@@ -1731,11 +1001,11 @@
           "colorSpace": "oklch",
           "components": [
             0.75,
-            0.1277,
-            266
+            0.1539,
+            85
           ],
           "alpha": 1,
-          "hex": "#88abff"
+          "hex": "#daa500"
         }
       },
       "11": {
@@ -1743,174 +1013,28 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.79,
-            0.1056,
-            266
+            0.52,
+            0.11,
+            72
           ],
           "alpha": 1,
-          "hex": "#9bb9ff"
+          "hex": "#8f5d04"
         }
       },
-      "$description": "Panel Blue — Info, review, user guides, dark (step 9 is the authored solid)"
+      "$description": "Signal Yellow — Warning, permission, ANSI yellow, light (step 9 is the authored solid)"
     },
-    "agent-1-light": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.985,
-            0.0176,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#fffaed"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.965,
-            0.0412,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#fff3d5"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.935,
-            0.0711,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#fde8b3"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.905,
-            0.0896,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#f9dd9a"
-        }
-      },
-      "5": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.87,
-            0.1082,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#f2d07e"
-        }
-      },
-      "6": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.8,
-            0.1236,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#dfb957"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.782,
-            0.1391,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#ddb23d"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.7685,
-            0.1545,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#ddac10"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.755,
-            0.1545,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#d8a800"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.705,
-            0.1443,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#c59900"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.47,
-            0.0967,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#715700"
-        }
-      },
-      "$description": "Signal — Agent gradient stop 1; the agent tone, light (step 9 is the authored solid)"
-    },
-    "agent-1-dark": {
+    "warning-dark": {
       "1": {
         "$type": "color",
         "$value": {
           "colorSpace": "oklch",
           "components": [
             0.225,
-            0.034,
-            88
+            0.0292,
+            92
           ],
           "alpha": 1,
-          "hex": "#221b08"
+          "hex": "#211b0b"
         }
       },
       "2": {
@@ -1919,11 +1043,11 @@
           "colorSpace": "oklch",
           "components": [
             0.255,
-            0.0494,
-            88
+            0.0429,
+            92
           ],
           "alpha": 1,
-          "hex": "#2d2102"
+          "hex": "#2a2207"
         }
       },
       "3": {
@@ -1933,10 +1057,10 @@
           "components": [
             0.29,
             0.061,
-            88
+            92
           ],
           "alpha": 1,
-          "hex": "#382900"
+          "hex": "#362a00"
         }
       },
       "4": {
@@ -1946,10 +1070,10 @@
           "components": [
             0.32,
             0.0668,
-            88
+            92
           ],
           "alpha": 1,
-          "hex": "#413000"
+          "hex": "#3f3100"
         }
       },
       "5": {
@@ -1959,10 +1083,10 @@
           "components": [
             0.355,
             0.0737,
-            88
+            92
           ],
           "alpha": 1,
-          "hex": "#4c3900"
+          "hex": "#493a00"
         }
       },
       "6": {
@@ -1971,11 +1095,11 @@
           "colorSpace": "oklch",
           "components": [
             0.42,
-            0.0866,
-            88
+            0.0867,
+            92
           ],
           "alpha": 1,
-          "hex": "#614900"
+          "hex": "#5e4b00"
         }
       },
       "7": {
@@ -1983,12 +1107,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.554,
-            0.1137,
-            88
+            0.596,
+            0.1223,
+            92
           ],
           "alpha": 1,
-          "hex": "#8e6e00"
+          "hex": "#997c00"
         }
       },
       "8": {
@@ -1996,12 +1120,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.6545,
-            0.1341,
-            88
+            0.728,
+            0.1491,
+            92
           ],
           "alpha": 1,
-          "hex": "#b28a00"
+          "hex": "#c9a300"
         }
       },
       "9": {
@@ -2009,12 +1133,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.755,
-            0.1545,
-            88
+            0.86,
+            0.1719,
+            92
           ],
           "alpha": 1,
-          "hex": "#d8a800"
+          "hex": "#f9cc1a"
         }
       },
       "10": {
@@ -2022,330 +1146,38 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.805,
-            0.1545,
-            88
+            0.91,
+            0.1249,
+            92
           ],
           "alpha": 1,
-          "hex": "#e9b82a"
+          "hex": "#ffdf7b"
         }
       },
       "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.845,
-            0.1545,
-            88
-          ],
-          "alpha": 1,
-          "hex": "#f6c53d"
-        }
-      },
-      "$description": "Signal — Agent gradient stop 1; the agent tone, dark (step 9 is the authored solid)"
-    },
-    "agent-2-light": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.985,
-            0.0072,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#f9faff"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.965,
-            0.0169,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#f1f2ff"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.935,
-            0.0317,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#e5e8ff"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.905,
-            0.0469,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#d9ddff"
-        }
-      },
-      "5": {
         "$type": "color",
         "$value": {
           "colorSpace": "oklch",
           "components": [
             0.87,
-            0.0651,
-            281
+            0.1719,
+            92
           ],
           "alpha": 1,
-          "hex": "#ccd0ff"
+          "hex": "#fdcf22"
         }
       },
-      "6": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.8,
-            0.103,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#b2b6ff"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.758,
-            0.1268,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#a2a6ff"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.7265,
-            0.1451,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#979aff"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.695,
-            0.1639,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#8d8dff"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.645,
-            0.1639,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#7e7eee"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.48,
-            0.1639,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#514bb6"
-        }
-      },
-      "$description": "Panel — Agent gradient stop 2, light (step 9 is the authored solid)"
+      "$description": "Signal Yellow — Warning, permission, ANSI yellow, dark (step 9 is the authored solid)"
     },
-    "agent-2-dark": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.225,
-            0.036,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#191a2c"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.255,
-            0.0524,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#1f1f3b"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.29,
-            0.0754,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#26254f"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.32,
-            0.0918,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#2c2b60"
-        }
-      },
-      "5": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.355,
-            0.1082,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#343172"
-        }
-      },
-      "6": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.42,
-            0.1246,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#43418e"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.53,
-            0.1442,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#5f5ebc"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.6125,
-            0.1639,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#7574e3"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.695,
-            0.1639,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#8d8dff"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.745,
-            0.1343,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#9ea1ff"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.785,
-            0.1114,
-            281
-          ],
-          "alpha": 1,
-          "hex": "#acb1ff"
-        }
-      },
-      "$description": "Panel — Agent gradient stop 2, dark (step 9 is the authored solid)"
-    },
-    "agent-3-light": {
+    "danger-light": {
       "1": {
         "$type": "color",
         "$value": {
           "colorSpace": "oklch",
           "components": [
             0.985,
-            0.0075,
-            37
+            0.0074,
+            33
           ],
           "alpha": 1,
           "hex": "#fff8f7"
@@ -2357,11 +1189,11 @@
           "colorSpace": "oklch",
           "components": [
             0.965,
-            0.0178,
-            37
+            0.0175,
+            33
           ],
           "alpha": 1,
-          "hex": "#fff0eb"
+          "hex": "#fff0ec"
         }
       },
       "3": {
@@ -2370,11 +1202,11 @@
           "colorSpace": "oklch",
           "components": [
             0.935,
-            0.0338,
-            37
+            0.0333,
+            33
           ],
           "alpha": 1,
-          "hex": "#ffe2da"
+          "hex": "#ffe2db"
         }
       },
       "4": {
@@ -2383,11 +1215,11 @@
           "colorSpace": "oklch",
           "components": [
             0.905,
-            0.0506,
-            37
+            0.0499,
+            33
           ],
           "alpha": 1,
-          "hex": "#ffd5c8"
+          "hex": "#ffd4cb"
         }
       },
       "5": {
@@ -2396,303 +1228,11 @@
           "colorSpace": "oklch",
           "components": [
             0.87,
-            0.0714,
-            37
+            0.0704,
+            33
           ],
           "alpha": 1,
-          "hex": "#ffc5b3"
-        }
-      },
-      "6": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.8492,
-            0.0845,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#ffbba7"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.8255,
-            0.0999,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#ffaf98"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.8078,
-            0.1119,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#ffa68c"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.79,
-            0.1244,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#ff9d81"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.74,
-            0.1244,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#ee8d71"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.475,
-            0.1244,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#953d23"
-        }
-      },
-      "$description": "Pad — Agent gradient stop 3, light (step 9 is the authored solid)"
-    },
-    "agent-3-dark": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.225,
-            0.0273,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#271713"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.255,
-            0.0398,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#331c15"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.29,
-            0.0572,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#432016"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.32,
-            0.0696,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#502418"
-        }
-      },
-      "5": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.355,
-            0.0821,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#5f2a1a"
-        }
-      },
-      "6": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.42,
-            0.0945,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#783825"
-        }
-      },
-      "7": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.568,
-            0.1095,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#ad5e47"
-        }
-      },
-      "8": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.679,
-            0.1244,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#d97a5f"
-        }
-      },
-      "9": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.79,
-            0.1244,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#ff9d81"
-        }
-      },
-      "10": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.84,
-            0.0904,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#ffb6a1"
-        }
-      },
-      "11": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.88,
-            0.0654,
-            37
-          ],
-          "alpha": 1,
-          "hex": "#ffc9b9"
-        }
-      },
-      "$description": "Pad — Agent gradient stop 3, dark (step 9 is the authored solid)"
-    },
-    "extra-1-light": {
-      "1": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.985,
-            0.0082,
-            50
-          ],
-          "alpha": 1,
-          "hex": "#fff9f5"
-        }
-      },
-      "2": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.965,
-            0.0194,
-            50
-          ],
-          "alpha": 1,
-          "hex": "#fff0e8"
-        }
-      },
-      "3": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.935,
-            0.0368,
-            50
-          ],
-          "alpha": 1,
-          "hex": "#ffe3d4"
-        }
-      },
-      "4": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.905,
-            0.0551,
-            50
-          ],
-          "alpha": 1,
-          "hex": "#ffd6c0"
-        }
-      },
-      "5": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "oklch",
-          "components": [
-            0.87,
-            0.0776,
-            50
-          ],
-          "alpha": 1,
-          "hex": "#ffc6a7"
+          "hex": "#ffc4b7"
         }
       },
       "6": {
@@ -2701,11 +1241,11 @@
           "colorSpace": "oklch",
           "components": [
             0.8,
-            0.096,
-            50
+            0.1158,
+            33
           ],
           "alpha": 1,
-          "hex": "#f0ac86"
+          "hex": "#ffa28d"
         }
       },
       "7": {
@@ -2713,12 +1253,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.736,
-            0.108,
-            50
+            0.714,
+            0.1809,
+            33
           ],
           "alpha": 1,
-          "hex": "#e0956a"
+          "hex": "#ff7053"
         }
       },
       "8": {
@@ -2726,12 +1266,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.688,
-            0.12,
-            50
+            0.6495,
+            0.215,
+            33
           ],
           "alpha": 1,
-          "hex": "#d68353"
+          "hex": "#f64826"
         }
       },
       "9": {
@@ -2739,12 +1279,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.64,
-            0.12,
-            50
+            0.585,
+            0.215,
+            33
           ],
           "alpha": 1,
-          "hex": "#c67544"
+          "hex": "#de2e02"
         }
       },
       "10": {
@@ -2752,12 +1292,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.59,
-            0.12,
-            50
+            0.535,
+            0.1983,
+            33
           ],
           "alpha": 1,
-          "hex": "#b56535"
+          "hex": "#c62700"
         }
       },
       "11": {
@@ -2765,28 +1305,28 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.475,
-            0.12,
-            50
+            0.53,
+            0.195,
+            33
           ],
           "alpha": 1,
-          "hex": "#90440b"
+          "hex": "#c32701"
         }
       },
-      "$description": "Knob Orange — Chart series 5, illustration, syntax property, light (step 9 is the authored solid)"
+      "$description": "Vermilion — Danger, diff remove, ANSI red, light (step 9 is the authored solid)"
     },
-    "extra-1-dark": {
+    "danger-dark": {
       "1": {
         "$type": "color",
         "$value": {
           "colorSpace": "oklch",
           "components": [
             0.225,
-            0.0242,
-            50
+            0.0394,
+            33
           ],
           "alpha": 1,
-          "hex": "#251811"
+          "hex": "#2c140f"
         }
       },
       "2": {
@@ -2795,11 +1335,11 @@
           "colorSpace": "oklch",
           "components": [
             0.255,
-            0.0352,
-            50
+            0.058,
+            33
           ],
           "alpha": 1,
-          "hex": "#311e13"
+          "hex": "#3a1710"
         }
       },
       "3": {
@@ -2808,11 +1348,11 @@
           "colorSpace": "oklch",
           "components": [
             0.29,
-            0.0506,
-            50
+            0.0835,
+            33
           ],
           "alpha": 1,
-          "hex": "#3f2313"
+          "hex": "#4d170d"
         }
       },
       "4": {
@@ -2821,11 +1361,11 @@
           "colorSpace": "oklch",
           "components": [
             0.32,
-            0.0616,
-            50
+            0.102,
+            33
           ],
           "alpha": 1,
-          "hex": "#4b2914"
+          "hex": "#5c180a"
         }
       },
       "5": {
@@ -2834,11 +1374,11 @@
           "colorSpace": "oklch",
           "components": [
             0.355,
-            0.0726,
-            50
+            0.1206,
+            33
           ],
           "alpha": 1,
-          "hex": "#592f15"
+          "hex": "#6d1908"
         }
       },
       "6": {
@@ -2847,11 +1387,11 @@
           "colorSpace": "oklch",
           "components": [
             0.42,
-            0.0836,
-            50
+            0.1484,
+            33
           ],
           "alpha": 1,
-          "hex": "#713e1f"
+          "hex": "#8c1e07"
         }
       },
       "7": {
@@ -2859,12 +1399,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.54,
-            0.0968,
-            50
+            0.512,
+            0.1899,
+            33
           ],
           "alpha": 1,
-          "hex": "#9b5d38"
+          "hex": "#ba2400"
         }
       },
       "8": {
@@ -2872,12 +1412,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.63,
-            0.11,
-            50
+            0.581,
+            0.2152,
+            33
           ],
           "alpha": 1,
-          "hex": "#be7449"
+          "hex": "#dd2d00"
         }
       },
       "9": {
@@ -2885,12 +1425,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.72,
-            0.11,
-            50
+            0.65,
+            0.232,
+            33
           ],
           "alpha": 1,
-          "hex": "#dc9064"
+          "hex": "#fd3d12"
         }
       },
       "10": {
@@ -2898,12 +1438,12 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.77,
-            0.11,
-            50
+            0.7,
+            0.1927,
+            33
           ],
           "alpha": 1,
-          "hex": "#ed9f73"
+          "hex": "#ff6648"
         }
       },
       "11": {
@@ -2911,17 +1451,17 @@
         "$value": {
           "colorSpace": "oklch",
           "components": [
-            0.81,
-            0.11,
-            50
+            0.7,
+            0.19,
+            33
           ],
           "alpha": 1,
-          "hex": "#fbac7f"
+          "hex": "#fe6749"
         }
       },
-      "$description": "Knob Orange — Chart series 5, illustration, syntax property, dark (step 9 is the authored solid)"
+      "$description": "Vermilion — Danger, diff remove, ANSI red, dark (step 9 is the authored solid)"
     },
-    "extra-2-light": {
+    "info-light": {
       "1": {
         "$type": "color",
         "$value": {
@@ -2954,11 +1494,11 @@
           "colorSpace": "oklch",
           "components": [
             0.935,
-            0.0322,
+            0.0349,
             240
           ],
           "alpha": 1,
-          "hex": "#d7edfd"
+          "hex": "#d5edff"
         }
       },
       "4": {
@@ -2967,11 +1507,11 @@
           "colorSpace": "oklch",
           "components": [
             0.905,
-            0.0406,
+            0.0515,
             240
           ],
           "alpha": 1,
-          "hex": "#c8e4f8"
+          "hex": "#c2e5ff"
         }
       },
       "5": {
@@ -2980,11 +1520,11 @@
           "colorSpace": "oklch",
           "components": [
             0.87,
-            0.049,
+            0.0714,
             240
           ],
           "alpha": 1,
-          "hex": "#b8d9f2"
+          "hex": "#aadbff"
         }
       },
       "6": {
@@ -2993,11 +1533,1471 @@
           "colorSpace": "oklch",
           "components": [
             0.8,
-            0.056,
+            0.101,
             240
           ],
           "alpha": 1,
-          "hex": "#9ec3df"
+          "hex": "#7fc7f8"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.712,
+            0.1197,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#53abe5"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.646,
+            0.133,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#2b97d6"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.58,
+            0.133,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#0082c0"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.53,
+            0.1218,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#0073aa"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.5,
+            0.126,
+            245
+          ],
+          "alpha": 1,
+          "hex": "#0068a5"
+        }
+      },
+      "$description": "Signal Blue — Info, review, user guides, light (step 9 is the authored solid)"
+    },
+    "info-dark": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.225,
+            0.0255,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#0f1e26"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.255,
+            0.0375,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#0f2632"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.29,
+            0.054,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#092f42"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.32,
+            0.066,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#03374f"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.355,
+            0.0762,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#00415d"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.42,
+            0.0897,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#005476"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.544,
+            0.1158,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#0079a9"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.637,
+            0.1354,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#0097d1"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.73,
+            0.15,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#1bb5f8"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.78,
+            0.1315,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#54c4ff"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.77,
+            0.135,
+            235
+          ],
+          "alpha": 1,
+          "hex": "#4bc1fd"
+        }
+      },
+      "$description": "Signal Blue — Info, review, user guides, dark (step 9 is the authored solid)"
+    },
+    "agent-1-light": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.985,
+            0.0075,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#faf9ff"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.965,
+            0.0175,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#f2f2ff"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.935,
+            0.0329,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#e8e7ff"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.905,
+            0.0487,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#dddbff"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.0676,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#d1ceff"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.8,
+            0.107,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#bab3ff"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.696,
+            0.1697,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#9a88ff"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.618,
+            0.22,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#8564ff"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.54,
+            0.25,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#713df3"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.49,
+            0.25,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#6528e1"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.5,
+            0.24,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#6632e0"
+        }
+      },
+      "$description": "Crystal Violet — Agent gradient stop 1; the agent tone, light (step 9 is the authored solid)"
+    },
+    "agent-1-dark": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.225,
+            0.0326,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#1b192a"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.255,
+            0.048,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#221f39"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.29,
+            0.0691,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#2a254b"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.32,
+            0.0844,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#322a5b"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.355,
+            0.0998,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#3b306c"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.42,
+            0.1228,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#4c3e8b"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.516,
+            0.1612,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#6652bd"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.588,
+            0.192,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#7b61e6"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.66,
+            0.192,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#9078ff"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.71,
+            0.1609,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#9e8eff"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.74,
+            0.1419,
+            288
+          ],
+          "alpha": 1,
+          "hex": "#a79bff"
+        }
+      },
+      "$description": "Crystal Violet — Agent gradient stop 1; the agent tone, dark (step 9 is the authored solid)"
+    },
+    "agent-2-light": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.985,
+            0.007,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#f7faff"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.965,
+            0.0165,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#edf4ff"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.935,
+            0.031,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#deeaff"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.905,
+            0.0459,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#cfe0ff"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.0636,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#bed5ff"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.8,
+            0.1006,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#9abeff"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.72,
+            0.1453,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#71a3ff"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.66,
+            0.1805,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#528dff"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.6,
+            0.21,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#3376fb"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.55,
+            0.21,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#2366e9"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.48,
+            0.21,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#0a4fd1"
+        }
+      },
+      "$description": "Crystal Blue — Agent gradient stop 2, light (step 9 is the authored solid)"
+    },
+    "agent-2-dark": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.225,
+            0.0306,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#141c2a"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.255,
+            0.045,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#172338"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.29,
+            0.0648,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#192a4b"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.32,
+            0.0791,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#1c315b"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.355,
+            0.0936,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#1f3a6c"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.42,
+            0.1152,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#284a8b"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.516,
+            0.1512,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#3463bd"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.588,
+            0.18,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#3d76e6"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.66,
+            0.18,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#528dff"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.71,
+            0.1511,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#6c9fff"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.75,
+            0.1282,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#81adff"
+        }
+      },
+      "$description": "Crystal Blue — Agent gradient stop 2, dark (step 9 is the authored solid)"
+    },
+    "agent-3-light": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.985,
+            0.0132,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#f1fdff"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.965,
+            0.0307,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#ddfaff"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.935,
+            0.0486,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#c5f3fc"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.905,
+            0.064,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#aeecf7"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.0793,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#95e3f1"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.8,
+            0.0972,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#6acfe0"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.776,
+            0.1152,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#46cadf"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.758,
+            0.128,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#19c6dd"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.74,
+            0.128,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#00c0d7"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.69,
+            0.1195,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#00afc4"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.465,
+            0.0808,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#006572"
+        }
+      },
+      "$description": "Crystal Cyan — Agent gradient stop 3 (the refraction), light (step 9 is the authored solid)"
+    },
+    "agent-3-dark": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.225,
+            0.0221,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#0f1f21"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.255,
+            0.0325,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#0d272b"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.29,
+            0.0468,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#053138"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.32,
+            0.0562,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#003a42"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.355,
+            0.0621,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#00444e"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.42,
+            0.0731,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#005763"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.58,
+            0.1005,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#008a9b"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.7,
+            0.1212,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#00b2c8"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.82,
+            0.13,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#3adaf2"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.1182,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#66e9ff"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.91,
+            0.0808,
+            210
+          ],
+          "alpha": 1,
+          "hex": "#a0f1ff"
+        }
+      },
+      "$description": "Crystal Cyan — Agent gradient stop 3 (the refraction), dark (step 9 is the authored solid)"
+    },
+    "extra-1-light": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.985,
+            0.0086,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#fff9f5"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.965,
+            0.0204,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#fff0e7"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.935,
+            0.0387,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#ffe3d2"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.905,
+            0.0578,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#ffd6bc"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.0814,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#ffc7a1"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.8,
+            0.114,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#f7aa74"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.728,
+            0.135,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#e78e4d"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.674,
+            0.15,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#db7929"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.62,
+            0.15,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#c9690c"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.57,
+            0.1416,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#b45c00"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.475,
+            0.1184,
+            55
+          ],
+          "alpha": 1,
+          "hex": "#8d4600"
+        }
+      },
+      "$description": "Knob Orange — Chart series 5, illustration, syntax number and attribute, light (step 9 is the authored solid)"
+    },
+    "extra-1-dark": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.225,
+            0.0255,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#251910"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.255,
+            0.0375,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#301e10"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.29,
+            0.054,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#3f240d"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.32,
+            0.066,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#4b290b"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.355,
+            0.078,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#593009"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.42,
+            0.096,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#733d08"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.564,
+            0.126,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#ab6017"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.672,
+            0.15,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#d87b20"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.78,
+            0.15,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#fe9d4a"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.83,
+            0.1137,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#ffb57b"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.0842,
+            58
+          ],
+          "alpha": 1,
+          "hex": "#ffc79e"
+        }
+      },
+      "$description": "Knob Orange — Chart series 5, illustration, syntax number and attribute, dark (step 9 is the authored solid)"
+    },
+    "extra-2-light": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.985,
+            0.0079,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#f6fbff"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.965,
+            0.0168,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#eaf5fe"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.935,
+            0.0266,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#daecfa"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.905,
+            0.035,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#cce3f5"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.0434,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#bbd9ee"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.8,
+            0.0532,
+            240
+          ],
+          "alpha": 1,
+          "hex": "#9fc3dd"
         }
       },
       "7": {
@@ -3074,11 +3074,11 @@
           "colorSpace": "oklch",
           "components": [
             0.225,
-            0.0143,
+            0.011,
             240
           ],
           "alpha": 1,
-          "hex": "#161d22"
+          "hex": "#171d20"
         }
       },
       "2": {
@@ -3087,11 +3087,11 @@
           "colorSpace": "oklch",
           "components": [
             0.255,
-            0.0208,
+            0.0162,
             240
           ],
           "alpha": 1,
-          "hex": "#1a242c"
+          "hex": "#1c242a"
         }
       },
       "3": {
@@ -3100,11 +3100,11 @@
           "colorSpace": "oklch",
           "components": [
             0.29,
-            0.0299,
+            0.0234,
             240
           ],
           "alpha": 1,
-          "hex": "#1d2d39"
+          "hex": "#212d36"
         }
       },
       "4": {
@@ -3113,11 +3113,11 @@
           "colorSpace": "oklch",
           "components": [
             0.32,
-            0.0364,
+            0.0286,
             240
           ],
           "alpha": 1,
-          "hex": "#213544"
+          "hex": "#253540"
         }
       },
       "5": {
@@ -3126,11 +3126,11 @@
           "colorSpace": "oklch",
           "components": [
             0.355,
-            0.0429,
+            0.0338,
             240
           ],
           "alpha": 1,
-          "hex": "#263f50"
+          "hex": "#2b3e4c"
         }
       },
       "6": {
@@ -3139,11 +3139,11 @@
           "colorSpace": "oklch",
           "components": [
             0.42,
-            0.0494,
+            0.0416,
             240
           ],
           "alpha": 1,
-          "hex": "#335165"
+          "hex": "#385062"
         }
       },
       "7": {
@@ -3152,11 +3152,11 @@
           "colorSpace": "oklch",
           "components": [
             0.54,
-            0.0572,
+            0.0546,
             240
           ],
           "alpha": 1,
-          "hex": "#4f738d"
+          "hex": "#51738c"
         }
       },
       "8": {
@@ -3212,6 +3212,882 @@
         }
       },
       "$description": "Dust Blue — Chart series 6, illustration, dark (step 9 is the authored solid)"
+    },
+    "extra-3-light": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.985,
+            0.0122,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#f1fdfd"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.965,
+            0.0244,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#e2f9fa"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.935,
+            0.0387,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#cdf2f4"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.905,
+            0.0509,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#b9ebed"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.0632,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#a3e1e5"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.8,
+            0.0775,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#7fcdd1"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.72,
+            0.0917,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#54b6bb"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.66,
+            0.1019,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#2ca5ab"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.6,
+            0.1019,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#019298"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.55,
+            0.0938,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#008287"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.465,
+            0.0794,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#00666b"
+        }
+      },
+      "$description": "Term Cyan — ANSI cyan, syntax type and operator, light (step 9 is the authored solid)"
+    },
+    "extra-3-dark": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.225,
+            0.0221,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#0f1f20"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.255,
+            0.0325,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#0d2829"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.29,
+            0.0468,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#043234"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.32,
+            0.0552,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#003b3e"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.355,
+            0.061,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#004548"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.42,
+            0.0719,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#00585c"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.572,
+            0.0975,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#00898f"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.686,
+            0.1168,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#00afb6"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.8,
+            0.13,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#28d6df"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.85,
+            0.13,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#44e7ef"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.89,
+            0.13,
+            200
+          ],
+          "alpha": 1,
+          "hex": "#56f4fd"
+        }
+      },
+      "$description": "Term Cyan — ANSI cyan, syntax type and operator, dark (step 9 is the authored solid)"
+    },
+    "extra-4-light": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.985,
+            0.007,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#f7faff"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.965,
+            0.0165,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#edf4ff"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.935,
+            0.031,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#deeaff"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.905,
+            0.0459,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#cfe0ff"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.0636,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#bed5ff"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.8,
+            0.1006,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#9abeff"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.7,
+            0.1569,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#679cff"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.625,
+            0.2,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#3f80fe"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.55,
+            0.2,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#2867e4"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.5,
+            0.2,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#1957d2"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.46,
+            0.2,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#0a4ac5"
+        }
+      },
+      "$description": "Term Blue — ANSI blue, syntax function, light (step 9 is the authored solid)"
+    },
+    "extra-4-dark": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.225,
+            0.0265,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#151c28"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.255,
+            0.039,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#182336"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.29,
+            0.0561,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#1c2b47"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.32,
+            0.0686,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#1f3256"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.355,
+            0.0811,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#233a66"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.42,
+            0.0998,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#2e4b83"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.532,
+            0.131,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#416ab7"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.616,
+            0.156,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#4f81e2"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.7,
+            0.156,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#679cff"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.75,
+            0.1282,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#81adff"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.79,
+            0.106,
+            262
+          ],
+          "alpha": 1,
+          "hex": "#95bbff"
+        }
+      },
+      "$description": "Term Blue — ANSI blue, syntax function, dark (step 9 is the authored solid)"
+    },
+    "extra-5-light": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.985,
+            0.0107,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#fff8fd"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.965,
+            0.0253,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#ffedfa"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.935,
+            0.0483,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#ffdef7"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.905,
+            0.0725,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#ffcef3"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.87,
+            0.1027,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#ffbbef"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.8,
+            0.1672,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#fe91e8"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.704,
+            0.198,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#e767d0"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.632,
+            0.22,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#d445bd"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.56,
+            0.22,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#bb29a6"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.51,
+            0.22,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#aa0e96"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.47,
+            0.2099,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#9a0088"
+        }
+      },
+      "$description": "Term Magenta — ANSI magenta, syntax keyword, light (step 9 is the authored solid)"
+    },
+    "extra-5-dark": {
+      "1": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.225,
+            0.0323,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#251622"
+        }
+      },
+      "2": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.255,
+            0.0475,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#311a2c"
+        }
+      },
+      "3": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.29,
+            0.0684,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#3f1d39"
+        }
+      },
+      "4": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.32,
+            0.0836,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#4c2043"
+        }
+      },
+      "5": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.355,
+            0.0988,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#5a2450"
+        }
+      },
+      "6": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.42,
+            0.1216,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#732e67"
+        }
+      },
+      "7": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.54,
+            0.1596,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#a44393"
+        }
+      },
+      "8": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.63,
+            0.19,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#cb53b6"
+        }
+      },
+      "9": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.72,
+            0.19,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#ea70d3"
+        }
+      },
+      "10": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.77,
+            0.19,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#fb80e4"
+        }
+      },
+      "11": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0.81,
+            0.1596,
+            335
+          ],
+          "alpha": 1,
+          "hex": "#ff97e9"
+        }
+      },
+      "$description": "Term Magenta — ANSI magenta, syntax keyword, dark (step 9 is the authored solid)"
     },
     "canvas-guide-light": {
       "1": {
@@ -3366,11 +4242,11 @@
           "colorSpace": "oklch",
           "components": [
             0.225,
-            0.0374,
+            0.0289,
             345
           ],
           "alpha": 1,
-          "hex": "#281420"
+          "hex": "#26161f"
         }
       },
       "2": {
@@ -3379,11 +4255,11 @@
           "colorSpace": "oklch",
           "components": [
             0.255,
-            0.0544,
+            0.0425,
             345
           ],
           "alpha": 1,
-          "hex": "#351729"
+          "hex": "#311a27"
         }
       },
       "3": {
@@ -3392,11 +4268,11 @@
           "colorSpace": "oklch",
           "components": [
             0.29,
-            0.0782,
+            0.0612,
             345
           ],
           "alpha": 1,
-          "hex": "#451834"
+          "hex": "#401e32"
         }
       },
       "4": {
@@ -3405,11 +4281,11 @@
           "colorSpace": "oklch",
           "components": [
             0.32,
-            0.0952,
+            0.0748,
             345
           ],
           "alpha": 1,
-          "hex": "#531a3e"
+          "hex": "#4d213b"
         }
       },
       "5": {
@@ -3418,11 +4294,11 @@
           "colorSpace": "oklch",
           "components": [
             0.355,
-            0.1122,
+            0.0884,
             345
           ],
           "alpha": 1,
-          "hex": "#621d49"
+          "hex": "#5b2646"
         }
       },
       "6": {
@@ -3431,11 +4307,11 @@
           "colorSpace": "oklch",
           "components": [
             0.42,
-            0.1292,
+            0.1088,
             345
           ],
           "alpha": 1,
-          "hex": "#7b295d"
+          "hex": "#75315a"
         }
       },
       "7": {
@@ -3444,11 +4320,11 @@
           "colorSpace": "oklch",
           "components": [
             0.54,
-            0.1496,
+            0.1428,
             345
           ],
           "alpha": 1,
-          "hex": "#a84482"
+          "hex": "#a64781"
         }
       },
       "8": {
@@ -4591,28 +5467,28 @@
     "quick": {
       "$type": "duration",
       "$value": {
-        "value": 100,
+        "value": 120,
         "unit": "ms"
       }
     },
     "swift": {
       "$type": "duration",
       "$value": {
-        "value": 150,
+        "value": 180,
         "unit": "ms"
       }
     },
     "base": {
       "$type": "duration",
       "$value": {
-        "value": 200,
+        "value": 220,
         "unit": "ms"
       }
     },
     "gentle": {
       "$type": "duration",
       "$value": {
-        "value": 250,
+        "value": 280,
         "unit": "ms"
       }
     },

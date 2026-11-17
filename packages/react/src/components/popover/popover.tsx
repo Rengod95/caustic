@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useId, useState, type ComponentPr
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps } from '../../lib/common-props.ts';
 import { defined } from '../../lib/defined.ts';
+import { ToneScopeContext } from '../../lib/tone-scope.ts';
 import { useControllableState } from '../../hooks/use-controllable-state.ts';
 import { usePresence } from '../../hooks/use-presence.ts';
 import { popoverArrow, popoverVariants, type PopoverVariantProps } from './popover.variants.ts';
@@ -81,7 +82,7 @@ export function Popover({ trigger = 'click', size, tone, variant, radius, shadow
       <HC.Root {...defined({ open, defaultOpen, onOpenChange })} openDelay={openDelay} closeDelay={closeDelay}>
         {anchor != null && <HC.Trigger asChild>{anchor}</HC.Trigger>}
         <HC.Portal>
-          <HC.Content data-slot="popover" side={side} align={align} sideOffset={GAP} onKeyDown={onKeyDown} {...common}>{content}</HC.Content>
+          <HC.Content data-slot="popover" side={side} align={align} sideOffset={GAP} onKeyDown={onKeyDown} {...common}><ToneScopeContext value={null}>{content}</ToneScopeContext></HC.Content>
         </HC.Portal>
       </HC.Root>
     );
@@ -90,7 +91,7 @@ export function Popover({ trigger = 'click', size, tone, variant, radius, shadow
     <P.Root {...defined({ open, defaultOpen, onOpenChange })}>
       {anchor != null && <P.Trigger asChild>{anchor}</P.Trigger>}
       <P.Portal>
-        <P.Content data-slot="popover" side={side} align={align} sideOffset={GAP} onKeyDown={onKeyDown} {...common}>{content}</P.Content>
+        <P.Content data-slot="popover" side={side} align={align} sideOffset={GAP} onKeyDown={onKeyDown} {...common}><ToneScopeContext value={null}>{content}</ToneScopeContext></P.Content>
       </P.Portal>
     </P.Root>
   );

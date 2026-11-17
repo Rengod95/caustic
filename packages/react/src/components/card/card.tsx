@@ -81,7 +81,7 @@ export interface CardLinkProps extends Omit<ComponentProps<'a'>, 'onClick' | 'on
 }
 
 /**
- * A card that is one target: the whole card navigates (href or asChild) and lifts on hover; use CardArrow in the header.
+ * A card that is one target: the whole card navigates (href or asChild) and raises its shadow on hover (it does not move); use CardArrow in the header.
  * as="button" makes it an action (variant="dashed" is the add card). Nothing interactive goes inside.
  */
 export function CardLink({ asChild, as, variant, tone, size, fill, radius, shadow, className, onPointerMove, ...props }: CardLinkProps) {

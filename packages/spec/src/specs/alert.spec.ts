@@ -12,7 +12,7 @@ export default defineSpec({
     { name: 'root', el: 'div', description: 'layout inline: three-column grid (icon, body, action; a fourth column for dismiss). layout page: full-width flex row. Danger uses role="alert"; the other tones role="status".' },
     { name: 'icon', el: 'any', parent: 'root', description: '16px icon in the tone graphic color (info, circle-check, triangle-alert, circle-alert).' },
     { name: 'body', el: 'div', parent: 'root', description: 'Message in the tone text color (inherited from the root); a <b> lead-in is weight 600. layout page: takes the free width. emphasis lead: the message in text.primary and only the <b> lead-in in the tone text.' },
-    { name: 'action', el: 'div', parent: 'root', required: false, description: 'Row of actions, 6px gap. From actions: Button xs in the alert tone, the primary one the tone solid button and the others the tone soft button (a solid alert uses the raised neutral button for all). Free action content follows as given. The column collapses when empty.' },
+    { name: 'action', el: 'div', parent: 'root', required: false, description: 'Row of actions, 6px gap. From actions: Button xs in the alert tone, the primary one the tone solid button and the others the tone soft button (a solid alert uses the raised neutral button for all). Free action content follows; a Button or IconButton in it without its own tone takes the alert tone through the tone scope (Button soft unless it sets a variant, IconButton ghost; on a solid alert the Button is the raised neutral button and the IconButton keeps its look). The column collapses when empty.' },
     { name: 'dismiss', el: 'button', parent: 'root', required: false, description: 'IconButton xs with an x icon; aria-label from the dismissLabel prop.' },
   ],
   variants: {
@@ -37,7 +37,7 @@ export default defineSpec({
     icon: { type: 'ReactNode', description: 'Replaces the default tone icon.' },
     children: { type: 'ReactNode', description: 'The message.' },
     actions: { type: 'AlertAction[]', description: 'AlertAction = { label: ReactNode; onClick?: () => void; href?: string; primary?: boolean }. One or two actions the alert draws in its tone (Button xs): primary = tone solid (e.g. Upgrade), the others tone soft (e.g. Learn more); on a solid alert the raised neutral button. href renders a link.' },
-    action: { type: 'ReactNode', description: 'Free action content (e.g. a Button xs), rendered as given after actions.' },
+    action: { type: 'ReactNode', description: 'Free action content (e.g. a Button xs), rendered after actions. The alert provides a tone scope (ToneScopeContext): a Button or IconButton without tone takes the alert tone. Popover, Menu and Dialog content opened from it reset the scope.' },
     dismissible: { type: 'boolean', default: false, description: 'Shows the dismiss button. The alert does not hide itself; the owner removes it in onDismiss.' },
     dismissLabel: { type: 'string', description: 'aria-label of the dismiss button (e.g. "Dismiss"). Required whenever dismissible is true; no built-in default. Optional in the type only because it is unused when dismissible is false.' },
   },
@@ -88,7 +88,7 @@ export default defineSpec({
     notes: [
       'Info, success and warning render role="status" (polite); danger renders role="alert" (assertive).',
       'The tone is carried by the message text, not by color alone; the icon is aria-hidden.',
-      'The message uses the tone text (step 11), which keeps 4.5 : 1 on the tint fill; the icon uses the tone graphic (step 8, 3 : 1). Actions from the actions prop are Buttons in the alert tone (tone solid / soft keep their own text contrast); free action content and the dismiss button set their own colors.',
+      'The message uses the tone text (step 11), which keeps 4.5 : 1 on the tint fill; the icon uses the tone graphic (step 8, 3 : 1). Actions from the actions prop are Buttons in the alert tone (tone solid / soft keep their own text contrast); controls without a tone in the free action content, the message and the dismiss button take the alert tone through the tone scope (tone soft / ghost buttons keep their own text contrast on the tint).',
     ],
   },
   policies: ['P5', 'P6'],

@@ -1,16 +1,18 @@
 'use client';
-import { Check, CircleAlert } from '../../icons/index.ts';
-import { useEffect, useId, useRef, useState, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
+import { Check, CircleAlert, Minus, X } from '../../icons/index.ts';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { CommonProps, Variant } from '../../lib/common-props.ts';
 import {
-  stepperChecklistIndicator, stepperChecklistItem, stepperChecklistLabel, stepperChecklistMark, stepperChecklistShape,
-  stepperConnector, stepperCountClass, stepperProgressClipClass, stepperDescription, stepperDetailClass, stepperHeaderClass, stepperIndicator, stepperItem,
-  stepperBareClass, stepperLabel, stepperPressIndicatorClass, stepperPressRowClass, stepperProgressClass, stepperProgressFillClass, stepperSteps, stepperTodoRingClass, stepperVariants,
+  stepperBareClass, stepperChecklistIndicator, stepperChecklistItem, stepperChecklistLabel, stepperChecklistLiveClass, stepperChecklistShape,
+  stepperCompactHideClass, stepperCountClass, stepperDescription, stepperDetailClass, stepperGroove, stepperHeadClass, stepperHeaderClass, stepperItem,
+  stepperLabel, stepperLightVariants, stepperMajor, stepperMark, stepperOrbitBusyClass, stepperOrbitClass, stepperOrbitReverseClass, stepperParticleBusyClass, stepperParticleClass,
+  stepperParticlesClass, stepperPressIndicatorClass, stepperPressRowClass, stepperProgressClass, stepperProgressClipClass, stepperProgressFillClass,
+  stepperRail, stepperSteps, stepperTextClass, stepperTodoRingClass, stepperVariants,
 } from './stepper.variants.ts';
 
 /** Status of one step. Unset falls back to the value index (before value done, at value now, after it todo). */
-export type StepperStatus = 'done' | 'now' | 'todo' | 'failed';
+export type StepperStatus = 'done' | 'now' | 'todo' | 'failed' | 'skipped';
 
 export interface StepperStep {
   /** Stable key; the index is used when absent. */
@@ -23,6 +25,8 @@ export interface StepperStep {
   detail?: ReactNode;
   /** With onStepClick: false leaves this step unpressable (e.g. a step not reached yet). Default true. */
   clickable?: boolean;
+  /** The current step is working (a check running): its lens core breathes, a ring spreads out of it and light runs along the line into it. */
+  busy?: boolean;
 }
 
 export interface StepperProps extends Omit<ComponentProps<'div'>, 'title' | 'children'>, Omit<CommonProps, 'variant'> {
@@ -45,11 +49,70 @@ export interface StepperProps extends Omit<ComponentProps<'div'>, 'title' | 'chi
   bare?: boolean;
   /** A custom header built from StepperHeader, StepperTitle and StepperCount (replaces the one title renders). */
   children?: ReactNode;
+  /**
+   * The live mark of the current step (14px box), e.g. the app's own thinking orb. Called with whether the step is
+   * moving (busy, or the checklist with tone agent). Unset: the default particles.
+   */
+  live?: (moving: boolean) => ReactNode;
 }
 
-type Internal = 'done' | 'current' | 'upcoming' | 'failed';
-const fromStatus: Record<StepperStatus, Internal> = { done: 'done', now: 'current', todo: 'upcoming', failed: 'failed' };
-const toStatus: Record<Internal, StepperStatus> = { done: 'done', current: 'now', upcoming: 'todo', failed: 'failed' };
+type Internal = 'done' | 'current' | 'upcoming' | 'failed' | 'skipped';
+const fromStatus: Record<StepperStatus, Internal> = { done: 'done', now: 'current', todo: 'upcoming', failed: 'failed', skipped: 'skipped' };
+const toStatus: Record<Internal, StepperStatus> = { done: 'done', current: 'now', upcoming: 'todo', failed: 'failed', skipped: 'skipped' };
+const fallbackWord: Partial<Record<Internal, string>> = { done: 'completed', failed: 'failed', skipped: 'skipped' };
+
+/**
+ * Narrow row (horizontal progress), two levels: 1 = only the current step keeps its name (its column takes its own width),
+ * 2 = marks and rail only. A level starts when a shown name no longer fits its column; hidden names stay for screen
+ * readers. The width the names needed is kept, so they return once the row is wide enough again.
+ */
+function useCompact(enabled: boolean) {
+  const ref = useRef<HTMLOListElement>(null);
+  const [level, setLevel] = useState(0);
+  const need = useRef<number[]>([]);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!enabled || !el || typeof ResizeObserver === 'undefined') return;
+    const fit = () => {
+      const names = [...el.querySelectorAll<HTMLElement>('[data-slot="stepper-label"]')].filter(n => n.offsetParent !== null && n.clientWidth > 1);
+      const clipped = names.some(n => n.scrollWidth > n.clientWidth + 0.5);
+      if (level < 2 && clipped) {
+        // Natural width: every head at its own width plus the 8px it keeps clear of the next rail.
+        need.current[level] = [...el.querySelectorAll<HTMLElement>('[data-slot="stepper-head"]')].reduce((w, h) => w + h.scrollWidth + 8, 0);
+        setLevel(level + 1);
+      } else if (level > 0 && el.clientWidth >= (need.current[level - 1] ?? Infinity)) setLevel(level - 1);
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [enabled, level]);
+  return [ref, level] as const;
+}
+
+/** Grooves per step: about one per 7px of the column, 6 to 20. */
+function grooveCount(columnWidth: number) {
+  return Math.max(6, Math.min(20, Math.round(columnWidth / 7)));
+}
+
+/** The default live mark: six particles on two counter-turning orbits, breathing out of phase; still unless moving. */
+const PARTICLES: { x: number; y: number; ring: 0 | 1; delay: number }[] = [
+  { x: 6, y: 0.5, ring: 0, delay: 0 }, { x: 11.2, y: 9, ring: 0, delay: -0.53 }, { x: 0.8, y: 9, ring: 0, delay: -1.06 },
+  { x: 6, y: 3.5, ring: 1, delay: -0.27 }, { x: 8.6, y: 7.5, ring: 1, delay: -0.8 }, { x: 3.4, y: 7.5, ring: 1, delay: -1.33 },
+];
+function Particles({ moving }: { moving: boolean }) {
+  return (
+    <span data-slot="stepper-particles" aria-hidden className={stepperParticlesClass}>
+      {[0, 1].map(ring => (
+        <span key={ring} className={cn(stepperOrbitClass, moving && stepperOrbitBusyClass, ring === 1 && stepperOrbitReverseClass)}>
+          {PARTICLES.filter(p => p.ring === ring).map((p, k) => (
+            <span key={k} className={cn(stepperParticleClass, moving && stepperParticleBusyClass)} style={{ '--x': `${p.x}px`, '--y': `${p.y}px`, '--delay': `${p.delay}s` } as CSSProperties} />
+          ))}
+        </span>
+      ))}
+    </span>
+  );
+}
 
 /** The title row of the steps. */
 export function StepperHeader({ className, ...props }: ComponentProps<'div'>) {
@@ -67,7 +130,7 @@ export function StepperCount({ className, ...props }: ComponentProps<'span'>) {
 }
 
 /** Progress through a sequence of steps: the numbered progress look, or the checklist of the agent plan. Read-only unless onStepClick is set. */
-export function Stepper({ value = 0, steps, orientation, variant, title, countLabel, statusLabels, children, onStepClick, bare = false, tone, radius, shadow, size, className, ...props }: StepperProps) {
+export function Stepper({ value = 0, steps, orientation, variant, title, countLabel, statusLabels, children, onStepClick, bare = false, live, tone, radius, shadow, size, className, ...props }: StepperProps) {
   const titleId = useId();
   const checklist = variant === 'checklist';
   const o = checklist || orientation === 'vertical' ? 'vertical' : 'horizontal';
@@ -80,7 +143,23 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
     </StepperHeader>
   ));
   const word = (s: Internal) => statusLabels?.[toStatus[s]];
-  const look = checklist ? variant : 'solid';
+  const look = checklist ? variant : 'soft';
+  const [rowRef, compact] = useCompact(!checklist && o === 'horizontal');
+  const compactLevel = compact === 2 ? 'marks' : compact === 1 ? 'current' : undefined;
+  const [columnWidth, setColumnWidth] = useState(0);
+  useLayoutEffect(() => {
+    const el = rowRef.current;
+    if (checklist || o === 'vertical' || !el || typeof ResizeObserver === 'undefined') return;
+    // Layout px (clientWidth / clientHeight), so the count does not follow the app zoom.
+    const measure = () => setColumnWidth(el.clientWidth / Math.max(1, steps.length));
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [checklist, o, steps.length, rowRef]);
+  // Vertical: six grooves per step (the steps are short; more would read as a solid bar).
+  const grooves = o === 'vertical' ? 6 : grooveCount(columnWidth || 96);
+  const liveMark = (moving: boolean) => (live ? live(moving) : <Particles moving={moving} />);
   const list = stepperSteps({ layout: checklist ? 'checklist' : o });
 
   // Checklist: a status region announces the step that changed (the one that became current or failed, else the last
@@ -130,8 +209,9 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
               <>
                 <span data-slot="stepper-indicator" data-status={s} aria-hidden className={stepperChecklistIndicator({ status: s })}>
                   {s === 'done' && <Check className="animate-pop" />}
-                  {s === 'current' && <span data-slot="stepper-orb" className={stepperChecklistMark({ tone })} />}
+                  {s === 'current' && <span data-slot="stepper-live" className={stepperChecklistLiveClass}>{liveMark(tone === 'agent' || step.busy === true)}</span>}
                   {s === 'failed' && <CircleAlert />}
+                  {s === 'skipped' && <Minus />}
                   {s === 'upcoming' && <span data-slot="stepper-todo-ring" className={stepperTodoRingClass} />}
                 </span>
                 {word(s) != null && <span className="sr-only">{word(s)}: </span>}
@@ -147,32 +227,61 @@ export function Stepper({ value = 0, steps, orientation, variant, title, countLa
           })}
         </ol>
       ) : (
-        <ol data-slot="stepper-steps" className={list}>
+        <ol ref={rowRef} data-slot="stepper-steps" data-compact={compactLevel} className={cn(list, stepperLightVariants({ variant }))}>
           {steps.map((step, i) => {
             const s = status[i]!;
             const vertical = o === 'vertical';
-            const hasConnector = vertical ? i < steps.length - 1 : i > 0;
-            const active = vertical ? s === 'done' : s !== 'upcoming';
+            const busy = s === 'current' && step.busy === true;
             const press = onStepClick != null && step.clickable !== false;
-            const labelId = `${titleId}-step-${i}`;
-            const Indicator = press ? 'button' : 'span';
-            const text = (
-              <>
-                <b data-slot="stepper-label" id={press ? labelId : undefined} className={cn(stepperLabel({ orientation: o, status: s }))}>{step.label}</b>
-                {step.description != null && (vertical
-                  ? <p data-slot="stepper-description" className={stepperDescription({ orientation: o })}>{step.description}</p>
-                  : <span data-slot="stepper-description" className={stepperDescription({ orientation: o })}>{step.description}</span>)}
-              </>
+            const hidden = compact === 2 || (compact === 1 && s !== 'current');
+            const word_ = word(s) ?? fallbackWord[s];
+            // Groove k of n sits at t(1.35 − 0.35t), t = k/n: spacing tightens about 2:1 toward the next step (a lens profile).
+            // The last vertical step has no next step to run toward: its major groove alone.
+            const run = vertical && i === steps.length - 1 ? 0 : s === 'skipped' ? Math.ceil(grooves / 2) : grooves;
+            const failAt = Math.max(1, Math.round(run / 3));
+            const rail = (
+              <span data-slot="stepper-rail" aria-hidden className={stepperRail({ orientation: o })}>
+                <span data-slot="stepper-major" className={stepperMajor({ orientation: o, lit: s !== 'upcoming' && s !== 'skipped' })} />
+                {Array.from({ length: run }, (_, k) => {
+                  const t = (k + 1) / run;
+                  const p = t * (1.35 - 0.35 * t);
+                  const groove = s === 'done' ? 'lit' : s === 'failed' ? (k < failAt ? 'danger' : 'rest') : s === 'current' ? (busy ? 'glint' : 'dim') : 'rest';
+                  const at = vertical ? `calc(var(--stepper-line) + ${p.toFixed(4)} * (100% - var(--stepper-line) - 6px))` : `calc(4px + ${p.toFixed(4)} * (100% - 12px))`;
+                  return (
+                    <span
+                      key={k}
+                      data-slot="stepper-groove"
+                      className={stepperGroove({ orientation: o, light: groove, skipped: s === 'skipped' })}
+                      // The glint runs toward the next step: each groove starts later by its place along the run.
+                      style={{ '--at': at, ...(busy ? { '--delay': `${(p * 0.9 - 1.6).toFixed(3)}s` } : {}) } as CSSProperties}
+                    />
+                  );
+                })}
+              </span>
             );
+            const mark = (
+              <span data-slot="stepper-indicator" data-status={s} data-busy={busy || undefined} className={stepperMark({ status: s })}>
+                {s === 'done' ? <Check aria-hidden />
+                  : s === 'failed' ? <X aria-hidden />
+                  : s === 'skipped' ? <Minus aria-hidden />
+                  : s === 'current' ? liveMark(busy)
+                  : <span aria-hidden>{String(i + 1).padStart(2, '0')}</span>}
+                {word_ != null && <span className="sr-only">{word_}</span>}
+              </span>
+            );
+            const text = (
+              <span className={cn(stepperTextClass, hidden && stepperCompactHideClass)}>
+                <span data-slot="stepper-label" className={stepperLabel({ orientation: o, status: s, size })}>{step.label}</span>
+                {step.description != null && <span data-slot="stepper-description" className={stepperDescription({ orientation: o })}>{step.description}</span>}
+              </span>
+            );
+            const Head = press ? 'button' : 'span';
             return (
-              <li key={step.id ?? i} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} className={stepperItem({ orientation: o })}>
-                {hasConnector && <span data-slot="stepper-connector" aria-hidden className={stepperConnector({ orientation: o, active })} />}
-                <Indicator data-slot="stepper-indicator" data-status={s} data-pressable={press || undefined} {...(press ? { type: 'button' as const, 'aria-labelledby': labelId, onClick: () => onStepClick(i, step) } : {})} className={cn(stepperIndicator({ status: s, variant, size, radius, shadow }), press && stepperPressIndicatorClass)}>
-                  {s === 'done' ? (<><Check className="size-3.5 animate-pop" emphasis="selected" aria-hidden /><span className="sr-only">{word(s) ?? 'completed'}</span></>)
-                    : s === 'failed' ? (<><CircleAlert className="size-3.5" aria-hidden /><span className="sr-only">{word(s) ?? 'failed'}</span></>)
-                    : (<>{i + 1}{word(s) != null && <span className="sr-only"> {word(s)}</span>}</>)}
-                </Indicator>
-                {vertical ? <div>{text}</div> : text}
+              <li key={step.id ?? i} data-slot="stepper-item" data-status={s} aria-current={s === 'current' ? 'step' : undefined} aria-busy={busy || undefined} className={stepperItem({ orientation: o })}>
+                {rail}
+                <Head data-slot="stepper-head" data-pressable={press || undefined} {...(press ? { type: 'button' as const, onClick: () => onStepClick(i, step) } : {})} className={cn(stepperHeadClass, vertical && 'items-start', press && stepperPressIndicatorClass)}>
+                  {mark}{text}
+                </Head>
               </li>
             );
           })}

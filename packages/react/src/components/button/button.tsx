@@ -4,6 +4,7 @@ import { LoaderCircle } from '../../icons/index.ts';
 import type { ComponentProps, ReactNode } from 'react';
 import { cn } from '../../lib/cn.ts';
 import type { Radius, Shadow, Size, Tone, Variant } from '../../lib/common-props.ts';
+import { scopedTone, useToneScope } from '../../lib/tone-scope.ts';
 import { buttonFrameVariants, buttonVariants } from './button.variants.ts';
 
 /** The tones before the common props, each a tone + variant pair. */
@@ -47,8 +48,10 @@ export interface ButtonProps extends Omit<ComponentProps<'button'>, 'children'> 
 export function Button({ tone: toneProp, variant: variantProp, radius: radiusProp, shadow, shape, size, fieldHeight = false, loading = false, disabled = false, asChild = false, iconStart, iconEnd, className, children, onClick, ...props }: ButtonProps) {
   // Deprecated aliases: the legacy tones map onto tone + variant (an explicit variant wins); shape pill → radius full.
   const legacy = toneProp && toneProp in LEGACY && (toneProp !== 'danger' || variantProp === undefined) ? LEGACY[toneProp as keyof typeof LEGACY] : undefined;
-  const tone: Tone = legacy?.tone ?? (toneProp as Tone | undefined) ?? 'neutral';
-  const variant: Variant = variantProp ?? legacy?.variant ?? 'solid';
+  // Inside a coloured container (Alert) a button without its own tone takes the container's tone (lib/tone-scope.ts).
+  const scoped = scopedTone(useToneScope(), legacy?.tone ?? (toneProp as Tone | undefined), variantProp ?? legacy?.variant, 'soft');
+  const tone: Tone = scoped.tone ?? 'neutral';
+  const variant: Variant = scoped.variant ?? 'solid';
   // The deprecated pill shape wins over the default radius (md, the size radius) but not over another explicit radius.
   const radius = shape === 'pill' && (radiusProp === undefined || radiusProp === 'md') ? 'full' : radiusProp;
   const Comp = asChild ? Slot : 'button';
